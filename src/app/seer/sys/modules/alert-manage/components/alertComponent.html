@@ -1,0 +1,192 @@
+<!--<div class="header_box header_margin">
+  <div class="row" style="margin-top:15px;">
+    <div class="col-xs-12">
+      <seerprint [data]="printcontent"></seerprint>
+      <seereditor (notify)="contentNotify($event)" [data]="printcontent"></seereditor>
+    </div>
+  </div>
+</div>-->
+
+<div class="header_box header_margin">
+  <div class="row" style="margin-top:15px;">
+    <div class="col-xs-3">
+      <div class="col-xs-12">
+        <label>提醒类别</label>
+      </div>
+      <div class="col-xs-12 header_border">
+
+      </div>
+      <seer-tree
+        [nodes]="nodes"
+        [permissions]="permission"
+        [defaultNodeName]="'新节点'"
+        [loadingText]="'加载中...'"
+        (notify)="onNotify($event)"
+      ></seer-tree>
+    </div>
+    <div class="col-xs-9" *ngIf="currentAlertConfig">
+
+      <div class="row spbrow">
+        <div class="col-xs-12">
+          <label>提醒计划</label>
+        </div>
+        <div class="col-xs-12">
+          <seertable
+            [data]="alerts"
+            [titles]="titles"
+            [titleOption]="titles"
+            [hideColonnes]="true"
+            [hideExport]="true"
+            [hidePrint]="true"
+            [hideFilter]="true"
+            (notify)="alertonChange($event)"
+          ></seertable>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div bsModal #childModal="bs-modal" class="modal fade" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="col-xs-12">
+          <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <label class="pull-left">
+            提醒计划
+          </label>
+        </div>
+
+      </div>
+      <div class="modal-body" *ngIf="currentAlert">
+        <form (ngSubmit)="saveAlert()">
+
+          <div class="row spbrow">
+            <div class="col-xs-12">
+              <div class="col-xs-offset-1 col-xs-2">
+                <label class="pull-right car_label required">计划名称</label>
+              </div>
+              <div class="col-xs-3" [ngClass]="{'has-error': showerror&&!currentAlert.remindName}">
+                <input type="text" class="form-control"
+                       [(ngModel)]="currentAlert.remindName"
+                       fv name="remindName"
+                       [message]="'计划名称不能为空！'" required/>
+              </div>
+
+              <div class="col-xs-offset-1 col-xs-2">
+                <label class="pull-right car_label required">提醒条件</label>
+              </div>
+              <div class="col-xs-3" [ngClass]="{'has-error': showerror&&!currentAlert.remindCondition}">
+                <select class="form-control"
+                        dict-select
+                        name="remindCondition"
+                        fv
+                        [message]="'提醒条件不能为空！'" required
+                        [key]="'REMIND_CONDITION'"
+                        [selected]="currentAlert.remindCondition"
+                        [topOption]="{dictValueId:'',dictValueName:'请选择'}"
+                        (change)="remindConditionChanged()"
+                        [(ngModel)]="currentAlert.remindCondition">
+                </select>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row spbrow">
+            <div class="col-xs-12">
+              <div class="col-xs-offset-1 col-xs-2">
+                <label class="pull-right car_label  required">间隔时间</label>
+              </div>
+              <div class="col-xs-3" [ngClass]="{'has-error': showerror&&!currentAlert.spaceTime}">
+                <input type="text" class="form-control"
+                       name="spaceTime"
+                       fv required
+                       [message]="'间隔时间不能为空！'"
+                       [disabled]="currentAlert.remindCondition=='03'||currentAlert.remindCondition=='04'"
+                       [(ngModel)]="currentAlert.spaceTime"/>
+              </div>
+
+              <div class="col-xs-offset-1 col-xs-2">
+                <label class="pull-right car_label required">提醒方式</label>
+              </div>
+              <div class="col-xs-3" [ngClass]="{'has-error': showerror&&!currentAlert.remindType}">
+                <select class="form-control"
+                        dict-select
+                        [key]="'REMIND_TYPE'"
+                        name="remindType"
+                        fv
+                        [message]="'提醒方式不能为空！'" required
+                        [selected]="currentAlert.remindType"
+                        [topOption]="{dictValueId:'',dictValueName:'请选择'}"
+                        [(ngModel)]="currentAlert.remindType">
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row spbrow">
+            <div class="col-xs-12">
+              <div class="col-xs-2">
+                <label class="required pull-right">提醒角色</label>
+              </div>
+              <div class="col-xs-8">
+                <ss-multiselect-dropdown
+                  [options]="myOptions"
+                  [(ngModel)]="currentAlert.remindRoleIds"
+                  name="remindRoleIds"
+                  (ngModelChange)="onChangeColonne($event)"
+                ></ss-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row spbrow">
+            <div class="col-xs-12">
+              <div class="col-xs-2">
+                <label class="required pull-right">提醒内容</label>
+              </div>
+              <div class="col-xs-8" [ngClass]="{'has-error': showerror&&!currentAlert.remindContent}">
+          <textarea rows="3" name="remindContent" class="form-control"
+                    fv
+                    [message]="'提醒内容不能为空！'" required
+                    [(ngModel)]="currentAlert.remindContent"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="row spbrow">
+            <div class="col-xs-12">
+              <button type="button"
+                      class="btn btn-default pull-right"
+                      (click)="hideChildModal()"
+              >取消
+              </button>
+              <button type="submit"
+                      class="btn btn-info pull-right"
+                      (click)="showerror=true"
+                      style="margin-right:5px;"
+              >保存
+              </button>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+

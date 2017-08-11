@@ -1,0 +1,302 @@
+<div *ngIf="!currentOrderId&&!currentOrderEditId">
+
+  <div class="header_box header_margin">
+    <div class="row">
+      <div class="col-xs-12">
+        <label class="seer_font">查询区域</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="header_border">
+
+      </div>
+    </div>
+
+
+    <div class="row spbrow">
+      <div class="col-sm-4">
+        <label class="">订单分类</label>
+
+      <!--  <select class="form-control"
+                *ngIf="type=='in'"
+                dict-select
+                [key]="'PO_TYPE'"
+                (change)="currentTypeChange(search.orderType)"
+                [selected]="search.orderType"
+                [(ngModel)]="search.orderType"></select>-->
+        <select class="form-control"
+                *ngIf="type=='in'"
+                (change)="currentTypeChange(search.orderType)"
+                [(ngModel)]="search.orderType">
+          <option *ngFor="let x of [
+        {dictValueId:'00',dictValueName:'采购订单'},
+        {dictValueId:'01',dictValueName:'销售退单'}]"
+                  [ngValue]="x.dictValueId">
+            {{x.dictValueName}}
+          </option>
+        </select>
+     <!--   <select class="form-control"
+                *ngIf="type=='ex'"
+                dict-select
+                [key]="'SO_TYPE'"
+                (change)="currentTypeChange(search.orderType)"
+                [selected]="search.orderType"
+                [(ngModel)]="search.orderType"></select>-->
+        <select class="form-control"
+                *ngIf="type=='ex'"
+                (change)="currentTypeChange(search.orderType)"
+                [(ngModel)]="search.orderType">
+          <option *ngFor="let x of [
+        {dictValueId:'00',dictValueName:'销售订单'},
+        {dictValueId:'01',dictValueName:'采购退单'}]"
+                  [ngValue]="x.dictValueId">
+            {{x.dictValueName}}
+          </option>
+        </select>
+      </div>
+
+
+
+      <div class="col-xs-4">
+        <label class=" ">订单状态</label>
+        <select class="form-control"
+                *ngIf="type=='in'"
+                dict-select
+                [key]="'PO_STATE'"
+                [selected]="search.orderState"
+                [topOption]="{dictValueId:'',dictValueName:'全部'}"
+                [(ngModel)]="search.orderState"></select>
+        <select class="form-control"
+                *ngIf="type=='ex'"
+                dict-select
+                [key]="'SO_STATE'"
+                [selected]="search.orderState"
+                [topOption]="{dictValueId:'',dictValueName:'全部'}"
+                [(ngModel)]="search.orderState"></select>
+<!--        <select class="form-control" name="sel"
+                [(ngModel)]="search.orderState">
+          <option *ngFor="let x of [
+        {dictValueId:'00',dictValueName:'已入库'},
+        {dictValueId:'01',dictValueName:'审批完成'},
+        {dictValueId:'02',dictValueName:'一级审批'}]"
+                  [ngValue]="x.dictValueId">
+            {{x.dictValueName}}
+          </option>
+        </select>-->
+      </div>
+
+
+      <div class="col-xs-4">
+        <label class=" ">库管人员</label>
+
+        <div class="form-group">
+
+          <!--        <input type="text" class="form-control" [(ngModel)]="search.person"/>-->
+          <div class="input-group">
+            <input type="text" class="form-control" readonly="readonly" placeholder=""
+                   [(ngModel)]="selectedStaffName">
+            <div class="input-group-addon">
+              <!--           <button class="btn btn-default" tree-picker [data]="staffs" (notify)="onTreePickerNotify($event)"
+                                 [excludeFolders]="true"
+                                 [multiSelect]="false"
+                                 [selectParentCascade]="false"
+                         ><i class="fa fa-search"
+                             aria-hidden="true"></i></button>-->
+              <div
+                tree-picker [data]="staffs" (notify)="onTreePickerNotify($event)"
+                [excludeFolders]="true"
+                [multiSelect]="false"
+                [selectParentCascade]="false"
+                class="btn btn-default btn_div btn-sm"
+              ><i class="fa fa-search" aria-hidden="true"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="row spbrow">
+
+      <div class="col-xs-4">
+        <label class=" ">开始时间</label>
+        <input
+          class="form-control"
+          [(ngModel)]="search.startDate"
+          close-on-select="true"
+          date-only="true"
+          readonly
+          ng2-datetime-picker
+        />
+      </div>
+
+
+      <div class="col-xs-4">
+        <label class=" ">结束时间</label>
+        <input
+          class="form-control"
+          [(ngModel)]="search.endDate"
+          close-on-select="true"
+          date-only="true"
+          readonly
+          ng2-datetime-picker
+        />
+      </div>
+
+
+      <div class="col-xs-4" *ngIf="(search.orderType=='00'&&type=='in')||(search.orderType=='01'&&type=='ex')">
+        <label class="">供应商</label>
+        <div class="form-group">
+          <div class="input-group">
+            <input class="form-control" type="text" disabled [(ngModel)]="supplierName"/>
+            <input type="text" class="form-control" style="display: none" [(ngModel)]="search.supplierId"/>
+            <supplierClientPicker
+              class="input-group-addon"
+              style="padding:0"
+              [buttonWidth]="'100'"
+              (notify)="onSelect($event)"
+              [type]="'supplier'"
+            ></supplierClientPicker>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="row spbrow" *ngIf="(search.orderType=='01'&&type=='in')||(search.orderType=='00'&&type=='ex')">
+      <div class="col-xs-4">
+        <label class="">客户</label>
+        <select class="form-control"
+                (change)="typeChange(shippinglist.customerinfo)"
+                [(ngModel)]="shippinglist.customerinfo">
+          <option value=""></option>
+          <option *ngFor="let x of shippinglist.customerdata"
+                  [ngValue]="x.id">
+            {{x.customerName}}
+          </option>
+        </select>
+      </div>
+
+
+      <div class="col-xs-4">
+        <label class="">客户门店</label>
+        <select class="form-control"
+                [disabled]="!shippinglist.customerinfo||shippinglist.customerinfo==''"
+                [(ngModel)]="search.customerStoreId">
+          <option value=""></option>
+          <option *ngFor="let x of shippinglist.customerstoredata"
+                  [ngValue]="x.id">
+            {{x.storeName}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+
+
+    <div class="row spbrow">
+      <div class="col-xs-12">
+        <button type="button" class="btn btn-info"
+                (click)="search_list()"
+        >搜索
+        </button>
+        <button type="button" class="btn btn-default"
+                (click)="cancel_search()"
+        >重置
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <div class="header_box">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="col-xs-12" *ngIf="type=='in'&&search.orderType=='00'">
+          <seerlistactiontable
+            [data]="storageList"
+            *ngIf="!finance"
+            [titles]="inTitles"
+            [buttonText]="'验货'"
+            (notify)="onChange($event)"
+          ></seerlistactiontable>
+          <seerlistactiontable
+            [data]="storageList"
+            *ngIf="finance"
+            (notify)="onChange($event)"
+            [titles]="inTitles"
+            [buttonText]="'启动流程'"
+          ></seerlistactiontable>
+        </div>
+        <div class="col-xs-12" *ngIf="type=='in'&&search.orderType=='01'">
+          <seerlistactiontable
+            [data]="storageList"
+            [titles]="inOrderTitles"
+            *ngIf="!finance"
+            [buttonText]="'验货'"
+            (notify)="onChange($event)"
+          ></seerlistactiontable>
+          <seerlistactiontable
+            [data]="storageList"
+            *ngIf="finance"
+            [titles]="inOrderTitles"
+            (notify)="onChange($event)"
+            [buttonText]="'启动流程'"
+          ></seerlistactiontable>
+        </div>
+        <div class="col-xs-12" *ngIf="type=='ex'&&search.orderType=='00'">
+          <seerlisttable
+            [data]="storageList"
+            *ngIf="!finance"
+            [titles]="outOrderTitles"
+            (notify)="onChange($event)"
+          ></seerlisttable>
+          <seerlistactiontable
+            [data]="storageList"
+            *ngIf="finance"
+            (notify)="onChange($event)"
+            [buttonText]="'启动流程'"
+            [titles]="outOrderTitles"
+          ></seerlistactiontable>
+        </div>
+        <div class="col-xs-12" *ngIf="type=='ex'&&search.orderType=='01'">
+          <seerlisttable
+            [data]="storageList"
+            *ngIf="!finance"
+            [titles]="outTitles"
+            (notify)="onChange($event)"
+          ></seerlisttable>
+          <seerlistactiontable
+            [data]="storageList"
+            *ngIf="finance"
+            (notify)="onChange($event)"
+            [titles]="outTitles"
+            [buttonText]="'启动流程'"
+          ></seerlistactiontable>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<goods-list-storage-component
+  (notify)="currentOrderIdChange($event)"
+  [id]="currentOrderId"
+  [type]="search.orderType"
+  [currentOrder]="currentOrder"
+></goods-list-storage-component>
+
+
+<in-ex-storage-list-edit
+  (notify)="currentOrderEditIdChange($event)"
+  [id]="currentOrderEditId"
+  [orderType]="search.orderType"
+  [type]="type">
+</in-ex-storage-list-edit>
+
+

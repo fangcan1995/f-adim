@@ -1,0 +1,86 @@
+.contract_label{
+  margin-top:10px;
+}
+
+.spbrow{
+  margin-top:15px;
+}
+
+.header_border {
+  border-bottom: solid;
+  border-color: #00abff;
+}
+
+.header_box{
+  background-color: white;
+  margin-bottom: 50px;
+  padding:15px;
+}
+
+label.required:after {
+  content: " *";
+  color: red;
+}
+
+.fooder_box{
+  margin-top:30px;
+}
+
+.special{
+  height:35px !important;
+}
+
+.header{
+  background-color: white;
+  position: relative;
+  top:-24px;
+  left:-36px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-left:5px;
+  margin-right: -100px;
+}
+
+.input-group-btn{
+  font-size: 14px;
+}
+.input-group-btn > .btn {
+  height: 35px;
+  margin-left: -1px !important;
+}
+
+
+label.required:after {
+  content: " *";
+  color: red;
+}
+.edit-label{
+  margin-top:10px;
+}
+
+.input-row{
+  margin-bottom: 10px;
+}
+.buttons-header{
+  background-color: white;
+  position: relative;
+  top:-24px;
+  left:-40px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-left:13px;
+  margin-right: -100px;
+}
+tabset > ul{
+  margin-left: -25px !important;
+  margin-right: -20px;
+  height: 30px;
+}
+
+.input-group{
+  margin-bottom: 0 !important;
+}
+
+
+
+

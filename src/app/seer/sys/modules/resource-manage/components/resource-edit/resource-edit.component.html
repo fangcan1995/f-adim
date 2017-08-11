@@ -1,0 +1,126 @@
+<div class="row">
+  <ba-card [title]="title" baCardClass="with-scroll">
+    <form class="row" #resourceForm="ngForm" (ngSubmit)="submitForm()">
+      <div class="col-sm-12">
+        <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+          <div class="form-group">
+            <label for="resourceId">资源编号</label>
+            <input type="text" class="form-control" id="resourceId" placeholder="" [(ngModel)]="resource.resourceId" name="resourceId"  value="{resource.resourceId}" required >
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+          <div class="form-group">
+            <label for="resourceParentId">资源父编号</label>
+            <input type="text" class="form-control" id="resourceParentId" placeholder="" [(ngModel)]="resource.resourceParentId"  name="resourceParentId"  value="{resource.resourceParentId}" required >
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-sm-12">
+        <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+          <div class="form-group">
+            <label for="resourceName">资源名称</label>
+            <input type="text" class="form-control" id="resourceName" placeholder="" [(ngModel)]="resource.resourceName" name="resourceName"   value="{resource.resourceName}" required >
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+          <div class="form-group">
+            <label for="resourceIcon">资源图标</label>
+            <input type="text" class="form-control" id="resourceIcon" placeholder="" [(ngModel)]="resource.resourceIcon"  name="resourceIcon"  value="{resource.resourceIcon}"  required >
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="col-sm-12">
+        <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+          <div class="form-group">
+            <label for="resourceType">资源类型</label>
+            <!--<input type="text" class="form-control" id="resourceType" placeholder="" [(ngModel)]="resource.resourceType" name="resourceType"  required >-->
+
+            <select class="form-control" id="resourceType"  [(ngModel)]="resource.resourceType" name="resourceType"  required >
+            <option value="01" selected>菜单</option>
+            <option value="00">按钮</option>
+            </select>
+
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+          <div class="form-group">
+            <label for="resourceContent">资源内容</label>
+            <input type="text" class="form-control" id="resourceContent" placeholder="" [(ngModel)]="resource.resourceContent"  name="resource_name"  value="{resource.resourceContent}"  >
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="col-sm-12">
+        <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+          <div class="form-group">
+            <label for="resourceSort">资源顺序</label>
+            <input type="text" class="form-control" id="resourceSort" placeholder="" [(ngModel)]="resource.resourceSort" name="resourceSort"  value="{resource.resourceSort}"  required >
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+          <div class="form-group">
+            <label for="resourcePermission">资源权限</label>
+            <input type="text" class="form-control" id="resourcePermission" placeholder="" [(ngModel)]="resource.resourcePermission"  name="resourcePermission"  value="{resource.resourcePermission}"  >
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-sm-12">
+        <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+          <div class="form-group">
+            <label for="validState">有效状态</label>
+
+            <!--<input type="text" class="form-control" id="validState" placeholder="" [(ngModel)]="resource.validState" name="validState"  required >-->
+
+            <select class="form-control" id="validState"  [(ngModel)]="resource.validState" name="validState" required >
+              <option value="00" selected>有效</option>
+              <option value="01">无效</option>
+            </select>
+
+          </div>
+        </div>
+
+        <!--<div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">-->
+          <!--<div class="form-group">-->
+            <!--<label for="isDelete">删除标识</label>-->
+
+            <!--<select class="form-control" id="isDelete"  [(ngModel)]="resource.isDelete" name="isDelete" required >-->
+              <!--<option value="00" selected>否</option>-->
+              <!--<option value="01">是</option>-->
+            <!--</select>-->
+
+          <!--</div>-->
+        <!--</div>-->
+
+      </div>
+
+      <div class="col-sm-12">
+        <div class="col-sm-12">
+
+          <button type="button" class="btn btn-primary" (click)="backList()">返回列表</button>
+          <button type="submit" class="btn btn-primary">保存</button>
+
+        </div>
+      </div>
+    </form>
+  </ba-card>
+</div>
+
+
+
+
+
+
+

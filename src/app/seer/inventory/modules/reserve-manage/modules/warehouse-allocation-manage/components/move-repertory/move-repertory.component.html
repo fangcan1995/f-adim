@@ -1,0 +1,46 @@
+<modal [animation]="true" [backdrop]="true" [size]="'lg'">
+  <modal-header>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">{{title}}</h4>
+  </modal-header>
+  <modal-body>
+    <div class="col-xs-12 repertory-leftSide">
+      <div class="col-xs-12">
+        <seer-card [title]="treeTitle">
+          <div class="col-sm-12">
+            <seer-tree
+              (notify)="onNotify($event) "
+              [permissions]="treePermissions"
+              [nodes]="treeNode"
+              [defaultNodeName]="'新建部门'"
+              [loadingText]="''">
+            </seer-tree>
+          </div>
+          <!--<button class="btn btn-primary" (click)="getOperationRecords()">保存</button>-->
+        </seer-card>
+      </div>
+    </div>
+    <div class="col-xs-12 repertory-rightSide">
+      <div class="seer-table-padding">
+        <seerlisttable
+          [data]="goodsData"
+          [titles]="titles"
+          [hideColonnes]="true"
+          [hideExport]="true"
+          [hideRemoveAll]="true"
+          [hidePrint]="true"
+          [hideFilter]="true"
+          [displayDetailButton]="true"
+          (notify)="onChange($event)"
+        ></seerlisttable>
+      </div>
+    </div>
+  </modal-body>
+  <modal-footer>
+    <button class="btn btn-info" (click)="updateSelectedRepertorys()" >确认</button>
+    <button type="button" class="btn btn-default" (click)="closeModal()">关闭</button>
+  </modal-footer>
+</modal>
+

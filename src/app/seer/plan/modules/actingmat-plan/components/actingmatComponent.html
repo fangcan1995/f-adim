@@ -1,0 +1,239 @@
+<div *ngIf="!currentActingmat&&!currentActingmatDetail">
+  <seer-card [title]="titleSearch">
+    <div class="row">
+      <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+        <div class="form-group">
+          <label>所属供应商</label>
+          <select class="form-control" [(ngModel)]="search.supplierId" (change)="getSearchBrandList(search.supplierId);noSearch()">
+            <option value="">全部</option>
+            <option *ngFor="let data of searchSupplierList" [value]="data.id">{{data.supplierName}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+        <div class="form-group">
+          <label>所属品牌</label>
+          <select class="form-control" [(ngModel)]="search.brandId" (change)="noSearch()">
+            <option value="">全部</option>
+            <option *ngFor="let data of searchBrandList" [value]="data.id">{{data.brandName}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+        <div class="form-group">
+          <label style="float: left;">月份</label><div style="float: left;color:#F00">&nbsp;&nbsp;&nbsp;{{actingmatMonthCheck}}</div>
+          <div  [ngClass]="{'has-error': checkSearchAllinput&&checkSearchMonth(search.actingMatMonth)&&search.actingMatMonth}">
+            <input type="text" class="form-control" id="search.actingMatMonth" [(ngModel)]="search.actingMatMonth" name="search.actingMatMonth" (input)="noSearch();checkActingmatMonth()">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row col-sm-12">
+      <button type="button" class="btn btn-search btn-info"
+              (click)="checkSearchAllInput();checkActingmatMonth();getActingByTerms()"
+              [disabled]="renderSearch()"
+      >搜索</button>
+      <button type="button" class="btn btn-default"
+              (click)="actingCancel()"
+      >重置</button>
+    </div>
+  </seer-card>
+</div>
+
+
+<div *ngIf="!currentActingmat&&!currentActingmatDetail">
+    <seer-card>
+      <seertable
+        [data]="data"
+        [titles]="titles"
+        [titleOption]="titleOption"
+        (notify)="onChange($event)"
+      ></seertable>
+    </seer-card>
+</div>
+
+<form (ngSubmit)="saveActing()">
+  <div class="header" *ngIf="currentActingmat&&!currentActingmatDetail">
+    <button type="button" class="btn btn-default" (click)="actingCancel()">返回列表</button>
+    <button type="submit"
+            class="btn btn-info"
+            (click)="checkAllInput()"
+    >保存
+    </button>
+  </div>
+
+  <div *ngIf="currentActingmat&&!currentActingmatDetail">
+    <seer-card [title]="addTitle">
+      <div class="row spbrow">
+        <div class="col-xs-12">
+          <div class="col-xs-offset-1 col-xs-2">
+            <label class="pull-right acting_label required">代垫预算编号</label>
+          </div>
+          <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentActingmat.actingMatNum}">
+            <input type="text" class="form-control" id="actingMatNum" placeholder="" required [(ngModel)]="currentActingmat.actingMatNum" name="actingMatNum">
+          </div>
+          <div class="col-xs-offset-1 col-xs-2">
+            <label class="pull-right acting_label required" >代垫预算名称</label>
+          </div>
+          <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentActingmat.actingMatName}">
+            <input type="text" class="form-control" id="actingMatName" placeholder="" required [(ngModel)]="currentActingmat.actingMatName" name="actingMatName">
+          </div>
+        </div>
+      </div>
+      <div class="row spbrow">
+        <div class="col-xs-12">
+          <div class="col-xs-offset-1 col-xs-2">
+            <label class="pull-right acting_label required">所属供应商</label>
+          </div>
+          <div class="col-xs-3">
+            <!--<input type="text" class="form-control" id="supplierId" placeholder="" [(ngModel)]="brand.supplierId" name="supplierId"   required >-->
+            <div class="input-group" [ngClass]="{'has-error': checkAllinput&&!currentActingmat.supplierName}">
+              <input type="text" class="form-control" readonly="readonly" id="supplierId" [(ngModel)]="currentActingmat.supplierId"  required name="supplierId" style="display: none">
+              <input type="text" class="form-control" readonly="readonly" id="supplierName"  [(ngModel)]="currentActingmat.supplierName" required  name="supplierName">
+              <supplierClientPicker class="input-group-btn"
+                                    (notify)="onSelectSupplier($event)"
+                                    [type]="'supplier'"
+              ></supplierClientPicker>
+            </div>
+          </div>
+          <div class="col-xs-offset-1 col-xs-2">
+            <label class="pull-right acting_label required">所属品牌</label>
+          </div>
+          <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentActingmat.brandId}">
+            <select class="form-control" id="brandId" required [(ngModel)]="currentActingmat.brandId" name="brandId"  >
+              <option value="">请选择</option>
+              <option *ngFor="let data of currentBrandList" [value]="data.id">{{data.brandName}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row spbrow">
+        <div class="col-xs-12">
+          <div class="col-xs-offset-1 col-xs-2">
+            <label class="pull-right acting_label required">所属月份</label>
+          </div>
+          <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&checkSearchMonth(currentActingmat.actingMatMonth)}">
+            <input type="text" class="form-control" id="actingMatMonth" pattern="^(\d{4})-(0\d{1}|1[0-2])$" minlength="7" maxlength="7" required fv [message]="'请输入月份格式,例如:2017-01。'" [(ngModel)]="currentActingmat.actingMatMonth"  name="actingMatMonth"    >
+          </div>
+          <div class="col-xs-offset-1 col-xs-2">
+            <label class="pull-right acting_label required" >总金额</label>
+          </div>
+          <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentActingmat.actingMatAmount}">
+            <input type="number" class="form-control" id="actingMatAmount" placeholder="" required [(ngModel)]="currentActingmat.actingMatAmount"  name="actingMatAmount">
+          </div>
+        </div>
+      </div>
+
+    </seer-card>
+  </div>
+</form>
+<div *ngIf="currentActingmat&&!currentActingmatDetail">
+  <seer-card class="row spbrow">
+    <div class="row spbrow">
+      <div class="col-xs-12">
+        <label>代垫预算明细</label>
+        <div class="col-xs-12 acting_header_border">
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <seer-card>
+        <seertable
+          [data]="currentBudget"
+          [titles]="BudgetTitle"
+          [titleOption]="BudgetTitleOption"
+          (notify)="onBudgetChange($event)"
+          [hideColonnes] = "true"
+          [hideRemoveAll] = "true"
+          [hideExport] = "true"
+          [hidePrint] = "true"
+          [displayOriginalData] = "true"
+          [hideFilter] = "true"
+        ></seertable>
+      </seer-card>
+    </div>
+  </seer-card>
+</div>
+
+<div  *ngIf="!currentActingmat&&currentActingmatDetail">
+  <div class="header" *ngIf="!currentActingmat&&currentActingmatDetail">
+    <button type="button" class="btn btn-default" (click)="actingCancel()">返回列表</button>
+  </div>
+  <seer-card [title]="detailTitle">
+    <div class="row spbrow">
+      <div class="col-xs-12">
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right ">代垫预算编号：</label>
+        </div>
+        <div class="col-xs-3 pull-left" >
+          {{currentActingmatDetail.actingMatNum}}
+        </div>
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right " >代垫预算名称：</label>
+        </div>
+        <div class="col-xs-3 pull-left">
+          {{currentActingmatDetail.actingMatName}}
+        </div>
+      </div>
+    </div>
+    <div class="row spbrow">
+      <div class="col-xs-12">
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right ">所属供应商：</label>
+        </div>
+        <div class="col-xs-3 pull-left">
+          <!--<input type="text" class="form-control" id="supplierId" placeholder="" [(ngModel)]="brand.supplierId" name="supplierId"   required >-->
+          <div class="input-group">
+            {{currentActingmatDetail.supplierName}}
+          </div>
+        </div>
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right ">所属品牌：</label>
+        </div>
+        <div class="col-xs-3 pull-left">
+          {{currentActingmatDetail.brandName}}
+        </div>
+      </div>
+    </div>
+    <div class="row spbrow">
+      <div class="col-xs-12">
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right ">所属月份：</label>
+        </div>
+        <div class="col-xs-3 pull-left">
+          {{currentActingmatDetail.actingMatMonth}}
+        </div>
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right " >总金额：</label>
+        </div>
+        <div class="col-xs-3 pull-left">
+          {{currentActingmatDetail.actingMatAmount}}
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="col-sm-12">
+      <seer-card>
+        <seertable
+          [data]="currentBudgetDetail"
+          [titles]="BudgetTitle"
+          [titleOption]="BudgetTitleOption"
+          [hideRemoveButton]="true"
+          [hideColonnes] = "true"
+          [hideRemoveAll] = "true"
+          [hideExport] = "true"
+          [hidePrint] = "true"
+          [displayOriginalData] = "true"
+          [hideFilter] = "true"
+          [hideAddButton]="true"
+          [hideEditButton]= "true"
+          [addNewButton]= "'上传核销资料'"
+          (notify)="onBudgetChange($event)"
+        ></seertable>
+      </seer-card>
+    </div>
+  </seer-card>
+</div>
+<div dynamic-component></div>
+

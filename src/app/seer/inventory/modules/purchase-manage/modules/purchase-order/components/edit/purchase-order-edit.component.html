@@ -1,0 +1,104 @@
+<div dynamic-component></div>
+<form #form>
+  <div class="form-page-header">
+    <button type="button" class="btn btn-default" (click)="cancel()">返回列表</button>
+    <span save-dialog [orderId]="purchaseOrder.id" [processKey]="process.key" [isDraftNow]="purchaseOrder.poState=='00'" [canDirect]="true" (notify)="save($event)">
+      <button type="submit" class="btn btn-info" (click)="prepareOrder($event,form.checkValidity())">保存订单</button>
+    </span>
+    <button [disabled]="!purchaseOrder.supplierId" type="button" class="btn btn-info" multi-picker (notify)="onMultiPickerNotify($event)" [data]="supplierGoods" [titles]="supplierGoodsTitle" [titlesOptional]="supplierGoodsTitle" [title]="'选择商品'" [size]="'lg'">选择商品</button>
+    <button type="button" class="btn btn-info" (click)="relateFare()">关联费用</button>
+  </div>
+  <seer-card [title]="title">
+    <div class="row input-row">
+      <div class="col-lg-offset-1 col-lg-2">
+        <label class="pull-right edit-label required">{{orderNumLabel}}</label>
+      </div>
+      <div class="col-lg-3">
+        <div class="input-group">
+          <input type="text" class="form-control" readonly="readonly" placeholder="{{orderNumLabel}}" [(ngModel)]="purchaseOrder.poNum" required name="purchaseOrder.poNum">
+        </div>
+      </div>
+
+      <div class="col-lg-offset-1 col-lg-2" *ngIf="poType=='01'">
+        <label class="pull-right edit-label required">关联订单</label>
+      </div>
+      <div class="col-lg-3" *ngIf="poType=='01'">
+        <input class="form-control" [(ngModel)]="purchaseOrder.associatedNum" required name="purchaseOrder.associatedNum"/>
+      </div>
+
+
+    </div>
+    <div class="row input-row">
+      <div class="col-lg-offset-1 col-lg-2">
+        <label class="pull-right edit-label required">供应商</label>
+      </div>
+      <div class="col-lg-3">
+        <div class="input-group">
+          <input type="text" readonly="readonly" class="form-control" id="supplier" placeholder="请选择" [(ngModel)]="supplierName" required name="supplierName" fv [message]="'请选择供应商'" (click)="supplierPicker.showChildModal()">
+          <supplierClientPicker class="input-group-btn" (notify)="onSelectSupplier($event)" [type]="'supplier'" #supplierPicker></supplierClientPicker>
+        </div>
+      </div>
+
+      <div class="col-lg-offset-1 col-lg-2">
+        <label class="pull-right edit-label required">采购分类</label>
+      </div>
+      <div class="col-lg-3">
+        <select class="form-control" dict-select [key]="'PO_CATEGORY'" [(ngModel)]="purchaseOrder.poCategory" [topOption]="{dictValueId:'',dictValueName:'请选择'}" [selected]="purchaseOrder.poCategory" required name="purchaseOrder.poCategory">
+        </select>
+      </div>
+    </div>
+    <div class="row input-row">
+      <div class="col-lg-offset-1 col-lg-2">
+        <label class="pull-right edit-label required">币种</label>
+      </div>
+      <div class="col-lg-3">
+        <select class="form-control" dict-select [key]="'CUR_TYPE'" [(ngModel)]="purchaseOrder.curType" [topOption]="{dictValueId:'',dictValueName:'请选择'}" [selected]="purchaseOrder.curType" required name="purchaseOrder.curType">
+        </select>
+      </div>
+
+      <div class="col-lg-offset-1 col-lg-2">
+        <label class="pull-right edit-label required">付款方式</label>
+      </div>
+      <div class="col-lg-3">
+        <select class="form-control" [(ngModel)]="purchaseOrder.paymentMethod" dict-select [key]="'PAYMENT_METHOD'" [topOption]="{dictValueId:'',dictValueName:'请选择'}" [selected]="purchaseOrder.paymentMethod" required name="purchaseOrder.paymentMethod">
+        </select>
+      </div>
+    </div>
+    <div class="row input-row">
+      <div class="col-lg-offset-1 col-lg-2">
+        <label class="pull-right edit-label required">我方人员</label>
+      </div>
+      <div class="col-lg-3">
+        <div class="input-group" tree-picker [data]="staffs" (notify)="onTreePickerNotify($event)" [excludeFolders]="true" [multiSelect]="false" [selectParentCascade]="false">
+          <input type="text" class="form-control" readonly="readonly" placeholder="请选择" required name="selectedStaffName"
+                 [(ngModel)]="selectedStaffName">
+          <span class="input-group-btn">
+            <button class="btn btn-default"><i class="fa fa-search"></i></button>
+          </span>
+        </div>
+      </div>
+
+      <div class="col-lg-offset-1 col-lg-2">
+        <label class="pull-right edit-label required">发票回执</label>
+      </div>
+      <div class="col-lg-3">
+        <select class="form-control" [(ngModel)]="purchaseOrder.invoiceReceipt" dict-select [key]="'INVOICE_RECEIPT'" [topOption]="{dictValueId:'',dictValueName:'请选择'}" [selected]="purchaseOrder.invoiceReceipt" required name="purchaseOrder.invoiceReceipt">
+        </select>
+      </div>
+    </div>
+  </seer-card>
+</form>
+<tabset style="margin-top:15px;">
+  <tab heading='商品列表'>
+    <seer-card>
+      <seertotaltable #selectedGoodsTable [data]="purchaseGoods" [titles]="purchaseGoodsTitles" (notify)="onSelectedGoodsTableNotify($event)" [hideAddButton]="true" [hideExport]="true" [hidePrint]="true" [hideEditButton]="true"></seertotaltable>
+    </seer-card>
+
+  </tab>
+  <tab heading='采购限制'>
+    <seer-card></seer-card>
+  </tab>
+  <tab heading='采购订单分析'>
+    <seer-card></seer-card>
+  </tab>
+</tabset>

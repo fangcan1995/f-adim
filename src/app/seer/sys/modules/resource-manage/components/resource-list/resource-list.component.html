@@ -1,0 +1,38 @@
+<!--<div class="row">-->
+  <!--<ba-card [title]="title" baCardClass="with-scroll">-->
+    <!--<div style="width: 200px;">-->
+      <!--<div class="form-group">-->
+        <!--<input #search class="form-control" id="inputUserName" type="text" placeholder="Search..." (keyup)="onSearch(search.value)">-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)" (edit)="onEdit(($event))"></ng2-smart-table>-->
+  <!--</ba-card>-->
+<!--</div>-->
+
+
+
+<!--<div class="row">-->
+  <!--<ba-card [title]="title" baCardClass="with-scroll">-->
+    <!--<data_table-->
+      <!--[data]="data1"-->
+      <!--[settings]="settings1"-->
+      <!--(notify)="onChange($event)"-->
+    <!--&gt;</data_table>-->
+  <!--</ba-card>-->
+<!--</div>-->
+
+
+
+  <seer-card>
+    <seertable
+      [data]="data1"
+      [titles]="titles"
+      [titleOption]="titleOption"
+      (notify)="onChange($event)"
+    ></seertable>
+  </seer-card>
+
+
+
+
+

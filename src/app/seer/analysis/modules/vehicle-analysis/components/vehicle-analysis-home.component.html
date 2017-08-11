@@ -1,0 +1,88 @@
+<div  class="header_box header_margin">
+  <div class="row">
+    <div class="col-xs-12">
+      <label class="seer_font">车辆分析</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="header_border">
+
+    </div>
+  </div>
+
+  <div class="row spbrow">
+    <div class="col-sm-4">
+      <label class=" contract_label">开始日期</label>
+      <input
+        class="form-control"
+        close-on-select="true"
+        date-only="true"
+        readonly
+        ng2-datetime-picker
+      />
+    </div>
+
+    <div class="col-sm-4">
+      <label class="contract_label">截止日期</label>
+      <input
+        class="form-control"
+        close-on-select="true"
+        date-only="true"
+        readonly
+        ng2-datetime-picker
+      />
+    </div>
+
+
+
+
+  </div>
+
+  <div class="row spbrow">
+    <div class="col-xs-12">
+      <button type="button" class="btn btn-info"
+      >搜索
+      </button>
+      <button type="button" class="btn btn-default"
+      >重置
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<div class="header_box" >
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="col-xs-12">
+
+        <div>
+          <div style="display: block">
+            <canvas baseChart
+                    [datasets]="barChartData"
+                    [labels]="barChartLabels"
+                    [options]="barChartOptions"
+                    [legend]="barChartLegend"
+                    [chartType]="barChartType"
+                    (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)"></canvas>
+          </div>
+          <button (click)="randomize()">Update</button>
+        </div>
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+

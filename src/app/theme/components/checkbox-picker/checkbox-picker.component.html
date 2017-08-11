@@ -1,0 +1,50 @@
+<modal [animation]="true" [backdrop]="true" [size]="size" >
+  <div (clickOutside)="onClickOutside($event)">
+    <modal-header>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title">{{title}}</h4>
+    </modal-header>
+    <modal-body>
+      <span class="col-sm-12" style="display:flex;" *ngIf="showFilter">
+        <input #filter class="filter" (keyup)="filterData(filter.value)" placeholder="过滤"/>
+      </span>
+      <div class="col-sm-12">
+        <div *ngFor="let item of data.filter(hideItem).slice((currentPage)*pageSize,(currentPage+1)*pageSize)"
+             style="margin-bottom: -10px;text-align: start;">
+          <seer-checkbox [label]="item[labelField]" [isChecked]="item[isCheckedField]" (click)="onChange(item)"></seer-checkbox>
+        </div>
+      </div>
+      <div class="row">
+        <div class="btn-group" *ngIf="data.filter(hideItem).length > pageSize">
+          <button class="btn" [class.disabled]="(currentPage+1) <= 1" (click)="turn2Page(0)">
+            <a>&laquo;</a>
+          </button>
+          <button class="btn" *ngIf="currentPage>1" (click)="turn2Page(currentPage-2)">
+            <a>{{currentPage-1}}</a>
+          </button>
+          <button class="btn" *ngIf="currentPage>0" (click)="turn2Page(currentPage-1)">
+            <a>{{currentPage}}</a>
+          </button>
+          <button class="btn" style="background: #70b9e0">
+            <a>{{(currentPage+1)}}</a>
+          </button>
+          <button class="btn" *ngIf="currentPage< Math.floor(data.filter(hideItem).length/pageSize)" (click)="turn2Page(currentPage+1)">
+            <a>{{currentPage+2}}</a>
+          </button>
+          <button class="btn" *ngIf="(currentPage+1)<Math.floor(data.filter(hideItem).length/pageSize)" (click)="turn2Page(currentPage+ 2)">
+            <a>{{currentPage+3}}</a>
+          </button>
+          <button class="btn" [class.disabled]="(currentPage+1) >= Math.floor(data.filter(hideItem).length/pageSize)" (click)="turn2Page(Math.floor(data.filter(hideItem).length/pageSize))">
+            <a>&raquo;</a>
+          </button>
+        </div>
+      </div>
+    </modal-body>
+    <modal-footer>
+      <button class="btn btn-primary" type="button" (click)="save()">确定</button>
+      <button class="btn btn-default" type="button" (click)="clearAll()">清空已选</button>
+    </modal-footer>
+  </div>
+</modal>

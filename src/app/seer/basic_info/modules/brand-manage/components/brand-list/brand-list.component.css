@@ -1,0 +1,41 @@
+.header{
+  background-color: white;
+  position: relative;
+  top:-24px;
+  left:-36px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-left:5px;
+  margin-right: -100px;
+}
+.card{position:relative;display:block;margin-bottom:.75rem;background-color:#fff;border-radius:.25rem;border:1px solid rgba(0,0,0,.125)}
+.frame{
+  background-color: white;
+  position: relative;
+  top:-18px;
+  left:-5px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-left:5px;
+  margin-right: -20px;
+}
+
+.searchFrame{
+  background-color: white;
+  position: relative;
+  top:-15px;
+  left:-20px;
+  margin-right: -35px;
+  padding: 7px 15px;
+}
+.btn-search{
+  margin-left:20px;
+}
+.table-head{
+  margin-top:5px;
+  margin-bottom: 5px;
+}
+.seer-table-padding{
+  padding-right:7px;
+  padding-left:3px
+}

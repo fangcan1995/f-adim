@@ -1,0 +1,7 @@
+<seer-card [title]="title">
+  <form (ngSubmit)="onSubmit()">
+    <input fv type="number" [(ngModel)]="hero.name" name="hero.name" min="0" minlength="1" required maxlength="3" placeholder="required">
+    <input fv [(ngModel)]="hero.email" name="hero.email" type="email" required placeholder="required">
+    <input type="submit" value="submit">
+  </form>
+</seer-card>

@@ -1,0 +1,11 @@
+<div [ngStyle]="containerStyle">
+  <ul class="cbp_tmtimeline">
+    <li *ngFor="let item of list">
+      <div class="cbp_tmtime {{item.className}}"><span>{{split(item.createTime)[0]}}</span> <span>{{split(item.createTime)[1]}}</span></div>
+      <div class="cbp_tmlabel {{item.className}}">
+        <h2>{{item.censorStaff}} <span *ngIf="item.name" class="pull-right">{{item.name}}</span></h2>
+        <span>{{item.approvalOpinion}}</span>
+      </div>
+    </li>
+  </ul>
+</div>

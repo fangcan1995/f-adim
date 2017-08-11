@@ -1,0 +1,70 @@
+<form (ngSubmit)="saveDict()">
+  <div class="header" *ngIf="currentDict">
+    <button type="button" class="btn btn-default" (click)="cancel()">返回列表</button>
+    <button type="submit"
+            class="btn btn-info"
+            (click)="checkAllInput()"
+    >保存
+    </button>
+  </div>
+
+  <div *ngIf="!currentDict" class="row frame card">
+    <div class="col-xs-12">
+      <div class="seer-table-padding">
+        <seertable
+          [data]="data"
+          [titles]="titles"
+          [translate]="translate"
+          [titleOption]="titleOption"
+          [displayCopyButton]="true"
+          (notify)="onChange($event)"
+        ></seertable>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="currentDict">
+    <ba-card [title]="addTitle" baCardClass="with-scroll">
+      <div class="col-xs-12">
+        <div class="col-xs-2"><label class="person_label required">类型编号</label></div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentDict.dictKeyId}">
+          <input type="text" class="form-control person_space" required [(ngModel)]="currentDict.dictKeyId" name="currentDict.dictKeyId"/>
+        </div>
+        <div class="col-xs-2"><label class="person_label required">类型名称</label></div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentDict.dictKeyName}">
+          <input type="text" class="form-control person_space" required [(ngModel)]="currentDict.dictKeyName" name="currentDict.dictKeyName"/>
+        </div>
+        <div class="col-xs-2"></div>
+      </div>
+      <div class="col-xs-12">
+        <div class="col-xs-2"><label class="person_label required">值编号</label></div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&checkValueId(currentDict.dictValueId)}">
+          <input type="text" class="form-control person_space" pattern="^(0|[0-9][0-9]*)$" minlength="2" maxlength="2" required [(ngModel)]="currentDict.dictValueId" name="currentDict.dictValueId"/>
+        </div>
+        <div class="col-xs-2"><label class="person_label required">值名称</label></div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentDict.dictValueName}">
+          <input type="text" class="form-control person_space" required [(ngModel)]="currentDict.dictValueName" name="currentDict.dictValueName"/>
+        </div>
+        <div class="col-xs-2"></div>
+      </div>
+      <div class="col-xs-12">
+        <div class="col-xs-2"><label class="person_label required">排序</label></div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&checkSort(currentDict.dictSort)}">
+          <input type="number" class="form-control person_space" min="0" required [(ngModel)]="currentDict.dictSort" name="currentDict.dictSort"/>
+        </div>
+        <div class="col-xs-2"><label class="person_label required">有效状态</label></div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentDict.validState}">
+          <select class="form-control person_space" name="sel" required
+                  dict-select
+                  [key]="'VALID_STATE'"
+                  [selected]="currentDict.validState"
+                  [topOption]="{dictValueId:'',dictValueName:'请选择'}"
+                  [(ngModel)]="currentDict.validState">
+          </select>
+        </div>
+        <div class="col-xs-2"></div>
+      </div>
+    </ba-card>
+  </div>
+</form>
+

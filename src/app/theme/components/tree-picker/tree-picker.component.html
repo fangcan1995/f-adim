@@ -1,0 +1,19 @@
+<modal [animation]="true" [backdrop]="true" style="overflow: initial;">
+  <div (clickOutside)="onClickOutside($event)">
+    <modal-header>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title">{{title}}</h4>
+    </modal-header>
+    <modal-body>
+      <div class="col-sm-12">
+        <seer-tree [nodes]="data" [permissions]="permission" (notify)="onChange($event)" [filterText]="filterText"></seer-tree>
+      </div>
+    </modal-body>
+    <modal-footer>
+      <button class="btn btn-primary" (click)="save()">确定</button>
+      <button class="btn btn-default" (click)="clearAll()">清空</button>
+    </modal-footer>
+  </div>
+</modal>

@@ -1,0 +1,123 @@
+<div class=" searchFrame card" *ngIf="!currentRepertory">
+  <div class="row">
+    <div class="col-xs-12">
+      <label>查询区域</label>
+    </div>
+    <div class="col-xs-12 header_border">
+    </div>
+  </div>
+  <div class="row spbrow">
+    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4" [ngClass]="{'has-error': !search.validity}">
+      <label class="car_label">商品状态</label>
+      <select class="form-control" name="sel" (click)="noSearch()"
+              [(ngModel)]="search.validity">
+        <option *ngFor="let x of translate.validity"
+                [ngValue]="x.dictValueId">
+          {{x.dictValueName}}
+        </option>
+      </select>
+    </div>
+    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+      <label class="car_label">商品名称</label>
+      <input type="text" class="form-control" id="goodsName" [(ngModel)]="search.goodsName"  name="goodsName" (input)="noSearch()">
+    </div>
+  </div>
+  <div class="row spbrow">
+    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+      <label class="car_label">库房</label>
+        <div class="form-group">
+          <div class="input-group">
+            <input class="form-control person_space" readonly="readonly" type="text" name="staffOrgName" [(ngModel)]="storageName"/>
+            <input style="display: none" type="text" class="form-control" name="search.storageId"[(ngModel)]="search.storageId"/>
+            <span class="input-group-btn">
+                  <a class="btn btn-default seer_link" (click)="loadStorageList()"><i class="fa fa-search" aria-hidden="true"></i></a>
+            </span>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="row spbrow">
+    <button type="button" class="btn btn-search btn-info"
+            (click)="getStaffByTerms()"
+            [disabled]="renderSearch()"
+    >查询</button>
+    <button type="button" class="btn btn-default"
+            (click)="cancel()"
+    >重置</button>
+  </div>
+
+</div>
+<div class="row frame card" *ngIf="!currentRepertory">
+  <div class="col-xs-12">
+    <div class="seer-table-padding">
+      <seertable
+        [data]="data"
+        [titles]="titles"
+        [hideAddButton]="true"
+        [hideRemoveAll]="true"
+        [titleOption]="titleOption"
+        (notify)="onChange($event)"
+      ></seertable>
+    </div>
+  </div>
+</div>
+<form (ngSubmit)="saveRepertory()">
+  <div class="header" *ngIf="currentRepertory">
+
+    <button type="button" class="btn btn-default" (click)="cancel()">返回列表</button>
+    <button type="submit"
+            class="btn btn-info"
+            (click)="checkAllInput()"
+    >保存
+    </button>
+
+  </div>
+
+  <div class="header_box searchFrame card" *ngIf="currentRepertory">
+    <div class="row">
+      <div>
+        <div class="col-xs-12 table-head">
+          <div>{{updateTitle}}</div>
+        </div>
+        <div class="col-xs-12 table-head header_border">
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="col-xs-2"><label class="person_label required">有效期类型</label></div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentRepertory.validityType}">
+          <select class="form-control person_space" name="sel" required
+                  dict-select
+                  [key]="'VALID_TYPE'"
+                  [selected]="currentRepertory.validityType"
+                  [topOption]="{dictValueId:'',dictValueName:'请选择'}"
+                  [(ngModel)]="currentRepertory.validityType">
+          </select>
+        </div>
+        <div class="col-xs-2"><label class="person_label required">有效期</label></div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentRepertory.validityDate}">
+          <input
+            required
+            readonly="readonly"
+            class="form-control person_space"
+            name="currentRepertory.validityDate"
+            [(ngModel)]="currentRepertory.validityDate"
+            close-on-select="true"
+            date-only="true"
+            ng2-datetime-picker
+          />
+        </div>
+        <div class="col-xs-2"></div>
+      </div>
+      <div class="col-xs-12">
+        <div class="col-xs-2"><label class="person_label required">数量</label></div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&checkGoodsNum(currentRepertory.goodsNum)}">
+          <input type="number" class="form-control person_space" min="0" required [(ngModel)]="currentRepertory.goodsNum" name="currentRepertory.goodsNum"/>
+        </div>
+        <div class="col-xs-7"></div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div dynamic-component></div>

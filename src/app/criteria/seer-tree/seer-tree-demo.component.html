@@ -1,0 +1,14 @@
+<div class="row">
+  <ba-card [title]="title" baCardClass="with-scroll">
+    <select multiple [(ngModel)]="permissionsSelected" (change)="onChange()" style="height: 160px">
+      <option *ngFor="let p of permissionsOptions" value="{{p.value}}">{{p.text}}</option>
+    </select>
+    <hr>
+    <div>
+      <seer-tree (notify)="onNotify($event)" [permissions]="permissionsResult" [nodes]="nodes" [defaultNodeName]="'新节点哈哈'" [loadingText]="'哈哈加载中...'" [customAllowDrop]="allowDrop"></seer-tree>
+    </div>
+    <button class="btn btn-primary" (click)="getOperationRecords()">取得树的操作记录</button>
+    <button class="btn btn-primary" (click)="getSelectedNodes()">取得所选节点</button>
+    <button class="btn btn-default pull-right" (click)="onDestroy()">关闭此例子</button>
+  </ba-card>
+</div>

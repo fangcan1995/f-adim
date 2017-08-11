@@ -1,0 +1,27 @@
+<seer-card>
+  <div class="row" style="margin-bottom: 10px;">
+    <seer-checkbox (click)="reset()" [isChecked]="isChecked({code:all})" [label]="'全部('+originalTasks.length+')'"></seer-checkbox>
+    <seer-checkbox (click)="toggleCategory(taskType.ORDER)" [isChecked]="isChecked(taskType.ORDER)" [label]="'订单('+getCategoryCount(taskType.ORDER)+')'"></seer-checkbox>
+    <seer-checkbox (click)="toggleCategory(taskType.STORAGE)" [isChecked]="isChecked(taskType.STORAGE)" [label]="'出入库('+getCategoryCount(taskType.STORAGE)+')'"></seer-checkbox>
+    <seer-checkbox (click)="toggleCategory(taskType.PAYMENT)" [isChecked]="isChecked(taskType.PAYMENT)" [label]="'收付款('+getCategoryCount(taskType.PAYMENT)+')'"></seer-checkbox>
+    <seer-checkbox (click)="toggleCategory(taskType.ACTIVITY)" [isChecked]="isChecked(taskType.ACTIVITY)" [label]="'活动计划('+getCategoryCount(taskType.ACTIVITY)+')'"></seer-checkbox>
+  </div>
+  <div class="row">
+    <ul class="mail-list">
+      <li class="list-item" *ngFor="let task of tasks">
+        <div class="item-subject" style="left:20px;">
+          <span class="label {{getLabelColor(task)}}">{{getLabelName(task)}}</span>
+          <span style="cursor: pointer; color: #333333" (click)="directToTaskHandlePage(task)">
+            {{task.name}}
+          </span>
+        </div>
+        <div class=" pull-right item-time">
+          {{task.createTime}}
+        </div>
+        <div class=" pull-right item-options">
+          <i style="font-size: 18px;" class="fa fa-paperclip"></i>
+        </div>
+      </li>
+    </ul>
+  </div>
+</seer-card>

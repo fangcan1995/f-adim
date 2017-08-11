@@ -1,0 +1,225 @@
+<form (ngSubmit)="submitForm()">
+  <div class="header">
+    <button type="button" class="btn btn-default" (click)="cancel()">返回列表</button>
+    <button type="submit" class="btn btn-info" (click)="allInput()">保存</button>
+  </div>
+  <div class="header_box header_margin">
+    <div class="row">
+      <div class="col-xs-12">
+        <label class="seer_font">{{title}}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="header_border"></div>
+    </div>
+    <div class="row spbrow">
+      <div class="col-xs-12">
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">供应商名称</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!supplier.supplierName}">
+          <input class="form-control" type="text" name="supplier.supplierName" [(ngModel)]="supplier.supplierName" required/>
+        </div>
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">组织机构代码</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!supplier.supplierCode}">
+          <input class="form-control" type="text" name="supplier.supplierCode" [(ngModel)]="supplier.supplierCode" required/>
+        </div>
+      </div>
+    </div>
+    <div class="row spbrow">
+      <div class="col-xs-12">
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">企业性质</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!supplier.supplierNature}">
+          <select class="form-control" name="supplier.supplierNature" [(ngModel)]="supplier.supplierNature" required>
+            <option value="">请选择</option>
+            <option *ngFor="let data of supplierNatureDict" [value]="data.dictValueId">{{data.dictValueName}}</option>
+          </select>
+        </div>
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">税号</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!supplier.supplierTaxCode}">
+          <input class="form-control" type="text" name="supplier.supplierTaxCode" [(ngModel)]="supplier.supplierTaxCode" required/>
+        </div>
+      </div>
+    </div>
+    <div class="row spbrow">
+      <div class="col-xs-12">
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">公司地址</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!supplier.supplierAddress}">
+          <input class="form-control" type="text" name="supplier.supplierAddress" [(ngModel)]="supplier.supplierAddress" required/>
+        </div>
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">库房地址</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!supplier.supplierDcAddress}">
+          <input class="form-control" type="text" name="supplier.supplierDcAddress" [(ngModel)]="supplier.supplierDcAddress" required/>
+        </div>
+      </div>
+    </div>
+    <div class="row spbrow">
+      <div class="col-xs-12">
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">开户行</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!supplier.supplierBank}">
+          <!--<input class="form-control" type="text" [(ngModel)]="supplier.supplierBank"/>-->
+          <select class="form-control" name="supplier.supplierBank" [(ngModel)]="supplier.supplierBank" required>
+            <option value="">请选择</option>
+            <option *ngFor="let data of supplierBankDict" [value]="data.dictValueId">{{data.dictValueName}}</option>
+          </select>
+        </div>
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">银行帐户</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!supplier.supplierBankAccount}">
+          <input class="form-control" type="text" name="supplier.supplierBankAccount" [(ngModel)]="supplier.supplierBankAccount" required/>
+        </div>
+      </div>
+    </div>
+    <div class="row spbrow">
+      <div class="col-xs-12">
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">邮箱</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&checkEmail(supplier.supplierMail)}">
+          <input class="form-control" type="text" name="supplier.supplierMail" [(ngModel)]="supplier.supplierMail" required/>
+        </div>
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">联系电话</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!supplier.supplierTel}">
+          <input class="form-control" type="text" name="supplier.supplierTel" [(ngModel)]="supplier.supplierTel" required/>
+        </div>
+      </div>
+    </div>
+    <div class="row spbrow">
+      <div class="col-xs-12">
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">公司网址</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!supplier.supplierWebsite}">
+          <input class="form-control" type="text" name="supplier.supplierWebsite" [(ngModel)]="supplier.supplierWebsite" required/>
+        </div>
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">供应商状态</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!supplier.supplierState}">
+          <select class="form-control" name="supplier.supplierState" [(ngModel)]="supplier.supplierState" required>
+            <option value="">请选择</option>
+            <option *ngFor="let data of supplierStateDict" [value]="data.dictValueId">{{data.dictValueName}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!--<div class="row">-->
+  <!--<ba-card [title]="title" baCardClass="with-scroll">-->
+    <!--<form class="row" #supplierForm="ngForm" (ngSubmit)="submitForm()">-->
+      <!--<div class="col-sm-12">-->
+        <!--<div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">-->
+          <!--<div class="form-group">-->
+            <!--<label for="supplierName">供应商名称</label>-->
+            <!--<input type="text" class="form-control" id="supplierName" placeholder="" [(ngModel)]="supplier.supplierName" name="supplierName" required >-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">-->
+          <!--<div class="form-group">-->
+            <!--<label for="supplierCode">企业代码</label>-->
+            <!--<input type="text" class="form-control" id="supplierCode" placeholder="" [(ngModel)]="supplier.supplierCode"  name="supplierCode" required >-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="col-sm-12">-->
+        <!--<div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">-->
+          <!--<div class="form-group">-->
+            <!--<label for="supplierNature">企业性质</label>-->
+            <!--<select class="form-control" id="supplierNature" [(ngModel)]="supplier.supplierNature" name="supplierNature">-->
+              <!--<option value="">请选择</option>-->
+              <!--<option *ngFor="let data of supplierNatureDict" [value]="data.dictValueId">{{data.dictValueName}}</option>-->
+            <!--</select>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">-->
+          <!--<div class="form-group">-->
+            <!--<label for="supplierTaxCode">税号</label>-->
+            <!--<input type="text" class="form-control" id="supplierTaxCode" placeholder="" [(ngModel)]="supplier.supplierTaxCode"  name="supplierTaxCode" required >-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="col-sm-12">-->
+        <!--<div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">-->
+          <!--<div class="form-group">-->
+            <!--<label for="supplierAddress">公司地址</label>-->
+            <!--<input type="text" class="form-control" id="supplierAddress" placeholder="" [(ngModel)]="supplier.supplierAddress" name="supplierAddress" required >-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">-->
+          <!--<div class="form-group">-->
+            <!--<label for="supplierDcAddress">DC地址</label>-->
+            <!--<input type="text" class="form-control" id="supplierDcAddress" placeholder="" [(ngModel)]="supplier.supplierDcAddress"  name="supplierDcAddress">-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="col-sm-12">-->
+        <!--<div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">-->
+          <!--<div class="form-group">-->
+            <!--<label for="supplierBank">开户行</label>-->
+            <!--<input type="text" class="form-control" id="supplierBank" placeholder="" [(ngModel)]="supplier.supplierBank" name="supplierBank" required >-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">-->
+          <!--<div class="form-group">-->
+            <!--<label for="supplierBankAccount">银行帐户</label>-->
+            <!--<input type="text" class="form-control" id="supplierBankAccount" placeholder="" [(ngModel)]="supplier.supplierBankAccount"  name="supplierBankAccount">-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="col-sm-12">-->
+        <!--<div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">-->
+          <!--<div class="form-group">-->
+            <!--<label for="supplierMail">邮箱</label>-->
+            <!--<input type="text" class="form-control" id="supplierMail" placeholder="" [(ngModel)]="supplier.supplierMail" name="supplierMail" required >-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">-->
+          <!--<div class="form-group">-->
+            <!--<label for="supplierTel">联系电话</label>-->
+            <!--<input type="text" class="form-control" id="supplierTel" placeholder="" [(ngModel)]="supplier.supplierTel"  name="supplierTel">-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="col-sm-12">-->
+        <!--<div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">-->
+          <!--<div class="form-group">-->
+            <!--<label for="supplierWebsite">公司网址</label>-->
+            <!--<input type="text" class="form-control" id="supplierWebsite" placeholder="" [(ngModel)]="supplier.supplierWebsite" name="supplierWebsite" required >-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">-->
+          <!--<div class="form-group">-->
+            <!--<label for="supplierState">供应商状态</label>-->
+            <!--<select class="form-control" id="supplierState"  [(ngModel)]="supplier.supplierState" name="supplierState" required >-->
+              <!--<option value="">请选择</option>-->
+              <!--<option *ngFor="let data of supplierStateDict" [value]="data.dictValueId">{{data.dictValueName}}</option>-->
+            <!--</select>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="col-sm-12">-->
+        <!--<div class="col-sm-12">-->
+          <!--<button type="button" class="btn btn-primary" (click)="backList()">返回列表</button>-->
+          <!--<button type="submit" class="btn btn-primary">保存</button>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</form>-->
+  <!--</ba-card>-->
+<!--</div>-->

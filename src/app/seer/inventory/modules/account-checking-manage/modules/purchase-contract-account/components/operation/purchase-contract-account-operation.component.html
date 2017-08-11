@@ -1,0 +1,49 @@
+<seer-card [title]="title">
+  <div class="row">
+    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+      <div class="form-group">
+        <label>品牌名称</label>
+        <select class="form-control" [(ngModel)]="brandId">
+          <option value="">请选择</option>
+          <option *ngFor="let data of brandIdDict" [value]="data.id">{{data.brandName}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+      <div class="form-group">
+        <label>开始时间</label>
+        <input class="form-control" [(ngModel)]="startTime" close-on-select="true" date-only="true" ng2-datetime-picker/>
+      </div>
+    </div>
+    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+      <div class="form-group">
+        <label>结束时间</label>
+        <input class="form-control" [(ngModel)]="endTime" close-on-select="true" date-only="true" ng2-datetime-picker/>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+      <div class="form-group">
+        <label>客户名称</label>
+        <select class="form-control" (change)="typeChange(customerId)" [(ngModel)]="customerId">
+          <option value="">全部</option>
+          <option *ngFor="let data of customerList" [ngValue]="data.id">{{data.customerName}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+      <div class="form-group">
+        <label>门店名称</label>
+        <select class="form-control" [(ngModel)]="customerStoreId">
+          <option value="">全部</option>
+          <option *ngFor="let data of customerStoreList" [value]="data.id">{{data.storeName}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row col-sm-12">
+    <button type="button" class="btn btn-primary" (click)="searchContractAccount()">搜索</button>
+    <button type="button" class="btn btn-default" (click)="reset()">重置</button>
+  </div>
+</seer-card>

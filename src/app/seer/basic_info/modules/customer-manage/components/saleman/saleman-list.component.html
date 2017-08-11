@@ -1,0 +1,24 @@
+<modal [animation]="true" [backdrop]="true" [componentInstance]="this">
+  <modal-header>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">{{title}}</h4>
+  </modal-header>
+  <modal-body>
+    <div class="header_box_saleman-list">
+        <seer-tree
+          [nodes]="organizations"
+          [permissions]="selectedPermissions"
+          [defaultNodeName]="'新节点'"
+          [loadingText]="'加载中...'"
+          (notify)="onNotify($event)"
+        ></seer-tree>
+    </div>
+  </modal-body>
+  <modal-footer>
+    <button class="btn btn-info" (click)="getOrgId()" >确认</button>
+    <button type="button" class="btn btn-default" (click)="closeModal()">取消</button>
+  </modal-footer>
+</modal>
+

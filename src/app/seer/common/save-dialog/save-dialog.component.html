@@ -1,0 +1,34 @@
+<modal [animation]="true" [backdrop]="true">
+  <div (clickOutside)="onClickOutside($event)">
+    <modal-header>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title">{{isDraftNow?'选择保存类型':isLastLevel?'最终审批':'选择下一级审批人员'}}</h4>
+    </modal-header>
+    <modal-body>
+      <div class="col-sm-12">
+        <div class="btn-group" role="group" aria-label="Basic example" *ngIf="!isLastLevel" style="margin-bottom: 5px;">
+          <button *ngIf="isDraftNow" type="button" class="btn" [ngClass]="{'btn-info': isDraftNow&&saveType=='draft'||isDraftOnly}"
+                  (click)="toggleButton('draft')">保存草稿</button>
+          <button *ngIf="!isDraftOnly&&!isLastLevel"
+                  type="button" class="btn" (click)="toggleButton('censor')"
+                  [ngClass]="{'btn-info':!isLastLevel&&saveType=='censor'}">{{nextCensorNodeName}}</button>
+          <button *ngIf="isDraftNow&&canDirect" type="button" class="btn" (click)="toggleButton('direct')"
+                  [ngClass]="{'btn-info': saveType=='direct'}">直接下单</button>
+        </div>
+        <seertable *ngIf="!isLastLevel&&saveType=='censor'" (notify)="onStaffSelect($event)" [data]="censorList" [titles]="censorTableTitle" [hideActions]="true"
+                   [hidePrint]="true" [hideRemoveAll]="true" [hideAddButton]="true" [hideEditButton]="true"
+                   [hideExport]="true" [hideRemoveButton]="true">
+        </seertable>
+        <p *ngIf="isLastLevel">
+          确认后将生成确认单，返回给发起者确认。
+        </p>
+      </div>
+    </modal-body>
+    <modal-footer>
+      <button class="btn btn-primary" type="button" (click)="onSave()">确定</button>
+      <button class="btn btn-default" type="button" (click)="close()">取消</button>
+    </modal-footer>
+  </div>
+</modal>

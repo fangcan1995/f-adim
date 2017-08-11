@@ -1,0 +1,157 @@
+<div *ngIf="!currentActivityPlan" class="header_box header_margin">
+  <div class="row">
+    <div class="col-xs-12">
+      <label class="seer_font">查询区域</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="header_border">
+
+    </div>
+  </div>
+
+  <div class="row spbrow">
+    <div class="col-sm-4">
+      <label class=" contract_label">活动开始时间</label>
+      <input
+        class="form-control"
+        [(ngModel)]="search.startTime"
+        close-on-select="true"
+        date-only="true"
+        readonly
+        ng2-datetime-picker
+      />
+    </div>
+
+    <div class="col-sm-4">
+      <label class="contract_label">活动结束时间</label>
+      <input
+        class="form-control"
+        [(ngModel)]="search.endTime"
+        close-on-select="true"
+        date-only="true"
+        readonly
+        ng2-datetime-picker
+      />
+    </div>
+
+
+<!--    <div class="col-sm-4">
+      <label class=" contract_label">订单状态</label>
+      <input type="text" class="form-control" [(ngModel)]="search.state"/>
+    </div>-->
+
+  </div>
+
+
+  <div class="row spbrow">
+    <div class="col-xs-4">
+      <label class="">供应商</label>
+      <div class="form-group">
+        <div class="input-group">
+          <input class="form-control" type="text" disabled [(ngModel)]="supplierName"/>
+          <input type="text" class="form-control" style="display: none" [(ngModel)]="search.supplierId"/>
+          <supplierClientPicker
+            class="input-group-addon"
+            style="padding:0"
+            [buttonWidth]="'100'"
+            (notify)="onSelectSupplier($event)"
+            [type]="'supplier'"
+          ></supplierClientPicker>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-4">
+      <label class="">品牌</label>
+      <div class="form-group">
+        <div class="input-group">
+          <input class="form-control" type="text" disabled [(ngModel)]="brandName"/>
+          <input type="text" class="form-control" style="display: none" [(ngModel)]="search.brandId"/>
+          <brandPicker
+            class="input-group-addon"
+            style="padding:0"
+            (notify)="onSelectBrand($event)"
+            [id]="search.supplierId"
+          ></brandPicker>
+        </div>
+      </div>
+      <!--<select class="form-control" [(ngModel)]="search.brandId">
+        <option *ngFor="let x of currentBrands"
+                [ngValue]="x.id">
+          {{x.brandName}}
+        </option>
+      </select>-->
+    </div>
+  </div>
+
+<!--  <div class="row spbrow">
+    <div class="col-xs-4">
+      <label class="">客户</label>
+      <div class="form-group">
+        <div class="input-group">
+          <input class="form-control" type="text" disabled [(ngModel)]="supplierName"/>
+          <input type="text" class="form-control" style="display: none" [(ngModel)]="search.supplierId"/>
+          <supplierClientPicker
+            class="input-group-addon"
+            style="padding:0"
+            [buttonWidth]="'100'"
+            (notify)="onSelectClient($event)"
+            [type]="'client'"
+          ></supplierClientPicker>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <label class="">客户门店</label>
+      <select class="form-control"
+              [(ngModel)]="search.customerStoreId">
+        <option value=""></option>
+        <option *ngFor="let x of customerList"
+                [ngValue]="x.id">
+          {{x.customerName}}
+        </option>
+      </select>
+    </div>
+  </div>-->
+  <div class="row spbrow">
+    <div class="col-xs-12">
+      <button type="button" class="btn btn-info"
+              (click)="searchData()"
+      >搜索
+      </button>
+      <button type="button" class="btn btn-default"
+              (click)="cancelSearch()"
+      >重置
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<div class="header_box" *ngIf="!currentActivityPlan">
+  <div class="row">
+    <div class="col-xs-12">
+      <seertable
+      *ngIf="activityPlanList"
+      [data]="activityPlanList"
+      [titles]="titles"
+      (notify)="onChange($event)"
+    ></seertable>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<activity-edit
+  *ngIf="currentActivityPlan"
+  [currentActivityPlan]="currentActivityPlan"
+  (notify)="onChangeCurrentActivityPlan($event)"
+>
+</activity-edit>
+
+
+

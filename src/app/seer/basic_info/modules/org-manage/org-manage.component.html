@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-sm-5">
+    <ba-card [title]="treeTitle" baCardClass="with-scroll">
+      <div class="col-sm-12">
+        <seer-tree
+          (notify)="onNotify($event) "
+          [permissions]="treePermissions"
+          [nodes]="treeNode"
+          [defaultNodeName]="'新建部门'"
+          [loadingText]="''">
+        </seer-tree>
+      </div>
+      <!--<button class="btn btn-primary" (click)="getOperationRecords()">保存</button>-->
+    </ba-card>
+  </div>
+  <div class="col-sm-7">
+    <ba-card [title]="tableTitle" baCardClass="with-scroll">
+      <table class="table table-bordered">
+        <tr>
+          <th>员工编号</th>
+          <th>员工姓名</th>
+          <th>操作</th>
+        </tr>
+        <tr *ngFor="let staff of tableSource; let index=index">
+          <td>{{staff.staffNo}}</td>
+          <td>{{staff.staffName}}</td>
+          <td>
+            <div class="btn btn-xs btn-info" (click)="chooseOrgTree(staff);"><i class="ion-edit"></i> 修改</div>
+          </td>
+        </tr>
+      </table>
+    </ba-card>
+  </div>
+</div>
+<div dynamic-component></div>

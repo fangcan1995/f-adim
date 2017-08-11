@@ -1,0 +1,89 @@
+<div
+  class="btn btn-default btn_div btn-sm"
+  (click)="showChildModal()"><i class="fa fa-search" aria-hidden="true"></i></div>
+<!--<button type="button" *ngIf="!buttonWidth"  class="btn btn-default" (click)="showChildModal()" [disabled]="!type"><i class="fa fa-search" aria-hidden="true"></i></button>-->
+<div bsModal #childModal="bs-modal" class="modal fade" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <label class="pull-left">
+          代垫
+        </label>
+        <!--   <div class="row">
+             <div class="header_border">
+
+             </div>
+           </div>-->
+      </div>
+      <div class="modal-body">
+
+
+        <div class="row">
+          <div class="col-xs-4">
+            <div class="form-group">
+              <label class="pull-left">所属供应商</label>
+              <select class="form-control" [(ngModel)]="search.supplierId"
+                      (change)="getSearchBrandList(search.supplierId)">
+                <option value="">全部</option>
+                <option *ngFor="let data of searchSupplierList" [value]="data.id">{{data.supplierName}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="form-group">
+              <label class="pull-left">所属品牌</label>
+              <select class="form-control" [(ngModel)]="search.brandId">
+                <option value="">全部</option>
+                <option *ngFor="let data of searchBrandList" [value]="data.id">{{data.brandName}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-xs-4"
+               [ngClass]="{'has-error': checkSearchMonth(search.actingMatMonth)&&search.actingMatMonth}">
+            <label class="pull-left">月份 ( 例如：2017-01 )</label>
+            <input type="text" class="form-control" [(ngModel)]="search.actingMatMonth"/>
+          </div>
+        </div>
+
+        <div class="row spbrow">
+          <div class="col-xs-12">
+            <button type="button" class="btn btn-info pull-left" style="margin-right:5px" (click)="getActingByTerms()">搜索</button>
+            <button type="button" class="btn btn-default pull-left" (click)="actingCancel()">重置</button>
+          </div>
+        </div>
+        <hr/>
+
+
+        <div class="row spbrow">
+          <div class="col-xs-12">
+            <div class="col-xs-12">
+              <seertable
+                [data]="source"
+                [titles]="titles"
+                [hideColonnes]="true"
+                [hideRemoveAll]="true"
+                [hideAddButton]="true"
+                [hideActions]="true"
+                [hideExport]="true"
+                [hidePrint]="true"
+                [hideRemoveButton]="true"
+                [hideEditButton]="true"
+              ></seertable>
+            </div>
+          </div>
+        </div>
+        <div class="row spbrpw">
+          <div class="col-xs-12">
+            <button type="button" class="btn btn-info pull-right" (click)="selectActing()">保存</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

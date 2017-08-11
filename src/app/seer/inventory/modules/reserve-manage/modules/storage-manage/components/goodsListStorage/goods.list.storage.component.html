@@ -1,0 +1,303 @@
+<div *ngIf="id">
+
+
+  <div class="header">
+
+    <button type="button" class="btn btn-default" (click)="cancel()">返回列表</button>
+    <button type="button"
+            class="btn btn-info"
+            (click)="save()"
+    >保存
+    </button>
+
+
+  </div>
+
+
+  <div class="header_box header_margin">
+    <div class="row">
+      <div class="col-xs-12">
+        <label class="seer_font">入库验货</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="header_border">
+
+      </div>
+    </div>
+    <div class="row spbrow">
+      <div class="col-sm-2 col-xs-6">
+        <label class="car_box_content_text">入库订单编号</label>
+      </div>
+      <div class="col-sm-4 col-xs-6">
+        <span class="car_box_content_text">{{id}}</span>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <div class="header_box header_margin">
+    <div class="row spbrow">
+      <div class="col-xs-4">
+        <input type="text" class="form-control" [(ngModel)]=query
+               (keyup)=filter() placeholder="全局过滤"/>
+      </div>
+      <div class="col-xs-12">
+        <table class="table table-hover table-striped table-bordered">
+          <tr class="header_border">
+            <th class="text-center col-xs-2"><b class="seer_font">商品编号</b></th>
+            <th class=" col-xs-2"><b class="seer_font">商品名称</b></th>
+            <th class=" col-xs-1"><b class="seer_font">条形码</b></th>
+            <th class=" col-xs-1"><b class="seer_font">订单数量</b></th>
+            <th class=" col-xs-6">
+              <div class="col-xs-12">
+                <div class="col-xs-3"><b>商品个数</b></div>
+                <div class="col-xs-3"><b>效期种类</b></div>
+                <div class="col-xs-4"><b>日期</b></div>
+                <div class="col-xs-2"><b>操作</b></div>
+              </div>
+            </th>
+          </tr>
+          <tr *ngFor="let pruchase_good of getData(); let index=index">
+            <td class="col-xs-2">{{pruchase_good.goodsNumber}}</td>
+            <td class="col-xs-2">{{pruchase_good.goodsName}}</td>
+            <td class="col-xs-1">{{pruchase_good.goodsBarCode}}</td>
+            <td class="col-xs-1">{{pruchase_good.purchaseQuantity}}</td>
+            <td class="col-xs-6">
+
+              <div class="col-xs-12" *ngFor="let record of pruchase_good.inRecords; let i=index">
+                <div class="col-xs-3">
+                  <input type="number" class="form-control" [(ngModel)]="record.goodsQuantity"/>
+                </div>
+                <div class="col-xs-3">
+                  <select class="form-control" name="sel" [(ngModel)]="record.validityType">
+                    <option *ngFor="let x of [{key:'00',label:'生产日期'},{key:'01',label:'到期日期'}]"
+                            [ngValue]="x.key">
+                      {{x.label}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-xs-4">
+                  <input
+                    class="form-control"
+                    close-on-select="true"
+                    date-only="true"
+                    ng2-datetime-picker
+                    readonly
+                    [(ngModel)]="record.validityDate"
+                  />
+                </div>
+                <div class="col-xs-2">
+                  <button *ngIf="i!=0"  class="btn btn-sm btn-danger" (click)="removeInRecords(pruchase_good,i)">删除</button>
+                  <button *ngIf="i==0"  class="btn btn-sm btn-info" (click)="addInRecords(pruchase_good,pruchase_good.purchaseQuantity)">新增</button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+<!--    <div class="row spbrow">
+
+
+
+
+
+      <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4" *ngFor="let pruchase_good of pruchase_goods; let index=index">
+        <div class="car_box_head">
+          <div class="car_box_head_text"><span>{{pruchase_good.goodsName}}</span></div>
+        </div>
+        <div class="car_box_content">
+          <div class="row car_box_content_padding">
+            <div class="col-xs-12">
+              <div class="row ">
+                <div class="col-xs-12">
+                  <div class="col-xs-5">
+                    <label>商品编号</label>
+                  </div>
+                  <div class="col-xs-7">
+                    <span class="car_box_content_text">{{pruchase_good.goodsNumber}}</span>
+                  </div>
+
+                </div>
+              </div>
+              <div class="row ">
+                <div class="col-xs-12">
+                  <div class="col-xs-5">
+                    <label>条形码</label>
+                  </div>
+                  <div class="col-xs-7">
+                    <span class="car_box_content_text">{{pruchase_good.goodsBarCode}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row ">
+                <div class="col-xs-12">
+                  <div class="col-xs-5">
+                    <label>采购数量(个)</label>
+                  </div>
+                  <div class="col-xs-7">
+                    <span class="car_box_content_text">{{pruchase_good.purchaseQuantity}}</span>
+                  </div>
+                </div>
+              </div>
+              &lt;!&ndash;          <div class="row ">
+                          <div class="col-xs-12">
+                            <div class="col-xs-5">
+                              <label>到货数量(个)</label>
+                            </div>
+                            <div class="col-xs-7">
+                              <span class="car_box_content_text">{{pruchase_good.goodsQuantity}}</span>
+                            </div>
+                          </div>
+                        </div>&ndash;&gt;
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="col-xs-6">
+                    <label class="contract_label">效期</label>
+                  </div>
+                  <div class="col-xs-6">
+                    <button type="button" class="btn btn-info pull-right" (click)="addInRecords(pruchase_good,pruchase_good.purchaseQuantity)">添加
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row box-border" *ngFor="let record of pruchase_good.inRecords; let i=index">
+
+                <div class="col-xs-6">
+                  <label>数量</label>
+                  <input type="text" class="form-control" [(ngModel)]="record.goodsQuantity"/>
+                </div>
+                <div class="col-xs-6">
+                  <label>种类</label>
+                  <select class="form-control" name="sel" [(ngModel)]="record.validityType">
+                    <option *ngFor="let x of [{key:'0',label:'请选择'},{key:'00',label:'生产日期'},{key:'01',label:'到期日期'}]"
+                            [ngValue]="x.key">
+                      {{x.label}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-xs-12">
+                  <label>日期</label>
+                       <input
+                         class="form-control"
+                         close-on-select="true"
+                         date-only="true"
+                         ng2-datetime-picker
+                         readonly
+                         [(ngModel)]="record.validityDate"
+                       />
+       &lt;!&ndash;           <my-date-picker [options]="myDatePickerOptions"
+                                  [selDate]="record.validityDate"
+                                  (dateChanged)="onDateChanged($event,record)"></my-date-picker>&ndash;&gt;
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+
+    </div>-->
+  </div>
+</div>
+
+
+
+
+<button type="button" style="display: none"  class="btn btn-default" (click)="showChildModal()" [disabled]="!type"><i class="fa fa-search" aria-hidden="true"></i></button>
+<div bsModal #childModal="bs-modal" class="modal fade"  [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4>商品数量确定提示</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="alert alert-info">
+              <div class="checkbox" *ngIf="pruchase_goods_plus.length">
+                <label>
+                  <input type="checkbox" [(ngModel)]="checkGoodsNum.plus"> 商品数量多于原订单，是否系统生成新的采购订单？
+                </label>
+              </div>
+              <div class="checkbox" *ngIf="pruchase_goods_less.length">
+                <label>
+                  <input type="checkbox" [(ngModel)]="checkGoodsNum.less"> 商品数量少于原订单，是否系统生成新的采购退单？
+                </label>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="row spbrow">
+          <div class="col-xs-12">
+            <tabset>
+              <tab *ngIf="pruchase_goods_plus.length">
+                <template tabHeading>采购订单</template>
+                <div  style="margin-top:15px;">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <div class="col-xs-12">
+                        <seerlisttable
+                          [data]="pruchase_goods_plus"
+                          [titles]="pruchase_goods_plus_less_titles"
+                        >
+                        </seerlisttable>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </tab>
+              <tab *ngIf="pruchase_goods_less.length">
+                <template tabHeading>采购退单</template>
+                <div  style="margin-top:15px;">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <div class="col-xs-12">
+                        <seerlisttable
+                          [data]="pruchase_goods_less"
+                          [titles]="pruchase_goods_plus_less_titles"
+                        ></seerlisttable>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </tab>
+            </tabset>
+          </div>
+        </div>
+
+        <div class="row spbrow">
+          <div class="col-xs-12">
+            <div class="col-xs-12">
+              <button class="btn btn-default pull-right" (click)="hideChildModal()">取消</button>
+              <button class="btn btn-info pull-right" style="margin-right: 5px" (click)="addNewOrder();hideChildModal()">保存</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<seeralert
+  [type]="'confirm'"
+  [content]="'数量匹配，确定保存吗？'"
+  [action]="action"
+  (notify)="onSelectAlert($event)"
+></seeralert>
+

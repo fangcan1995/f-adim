@@ -1,0 +1,51 @@
+<div  class="header_box header_margin">
+  <div class="row">
+    <div class="col-xs-12">
+      <label class="seer_font">人员分析</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="header_border">
+
+    </div>
+  </div>
+
+  <div class="row spbrow">
+    <div class="col-xs-12">
+      <button type="button" class="btn btn-info"
+      >搜索
+      </button>
+      <button type="button" class="btn btn-default"
+      >重置
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<div class="header_box" >
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="col-xs-12">
+        <div style="display: block">
+          <canvas baseChart
+                  [data]="pieChartData"
+                  [labels]="pieChartLabels"
+                  [chartType]="pieChartType"
+                  (chartHover)="chartHovered($event)"
+                  (chartClick)="chartClicked($event)"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+

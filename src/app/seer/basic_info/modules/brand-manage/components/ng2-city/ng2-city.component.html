@@ -1,0 +1,35 @@
+<!--ng2-city works-->
+
+<!--<div class="cityPick">-->
+  <!--<div class="col-sm-6 col-xs-12 col-md-6 col-lg-4" >-->
+    <!--<input type="text" class="form-control">-->
+  <!--</div>-->
+  <!--<div class="_citys">-->
+    <!--<span title="关闭" id="cColse" (click)="close()" >×</span>-->
+      <!--<ul  class="_citys0"><li class="citySel">省份</li><li>城市</li><li>区县</li></ul>-->
+      <!--<div  class="_citys1"></div>-->
+      <!--<div style="display:none" class="_citys1"></div>-->
+      <!--<div style="display:none"  class="_citys1"></div>-->
+  <!--</div>-->
+<!--</div>-->
+
+<div  >
+  <select class="form-control" id="city01"  name="city01" >
+    <option value="00">省</option>
+    <option value="02">辽宁省</option>
+  </select>
+  <select class="form-control" id="city02"  name="city02" >
+    <option value="00">市</option>
+    <option value="02">大连市</option>
+  </select>
+  <select class="form-control" id="city03"  name="city03" >
+    <option value="00">区</option>
+    <option value="02">高新园区</option>
+  </select>
+
+  <select class="form-control" id="cityPrivince" [(ngModel)]="provences">
+    <option value="">请选择</option>
+    <!--<option *ngFor="let data of provences" [value]="data.id">{{data.name}}</option>-->
+  </select>
+
+</div>

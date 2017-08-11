@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-xs-4">
+    <input #search
+           class="form-control"
+           type="text"
+           placeholder="Search..."
+           (keyup.blur)="onSearch(search.value)"
+           (keydown.enter)="onSearch(search.value)">
+  </div>
+  <div class="col-xs-8">
+    <button class="btn btn-success pull-right" (click)="add()">Add</button>
+    <button class="btn btn-info pull-right" disabled>Print</button>
+  </div>
+  <div class="col-xs-12">
+    <ng2-smart-table
+      [settings]="settings"
+      [source]="source"
+      (delete)="onDelete($event)"
+      (edit)="onEdit($event)"
+    ></ng2-smart-table>
+  </div>
+</div>
+
+
+
+

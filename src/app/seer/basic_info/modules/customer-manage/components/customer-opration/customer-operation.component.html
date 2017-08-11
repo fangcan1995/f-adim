@@ -1,0 +1,75 @@
+ <!--<seer-card  [title]="title">-->
+    <!--<form #resourceForm="ngForm" (ngSubmit)="onSubmit()" class="form-horizontal">-->
+
+    <!--<div class="col-sm-12">-->
+        <!--<div class="form-group">-->
+              <!--<label for="customerName" class="col-sm-1 control-label">客户名称</label>-->
+              <!--<div class="col-sm-3">-->
+              <!--<input type="text" class="form-control" id="customerName" placeholder="" [(ngModel)]="customer.customerName"  name="customerName">-->
+              <!--</div>-->
+
+               <!--<label for="customerNature" class="col-sm-1 control-label">企业性质</label>-->
+                <!--<div class="col-sm-3">-->
+                  <!--<select class="form-control" id="customerNature"  [(ngModel)]="customer.customerNature" name="customerNature" >-->
+                    <!--<option value="">全部</option>-->
+                    <!--<option value="01">集体企业</option>-->
+                    <!--<option value="02">股份合作制企业</option>-->
+                    <!--<option value="03">私营企业</option>-->
+                  <!--</select>-->
+                <!--</div>-->
+          <!--&lt;!&ndash;<input type="text" class="form-control" id="brandCountry" placeholder="" [(ngModel)]="brand.brandCountry" name="brandCountry">&ndash;&gt;-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="col-sm-12" style="margin-top: 5px">-->
+      <!--<div class="col-sm-12">-->
+        <!--<button type="submit" class="btn btn-primary" >搜索</button>-->
+        <!--<button type="button" class="btn btn-default" (click)="reset()">重置</button>-->
+        <!--&lt;!&ndash;<button type="button" class="btn btn-primary" (click)="deleteResource()">批量删除</button>&ndash;&gt;-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <!--</form>-->
+  <!--</seer-card>-->
+
+
+ <seer-card [title]="title">
+   <div class="row">
+     <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+       <div class="form-group">
+         <label for="customerName">客户名称</label>
+         <input type="text" class="form-control" id="customerName" placeholder="" [(ngModel)]="customer.customerName"  name="customerName">
+       </div>
+     </div>
+
+
+     <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+       <div class="form-group">
+         <label for="customerNature">企业性质</label>
+         <div class="input-group">
+
+           <select class="form-control" id="customerNature"  [(ngModel)]="customer.customerNature" name="customerNature" >
+             <option value="">全部</option>
+             <option value="01">集体企业</option>
+             <option value="02">股份合作制企业</option>
+             <option value="03">私营企业</option>
+           </select>
+         </div>
+
+       </div>
+     </div>
+
+   </div>
+   <div class="row col-lg-12">
+     <button type="button" class="btn btn-primary" (click)="onSubmit()">搜索</button>
+     <button type="button" class="btn btn-default" (click)="reset()">重置</button>
+   </div>
+ </seer-card>
+
+
+
+
+
+
+
+

@@ -1,0 +1,71 @@
+<modal [animation]="animation" [backdrop]="backdrop">
+  <modal-header>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">{{title}}</h4>
+  </modal-header>
+  <modal-body>
+    <!--<div class="header_box1">-->
+      <!--<div class="row spbrow">-->
+        <!--<div class="col-xs-12">-->
+          <!--<div class="col-xs-offset-1 col-xs-3">-->
+            <!--<label class="pull-right contract_label required">字段名称</label>-->
+          <!--</div>-->
+          <!--<div class="col-xs-6">-->
+            <!--<input class="form-control" type="text" [(ngModel)]="customFields.fieldsName"/>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="row spbrow">-->
+        <!--<div class="col-xs-12">-->
+          <!--<div class="col-xs-offset-1 col-xs-3">-->
+            <!--<label class="pull-right contract_label required">字段类型</label>-->
+          <!--</div>-->
+          <!--<div class="col-xs-6">-->
+            <!--<input class="form-control" type="text" [(ngModel)]="customFields.fieldsType"/>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="row spbrow">-->
+        <!--<div class="col-xs-12">-->
+          <!--<div class="col-xs-offset-1 col-xs-3">-->
+            <!--<label class="pull-right contract_label required">字段值</label>-->
+          <!--</div>-->
+          <!--<div class="col-xs-6">-->
+            <!--<input class="form-control" type="text" [(ngModel)]="customFields.fieldsValue"/>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+    <div class="col-sm-12">
+      <div class="col-sm-12 col-xs-12 col-md-2 col-lg-12">
+        <div class="form-group">
+          <label for="fieldsName">字段名称</label>
+          <input type="text" class="form-control" id="fieldsName" placeholder="" name="fieldsName" [(ngModel)]="customFields.fieldsName">
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="col-sm-12 col-xs-12 col-md-2 col-lg-12">
+        <div class="form-group">
+          <label for="fieldsType">字段类型</label>
+          <input type="text" class="form-control" id="fieldsType" placeholder="" name="fieldsType" [(ngModel)]="customFields.fieldsType">
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="col-sm-12 col-xs-12 col-md-2 col-lg-12">
+        <div class="form-group">
+          <label for="fieldsValue">字段值</label>
+          <input type="text" class="form-control" id="fieldsValue" placeholder="" name="fieldsValue" [(ngModel)]="customFields.fieldsValue">
+        </div>
+      </div>
+    </div>
+  </modal-body>
+  <modal-footer>
+    <button type="button" class="btn btn-primary" (click)="onSave()">保存</button>
+    <button type="button" class="btn btn-default" (click)="onDestroy()">关闭</button>
+  </modal-footer>
+</modal>
+

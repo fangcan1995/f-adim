@@ -1,0 +1,197 @@
+<form (ngSubmit)="submitForm()">
+  <div class="header">
+    <button type="button" class="btn btn-default" (click)="cancel()">返回列表</button>
+    <button type="button" class="btn btn-info" [disabled]="!saleOrder.customerStoreId" multi-picker (notify)="onMultiPickerNotifyGoods($event)" [data]="goods" [titles]="goodsTitle">选择商品</button>
+    <button type="button" class="btn btn-info" [disabled]="!selectedGoods.length > 0" multi-picker (notify)="onMultiPickerNotifyGoodsGift($event)" [data]="giftGoods" [titles]="giftGoodsTitle">选择赠品</button>
+    <button type="button" class="btn btn-info" [disabled]="!selectedGoods.length > 0" multi-picker (notify)="onMultiPickerNotifyGoodsMaterial($event)" [data]="materialGoods" [titles]="materialGoodsTitle">选择物料</button>
+    <button type="button" class="btn btn-info">关联费用</button>
+    <!--<button type="button" class="btn btn-info" *ngIf="buttonFlag" (click)="saveSaleOrder()">保存订单</button>-->
+    <!--<button type="button" class="btn btn-info" *ngIf="!buttonFlag" (click)="updateSaleOrder()">保存订单</button>-->
+    <button type="submit" class="btn btn-info" (click)="allInput()">保存</button>
+  </div>
+  <div class="header_box header_margin">
+    <div class="row">
+      <div class="col-xs-12">
+        <label class="seer_font">{{title}}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="header_border"></div>
+    </div>
+    <div class="row spbrow">
+      <div class="col-xs-12">
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label">销售编号</label>
+        </div>
+        <div class="col-xs-3">
+          <input class="form-control" readonly="readonly" type="text" [(ngModel)]="saleOrder.soNum" name="saleOrder.soNum"/>
+        </div>
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">终端单号</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!saleOrder.storeOrderNum}">
+          <input class="form-control" type="text" [(ngModel)]="saleOrder.storeOrderNum" name="saleOrder.storeOrderNum" required/>
+        </div>
+      </div>
+    </div>
+    <div class="row spbrow">
+      <div class="col-xs-12">
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">客户名称</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!saleOrder.customerId}">
+          <select class="form-control" (change)="typeChange(saleOrder.customerId)" [(ngModel)]="saleOrder.customerId" name="saleOrder.customerId" required>
+            <option value="">请选择</option>
+            <option *ngFor="let data of customerList" [ngValue]="data.id">{{data.customerName}}</option>
+          </select>
+        </div>
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">门店名称</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!saleOrder.customerStoreId}">
+          <select class="form-control" (change)="customerStoreChange(saleOrder.customerStoreId)" [(ngModel)]="saleOrder.customerStoreId" name="saleOrder.customerStoreId" required>
+            <option value="">请选择</option>
+            <option *ngFor="let data of customerStoreList" [value]="data.id">{{data.storeName}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row spbrow">
+      <div class="col-xs-12">
+        <!--<div class="col-xs-offset-1 col-xs-2">-->
+        <!--<label class="pull-right contract_label required">采购主题</label>-->
+        <!--</div>-->
+        <!--<div class="col-xs-3">-->
+        <!--<input class="form-control" type="text" [(ngModel)]="saleOrder.soNum"/>-->
+        <!--</div>-->
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label">销售分类</label>
+        </div>
+        <div class="col-xs-3">
+          <select class="form-control" [(ngModel)]="saleOrder.soCategory" name="saleOrder.soCategory">
+            <option value="">请选择</option>
+            <option *ngFor="let data of soCategoryDict" [value]="data.dictValueId">{{data.dictValueName}}</option>
+          </select>
+        </div>
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">送货地址</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!saleOrder.deliveryAddress}">
+          <input class="form-control" type="text" [(ngModel)]="saleOrder.deliveryAddress" name="saleOrder.deliveryAddress" required/>
+        </div>
+      </div>
+    </div>
+    <div class="row spbrow">
+      <div class="col-xs-12">
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">配送方式</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!saleOrder.shippingMethod}">
+          <select class="form-control" [(ngModel)]="saleOrder.shippingMethod" name="saleOrder.shippingMethod" required>
+            <option value="">请选择</option>
+            <option *ngFor="let data of shippingMethodDict" [value]="data.dictValueId">{{data.dictValueName}}</option>
+          </select>
+        </div>
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">送货截止时间</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!saleOrder.deliveryEndDate}">
+          <input class="form-control" [(ngModel)]="saleOrder.deliveryEndDate" name="saleOrder.deliveryEndDate" required close-on-select="true" date-only="true" ng2-datetime-picker/>
+        </div>
+      </div>
+    </div>
+    <div class="row spbrow">
+      <div class="col-xs-12">
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">币种</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!saleOrder.curType}">
+          <select class="form-control" [(ngModel)]="saleOrder.curType" name="saleOrder.curType" required>
+            <option value="">请选择</option>
+            <option *ngFor="let data of curTypeDict" [value]="data.dictValueId">{{data.dictValueName}}</option>
+          </select>
+        </div>
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">开具发票</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!saleOrder.invoiceReceipt}">
+          <select class="form-control" [(ngModel)]="saleOrder.invoiceReceipt" name="saleOrder.invoiceReceipt" required>
+            <option value="">请选择</option>
+            <option *ngFor="let data of invoiceReceiptDict" [value]="data.dictValueId">{{data.dictValueName}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row spbrow">
+      <div class="col-xs-12">
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">收款方式</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!saleOrder.receiptMethod}">
+          <select class="form-control" [(ngModel)]="saleOrder.receiptMethod" name="saleOrder.receiptMethod" required>
+            <option value="">请选择</option>
+            <option *ngFor="let data of receiptMethodDict" [value]="data.dictValueId">{{data.dictValueName}}</option>
+          </select>
+        </div>
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label">账期时间</label>
+        </div>
+        <div class="col-xs-3">
+          <input class="form-control" type="text"  [(ngModel)]="saleOrder.paymentDate" name="saleOrder.paymentDate"/>
+        </div>
+      </div>
+    </div>
+    <div class="row spbrow">
+      <div class="col-xs-12">
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label required">我方人员</label>
+        </div>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllInput&&!staffName}">
+          <div class="input-group">
+            <input class="form-control" type="text" readonly="readonly" [(ngModel)]="staffName" name="staffName" required/>
+            <span class="input-group-btn">
+            <button class="btn btn-default" tree-picker [data]="staffs" (notify)="onTreePickerNotify($event)" [excludeFolders]="true" [multiSelect]="false" [selectParentCascade]="false">选择</button>
+          </span>
+          </div>
+        </div>
+        <div class="col-xs-offset-1 col-xs-2">
+          <label class="pull-right contract_label">对方代表</label>
+        </div>
+        <div class="col-xs-3">
+          <input class="form-control" type="text" [(ngModel)]="saleOrder.partner" name="saleOrder.partner"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+  <tabset style="margin-top:15px;">
+    <tab heading='商品列表'>
+      <seer-card>
+        <seertotaltable #selectedGoodsTable [data]="selectedGoods" [titles]="selectedGoodsTitle" (notify)="onSelectedGoodsTableNotify($event)"
+                        [hideAddButton]="true" [hideExport]="true" [hidePrint]="true" [hideEditButton]="true"></seertotaltable>
+      </seer-card>
+    </tab>
+    <tab heading='赠品列表' *ngIf="selectedGiftGoods.length > 0">
+      <div dynamic-component>
+        <seer-card>
+          <seertotaltable #selectedGoodsGiftTable [data]="selectedGiftGoods" [titles]="selectedGiftGoodsTitle" (notify)="onSelectedGoodsGiftTableNotify($event)"
+                          [hideAddButton]="true" [hideExport]="true" [hidePrint]="true" [hideEditButton]="true"></seertotaltable>
+        </seer-card>
+      </div>
+    </tab>
+    <tab heading='物料列表' *ngIf="selectedMaterialGoods.length > 0">
+      <div dynamic-component>
+        <seer-card>
+          <seertotaltable #selectedGoodsMaterialTable [data]="selectedMaterialGoods" [titles]="selectedMaterialGoodsTitle" (notify)="onSelectedGoodsMaterialTableNotify($event)"
+                          [hideAddButton]="true" [hideExport]="true" [hidePrint]="true" [hideEditButton]="true"></seertotaltable>
+        </seer-card>
+      </div>
+    </tab>
+    <tab heading='销售限制'>
+      <div dynamic-component></div>
+    </tab>
+    <!--<tab heading='采购订单分析'>-->
+    <!--<div dynamic-component></div>-->
+    <!--</tab>-->
+  </tabset>
+

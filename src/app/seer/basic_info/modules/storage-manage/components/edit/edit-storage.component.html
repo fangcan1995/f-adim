@@ -1,0 +1,89 @@
+<form (ngSubmit)="save()">
+  <modal [animation]="true" [backdrop]="true">
+    <modal-header>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title">{{title}}</h4>
+    </modal-header>
+    <modal-body>
+
+      <div class="col-sm-12">
+        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+          <div class="form-group">
+            <label class="control-label">上级库房</label>
+            <input type="text" class="form-control" name="parentName" value="{{parentName}}" readonly>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-12">
+        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+          <div class="form-group" [ngClass]="{'has-error': checkAllinput && !storage.storageName}">
+            <label class="control-label required">库房名称</label>
+            <input type="text" class="form-control" id="resourceName" placeholder="" [(ngModel)]="storage.storageName" name="storageName"   value="{storage.storageName}" required >
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+          <div class="form-group">
+            <label class="control-label">品牌名称</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="" name="brandName" placeholder="" [(ngModel)]="storage.brandName" value="{storage.brandName}" readonly>
+              <span class="input-group-btn">
+                    <a class="btn btn-default " style="border-color:#ccc" (click)="loadBrandTree()"><i class="fa fa-search" aria-hidden="true"></i></a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+          <div class="form-group">
+            <label class="control-label">库房类型</label>
+            <select class="form-control" name="storageType" dict-select [key]="'STORAGE_TYPE'" [selected]="storage.storageType" [(ngModel)]="storage.storageType"></select>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+          <div class="form-group">
+            <label class="control-label">库房状态</label>
+            <select class="form-control" name="storageState" dict-select [key]="'STORAGE_STATE'" [selected]="storage.storageState" [(ngModel)]="storage.storageState"></select>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+          <div class="form-group" [ngClass]="{'has-error': checkAllinput && !storage.storageAdress}">
+            <label class="control-label required">库房地址</label>
+            <input type="text" class="form-control" id="resourceIcon" placeholder="" [(ngModel)]="storage.storageAdress"  name="storageAdress"  value="{storage.storageAdress}"  required >
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+          <div class="form-group">
+            <label class="control-label">备注说明</label>
+            <textarea type="text" class="form-control" id="storageRemark" placeholder="" [(ngModel)]="storage.storageRemark" name="storageRemark" >{storage.storageRemark}</textarea>
+          </div>
+        </div>
+      </div>
+    </modal-body>
+    <modal-footer>
+      <button type="submit" class="btn btn-primary" (click)="checkAllInput()">保存</button>
+      <button type="button" class="btn btn-default" (click)="closeModal()">关闭</button>
+    </modal-footer>
+  </modal>
+</form>
+<div dynamic-component></div>
+
+
+
+
+
+
+
+
+

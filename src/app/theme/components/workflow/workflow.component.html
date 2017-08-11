@@ -1,0 +1,9 @@
+<div class="workflow">
+  <ul class="steps">
+    <li *ngFor="let task of tasks" class="{{task.className}}">
+      <span class="step">{{task.level}}<i *ngIf="task.level==undefined" class="ion-checkmark-round"></i></span>
+      {{task.name}}
+      <span class="chevron"></span>
+    </li>
+  </ul>
+</div>

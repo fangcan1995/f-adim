@@ -1,0 +1,244 @@
+@import '../../../../../../theme/sass/conf/conf';
+
+.modal-body {
+  position: relative;
+  padding: 25px;
+  height:600px;
+  overflow:auto;
+}
+
+.modal-body > table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+  border-spacing: 0;
+  border-collapse: collapse;
+  padding-left: 25px;
+  font-family: 'Open Sans', 'Segoe UI';
+  font-size: 13px;
+}
+
+.modal-body > .table {
+  background-color: #fff;
+  margin-bottom-: 5;
+  border: 1px #1f2021;
+  color: #2b2b2b;
+}
+
+.modal-body > .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 1px solid #ddd;
+}
+
+.modal-body > .table-bordered, .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+  border: 1px solid #ddd;
+  border: 1px solid rgba(233, 233, 233, 1) !important;
+}
+
+.modal-body > .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+  border: 1px solid #ddd;
+}
+
+.modal-body > .table > tbody > tr > td {
+  text-align: left;
+}
+
+.attach-title {
+  padding: 8px 10px 8px 8px;
+  position: relative;
+  display: inline-block;
+  font-size:13px;
+  color: #646464;
+  background-color: #fff;
+  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, .3);
+  box-shadow: 0 0 3px rgba(0, 0, 0, .3);
+  margin-bottom:10px;
+}
+
+.attach-title:before {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -4px;
+  width: 4px;
+  max-width: 4px;
+  overflow: hidden;
+  background-color: #2dc3e8;
+}
+.input-group-btn{
+  font-size: 14px;
+}
+.input-group-btn > .btn {
+  height: 35px;
+  margin-left: -1px !important;
+}
+.acting_label{
+  margin-top:10px;
+  float:right;
+}
+.person_space{
+  margin-top: 10px;
+}
+
+.org_list_space{
+  margin-top: 13px;
+}
+
+.cognate_top{
+  margin-top: 0px;
+}
+.cognate_mid{
+  margin-top: 15px;
+}
+.cognate_foot{
+  margin-top: 20px;
+}
+
+.person_cognate{
+  margin-top: 20px;
+}
+
+.person_td{
+  width: 250px;
+}
+
+.car_label{
+  margin-top:10px;
+}
+
+.spbrow{
+  margin-top:15px;
+}
+
+.header_border {
+  border-bottom: solid;
+  border-color: #00abff;
+}
+
+.acting_header_box{
+  background-color: white;
+  margin-bottom: 50px;
+  padding:15px;
+}
+
+label.required:after {
+  content: " *";
+  color: red;
+}
+
+
+.picture-group {
+  border: 1px dashed #b8b8b8;
+  width: 202px;
+  height: 177px;
+  position: relative;
+  cursor: pointer;
+.picture-wrapper {
+  width: 200px;
+  height: 175px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+i {
+  display: none;
+  position: absolute;
+  font-size: 32px;
+  background: $default;
+  cursor: pointer;
+  color: $primary;
+  top: -11px;
+  right: -11px;
+  height: 26px;
+  border-radius: 50%;
+  &:before {
+   line-height: 26px;
+ }
+&:hover {
+   color: $danger;
+ }
+}
+a.change-picture {
+  display: none;
+  width: 202px;
+  background: rgba(0, 0, 0, 0.7);
+  transition: all 200ms ease-in-out;
+  color: $default-text;
+  text-decoration: none;
+  position: absolute;
+  bottom: -1px;
+  left: -1px;
+  line-height: 32px;
+  text-align: center;
+}
+&:hover {
+i {
+  display: block;
+}
+.change-picture {
+  display: block;
+}
+}
+
+.loading {
+  width: 100%;
+  height: 100%;
+  left: 0;
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+}
+.spinner {
+  width: 60px;
+  height: 60px;
+  position: relative;
+}
+.double-bounce1, .double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #fff;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+  animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% {
+    -webkit-transform: scale(0.0)
+  }
+  50% {
+    -webkit-transform: scale(1.0)
+  }
+}
+
+@keyframes sk-bounce {
+  0%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  }
+  50% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+}

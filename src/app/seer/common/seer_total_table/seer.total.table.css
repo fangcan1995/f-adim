@@ -1,0 +1,41 @@
+.table_nombre {
+  position:absolute;
+  background-color: #80b9e9;
+  padding:10px;
+  color:white;
+}
+.header_border {
+  border-bottom: solid;
+  border-color: #00abff;
+}
+
+.seer_font{
+  font-size: 11px;
+  font-family: 'Microsoft Sans Serif' , Arial, Helvetica, Verdana;
+}
+
+
+.seer_a_font{
+  color:#00abff;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+.number_input{
+  max-width: 100px;
+}
+
+.total{
+  margin-top:15px;
+}
+
+.total-padding{
+  position: absolute;
+  left:-3px;
+}
+td{
+  width: 245px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

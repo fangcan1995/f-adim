@@ -1,0 +1,206 @@
+<div>
+  <div class="tree-header_box leftSide card">
+    <div class="row">
+      <div class="col-xs-12">
+        <label>{{title}}</label>
+      </div>
+      <div class="col-xs-12 header_border">
+      </div>
+    </div>
+    <div class="tree-header_box">
+      <seer-tree
+        [nodes]="organizations"
+        [permissions]="selectedPermissions"
+        [defaultNodeName]="'新节点'"
+        [loadingText]="'加载中...'"
+        (notify)="onNotify($event)"
+      ></seer-tree>
+    </div>
+  </div>
+  <div  *ngIf="data.length>0&&node.data.orgName&&!currentTarget.relateId" class="tree-header_box rightSide card">
+    <div class="row">
+      <div class="col-xs-12">
+        <label>{{rightTitle}}</label>
+      </div>
+      <div class="col-xs-12 header_border">
+      </div>
+      <div class="col-xs-12 target-top">
+      </div>
+    </div>
+    <seertable
+      [data]="targetDate"
+      [titles]="titles"
+      [titleOption]="titleOption"
+      (notify)="onChange($event)"
+    ></seertable>
+  </div>
+  <div  *ngIf="data.length>0&&node.data.orgName&&currentTarget.relateId" class="tree-header_box rightSide card">
+    <div class="row">
+      <div class="col-xs-12">
+        <label>{{rightTitle}}</label>
+      </div>
+      <div class="col-xs-12 header_border">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-2"><label class="person_label">开始时间</label></div>
+      <div class="col-xs-3 person_space">
+        <input
+          readonly="readonly"
+          class="form-control"
+          [(ngModel)]="currentTarget.beginDate"
+          close-on-select="true"
+          date-only="true"
+          ng2-datetime-picker
+        />
+      </div>
+      <div class="col-xs-2"><label class="person_label">结束时间</label></div>
+      <div class="col-xs-3 person_space">
+        <input
+          readonly="readonly"
+          class="form-control"
+          [(ngModel)]="currentTarget.endDate"
+          close-on-select="true"
+          date-only="true"
+          ng2-datetime-picker
+        />
+      </div>
+      <div class="col-xs-2"></div>
+    </div>
+    <div class="row">
+      <div class="col-xs-2"><label class="person_label">运营资金</label></div>
+      <div class="col-xs-3">
+        <input type="text" class="form-control person_space" [(ngModel)]="currentTarget.cost"/>
+      </div>
+      <div class="col-xs-2"><label class="person_label">新增门店</label></div>
+      <div class="col-xs-3">
+        <input type="text" class="form-control person_space" [(ngModel)]="currentTarget.openUpStoreNum"/>
+      </div>
+      <div class="col-xs-2"></div>
+    </div>
+    <div class="row">
+      <div class="col-xs-2"><label class="person_label">销售目标</label></div>
+      <div class="col-xs-3">
+        <input type="text" class="form-control person_space" [(ngModel)]="currentTarget.saleTarget"/>
+      </div>
+      <div class="col-xs-2"><label class="person_label">回款目标</label></div>
+      <div class="col-xs-3">
+        <input type="text" class="form-control person_space" [(ngModel)]="currentTarget.receivedPayments"/>
+      </div>
+      <div class="col-xs-2"></div>
+    </div>
+    <div class="row">
+      <div class="col-xs-2"><label class="person_label">主管品牌</label></div>
+      <div class="col-xs-3">
+        <span class="input-group-btn">
+              <a class="btn btn-default target_choose" (click)="loadBrandTree(treeType)"><i class="fa fa-search" aria-hidden="true"></i>选择品牌</a>
+        </span>
+      </div>
+      <div class="col-xs-7"></div>
+    </div>
+    <div class="col-xs-12 spbrow">
+      <button type="button" class="btn btn-default" (click)="cancel()">关闭</button>
+      <button type="button"
+              class="btn btn-info"
+              [disabled]=""
+              (click)="saveTarget()"
+      >保存
+      </button>
+    </div>
+  </div>
+
+  <div  *ngIf="data.length>0&&!node.data.orgName&&!currentTarget.relateId" class="tree-header_box rightSide card">
+    <div class="row">
+      <div class="col-xs-12">
+        <label>{{rightTitle}}</label>
+      </div>
+      <div class="col-xs-12 header_border">
+      </div>
+      <div class="col-xs-12 target-top">
+      </div>
+    </div>
+    <seertable
+      [data]="targetDate"
+      [titles]="titles"
+      [titleOption]="titleOption"
+      (notify)="onChange($event)"
+    ></seertable>
+  </div>
+  <div  *ngIf="data.length>0&&!node.data.orgName&&currentTarget.relateId" class="tree-header_box rightSide card">
+    <div class="row">
+      <div class="col-xs-12">
+        <label>{{rightTitle}}</label>
+      </div>
+      <div class="col-xs-12 header_border">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-2"><label class="person_label">开始时间</label></div>
+      <div class="col-xs-3 person_space">
+        <input
+          readonly="readonly"
+          class="form-control"
+          [(ngModel)]="currentTarget.beginDate"
+          close-on-select="true"
+          date-only="true"
+          ng2-datetime-picker
+        />
+      </div>
+      <div class="col-xs-2"><label class="person_label">结束时间</label></div>
+      <div class="col-xs-3 person_space">
+        <input
+          readonly="readonly"
+          class="form-control"
+          [(ngModel)]="currentTarget.endDate"
+          close-on-select="true"
+          date-only="true"
+          ng2-datetime-picker
+        />
+      </div>
+      <div class="col-xs-2"></div>
+    </div>
+    <div class="row">
+      <div class="col-xs-2"><label class="person_label">运营资金</label></div>
+      <div class="col-xs-3">
+        <input type="text" class="form-control person_space" [(ngModel)]="currentTarget.cost"/>
+      </div>
+      <div class="col-xs-2"><label class="person_label">新增门店</label></div>
+      <div class="col-xs-3">
+        <input type="text" class="form-control person_space" [(ngModel)]="currentTarget.openUpStoreNum"/>
+      </div>
+      <div class="col-xs-2"></div>
+    </div>
+    <div class="row">
+      <div class="col-xs-2"><label class="person_label">销售目标</label></div>
+      <div class="col-xs-3">
+        <input type="text" class="form-control person_space" [(ngModel)]="currentTarget.saleTarget"/>
+      </div>
+      <div class="col-xs-2"><label class="person_label">回款目标</label></div>
+      <div class="col-xs-3">
+        <input type="text" class="form-control person_space" [(ngModel)]="currentTarget.receivedPayments"/>
+      </div>
+      <div class="col-xs-2"></div>
+    </div>
+    <div class="row">
+      <div class="col-xs-2"><label class="person_label">主管门店</label></div>
+      <div class="col-xs-3">
+        <span class="input-group-btn">
+              <a class="btn btn-default target_choose" (click)="loadStoreTree(treeType)"><i class="fa fa-search" aria-hidden="true"></i>选择门店</a>
+        </span>
+      </div>
+      <div class="col-xs-7"></div>
+    </div>
+    <div class="col-xs-12 spbrow">
+      <button type="button" class="btn btn-default" (click)="cancel()">关闭</button>
+      <button type="button"
+              class="btn btn-info"
+              [disabled]=""
+              (click)="saveTarget()"
+      >保存
+      </button>
+    </div>
+  </div>
+</div>
+<div dynamic-component></div>
