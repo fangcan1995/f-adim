@@ -1,24 +1,21 @@
-<div class="page-top clearfix" baScrollPosition maxHeight="50" (scrollChange)="scrolledChanged($event)"
-     [ngClass]="{scrolled: isScrolled}">
-  <a routerLink="/pages/dashboard" class="al-logo clearfix"><span>ng2-</span>admin</a>
+<div class="page-top clearfix" baScrollPosition maxHeight="50" (scrollChange)="scrolledChanged($event)" [ngClass]="{scrolled: isScrolled}">
+  <a  class="al-logo clearfix"><img src="../../../../assets/img/theme/logo.png"></a>
   <a href (click)="toggleMenu()" class="collapse-menu-link ion-navicon"></a>
 
-  <div class="search">
-    <i class="ion-ios-search-strong" ng-click="startSearch()"></i>
-    <input id="searchInput" type="text" placeholder="Search for...">
-  </div>
-
   <div class="user-profile clearfix">
+    <div class="hello-login-name">欢迎，{{getLoginName()}}。</div>
     <div class="dropdown al-user-profile">
       <a class="profile-toggle-link dropdown-toggle" id="user-profile-dd" data-toggle="dropdown" aria-expanded="false">
-        <img src="{{ ( 'Nasta' | baProfilePicture ) }}">
+        <img src="{{loginImage}}">
       </a>
       <ul class="dropdown-menu top-dropdown-menu profile-dropdown" aria-labelledby="user-profile-dd">
-        <li class="dropdown-item"><a href><i class="fa fa-user"></i>Profile</a></li>
-        <li class="dropdown-item"><a href><i class="fa fa-cog"></i>Settings</a></li>
-        <li class="dropdown-item"><a href class="signout"><i class="fa fa-power-off"></i>Sign out</a></li>
+        <li class="dropdown-item"><i class="dropdown-arr"></i></li>
+        <li class="dropdown-item"><a href><i class="fa fa-user"></i>个人信息</a></li>
+        <li class="dropdown-item"><a href="javascript:void(0);" (click)="onChangePassword()"><i class="fa fa-cog"></i>修改密码</a></li>
+        <li class="dropdown-item"><a href (click)="logout()"><i class="fa fa-power-off"></i>退出登录</a></li>
       </ul>
     </div>
     <ba-msg-center></ba-msg-center>
   </div>
 </div>
+<div dynamic-component></div>

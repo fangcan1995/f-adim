@@ -13,8 +13,12 @@ export class GlobalState {
     this._dataStream$.subscribe((data) => this._onEvent(data));
   }
 
+  /**
+   * 若value不同则触发订阅事件
+   * @param event
+   * @param value
+   */
   notifyDataChanged(event, value) {
-
     let current = this._data[event];
     if (current !== value) {
       this._data[event] = value;
@@ -26,11 +30,38 @@ export class GlobalState {
     }
   }
 
+  /**
+   * 触发订阅事件
+   * @param event
+   * @param value
+   */
+  notify(event, value) {
+    this._data[event] = value;
+
+    this._data.next({
+      event: event,
+      data: this._data[event]
+    });
+  }
+
+  /**
+   * 订阅事件
+   * @param event
+   * @param callback
+   */
   subscribe(event: string, callback: Function) {
     let subscribers = this._subscriptions.get(event) || [];
     subscribers.push(callback);
 
     this._subscriptions.set(event, subscribers);
+  }
+
+  /**
+   * 取消订阅
+   * @param event
+   */
+  unsubscribe(event: string) {
+    this._subscriptions.delete(event);
   }
 
   _onEvent(data: any) {

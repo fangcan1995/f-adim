@@ -1,8 +1,10 @@
 @import '../../sass/conf/conf';
 
 .content-top {
-  padding-top: 13px;
-  padding-bottom: 27px;
+  padding: 12px 10px 12px 24px;
+  margin: -8px -32px 25px -40px;
+  background-color: #fff;
+  box-shadow: 2px 0 3px rgba(0, 0, 0, 0.5);
 }
 
 h1.al-title {
@@ -12,7 +14,7 @@ h1.al-title {
   width: auto;
   margin: 0;
   padding: 0;
-  font-size: 24px;
+  font-size: 17px;
   text-transform: uppercase;
   opacity: 0.9;
 }
@@ -20,12 +22,11 @@ h1.al-title {
 .al-breadcrumb {
   background: none;
   color: $default-text;
-  padding: 0;
+  padding: 2px 0 0 15px;
   margin: 0;
-  float: right;
-  padding-top: 11px;
+  float: left;
   li {
-    font-size: 18px;
+    font-size: 13px;
     font-weight: $font-normal;
     a {
       color: $primary-light;
@@ -44,4 +45,80 @@ h1.al-title {
   > a {
     font-size: 19px;
   }
+}
+
+.header-buttons {
+
+  float: right;
+
+}
+
+.function-button {
+  font-size: 28px;
+  position: relative;
+  vertical-align: middle;
+  display: inline-block;
+  height: 44px;
+  margin-top: -12px;
+  margin-bottom: -12px;
+  margin-right: 2px;
+  padding: 10px;
+  color: #dfdfdf !important;
+  -webkit-transition: all .218s ease;
+  -moz-transition: all .218s ease;
+  -o-transition: all .218s ease;
+  transition: all .218s ease;
+  cursor: pointer;
+}
+
+.full-screen-toggler:before {
+  background-color: #fb6e52;
+}
+.refresh-toggler:before {
+  background-color: #ffce55;
+}
+.sidebar-toggler:before {
+  background-color: #2dc3e8;
+}
+
+.full-screen-toggler:hover {
+  color: #fb6e52 !important;
+}
+.refresh-toggler:hover {
+  color: #ffce55 !important;
+}
+.sidebar-toggler:hover {
+  color: #2dc3e8 !important;
+}
+
+.full-screen-toggler.active {
+  color: #fb6e52 !important;
+}
+.sidebar-toggler.active {
+  color: #2dc3e8 !important;
+}
+
+.function-button:before {
+  display: block;
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  right: 0;
+  height: 4px;
+  max-height: 4px;
+  overflow: hidden;
+  z-index:1;
+}
+
+.function-button:hover {
+  -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+  -moz-box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+  box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+}
+
+.function-button.active {
+  -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+  -moz-box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+  box-shadow: 0 0 20px rgba(0, 0, 0, .2);
 }

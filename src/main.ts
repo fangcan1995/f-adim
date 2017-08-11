@@ -1,10 +1,14 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { environment } from '././environments/environment';
+
+// 在polyfills.ts中会报Promise被第三方库覆盖的错误，所以移到这里
+
+/***************************************************************************************************
+ * Zone JS is required by Angular itself.
+ */
+import 'zone.js/dist/zone';  // Included with Angular CLI.
+
 import { AppModule } from './app/app.module';
 
-if (environment.production) {
-  enableProdMode();
-}
 
 platformBrowserDynamic().bootstrapModule(AppModule);

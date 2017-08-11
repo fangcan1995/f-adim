@@ -43,7 +43,7 @@
   color: $content-text;
   @include placeholderStyle($content-text, 0.7);
   border: 1px solid $input-border;
-  border-radius: 5px;
+  border-radius: 0px;
   background-color: $input-background;
   box-shadow: none;
   font-size: 14px;
@@ -314,10 +314,6 @@ label.custom-input-danger {
 
 .input-demo {
   line-height: 25px;
-
-  ba-multi-checkbox {
-    width: 100%;
-  }
 }
 
 @mixin validationState($color, $focusColor) {
@@ -389,9 +385,9 @@ label.custom-input-danger {
 }
 
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
-  background-color: $input-background;
+  background-color: rgba(233, 233, 233, 0.4);
   color: $disabled;
-  border-color: $disabled-bg;
+/*  border-color: $disabled-bg;*/
   @include placeholderStyle($default-text, 0.5);
 }
 
@@ -402,10 +398,6 @@ label.custom-input-danger {
 .help-block {
   color: $help-text;
   vertical-align: sub;
-}
-
-.raiting-box {
-  display: flex;
 }
 
 .help-block.error-block {
@@ -680,4 +672,14 @@ label.custom-checkbox {
       }
     }
   }
+}
+.form-page-header{
+  background-color: white;
+  position: relative;
+  top:-24px;
+  left:-36px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-left:5px;
+  margin-right: -68px;
 }

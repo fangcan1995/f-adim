@@ -60,8 +60,9 @@ a {
 }
 
 .al-main {
+  //z-index:0;
   margin-left: $left-space;
-  padding: 66px 0 34px 0;
+  padding: $page-top-height 0 34px 0;
   min-height: 500px;
   position: relative;
 }
@@ -160,12 +161,11 @@ a {
 }
 
 .icon-up {
-  //@include bg-nr('arrow-green-up.svg');
-  background: url('/assets/img/arrow-green-up.svg') no-repeat 0 0;
+  @include bg-nr('arrow-green-up.svg');
 }
 
 .icon-down {
-  background: url('/assets/img/arrow-red-down.svg') no-repeat 0 0;
+  @include bg-nr('arrow-red-down.svg');
 }
 
 .disable-text-selection {

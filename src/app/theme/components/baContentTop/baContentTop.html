@@ -1,10 +1,19 @@
 <div class="content-top clearfix">
-  <h1 class="al-title" translate>{{ activePageTitle }}</h1>
-
+  <h1 class="al-title">
+    <i class="fa fa-home"></i>
+  </h1>
   <ul class="breadcrumb al-breadcrumb">
-    <li class="breadcrumb-item">
-      <a routerLink="/pages/dashboard" translate>{{'general.home'}}</a>
-    </li>
-    <li class="breadcrumb-item active" translate>{{ activePageTitle }}</li>
+    <li *ngFor="let bc of breadcrumbs" class="breadcrumb-item">{{bc}}</li>
   </ul>
+  <div class="header-buttons">
+    <a class="function-button full-screen-toggler" [(class.active)]="isScreenFull" id="full-screen-toggler" (click)="toggleFullScreen()">
+      <i class="ion-android-expand"></i>
+    </a>
+    <a class="function-button refresh-toggler" id="refresh-toggler" (click)="refreshPage()">
+      <i class="ion-refresh"></i>
+    </a>
+    <a class="function-button sidebar-toggler" [(class.active)]="isMenuCollapsed" id="sidebar-toggler" (click)="toggleMenu()">
+      <i class="ion-arrow-expand"></i>
+    </a>
+  </div>
 </div>

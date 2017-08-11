@@ -1,11 +1,12 @@
-import {Component, Input} from '@angular/core';
+import {Component, ViewEncapsulation, ViewChild, Input} from '@angular/core';
 
 @Component({
   selector: 'ba-card',
-  templateUrl: './baCard.html',
+  template: './baCard.html',
+  styleUrls: ['./baCard.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class BaCard {
-  @Input() cardTitle:String;
+  @Input() title:String;
   @Input() baCardClass:String;
-  @Input() cardType:String;
 }

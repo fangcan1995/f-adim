@@ -1,16 +1,24 @@
-import {Component, ElementRef, HostListener} from '@angular/core';
+import {Component, ElementRef, HostListener, ViewEncapsulation} from '@angular/core';
 import {GlobalState} from '../../../global.state';
-import {layoutSizes} from '../../../theme';
+import {MENU} from '../../../app.menu';
+import * as _ from 'lodash';
+import {layoutSizes} from "../../theme.constants";
 
 @Component({
   selector: 'ba-sidebar',
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './baSidebar.html',
-  styleUrls: ['./baSidebar.scss']
+  styleUrls: ['./baSidebar.scss'],
 })
 export class BaSidebar {
+
+  // here we declare which routes we want to use as a menu in our sidebar
+  public routes = JSON.parse(localStorage.getItem("leftMenus")); // we're creating a deep copy since we are going to change that object
+
   public menuHeight:number;
   public isMenuCollapsed:boolean = false;
   public isMenuShouldCollapsed:boolean = false;
+
 
   constructor(private _elementRef:ElementRef, private _state:GlobalState) {
 
@@ -55,8 +63,9 @@ export class BaSidebar {
   }
 
   public updateSidebarHeight():void {
-    // TODO: get rid of magic 84 constant
-    this.menuHeight = this._elementRef.nativeElement.childNodes[0].clientHeight - 84;
+    // TODO: get rid of magic 42 constant
+    //魔数42：一条菜单的高度
+    this.menuHeight = this._elementRef.nativeElement.childNodes[0].clientHeight - 42;
   }
 
   private _shouldMenuCollapse():boolean {

@@ -4,8 +4,6 @@ import {ControlValueAccessor, NgModel} from '@angular/forms';
 @Component({
   selector: 'ba-multi-checkbox[ngModel]',
   templateUrl: './baMultiCheckbox.html',
-  styleUrls: ['./baMultiCheckbox.scss'],
-  providers: [NgModel]
 })
 export class BaMultiCheckbox implements ControlValueAccessor {
   @Input() baMultiCheckboxClass:string;
@@ -21,6 +19,7 @@ export class BaMultiCheckbox implements ControlValueAccessor {
 
   public getProp(item: any, propName: string): string {
     const prop = this.propertiesMapping[propName];
+
     if (!prop) {
       return item[propName];
     } else if (typeof prop === 'function') {
@@ -38,7 +37,7 @@ export class BaMultiCheckbox implements ControlValueAccessor {
     this.onChange = function(state: boolean) {
       this.writeValue(state);
       this.model.viewToModelUpdate(state);
-    };
+    }
   }
   public registerOnTouched(fn: any): void { this.onTouch = fn; }
 }

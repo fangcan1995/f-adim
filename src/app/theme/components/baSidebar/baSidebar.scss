@@ -1,8 +1,126 @@
 @import '../../sass/conf/conf';
 
 $sidebar-scroll-width: 4px;
-$angle-left: '\f100';
-$angle-right: '\f101';
+$angle-left: "\f100";
+$angle-right: "\f101";
+
+.al-sidebar {
+  width: $sidebar-width;
+  top: $top-height;
+  left: 0;
+  z-index: 1;
+  display: block;
+  min-height: 100%;
+  background-color: $sidebar;
+  height: 100%;
+  position: fixed;
+  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, .2);
+  -moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, .2);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, .2);
+}
+
+.al-sidebar-list {
+  margin: 0;
+  overflow: hidden;
+  padding: 0 0 0 0;
+  list-style: none;
+}
+
+.al-sidebar-list-item {
+  display: block;
+  position: relative;
+  float: none;
+  padding: 0;
+  &.selected:not(.with-sub-menu) {
+    border-left: solid 4px $primary;
+    a.al-sidebar-list-link {
+      color: $sidebar-text;
+      margin-left: -4px;
+      b {
+        color: $sidebar-text;
+      }
+    }
+  }
+}
+
+.ba-sidebar-item-expanded {
+  > ul.al-sidebar-sublist {
+    display: block!important;
+  }
+
+}
+
+.al-sidebar-list-item, .ba-sidebar-sublist-item {
+  &.ba-sidebar-item-expanded {
+    > .al-sidebar-list-link {
+      b {
+        transform: rotate(180deg);
+      }
+    }
+
+    > .al-sidebar-sublist {
+      display: block;
+    }
+  }
+}
+
+a.al-sidebar-list-link {
+  display: block;
+  height: 42px;
+  padding-left: 16px;
+  text-shadow: none;
+  font-size: 13px;
+  text-decoration: none;
+  color: $sidebar-text;
+  line-height: 42px;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+  &:hover {
+    color: $primary;
+    b {
+      color: $primary;
+    }
+  }
+  i {
+    margin-right: 14px;
+    width: 16px;
+    font-size: 16px;
+    display: inline-block;
+  }
+  b {
+    display: block;
+    opacity: 1;
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+    text-shadow: none;
+    font-size: 18px;
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    padding: 0;
+    text-align: center;
+    color: $sidebar-text;
+    transition: transform 0.2s linear;
+  }
+}
+
+.slimScrollBar, .slimScrollRail {
+  border-radius: 0 !important;
+  width: $sidebar-scroll-width !important;
+  left: $sidebar-width - $sidebar-scroll-width;
+}
+
+@mixin layout-collapsed() {
+  .al-main {
+    margin-left: 46px;
+  }
+
+  .al-footer {
+    padding-left: 83px
+  }
+}
 
 @mixin default-sublist() {
   padding: 0;
@@ -24,162 +142,219 @@ $angle-right: '\f101';
       font-size: 13px;
       text-decoration: none;
       color: $sidebar-text;
-      padding-left: 52px;
-      height: auto;
-      line-height: 29px;
+      padding-left: 46px;
+      height: 42px;
+      line-height: 42px;
       &:hover {
         color: $primary;
       }
     }
     &.selected:not(.with-sub-menu) > a {
-      border: none;
-      background-color: $primary;
+      border-left: solid 4px $primary;
+      //background-color: $primary;
       &:hover {
         color: $sidebar-text;
+      }
+      & > span{
+        margin-left: -4px;
       }
     }
 
   }
 }
 
-:host /deep/ {
+.al-sidebar-sublist {
+  @include default-sublist();
+}
+
+
+
+.sidebar-hover-elem{
+  width: $sidebar-scroll-width;
+  background: $primary;
+  position: absolute;
+  top: -150px;
+  left: $sidebar-width - $sidebar-scroll-width;
+  transition: all 0.5s ease;
+  transition-property: top, height;
+  height: 42px;
+  display: block;
+  z-index: 3;
+}
+
+.sidebar-select-elem {
+  display: block;
+  top: 94px;
+}
+
+@mixin sidebar-collapsed() {
+  .al-sidebar {
+    width: 46px;
+
+    .fa-angle-down, .fa-angle-up {
+      opacity: 0;
+    }
+
+    .al-sidebar-sublist {
+      position: absolute;
+      top: -1px;
+      left: 46px;
+      //@include bg-translucent-dark(0.8);
+      width: 0;
+      display: block;
+      overflow: hidden;
+      transition: width 0.5s ease;
+      &.slide-right {
+        width: 135px;
+      }
+      &:before {
+        display: none;
+      }
+      li {
+        &:before {
+          display: none;
+        }
+        a {
+          padding-left: 18px;
+          padding-right: 18px;
+          min-width: 130px;
+          white-space: nowrap;
+        }
+      }
+    }
+
+    .sidebar-hover-elem, .sidebar-select-elem {
+      left: 48px;
+    }
+  }
+}
+
+@mixin sidebar-hidden() {
+  .al-sidebar {
+    width: 0;
+  }
+  .sidebar-hover-elem, .sidebar-select-elem {
+    display: none;
+  }
+}
+
+@mixin sidebar-overlap() {
   .al-sidebar {
     width: $sidebar-width;
-    top: $top-height;
-    left: 0;
-    z-index: 1001;
-    display: block;
-    min-height: 100%;
-    background-color: $sidebar;
-    height: 100%;
-    position: fixed;
-  }
+    //@include bg-translucent-dark(0.75);
+    transition: width 0.5s ease;
 
-  .al-sidebar-list {
-    margin: 0;
-    overflow: hidden;
-    padding: 18px 0 0 0;
-    list-style: none;
-  }
-
-  .al-sidebar-sublist .subitem-submenu-list {
-    padding-left: 15px;
-  }
-
-  .subitem-submenu-link {
-    .fa {
-      top: 7px;
-    }
-  }
-
-  .al-sidebar-list-item {
-    display: block;
-    position: relative;
-    float: none;
-    padding: 0;
-    &.selected:not(.with-sub-menu) {
-      background-color: $primary;
-      a.al-sidebar-list-link {
-        color: $sidebar-text;
-        b {
-          color: $sidebar-text;
-        }
-      }
-    }
-  }
-
-  .ba-sidebar-item-expanded {
-    > ul.al-sidebar-sublist {
-      display: block !important;
-    }
-
-  }
-
-  .al-sidebar-list-item, .ba-sidebar-sublist-item {
-    &.ba-sidebar-item-expanded {
-      > .al-sidebar-list-link {
-        b {
-          transform: rotate(180deg);
-        }
-      }
-
-      > .al-sidebar-sublist {
-        display: block;
-      }
-    }
-  }
-
-  a.al-sidebar-list-link {
-    display: block;
-    height: 42px;
-    padding-left: 18px;
-    text-shadow: none;
-    font-size: 13px;
-    text-decoration: none;
-    color: $sidebar-text;
-    line-height: 42px;
-    white-space: nowrap;
-    overflow: hidden;
-    cursor: pointer;
-    &:hover {
-      color: $primary;
-      b {
-        color: $primary;
-      }
-    }
-    i {
-      margin-right: 18px;
-      width: 16px;
-      display: inline-block;
-    }
-    b {
-      display: block;
+    .fa-angle-down, .fa-angle-up {
       opacity: 1;
-      width: 14px;
-      height: 14px;
-      line-height: 14px;
-      text-shadow: none;
-      font-size: 18px;
-      position: absolute;
-      right: 10px;
-      top: 12px;
-      padding: 0;
-      text-align: center;
-      color: $sidebar-text;
-      transition: transform 0.2s linear;
+    }
+
+    .al-sidebar-sublist {
+      @include default-sublist();
+      top: auto;
+      left: auto;
+      background: none;
+      width: auto;
+      overflow: visible;
+      transition: none;
+    }
+
+    .sidebar-hover-elem, .sidebar-select-elem {
+      left: $sidebar-width - 4;
+      transition: left 0.5s ease;
     }
   }
+}
 
+.menu-collapsed {
   .slimScrollBar, .slimScrollRail {
-    border-radius: 0 !important;
-    width: $sidebar-scroll-width !important;
-    left: $sidebar-width - $sidebar-scroll-width;
+    display: none!important;
   }
+}
 
-  .al-sidebar-sublist {
-    @include default-sublist();
-  }
-
-  .sidebar-hover-elem {
-    width: $sidebar-scroll-width;
-    background: $primary;
-    position: absolute;
-    top: -150px;
-    left: $sidebar-width - $sidebar-scroll-width;
-    transition: all 0.5s ease;
-    transition-property: top, height;
-    height: 42px;
-    display: block;
-  }
-
-  .sidebar-select-elem {
-    display: block;
-    top: 94px;
-  }
-
+@media (min-width: 1200px) {
   .menu-collapsed {
-    .slimScrollBar, .slimScrollRail {
-      display: none !important;
-    }
+    @include layout-collapsed();
   }
+}
+
+@media (min-width: $resXS + 1) {
+  .menu-collapsed {
+    @include sidebar-collapsed();
+  }
+}
+
+@media (max-width: 1200px) and (min-width: $resXS) {
+  @include layout-collapsed();
+}
+
+@media (max-width: 1200px) {
+  @include sidebar-overlap();
+}
+
+@media (max-width: $resXS) {
+  .menu-collapsed {
+    @include sidebar-hidden();
+  }
+  .al-main {
+    margin-left: 0;
+  }
+  .al-footer {
+    padding-left: 0;
+  }
+}
+ba-sidebar > .al-sidebar > ba-menu > .al-sidebar > div > .al-sidebar-list > ba-menu-item > .al-sidebar-list-item > ul.al-sidebar-sublist > ba-menu-item:first-child > .ba-sidebar-sublist-item:first-child {
+  -webkit-box-shadow: inset 0 4px 4px -2px rgba(0, 0, 0, .15);
+  -moz-box-shadow: inset 0 4px 4px -2px rgba(0, 0, 0, .15);
+  box-shadow: inset 0 4px 4px -2px rgba(0, 0, 0, .15)
+}
+
+ba-sidebar > .al-sidebar > ba-menu > .al-sidebar > div > .al-sidebar-list > ba-menu-item > .al-sidebar-list-item > ul.al-sidebar-sublist > ba-menu-item:last-child > .ba-sidebar-sublist-item:first-child {
+  -webkit-box-shadow: inset 0 -4px 4px -2px rgba(0, 0, 0, .15);
+  -moz-box-shadow: inset 0 -4px 4px -2px rgba(0, 0, 0, .15);
+  box-shadow: inset 0 -4px 4px -2px rgba(0, 0, 0, .15)
+}
+
+ba-sidebar > .al-sidebar > ba-menu > .al-sidebar > div > .al-sidebar-list > ba-menu-item > .al-sidebar-list-item > ul.al-sidebar-sublist:before{
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 1;
+  left: 27px;
+  top: 0;
+  bottom: 19px;
+  border-left: 1px solid #e2e2e2;
+}
+
+ba-sidebar > .al-sidebar > ba-menu > .al-sidebar > div > .al-sidebar-list > ba-menu-item > .al-sidebar-list-item > ul.al-sidebar-sublist{
+  background-color: #fbfbfb;
+}
+
+ba-sidebar > .al-sidebar > ba-menu > .al-sidebar > div > .al-sidebar-list > ba-menu-item > .al-sidebar-list-item > ul.al-sidebar-sublist ul.al-sidebar-sublist{
+  border-top: 1px solid #e2e2e2;
+  border-bottom: 1px solid #e2e2e2;
+  z-index: 2;
+  background-color: #fbfbfb;
+}
+
+ba-sidebar > .al-sidebar > ba-menu > .al-sidebar > div > .al-sidebar-list > ba-menu-item > .al-sidebar-list-item > ul.al-sidebar-sublist ul.al-sidebar-sublist a{
+  padding-left:69px;
+}
+//ba-sidebar > .al-sidebar > ba-menu > .al-sidebar > div > .al-sidebar-list > ba-menu-item > .al-sidebar-list-item > ul.al-sidebar-sublist > ba-menu-item > .ba-sidebar-sublist-item > a{
+//  padding-left:15px;
+//}
+
+ba-sidebar > .al-sidebar > ba-menu > .al-sidebar > div > .al-sidebar-list > ba-menu-item > .al-sidebar-list-item{
+  border-bottom: 1px solid #f3f3f3;
+}
+ba-sidebar > .al-sidebar > ba-menu > .al-sidebar > div > .al-sidebar-list > ba-menu-item > .al-sidebar-list-item > ul.al-sidebar-sublist > ba-menu-item > .ba-sidebar-sublist-item > a:before{
+  content: "";
+  display: inline-block;
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  left: 25px;
+  top: 17px;
+  background-color: #fff;
+  border: 1px solid #e2e2e2;
+  z-index: 2;
 }

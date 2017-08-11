@@ -1,17 +1,17 @@
-import { Injectable } from '@angular/core';
-
-import { BaThemeConfigProvider } from './theme.configProvider';
-import { colorHelper } from './theme.constants';
+import {Injectable} from '@angular/core';
+import {BaThemeConfigProvider} from './theme.configProvider';
+import {colorHelper} from './theme.constants';
 
 @Injectable()
 export class BaThemeConfig {
 
-  constructor(private _baConfig: BaThemeConfigProvider) {
+  constructor(private _baConfig:BaThemeConfigProvider) {
+    this._config();
   }
 
-  config() {
-    // this._baConfig.changeTheme({ name: 'my-theme' });
-    //
+  private _config() {
+    // this._baConfig.changeTheme({name: 'my-theme'});
+
     // let colorScheme = {
     //   primary: '#209e91',
     //   info: '#2dacd1',
@@ -19,10 +19,9 @@ export class BaThemeConfig {
     //   warning: '#dfb81c',
     //   danger: '#e85656',
     // };
-    //
     // this._baConfig.changeColors({
     //   default: '#4e4e55',
-    //   defaultText: '#aaaaaa',
+    //   defaultText: '#e2e2e2',
     //   border: '#dddddd',
     //   borderDark: '#aaaaaa',
     //
@@ -50,11 +49,6 @@ export class BaThemeConfig {
     //     silverTree: '#6eba8c',
     //     gossip: '#b9f2a1',
     //     white: '#10c4b5',
-    //   },
-    //
-    //   custom: {
-    //     dashboardPieChart: colorHelper.hexToRgbA('#aaaaaa', 0.8),
-    //     dashboardLineChart: '#6eba8c',
     //   },
     // });
   }

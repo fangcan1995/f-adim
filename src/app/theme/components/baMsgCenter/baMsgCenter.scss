@@ -19,7 +19,7 @@
   float: right;
   padding: 0;
   list-style: none;
-  margin: 13px 47px 0 0;
+  margin: 5px 47px 0 0;
 
   li {
     list-style: none;
@@ -29,22 +29,22 @@
       margin-left: 0;
     }
     & > a {
-      color: $sidebar-text;
+      color: #ffffff;
       text-decoration: none;
-      font-size: 13px;
+      font-size: 20px;
       position: relative;
       span {
         display: inline-block;
         min-width: 10px;
         padding: 2px 4px 2px 4px;
-        color: $sidebar-text;
+        color: #282828;
         vertical-align: baseline;
         white-space: nowrap;
         text-align: center;
         border-radius: 13px;
         text-shadow: none;
         line-height: 11px;
-        background-color: $danger;
+        background-color: #e9e9e9;
         position: absolute;
         top: -5px;
         right: -14px;
@@ -58,32 +58,18 @@
         position: absolute;
         top: -18px;
         right: -27px;
-        animation: pulsate 8s ease-out;
+        animation: pulsate 4s ease-out;
         animation-iteration-count: infinite;
         opacity: 0.0
       }
 
       &:hover {
         color: $danger;
-        &.msg {
-          color: $primary;
-        }
-      }
-      &.msg {
-        span {
-          background-color: $primary;
-        }
-        .notification-ring {
-          border-color: $primary;
-        }
       }
     }
     &.open {
       & > a {
         color: $danger;
-        &.msg {
-          color: $primary;
-        }
       }
     }
   }
@@ -112,7 +98,7 @@
   width: 316px;
   left: auto;
   right: -47px;
-  top: 26px;
+  top: $top-dropdown-height;
   @include scrollbars(.4em, rgba(0,0,0,0.5), #fff);
   .header {
     padding: 10px 12px;
@@ -207,8 +193,8 @@
 
   &.profile-dropdown {
     width: 145px;
-    top: 55px;
-    right: -25px;
+    top: 30px;
+    right: -16px;
     a {
       text-align: left;
       border: none;

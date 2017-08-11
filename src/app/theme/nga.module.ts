@@ -2,8 +2,6 @@ import { NgModule, ModuleWithProviders }      from '@angular/core';
 import { CommonModule }  from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgUploaderModule } from 'ngx-uploader';
-import { AppTranslationModule } from '../app.translation.module';
 
 import {
   BaThemeConfig
@@ -14,10 +12,8 @@ import {
 } from './theme.configProvider';
 
 import {
-  BaAmChart,
   BaBackTop,
   BaCard,
-  BaChartistChart,
   BaCheckbox,
   BaContentTop,
   BaFullCalendar,
@@ -28,7 +24,14 @@ import {
   BaPageTop,
   BaPictureUploader,
   BaSidebar,
-  BaFileUploader
+  ModalComponent,
+  ModalHeaderComponent,
+  ModalBodyComponent,
+  ModalFooterComponent,
+  SeerCard,
+  WorkflowComponent,
+  TimelineComponent,
+  SeerCheckbox
 } from './components';
 
 import { BaCardBlur } from './components/baCard/baCardBlur.directive';
@@ -36,7 +39,10 @@ import { BaCardBlur } from './components/baCard/baCardBlur.directive';
 import {
   BaScrollPosition,
   BaSlimScroll,
-  BaThemeRun
+  BaThemeRun,
+  ClickOutsideDirective,
+  DynamicComponentLoader,
+  FormValidatorDirective
 } from './directives';
 
 import {
@@ -47,7 +53,6 @@ import {
 
 import {
   BaImageLoaderService,
-  BaMenuService,
   BaThemePreloader,
   BaThemeSpinner
 } from './services';
@@ -57,11 +62,23 @@ import {
   EqualPasswordsValidator
 } from './validators';
 
+import {
+  TreeModule
+} from './modules';
+import {Ng2BootstrapModule} from "ng2-bootstrap";
+import {TreePickerComponent} from "./components/tree-picker/tree-picker.component";
+import {TreePickerDirective} from "./components/tree-picker/tree-picker.directive";
+import {ChangePasswordComponent} from "./components/baChangePassword/baChangePassword.component";
+import {CheckboxPickerComponent} from "./components/checkbox-picker/checkbox-picker.component";
+import {CheckboxPickerDirective} from "./components/checkbox-picker/checkbox-picker.directive";
+
+// import {MaterialModule} from "@angular/material";
+
+import { CKEditorModule } from 'ng2-ckeditor';
+
 const NGA_COMPONENTS = [
-  BaAmChart,
   BaBackTop,
   BaCard,
-  BaChartistChart,
   BaCheckbox,
   BaContentTop,
   BaFullCalendar,
@@ -70,16 +87,31 @@ const NGA_COMPONENTS = [
   BaMsgCenter,
   BaMultiCheckbox,
   BaPageTop,
+  ChangePasswordComponent,
   BaPictureUploader,
   BaSidebar,
-  BaFileUploader
+  ModalComponent,
+  ModalHeaderComponent,
+  ModalBodyComponent,
+  ModalFooterComponent,
+  SeerCard,
+  TreePickerComponent,
+  TreePickerDirective,
+  WorkflowComponent,
+  TimelineComponent,
+  SeerCheckbox,
+  CheckboxPickerComponent
 ];
 
 const NGA_DIRECTIVES = [
   BaScrollPosition,
   BaSlimScroll,
   BaThemeRun,
-  BaCardBlur
+  BaCardBlur,
+  ClickOutsideDirective,
+  DynamicComponentLoader,
+  FormValidatorDirective,
+  CheckboxPickerDirective
 ];
 
 const NGA_PIPES = [
@@ -91,13 +123,19 @@ const NGA_PIPES = [
 const NGA_SERVICES = [
   BaImageLoaderService,
   BaThemePreloader,
-  BaThemeSpinner,
-  BaMenuService
+  BaThemeSpinner
 ];
 
 const NGA_VALIDATORS = [
   EmailValidator,
   EqualPasswordsValidator
+];
+
+const NGA_SUB_MODULES = [
+  // MaterialModule,
+  Ng2BootstrapModule,
+  TreeModule,
+  CKEditorModule
 ];
 
 @NgModule({
@@ -107,17 +145,22 @@ const NGA_VALIDATORS = [
     ...NGA_COMPONENTS
   ],
   imports: [
+    ...NGA_SUB_MODULES,
     CommonModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule,
-    AppTranslationModule,
-    NgUploaderModule
+    ReactiveFormsModule
   ],
   exports: [
     ...NGA_PIPES,
     ...NGA_DIRECTIVES,
-    ...NGA_COMPONENTS
+    ...NGA_COMPONENTS,
+    ...NGA_SUB_MODULES
+  ],
+  entryComponents: [
+    TreePickerComponent,
+    ChangePasswordComponent,
+    CheckboxPickerComponent
   ]
 })
 export class NgaModule {
