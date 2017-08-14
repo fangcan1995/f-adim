@@ -15,7 +15,6 @@ export const routes: Routes = [
       { path: 'role-manage', loadChildren:'./modules/role-manage/role-manage.module#RoleManageModule' },
       { path: 'resource-manage', loadChildren: './modules/resource-manage/resource-manage.module' },
       { path: 'dict-manage', loadChildren: './modules/dict-manage/dict-manage.module' },
-      { path: 'workflow-manage', loadChildren: './modules/workflow-manage/workflow-manage.module' },
       { path: 'template-manage', loadChildren: './modules/template-manage/template-manage.module#TemplateManageModule' },
       { path: 'company-manage', loadChildren: './modules/company-manage/company.manage.module' }
     ]

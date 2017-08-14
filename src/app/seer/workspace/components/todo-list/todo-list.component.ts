@@ -1,7 +1,6 @@
 import {Component, ViewEncapsulation, OnInit} from "@angular/core";
 import {WorkspaceService} from "../../workspace.service";
 import {Result} from "../../../model/result.class";
-import {TaskRepresentation} from "../../../model/workflow/task-representation";
 import {Router} from "@angular/router";
 import {ORDER_STATE} from "../../../const";
 @Component({
@@ -32,7 +31,7 @@ export class TodoListComponent implements OnInit {
     }
   }
 
-  getLabelName(task:TaskRepresentation){
+  getLabelName(task:any){
     switch (task.category){
       case '00':
         return '采购订单审批';
@@ -54,7 +53,7 @@ export class TodoListComponent implements OnInit {
     return '';
   }
 
-  getLabelColor(task:TaskRepresentation){
+  getLabelColor(task:any){
     switch (task.category){
       case '00':
       case '01':

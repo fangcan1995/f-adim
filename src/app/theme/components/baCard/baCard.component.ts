@@ -2,7 +2,7 @@ import {Component, ViewEncapsulation, ViewChild, Input} from '@angular/core';
 
 @Component({
   selector: 'ba-card',
-  template: './baCard.html',
+  templateUrl: './baCard.html',
   styleUrls: ['./baCard.scss'],
   encapsulation: ViewEncapsulation.None
 })

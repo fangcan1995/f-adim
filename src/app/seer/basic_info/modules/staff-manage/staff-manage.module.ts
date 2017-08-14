@@ -13,7 +13,6 @@ import { TabsModule } from 'ng2-bootstrap/ng2-bootstrap';
 import {StaffManageComponent} from "./staff-manage.component";
 import {NgaModule} from "../../../../theme/nga.module";
 import {OrgListComponent} from "./components/orgList/org-list.component";
-import {TargetManageService} from "../target-manage/target-manage.service";
 
 
 @NgModule({
@@ -31,8 +30,7 @@ import {TargetManageService} from "../target-manage/target-manage.service";
     OrgListComponent,
   ],
   providers: [
-    StaffManageService,
-    TargetManageService
+    StaffManageService
   ]
 })
 export default class StaffManageModule {

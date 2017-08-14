@@ -13,7 +13,6 @@ import {BaseService} from "../../../base.service";
 import {UserEditComponent} from "./components/user-edit/user-edit.component";
 import {RoleManageService} from "../role-manage/role-manage.service";
 import {sharedModule} from "../../../common/shared.module";
-import {SaleManListBComponent} from "../../../basic_info/modules/customer-manage/components/saleman/saleman-list.component";
 
 @NgModule({
   imports: [
@@ -30,7 +29,6 @@ import {SaleManListBComponent} from "../../../basic_info/modules/customer-manage
     UserOperationComponent,
     UserEditComponent,
     UserAddedDialogComponent,
-    SaleManListBComponent
   ],
   providers: [
     UserManageService,

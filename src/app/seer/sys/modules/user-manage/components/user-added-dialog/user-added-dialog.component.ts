@@ -6,7 +6,6 @@ import {Component, OnInit, ViewChild} from "@angular/core";
 import {User} from "../../../../../model/auth/user";
 import {GlobalState} from "../../../../../../global.state";
 import {ModalComponent} from "../../../../../../theme/components/ng2-bs4-modal/modal";
-import {SaleManListBComponent} from "../../../../../basic_info/modules/customer-manage/components/saleman/saleman-list.component";
 import {jsonTree} from "../../../../../../theme/utils/json-tree";
 /**
  * Created by Administrator on 2016/12/21.
@@ -15,7 +14,7 @@ import {jsonTree} from "../../../../../../theme/utils/json-tree";
   selector: 'user-added-dialog',
   styleUrls: ['./user-added-dialog.scss'],
   templateUrl: './user-added-dialog.component.html',
-  entryComponents:[SaleManListBComponent]
+  entryComponents:[]
 })
 export class UserAddedDialogComponent extends BaseModalComponent implements OnInit{
 
