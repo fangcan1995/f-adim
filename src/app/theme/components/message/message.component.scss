@@ -1,0 +1,23 @@
+@import '../../../../theme/sass/conf/conf';
+:host /deep/ {
+	.message {
+		position: fixed;
+		z-index: 1001;
+		top: 24px;
+		right: 24px;
+		left: 24px;
+		pointer-events: none;
+		text-align: center;
+	}
+
+	.message-notice {
+		display: inline-block;
+		text-align: center;
+		background-color: #fff;
+		box-shadow: 0 2px 8px rgba(0,0,0,.2);
+		pointer-events: auto;
+		i {
+			margin-right: 8px;
+		}
+	}
+}

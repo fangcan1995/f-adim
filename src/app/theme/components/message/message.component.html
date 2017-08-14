@@ -1,0 +1,7 @@
+<div class="message message-{{ position }}" *ngIf="isDirty">
+  <div *ngFor="let messageNotice of messageNotices" [@messageInOut]="'in'">
+    <div class="alert message-notice" >
+      <i class="{{ messageNotice.icon }}"></i><span>{{ messageNotice.message }}</span>
+    </div>
+  </div>
+</div>
