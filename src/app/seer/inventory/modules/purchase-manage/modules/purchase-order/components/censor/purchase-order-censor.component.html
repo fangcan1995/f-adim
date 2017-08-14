@@ -1,9 +1,0 @@
-<div class="form-page-header">
-  <button type="button" class="btn btn-default" (click)="cancel()">取消审批</button>
-  <button type="button" class="btn btn-danger" (click)="refuse()">不通过</button>
-  <button type="button" class="btn btn-success" save-dialog [orderId]="purchaseOrder.id" [processKey]="process?.key" [isDraftNow]="false" (notify)="approve($event)">通过</button>
-</div>
-<purchase-order-detail [orderId]="purchaseOrder.id"></purchase-order-detail>
-<seer-card [bigPadding]="false" [title]="'订单审批'">
-  <textarea class="form-control" placeholder="审批意见" [(ngModel)]="censorDTO.remark"></textarea>
-</seer-card>

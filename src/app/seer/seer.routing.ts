@@ -13,10 +13,6 @@ export const routes: Routes = [
         { path: 'sys', loadChildren:'./sys/sys.module#SysModule' },
         { path: 'workspace', loadChildren:'./workspace/workspace.module#WorkspaceModule' },
         { path: 'basic', loadChildren:'./basic_info/basic_info.module#BasicInfoModule' },
-        { path: 'inventory', loadChildren:'./inventory/inventory.module#InventoryModule' },
-        { path: 'finance', loadChildren:'./finance/finance.module#FinanceModule' },
-        { path: 'plan', loadChildren:'./plan/plan.module#PlanModule' },
-        { path: 'analysis', loadChildren:'./analysis/analysis.module#AnalysisModule' },
        /* { path: 'standard', loadChildren:'./standard/standard.module#StandardModule' },*/
         // { path: 'pages', loadChildren: () => System.import('../pages/pages.module') },
       ]

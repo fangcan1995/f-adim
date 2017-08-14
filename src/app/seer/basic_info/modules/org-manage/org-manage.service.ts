@@ -6,8 +6,6 @@ import {BaseService} from "../../../base.service";
 import {SERVER} from "../../../const";
 /*import Any = jasmine.Any;*/
 import {Result} from "../../../model/result.class";
-import {Storage} from "../../../model/basic_info/Storage";
-import {StorageArea} from "../../../model/basic_info/StorageArea";
 
 
 @Injectable()

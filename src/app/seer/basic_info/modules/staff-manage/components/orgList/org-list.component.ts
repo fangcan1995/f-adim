@@ -2,7 +2,6 @@ import {Component, ViewChild, OnInit, EventEmitter, Output} from '@angular/core'
 import {Ng2Uploader} from "ng2-uploader";
 import {ModalComponent} from "../../../../../../theme/components/ng2-bs4-modal/modal";
 import {SeerTree} from "../../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
-import {TargetManageService} from "../../../target-manage/target-manage.service";
 import {Json} from "../../../../../login/Json";
 import {jsonTree} from "../../../../../../theme/utils/json-tree";
 import {TreeNode} from "../../../../../../theme/modules/seer-tree/models/tree-node.model";
@@ -22,17 +21,11 @@ export class OrgListComponent extends BaseModalComponent implements OnInit{
   @ViewChild(ModalComponent) modal;
   @ViewChild(SeerTree) seerTree: SeerTree;
 
-  constructor(private _targetManageService? :TargetManageService, private gs?:GlobalState){
+  constructor(private gs?:GlobalState){
     super();
   }
   ngOnInit(): void {
-    this._targetManageService.getOrganizations().subscribe((result:Json)=>{
-      if (result.success){
-        this.organizations = jsonTree(result.data,{id:'id',parentId:'orgParentId'},[{origin:'orgName',replace:'name'},{origin:'id',replace:'id'}]);
-      }else {
-        alert(result.message);
-      }
-    });
+
     this.init(this.modal);
   }
   orgData = [];

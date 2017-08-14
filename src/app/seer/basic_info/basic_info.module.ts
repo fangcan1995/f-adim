@@ -6,7 +6,6 @@ import { NgaModule } from '../../theme/nga.module';
 import { RatingModule } from 'ng2-bootstrap/ng2-bootstrap';
 import {BasicInfoComponent} from "./basic_info.component";
 import {basicInfoRouting} from "./basic_info.routing";
-import {carService} from "./modules/car-manage/car-manage.service";
 
 
 @NgModule({
@@ -21,7 +20,7 @@ import {carService} from "./modules/car-manage/car-manage.service";
     BasicInfoComponent,
   ],
   providers: [
-    carService,
+
   ],
   exports: [
   ]
