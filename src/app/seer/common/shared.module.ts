@@ -33,8 +33,6 @@ import {SaveDialogDirective} from "./save-dialog/save-dialog.directive";
 import {ProcessHistoryComponent} from "./process/process-history-modal.component";
 import {ProcessWorkflowComponent} from "./process/process-workflow.component";
 import {brandPickerComponent} from "./brandPicker/brand.picker.component";
-import {actingmatplanPickerComponent} from "./actingmatplanPicker/actingmatplan.picker.component";
-import {storePickerComponent} from "./storePicker/store.picker.component";
 
 import { CKEditorModule } from 'ng2-ckeditor';
 import {seerEditorComponent} from "./seer-editor/seer-editor";
@@ -56,8 +54,6 @@ import {ChartsModule} from "ng2-charts";
     seerListActionTableComponent,
     SaleManListComponent,
     brandPickerComponent,
-    actingmatplanPickerComponent,
-    storePickerComponent,
 
     InExStorageListComponent,
     InExStorageListEditComponent,
@@ -110,8 +106,6 @@ import {ChartsModule} from "ng2-charts";
     seerTotalTableComponent,
     seerListActionTableComponent,
     brandPickerComponent,
-    actingmatplanPickerComponent,
-    storePickerComponent,
 
     InExStorageListComponent,
     InExStorageListEditComponent,
