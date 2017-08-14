@@ -1,0 +1,66 @@
+import { Component, ViewChild, OnInit, OnDestroy } from "@angular/core";
+import { Router } from "@angular/router";
+import * as _ from 'lodash';
+import { MemberService } from './member.service';
+@Component({
+  selector: 'member',
+  templateUrl: './member.component.html',
+  styleUrls: ['./member.component.scss'],
+})
+export class MemberComponent implements OnInit, OnDestroy {
+  title = '角色列表';
+
+  data = [];
+
+  members = [];
+
+  titles = [
+    { key:'name', label:'用户名' },
+    { key:'real_name', label:'真实姓名', isDict: true },
+    { key:'id_number', label:'身份证号' },
+    { key:'mobile', label:'手机号' },
+
+  ];
+  constructor(
+    private _memberService: MemberService,
+    private _router: Router,
+  ) {}
+  ngOnInit(): void {
+    this.getList();
+  }
+  getList() {
+    this._memberService.getList()
+    .subscribe(res => {
+      this.members = res.data;
+    })
+  }
+  onChange(message) {
+    console.log(message)
+    const type = message.type;
+    let data = message.data;
+    switch ( type ) {
+      case 'add':
+        this._router.navigate(['/seer/basic/memeber/add']);
+        break;
+      case 'update': 
+        this._router.navigate(['/seer/basic/memeber/edit']);
+        break;
+      case 'delete':
+        this._memberService.deleteOne(message.data.id)
+        .subscribe(data => {
+          if ( data.success ){
+            this.getList();
+          }else {
+            alert("删除失败");
+          }
+        });
+        break;
+      case 'delete_all':
+        let ids = _(data).map(t => t.id).value();
+        break;
+    }
+  }
+  ngOnDestroy(): void {
+    console.log('member component destroied')
+  }
+}

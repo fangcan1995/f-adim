@@ -6,8 +6,9 @@ import {BaseService} from "../../base.service";
 
 @Component({
   selector: 'seertable',
-  styleUrls: ['./seer.table.css'],
   templateUrl: './seer.table.html',
+  styleUrls: ['./seer.table.scss'],
+  
   providers: [BaseService]
 })
 export class seerTableComponent implements OnInit {

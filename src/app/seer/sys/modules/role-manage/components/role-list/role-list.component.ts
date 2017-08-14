@@ -31,6 +31,7 @@ export class RoleListComponent implements OnInit{
 
   getAllData() {
     this.service.getRoles().then((data) => {
+      console.log(data)
       this.data = data.data;
       this.roles = data.data;
     });

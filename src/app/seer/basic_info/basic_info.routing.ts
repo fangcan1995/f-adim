@@ -21,6 +21,7 @@ export const routes: Routes = [
       { path: 'goods-manage', loadChildren:'./modules/goods-manage/goods-manage.module#GoodsManageModule' },
       { path: 'org-manage', loadChildren:'./modules/org-manage/org-manage.module' },
       { path: 'customer-manage', loadChildren:'./modules/customer-manage/customer-manage.module' },
+      { path: 'member', loadChildren:'./modules/member/member.module#MemberModule' },
     ]
   }
 ];

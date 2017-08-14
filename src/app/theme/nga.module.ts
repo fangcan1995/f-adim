@@ -54,7 +54,17 @@ import {
 import {
   BaImageLoaderService,
   BaThemePreloader,
-  BaThemeSpinner
+  BaThemeSpinner,
+  
+} from './services';
+
+import {
+  AuthService,
+  AuthGuard,
+  MessageService,
+  UserService,
+  LoggerService,
+  HttpInterceptorService,
 } from './services';
 
 import {
@@ -161,6 +171,9 @@ const NGA_SUB_MODULES = [
     TreePickerComponent,
     ChangePasswordComponent,
     CheckboxPickerComponent
+  ],
+  providers: [
+    HttpInterceptorService
   ]
 })
 export class NgaModule {
@@ -171,7 +184,12 @@ export class NgaModule {
         BaThemeConfigProvider,
         BaThemeConfig,
         ...NGA_VALIDATORS,
-        ...NGA_SERVICES
+        ...NGA_SERVICES,
+        AuthService,
+        AuthGuard,
+        MessageService,
+        UserService,
+        LoggerService,
       ],
     };
   }

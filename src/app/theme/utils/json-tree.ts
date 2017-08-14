@@ -90,7 +90,7 @@ interface JsonTreeConfig {
   children?:string,
 }
 
-interface renameConfig{
+interface renameConfig {
   origin:string,
   replace:string
 }
