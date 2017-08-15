@@ -1,0 +1,123 @@
+<div class="row">
+  <div class="col-sm-6">
+    <button class="btn btn-default" *ngIf="!hidePrint" type="button" (click)="importExcel()">导入</button>
+    <button class="btn btn-default" *ngIf="!hidePrint" disabled type="button">打印</button>
+    <div class="btn-group" dropdown  *ngIf="!hideExport">
+      <button type="button" class="btn btn-default" dropdownToggle addToggleClass="true">
+        导出
+      </button>
+      <ul class="dropdown-menu" dropdownMenu>
+        <li class="dropdown-item export">PDF</li>
+        <li class="dropdown-item export" (click)="exportExcel()">Excel</li>
+        <li class="dropdown-item export">Another Excel</li>
+        <li class="dropdown-item export" (click)="exportTempExcel()">导出模板Excel</li>
+        <!--<li class="dropdown-item export" (click)="importExcel()">导入Excel</li>-->
+      </ul>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <button class="btn btn-info pull-right" *ngIf="!hideAddButton" type="button" (click)="add()">新增</button>
+    <button class="btn btn-danger pull-right"
+            *ngIf="!hideRemoveAll"
+            type="button"
+            [disabled]="!renderSelectedNb()"
+            (click)="removeAll()"
+    >批量删除 {{renderSelectedNb()}}
+    </button>
+    <button class="btn btn-info pull-right"
+            *ngIf="showSelectButton"
+            type="button"
+            [disabled]="!renderSelectedNb()"
+            (click)="selectItem()"
+    >{{remderSelectButtonText()}} {{renderSelectedNb()}}
+    </button>
+    <div class="pull-right" *ngIf="!hideColonnes">
+      <ss-multiselect-dropdown
+        [options]="myOptions"
+        [(ngModel)]="selectedOptions"
+        (ngModelChange)="onChangeColonne($event)"
+        class="pull-right"
+      ></ss-multiselect-dropdown>
+    </div>
+  </div>
+</div>
+<div class="row">
+    <table
+      class="table table-hover table-bordered table-striped"
+      [mfData]="getData()"
+      #mf="mfDataTable" [(mfSortBy)]="sortBy"
+      [mfRowsOnPage]="rowsOnPage"
+      >
+      <thead>
+      <tr class="header_border">
+        <th>
+          <input
+            type="checkbox"
+            [(ngModel)]="select.all"
+            (click)="selectAll(select.all)"/>
+        </th>
+        <th *ngFor="let title of titles" class="text-center">
+          <mfDefaultSorter by="{{title.key}}"><b class="seer_font">{{title.label}}</b></mfDefaultSorter>
+        </th>
+        <th class="text-center" *ngIf="!hideActions"><b class="seer_font">操作</b></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of mf.data ">
+        <td><input type="checkbox" [(ngModel)]="item.selected" (click)="clickSingleSelect(item)"/></td>
+        <td *ngFor="let title of titles" class="text-center">
+
+          <div *ngIf="title.type=='link'">
+            <a (click)="openLink(item)">
+              <span class="seer_font seer_a_font">{{item[title.key]}}</span>
+            </a>
+          </div>
+          <div *ngIf="title.type=='input_number'">
+            <input  type="number" class="form-control" [(ngModel)]="item[title.key]"/>
+          </div>
+         <!-- <div *ngIf="title.type=='date'">
+            <span class="seer_font">{{renderDate(item[title.key]|date)}}</span>
+          </div>-->
+
+          <div *ngIf="title.type!='input_number'&&title.type!='link'&&displayOriginalData">
+            <span class="seer_font">{{renderValue(title,item[title.key])}}</span>
+          </div>
+          <div *ngIf="title.type!='input_number'&&title.type!='link'&&!displayOriginalData">
+            <span class="seer_font">{{item[title.key]}}</span>
+          </div>
+        </td>
+        <td class="text-center" *ngIf="!hideActions">
+          <button (click)="detail(item)" *ngIf="displayDetailButton" class="btn btn-xs btn-default">
+            详情
+          </button>
+          <button (click)="copyadd(item)" *ngIf="displayCopyButton" class="btn btn-xs btn-default">
+            复制新增
+          </button>
+          <button (click)="edit(item)" *ngIf="!hideEditButton" class="btn btn-xs btn-info"><i class="ion-edit">
+          </i>编辑</button>
+          <button (click)="clickAddNewButton(item)" *ngIf="addNewButton" class="btn btn-xs btn-info"><i class="ion-edit">
+          </i>{{addNewButton}}</button>
+          <button (click)="remove(item)" *ngIf="!hideRemoveButton"  class="btn btn-xs btn-danger"><i class="ion-close-round"></i> 删除</button>
+        </td>
+      </tr>
+      </tbody>
+      <tfoot>
+      <tr>
+        <td [attr.colspan]="titles.length + 2">
+          <div>
+            <mfBootstrapPaginator [rowsOnPageSet]="[10,15,30]"></mfBootstrapPaginator>
+          </div>
+
+        </td>
+      </tr>
+      </tfoot>
+    </table>
+
+</div>
+<seeralert
+  [type]="'confirm'"
+  [content]="alert_content"
+  [action]="action"
+  (notify)="onSelectAlert($event)"
+></seeralert>
+

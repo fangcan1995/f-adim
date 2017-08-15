@@ -8,12 +8,45 @@ import { MemberService } from './member.service';
   styleUrls: ['./member.component.scss'],
 })
 export class MemberComponent implements OnInit, OnDestroy {
+  hasGlobalFilter = true;
+  filters = [
+    {
+      key: 'name',
+      label: '用户名',
+      type: 'input.text',
+    },
+    {
+      key: 'real_name',
+      label: '真实姓名',
+      type: 'input.text',
+    },
+    {
+      key: 'gender',
+      label: '性别',
+      type: 'select',
+      options: [
+        {
+          content: '请选择'
+        },
+        {
+          value: '0',
+          content: '男'
+        },
+        {
+          value: '1',
+          content: '女',
+        }
+      ]
+    },
+    {
+      key: 'mobile',
+      label: '手机号',
+      type: 'input.text',
+    },
+  ]
   title = '角色列表';
-
   data = [];
-
   members = [];
-
   titles = [
     { key:'name', label:'用户名' },
     { key:'real_name', label:'真实姓名', isDict: true },
@@ -62,5 +95,8 @@ export class MemberComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     console.log('member component destroied')
+  }
+  handleFiltersChanged($event) {
+    console.log($event)
   }
 }
