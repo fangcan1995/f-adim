@@ -5,7 +5,7 @@ import { RatingModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { NgaModule } from '../../../../theme/nga.module';
 import { routing }       from './message.routing';
 import { MessageComponent } from './message.component';
-
+import { MessageEditComponent } from './components/message-edit/message-edit.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -16,6 +16,7 @@ import { MessageComponent } from './message.component';
   ],
   declarations: [
     MessageComponent,
+    MessageEditComponent,
   ],
   providers: [
   ],
