@@ -13,6 +13,7 @@ export const routes: Routes = [
         { path: 'sys', loadChildren:'./sys/sys.module#SysModule' },
         { path: 'workspace', loadChildren:'./workspace/workspace.module#WorkspaceModule' },
         { path: 'basic', loadChildren:'./basic_info/basic_info.module#BasicInfoModule' },
+        { path: 'message-manage', loadChildren:'./message-manage/message-manage.module#MessageManageModule' },
        /* { path: 'standard', loadChildren:'./standard/standard.module#StandardModule' },*/
         // { path: 'pages', loadChildren: () => System.import('../pages/pages.module') },
       ]

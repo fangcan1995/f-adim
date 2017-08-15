@@ -1,12 +1,27 @@
 <div class="row">
-
-  <div class="col-xs-4">
+  <!-- <div class="col-xs-4">
     <input type="text" class="form-control" [(ngModel)]=query
            *ngIf="!hideFilter"
            (keyup)=filter() placeholder="全局过滤"/>
+  </div> -->
+  <div class="col-xs-6">
+    <button class="btn btn-default" *ngIf="!hidePrint" style="margin-left:5px;"  type="button" (click)="importExcel()">导入</button>
+    <button class="btn btn-default" *ngIf="!hidePrint" style="margin-left:5px;" disabled type="button">打印</button>
+    <div class="btn-group" style="margin-left:5px;" dropdown  *ngIf="!hideExport">
+      <button type="button" class="btn btn-default" dropdownToggle addToggleClass="true">
+        导出
+      </button>
+      <ul class="dropdown-menu" dropdownMenu>
+        <li class="dropdown-item export">PDF</li>
+        <li class="dropdown-item export" (click)="exportExcel()">Excel</li>
+        <li class="dropdown-item export">Another Excel</li>
+        <li class="dropdown-item export" (click)="exportTempExcel()">导出模板Excel</li>
+        <!--<li class="dropdown-item export" (click)="importExcel()">导入Excel</li>-->
+      </ul>
+    </div>
   </div>
-  <div class="col-xs-8">
-    <button class="btn btn-info pull-right" style="margin-left:5px;"   *ngIf="!hideAddButton" type="button" (click)="add()">新增</button>
+  <div class="col-xs-6">
+    <button class="btn btn-info pull-right" style="margin-left:5px;" *ngIf="!hideAddButton" type="button" (click)="add()">新增</button>
     <button class="btn btn-danger pull-right"
             *ngIf="!hideRemoveAll"
             type="button"
@@ -23,22 +38,6 @@
             (click)="selectItem()"
     >{{remderSelectButtonText()}} {{renderSelectedNb()}}
     </button>
-    <div class="btn-group pull-right" style="margin-left:5px;" dropdown  *ngIf="!hideExport">
-      <button type="button" class="btn btn-default" dropdownToggle addToggleClass="true">
-        导出
-      </button>
-      <ul class="dropdown-menu" dropdownMenu>
-        <li class="dropdown-item export">PDF</li>
-        <li class="dropdown-item export" (click)="exportExcel()">Excel</li>
-        <li class="dropdown-item export">Another Excel</li>
-        <li class="dropdown-item export" (click)="exportTempExcel()">导出模板Excel</li>
-        <!--<li class="dropdown-item export" (click)="importExcel()">导入Excel</li>-->
-      </ul>
-    </div>
-    <button class="btn btn-default pull-right"  *ngIf="!hidePrint" style="margin-left:5px;" disabled type="button">打印</button>
-
-    <button class="btn btn-default pull-right"  *ngIf="!hidePrint" style="margin-left:5px;"  type="button" (click)="importExcel()">导入</button>
-
     <div class="pull-right" *ngIf="!hideColonnes">
       <ss-multiselect-dropdown
         [options]="myOptions"
@@ -48,21 +47,13 @@
         style="margin-left:5px"
       ></ss-multiselect-dropdown>
     </div>
-
-
   </div>
 </div>
-
-
-<div class="row"  style="overflow: auto; width: 102%;margin-top:5px; ">
-
-
+<div class="row" style="overflow: auto; width: 102%;margin-top:5px; ">
     <table class="table table-hover table-bordered table-striped" [mfData]="getData()"
            #mf="mfDataTable" [(mfSortBy)]="sortBy"
            [mfRowsOnPage]="rowsOnPage" >
- <!--     <table class="table table-hover table-bordered table-striped" [mfData]="getData()"
-             #mf="mfDataTable" [(mfSortBy)]="sortBy"
-             [mfRowsOnPage]="rowsOnPage" [(mfSortOrder)]="sortOrder">-->
+
       <thead>
       <tr class="header_border">
         <th><input type="checkbox"
@@ -73,12 +64,6 @@
         </th>
         <th class="text-center" *ngIf="!hideActions"><b class="seer_font">操作</b></th>
       </tr>
-      <!--         <tr>
-                 <th colspan="5">
-                   Filter by name:
-                   <input class="form-control" [(ngModel)]="filterQuery"/>
-                 </th>
-               </tr>-->
       </thead>
       <tbody>
       <tr *ngFor="let item of mf.data ">
@@ -121,7 +106,7 @@
       </tbody>
       <tfoot>
       <tr>
-        <td [attr.colspan]="titles.length+2">
+        <td [attr.colspan]="titles.length + 2">
           <div>
             <mfBootstrapPaginator [rowsOnPageSet]="[10,15,30]"></mfBootstrapPaginator>
           </div>

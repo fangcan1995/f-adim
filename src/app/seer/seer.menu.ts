@@ -1,17 +1,4 @@
-import {SYS_MENU} from "./sys/sys.menu";
 export const SEER_MENU = [
-  {
-    path: 'sys',
-    data:{
-      menu: {
-        title: '系统管理',
-        icon: 'fa fa-wrench',
-      }
-    },
-    children:[
-      ...SYS_MENU,
-    ]
-  },
   // {
   //   path: 'pages',
   //   data: {
