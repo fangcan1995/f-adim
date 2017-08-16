@@ -73,13 +73,15 @@ export class MemberComponent implements OnInit, OnDestroy {
     let data = message.data;
     switch ( type ) {
       case 'add':
-        this._router.navigate(['/seer/basic/memeber/add']);
+        this._router.navigate(['/seer/basic/member/add']);
         break;
       case 'update': 
-        this._router.navigate(['/seer/basic/memeber/edit']);
+        this._router.navigate([`/seer/basic/member/edit/${message.data.id}`]);
         break;
       case 'delete':
-        this._memberService.deleteOne(message.data.id)
+         console.log(123)
+         return
+       /* this._memberService.deleteOne(message.data.id)
         .subscribe(data => {
           if ( data.success ){
             this.getList();
@@ -90,7 +92,7 @@ export class MemberComponent implements OnInit, OnDestroy {
         break;
       case 'delete_all':
         let ids = _(data).map(t => t.id).value();
-        break;
+        break;*/
     }
   }
   ngOnDestroy(): void {

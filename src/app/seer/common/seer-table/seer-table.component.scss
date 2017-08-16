@@ -35,4 +35,23 @@
   .export{
     cursor:pointer;
   }
+  .btnGroup {
+    margin-bottom: 8px;
+  }
+  .btnGroup__left {
+    .btnGroup__item {
+      margin-right: 5px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+  .btnGroup__right {
+    .btnGroup__item {
+      margin-left: 5px;
+      &:last-child {
+        margin-left: 0;
+      }
+    }
+  }
 }

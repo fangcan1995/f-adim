@@ -1,37 +1,36 @@
-<div class="row">
-  <div class="col-sm-6">
-    <button class="btn btn-default" *ngIf="!hidePrint" type="button" (click)="importExcel()">导入</button>
-    <button class="btn btn-default" *ngIf="!hidePrint" disabled type="button">打印</button>
-    <div class="btn-group" dropdown  *ngIf="!hideExport">
-      <button type="button" class="btn btn-default" dropdownToggle addToggleClass="true">
-        导出
+<div class="row btnGroup">
+  <div class="col-sm-6 btnGroup__left">
+    <button class="btn btn-default btnGroup__item" *ngIf="!hidePrint" type="button" (click)="importExcel()">导入</button>
+    <button class="btn btn-default btnGroup__item" *ngIf="!hidePrint" disabled type="button">打印</button>
+    <div class="btn-group btnGroup__item" *ngIf="!hideExport">
+      <button type="button" class="btn btn-default dropdown-toggle" id="js-export-btn" data-toggle="dropdown" aria-expanded="false" >
+        导出<span class="caret"></span>
       </button>
-      <ul class="dropdown-menu" dropdownMenu>
+      <ul class="dropdown-menu"  aria-labelledby="js-export-btn" role="menu">
         <li class="dropdown-item export">PDF</li>
         <li class="dropdown-item export" (click)="exportExcel()">Excel</li>
         <li class="dropdown-item export">Another Excel</li>
         <li class="dropdown-item export" (click)="exportTempExcel()">导出模板Excel</li>
-        <!--<li class="dropdown-item export" (click)="importExcel()">导入Excel</li>-->
       </ul>
     </div>
   </div>
-  <div class="col-sm-6">
-    <button class="btn btn-info pull-right" *ngIf="!hideAddButton" type="button" (click)="add()">新增</button>
-    <button class="btn btn-danger pull-right"
+  <div class="col-sm-6 btnGroup__right">
+    <button class="btn btn-info pull-right btnGroup__item" *ngIf="!hideAddButton" type="button" (click)="add()">新增</button>
+    <button class="btn btn-danger pull-right btnGroup__item"
             *ngIf="!hideRemoveAll"
             type="button"
             [disabled]="!renderSelectedNb()"
             (click)="removeAll()"
     >批量删除 {{renderSelectedNb()}}
     </button>
-    <button class="btn btn-info pull-right"
+    <button class="btn btn-info pull-right btnGroup__item"
             *ngIf="showSelectButton"
             type="button"
             [disabled]="!renderSelectedNb()"
             (click)="selectItem()"
     >{{remderSelectButtonText()}} {{renderSelectedNb()}}
     </button>
-    <div class="pull-right" *ngIf="!hideColonnes">
+    <div class="pull-right btnGroup__item" *ngIf="!hideColonnes">
       <ss-multiselect-dropdown
         [options]="myOptions"
         [(ngModel)]="selectedOptions"

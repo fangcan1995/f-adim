@@ -33,8 +33,6 @@ export class SeerTableComponent implements OnInit {
   @Input() addNewButton; //新增自定义按钮
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
   public sortBy;
-
-
   public filterQuery = "";
   public rowsOnPage = 10;
   public sortOrder = '';
@@ -395,10 +393,6 @@ export class SeerTableComponent implements OnInit {
     a.download = filename;
     a.click();
   }
-
-
-
-
 
   renderValue(title,value){
     if(this.translate&&this.translate[title.key]){

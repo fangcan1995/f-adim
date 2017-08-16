@@ -5,7 +5,9 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {dataTableComponent} from "./data_table/data.table";
 import {Ng2SmartTableModule} from "ng2-smart-table";
-import {DropdownModule, ModalModule} from "ng2-bootstrap";
+
+// import { DropdownModule, ModalModule  } from 'ng2-bootstrap';
+import { BsDropdownModule, ModalModule  } from 'ngx-bootstrap';
 import {DataTableModule} from "angular2-datatable";
 import {seerTableComponent} from "./seer_table/seer.table";
 
@@ -33,6 +35,7 @@ import {ChartsModule} from "ng2-charts";
 
 import { SeerFilterComponent } from './seer-filter';
 import { SeerTableComponent } from './seer-table';
+import { SeerFoldingCardComponent } from './seer-folding-card';
 
 
 @NgModule({
@@ -50,8 +53,10 @@ import { SeerTableComponent } from './seer-table';
     seerAlertComponent,
     seerEditorComponent,
     seerPrintComponent,
+    
     SeerFilterComponent,
     SeerTableComponent,
+    SeerFoldingCardComponent,
   ],
   imports: [
     CommonModule,
@@ -59,7 +64,7 @@ import { SeerTableComponent } from './seer-table';
     FormsModule,
     ReactiveFormsModule,
     Ng2SmartTableModule,
-    DropdownModule,
+    BsDropdownModule,
     ModalModule,
     DataTableModule,
     MultiselectDropdownModule,
@@ -76,7 +81,7 @@ import { SeerTableComponent } from './seer-table';
   exports: [
     dataTableComponent,
     Ng2SmartTableModule,
-    DropdownModule,
+    BsDropdownModule,
     ModalModule,
     seerTableComponent,
     MultiselectDropdownModule,
@@ -96,8 +101,10 @@ import { SeerTableComponent } from './seer-table';
     seerEditorComponent,
     seerPrintComponent,
     ChartsModule,
+
     SeerFilterComponent,
     SeerTableComponent,
+    SeerFoldingCardComponent,
   ],
 
   entryComponents:[MultiPickerComponent]
