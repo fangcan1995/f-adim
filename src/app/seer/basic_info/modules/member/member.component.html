@@ -1,8 +1,15 @@
-<seer-card>
-  <seertable
+<seer-folding-card >
+  <seer-filter
+    [hasGlobalFilter]="hasGlobalFilter"
+    [filters]="filters"
+    (onFiltersChanged)=handleFiltersChanged($event)
+    ></seer-filter>
+</seer-folding-card>
+<seer-folding-card >
+  <seer-table
     [data]="members"
     [titles]="titles"
     [translate]="dict"
     (notify)="onChange($event)"
-  ></seertable>
-</seer-card>
+  ></seer-table>
+</seer-folding-card>

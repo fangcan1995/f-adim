@@ -1,15 +1,14 @@
 import {Component, ViewEncapsulation, OnInit, Input, Output, EventEmitter, OnChanges, ViewChild} from '@angular/core';
-import {ModalDirective} from "ng2-bootstrap";
+import { ModalDirective } from "ng2-bootstrap";
 
 
 
 @Component({
   selector: 'seeralert',
-  styleUrls: ['./seer_alert.css'],
   templateUrl: './seer_alert.html',
-
+  styleUrls: ['./seer_alert.css'],
 })
-export class seerAlertComponent implements OnInit  ,OnChanges{
+export class seerAlertComponent implements OnInit, OnChanges{
 
 
   @Input() type;
@@ -17,7 +16,7 @@ export class seerAlertComponent implements OnInit  ,OnChanges{
   @Input() action;
 
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
-  @ViewChild('childModal') public childModal:ModalDirective;
+  @ViewChild('childModal') public childModal: ModalDirective;
 
   constructor() {
   }

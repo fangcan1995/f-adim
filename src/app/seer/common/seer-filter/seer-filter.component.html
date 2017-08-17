@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-sm-4" *ngIf="hasGlobalFilter">
+    <input
+      type="text"
+      class="form-control filter__input"
+      placeholder="全局搜索"
+      [(ngModel)]=globalFilterValue
+      (keyup)=handleGlobalFilterInputChange()
+      />
+  </div>
+  <div class="col row">
+    <button
+      type="button"
+      class="btn btn-info align-self-center"
+      style="margin-top: 1px"
+      [class.complexfilter__btn--active]=isFiltersShown
+      (click)=handleComplexBtnClick()
+      >高级查询<i class="fa fa-angle-down fa-angle-up complexfilter__icon"></i></button>
+  </div>
+</div>
+<div [@slideInOut]="isFilterShown()" style="overflow: hidden;">
+  <div class="row filter__container">
+    <div class="col-sm-3" *ngFor="let filter of filters">
+      <label class="label-control">{{ filter.label }}</label>
+      <select
+        class="form-control filter__input"
+        *ngIf="filter.type === 'select'"
+        [(ngModel)]="filter.value"
+        (change)="handleFilterChange($event, filter)">
+        <option *ngFor="let option of filter.options" [ngValue]="option.value" >{{ option.content }}</option>
+      </select>
+      <input
+        class="form-control filter__input"
+        *ngIf="filter.type.indexOf('input') != -1"
+        [type]="filter.type.split('.')[1] || 'text'"
+        [(ngModel)]="filter.value"
+        (keyup)="handleFilterChange($event, filter)"/>
+    </div>
+  </div>
+</div>
+

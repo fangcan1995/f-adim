@@ -1,0 +1,27 @@
+.filter__container {
+	padding-top: 22px;
+}
+
+.filter__input,
+select.filter__input:not([size]):not([multiple]) {
+	padding: 0 7.5px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.complexfilter__icon {
+	font-style: normal;
+	margin-left: 8px;
+	-webkit-transform: rotate3d(0, 0, 1, 0);
+	        transform: rotate3d(0, 0, 1, 0);
+	transition: -webkit-transform 0.2s linear;
+	transition: transform 0.2s linear;
+	transition: transform 0.2s linear, -webkit-transform 0.2s linear;
+}
+
+.complexfilter__btn--active {
+  .complexfilter__icon {
+    -webkit-transform: rotate3d(0, 0, 1, 180deg);
+            transform: rotate3d(0, 0, 1, 180deg);
+  }
+}

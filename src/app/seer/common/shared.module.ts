@@ -2,9 +2,11 @@ import { NgModule, ModuleWithProviders }      from '@angular/core';
 import { CommonModule }  from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {dataTableComponent} from "./data_table/data.table";
 import {Ng2SmartTableModule} from "ng2-smart-table";
-import {DropdownModule, ModalModule} from "ng2-bootstrap";
+
+import { DropdownModule, ModalModule  } from 'ng2-bootstrap';
 import {DataTableModule} from "angular2-datatable";
 import {seerTableComponent} from "./seer_table/seer.table";
 
@@ -29,6 +31,12 @@ import {seerEditorComponent} from "./seer-editor/seer-editor";
 import {seerPrintComponent} from "./seer-print/seer-print";
 import {ChartsModule} from "ng2-charts";
 
+
+import { SeerFilterComponent } from './seer-filter';
+import { SeerTableComponent } from './seer-table';
+import { SeerFoldingCardComponent } from './seer-folding-card';
+
+
 @NgModule({
   declarations: [
     dataTableComponent,
@@ -44,6 +52,10 @@ import {ChartsModule} from "ng2-charts";
     seerAlertComponent,
     seerEditorComponent,
     seerPrintComponent,
+    
+    SeerFilterComponent,
+    SeerTableComponent,
+    SeerFoldingCardComponent,
   ],
   imports: [
     CommonModule,
@@ -88,6 +100,10 @@ import {ChartsModule} from "ng2-charts";
     seerEditorComponent,
     seerPrintComponent,
     ChartsModule,
+
+    SeerFilterComponent,
+    SeerTableComponent,
+    SeerFoldingCardComponent,
   ],
 
   entryComponents:[MultiPickerComponent]
