@@ -1,4 +1,4 @@
-import {Component, ViewEncapsulation,Input,OnInit} from "@angular/core";
+import {Component, ViewEncapsulation,OnInit} from "@angular/core";
 import {messageTplManageService} from "../../message-template.service"
 import {ActivatedRoute, Params} from "@angular/router";
 import {Location} from '@angular/common';
@@ -46,13 +46,10 @@ export class MessageTemplateEditComponent implements OnInit {
     });
   }
   save(canContinue: boolean = false): void {
-    let resourceIds = [];
     if (this.template.tplId) {
+      //console.log(this.template);
       /*修改*/
-      this.service.updateTemplate(
-        {tplId:this.template.tplId,tplName:this.template.tplName,tplCode:this.template.tplCode,tplType:this.template.tplType,
-          tplTitle:this.template.tplTitle,tplContent:this.template.tplContent,tplBusiness:this.template.tplBusiness,tplisSystem:this.template.tplisSystem}
-      ).then((result: Result) => {
+      this.service.updateTemplate(this.template).then((result: Result) => {
           if (result.success) {
             alert(result.message);
             this.template = result.data;
@@ -66,9 +63,7 @@ export class MessageTemplateEditComponent implements OnInit {
       /**/
     } else {
       /*新增*/
-      this.service.createTemplate({tplId:this.template.tplId,tplName:this.template.tplName,tplCode:this.template.tplCode,tplType:this.template.tplType,
-          tplTitle:this.template.tplTitle,tplContent:this.template.tplContent,tplBusiness:this.template.tplBusiness,tplisSystem:this.template.tplisSystem}
-        ).then((result: Result) => {
+      this.service.createTemplate(this.template).then((result: Result) => {
         if (result.success) {
           alert(result.message);
           this.template = result.data;
