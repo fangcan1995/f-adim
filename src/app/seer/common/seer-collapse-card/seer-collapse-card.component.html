@@ -1,0 +1,15 @@
+<div baCardBlur class="animated fadeIn card {{cardType}} {{baCardClass || ''}}" zoom-in>
+  <div
+    class="card-header clearfix"
+    *ngIf="title"
+    (click)="handleHeaderClick()"
+    [style.cursor]="canCollapse ? 'pointer' : 'auto'"
+    >
+    <h3 class="card-title">{{title}}</h3>
+  </div>
+  <div class="card-body" [@slideInOut]="isExpanded()" style="overflow: hidden;">
+    <div class="card-content">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

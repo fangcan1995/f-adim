@@ -1,1 +1,0 @@
-export * from './seer-folding-card.component'
