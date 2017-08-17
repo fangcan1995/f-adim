@@ -7,6 +7,10 @@ import { routing }       from './message-template.routing';
 import { MessageTemplateComponent } from './message-template.component';
 import { MessageTemplateEditComponent } from './components/message-template-edit/message-template-edit.component';
 
+import {BaseService} from "../../../base.service";
+import {sharedModule} from "../../../common/shared.module";
+import {messageTplManageService} from "./message-template.service";
+
 @NgModule({
   imports: [
     CommonModule,
@@ -14,12 +18,15 @@ import { MessageTemplateEditComponent } from './components/message-template-edit
     NgaModule,
     RatingModule,
     routing,
+    sharedModule
   ],
   declarations: [
     MessageTemplateComponent,
     MessageTemplateEditComponent,
   ],
   providers: [
+    BaseService,
+    messageTplManageService
   ],
   exports: [
   ]
