@@ -24,11 +24,6 @@
       <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
         <div class="form-group">
           <label for="inputTplType">模板所属类型</label>
-          <!--<select  class="form-control" name="inputTplType" id="inputTplType"    required>
-            <ng-container  *ngFor="let tplType of tplTypes">
-            <option  value="{{ tplType.tplTypeId }}" >{{ tplType.tplTypeName }}</option>
-            </ng-container>
-          </select>-->
           <select type="email" class="form-control" name="inputTplType" id="inputTplType" [(ngModel)]="template.tplType" dict-select required
                   [key]="'MESSAGE_TEMPLATE_TYPE'"
                   [topOption]="{dictValueId:'',dictValueName:'请选择'}"
@@ -67,9 +62,6 @@
       <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
         <div class="form-group">
           <label for="inputTplisSystem">是否系统模板</label>
-          <!--<select  class="form-control" name="inputTplisSystem" id="inputTplisSystem" required>
-            <option  *ngFor="let isSystem of isSystems" value="{{ isSystem.Id }}">{{ isSystem.titile}}</option>
-          </select>-->
           <select type="email" class="form-control" name="inputTplisSystem" id="inputTplisSystem" [(ngModel)]="template.tplisSystem" dict-select required
                   [key]="'IS_SYSMESSAGETEMPLATE'"
                   [topOption]="{dictValueId:'',dictValueName:'请选择'}"
