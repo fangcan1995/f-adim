@@ -8,4 +8,5 @@ export class Template extends BaseEntity{
   tplContent:string;
   tplBusiness:string;
   tplisSystem:string;
+
 }
