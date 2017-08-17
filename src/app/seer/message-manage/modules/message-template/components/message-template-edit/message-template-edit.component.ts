@@ -1,4 +1,4 @@
-import {Component, ViewEncapsulation,OnInit} from "@angular/core";
+import {Component, ViewEncapsulation,Input,OnInit} from "@angular/core";
 import {messageTplManageService} from "../../message-template.service"
 import {ActivatedRoute, Params} from "@angular/router";
 import {Location} from '@angular/common';
@@ -46,6 +46,7 @@ export class MessageTemplateEditComponent implements OnInit {
     });
   }
   save(canContinue: boolean = false): void {
+    let resourceIds = [];
     if (this.template.tplId) {
       //console.log(this.template);
       /*修改*/
