@@ -34,7 +34,7 @@ import {ChartsModule} from "ng2-charts";
 
 import { SeerFilterComponent } from './seer-filter';
 import { SeerTableComponent } from './seer-table';
-import { SeerFoldingCardComponent } from './seer-folding-card';
+import { SeerCollapseCardComponent } from './seer-collapse-card';
 
 
 @NgModule({
@@ -55,7 +55,7 @@ import { SeerFoldingCardComponent } from './seer-folding-card';
     
     SeerFilterComponent,
     SeerTableComponent,
-    SeerFoldingCardComponent,
+    SeerCollapseCardComponent,
   ],
   imports: [
     CommonModule,
@@ -103,7 +103,7 @@ import { SeerFoldingCardComponent } from './seer-folding-card';
 
     SeerFilterComponent,
     SeerTableComponent,
-    SeerFoldingCardComponent,
+    SeerCollapseCardComponent,
   ],
 
   entryComponents:[MultiPickerComponent]
