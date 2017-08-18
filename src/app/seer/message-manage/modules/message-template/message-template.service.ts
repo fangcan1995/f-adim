@@ -9,7 +9,7 @@ export class messageTplManageService extends BaseService<any>{
   private templateManageUrl = SERVER+'/sys/role';  // 接口，请修改
 
   /*返回列表*/
-  getTpls(){
+  getTpls(): Promise<Result>{
     return this.getAll(this.templateManageUrl);
   }
   /*根据id返回一条数据*/

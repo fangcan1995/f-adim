@@ -8,15 +8,15 @@
       <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
         <div class="form-group">
           <label for="inputTplName">模板名称</label>
-          <input type="text" class="form-control" name="inputTplName" id="inputTplName" [(ngModel)]="template.tplName" placeholder="模板名称" required maxlength="50">
+          <input type="text" class="form-control" name="inputTplName" id="inputTplName" [(ngModel)]="template.tplName"  required maxlength="50">
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
         <div class="form-group">
-          <label for="inputTplName">模板编码</label>
-          <input type="text" class="form-control" name="inputTplCode" id="inputTplCode" [(ngModel)]="template.tplCode" placeholder="模板编码" required maxlength="30">
+          <label for="inputTplCode">模板编码</label>
+          <input type="text" class="form-control" name="inputTplCode" id="inputTplCode" [(ngModel)]="template.tplCode"  required maxlength="30">
         </div>
       </div>
     </div>
@@ -29,8 +29,6 @@
                   [topOption]="{dictValueId:'',dictValueName:'请选择'}"
                   [selected]="template.tplType" >
           </select>
-          <!--<select type="email" class="form-control" name="inputValidState" id="inputValidState" [(ngModel)]="template.tplType" dict-select [key]="'VALID_STATE'" [topOption]="{dictValueId:'',dictValueName:'请选择'}" [selected]="role.validState" required>
-          </select>-->
         </div>
       </div>
     </div>
@@ -38,7 +36,7 @@
       <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
         <div class="form-group">
           <label for="inputTplTitle">标题</label>
-          <input type="text" class="form-control" name="inputTplTitle" id="inputTplTitle" [(ngModel)]="template.tplTitle" placeholder="标题" required maxlength="50">
+          <input type="text" class="form-control" name="inputTplTitle" id="inputTplTitle" [(ngModel)]="template.tplTitle"  required maxlength="50">
         </div>
       </div>
     </div>
