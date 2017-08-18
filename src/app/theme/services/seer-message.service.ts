@@ -23,7 +23,7 @@ class MessageNotice {
 }
 
 @Injectable()
-export class MessageService {
+export class SeerMessageService {
   private _onOpen$: Subject<any> = new Subject();
   private _onClose$: Subject<any> = new Subject();
   public messageNotices = [];

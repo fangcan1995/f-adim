@@ -5,5 +5,5 @@ export * from './auth.service';
 export * from './auth-guard.service';
 export * from './logger.service';
 export * from './user.service';
-export * from './message.service';
+export * from './seer-message.service';
 export * from './http-interceptor.service';

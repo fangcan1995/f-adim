@@ -10,12 +10,12 @@ import {
   transition
 } from '@angular/animations';
 
-import { MessageService } from '../../services/message.service';
+import { SeerMessageService } from '../../services/seer-message.service';
 
 @Component({
-  selector: 'message',
-  templateUrl: './message.component.html',
-  styleUrls: ['./message.component.scss'],
+  selector: 'seer-message',
+  templateUrl: './seer-message.component.html',
+  styleUrls: ['./seer-message.component.scss'],
   animations: [
       trigger('messageInOut', [
         state('in', style({
@@ -38,11 +38,11 @@ import { MessageService } from '../../services/message.service';
       ])
     ]
 })
-export class MessageComponent implements OnInit {
+export class SeerMessageComponent implements OnInit {
   public isDirty: boolean = false;
   public messageNotices: Array<any> = [];
   public messageInOut: string;
-  constructor(private _messageService: MessageService) {}
+  constructor(private _messageService: SeerMessageService) {}
   ngOnInit() {
     this._messageService.onOpen()
     .subscribe(messageNotices => {
