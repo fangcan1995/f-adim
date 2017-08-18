@@ -1,6 +1,7 @@
-import {Component, ViewEncapsulation, ViewChild, OnDestroy} from "@angular/core";
+import {Component, ViewEncapsulation} from "@angular/core";
 import {messageTplManageService} from "./message-template.service";
 import {Router} from "@angular/router";
+import {Location} from '@angular/common';
 import {Template} from "../../../model/auth/message-template";
 
 @Component({
@@ -10,20 +11,64 @@ import {Template} from "../../../model/auth/message-template";
   encapsulation: ViewEncapsulation.None
 })
 export class MessageTemplateComponent {
+  hasGlobalFilter = true;
+  filters = [
+    {
+      key: 'tplName',
+      label: '模板名称',
+      type: 'input.text',
+    },
+    {
+      key: 'tplCode',
+      label: '模板类型',
+      type: 'input.text',
+    },
+    {
+      key: 'tplType',
+      label: '消息模板类型',
+      type: 'select',
+      options: [
+        {
+          content: '请选择'
+        },
+        {
+          value: '1',
+          content: '站内信'
+        },
+        {
+          value: '2',
+          content: '短信',
+        }
+        ,
+        {
+          value: '3',
+          content: '邮件',
+        }
+      ]
+    },
+    {
+      key: 'tplisSystem',
+      label: '是否系统模板',
+      type: 'select',
+      options: [
+        {
+          content: '请选择'
+        },
+        {
+          value: '0',
+          content: '是'
+        },
+        {
+          value: '1',
+          content: '否',
+        }
+      ]
+    },
+  ]
   title = '消息模板';
   source = [];
   data=[];
   titles = [
-    {key:'account', label:'序号'},
-    {key:'tplName', label:'模板名称'},
-    {key:'tplCode', label:'模板编码'},
-    {key:'tplType', label:'模板类型'},
-    {key:'tplDeclaration', label:'参数说明'},
-    {key:'tplContent', label:'模板内容'},
-    {key:'tplisSystem', label:'系统模板'}
-
-  ];
-  titleOption =[
     {key:'account', label:'序号'},
     {key:'tplName', label:'模板名称'},
     {key:'tplCode', label:'模板编码'},
@@ -36,7 +81,6 @@ export class MessageTemplateComponent {
     this.allTplsList();
   }
   constructor(protected service: messageTplManageService, private _router: Router) {}
-
   /*获取列表*/
   allTplsList():void{
     this.service.getTpls().then((data) => {
