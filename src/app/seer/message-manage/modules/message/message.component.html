@@ -1,0 +1,9 @@
+ <seer-card> 
+  <seertable
+    [data]="source"
+    [titles]="titles"
+    [translate]="dict"
+    [hideAddButton] = "true"
+    (notify)="onChange($event)"
+  ></seertable>
+ </seer-card> 
