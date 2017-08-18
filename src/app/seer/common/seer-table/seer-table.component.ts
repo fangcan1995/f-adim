@@ -92,7 +92,6 @@ export class SeerTableComponent implements OnInit {
     value = !value;
 
     this.data.forEach(function (item) {
-
       item.selected = value;
     });
 
@@ -117,7 +116,11 @@ export class SeerTableComponent implements OnInit {
   }
 
   handleActionsClick($event) {
-    this.notify.emit($event);
+    if ( $event.action.action || this._actions[$event.action.action] ) {
+      return this._actions[$event.action.action].call(this, {type: $event.action.type, data: $event.item});
+    }
+
+    this.notify.emit({type: $event.action.type, data: $event.item});
   }
   selectItem(): void {
 
@@ -147,25 +150,74 @@ export class SeerTableComponent implements OnInit {
   };
 
   currentDeleteEvent;
-  remove(event): void {
-  /*  let a = confirm("确定删除吗？");
-    if (a) {
-      this.notify.emit({type: 'delete', data: event});
-    }*/
-    this.alert_id = 'delete';
-    this.alert_content = '确定删除吗?';
-    this.action = 'show';
-    this.currentDeleteEvent = event;
+  
+  private _actions = {
+    remove(event): void {
+      this.alert_id = 'delete';
+      this.alert_content = '确定删除吗?';
+      this.action = 'show';
+      this.currentDeleteEvent = event.data;
 
-  }
+    },
+    detail(event) {
+      delete event.data.selected;
+      let translate_copy = this.translate;
+      if (translate_copy) {
+        Object.keys(event.data).forEach(function (key) {
+          if (translate_copy[key]) {
+            translate_copy[key].forEach(function (o) {
+              if (event.data[key] == o.dictValueName) {
+                event.data[key] = o.dictValueId;
+              }
+            })
+          }
+        });
+      }
+
+      this.notify.emit({type: 'detail', data: event.data});
+    },
+    copyadd(event) {
+      delete event.data.selected;
+      let translate_copy = this.translate;
+      if (translate_copy) {
+        Object.keys(event.data).forEach(function (key) {
+          if (translate_copy[key]) {
+            translate_copy[key].forEach(function (o) {
+              if (event.data[key] == o.dictValueName) {
+                event.data[key] = o.dictValueId;
+              }
+            })
+          }
+        });
+      }
+
+      this.notify.emit({type: 'copy_add', data: event.data});
+    },
+    edit(event): void {
+      delete event.data.selected;
+      let translate_copy = this.translate;
+      if (translate_copy) {
+        Object.keys(event.data).forEach(function (key) {
+          if (translate_copy[key]) {
+            translate_copy[key].forEach(function (o) {
+              if (event.data[key] == o.dictValueName) {
+                event.data[key] = o.dictValueId;
+              }
+            })
+          }
+        });
+      }
+      this.notify.emit({type: 'edit', data: event.data});
+    }
+  } 
 
   onSelectAlert(event){
     //console.log(event);
     if(event.type=='save'){
       if(this.alert_id == 'delete_all'){
-        this.notify.emit({type: 'delete_all', data: this.currentDeleteEvents});
+        this.notify.emit({type: 'remove_all', data: this.currentDeleteEvents});
       }else if(this.alert_id == 'delete'){
-        this.notify.emit({type: 'delete', data: this.currentDeleteEvent});
+        this.notify.emit({type: 'remove', data: this.currentDeleteEvent});
       }
       this.action = false;
     }else if(event.type=='cancel'){
@@ -174,62 +226,9 @@ export class SeerTableComponent implements OnInit {
   }
 
 
-  detail(event) {
-    delete event.selected;
-    let translate_copy = this.translate;
-    if (translate_copy) {
-      Object.keys(event).forEach(function (key) {
-        if (translate_copy[key]) {
-          translate_copy[key].forEach(function (o) {
-            if (event[key] == o.dictValueName) {
-              event[key] = o.dictValueId;
-            }
-          })
-        }
-      });
-    }
+  
 
-    this.notify.emit({type: 'detail', data: event});
-  }
-
-  copyadd(event) {
-    delete event.selected;
-    let translate_copy = this.translate;
-    if (translate_copy) {
-      Object.keys(event).forEach(function (key) {
-        if (translate_copy[key]) {
-          translate_copy[key].forEach(function (o) {
-            if (event[key] == o.dictValueName) {
-              event[key] = o.dictValueId;
-            }
-          })
-        }
-      });
-    }
-
-    this.notify.emit({type: 'copy', data: event});
-  }
-
-
-
-  edit(event): void {
-
-    delete event.selected;
-    let translate_copy = this.translate;
-    if (translate_copy) {
-      Object.keys(event).forEach(function (key) {
-        if (translate_copy[key]) {
-          translate_copy[key].forEach(function (o) {
-            if (event[key] == o.dictValueName) {
-              event[key] = o.dictValueId;
-            }
-          })
-        }
-      });
-    }
-
-    this.notify.emit({type: 'update', data: event});
-  }
+  
 
   add(): void {
     this.notify.emit({type: 'add', data: {}});

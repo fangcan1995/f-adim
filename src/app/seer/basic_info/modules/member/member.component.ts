@@ -57,18 +57,20 @@ export class MemberComponent implements OnInit, OnDestroy {
     'update': {
       'type': 'update',
       'name': '编辑',
-      'className': 'btn btn-xs btn-info'
+      'className': 'btn btn-xs btn-info',
     },
     'delete': {
       'type': 'delete',
       'name': '删除',
       'className': 'btn btn-xs btn-danger',
-      'icon': 'ion-close-round'
+      'icon': 'ion-close-round',
+      'action': 'remove'
     },
     'copyAdd': {
       'type': 'copyAdd',
       'name': '复制新增',
-      'className': 'btn btn-xs btn-default'
+      'className': 'btn btn-xs btn-default',
+      'action': 'copyadd'
     }
   }
   constructor(
@@ -97,15 +99,13 @@ export class MemberComponent implements OnInit, OnDestroy {
             break;
           default:
             break;
-
         }
-
         return _.set(t, 'actions', actions)
       })
-      console.log(this.members)
     })
   }
   onChange(message) {
+    console.log(message)
     const type = message.type;
     let data = message.data;
     switch ( type ) {
@@ -115,7 +115,7 @@ export class MemberComponent implements OnInit, OnDestroy {
       case 'update': 
         this._router.navigate([`/seer/basic/member/edit/${message.data.id}`]);
         break;
-      case 'delete':
+      case 'remove':
         this._memberService.deleteOne(message.data.id)
         .subscribe(data => {
           this.getList();

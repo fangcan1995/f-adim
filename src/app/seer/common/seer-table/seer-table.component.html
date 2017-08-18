@@ -91,7 +91,7 @@
               type="button"
               *ngFor="let action of item.actions"
               class="{{ action.className }}"
-              (click)="handleActionsClick({type: action.type, data: item})"
+              (click)="handleActionsClick({action: action, item: item})"
               ><i *ngIf="action.icon" class="{{ action.icon }}" style="margin-right: 4px"></i>{{ action.name }}</button>
           </span>
           <!-- <button (click)="detail(item)" *ngIf="displayDetailButton" class="btn btn-xs btn-default">
