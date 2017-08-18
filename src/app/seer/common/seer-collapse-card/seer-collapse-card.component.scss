@@ -8,3 +8,19 @@
 .card-content {
 	padding: 15px 22px;
 }
+
+.cardTitle__icon {
+	font-style: normal;
+	margin-left: 8px;
+	-webkit-transform: rotate3d(0, 0, 1, 0);
+	        transform: rotate3d(0, 0, 1, 0);
+	transition: -webkit-transform 0.2s linear;
+	transition: transform 0.2s linear;
+	transition: transform 0.2s linear, -webkit-transform 0.2s linear;
+}
+.card--open {
+	.cardTitle__icon {
+		-webkit-transform: rotate3d(0, 0, 1, 90deg);
+	        transform: rotate3d(0, 0, 1, 90deg);
+	}
+}

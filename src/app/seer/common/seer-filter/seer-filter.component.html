@@ -19,22 +19,26 @@
   </div>
 </div>
 <div [@slideInOut]="isFilterShown()" style="overflow: hidden;">
-  <div class="row filter__container">
-    <div class="col-sm-3" *ngFor="let filter of filters">
-      <label class="label-control">{{ filter.label }}</label>
-      <select
-        class="form-control filter__input"
-        *ngIf="filter.type === 'select'"
-        [(ngModel)]="filter.value"
-        (change)="handleFilterChange($event, filter)">
-        <option *ngFor="let option of filter.options" [ngValue]="option.value" >{{ option.content }}</option>
-      </select>
-      <input
-        class="form-control filter__input"
-        *ngIf="filter.type.indexOf('input') != -1"
-        [type]="filter.type.split('.')[1] || 'text'"
-        [(ngModel)]="filter.value"
-        (keyup)="handleFilterChange($event, filter)"/>
+  <div class="row filter__container form-horizontal">
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xlg-3 form-group" *ngFor="let filter of filters">
+      <div class="row">
+        <label class="label-control col-sm-4 ">{{ filter.label }}</label>
+        <div class="col-sm-8">
+          <select
+            class="form-control filter__input"
+            *ngIf="filter.type === 'select'"
+            [(ngModel)]="filter.value"
+            (change)="handleFilterChange($event, filter)">
+            <option *ngFor="let option of filter.options" [ngValue]="option.value" >{{ option.content }}</option>
+          </select>
+          <input
+            class="form-control filter__input"
+            *ngIf="filter.type.indexOf('input') != -1"
+            [type]="filter.type.split('.')[1] || 'text'"
+            [(ngModel)]="filter.value"
+            (keyup)="handleFilterChange($event, filter)"/>
+        </div>
+      </div>
     </div>
   </div>
 </div>
