@@ -4,10 +4,13 @@ import {
   Input,
   Output,
   EventEmitter,
+  ViewChild
 } from '@angular/core';
-
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/switchMap';
 import * as _ from 'lodash';
-
+import { trim } from '../../../theme/libs/utils'
 import { Animations } from '../../../theme/animations/animations';
 export interface FilterModel {
   key: string | number,
@@ -24,12 +27,16 @@ export interface FilterModel {
   animations: [ Animations.slideInOut ]
 })
 export class SeerFilterComponent implements OnInit {
-  @Input() hasGlobalFilter;
-  @Input() globalFilterValue: string;
+  @Input() hasGlobalFilter: boolean; // 是否有全局搜索输入框
+  @Input() globalFilterValue: string; 
   @Input() filters: Array<FilterModel>;
   @Output() onInit: EventEmitter<any> = new EventEmitter<any>();
   @Output() onFiltersChanged: EventEmitter<any> = new EventEmitter<any>();
-  public isFiltersShown = false;
+  @Output() onSearchBtnClicked: EventEmitter<any> = new EventEmitter<any>();
+  private isFiltersShown: boolean = false;
+  filters$ = new Subject();
+
+  @ViewChild('searchBtn') searchBtn;
 
   constructor() { }
   ngOnInit() {
@@ -37,12 +44,47 @@ export class SeerFilterComponent implements OnInit {
       ...this.getFilterParams(this.filters),
       global: this.globalFilterValue
     });
+    
+  }
+
+  ngAfterViewInit() {
+    if ( this.searchBtn ) {
+      Observable.fromEvent(this.searchBtn.nativeElement, 'click')
+      .debounceTime(300)
+      .subscribe(res => {
+        this.onSearchBtnClicked.emit({
+          ...this.getFilterParams(this.filters),
+          global: this.globalFilterValue
+        })
+      })
+    }
+
+    this.filters$
+    .map(filters => JSON.stringify(filters))
+    .debounceTime(300)
+    // .distinctUntilChanged() 不检查是否变更
+    .subscribe(filters => {
+      this.onFiltersChanged.emit({
+        ...this.getFilterParams(this.filters),
+        global: this.globalFilterValue
+      })
+    })
+  }
+  renderSearchBtn() {
+    let forbidSearchBtn = true;
+    _.each(this.filters, x => {
+      if ( !(typeof x.value === 'undefined' || x.value === null || trim(x.value.toString(), false) === '') ) {
+        return forbidSearchBtn = false;
+      }
+    })
+    return forbidSearchBtn;
   }
   handleGlobalFilterInputChange() {
-    this.onFiltersChanged.emit({
+    this.filters$.next({
       ...this.getFilterParams(this.filters),
       global: this.globalFilterValue
-    });
+    })
+
   }
   handleComplexBtnClick() {
     this.isFiltersShown = !this.isFiltersShown
@@ -51,15 +93,24 @@ export class SeerFilterComponent implements OnInit {
     return this.isFiltersShown.toString()
   }
   handleFilterChange() {
-    this.onFiltersChanged.emit({
+    this.filters$.next({
       ...this.getFilterParams(this.filters),
       global: this.globalFilterValue
-    });
+    })
+  }
+  handleResetBtnClick() {
+    _.each(this.filters, x => {
+      x.value = undefined;
+    })
+    this.filters$.next({
+      ...this.getFilterParams(this.filters),
+      global: this.globalFilterValue
+    })
   }
 
   getFilterParams(filters: Array<FilterModel>) {
     let filterParams = {};
-    _(filters).each(x => {
+    _.each(filters, x => {
       filterParams[x.key] = x.value;
     })
     return filterParams;

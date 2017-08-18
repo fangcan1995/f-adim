@@ -61,14 +61,13 @@ export class MemberComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getList();
   }
-  getList() {
-    this._memberService.getList()
+  getList(params?) {
+    this._memberService.getList(params)
     .subscribe(res => {
       this.members = res.data;
     })
   }
   onChange(message) {
-    console.log(message)
     const type = message.type;
     let data = message.data;
     switch ( type ) {
@@ -79,26 +78,29 @@ export class MemberComponent implements OnInit, OnDestroy {
         this._router.navigate([`/seer/basic/member/edit/${message.data.id}`]);
         break;
       case 'delete':
-         console.log(123)
-         return
-       /* this._memberService.deleteOne(message.data.id)
+        this._memberService.deleteOne(message.data.id)
         .subscribe(data => {
-          if ( data.success ){
-            this.getList();
-          }else {
-            alert("删除失败");
-          }
+          this.getList();
         });
         break;
       case 'delete_all':
         let ids = _(data).map(t => t.id).value();
-        break;*/
+        break;
     }
   }
   ngOnDestroy(): void {
     console.log('member component destroied')
   }
   handleFiltersChanged($event) {
-    console.log($event)
+    let params = {
+      ...$event,
+    }
+    this.getList(params)
+  }
+  handleSearchBtnClicked($event) {
+    let params = {
+      ...$event,
+    }
+    this.getList(params)
   }
 }

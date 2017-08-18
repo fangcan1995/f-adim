@@ -8,7 +8,7 @@
       (keyup)=handleGlobalFilterInputChange()
       />
   </div>
-  <div class="col row">
+  <div class="col row" *ngIf="filters">
     <button
       type="button"
       class="btn btn-info align-self-center"
@@ -18,7 +18,7 @@
       >高级查询<i class="fa fa-angle-down fa-angle-up complexfilter__icon"></i></button>
   </div>
 </div>
-<div [@slideInOut]="isFilterShown()" style="overflow: hidden;">
+<div [@slideInOut]="isFilterShown()" style="overflow: hidden;" *ngIf="filters">
   <div class="row filter__container form-horizontal">
     <div class="col-sm-12 col-md-6 col-lg-4 col-xlg-3 form-group" *ngFor="let filter of filters">
       <div class="row">
@@ -39,7 +39,17 @@
             (keyup)="handleFilterChange($event, filter)"/>
         </div>
       </div>
+
     </div>
+  </div>
+  <div>
+    <button type="button" [disabled]="renderSearchBtn()" #searchBtn class="btn btn-search btn-info"
+    >搜索</button>
+    <button
+      type="button"
+      class="btn btn-default"
+      (click)="handleResetBtnClick()"
+      >重置</button>
   </div>
 </div>
 
