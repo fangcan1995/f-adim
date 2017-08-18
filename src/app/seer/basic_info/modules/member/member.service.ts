@@ -8,7 +8,17 @@ import {
 } from '../../../../theme/services';
 @Injectable()
 export class MemberService {
-  mockData = [{"id":"1","name":"本拉登","real_name":"本·拉登","gender":"0","age":"52","marriage":"0","id_number":"123456","mobile":"13912342234","census_register":"阿富汗赫拉特","residence":"阿富汗坎大哈","annual_income":"1,000,000","asset_introduction":"负债1,000,000"},{"id":"2","name":"用户名2","real_name":"真实姓名2","gender":"1","age":"18","marriage":"0","id_number":"123456","mobile":"13912342234"},{"id":"3","name":"用户名3","real_name":"真实姓名3","gender":"0","age":"32","marriage":"0","id_number":"123456","mobile":"13912342234"},{"id":"4","name":"用户名4","real_name":"真实姓名4","gender":"1","age":"18","marriage":"0","id_number":"123456","mobile":"13912342234"},{"id":"5","name":"用户名55","real_name":"真实姓名5","gender":"0","age":"18","marriage":"0","id_number":"123456","mobile":"13912342234"},{"id":"6","name":"用户名6333","real_name":"真实姓名6","gender":"0","age":"18","marriage":"0","id_number":"123456","mobile":"13912342234"},{"id":"7","name":"用户名7","real_name":"真实姓名7","gender":"0","age":"18","marriage":"0","id_number":"123456","mobile":"13912342234"},{"id":"8","name":"用户名8","real_name":"真实姓名8","gender":0,"age":"18","marriage":0,"id_number":"123456","mobile":"13912342234"},{"name":"第九名","id":"81","gender":"0","real_name":"第九名"},{"name":"10号选手","real_name":"流翔","id":"811"}]
+  mockData = [
+    {"id":"1","name":"本拉登","real_name":"本·拉登","gender":"0","age":"52","marriage":"0","id_number":"123456","mobile":"13912342234","census_register":"阿富汗赫拉特","residence":"阿富汗坎大哈","annual_income":"1,000,000","asset_introduction":"负债1,000,000", "someStatus": "1"},
+    {"id":"2","name":"用户名2","real_name":"真实姓名2","gender":"1","age":"18","marriage":"0","id_number":"123456","mobile":"13912342234", "someStatus": "2"},
+    {"id":"3","name":"用户名3","real_name":"真实姓名3","gender":"0","age":"32","marriage":"0","id_number":"123456","mobile":"13912342234", "someStatus": "3"},
+    {"id":"4","name":"用户名4","real_name":"真实姓名4","gender":"1","age":"18","marriage":"0","id_number":"123456","mobile":"13912342234", "someStatus": "4"},
+    {"id":"5","name":"用户名55","real_name":"真实姓名5","gender":"0","age":"18","marriage":"0","id_number":"123456","mobile":"13912342234", "someStatus": "1"},
+    {"id":"6","name":"用户名6333","real_name":"真实姓名6","gender":"0","age":"18","marriage":"0","id_number":"123456","mobile":"13912342234", "someStatus": "1"},
+    {"id":"7","name":"用户名7","real_name":"真实姓名7","gender":"0","age":"18","marriage":"0","id_number":"123456","mobile":"13912342234", "someStatus": "2"},
+    {"id":"8","name":"用户名8","real_name":"真实姓名8","gender":0,"age":"18","marriage":0,"id_number":"123456","mobile":"13912342234", "someStatus": "4"},
+    {"name":"第九名","id":"81","gender":"0","real_name":"第九名"},{"name":"10号选手","real_name":"流翔","id":"811"}
+  ]
   constructor(private _httpInterceptorService: HttpInterceptorService) {}
   // 获取数据列表
   getList(params?): Observable<any> {

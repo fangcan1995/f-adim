@@ -85,8 +85,16 @@
             <span class="seer_font">{{item[title.key]}}</span>
           </div>
         </td>
-        <td class="text-center" *ngIf="!hideActions">
-          <button (click)="detail(item)" *ngIf="displayDetailButton" class="btn btn-xs btn-default">
+        <td class="text-center table-actions" *ngIf="!hideActions">
+          <span *ngIf="item.actions">
+            <button
+              type="button"
+              *ngFor="let action of item.actions"
+              class="{{ action.className }}"
+              (click)="handleActionsClick({type: action.type, data: item})"
+              ><i *ngIf="action.icon" class="{{ action.icon }}" style="margin-right: 4px"></i>{{ action.name }}</button>
+          </span>
+          <!-- <button (click)="detail(item)" *ngIf="displayDetailButton" class="btn btn-xs btn-default">
             详情
           </button>
           <button (click)="copyadd(item)" *ngIf="displayCopyButton" class="btn btn-xs btn-default">
@@ -96,7 +104,8 @@
           </i>编辑</button>
           <button (click)="clickAddNewButton(item)" *ngIf="addNewButton" class="btn btn-xs btn-info"><i class="ion-edit">
           </i>{{addNewButton}}</button>
-          <button (click)="remove(item)" *ngIf="!hideRemoveButton"  class="btn btn-xs btn-danger"><i class="ion-close-round"></i> 删除</button>
+          <button (click)="remove(item)" *ngIf="!hideRemoveButton"  class="btn btn-xs btn-danger"><i class="ion-close-round"></i> 删除</button> -->
+          
         </td>
       </tr>
       </tbody>

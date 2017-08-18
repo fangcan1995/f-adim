@@ -49,11 +49,28 @@ export class MemberComponent implements OnInit, OnDestroy {
   members = [];
   titles = [
     { key:'name', label:'用户名' },
-    { key:'real_name', label:'真实姓名', isDict: true },
+    { key:'real_name', label:'真实姓名', },
     { key:'id_number', label:'身份证号' },
     { key:'mobile', label:'手机号' },
-
   ];
+  actionSet = {
+    'update': {
+      'type': 'update',
+      'name': '编辑',
+      'className': 'btn btn-xs btn-info'
+    },
+    'delete': {
+      'type': 'delete',
+      'name': '删除',
+      'className': 'btn btn-xs btn-danger',
+      'icon': 'ion-close-round'
+    },
+    'copyAdd': {
+      'type': 'copyAdd',
+      'name': '复制新增',
+      'className': 'btn btn-xs btn-default'
+    }
+  }
   constructor(
     private _memberService: MemberService,
     private _router: Router,
@@ -65,6 +82,27 @@ export class MemberComponent implements OnInit, OnDestroy {
     this._memberService.getList(params)
     .subscribe(res => {
       this.members = res.data;
+      this.members = _.map(this.members, t => {
+        let status = t.someStatus;
+        let actions;
+        switch(status) {
+          case "1": 
+            actions = [this.actionSet.update, this.actionSet.delete];
+            break;
+          case "2":
+            actions = [this.actionSet.copyAdd, this.actionSet.delete];
+            break;
+          case "3":
+            actions = [this.actionSet.update];
+            break;
+          default:
+            break;
+
+        }
+
+        return _.set(t, 'actions', actions)
+      })
+      console.log(this.members)
     })
   }
   onChange(message) {

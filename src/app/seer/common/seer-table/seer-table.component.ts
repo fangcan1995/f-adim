@@ -116,7 +116,9 @@ export class SeerTableComponent implements OnInit {
     this.currentDeleteEvents = list;
   }
 
-
+  handleActionsClick($event) {
+    this.notify.emit($event);
+  }
   selectItem(): void {
 
     let list = [];
