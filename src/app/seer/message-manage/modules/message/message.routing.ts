@@ -2,7 +2,7 @@ import { Routes, RouterModule }  from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 import { MessageComponent } from './message.component';
 import { MessageEditComponent } from './components/message-edit/message-edit.component';
-
+import { MessageAddComponent } from './components/message-add/message-add.component';
 const routes: Routes = [
   {
     path: '',
@@ -13,7 +13,7 @@ const routes: Routes = [
     	},
     	{
     		path: 'add',
-    		component: MessageEditComponent,
+    		component: MessageAddComponent,
     	},
     	{
     		path: 'edit/:id',

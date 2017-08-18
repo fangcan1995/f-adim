@@ -1,0 +1,72 @@
+<!-- <form (submit)="save()">
+<div class="form-page-header">
+  <button type="button" class="btn btn-default" (click)="goBack()">返回列表</button>
+  <button type="submit" class="btn btn-primary">保存</button>
+</div>
+ <seer-card [title]="title">
+  <div class="row">
+    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-5">
+      <div class="form-group">
+        <label for="inputRoleName">接收账号</label>
+        <input type="text" class="form-control" name="inputRoleName" id="inputRoleName" placeholder="接收账号" required maxlength="18">
+      </div>
+    </div>
+    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-5">
+      <div class="form-group">
+        <label for="inputValidState">接收号码</label>
+        <input type="text" class="form-control" name="" placeholder="接收号码" required maxlength="18">
+      </div>
+    </div>
+    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-5">
+      <div class="form-group">
+        <label for="inputValidState">标题</label>
+        <input type="text" class="form-control" name="" placeholder="标题" required maxlength="18">
+      </div>
+    </div>
+    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-5">
+      <div class="form-group">
+        <label for="inputValidState">发送状态</label>
+        <input type="text" class="form-control" name="" placeholder="发送状态" required maxlength="18">
+      </div>
+    </div>
+  </div>
+</seer-card> 
+</form> -->
+
+
+ <form (submit)="save()">
+  <div class="form-page-header">
+    <button type="button" class="btn btn-default" (click)="goBack()">返回列表</button>
+    <button type="submit" class="btn btn-primary">保存</button>
+  </div>
+  <seer-card [title]="title" >
+    <div class="row">
+      <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+        <div class="form-group">
+          <label for="inputTplName">接收账号</label>
+          <input type="text" class="form-control" name="inputTplName" id="inputTplName" [(ngModel)]="template.tplName"  required maxlength="50">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+        <div class="form-group">
+          <label for="inputTplCode">接收号码</label>
+          <input type="text" class="form-control" name="inputTplCode" id="inputTplCode" [(ngModel)]="template.tplCode"  required maxlength="30">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+        <div class="form-group">
+          <label for="inputTplType">发送状态</label>
+          <select type="email" class="form-control" name="inputTplType" id="inputTplType" [(ngModel)]="template.tplType" dict-select required
+                  [key]="'MESSAGE_TEMPLATE_TYPE'"
+                  [topOption]="{dictValueId:'',dictValueName:'请选择'}"
+                  [selected]="template.tplType" >
+          </select>
+        </div>
+      </div>
+    </div>
+  </seer-card> 
+</form> 
