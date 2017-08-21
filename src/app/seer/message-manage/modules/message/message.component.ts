@@ -13,17 +13,17 @@ export class MessageComponent {
   filters = [
     {
       key: 'name',
-      label: '用户名',
+      label: '接收账号',
       type: 'input.text',
     },
     {
       key: 'real_name',
-      label: '真实姓名',
+      label: '接收号码',
       type: 'input.text',
     },
     {
       key: 'gender',
-      label: '性别',
+      label: '消息类型',
       type: 'select',
       options: [
         {
@@ -31,18 +31,31 @@ export class MessageComponent {
         },
         {
           value: '0',
-          content: '男'
+          content: '短信'
         },
         {
           value: '1',
-          content: '女',
+          content: '电话',
         }
       ]
     },
     {
       key: 'mobile',
-      label: '手机号',
-      type: 'input.text',
+      label: '发送状态',
+      type: 'select',
+       options: [
+        {
+          content: '请选择'
+        },
+        {
+          value: '0',
+          content: '已发'
+        },
+        {
+          value: '1',
+          content: '未发',
+        }
+      ]
     },
   ]
   source = [];
