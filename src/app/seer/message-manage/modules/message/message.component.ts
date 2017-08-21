@@ -9,6 +9,42 @@ import {Message} from "../../../model/auth/message-edit";
   styleUrls: ['./message.component.css'],
 })
 export class MessageComponent {
+  hasGlobalFilter = true;
+  filters = [
+    {
+      key: 'name',
+      label: '用户名',
+      type: 'input.text',
+    },
+    {
+      key: 'real_name',
+      label: '真实姓名',
+      type: 'input.text',
+    },
+    {
+      key: 'gender',
+      label: '性别',
+      type: 'select',
+      options: [
+        {
+          content: '请选择'
+        },
+        {
+          value: '0',
+          content: '男'
+        },
+        {
+          value: '1',
+          content: '女',
+        }
+      ]
+    },
+    {
+      key: 'mobile',
+      label: '手机号',
+      type: 'input.text',
+    },
+  ]
   source = [];
   public data = [];
   titles = [
@@ -23,16 +59,16 @@ export class MessageComponent {
   ];
   public translate = [];
   ngOnInit() {
-    this.allTplsList();
+    this.getList();
   }
-  // 重新获取列表（刚开始，改变）
-  allTplsList():void{
+  constructor(protected service: MessageService, private _router: Router) {}
+  // 重新获取列表（刚开始，改变时候刷新表格）
+  getList(params?):void{
       this.service.getDatas()
       .then(res => {
         this.source = res.data;
       });
   }
-  constructor(protected service: MessageService, private _router: Router) {}
    onChange(message):void {
     // if(message.type=='add'){//新增
     //   this._router.navigate(['/seer/message-manage/message/add']);
@@ -43,11 +79,9 @@ export class MessageComponent {
     }
     // 删除一条记录
     if(message.type=='delete'){
-      alert(1);
       this.service.deleteMessage(message.data.tplId).then((data) => {
-        alert(2);
         if ( data.success ){
-          this.allTplsList();
+          this.getList();
         }else {
           alert("删除失败");
         }
@@ -58,12 +92,27 @@ export class MessageComponent {
       let ids = [];
       message.data.map((template:Message)=>ids.push(template.tplId));
       this.service.deleteMessage(ids.toString()).then((data) => {
-        if ( data.success) {
-          this.allTplsList();
+        if (data.success) {
+          this.getList();
         }else {
           alert("删除失败");
         }
       });
     }
   }
+  // 重置按钮
+   handleFiltersChanged($event) {
+    let params = {
+      ...$event,
+    }
+   this.getList(params) 
+  } 
+  // 查询按钮
+  handleSearchBtnClicked($event) {
+    let params = {
+      ...$event,
+    }
+    this.getList(params)
+  }
 }
+
