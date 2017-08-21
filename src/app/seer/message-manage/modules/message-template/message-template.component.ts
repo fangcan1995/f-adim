@@ -12,6 +12,8 @@ import {Template} from "../../../model/auth/message-template";
 })
 export class MessageTemplateComponent {
   hasGlobalFilter = true;
+  optionType=[{value:'', content: '请选择'}];
+  optionisSystem=[{value:'', content: '请选择'}];
   filters = [
     {
       key: 'tplName',
@@ -27,42 +29,13 @@ export class MessageTemplateComponent {
       key: 'tplType',
       label: '消息模板类型',
       type: 'select',
-      options: [
-        {
-          content: '请选择'
-        },
-        {
-          value: '1',
-          content: '站内信'
-        },
-        {
-          value: '2',
-          content: '短信',
-        }
-        ,
-        {
-          value: '3',
-          content: '邮件',
-        }
-      ]
+      options: this.optionType
     },
     {
       key: 'tplisSystem',
       label: '是否系统模板',
       type: 'select',
-      options: [
-        {
-          content: '请选择'
-        },
-        {
-          value: '0',
-          content: '是'
-        },
-        {
-          value: '1',
-          content: '否',
-        }
-      ]
+      options: this.optionisSystem
     },
   ]
   title = '消息模板';
@@ -77,7 +50,25 @@ export class MessageTemplateComponent {
     {key:'tplContent', label:'模板内容'},
     {key:'tplisSystem', label:'系统模板'}
   ];
+  //tplTypeOptions={};
+
   ngOnInit() {
+    //获取数据字典内容
+    this.service.getDictByKey('MESSAGE_TEMPLATE_TYPE').then((result) => {
+      if (result.success) {
+        result.data.sort((a,b)=>+a.dictSort-+b.dictSort).forEach(dict=>{
+          this.optionType.push({ value:dict.dictValueId,content:dict.dictValueName});
+        });
+      }
+    });
+    this.service.getDictByKey('IS_SYSMESSAGETEMPLATE').then((result) => {
+        if (result.success) {
+          result.data.sort((a, b) => +a.dictSort - +b.dictSort).forEach(dict => {
+            this.optionisSystem.push({value: dict.dictValueId, content: dict.dictValueName});
+          });
+      };
+    });
+
     this.allTplsList();
   }
   constructor(protected service: messageTplManageService, private _router: Router) {}
