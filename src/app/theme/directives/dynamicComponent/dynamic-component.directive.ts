@@ -1,9 +1,14 @@
-import {Directive, ComponentFactoryResolver, ComponentRef, Type} from '@angular/core';
+import {
+  Directive,
+  ComponentFactoryResolver,
+  ComponentRef,
+  Type,
+  ViewContainerRef,
+} from '@angular/core';
 
-import {ViewContainerRef} from '@angular/core';
 
-import {EventEmitter} from "@angular/core";
-import {ModalComponent} from "../../components/ng2-bs4-modal/modal";
+import { EventEmitter } from "@angular/core";
+import { ModalComponent } from "../../components/ng2-bs4-modal/modal";
 
 export class BaseDynamicComponent{
   data:any;

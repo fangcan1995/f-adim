@@ -32,7 +32,8 @@ import {
   WorkflowComponent,
   TimelineComponent,
   SeerCheckbox,
-  SeerMessageComponent
+  SeerMessageComponent,
+  SeerDialogComponent,
 } from './components';
 
 import { BaCardBlur } from './components/baCard/baCardBlur.directive';
@@ -63,6 +64,7 @@ import {
   AuthService,
   AuthGuard,
   SeerMessageService,
+  SeerDialogService,
   UserService,
   LoggerService,
   HttpInterceptorService,
@@ -113,6 +115,7 @@ const NGA_COMPONENTS = [
   SeerCheckbox,
   CheckboxPickerComponent,
   SeerMessageComponent,
+  SeerDialogComponent,
 ];
 
 const NGA_DIRECTIVES = [
@@ -190,6 +193,7 @@ export class NgaModule {
         AuthService,
         AuthGuard,
         SeerMessageService,
+        SeerDialogService,
         UserService,
         LoggerService,
       ],

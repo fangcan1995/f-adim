@@ -1,0 +1,20 @@
+<div
+  class="modal fade "
+  bsModal
+  #childModal="bs-modal"
+  [config]="{backdrop: 'static'}"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="mySmallModalLabel"
+  aria-hidden="true"
+  >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" [innerHTML]="header" *ngIf="header"></div>
+      <div class="modal-body" [innerHTML]="content" *ngIf="content"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" *ngFor="let action of actions" data-dismiss="modal" (click)="handleActionsClick(action)">{{ action.text }}</button>
+      </div>
+    </div>
+  </div>
+</div>

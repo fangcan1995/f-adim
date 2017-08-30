@@ -14,6 +14,7 @@ import {Component, ViewEncapsulation} from '@angular/core';
     </div>
     <ba-back-top position="200"></ba-back-top>
     <seer-message></seer-message>
+    <seer-dialog></seer-dialog>
     `
 })
 export class SeerComponent {
