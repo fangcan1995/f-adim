@@ -1,17 +1,16 @@
-import {Injectable} from '@angular/core';
-import {Http, Headers} from "@angular/http";
-import {SERVER, CACHE_DURATION, REQUEST_TIMEOUT} from "./const";
-import {Result} from "./model/result.class";
-
+import { Injectable } from '@angular/core';
+import { Http, Headers } from "@angular/http";
+import { SERVER, CACHE_DURATION, REQUEST_TIMEOUT } from "./const";
+import { Result } from "./model/result.class";
+import * as _ from 'lodash';
 /**
  *
  * @param dicts
  * @param map<keyId,field> 用于字段名和字典keyId不同的情况，keyId是大写+下划线
  */
-const castDict2Translate = function(dicts: any[] = [], map: Map<string,string>) {
-  if(!dicts) dicts = [];
+const castDict2Translate = (dicts: any[] = [], map: Map<string, string>) => {
   let translate = {};
-  map.forEach((dictKeyId,field,map)=>{
+  map.forEach((dictKeyId,field)=>{
     for(let i = 0;i<dicts.length;i++){
       let dict = dicts[i];
       if(dict.dictKeyId==dictKeyId){
@@ -208,18 +207,22 @@ export class BaseService<T> {
   getDictTranslate(translateFields: {field: string,dictKeyId?: string}[] = []):Promise<Result> {
     //生成一个map，记录了字典keyId和字段名，用于替换名字不一样的情况
     let map = new Map();
-    translateFields.map(field => {
-      map.set(field.field,field.dictKeyId?field.dictKeyId:field.field.replace(/([A-Z]+)/g, (all, letter)=>'_'+letter).toUpperCase());
+    _.each(translateFields, field => {
+      map.set(field.field, field.dictKeyId ? field.dictKeyId : field.field.replace(/([A-Z]+)/g, (all, letter)=>'_'+letter).toUpperCase());
     });
 
     const cachedDicts = 'cached dicts';
     const dictsCacheTime = 'when dicts cached';
     const alreadyRequest = 'requested waiting for response';
-    let dict = sessionStorage.getItem(cachedDicts);
-    //如果已经有缓存，则直接使用
-    if (dict && (new Date().getTime() - +(sessionStorage.getItem(dictsCacheTime)?sessionStorage.getItem(dictsCacheTime):0))<CACHE_DURATION) {
+    
+    //如果已经有缓存且缓存未超时，则直接使用
+    const localDictsCacheTime = sessionStorage.getItem(dictsCacheTime);
+    const nowTime = new Date().getTime();
+    const dict = sessionStorage.getItem(cachedDicts);
+
+    if ( dict && ( nowTime - +( localDictsCacheTime ? localDictsCacheTime : 0 ) ) < CACHE_DURATION ) {
       return new Promise((resolve, reject) => {
-        resolve({success: true, data:castDict2Translate(JSON.parse(dict),map),from:'cache'});
+        resolve({success: true, data:castDict2Translate(JSON.parse(dict), map),from:'cache'});
       });
     }
 

@@ -68,6 +68,9 @@ import { SeerCollapseCardComponent } from './seer-collapse-card';
 
   ],
   exports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
     Ng2SmartTableModule,
     DropdownModule,
     ModalModule,
