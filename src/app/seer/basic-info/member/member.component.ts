@@ -1,6 +1,7 @@
 import { Component, ViewChild, OnInit, OnDestroy } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import * as _ from 'lodash';
+import { SeerDialogService } from '../../../theme/services/seer-dialog.service';
 import { MemberService } from './member.service';
 @Component({
   selector: 'member',
@@ -64,19 +65,18 @@ export class MemberComponent implements OnInit, OnDestroy {
       'name': '删除',
       'className': 'btn btn-xs btn-danger',
       'icon': 'ion-close-round',
-      'action': 'remove'
     },
     'copyAdd': {
       'type': 'copyAdd',
       'name': '复制新增',
       'className': 'btn btn-xs btn-default',
-      'action': 'copyadd'
     }
   }
   constructor(
     private _memberService: MemberService,
     private _router: Router,
     private _route: ActivatedRoute,
+    private _dialogService: SeerDialogService,
   ) {}
   ngOnInit(): void {
     this.getList();
@@ -116,11 +116,17 @@ export class MemberComponent implements OnInit, OnDestroy {
       case 'update': 
         this._router.navigate([`edit/${message.data.id}`], {relativeTo: this._route} );
         break;
-      case 'remove':
-        this._memberService.deleteOne(message.data.id)
-        .subscribe(data => {
-          this.getList();
-        });
+      case 'delete':
+        this._dialogService.confirm('确定删除吗？')
+        .subscribe(action => {
+          if ( action === 1 ) {
+            this._memberService.deleteOne(message.data.id)
+            .subscribe(data => {
+              this.getList();
+            });
+          }
+        })
+        
         break;
       case 'delete_all':
         let ids = _(data).map(t => t.id).value();
