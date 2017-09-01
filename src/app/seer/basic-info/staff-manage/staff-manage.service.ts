@@ -148,7 +148,7 @@ export class StaffManageService {
   importExcel (fd): Observable<any> {
     let headers = new Headers({ 'Content-Type': 'multipart/form-data' });
     let options = new RequestOptions({ headers: headers });
-    return this.http.post(SERVER + "/sys/excel/importExcel",fd)
+    return this.http.post(SERVER + "/system/excel/importExcel",fd)
       .map(this.extractData)
       .catch(this.handleError);
   }
