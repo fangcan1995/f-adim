@@ -14,13 +14,13 @@ import {SERVER} from "../../const";
 @Injectable()
 export class DictManageService {
 
-  private getAllDictsUrl = SERVER + '/system/dict';
-  private addDictUrl = SERVER + '/system/dict';
-  private getDictByKeyIdUrl = SERVER + '/system/dict/key/';
+  private getAllDictsUrl = SERVER + '/sys/dict';
+  private addDictUrl = SERVER + '/sys/dict';
+  private getDictByKeyIdUrl = SERVER + '/sys/dict/key/';
 
-  private updateDictUrl = SERVER + '/system/dict';
-  private deleteByIdUrl = SERVER + '/system/dict/';
-  private deleteSelectedDictUrl = SERVER + '/system/dict/deleteSelected';
+  private updateDictUrl = SERVER + '/sys/dict';
+  private deleteByIdUrl = SERVER + '/sys/dict/';
+  private deleteSelectedDictUrl = SERVER + '/sys/dict/deleteSelected';
 
   constructor(private http: Http) {
   }

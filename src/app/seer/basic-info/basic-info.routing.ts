@@ -14,6 +14,8 @@ const routes: Routes = [
       { path: 'staff-manage', loadChildren:'./staff-manage/staff-manage.module' },
       { path: 'org-manage', loadChildren:'./org-manage/org-manage.module' },
       { path: 'member', loadChildren:'./member/member.module#MemberModule' },
+      { path: 'message', loadChildren:'./message/message.module#MessageModule' },
+      { path: 'message-template', loadChildren:'./message-template/message-template.module#MessageTemplateModule' },
     ]
   }
 ];

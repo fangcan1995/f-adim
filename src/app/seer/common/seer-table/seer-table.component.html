@@ -15,13 +15,22 @@
     </div>
   </div>
   <div class="col-sm-6 btnGroup__right">
-    <button class="btn btn-info pull-right btnGroup__item" *ngIf="!hideAddButton" type="button" (click)="add()">新增</button>
-    <button class="btn btn-danger pull-right btnGroup__item"
-            *ngIf="!hideRemoveAll"
-            type="button"
-            [disabled]="!renderSelectedNum()"
-            (click)="removeAll()"
-    >批量删除 {{renderSelectedNum()}}
+    <button
+      class="btn btn-info pull-right btnGroup__item"
+      type="button"
+      *ngIf="!hideAddButton"
+      (click)="add()"
+      >
+      新增
+    </button>
+    <button
+      class="btn btn-danger pull-right btnGroup__item"
+      type="button"
+      *ngIf="!hideRemoveAll"
+      [disabled]="!renderSelectedNum()"
+      (click)="removeAll()"
+      >
+      批量删除 {{renderSelectedNum()}}
     </button>
     <div class="pull-right btnGroup__item" *ngIf="!hideColumns">
       <ss-multiselect-dropdown
@@ -29,8 +38,8 @@
         [(ngModel)]="multiColumnOptions"
         (ngModelChange)="onChangeColumn($event)"
         [texts]="multiSelectTexts"
-        class="pull-right"
-      ></ss-multiselect-dropdown>
+        >
+      </ss-multiselect-dropdown>
     </div>
   </div>
 </div>
