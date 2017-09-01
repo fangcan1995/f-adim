@@ -19,22 +19,16 @@
     <button class="btn btn-danger pull-right btnGroup__item"
             *ngIf="!hideRemoveAll"
             type="button"
-            [disabled]="!renderSelectedNb()"
+            [disabled]="!renderSelectedNum()"
             (click)="removeAll()"
-    >批量删除 {{renderSelectedNb()}}
+    >批量删除 {{renderSelectedNum()}}
     </button>
-    <button class="btn btn-info pull-right btnGroup__item"
-            *ngIf="showSelectButton"
-            type="button"
-            [disabled]="!renderSelectedNb()"
-            (click)="selectItem()"
-    >{{remderSelectButtonText()}} {{renderSelectedNb()}}
-    </button>
-    <div class="pull-right btnGroup__item" *ngIf="!hideColonnes">
+    <div class="pull-right btnGroup__item" *ngIf="!hideColumns">
       <ss-multiselect-dropdown
-        [options]="myOptions"
-        [(ngModel)]="selectedOptions"
-        (ngModelChange)="onChangeColonne($event)"
+        [options]="multiColumnArray"
+        [(ngModel)]="multiColumnOptions"
+        (ngModelChange)="onChangeColumn($event)"
+        [texts]="multiSelectTexts"
         class="pull-right"
       ></ss-multiselect-dropdown>
     </div>
@@ -52,8 +46,8 @@
         <th>
           <input
             type="checkbox"
-            [(ngModel)]="select.all"
-            (click)="selectAll(select.all)"/>
+            [(ngModel)]="selectedAll"
+            (click)="selectAll(selectedAll)"/>
         </th>
         <th *ngFor="let title of titles" class="text-center">
           <mfDefaultSorter by="{{title.key}}"><b class="seer_font">{{title.label}}</b></mfDefaultSorter>
@@ -63,7 +57,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let item of mf.data ">
-        <td><input type="checkbox" [(ngModel)]="item.selected" (click)="clickSingleSelect(item)"/></td>
+        <td><input type="checkbox" [(ngModel)]="item.selected" (change)="selectOne(item)"/></td>
         <td *ngFor="let title of titles" class="text-center">
 
           <div *ngIf="title.type=='link'">
@@ -74,10 +68,6 @@
           <div *ngIf="title.type=='input_number'">
             <input  type="number" class="form-control" [(ngModel)]="item[title.key]"/>
           </div>
-         <!-- <div *ngIf="title.type=='date'">
-            <span class="seer_font">{{renderDate(item[title.key]|date)}}</span>
-          </div>-->
-
           <div *ngIf="title.type!='input_number'&&title.type!='link'&&displayOriginalData">
             <span class="seer_font">{{renderValue(title,item[title.key])}}</span>
           </div>
@@ -94,18 +84,6 @@
               (click)="handleActionsClick({action: action, item: item})"
               ><i *ngIf="action.icon" class="{{ action.icon }}" style="margin-right: 4px"></i>{{ action.name }}</button>
           </span>
-          <!-- <button (click)="detail(item)" *ngIf="displayDetailButton" class="btn btn-xs btn-default">
-            详情
-          </button>
-          <button (click)="copyadd(item)" *ngIf="displayCopyButton" class="btn btn-xs btn-default">
-            复制新增
-          </button>
-          <button (click)="edit(item)" *ngIf="!hideEditButton" class="btn btn-xs btn-info"><i class="ion-edit">
-          </i>编辑</button>
-          <button (click)="clickAddNewButton(item)" *ngIf="addNewButton" class="btn btn-xs btn-info"><i class="ion-edit">
-          </i>{{addNewButton}}</button>
-          <button (click)="remove(item)" *ngIf="!hideRemoveButton"  class="btn btn-xs btn-danger"><i class="ion-close-round"></i> 删除</button> -->
-          
         </td>
       </tr>
       </tbody>

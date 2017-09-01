@@ -10,12 +10,14 @@ export const routes: Routes = [
     children:
       [
         { path: '', redirectTo: 'workspace', pathMatch: 'full' },
-        { path: 'sys', loadChildren:'./sys/sys.module#SysModule' },
+        { path: 'home', loadChildren:'./home/home.module#HomeModule' },
         { path: 'workspace', loadChildren:'./workspace/workspace.module#WorkspaceModule' },
+        { path: 'business', loadChildren:'./business/business.module#BusinessModule' },
         { path: 'basic', loadChildren:'./basic_info/basic_info.module#BasicInfoModule' },
-        { path: 'message-manage', loadChildren:'./message-manage/message-manage.module#MessageManageModule' },
-       /* { path: 'standard', loadChildren:'./standard/standard.module#StandardModule' },*/
-        // { path: 'pages', loadChildren: () => System.import('../pages/pages.module') },
+        { path: 'sys', loadChildren:'./sys/sys.module#SysModule' },
+        { path: 'operation', loadChildren: './operation/operation.module#OperationModule' },
+        { path: 'security', loadChildren: './security/security.module#SecurityModule' },
+        { path: 'content', loadChildren: './content/content.module#ContentModule' },
       ]
   }
 ];

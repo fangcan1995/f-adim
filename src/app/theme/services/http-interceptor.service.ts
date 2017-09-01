@@ -20,7 +20,6 @@ export const apis = {
   'MEMBERS': 'members',
 }
 
-
 @Injectable()
 export class HttpInterceptorService {
   constructor(private _http: Http) { }
