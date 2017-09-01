@@ -72,6 +72,11 @@ export class MessageComponent {
   ];
   public translate = [];
   ngOnInit() {
+    // 数据字典
+    this.service.getDictTranslate().then((result)=>{
+      console.log(result)
+    })
+
     this.getList();
   }
   constructor(protected service: MessageService, private _router: Router) {}

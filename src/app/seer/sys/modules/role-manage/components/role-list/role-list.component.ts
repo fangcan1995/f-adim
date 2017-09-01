@@ -39,8 +39,8 @@ export class RoleListComponent implements OnInit{
   constructor(protected service: RoleManageService, private _router: Router) {
   }
   onChange(message):void {
-
     if(message.type=='add'){
+      console.log(message.type);
       this._router.navigate(['/seer/sys/role-manage/role']);
     }
 

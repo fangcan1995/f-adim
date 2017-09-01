@@ -1,14 +1,14 @@
-<seer-collapse-card
-  >
+<seer-collapse-card>
   <seer-filter
     [hasGlobalFilter]="hasGlobalFilter"
     [filters]="filters"
     (onFiltersChanged)=handleFiltersChanged($event)
     (onSearchBtnClicked)=handleSearchBtnClicked($event)
-    ></seer-filter>
+  ></seer-filter>  
 </seer-collapse-card>
-<seer-collapse-card
-  >
+
+
+<seer-collapse-card>
   <seer-table
     [data]="members"
     [titles]="titles"

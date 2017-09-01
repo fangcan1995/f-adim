@@ -91,7 +91,7 @@ export class BaseService<T> {
       .then(res => res.json())
       .catch(BaseService.handleError);
   }
-
+// put() 方法来把修改持久化到服务端
   update(url: string, data: T): Promise<any> {
     return this.http
       .put(url, data, {headers: this.headers, withCredentials: true})
@@ -99,7 +99,7 @@ export class BaseService<T> {
       .then(res => res.json())
       .catch(BaseService.handleError);
   }
-
+// 刷新浏览器，并创建一些新的
   create(url: string, data: T): Promise<any> {
     return this.http
       .post(url, data, {headers: this.headers, withCredentials: true})
@@ -114,7 +114,7 @@ export class BaseService<T> {
       .then(response => response.json() as T[])
       .catch(BaseService.handleError);
   }
-
+// 刷新浏览器，从服务器上移除
   delete(url: string): Promise<any> {
     return this.http.delete(url, {headers: this.headers, withCredentials: true})
       .toPromise()
