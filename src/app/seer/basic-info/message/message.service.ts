@@ -91,7 +91,7 @@ export class MessageService extends BaseService<any>{
   // }
 
   // getResources(): Promise<Result>{
-  //   const url = `${SERVER}/sys/resource`;
+  //   const url = `${SERVER}/system/resource`;
   //   return this.getAll(url);
   // }
 
@@ -106,22 +106,22 @@ export class MessageService extends BaseService<any>{
   // }
 
   // getSysUsersByStaffId(staffId:string): Promise<Result>{
-  //   const url = `${SERVER}/sys/user/staff/${staffId}`;
+  //   const url = `${SERVER}/system/user/staff/${staffId}`;
   //   return this.getAll(url);
   // }
 
   // getUsersByRoleId(roleId:string): Promise<Result>{
-  //   const url = `${SERVER}/sys/user/role/${roleId}`;
+  //   const url = `${SERVER}/system/user/role/${roleId}`;
   //   return this.getAll(url);
   // }
 
   // updateUserRole(roleId:string, userIds:string[]):Promise<Result>{
-  //   const url = `${SERVER}/sys/user/role/${roleId}`;
+  //   const url = `${SERVER}/system/user/role/${roleId}`;
   //   return this.update(url, userIds);
   // }
 
   // getSysUsersWithOrgs():Promise<Result>{
-  //   const url = `${SERVER}/sys/role/accountsWithOrg`;
+  //   const url = `${SERVER}/system/role/accountsWithOrg`;
   //   return this.getAll(url);
   // }
 }
