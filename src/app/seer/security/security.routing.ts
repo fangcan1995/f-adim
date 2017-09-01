@@ -12,7 +12,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'risk-eval'},
       { path: 'risk-eval', loadChildren:'./risk-eval/risk-eval.module#RiskEvalModule' },
-
+      { path: 'risk-rating', loadChildren:'./risk-rating/risk-rating.module#RiskRatingModule' },
     ]
   }
 ];

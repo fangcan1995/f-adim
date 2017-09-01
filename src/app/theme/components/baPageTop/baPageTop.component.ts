@@ -1,12 +1,18 @@
-import {Component, ViewEncapsulation, ViewChild, OnDestroy, OnInit} from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  ViewChild,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 
-import {GlobalState} from '../../../global.state';
-import {Router} from "@angular/router";
-import {LoginService} from "../../../seer/login/login.service";
-import {DynamicComponentLoader} from "../../directives/dynamicComponent/dynamic-component.directive";
-import {ChangePasswordComponent} from "../baChangePassword/baChangePassword.component";
-import {LoginData} from "../../../seer/model/LoginData";
-import {StaffManageService} from "../../../seer/basic_info/modules/staff-manage/staff-manage.service";
+import { GlobalState } from '../../../global.state';
+import { Router } from "@angular/router";
+import { LoginService } from "../../../seer/login/login.service";
+import { DynamicComponentLoader } from "../../directives/dynamicComponent/dynamic-component.directive";
+import { ChangePasswordComponent } from "../baChangePassword/baChangePassword.component";
+import { LoginData } from "../../../seer/model/LoginData";
+import { StaffManageService } from "../../../seer/basic-info/staff-manage/staff-manage.service";
 
 @Component({
   selector: 'ba-page-top',
