@@ -1,19 +1,14 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from "@angular/router";
+import { NgModule }      from '@angular/core';
+import { CommonModule }  from '@angular/common';
 
+import { SeerRoutingModule }       from './seer.routing';
 import { NgaModule } from '../theme/nga.module';
 
 import { SeerComponent } from './seer.component';
-import { routing } from './seer.routing';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    NgaModule,
-    routing,
-  ],
+  imports: [RouterModule,CommonModule, NgaModule, SeerRoutingModule],
   declarations: [SeerComponent],
 })
 export class SeerModule {

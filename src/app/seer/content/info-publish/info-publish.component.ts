@@ -7,6 +7,8 @@ import { InfoPublishService } from "./info-publish.service";
   styleUrls: ['./info-publish.component.scss'],
 })
 export class InfoPublishComponent {
+  title = "栏目列表"
+  tableTitle: string = "文章列表";
   constructor() {}
 }
 
