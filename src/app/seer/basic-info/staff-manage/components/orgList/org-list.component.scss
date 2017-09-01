@@ -1,0 +1,85 @@
+@import '../../../../../theme/sass/conf/conf';
+
+.person_label{
+  margin-top:20px;
+  float:right;
+}
+.person_space{
+  margin-top: 10px;
+}
+
+.org_list_space{
+  margin-top: 12px;
+}
+
+.cognate_top{
+  margin-top: 0px;
+}
+.cognate_mid{
+  margin-top: 15px;
+}
+.cognate_foot{
+  margin-top: 20px;
+}
+
+.person_cognate{
+  margin-top: 20px;
+}
+
+.person_td{
+  width: 250px;
+}
+
+.car_label{
+  margin-top:10px;
+}
+
+.spbrow{
+  margin-top:15px;
+}
+
+.header_border {
+  border-bottom: solid;
+  border-color: #00abff;
+}
+
+.tree-header_box{
+  background-color: white;
+  margin-bottom: 50px;
+  padding:15px;
+}
+
+label.required:after {
+  content: " *";
+  color: red;
+}
+
+
+.headbg{
+  background: black;
+  color: white;
+  height:48px;
+}
+.userManagerAll{
+  height: 100%;
+  width: 100%;
+}
+.leftSide{
+  background: white;
+  float: left;
+  height: 100%;
+  width: 30%;
+  margin-right:10px;
+  overflow-y:auto;
+}
+.rightSide{
+  background: white;
+  height: 100%;
+  width:65%;
+  float: right;
+  margin-right:10px;
+}
+.rightCard{
+  height: 100%;
+  width:65%;
+}
