@@ -1,7 +1,7 @@
 import {Component, ViewEncapsulation, OnInit} from "@angular/core";
 import {RoleManageService} from "../../role-manage.service";
 import {Router} from "@angular/router";
-import {Role} from "../../../../model/auth/role";
+import {Role} from "../../../../../model/auth/role";
 @Component({
   selector: 'role-list',
   templateUrl: './role-list.component.html',
@@ -41,11 +41,11 @@ export class RoleListComponent implements OnInit{
   onChange(message):void {
 
     if(message.type=='add'){
-      this._router.navigate(['/seer/system/role-manage/role']);
+      this._router.navigate(['/seer/sys/role-manage/role']);
     }
 
     if(message.type=='update'){
-      this._router.navigate(['/seer/system/role-manage/role',message.data.roleId]);
+      this._router.navigate(['/seer/sys/role-manage/role',message.data.roleId]);
     }
 
     if(message.type=='delete'){

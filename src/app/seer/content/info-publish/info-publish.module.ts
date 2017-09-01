@@ -8,6 +8,8 @@ import { InfoPublishService } from "./info-publish.service";
 import { InfoPublishComponent } from './info-publish.component';
 import { InfoPublishEditComponent } from './components/info-publish-edit/info-publish-edit.component';
 
+import { SeerTree } from '../../../theme/modules/seer-tree/seer-tree/seer-tree.component';
+import { BaCard } from '../../../theme/components/baCard/baCard.component';
 @NgModule({
   imports: [
     NgaModule,
@@ -20,6 +22,8 @@ import { InfoPublishEditComponent } from './components/info-publish-edit/info-pu
   ],
   providers: [
     InfoPublishService,
+    SeerTree,
+    BaCard,
   ],
 })
 export class InfoPublishModule {

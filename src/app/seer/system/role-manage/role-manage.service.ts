@@ -17,6 +17,7 @@ export class RoleManageService extends BaseService<any>{
   getRoleById(id: string): Promise<Result> {
     const url = `${this.roleManageUrl}/${id}`;
     return this.getAll(url);
+    
   }
 
   updateRole(roleWithSysUserIdsVO: RoleWithSysUserIdsVO): Promise<Result> {
