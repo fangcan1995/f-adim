@@ -1,7 +1,7 @@
 import {Component, ViewEncapsulation, OnInit} from "@angular/core";
 import {RoleManageService} from "../../role-manage.service";
 import {Router} from "@angular/router";
-import {Role} from "../../../../../model/auth/role";
+import {Role} from "../../../../model/auth/role";
 @Component({
   selector: 'role-list',
   templateUrl: './role-list.component.html',
