@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, OnDestroy } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import * as _ from 'lodash';
 import { MemberService } from './member.service';
 @Component({
@@ -76,6 +76,7 @@ export class MemberComponent implements OnInit, OnDestroy {
   constructor(
     private _memberService: MemberService,
     private _router: Router,
+    private _route: ActivatedRoute,
   ) {}
   ngOnInit(): void {
     this.getList();
@@ -110,10 +111,10 @@ export class MemberComponent implements OnInit, OnDestroy {
     let data = message.data;
     switch ( type ) {
       case 'add':
-        this._router.navigate(['/seer/basic/member/add']);
+        this._router.navigate(['add'], {relativeTo: this._route} );
         break;
       case 'update': 
-        this._router.navigate([`/seer/basic/member/edit/${message.data.id}`]);
+        this._router.navigate([`edit/${message.data.id}`], {relativeTo: this._route} );
         break;
       case 'remove':
         this._memberService.deleteOne(message.data.id)

@@ -20,7 +20,6 @@ import { IntentionEditComponent } from './components/intention-edit/intention-ed
   ],
   providers: [
     IntentionService,
-
   ],
   exports: [
   ]

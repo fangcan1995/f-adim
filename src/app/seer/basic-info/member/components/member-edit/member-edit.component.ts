@@ -57,45 +57,32 @@ export class MemberEditComponent implements OnInit {
   handleSaveBtnClick() {
     if ( this.forbidSaveBtn ) return;
     this.forbidSaveBtn = true;
+    let requestStream$;
     if ( this._editType === 'edit' ) {
-      this._memberService.putOne(this.member.id, this.member)
-      .subscribe(res => {
-        this._messageService.open({
-          icon: 'fa fa-times-circle',
-          message: res.msg,
-          autoHideDuration: 3000,
-        }).onClose().subscribe(() => {
-          this._router.navigate(['/seer/basic/member'])
-        });
-      }, errMsg => {
-        this.forbidSaveBtn = false;
-        // 错误处理的正确打开方式
-        this._messageService.open({
-          icon: 'fa fa-times-circle',
-          message: errMsg,
-          autoHideDuration: 3000,
-        })
-      })
+      requestStream$ = this._memberService.putOne(this.member.id, this.member)
     } else if ( this._editType === 'add' ) {
-      this._memberService.postOne(this.member)
-      .subscribe(res => {
-        this._messageService.open({
-          icon: 'fa fa-times-circle',
-          message: res.msg,
-          autoHideDuration: 3000,
-        }).onClose().subscribe(() => {
-          this._router.navigate(['/seer/basic/member'])
-        });
-      }, errMsg => {
-        this.forbidSaveBtn = false;
-        // 错误处理的正确打开方式
-        this._messageService.open({
-          icon: 'fa fa-times-circle',
-          message: errMsg,
-          autoHideDuration: 3000,
-        })
-      })
+      requestStream$ = this._memberService.postOne(this.member)
+    } else {
+      return;
     }
+    requestStream$
+    .subscribe(res => {
+      this._messageService.open({
+        icon: 'fa fa-times-circle',
+        message: res.msg,
+        autoHideDuration: 3000,
+      }).onClose().subscribe(() => {
+        this._router.navigate(['/seer/basic-info/member'])
+      });
+    }, errMsg => {
+      this.forbidSaveBtn = false;
+      // 错误处理的正确打开方式
+      this._messageService.open({
+        icon: 'fa fa-times-circle',
+        message: errMsg,
+        autoHideDuration: 3000,
+      })
+    })
 
   }
 

@@ -3,6 +3,11 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import * as _ from 'lodash';
 
+interface dialogOptsModel {
+  content: string,
+  actions: Array<any>,
+}
+
 @Injectable()
 export class SeerDialogService {
   private _onChange$: Subject<any> = new Subject();
@@ -29,6 +34,9 @@ export class SeerDialogService {
   }
   public onAction() {
     return this._onAction$;
+  }
+  public alert(msg) {
+    //this.show()
   }
 }
 
