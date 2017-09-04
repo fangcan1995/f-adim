@@ -49,10 +49,26 @@ export class MemberComponent implements OnInit, OnDestroy {
   data = [];
   members = [];
   titles = [
-    { key:'name', label:'用户名' },
-    { key:'real_name', label:'真实姓名', },
-    { key:'id_number', label:'身份证号' },
-    { key:'mobile', label:'手机号' },
+    {
+      key:'name',
+      label:'用户名',
+      hidden: false,
+    },
+    {
+      key:'real_name',
+      label:'真实姓名',
+      hidden: true,
+    },
+    {
+      key:'id_number',
+      label:'身份证号',
+      hidden: true,
+    },
+    {
+      key:'mobile',
+      label:'手机号',
+      hidden: true,
+    },
   ];
   actionSet = {
     'update': {

@@ -40,7 +40,6 @@ export class SeerTableComponent implements OnInit {
   public rowsOnPage = 10;
   public sortBy = '';
   public selectedAll = false;
-  public titlesCopy = [];
   public action;
   public alert_content = '';
   public alert_id;
@@ -60,7 +59,6 @@ export class SeerTableComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.titlesCopy = _.clone(this.titles);
 
     if ( _.isArray(this.titles) && this.titles.length ) {
       this.sortBy = this.titles[0].key;
@@ -69,13 +67,15 @@ export class SeerTableComponent implements OnInit {
       let multiColumnOptions = [];
 
       _.each(this.titles, title => {
-        multiColumnOptions.push(title.key);
+        
+        if ( !title.hidden ) {
+          multiColumnOptions.push(title.key);
+        }
         multiColumnArray.push({
           id: title.key,
           name: title.label,
         });
       });
-
       this.multiColumnArray = multiColumnArray;
       this.multiColumnOptions = multiColumnOptions;
     }
@@ -197,14 +197,19 @@ export class SeerTableComponent implements OnInit {
     }
     return this.data;
   }
-
+  filterShownTitles() {
+    return _.filter(this.titles, t => !t['hidden'])
+  }
   onChangeColumn(event): void {
     let newTitles = [];
-    _.each(event, n => {
-      let item = _.find(this.titlesCopy, t => t.key == n);
-      if ( item ) newTitles.push(item);
+    this.titles = _.map(this.titles, t => {
+     if ( event.indexOf(t['key']) != -1 ) {
+       _.set(t, 'hidden', false)
+     } else {
+       _.set(t, 'hidden', true)
+     }
+      return t
     })
-    this.titles = newTitles;
   }
   transferKeyWithDict(obj: any, translate_copy: any, direction?: boolean | number): void {
     if ( direction ) {
