@@ -1,1 +1,16 @@
-活动管理
+<seer-collapse-card>
+  <seer-filter
+    [hasGlobalFilter]="hasGlobalFilter"
+    [filters]="filters"
+    (onFiltersChanged)=handleFiltersChanged($event)
+    (onSearchBtnClicked)=handleSearchBtnClicked($event)
+  ></seer-filter>
+</seer-collapse-card>
+<seer-collapse-card>
+  <seer-table
+    [data]="members"
+    [titles]="titles"
+    [translate]="dict"
+    (notify)="onChange($event)"
+  ></seer-table>
+</seer-collapse-card>
