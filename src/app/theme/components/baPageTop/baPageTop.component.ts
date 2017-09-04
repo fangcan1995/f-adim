@@ -12,7 +12,7 @@ import { LoginService } from "../../../seer/login/login.service";
 import { DynamicComponentLoader } from "../../directives/dynamicComponent/dynamic-component.directive";
 import { ChangePasswordComponent } from "../baChangePassword/baChangePassword.component";
 import { LoginData } from "../../../seer/model/LoginData";
-import { StaffManageService } from "../../../seer/basic-info/staff-manage/staff-manage.service";
+import { StaffManageService } from "../../../seer/basic-info/staff/staff.service";
 
 @Component({
   selector: 'ba-page-top',

@@ -1,5 +1,5 @@
 import {Component, ViewEncapsulation, OnInit, ViewChild, Renderer, EventEmitter, ElementRef} from '@angular/core';
-import {StaffManageService} from "../staff-manage.service";
+import {StaffManageService} from "../staff.service";
 import {Json} from "../../../login/Json";
 import {Ng2Uploader} from "ng2-uploader";
 import {NewStaffDto} from "../NewStaffDto";
@@ -515,8 +515,6 @@ export class StaffComponent{
 
   }
   @ViewChild('excelUpload') _excelUpload:ElementRef;
-  public action;
-  public alert_content='';
 
   public onExcels():void {
 
@@ -531,24 +529,14 @@ export class StaffComponent{
       // });
       this.staffManageService.importExcel(fd)
         .subscribe(
-          res1 => {
-            //alert(res1.data);
-            this.alert_content = res1.data + "<br/>";
-            this.action = 'show';
-
-
+          res => {
+            alert(res.data);
             this.getStaffs();
           },
           error =>  this.errorMessage = <any>error);
 
     }
   }
-
-  onSelectAlert(event){
-    //console.log(event);
-    this.action = false;
-  }
-
   cancel(): void{
     this.currentStaff = false;
     this.imageError = false;

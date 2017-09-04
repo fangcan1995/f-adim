@@ -23,9 +23,11 @@
   </div>
 
   <div class="row spbrow">
-    <button type="button" class="btn btn-search btn-info"
-            (click)="getStaffByTerms()"
-            [disabled]="renderSearch()"
+    <button
+      type="button"
+      class="btn btn-search btn-info"
+      (click)="getStaffByTerms()"
+      [disabled]="renderSearch()"
     >搜索</button>
     <button type="button" class="btn btn-default"
             (click)="cancel()"
@@ -48,13 +50,6 @@
   </div>
 
   <input #excelUpload type="file" name="file" hidden="true" id="excelUpload" (change)="onExcels()">
-
-  <seeralert
-    [type]="'alert'"
-    [content]="alert_content"
-    [action]="action"
-    (notify)="onSelectAlert($event)"
-  ></seeralert>
 </div>
 <!--</ba-card>-->
 <form (ngSubmit)="saveStaff()">
