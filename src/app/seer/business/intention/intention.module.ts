@@ -7,6 +7,7 @@ import { IntentionComponent } from './intention.component';
 import { IntentionService } from "./intention.service";
 
 import { IntentionEditComponent } from './components/intention-edit/intention-edit.component';
+import {IntentionCompletionComponent} from "./components/intention-completion/intention-completion.component";
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { IntentionEditComponent } from './components/intention-edit/intention-ed
   declarations: [
     IntentionComponent,
     IntentionEditComponent,
+    IntentionCompletionComponent,
   ],
   providers: [
     IntentionService,
