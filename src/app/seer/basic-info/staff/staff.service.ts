@@ -1,7 +1,12 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-
 import { Observable } from 'rxjs/Observable';
+
+import {
+  baseUrl,
+  apis,
+  HttpInterceptorService,
+} from '../../../theme/services';
 
 import {NewStaffDto} from "./NewStaffDto";
 import {SearchStaffDto} from "./SearchStaffDto";
@@ -26,8 +31,18 @@ export class StaffService {
 
   private excelExport = SERVER + '/sys/excel/download';
 
-  constructor (private http: Http) {}
+  constructor (
+    private http: Http,
+    private _httpInterceptorService: HttpInterceptorService,
+  ) {}
+  getOne(id): Observable<any> {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
 
+    return this.http.get(this.getStaffByIdUrl+"/"+id, options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
   private extractData(res: Response) {
     let body = res.json();
     return body || { };

@@ -40,18 +40,14 @@ export class SeerTableComponent implements OnInit {
   public rowsOnPage = 10;
   public sortBy = '';
   public selectedAll = false;
-  public action;
-  public alert_content = '';
-  public alert_id;
-
   private multiColumnArray: IMultiSelectOption[] = [];
   private multiColumnOptions = [];
 
   public currentDeleteEvents = [];
   public currentDeleteEvent;
   public multiSelectTexts = {
-    checked: '选中',
-    checkedPlural: '选中',
+    checked: '显示',
+    checkedPlural: '显示',
     defaultTitle: '请选择',
   }
   constructor(
@@ -59,6 +55,7 @@ export class SeerTableComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.titles = _.clone(this.titles);
 
     if ( _.isArray(this.titles) && this.titles.length ) {
       this.sortBy = this.titles[0].key;
@@ -99,13 +96,13 @@ export class SeerTableComponent implements OnInit {
     }
   }
 
-  selectAll(value): void {
-    value = !value;
+  selectAll(): void {
     _.each(this.data, item => {
-      item.selected = value;
+      item.selected = this.selectedAll;
     })
     this.notify.emit({type: 'select_all', data: this.data});
   }
+
   selectOne(event): void {
     let selectedAll = true;
     _.each(this.data, item => {
@@ -114,17 +111,7 @@ export class SeerTableComponent implements OnInit {
     this.selectedAll = selectedAll;
     this.notify.emit({type: 'select_one', data: event});
   }
-  removeAll(): void {
-    let list = [];
-    _.each(this.data, item => {
-      if ( item.selected ) list.push(item);
-    });
-
-    this.alert_id = 'delete_all';
-    this.alert_content = '确定删除吗?';
-    this.action = 'show';
-    this.currentDeleteEvents = list;
-  }
+ 
 
   handleActionsClick($event) {
     if ( $event.action.action || this._actions[$event.action.action] ) {
@@ -141,10 +128,6 @@ export class SeerTableComponent implements OnInit {
   }
   private _actions = {
     remove(event): void {
-      this.alert_id = 'delete';
-      this.alert_content = '确定删除吗?';
-      this.action = 'show';
-      this.currentDeleteEvent = event.data;
       /**/
     },
     detail(event) {
@@ -161,21 +144,14 @@ export class SeerTableComponent implements OnInit {
       event.data.selected = false;
       if ( this.translate ) this.transferKeyWithDict(event, this.translate);
       this.notify.emit({type: 'edit', data: event.data});
+    },
+    removeAll(): void {
+      let list = [];
+      _.each(this.data, item => {
+        if ( item.selected ) list.push(item);
+      });
     }
   } 
-
-  onSelectAlert(event){
-    if ( event.type == 'save' ) {
-      if ( this.alert_id == 'delete_all' ) {
-        this.notify.emit({type: 'remove_all', data: this.currentDeleteEvents});
-      } else if ( this.alert_id == 'delete' ) {
-        this.notify.emit({type: 'remove', data: this.currentDeleteEvent});
-      }
-      this.action = false;
-    } else if ( event.type == 'cancel' ) {
-      this.action = false;
-    }
-  }
 
   add(): void {
     this.notify.emit({type: 'add', data: {}});

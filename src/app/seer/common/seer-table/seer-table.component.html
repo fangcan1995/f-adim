@@ -52,11 +52,11 @@
       >
       <thead>
       <tr class="header_border">
-        <th>
+        <th class="table-checkbox">
           <input
             type="checkbox"
             [(ngModel)]="selectedAll"
-            (click)="selectAll(selectedAll)"/>
+            (change)="selectAll()"/>
         </th>
         <th *ngFor="let title of filterShownTitles()" class="text-center">
           <mfDefaultSorter by="{{ title.key }}"><b class="seer_font">{{ title.label }}</b></mfDefaultSorter>
@@ -66,7 +66,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let item of mf.data ">
-        <td><input type="checkbox" [(ngModel)]="item.selected" (change)="selectOne(item)"/></td>
+        <td class="table-checkbox"><input type="checkbox" [(ngModel)]="item.selected" (change)="selectOne(item)"/></td>
         <td *ngFor="let title of filterShownTitles()" class="text-center">
 
           <div *ngIf="title.type=='link'">
