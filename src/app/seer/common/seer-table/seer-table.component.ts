@@ -57,7 +57,6 @@ export class SeerTableComponent implements OnInit {
   }
   constructor(
     private service: BaseService<any>,
-    private _seerDialogService: SeerDialogService,
   ) { }
 
   ngOnInit(): void {
@@ -79,10 +78,6 @@ export class SeerTableComponent implements OnInit {
 
       this.multiColumnArray = multiColumnArray;
       this.multiColumnOptions = multiColumnOptions;
-
-
-      
-      
     }
     
     /** 增加的部分 */
@@ -150,25 +145,7 @@ export class SeerTableComponent implements OnInit {
       this.alert_content = '确定删除吗?';
       this.action = 'show';
       this.currentDeleteEvent = event.data;
-      /*this._seerDialogService.show({
-        content: '123',
-        actions: [
-          {
-            type: 'ensure',
-            text: '确定',
-          },
-          {
-            type: 'cancel',
-            text: '关闭',
-          }
-        ]
-      }).onAction().subscribe(res => {
-        if ( res.type === 'cancel' ) {
-          this._seerDialogService.hide();
-        } else if (res.type === 'ensure') {
-          this._seerDialogService.hide();
-        }
-      });*/
+      /**/
     },
     detail(event) {
       event.data.selected = false;

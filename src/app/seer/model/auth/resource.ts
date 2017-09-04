@@ -1,5 +1,5 @@
-import {BaseEntity} from "../BaseEntity";
-export class Resource extends BaseEntity{
+import { BaseEntity } from "../BaseEntity";
+export class Resource extends BaseEntity {
   resourceId: string;
   resourceParentId: string;
   resourceName: string;
