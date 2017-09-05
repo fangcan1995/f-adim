@@ -1,1 +1,11 @@
-风险测评管理
+
+<seer-collapse-card
+>
+  <seer-table
+    [data]="source"
+    [titles]="titles"
+    [translate]="dict"
+    (notify)="onChange($event)"
+  ></seer-table>
+</seer-collapse-card>
+
