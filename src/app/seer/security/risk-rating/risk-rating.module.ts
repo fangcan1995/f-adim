@@ -14,7 +14,7 @@ import { RiskRatingEditComponent } from './components/risk-rating-edit/risk-rati
     routing,
   ],
   declarations: [
-    RiskRatingService,
+    RiskRatingComponent,
     RiskRatingEditComponent,
   ],
   providers: [

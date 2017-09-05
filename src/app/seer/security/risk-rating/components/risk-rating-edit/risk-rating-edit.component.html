@@ -1,1 +1,84 @@
-意向处理编辑页
+<div class="widgets">
+  <div style="margin-bottom: 24px;">
+    <button class="btn btn-primary" (click)="handleBackBtnClick()">返回</button>
+    <button class="btn btn-primary" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
+  </div>
+  <div class="row justify-content-center">
+    <seer-collapse-card title="风险等级设置" cardClass="with-scroll" [canCollapse]=true>
+      <form class="form-horizontal">
+
+        <div class="col-sm-12">
+          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
+            <div class="row">
+              <label for="s2id_riskLevel" class="col-sm-2 control-label">风险级别:</label>
+              <div class="col-sm-4">
+                <select class="form-control person_space" name="s2id_riskLevel" id="s2id_riskLevel"
+                        dict-select
+                        [key]="'LOAN_RISK_LEVEL'"
+                        [selected]="riskRating.s2id_riskLevel"
+                        [topOption]="{dictValueId:'',dictValueName:'请选择'}"
+                        [(ngModel)]="riskRating.s2id_riskLevel">
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="row">
+              <label for="examAResult" class="col-sm-4 control-label">对应分值:</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="examAResult"  [(ngModel)]="riskRating.scoreStart" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="row">
+              <label for="examAScores" class="col-sm-4 control-label" style="text-align: center">—</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="examAScores"  [(ngModel)]="riskRating.scoreEnd" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-sm-12">
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="row">
+              <label for="investGrade1" class="col-sm-4 control-label">推荐投资等级:</label>
+              <div class="col-sm-8">
+
+                <select class="form-control person_space" name="investGrade1" id="investGrade1"
+                        dict-select
+                        [key]="'LOAN_ASSESS_LEVEL'"
+                        [selected]="riskRating.investGrade1"
+                        [topOption]="{dictValueId:'',dictValueName:'请选择'}"
+                        [(ngModel)]="riskRating.investGrade1">
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="row">
+              <label for="examCScores" class="col-sm-4 control-label" style="text-align: right">投资总额上线:</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="examCScores"  [(ngModel)]="riskRating.investTotal" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
+            <div class="row">
+              <label for="remarks" class="col-sm-2 control-label">备注:</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" id="remarks"  [(ngModel)]="riskRating.remarks" [ngModelOptions]="{standalone: true}"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </seer-collapse-card>
+  </div>
+</div>

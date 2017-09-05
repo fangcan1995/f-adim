@@ -1,14 +1,15 @@
 import { Routes, RouterModule }  from '@angular/router';
-import {StaffComponent} from "./components/staff.component";
-
-// noinspection TypeScriptValidateTypes
+import { StaffComponent } from './staff.component';
+import { StaffEditComponent } from './components/staff-edit/staff-edit.component';
 const routes: Routes = [
   {
     path: '',
     children: [
       { path: '', component: StaffComponent },
+      { path: 'add', component: StaffEditComponent },
+      { path: 'edit/:id', component: StaffEditComponent },
     ]
   }
 ];
 
-export const staffManageRouting = RouterModule.forChild(routes);
+export const routing = RouterModule.forChild(routes);

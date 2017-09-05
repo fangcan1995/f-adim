@@ -12,14 +12,17 @@ import { LoginService } from "../../../seer/login/login.service";
 import { DynamicComponentLoader } from "../../directives/dynamicComponent/dynamic-component.directive";
 import { ChangePasswordComponent } from "../baChangePassword/baChangePassword.component";
 import { LoginData } from "../../../seer/model/LoginData";
-import { StaffManageService } from "../../../seer/basic-info/staff/staff.service";
+import { StaffService } from "../../../seer/basic-info/staff/staff.service";
 
 @Component({
   selector: 'ba-page-top',
   templateUrl: './baPageTop.html',
   styleUrls: ['./baPageTop.scss'],
   encapsulation: ViewEncapsulation.None,
-  providers:[LoginService,StaffManageService]
+  providers:[
+    LoginService,
+    StaffService,
+  ],
 })
 export class BaPageTop implements OnInit,OnDestroy{
 
@@ -33,7 +36,12 @@ export class BaPageTop implements OnInit,OnDestroy{
   errorMessage: string;
   loginImage: string;
 
-  constructor(private _state:GlobalState,private _loginService:LoginService, private staffManageService:StaffManageService,private router:Router) {
+  constructor(
+    private _state:GlobalState,
+    private _loginService:LoginService,
+    private staffManageService:StaffService,
+    private router:Router
+    ) {
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
     });

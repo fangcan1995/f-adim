@@ -31,7 +31,6 @@ export class MemberEditComponent implements OnInit {
     })
     .subscribe(params => {
       if ( this._editType === 'edit' ) {
-        console.log(params.id)
         this._memberService.getOne(params.id)
         .subscribe(res => {
           this.member = res.data || {};

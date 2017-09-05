@@ -45,14 +45,28 @@ export class MemberComponent implements OnInit, OnDestroy {
       type: 'input.text',
     },
   ]
-  title = '角色列表';
-  data = [];
   members = [];
   titles = [
-    { key:'name', label:'用户名' },
-    { key:'real_name', label:'真实姓名', },
-    { key:'id_number', label:'身份证号' },
-    { key:'mobile', label:'手机号' },
+    {
+      key:'name',
+      label:'用户名',
+      hidden: false,
+    },
+    {
+      key:'real_name',
+      label:'真实姓名',
+      hidden: true,
+    },
+    {
+      key:'id_number',
+      label:'身份证号',
+      hidden: true,
+    },
+    {
+      key:'mobile',
+      label:'手机号',
+      hidden: false,
+    },
   ];
   actionSet = {
     'update': {
@@ -111,10 +125,10 @@ export class MemberComponent implements OnInit, OnDestroy {
     let data = message.data;
     switch ( type ) {
       case 'add':
-        this._router.navigate(['add'], {relativeTo: this._route} );
+        this._router.navigate(['add'], {relativeTo: this._route});
         break;
       case 'update': 
-        this._router.navigate([`edit/${message.data.id}`], {relativeTo: this._route} );
+        this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
         break;
       case 'delete':
         this._dialogService.confirm('确定删除吗？')
