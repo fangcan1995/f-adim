@@ -15,7 +15,8 @@ export class ActivityService {
       "activityKind": "0",
       "activityDays": "52",
       "activityStartTime": "0",
-      "activityState": "123456"
+      "activityState": "123456",
+      "someStatus": "2"
     },
     {
       "id": "2",
@@ -24,7 +25,8 @@ export class ActivityService {
       "activityKind": "0",
       "activityDays": "52",
       "activityStartTime": "0",
-      "activityState": "123456"
+      "activityState": "123456",
+      "someStatus": "2"
     },
     {
       "id": "3",
@@ -33,7 +35,8 @@ export class ActivityService {
       "activityKind": "0",
       "activityDays": "52",
       "activityStartTime": "0",
-      "activityState": "123456"
+      "activityState": "123456",
+      "someStatus": "2"
     },
     {
       "id": "4",
@@ -42,7 +45,8 @@ export class ActivityService {
       "activityKind": "0",
       "activityDays": "52",
       "activityStartTime": "0",
-      "activityState": "123456"
+      "activityState": "123456",
+      "someStatus": "1"
     },
     {
       "id": "5",
@@ -51,7 +55,8 @@ export class ActivityService {
       "activityKind": "0",
       "activityDays": "52",
       "activityStartTime": "0",
-      "activityState": "123456"
+      "activityState": "123456",
+      "someStatus": "1"
     },
     {
       "id": "6",
@@ -60,7 +65,8 @@ export class ActivityService {
       "activityKind": "0",
       "activityDays": "52",
       "activityStartTime": "0",
-      "activityState": "123456"
+      "activityState": "123456",
+      "someStatus": "1"
     },
     {
       "id": "7",
@@ -69,7 +75,8 @@ export class ActivityService {
       "activityKind": "0",
       "activityDays": "52",
       "activityStartTime": "0",
-      "activityState": "123456"
+      "activityState": "123456",
+      "someStatus": "1"
     }
   ];
 

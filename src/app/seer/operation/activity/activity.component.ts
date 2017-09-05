@@ -1,7 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import * as _ from 'lodash';
 import {ActivityService} from "./activity.service";
+import {SeerDialogService} from "../../../theme/services/seer-dialog.service";
 
 @Component({
   templateUrl: './activity.component.html',
@@ -11,20 +12,37 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
   hasGlobalFilter = true;
   filters = [
-    {key: 'name', label: '用户名', type: 'input.text'},
-    {key: 'real_name', label: '真实姓名', type: 'input.text'},
+    {key: 'activityTheme', label: '活动主题', type: 'input.text'},
     {
-      key: 'gender', label: '性别', type: 'select',
+      key: 'activityType', label: '活动类型', type: 'select',
       options: [
         {content: '请选择'},
         {value: '0', content: '男'},
         {value: '1', content: '女'}
       ]
     },
-    {key: 'mobile', label: '手机号', type: 'input.text'}
+    {
+      key: 'activityKind', label: '活动奖励种类', type: 'select',
+      options: [
+        {content: '请选择'},
+        {value: '0', content: '男'},
+        {value: '1', content: '女'}
+      ]
+    },
+    {key: 'activityTimeBegin', label: '活动时间', type: 'input.text'},
+    {key: 'activityTimeEnd', label: '一　　　', type: 'input.text'},
+    {key: 'activityDays', label: '活动天数', type: 'input.text'},
+    {
+      key: 'activeApplication', label: '活动适用产品', type: 'select',
+      options: [
+        {content: '请选择'},
+        {value: '0', content: '男'},
+        {value: '1', content: '女'}
+      ]
+    }
   ];
 
-  activitys = [];
+  activities = [];
   titles = [
     {key: 'activityTheme', label: '活动主题'},
     {key: 'activityType', label: '活动类型'},
@@ -55,7 +73,8 @@ export class ActivityComponent implements OnInit, OnDestroy {
     }
   };
 
-  constructor(private _activityService: ActivityService, private _router: Router) {
+  constructor(private _activityService: ActivityService, private _dialogService: SeerDialogService,
+              private _router: Router, private _activatedRoute: ActivatedRoute,) {
   }
 
   ngOnInit(): void {
@@ -65,8 +84,8 @@ export class ActivityComponent implements OnInit, OnDestroy {
   getList(params?) {
     this._activityService.getList(params)
       .subscribe(res => {
-        this.activitys = res.data;
-        this.activitys = _.map(this.activitys, t => {
+        this.activities = res.data;
+        this.activities = _.map(this.activities, t => {
           let status = t.someStatus;
           let actions;
           switch (status) {
@@ -74,10 +93,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
               actions = [this.actionSet.update, this.actionSet.delete];
               break;
             case "2":
-              actions = [this.actionSet.foreclosure, this.actionSet.delete];
-              break;
-            case "3":
-              actions = [this.actionSet.update];
+              actions = [this.actionSet.foreclosure];
               break;
             default:
               break;
@@ -87,8 +103,51 @@ export class ActivityComponent implements OnInit, OnDestroy {
       })
   }
 
+  onChange(message) {
+    console.log(message)
+    const type = message.type;
+    let data = message.data;
+    switch (type) {
+      case 'add':
+        this._router.navigate(['add'], {relativeTo: this._activatedRoute});
+        break;
+      case 'update':
+        this._router.navigate([`edit/${message.data.id}`], {relativeTo: this._activatedRoute});
+        break;
+      case 'delete':
+        this._dialogService.confirm('确定删除吗？')
+          .subscribe(action => {
+            if (action === 1) {
+              this._activityService.deleteOne(message.data.id)
+                .subscribe(data => {
+                  this.getList();
+                });
+            }
+          })
+
+        break;
+      case 'delete_all':
+        let ids = _(data).map(t => t.id).value();
+        break;
+    }
+  }
+
+  handleFiltersChanged($event) {
+    let params = {
+      ...$event,
+    }
+    this.getList(params)
+  }
+
+  handleSearchBtnClicked($event) {
+    let params = {
+      ...$event,
+    }
+    this.getList(params)
+  }
+
   ngOnDestroy(): void {
-    throw new Error("Method not implemented.");
+    // throw new Error("Method not implemented.");
   }
 
 }
