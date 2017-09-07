@@ -18,7 +18,7 @@
 
 
   .seer_a_font{
-    color:#00abff;
+    color: #00abff;
     text-decoration:underline;
     cursor:pointer;
   }
@@ -31,14 +31,16 @@
       }
     }
   }
-
-  td{
-    width: 245px;
+  th,
+  td {
+    width: auto;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-
+  .table-checkbox {
+    width: 48px;
+  }
   .export{
     cursor:pointer;
   }

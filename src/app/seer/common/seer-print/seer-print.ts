@@ -2,12 +2,12 @@ import {Component, ViewEncapsulation, OnInit, Input, Output, EventEmitter, OnCha
 
 
 @Component({
-  selector: 'seerprint',
+  selector: 'seer-print',
   styleUrls: [],
   templateUrl: './seer-print.html',
 
 })
-export class seerPrintComponent implements OnInit {
+export class SeerPrintComponent implements OnInit {
 
 
   @Input() data;

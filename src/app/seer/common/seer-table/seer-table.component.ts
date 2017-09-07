@@ -40,28 +40,22 @@ export class SeerTableComponent implements OnInit {
   public rowsOnPage = 10;
   public sortBy = '';
   public selectedAll = false;
-  public titlesCopy = [];
-  public action;
-  public alert_content = '';
-  public alert_id;
-
   private multiColumnArray: IMultiSelectOption[] = [];
   private multiColumnOptions = [];
 
   public currentDeleteEvents = [];
   public currentDeleteEvent;
   public multiSelectTexts = {
-    checked: '选中',
-    checkedPlural: '选中',
+    checked: '显示',
+    checkedPlural: '显示',
     defaultTitle: '请选择',
   }
   constructor(
     private service: BaseService<any>,
-    private _seerDialogService: SeerDialogService,
   ) { }
 
   ngOnInit(): void {
-    this.titlesCopy = _.clone(this.titles);
+    this.titles = _.clone(this.titles);
 
     if ( _.isArray(this.titles) && this.titles.length ) {
       this.sortBy = this.titles[0].key;
@@ -70,19 +64,17 @@ export class SeerTableComponent implements OnInit {
       let multiColumnOptions = [];
 
       _.each(this.titles, title => {
-        multiColumnOptions.push(title.key);
+        
+        if ( !title.hidden ) {
+          multiColumnOptions.push(title.key);
+        }
         multiColumnArray.push({
           id: title.key,
           name: title.label,
         });
       });
-
       this.multiColumnArray = multiColumnArray;
       this.multiColumnOptions = multiColumnOptions;
-
-
-      
-      
     }
     
     /** 增加的部分 */
@@ -104,13 +96,13 @@ export class SeerTableComponent implements OnInit {
     }
   }
 
-  selectAll(value): void {
-    value = !value;
+  selectAll(): void {
     _.each(this.data, item => {
-      item.selected = value;
+      item.selected = this.selectedAll;
     })
     this.notify.emit({type: 'select_all', data: this.data});
   }
+
   selectOne(event): void {
     let selectedAll = true;
     _.each(this.data, item => {
@@ -119,17 +111,7 @@ export class SeerTableComponent implements OnInit {
     this.selectedAll = selectedAll;
     this.notify.emit({type: 'select_one', data: event});
   }
-  removeAll(): void {
-    let list = [];
-    _.each(this.data, item => {
-      if ( item.selected ) list.push(item);
-    });
-
-    this.alert_id = 'delete_all';
-    this.alert_content = '确定删除吗?';
-    this.action = 'show';
-    this.currentDeleteEvents = list;
-  }
+ 
 
   handleActionsClick($event) {
     if ( $event.action.action || this._actions[$event.action.action] ) {
@@ -146,29 +128,7 @@ export class SeerTableComponent implements OnInit {
   }
   private _actions = {
     remove(event): void {
-      this.alert_id = 'delete';
-      this.alert_content = '确定删除吗?';
-      this.action = 'show';
-      this.currentDeleteEvent = event.data;
-      /*this._seerDialogService.show({
-        content: '123',
-        actions: [
-          {
-            type: 'ensure',
-            text: '确定',
-          },
-          {
-            type: 'cancel',
-            text: '关闭',
-          }
-        ]
-      }).onAction().subscribe(res => {
-        if ( res.type === 'cancel' ) {
-          this._seerDialogService.hide();
-        } else if (res.type === 'ensure') {
-          this._seerDialogService.hide();
-        }
-      });*/
+      /**/
     },
     detail(event) {
       event.data.selected = false;
@@ -184,21 +144,14 @@ export class SeerTableComponent implements OnInit {
       event.data.selected = false;
       if ( this.translate ) this.transferKeyWithDict(event, this.translate);
       this.notify.emit({type: 'edit', data: event.data});
+    },
+    removeAll(): void {
+      let list = [];
+      _.each(this.data, item => {
+        if ( item.selected ) list.push(item);
+      });
     }
   } 
-
-  onSelectAlert(event){
-    if ( event.type == 'save' ) {
-      if ( this.alert_id == 'delete_all' ) {
-        this.notify.emit({type: 'remove_all', data: this.currentDeleteEvents});
-      } else if ( this.alert_id == 'delete' ) {
-        this.notify.emit({type: 'remove', data: this.currentDeleteEvent});
-      }
-      this.action = false;
-    } else if ( event.type == 'cancel' ) {
-      this.action = false;
-    }
-  }
 
   add(): void {
     this.notify.emit({type: 'add', data: {}});
@@ -220,14 +173,19 @@ export class SeerTableComponent implements OnInit {
     }
     return this.data;
   }
-
+  filterShownTitles() {
+    return _.filter(this.titles, t => !t['hidden'])
+  }
   onChangeColumn(event): void {
     let newTitles = [];
-    _.each(event, n => {
-      let item = _.find(this.titlesCopy, t => t.key == n);
-      if ( item ) newTitles.push(item);
+    this.titles = _.map(this.titles, t => {
+     if ( event.indexOf(t['key']) != -1 ) {
+       _.set(t, 'hidden', false)
+     } else {
+       _.set(t, 'hidden', true)
+     }
+      return t
     })
-    this.titles = newTitles;
   }
   transferKeyWithDict(obj: any, translate_copy: any, direction?: boolean | number): void {
     if ( direction ) {

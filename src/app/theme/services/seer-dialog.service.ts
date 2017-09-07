@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/do';
 import * as _ from 'lodash';
+interface dialogOptsModel {
+  content: string,
+  actions: Array<any>,
+}
 
 @Injectable()
 export class SeerDialogService {
@@ -29,6 +34,46 @@ export class SeerDialogService {
   }
   public onAction() {
     return this._onAction$;
+  }
+  public alert(msg) {
+    this.show({
+      content: msg,
+      actions: [
+        {
+          type: 1,
+          text: '确定',
+        }
+      ]
+    })
+    return this.onAction()
+    .do(res => {
+      this.hide();
+    })
+    .map(res => {
+      return res.type;
+    })
+  }
+  public confirm(msg) {
+    this.show({
+      content: msg,
+      actions: [
+        {
+          type: 1,
+          text: '确定',
+        },
+        {
+          type: 0,
+          text: '取消',
+        }
+      ]
+    })
+    return this.onAction()
+    .do(res => {
+      this.hide();
+    })
+    .map(res => {
+      return res.type
+    })
   }
 }
 

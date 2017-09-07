@@ -1,64 +1,64 @@
-import {Component, ViewEncapsulation, OnInit, ViewChild, Renderer, EventEmitter, ElementRef} from '@angular/core';
-import {StaffManageService} from "../staff-manage.service";
-import {Json} from "../../../login/Json";
-import {Ng2Uploader} from "ng2-uploader";
-import {NewStaffDto} from "../NewStaffDto";
-import {SearchStaffDto} from "../SearchStaffDto";
-import {STAFF_TRANSLATE} from "./staff.translate";
-import {DynamicComponentLoader} from "../../../../theme/directives/dynamicComponent/dynamic-component.directive";
-import {OrgListComponent} from "./orgList/org-list.component";
-import {IMultiSelectOption,IMultiSelectSettings,IMultiSelectTexts} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
-import {GlobalState} from "../../../../global.state";
-import {stringDistance} from "codelyzer/util/utils";
+import {
+  Component,
+  ViewEncapsulation,
+  OnInit,
+  ViewChild,
+  Renderer,
+  EventEmitter,
+  ElementRef,
+} from '@angular/core';
+import { Router, ActivatedRoute } from "@angular/router";
+import { Ng2Uploader } from "ng2-uploader";
 
+import {
+  IMultiSelectOption,
+  IMultiSelectSettings,
+  IMultiSelectTexts,
+} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
+
+import { StaffService } from "./staff.service";
+
+import {
+  hasGlobalFilter,
+  filters,
+  titles
+} from './staff.config';
+
+import { Json } from "../../login/Json";
+import { NewStaffDto } from "./NewStaffDto";
+import { SearchStaffDto } from "./SearchStaffDto";
+import { STAFF_TRANSLATE } from "./staff.translate";
+import { DynamicComponentLoader } from "../../../theme/directives/dynamicComponent/dynamic-component.directive";
+import { OrgListComponent } from "./components/orgList/org-list.component";
+import { GlobalState } from "../../../global.state";
+import { stringDistance } from "codelyzer/util/utils";
 
 @Component({
-  selector: 'StaffComponent',
-  templateUrl: './staff.Component.html',
-  styleUrls: ['./staff.component.scss','./staffhead.component.css'],
+  templateUrl: './staff.component.html',
+  styleUrls: ['./staff.component.scss'],
   providers: [Ng2Uploader],
   entryComponents:[OrgListComponent]
 
 })
-export class StaffComponent{
-  title = '人员管理';
+export class StaffComponent {
+  // 控件设置
+  hasGlobalFilter = hasGlobalFilter;
+  filters = filters;
+  titles = titles;
+
+  // 数据
+  staffs = [];
+
   translate = STAFF_TRANSLATE;
   imageError;
   isCognate = false;
   checkAllinput = false;
   addTitle: string;
-  //下面两个为多个checkbox选择插件配置
-  dropdownSettings: IMultiSelectSettings = {
-    pullRight: false,
-    enableSearch: false,
-    checkedStyle: 'checkboxes',
-    buttonClasses: 'btn btn-default',
-    selectionLimit: 0,
-    closeOnSelect: false,
-    autoUnselect: false,
-    showCheckAll: false,
-    showUncheckAll: false,
-    dynamicTitleMaxItems: 3,
-    maxHeight: '300px',
-  };
-  myRepertoryTexts: IMultiSelectTexts = {
-    checkAll: '选中所有',
-    uncheckAll: '取消所有',
-    checked: '个选中',
-    checkedPlural: '个选中',
-    searchPlaceholder: '搜索...',
-    defaultTitle: '选择账号',
-  };
-  private accountData: IMultiSelectOption[] = [];
+  
   cognateAccount = [];
   selsectNotes = '';
   staffLevelStateDict = [];
   currentRole:any;
-  search = {
-  staffDtoNo:'',
-  staffDtoName:'',
-  staffDtoCardId:'',
-  };
   staffOrgName = '';
   accountList = [];
   public defaultPicture = 'assets/img/theme/no-photo.png';
@@ -78,182 +78,19 @@ export class StaffComponent{
   }
 
   public uploadInProgress:boolean = false;
-  data = [];
   roleData = [];
   json = Json;
   currentStaff;
-  titles = [
-    {
-      key:'staffNo',
-      label:'员工编号',
-    },
-    {
-      key:'staffName',
-      label:'姓名',
-    },
-    {
-      key:'staffCardId',
-      label:'身份证号',
-    },
-    {
-      key:'staffPhone',
-      label:'手机',
-    },
-    {
-      key:'orgName',
-      label:'所属组织机构',
-    },
-    {
-      key:'contractType',
-      label:'合同类型',
-    },
-    {
-      key:'staffState',
-      label:'员工状态',
-    }
-  ];
 
-  titleOption =[
-    {
-      key:'staffNo',
-      label:'员工编号',
-    },
-    {
-      key:'staffName',
-      label:'姓名',
-    },
-    {
-      key:'staffGender',
-      label:'性别',
-    },
-    {
-      key:'staffCardId',
-      label:'身份证号',
-    },
-    {
-      key:'staffNation',
-      label:'民族',
-    },
-    {
-      key:'staffOrigin',
-      label:'籍贯',
-    },
-    {
-      key:'isMarried',
-      label:'婚姻情况',
-    },
-    {
-      key:'haveChild',
-      label:'有无子女',
-    },
-    {
-      key:'staffEducation',
-      label:'学历',
-    },
-    {
-      key:'staffSchool',
-      label:'毕业院校',
-    },
-    {
-      key:'staffPhone',
-      label:'手机',
-    },
-    {
-      key:'staffQq',
-      label:'QQ号',
-    },
-    {
-      key:'staffMail',
-      label:'邮箱',
-    },
-    {
-      key:'staffWechat',
-      label:'微信号',
-    },
-    {
-      key:'staffAdress',
-      label:'家庭住址',
-    },
-    {
-      key:'staffTel',
-      label:'家庭电话',
-    },
-    {
-      key:'staffContacts',
-      label:'紧急联系人',
-    },
-    {
-      key:'staffContactsPhone',
-      label:'紧急联系人电话',
-    },
-    {
-      key:'orgName',
-      label:'所属组织机构',
-    },
-    {
-      key:'contractType',
-      label:'合同类型',
-    },
-    {
-      key:'contractId',
-      label:'合同编号',
-    },
-    {
-      key:'contractBeginTime',
-      label:'合同签订日期',
-      type: 'date',
-    },
-    {
-      key:'contractEndTime',
-      label:'合同结束日期',
-      type: 'date',
-    },
-    {
-      key:'staffState',
-      label:'员工状态',
-    },
-    {
-      key:'staffLevel',
-      label:'员工等级',
-    },
-    {
-      key:'staffEntryDate',
-      label:'入职时间',
-      type: 'date',
-    },
-    {
-      key:'staffDimissionDate',
-      label:'离职时间',
-      type: 'date',
-    },
-    {
-      key:'createUser',
-      label:'创建用户',
-    },
-    {
-      key:'createTime',
-      label:'创建时间',
-      type: 'date',
-    },
-    {
-      key:'operator',
-      label:'操作用户',
-    },
-    {
-      key:'operateTime',
-      label:'操作时间',
-      type: 'date',
-    }
-  ];
   errorMessage;
 
-  constructor(private staffManageService:StaffManageService,private renderer:Renderer, protected _uploader:Ng2Uploader,private gs:GlobalState){
-    gs.subscribe('getOrgId',(data)=>{
-        if(data!=null){
-          this.staffOrgName = data.orgName;
-          this.currentStaff.staffOrgId = data.id;
-        }
-      })
+  constructor(
+    private _router: Router,
+    private _route: ActivatedRoute,
+    private staffManageService: StaffService,
+    private renderer: Renderer,
+    protected _uploader: Ng2Uploader,
+    ){
   }
 
   ngOnInit() {
@@ -355,56 +192,30 @@ export class StaffComponent{
     this.roleData.push(this.currentRole);
   }
 
-  getAccountList(): void {
-    if(this.isCognate == true){
-      this.selsectNotes = '';
-      this.cognateAccount = [];
-      this.accountList = [];
-      if(this.currentStaff.staffNo){
-        let map1 = {key:this.currentStaff.staffNo,label:'员工编号'};
-        this.accountList.push(map1)
-      }
-      if(this.currentStaff.staffPhone){
-        let map1 = {key:this.currentStaff.staffPhone,label:'手机号'};
-        this.accountList.push(map1)
-      }
-      if(this.currentStaff.staffMail){
-        let map1 = {key:this.currentStaff.staffMail,label:'邮箱'};
-        this.accountList.push(map1)
-      }
-      if(this.currentStaff.staffWechat){
-        let map1 = {key:this.currentStaff.staffWechat,label:'微信'};
-        this.accountList.push(map1)
-      }
-    }else{
-      this.accountList = [];
-      this.cognateAccount = [];
-      this.selsectNotes = '';
-      this.currentRole = null;
-    }
-    let mulitiColloneArray = [];
-    if(this.accountList){
-      let x = 1;
-      this.accountList.forEach(function (brand) {
-        mulitiColloneArray.push({id: brand.key, name: brand.label});
-      });
-    }
-    this.accountData = mulitiColloneArray;
-  }
+  
 
   //请求service
   getStaffs(): void {
     this.staffManageService.getStaffs()
       .subscribe(
         res => {
-          this.data = res.data;
+          this.staffs = res.data;
         },
         error =>  this.errorMessage = <any>error);
   }
 
   onChange(message):void {
-
-    if(message.type=='add'){
+    let type = message.type;
+    let data = message.data;
+    switch ( type ) {
+      case 'add':
+        this._router.navigate(['add'], {relativeTo: this._route});
+        break;
+      case 'update':
+        this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
+        break;
+    }
+    /*if(message.type=='add'){
       this.addTitle = "新建人员";
       this.picture = 'assets/img/app/profile/Nasta.png';
       this.cognateAccount = [];
@@ -446,7 +257,7 @@ export class StaffComponent{
         let d = new Date(message.data.staffDimissionDate);
         message.data.staffDimissionDate = d.getFullYear()  + "-" + (d.getMonth()+1) + "-" + d.getDate();
       }
-    }
+    }*/
     if(message.type=='delete'){
       this.staffManageService.removeStaff(message.data.id)
         .subscribe(
@@ -515,8 +326,6 @@ export class StaffComponent{
 
   }
   @ViewChild('excelUpload') _excelUpload:ElementRef;
-  public action;
-  public alert_content='';
 
   public onExcels():void {
 
@@ -531,24 +340,14 @@ export class StaffComponent{
       // });
       this.staffManageService.importExcel(fd)
         .subscribe(
-          res1 => {
-            //alert(res1.data);
-            this.alert_content = res1.data + "<br/>";
-            this.action = 'show';
-
-
+          res => {
+            alert(res.data);
             this.getStaffs();
           },
           error =>  this.errorMessage = <any>error);
 
     }
   }
-
-  onSelectAlert(event){
-    //console.log(event);
-    this.action = false;
-  }
-
   cancel(): void{
     this.currentStaff = false;
     this.imageError = false;
@@ -557,46 +356,9 @@ export class StaffComponent{
     this.isCognate = false;
     this.checkAllinput = false;
     this.getStaffs();
-    this.search = {
-      staffDtoNo:'',
-      staffDtoName:'',
-      staffDtoCardId:'',
-    };
   }
 
-  saveStaff(): void{
-    if(this.currentStaff.id){
-      let newStaffDto = new NewStaffDto;
-      newStaffDto.buzStaffDto = this.currentStaff;
-      newStaffDto.account = this.cognateAccount;
-      newStaffDto.sysRole = this.currentRole;
-      this.staffManageService.updateStaff(newStaffDto)
-        .subscribe(
-          res => {
-            this.isCognate = false;
-            this.checkAllinput = false;
-            this.currentStaff = false;
-            this.staffOrgName = '';
-            this.getStaffs();
-          },
-          error =>  this.errorMessage = <any>error);
-    }else{
-      let newStaffDto = new NewStaffDto;
-      newStaffDto.buzStaffDto = this.currentStaff;
-      newStaffDto.account = this.cognateAccount;
-      newStaffDto.sysRole = this.currentRole;
-      this.staffManageService.addStaff(newStaffDto)
-        .subscribe(
-          res => {
-            this.isCognate = false;
-            this.checkAllinput = false;
-            this.currentStaff = false;
-            this.staffOrgName = '';
-            this.getStaffs();
-          },
-          error =>  this.errorMessage = <any>error);
-    }
-  }
+  
 
   getCurrentRoles(): void{
     this.staffManageService.getCurrentRoles()
@@ -606,34 +368,7 @@ export class StaffComponent{
           this.currentRole = {roleName:'请选择'};
           this.roleData.push(this.currentRole);
         },
-      error =>  this.errorMessage = <any>error);
-  }
-
-  renderSearch() {
-    if(this.search.staffDtoNo||this.search.staffDtoName||this.search.staffDtoCardId){
-      return false;
-    }else{
-      return true;
-    }
-  }
-
-  noSearch() {
-    if(!this.search.staffDtoNo&&!this.search.staffDtoName&&!this.search.staffDtoCardId){
-      this.getStaffs();
-    }
-  }
-
-  getStaffByTerms(): void{
-      let searchStaffDto = new SearchStaffDto;
-      searchStaffDto.staffDtoNo = this.search.staffDtoNo;
-      searchStaffDto.staffDtoName = this.search.staffDtoName;
-      searchStaffDto.staffDtoCardId = this.search.staffDtoCardId;
-      this.staffManageService.getStaffByTerms(searchStaffDto)
-        .subscribe(
-          res => {
-            this.data = res.data;
-          },
-          error =>  this.errorMessage = <any>error);
+      error => this.errorMessage = <any>error);
   }
 
   checkAllInput(){
@@ -690,6 +425,20 @@ export class StaffComponent{
       }
     }else{
       return true;
+    }
+  }
+
+
+
+
+  handleFiltersChanged($event) {
+    let params = {
+      ...$event,
+    }
+  }
+  handleSearchBtnClicked($event) {
+    let params = {
+      ...$event,
     }
   }
 }
