@@ -10,6 +10,8 @@ import {Result} from "../../../../model/result.class";
   styleUrls: ['./message-edit.component.css'],
 })
 export class MessageEditComponent {
+  basicTitle: string = "基本信息";
+  sendTitle: string = "发送参数信息";
   title = '修改消息';
   template: Message = new Message();
   // data:Array<any>

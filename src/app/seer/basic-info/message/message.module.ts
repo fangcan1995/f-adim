@@ -5,6 +5,8 @@ import { routing } from './message.routing';
 import { MessageComponent } from './message.component';
 import { MessageEditComponent } from './components/message-edit/message-edit.component';
 import { MessageAddComponent } from './components/message-add/message-add.component';
+// import { MessageAddedDialogComponent } from './components/message-added-dialog/message-added-dialog.component';
+import { MessageAddedDialogComponent } from './components/message-added-dialog/message-added-dialog.component';
 import { sharedModule } from "../../common/shared.module";
 import { MessageService } from "./message.service";
 @NgModule({
@@ -19,6 +21,10 @@ import { MessageService } from "./message.service";
     MessageComponent,
     MessageEditComponent,
     MessageAddComponent,
+    MessageAddedDialogComponent,
+  ],
+  entryComponents:[
+     MessageAddedDialogComponent
   ],
   providers: [
     MessageService,
