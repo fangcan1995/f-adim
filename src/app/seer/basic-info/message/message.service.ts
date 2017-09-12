@@ -16,19 +16,57 @@ export class MessageService extends BaseService<any>{
         {
           'success': true,
           'data':[
-            {"roleName":"小花","validState":"15800624187","operateTime":"提前还款","operator":"短信","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"01"},
-            {"roleName":"小草","validState":"15800624187","operateTime":"提前还款","operator":"短信","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"02"},
-            {"roleName":"小人","validState":"15800624187","operateTime":"提前还款","operator":"短信","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"03"},
-            {"roleName":"小鱼","validState":"15800624187","operateTime":"提前还款","operator":"短信","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"04"},
-            {"roleName":"小美","validState":"15800624187","operateTime":"提前还款","operator":"短信","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"05"},
-            {"roleName":"小丑","validState":"15800624187","operateTime":"提前还款","operator":"短信","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"06"},
-            {"roleName":"小天","validState":"15800624187","operateTime":"提前还款","operator":"短信","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"07"},
-            {"roleName":"小年","validState":"15800624187","operateTime":"提前还款","operator":"短信","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"08"},
-            {"roleName":"小蒙","validState":"15800624187","operateTime":"提前还款","operator":"短信","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"09"},
-            {"roleName":"小狗","validState":"15800624187","operateTime":"提前还款","operator":"短信","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"10"},
-            {"roleName":"小蒙","validState":"15800624187","operateTime":"提前还款","operator":"短信","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"09"},
-            {"roleName":"小狗","validState":"15800624187","operateTime":"提前还款","operator":"短信","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"10"}
+            {"roleName":"xxxx","validState":"短信","sendTime":"2017-08-18 09:21:12","sendway":"已发","msgId":"01"},
+            {"roleName":"xxxx","validState":"短信","sendTime":"2017-08-18 09:21:12","sendway":"已发","msgId":"02"},
+            {"roleName":"xxxx","validState":"短信","sendTime":"2017-08-18 09:21:12","sendway":"已发","msgId":"03"},
+            {"roleName":"xxxx","validState":"短信","sendTime":"2017-08-18 09:21:12","sendway":"已发","msgId":"04"}, 
           ]
+        } 
+      )
+    })
+  }
+
+  getData(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      resolve(
+        {
+          'success': true,
+          'data':[
+              {"Name":"xxxx","State":"短信","way":"自动","Time":"2017-08-18 09:21:12","type":"短信","Id":"01"},
+              {"Name":"xxxx","State":"短信","way":"自动","Time":"2017-08-18 09:21:12","type":"短信","Id":"01"},
+              {"Name":"xxxx","State":"短信","way":"自动","Time":"2017-08-18 09:21:12","type":"短信","Id":"01"},
+              {"Name":"xxxx","State":"短信","way":"自动","Time":"2017-08-18 09:21:12","type":"短信","Id":"01"},
+              {"Name":"xxxx","State":"短信","way":"自动","Time":"2017-08-18 09:21:12","type":"短信","Id":"01"},
+            ]
+        } 
+      )
+    })
+  }
+  getAddData(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      resolve(
+        {
+          'success': true,
+          'data':[
+              {"name":"xxxx","type":"贷款","concent":"【巴巴汇】客官，您的借款申请已提交成功，请耐心等待审核呦~客服电话：400-024-0909","id":"1"},
+              {"name":"xxxx","type":"贷款","concent":"【巴巴汇】客官，您的借款申请已提交成功，请耐心等待审核呦~客服电话：400-024-0909","id":"2"},
+              {"name":"xxxx","type":"贷款","concent":"【巴巴汇】客官，您的借款申请已提交成功，请耐心等待审核呦~客服电话：400-024-0909","id":"3"},
+              {"name":"xxxx","type":"贷款","concent":"【巴巴汇】客官，您的借款申请已提交成功，请耐心等待审核呦~客服电话：400-024-0909","id":"4"},
+            ]
+        } 
+      )
+    })
+  }
+  getdialog(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      resolve(
+        {
+          'success': true,
+          'data':[
+              {"name":"xxxx","realName":"王大崔","phone":"1333333333"},
+              {"name":"xxxx","realName":"王大崔","phone":"1333333333"},
+              {"name":"xxxx","realName":"王大崔","phone":"1333333333"},
+            ]
         } 
       )
     })

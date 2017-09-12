@@ -74,6 +74,7 @@
     "roboto-fontface": "0.8.0",
     "rxjs": "5.4.2",
     "tether": "1.2.4",
+    "tinymce": "4.5.6",
     "zone.js": "0.8.11"
   },
   "devDependencies": {

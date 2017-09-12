@@ -12,6 +12,8 @@ import { AppRoutingModule } from "./app.routing.module";
 import { SeerModule } from "./seer/seer.module";
 import { LoginModule } from "./seer/login/login.module";
 import { CriteriaModule } from "./criteria/criteria.module";
+import {CKEditorModule} from 'ng2-ckeditor';
+import { AccordionModule,AlertModule,ButtonsModule,ModalModule,TabsModule } from 'ngx-bootstrap';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -38,7 +40,11 @@ export type StoreType = {
     AppRoutingModule,
     SeerModule,
     LoginModule,
-    CriteriaModule
+    CriteriaModule,
+    CKEditorModule,
+    ModalModule.forRoot(),
+    AlertModule.forRoot(),
+    TabsModule.forRoot(),
   ],
   providers: [
     ...APP_PROVIDERS,

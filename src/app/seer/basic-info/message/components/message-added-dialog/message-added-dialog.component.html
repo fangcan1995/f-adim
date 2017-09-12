@@ -1,0 +1,38 @@
+
+ <modal [animation]="animation" [backdrop]="backdrop">
+  <modal-header>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()"> 
+      <!-- <span aria-hidden="true">&times;</span> -->
+     </button>
+    <h4 class="modal-title">消息模板列表</h4>
+  </modal-header>
+  <modal-body>
+    <seer-collapse-card>
+      <seer-filter
+        [hasGlobalFilter]="hasGlobalFilter"
+        [filters]="filters"
+        (onFiltersChanged)=handleFiltersChanged($event)
+        (onSearchBtnClicked)=handleSearchBtnClicked($event)
+      ></seer-filter>  
+    </seer-collapse-card>
+    <seer-collapse-card>
+        <seer-table
+        [titles]="titles"
+        [data]="datas"
+        [translate]="dict"
+        [hideExport]="true"
+        [hidePrint]="true"
+        [hideActions]="true"
+        [hideRemoveAll]="true"
+        [hideAddButton]="true"
+        (notify)="onChange($event)" 
+      ></seer-table>  
+    </seer-collapse-card> 
+  </modal-body>
+  <modal-footer>
+    <button type="button" class="btn btn-primary" *ngIf="buttonFlag" (click)="onSave()">保存</button>
+    <button type="button" class="btn btn-primary" *ngIf="!buttonFlag" (click)="onEdit()">保存</button>
+    <button type="button" class="btn btn-default" (click)="onDestroy()">关闭</button>
+  </modal-footer>
+</modal> 
+    

@@ -7,23 +7,28 @@ import { InfoPublishService } from "./info-publish.service";
 
 import { InfoPublishComponent } from './info-publish.component';
 import { InfoPublishEditComponent } from './components/info-publish-edit/info-publish-edit.component';
-
-import { SeerTree } from '../../../theme/modules/seer-tree/seer-tree/seer-tree.component';
-import { BaCard } from '../../../theme/components/baCard/baCard.component';
+import { InfoPublishDialogComponent } from "./components/info-publish-dialog/info-publish-dialog";
+import {BaseService} from "../../base.service";
+import { TreeModule } from "app/theme/modules";
+import {Ng2Uploader} from "ng2-uploader";
+import { ModalComponent } from "../../../theme/components/ng2-bs4-modal/modal";
 @NgModule({
   imports: [
     NgaModule,
     sharedModule,
     routing,
+    TreeModule
   ],
   declarations: [
     InfoPublishComponent,
     InfoPublishEditComponent,
+    InfoPublishDialogComponent
   ],
   providers: [
     InfoPublishService,
-    SeerTree,
-    BaCard,
+    BaseService,
+    Ng2Uploader,
+    ModalComponent,
   ],
 })
 export class InfoPublishModule {
