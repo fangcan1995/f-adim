@@ -25,6 +25,7 @@ import { SeerEditorComponent } from "./seer-editor/seer-editor";
 import { SeerPrintComponent } from "./seer-print/seer-print";
 import { SeerFilterComponent } from './seer-filter';
 import { SeerTableComponent } from './seer-table';
+import { SeerSimpleTableComponent } from './seer-simple-table';
 import { SeerCollapseCardComponent } from './seer-collapse-card';
 
 // 待干掉
@@ -44,6 +45,7 @@ import { seerTableComponent } from "./seer_table/seer.table";
     
     SeerFilterComponent,
     SeerTableComponent,
+    SeerSimpleTableComponent,
     SeerCollapseCardComponent,
   ],
   imports: [
@@ -90,6 +92,7 @@ import { seerTableComponent } from "./seer_table/seer.table";
 
     SeerFilterComponent,
     SeerTableComponent,
+    SeerSimpleTableComponent,
     SeerCollapseCardComponent,
   ],
 

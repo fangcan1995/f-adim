@@ -1,0 +1,15 @@
+<table
+  class="table table-hover table-bordered table-striped"
+  [mfData]="getData()"
+  #mf="mfDataTable" [(mfSortBy)]="sortBy"
+  [mfRowsOnPage]="rowsOnPage"
+  >
+  <thead>
+  <tr class="header_border">
+    <th *ngFor="let title of titles" class="text-center">
+      <mfDefaultSorter by="{{ title.key }}"><b class="seer_font">{{ title.label }}</b></mfDefaultSorter>
+    </th>
+    <th class="text-center" *ngIf="!hideActions"><b class="seer_font">操作</b></th>
+  </tr>
+  </thead>
+</table>
