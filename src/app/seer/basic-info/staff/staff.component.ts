@@ -63,7 +63,7 @@ export class StaffComponent {
   accountList = [];
   public defaultPicture = 'assets/img/theme/no-photo.png';
   public picture = 'assets/img/app/profile/Nasta.png';
-  public uploaderOptions:any = {
+  public uploaderOptions: any = {
     // url: 'http://website.com/upload'
   };
   canDelete:boolean = true;

@@ -17,7 +17,9 @@ import {
 
 import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
 import { StaffService } from '../../staff.service';
-
+import {
+  titles,
+} from '../../staff.config';
 @Component({
   templateUrl: './staff-edit.component.html',
   styleUrls: ['./staff-edit.component.scss']
@@ -50,6 +52,10 @@ export class StaffEditComponent implements OnInit {
     defaultTitle: '选择账号',
   };
   private accountData: IMultiSelectOption[] = [];
+
+
+  public titles = titles;
+
   constructor(
     private _staffService: StaffService,
     private _messageService: SeerMessageService,

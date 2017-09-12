@@ -36,7 +36,6 @@ export class SeerTableComponent implements OnInit {
   @Input() displayCopyButton;//显示复制新增按钮
   @Input() addNewButton; //新增自定义按钮
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
-  public filterQuery = "";
   public rowsOnPage = 10;
   public sortBy = '';
   public selectedAll = false;
