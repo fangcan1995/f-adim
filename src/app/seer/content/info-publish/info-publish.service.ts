@@ -4,12 +4,15 @@ import { Http, Response } from '@angular/http';
 import { Headers, RequestOptions } from '@angular/http';
 import {BaseService} from "../../base.service";
 import {SERVER} from "../../const";
+import { User } from "../../model/auth/user";
 import {Result} from "../../model/result.class";
 import * as _ from 'lodash';
 @Injectable()
-export class InfoPublishService {
+export class InfoPublishService             {
     private orgManageUrl = SERVER + '/basicinfo';
-    private headers = new Headers({'Content-Type': 'application/json'});
+    private userManageUrl = SERVER + '/sys/user';
+    private roleManageUrl = SERVER+'/sys/role';
+    // private headers = new Headers({'Content-Type': 'application/json'});
     mockData = [
         {"roleName":"小花","validState":"15800624187","operateTime":"提前还款","number":"333","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"01"},
         {"roleName":"小草","validState":"15800624187","operateTime":"提前还款","number":"333","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"02"},
@@ -61,7 +64,16 @@ export class InfoPublishService {
         let url = `${this.orgManageUrl}/organizations`;
         return this.baseService.getAll(url);
     }
-
+    // 用于模态层树的保存调用
+    createUser(user: User): Promise<Result> {
+    const url = `${this.userManageUrl}`;
+    return this.baseService.create(url,user);
+   }
+   
+//   getRoles(): Promise<Result> {
+//     return this.getAll(this.roleManageUrl);
+//   }
+   
     /*
     * 根据组织id获取员工
     * */

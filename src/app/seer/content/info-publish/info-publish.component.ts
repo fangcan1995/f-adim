@@ -25,7 +25,7 @@ export class InfoPublishComponent {
   source = [];
   data=[];
   titles = [
-     {key:'roleName',label:'栏目'},
+    {key:'roleName',label:'栏目'},
     {key:'validState',label:'文章标题',isDict:true},
     {key:'operateTime',label:'发布者'},
     {key:'createTime',label:'更新时间'},

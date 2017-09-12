@@ -57,12 +57,9 @@ export class MessageTemplateComponent {
   source = [];
   data=[];
   titles = [
-    {key:'tplName', label:'模板名称'},
-    // {key:'tplCode', label:'模板编码'},
-    {key:'tplType', label:'业务类型'},
-    // {key:'tplDeclaration', label:'参数说明'},
-    {key:'tplContent', label:'模板内容'},
-    // {key:'tplisSystem', label:'系统模板'}
+    {key:'name', label:'模板名称'},
+    {key:'type', label:'业务类型'},
+    {key:'content', label:'模板内容'},
   ];
   //tplTypeOptions={};
 

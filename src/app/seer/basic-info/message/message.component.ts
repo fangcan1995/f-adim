@@ -111,32 +111,6 @@ export class MessageComponent {
     if(message.type=='add'){//新增
       this._router.navigate(['/seer/basic-info/message/add']);
     }
-
-    // if(message.type=='update'){ //编辑
-    //   this._router.navigate(['/seer/basic-info/message/add',message.data.msgId]);
-    // }
-    // // 删除一条记录
-    // if(message.type=='delete'){
-    //   this.service.deleteMessage(message.data.tplId).then((data) => {
-    //     if ( data.success ){
-    //       this.getList();
-    //     }else {
-    //       alert("删除失败");
-    //     }
-    //   });
-    // }
-    // // 删除多条记录
-    // if(message.type=='delete_all') {
-    //   let ids = [];
-    //   message.data.map((template:Message)=>ids.push(template.tplId));
-    //   this.service.deleteMessage(ids.toString()).then((data) => {
-    //     if (data.success) {
-    //       this.getList();
-    //     }else {
-    //       alert("删除失败");
-    //     }
-    //   });
-    // }
   }
 
    getDatas(params?):void{

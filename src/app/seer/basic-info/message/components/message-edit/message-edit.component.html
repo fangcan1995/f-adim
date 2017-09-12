@@ -61,7 +61,37 @@
             <input type="text" class="form-control" name="inputTplName" id="inputTplName" [(ngModel)]="template.tplName"  required maxlength="50">
         </div>
         <div  class="col-lg-1" style="margin-top:25px;">
-            <button type="button"  class="btn btn-primary">选择用户</button>
+            <button type="button"  class="btn btn-primary" (click)="openModal(template)">选择用户</button>
+             <template #template>
+            <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
+                <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">用户列表</h4>
+                <!-- <span aria-hidden="true" class="close pull-right" aria-label="Close" (click)="modalRef.hide()" style="display:inline-block; margin:0; padding:0; float:right;">&times;</span> -->
+                <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                 <span aria-hidden="true" >&times;</span> 
+                </button> -->
+            </div>
+            <div class="modal-body">
+                <seer-collapse-card>
+                    <seer-filter
+                    [hasGlobalFilter]="hasGlobalFilter"
+                    [filters]="filters"
+                    (onFiltersChanged)=handleFiltersChanged($event)
+                    (onSearchBtnClicked)=handleSearchBtnClicked($event)
+                    ></seer-filter>  
+                </seer-collapse-card>
+                <seer-collapse-card>
+                    <seer-table
+                    [data]="source"
+                    [titles]="titles"
+                    [translate]="dict"
+                    [hideExport]="true"
+                    [hidePrint]="true"
+                    [hideActions]="true"
+                    (notify)="onChange($event)"
+                    ></seer-table>
+                </seer-collapse-card> 
+            </div>
+            </template>  
         </div>
     </div>
   </seer-card> 

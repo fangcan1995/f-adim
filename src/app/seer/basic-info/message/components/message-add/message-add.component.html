@@ -61,7 +61,7 @@
             <input type="text" class="form-control" name="inputTplName" id="inputTplName" [(ngModel)]="template.tplName"  required maxlength="50">
         </div>
         <div  class="col-lg-1" style="margin-top:25px;">
-            <button type="button"  class="btn btn-primary">选择用户</button>
+            <button type="button"  class="btn btn-primary" (click) =" chooseUsers();">选择用户</button>
         </div>
     </div>
   </seer-card> 

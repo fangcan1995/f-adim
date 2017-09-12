@@ -7,6 +7,7 @@ import {Result} from "../../../../model/result.class";
 import {DynamicComponentLoader,DynamicComponentParam} from "../../../../../theme/directives/dynamicComponent/dynamic-component.directive";
 import { GlobalState } from "../../../../../global.state";
 import { MessageAddedDialogComponent } from "../message-added-dialog/message-added-dialog.component";
+import { MessageEditDialogComponent } from "../message-edit-dialog/message-edit-dialog.component";
 @Component({
   selector: 'message-add',
   templateUrl: './message-add.component.html',
@@ -76,26 +77,25 @@ export class MessageAddComponent {
         })
       } 
     };
-    // 模态层
+    // =======================模态层==================================
   public openModal(data) {
-    this.dynamicComponentLoader.loadComponent(data.component,data.data);
+    this.dynamicComponentLoader.loadComponent(data.component);
   }
     ngOnDestroy(): any {
     this._state.unsubscribe(this.EVENT);
   }
-  /*弹出新增用户模态窗口*/
+  //=====================弹出新增用户模态窗口==========================
   popupAdd(): void {
-    let param: DynamicComponentParam = {component: MessageAddedDialogComponent, data: {title:'新增用户'} };
+    let param: DynamicComponentParam = {component: MessageAddedDialogComponent};
     console.log(param);
     
     this._state.notify(this.EVENT, param);
   }
-
-  // /*弹出修改用户模态窗口*/
-  // popupEdit(event):void {
-  //   let param: DynamicComponentParam = {component: MessageAddedDialogComponent, data: {user: event, title:'修改用户', flag: '1'} };
-  //   this._state.notify(this.EVENT, param);
-  // }
+  //===================弹出用户模态窗口================================
+  popupEdit():void {
+    let param: DynamicComponentParam = {component: MessageEditDialogComponent};
+    this._state.notify(this.EVENT, param);
+  }
 
   // onDelete(event):void {
   //   this.service.deleteUser(event.data.id).then(()=>true).catch(()=>false);
@@ -103,6 +103,10 @@ export class MessageAddComponent {
   chooseInfo():void{
     this.popupAdd();
   }
+  chooseUsers():void{
+    this.popupEdit();
+  }
+  
   // onChange(message):void {
   //   if(message.type == 'add'){ //新增
   //     this.popupAdd();

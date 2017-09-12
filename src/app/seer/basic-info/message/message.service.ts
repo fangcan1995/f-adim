@@ -42,8 +42,35 @@ export class MessageService extends BaseService<any>{
       )
     })
   }
-
-
+  getAddData(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      resolve(
+        {
+          'success': true,
+          'data':[
+              {"name":"xxxx","type":"贷款","concent":"【巴巴汇】客官，您的借款申请已提交成功，请耐心等待审核呦~客服电话：400-024-0909","id":"1"},
+              {"name":"xxxx","type":"贷款","concent":"【巴巴汇】客官，您的借款申请已提交成功，请耐心等待审核呦~客服电话：400-024-0909","id":"2"},
+              {"name":"xxxx","type":"贷款","concent":"【巴巴汇】客官，您的借款申请已提交成功，请耐心等待审核呦~客服电话：400-024-0909","id":"3"},
+              {"name":"xxxx","type":"贷款","concent":"【巴巴汇】客官，您的借款申请已提交成功，请耐心等待审核呦~客服电话：400-024-0909","id":"4"},
+            ]
+        } 
+      )
+    })
+  }
+  getdialog(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      resolve(
+        {
+          'success': true,
+          'data':[
+              {"name":"xxxx","realName":"王大崔","phone":"1333333333"},
+              {"name":"xxxx","realName":"王大崔","phone":"1333333333"},
+              {"name":"xxxx","realName":"王大崔","phone":"1333333333"},
+            ]
+        } 
+      )
+    })
+  }
 
   getRoles(): Promise<Result> {
     return this.getAll(this.MessangUrl);

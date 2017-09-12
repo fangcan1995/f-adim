@@ -6,14 +6,16 @@ import { Observable } from 'rxjs/Observable';
 import { InfoPublishService } from "../../info-publish.service";
 import {Ng2Uploader} from "ng2-uploader";
 import {GlobalState} from "../../../../../global.state";
-// import { ModalComponent } from "../../../../../theme/components/ng2-bs4-modal/modal";
 import { SeerTree } from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
 import { TREE_EVENTS } from "../../../../../theme/modules/seer-tree/constants/events";
 import { jsonTree } from "../../../../../theme/utils/json-tree";
-// import { BaseModalComponent } from "../../../../../theme/directives/dynamicComponent/dynamic-component.directive";
+import { User } from "../../../../model/auth/user";
+import { ModalComponent } from "../../../../../theme/components/ng2-bs4-modal/modal";
 import { ModalDirective ,BsModalService} from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
-
+import {DynamicComponentLoader,DynamicComponentParam} from "../../../../../theme/directives/dynamicComponent/dynamic-component.directive";
+import { InfoPublishDialogComponent } from "../info-publish-dialog/info-publish-dialog";
+import {TREE_PERMISSIONS} from "../../../../../theme/modules/seer-tree/constants/permissions";
 @Component({
   templateUrl: './info-publish-edit.component.html',
   styleUrls: ['./info-publish-edit.component.scss'],
@@ -21,7 +23,13 @@ import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 })
 // export class OrgTreeDialogComponent extends BaseModalComponent implements OnInit
 export class InfoPublishEditComponent implements OnInit {
+  EVENT = 'openUserAddedDialog'
+  SAVEEVENT = 'saveSysUser';
+  EDITEVENT = 'editSysUser';
   nodes = [];
+  sysUser : User = new User();
+  staffName;
+  public isModalShown:boolean = false;
   public editor;
   public title:string;
   public uploaderOptions:any = {
@@ -31,8 +39,12 @@ export class InfoPublishEditComponent implements OnInit {
   public picture = '';
   imageError;
   currentStaff;
+  treePermissions = TREE_PERMISSIONS.NOTIFY|TREE_PERMISSIONS.ADD|TREE_PERMISSIONS.EDIT|TREE_PERMISSIONS.DELETE|TREE_PERMISSIONS.DRAG|TREE_PERMISSIONS.SHOW_FILTER|TREE_PERMISSIONS.SHOW_ADD_ROOT;
+  treeNode = [];
   // 模态层
   @ViewChild('autoShownModal') public autoShownModal:ModalDirective;
+  // @ViewChild(DynamicComponentLoader)
+  // dynamicComponentLoader: DynamicComponentLoader;
   // 树
   @ViewChild(SeerTree) seerTree: SeerTree;
   // 图片上传
@@ -40,19 +52,39 @@ export class InfoPublishEditComponent implements OnInit {
   onUpload:EventEmitter<any> = new EventEmitter();
   onUploadCompleted:EventEmitter<any> = new EventEmitter();
   constructor(private InfoPublishService:InfoPublishService,private renderer:Renderer, protected _uploader:Ng2Uploader,private gs:GlobalState,private modalService: BsModalService) {
-    //  super();
+    // 模态层
+     this.gs.subscribe(this.EVENT, (param) => {
+      this.openModal(param); 
+    });
   }
   ngOnInit() {
     this.title = '基本信息';
     this.getOrganizations();
   }
-  // 模态层
-   public modalRef: BsModalRef;
-
- 
+  // ==================模态层=========================
+  // ngx
+  public modalRef: BsModalRef;
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
+  // public openModal(data) {
+  //      console.log(this.dynamicComponentLoader);
+  //   this.dynamicComponentLoader.loadComponent(data.component);
+  // }
+//  ngOnDestroy(): any {
+//     this.gs.unsubscribe(this.EVENT);
+//   }
+  //========================弹出新增用户模态窗口=============
+  // popupAdd(): void {
+  //   let param: DynamicComponentParam = {component: InfoPublishDialogComponent};
+  //    console.log(param);
+  //   this.gs.notify(this.EVENT, param);
+  // }
+  // openTree(){
+  //   //  打开模态层
+  //   this.popupAdd();
+  // }
+
   // 图片上传
   public onFiles():void {
     let files = this._fileUpload.nativeElement.files;
@@ -118,25 +150,51 @@ export class InfoPublishEditComponent implements OnInit {
   protected _canUploadOnServer():boolean {
     return !!this.uploaderOptions['url'];
   }
-
-// 模态层 树
- 
-
-
-
   /*
    * 获取全部组织机构
    * */
-  getOrganizations() {
+   getOrganizations() {
     this.InfoPublishService.getOrganizations().then((result) => {
-      this.nodes = jsonTree(result.data,{parentId:'orgParentId',children:'children'},[{origin:'orgName',replace:'name'}]);
+      console.log(result.data);
+      // 希望返回数据中有用于判断是否是子节点的字段 根据字段进行判断 如果是子节点 点击后就以{{}}的形式在html中显示 不是则提示不能选中该节点 
+      console.log("111111111111111111111111111111");
+      
+      result.data.map(org=>org['children']=[]);
+      let nodes = jsonTree(result.data,{parentId:'orgParentId',children:'children'},[{origin:'orgName',replace:'name'}]);
+      //nodes.map(rootNode=>rootNode['expanded']=true);
+      this.treeNode = nodes;
     });
   }
-
-  onNotify($event) {
-
-    if ($event.eventName == TREE_EVENTS.onActivate) {
-      $event.node.setIsExpanded(true)
+  // ========================树保存事件=================================  
+  public hideModal():void {
+    this.autoShownModal.hide();
+  }
+   onSave(): void {
+    // let rolesTemp: string[] = [];
+    // for (let data of this.roles) {
+    //   if (data.selected) {
+    //     rolesTemp.push(data.roleId);
+    //   }
+    // }
+    // this.sysUser.roles = rolesTemp;
+    // this.service.createUser(this.sysUser).then((param) => {
+    // this.hideModal();
+    //   this.gs.notify(this.SAVEEVENT, param); //触发新增发放
+    // });
+    console.log(111);
+    
+  }
+   //==================树选择事件================================
+  //  树选择事件 判断部分
+  onTreePickerNotify($event){ 
+    if($event.eventName == "onSelectCompleted"){ 
+      if($event.data.length > 0) {
+        this.sysUser.staffId = $event.data[0].id;
+        this.staffName = $event.data[0].data.name;
+      }else {
+        this.sysUser.staffId = undefined;
+        this.staffName = undefined;
+      }
     }
   }
 

@@ -1,83 +1,83 @@
-// import {
-//   Component,
-//   OnInit,
-//   ViewChild,
-// } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 
-// import { InfoPublishService } from "../../info-publish.service";
-// import { BaseModalComponent } from "../../../../../theme/directives/dynamicComponent/dynamic-component.directive";
-// import { User } from "../../../../model/auth/user";
-// import { GlobalState } from "../../../../../global.state";
-// import { ModalComponent } from "../../../../../theme/components/ng2-bs4-modal/modal";
-// import { jsonTree } from "../../../../../theme/utils/json-tree";
-// /**
-//  * Created by Administrator on 2016/12/21.
-//  */
-// @Component({
-//   selector: 'user-added-dialog',
-//   styleUrls: ['./user-added-dialog.scss'],
-//   templateUrl: './user-added-dialog.component.html',
-//   entryComponents:[]
-// })
-// export class UserAddedDialogComponent extends BaseModalComponent implements OnInit{
+import { InfoPublishService } from "../../info-publish.service";
+import { BaseModalComponent } from "../../../../../theme/directives/dynamicComponent/dynamic-component.directive";
+import { User } from "../../../../model/auth/user";
+import { GlobalState } from "../../../../../global.state";
+import { ModalComponent } from "../../../../../theme/components/ng2-bs4-modal/modal";
+import { jsonTree } from "../../../../../theme/utils/json-tree";
+/**
+ * Created by Administrator on 2016/12/21.
+ */
+@Component({
+  selector: 'info-publish-dialog',
+  styleUrls: ['./info-publish-dialog.css'],
+  templateUrl: './info-publish-dialog.html',
+  entryComponents:[]
+})
+export class InfoPublishDialogComponent extends BaseModalComponent implements OnInit{
 
-//   @ViewChild(ModalComponent) modal: ModalComponent;
+  @ViewChild(ModalComponent) modal: ModalComponent;
 
-//   SAVEEVENT = 'saveSysUser';
-//   EDITEVENT = 'editSysUser';
-//   title: string;
-//   sysUser : User = new User();
-//   roles = [];
-//   buttonFlag = true;
-//   flag: string;
+  SAVEEVENT = 'saveSysUser';
+  EDITEVENT = 'editSysUser';
+  title: string;
+  sysUser : User = new User();
+  roles = [];
+  buttonFlag = true;
+  flag: string;
 
-//   staffs = [];
-//   staffName;
+  staffs = [];
+  staffName;
 
-//   animation: boolean = true;
-//   backdrop: string | boolean = true;
+  animation: boolean = true;
+  backdrop: string | boolean = true;
 
-//   constructor(private service: InfoPublishService, private _state: GlobalState) {
-//     super();
-//     this.service.getRoles().then((data) => {
-//       this.roles = data.data;
-//       if (this.flag == "1") {
-//         for (let role of this.roles) {
-//           for (var i = 0; i < this.sysUser.roles.length; i++) {
-//             if (role.roleId == this.sysUser.roles[i]) {
-//               role.selected = true;
-//             }
-//           }
-//         }
-//       }
-//     });
-//   }
+  constructor(private service: InfoPublishService, private _state: GlobalState) {
+    super();
+    // this.service.getRoles().then((data) => {
+    //   this.roles = data.data;
+    //   if (this.flag == "1") {
+    //     for (let role of this.roles) {
+    //       for (var i = 0; i < this.sysUser.roles.length; i++) {
+    //         if (role.roleId == this.sysUser.roles[i]) {
+    //           role.selected = true;
+    //         }
+    //       }
+    //     }
+    //   }
+    // });
+  }
 
-//   ngOnInit(){
-//     this.service.getStaffsWithOrgs().then(result=>{
-//       if (result.success){
-//         result.data.map(res=>{
-//           if (res.customNodeType=='org'){
-//             res['customIcon'] = 'fa fa-sitemap';
-//           }
-//           if (res.customNodeType=='staff'){
-//             res['customIcon'] = 'ion-person';
-//           }
-//         });
-//         this.staffs = jsonTree(result.data);
-//       }else {
-//         alert(result.message);
-//       }
-//     })
+  ngOnInit(){
+    // this.service.getStaffsWithOrgs().then(result=>{
+    //   if (result.success){
+    //     result.data.map(res=>{
+    //       if (res.customNodeType=='org'){
+    //         res['customIcon'] = 'fa fa-sitemap';
+    //       }
+    //       if (res.customNodeType=='staff'){
+    //         res['customIcon'] = 'ion-person';
+    //       }
+    //     });
+    //     this.staffs = jsonTree(result.data);
+    //   }else {
+    //     alert(result.message);
+    //   }
+    // })
 
-//     this.title = this.data.title;
-//     this.flag = this.data.flag;
-//     if (this.flag == '1') {
-//       this.sysUser = this.data.user;
-//       this.staffName = this.data.user.staffName;
-//       this.buttonFlag = false;
-//     }
-//   }
+    // this.title = this.data.title;
+    // this.flag = this.data.flag;
+    // if (this.flag == '1') {
+    //   this.sysUser = this.data.user;
+    //   this.staffName = this.data.user.staffName;
+    //   this.buttonFlag = false;
+    // }
+  }
 
 //   onSave(): void {
 //     let rolesTemp: string[] = [];
@@ -122,4 +122,4 @@
 //     }
 //   }
 
-// }
+}
