@@ -1,13 +1,18 @@
-  <seer-card>
-    <seertable
+ <seer-collapse-card
+  >
+    <seer-filter
+      [hasGlobalFilter]="hasGlobalFilter"
+      [filters]="filters"
+      (onFiltersChanged)=handleFiltersChanged($event)
+      (onSearchBtnClicked)=handleSearchBtnClicked($event)
+    ></seer-filter>
+  </seer-collapse-card>
+  <seer-collapse-card
+  >
+    <seer-table
       [data]="data1"
       [titles]="titles"
-      [titleOption]="titleOption"
+      [translate]="dict"
       (notify)="onChange($event)"
-    ></seertable>
-  </seer-card>
-
-
-
-
-
+    ></seer-table>
+  </seer-collapse-card>
