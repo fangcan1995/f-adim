@@ -61,7 +61,66 @@
             <input type="text" class="form-control" name="inputTplName" id="inputTplName" [(ngModel)]="template.tplName"  required maxlength="50">
         </div>
         <div  class="col-lg-1" style="margin-top:25px;">
-            <button type="button"  class="btn btn-primary" (click) =" chooseUsers();">选择用户</button>
+            <button type="button"  class="btn btn-primary" (click)="open(template)">选择用户</button>
+            <template #template>
+            <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
+                <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">选择人员</h4>
+                <!-- <span aria-hidden="true" class="close pull-right" aria-label="Close" (click)="modalRef.hide()" style="display:inline-block; margin:0; padding:0; float:right;">&times;</span> -->
+                <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                 <span aria-hidden="true" >&times;</span> 
+                </button> -->
+            </div>
+            <div class="modal-body">
+
+                <div style="width:100%; height:auto;">
+                    <ul style="width:100%; height:25px; border-bottom:1px solid #000; list-style:none;">
+                        <li style="float:left; margin-right:15px;">区域：</li>
+                        <li style="float:left; margin-right:15px; color:#5ea7e0;">龙区</li>
+                        <li style="float:left; margin-right:15px; color:#5ea7e0;">辽区</li>
+                    </ul>
+                     <ul style="width:100%; height:25px; border-bottom:1px solid #000; list-style:none;">
+                        <li style="float:left;  margin-right:15px;">年龄：</li>
+                        <li style="float:left;margin-right:15px; color:#5ea7e0;">龙区</li>
+                        <li style="float:left;margin-right:15px; color:#5ea7e0;">辽区</li>
+                    </ul>
+                     <ul style="width:100%; height:25px; border-bottom:1px solid #000;list-style:none;">
+                        <li style="float:left;  margin-right:15px;">性别：</li>
+                        <li style="float:left;margin-right:15px; color:#5ea7e0;">男</li>
+                        <li style="float:left;margin-right:15px; color:#5ea7e0;">女</li>
+                    </ul>
+                     <ul style="width:100%; height:25px; border-bottom:1px solid #000;list-style:none;">
+                        <li style="float:left;  margin-right:15px;">分险等级：</li>
+                        <li style="float:left;margin-right:15px; color:#5ea7e0;">A-AAA</li>
+                        <li style="float:left;margin-right:15px; color:#5ea7e0;">B-BBB</li>
+                    </ul>
+                </div>
+                <seer-collapse-card>
+                    <seer-filter
+                    [hasGlobalFilter]="hasGlobalFilter"
+                    [filters]="filters"
+                    (onFiltersChanged)=handleFiltersChanged($event)
+                    (onSearchBtnClicked)=handleSearchBtnClicked($event)
+                    ></seer-filter>  
+                </seer-collapse-card>
+                <seer-collapse-card>
+                    <seer-table
+                    [data]="source"
+                    [titles]="titles"
+                    [translate]="dict"
+                    [hideExport]="true"
+                    [hidePrint]="true"
+                    [hideActions]="true"
+                    (notify)="onChange($event)"
+                    ></seer-table>
+                </seer-collapse-card> 
+            </div>
+            </template>  
+
+
+
+
+
+
         </div>
     </div>
   </seer-card> 

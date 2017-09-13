@@ -1,4 +1,4 @@
-import {Component,OnInit,ViewChild} from '@angular/core';
+import {Component,OnInit,ViewChild,TemplateRef} from '@angular/core';
 import {Location} from '@angular/common';  //返回上一层
 import {ActivatedRoute, Params} from "@angular/router";
 import {MessageService} from "../../message.service";
@@ -8,6 +8,11 @@ import {DynamicComponentLoader,DynamicComponentParam} from "../../../../../theme
 import { GlobalState } from "../../../../../global.state";
 import { MessageAddedDialogComponent } from "../message-added-dialog/message-added-dialog.component";
 import { MessageEditDialogComponent } from "../message-edit-dialog/message-edit-dialog.component";
+import { ModalDirective ,BsModalService} from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
+
+
+
 @Component({
   selector: 'message-add',
   templateUrl: './message-add.component.html',
@@ -23,14 +28,73 @@ export class MessageAddComponent {
    @ViewChild(DynamicComponentLoader)
   dynamicComponentLoader: DynamicComponentLoader;
   template: Message = new Message();
+  hasGlobalFilter = true;
+  record = []
+  filters = [
+    {
+      key: 'name',
+      label: '接收账号',
+      type: 'input.text',
+    },
+    {
+      key: 'real_name',
+      label: '接收号码',
+      type: 'input.text',
+    },
+    {
+      key: 'gender',
+      label: '消息类型',
+      type: 'select',
+      options: [
+        {
+          content: '请选择'
+        },
+        {
+          value: '0',
+          content: '短信'
+        },
+        {
+          value: '1',
+          content: '电话',
+        }
+      ]
+    },
+    {
+      key: 'mobile',
+      label: '发送状态',
+      type: 'select',
+       options: [
+        {
+          content: '请选择'
+        },
+        {
+          value: '0',
+          content: '已发'
+        },
+        {
+          value: '1',
+          content: '未发',
+        }
+      ]
+    },
+  ]
+  titles = [
+    {key:'name',label:'用户名'},
+    {key:'realName',label:'真实姓名'},
+    {key:'phone',label:'手机号'},
+    {key:'idCard',label:'身份证'},
+    {key:'sex',label:'行别'},
+  ];
+  source = [];
   // data:Array<any>
-  constructor(private location: Location , private route: ActivatedRoute,private service: MessageService,private _state: GlobalState){
+  constructor(private location: Location , private route: ActivatedRoute,private service: MessageService,private _state: GlobalState,private modalService: BsModalService){
     this._state.subscribe(this.EVENT, (param) => {
       this.openModal(param);
     });
   }
 
   ngOnInit() {
+    this.getDatas();
     // ==================跳转后获取路由===========================
     this.route.params.subscribe((params: Params) => {
       console.log(params);
@@ -54,6 +118,7 @@ export class MessageAddComponent {
       });    
     }
   )}
+
   // ============================返回上一层=======================
   goBack(): void {
     this.location.back();
@@ -91,28 +156,19 @@ export class MessageAddComponent {
     
     this._state.notify(this.EVENT, param);
   }
-  //===================弹出用户模态窗口================================
-  popupEdit():void {
-    let param: DynamicComponentParam = {component: MessageEditDialogComponent};
-    this._state.notify(this.EVENT, param);
-  }
-
-  // onDelete(event):void {
-  //   this.service.deleteUser(event.data.id).then(()=>true).catch(()=>false);
-  // }
   chooseInfo():void{
     this.popupAdd();
   }
-  chooseUsers():void{
-    this.popupEdit();
+  // ==================模态层=========================
+  public modalRef: BsModalRef;
+  public open(template: TemplateRef<any>) {
+  this.modalRef = this.modalService.show(template);
   }
-  
-  // onChange(message):void {
-  //   if(message.type == 'add'){ //新增
-  //     this.popupAdd();
-  //   }
-  //   if(message.type == 'update'){ //修改
-  //     this.popupEdit(message.data);
-  //   }
-  // }
+ // ===================假数据======================
+   getDatas(params?):void{
+      this.service.getdialogData()
+      .then(res => {
+        this.source = res.data;
+    });
+  }
 }
