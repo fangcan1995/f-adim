@@ -99,7 +99,91 @@
     </div>
     <div class="col-md-12">
       <seer-collapse-card title="活动奖励信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
-
+        <tabset style="margin-top:15px;">
+          <tab heading='红包奖励列表'>
+            <div class="row" style="margin-top:5px;">
+              <div class="col-xs-12 col-md-6" style="margin-top:5px;">
+                <button class="btn btn-primary" (click)="handleBackBtnClick()">增加一条红包</button>
+              </div>
+            </div>
+            <div class="row" style="margin-top:5px;">
+              <div class="col-xs-12 col-md-12">
+                <table class="table table-hover table-striped table-bordered table-condensed">
+                  <thead>
+                  <tr>
+                    <th>红包主题</th>
+                    <th>适用产品</th>
+                    <th>红包金额</th>
+                    <th>起用金额</th>
+                    <th>有效期(天)</th>
+                    <th>红包叠加</th>
+                    <th>加息劵叠加</th>
+                    <th>操作</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>XXXX</td>
+                    <td>XXXX</td>
+                    <td>100</td>
+                    <td>10000</td>
+                    <td>30</td>
+                    <td>是</td>
+                    <td>否</td>
+                    <td><button type="button" class="btn btn-xs btn-danger">删除</button></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </tab>
+          <tab heading='加息劵奖励列表'>
+            <div class="row" style="margin-top:5px;">
+              <div class="col-xs-12 col-md-6" style="margin-top:5px;">
+                <button class="btn btn-primary" (click)="handleBackBtnClick()">增加一条加息劵</button>
+              </div>
+            </div>
+            <div class="row" style="margin-top:5px;">
+              <div class="col-xs-12 col-md-12">
+                <table class="table table-hover table-striped table-bordered table-condensed">
+                  <thead>
+                  <tr>
+                    <th>加息劵主题</th>
+                    <th>适用产品</th>
+                    <th>加息点(%)</th>
+                    <th>起用金额</th>
+                    <th>有效期(天)</th>
+                    <th>加息期限(天)</th>
+                    <th>红包叠加</th>
+                    <th>加息劵叠加</th>
+                    <th>操作</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>XXXX</td>
+                    <td>XXXX</td>
+                    <td>100</td>
+                    <td>10000</td>
+                    <td>30</td>
+                    <td>30</td>
+                    <td>是</td>
+                    <td>否</td>
+                    <td><button type="button" class="btn btn-xs btn-danger">删除</button></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </tab>
+          <tab heading='实体奖励列表'>
+            <div class="row" style="margin-top:5px;">
+              <div class="col-xs-12 col-md-6" style="margin-top:5px;">
+                <button class="btn btn-primary" (click)="handleBackBtnClick()">上传附件</button>
+              </div>
+            </div>
+          </tab>
+        </tabset>
       </seer-collapse-card>
     </div>
   </div>

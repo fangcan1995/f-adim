@@ -49,7 +49,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     {key: 'activityKind', label: '活动种类'},
     {key: 'activityDays', label: '活动天数'},
     {key: 'activityStartTime', label: '活动开始时间'},
-    {key: 'activityState', label: '活动状态'},
+    {key: 'activityState', label: '活动状态'}
   ];
 
   actionSet = {

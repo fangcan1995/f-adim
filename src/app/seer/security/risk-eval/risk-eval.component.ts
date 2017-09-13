@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit, OnDestroy } from "@angular/core";
 import {Router,ActivatedRoute} from "@angular/router";
 import * as _ from 'lodash';
 import { RiskEvalService } from "./risk-eval.service";
-import {RiskEval} from "../../model/auth/risk-eval"
+// import {RiskEval} from "../../model/auth/risk-eval"
 import { SeerDialogService } from '../../../theme/services/seer-dialog.service';
 @Component({
   templateUrl: './risk-eval.component.html',
