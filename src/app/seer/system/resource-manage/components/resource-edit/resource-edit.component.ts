@@ -98,7 +98,7 @@ export class ResourceEditComponent implements OnInit {
       message: info,
       autoHideDuration: 3000,
     }).onClose().subscribe(() => {
-      this._router.navigate(['/seer/system/resource-manage/'])
+      this._router.navigate(['/system/resource-manage/'])
     });
   }
   alertError(errMsg:string){
