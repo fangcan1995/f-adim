@@ -121,10 +121,10 @@ export class ResourceListComponent implements OnInit{
     console.log(type);
     switch ( type ) {
       case 'add':
-        this._router.navigate(['/seer/system/resource-manage/edit']);
+        this._router.navigate(['/system/resource-manage/edit']);
         break;
       case 'update':
-        this._router.navigate(['/seer/system/resource-manage/edit',message.data.resourceId]);
+        this._router.navigate(['/system/resource-manage/edit',message.data.resourceId]);
         break;
       case 'delete':
         this._dialogService.confirm('确定删除吗？')
