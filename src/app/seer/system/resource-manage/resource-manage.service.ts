@@ -9,7 +9,7 @@ import { SERVER } from "../../const";
 import { ResourceModel } from "./resource-model.class";
 import { ReourceBaseService } from "./base.service";
 import { Result } from "./result-model.class";
-
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ResourceManageService {
@@ -29,18 +29,18 @@ export class ResourceManageService {
     return this.baseService.getAll(this.resourceManageUrl);
   }
 
-  createResource(resource: ResourceModel): Promise<any> {
+  postOne(resource: ResourceModel): Promise<any> {
     const url = `${this.resourceManageUrl}/`;
     return this.baseService.create(url,resource);
   }
 
 
-  getResourceById(resourceId: string): Promise<any> {
+  getOne(resourceId: string): Promise<any> {
     const url = `${this.resourceManageUrl}/${resourceId}`;
     return this.baseService.getById(url);
   }
 
-  updateResource(resource: ResourceModel): Promise<any> {
+  putOne(resource: ResourceModel): Promise<any> {
     const url = `${this.resourceManageUrl}/`;
     return this.baseService.update(url,resource);
   }
@@ -50,9 +50,9 @@ export class ResourceManageService {
     return this.baseService.delete(url);
   }
 
-  searchResources(param:any): Promise<any> {
+  /*searchResources(param:any): Promise<any> {
     const url = `${this.resourceManageUrl}/`;
     return this.baseService.search(url,param);
-  }
+  }*/
 
 }
