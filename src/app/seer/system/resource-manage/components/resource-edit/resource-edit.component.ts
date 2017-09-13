@@ -6,7 +6,9 @@ import {
   Router,
   ActivatedRoute
 } from "@angular/router";
+import { Location } from '@angular/common';
 import { ResourceManageService } from "../../resource-manage.service";
+import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
 import { ResourceModel } from "../../resource-model.class";
 
 @Component({
@@ -19,91 +21,93 @@ export class ResourceEditComponent implements OnInit {
   title : string;
   isAdd: boolean;
   editId: string;
-
+  private _editType: string = 'add';
+  public forbidSaveBtn: boolean = true;
+  public : boolean = true;
   resource:ResourceModel = new ResourceModel();
 
   constructor(
     private _router: Router,
     private service:ResourceManageService,
-    private _activatedRoute:ActivatedRoute
-  ) {   }
+    private _messageService: SeerMessageService,
+    private _activatedRoute:ActivatedRoute,
+    private _location: Location,
+  ) { }
 
   ngOnInit() {
-
     this._activatedRoute.params.subscribe(params => {
-      // this.isAdd = params['isAdd'];
       this.editId = params['id'];
       this.isAdd = !this.editId;
     })
-
     this.title = this.isAdd ? '新建资源' : '修改资源';
-
-    if(!this.isAdd) this.getResourceById(this.editId);
-
+    this.forbidSaveBtn=false;
+    if(!this.isAdd) {
+      //this.getResourceById(this.editId);
+      this._editType='edit';
+      this.service.getOne(this.editId).then((data) => {
+        this.resource = data.data;
+      });
+    }else {
+      //this.forbidSaveBtn = false;
+    };
   }
-
-
-  getResourceById(id:string) {
-    //alert(id);
-    //this.resource.resourceId = id;
-    //alert("08");
-    this.service.getResourceById(id).then((data) => {
-      //console.log(data.success);
-      //alert(data.success);
-      //alert(data.success);
-      this.resource = data.data;
-    });
-  }
-
-
-  submitForm() {
-    //alert(this.resource.resource_id);
-    //alert(this.resource.resource_name);
-    if(!this.isAdd){
-      this.updateResource();
-    }else{
-      this.addResource();
+  handleSaveBtnClick() {
+    if ( this.forbidSaveBtn ) return;
+    this.forbidSaveBtn = true;
+    let requestStream$;
+    if ( this._editType === 'edit' ) {
+      this.service.putOne(this.resource).then((data) => {
+        if(data.success) {
+          this.alertSuccess("更新成功");
+        }else{
+          this.alertError("更新失败");
+          //this._router.navigate(['/seer/system/resource-manage/edit',this.resource.resourceId]);
+        }
+      });
+    } else if ( this._editType === 'add' ) {
+      this.service.postOne(this.resource).then((data) => {
+        if(data.success) {
+          this.alertSuccess("添加成功");
+        }else{
+          this.alertError("添加失败");
+        }
+      });
+    } else {
+      return;
     }
+    requestStream$
+      .subscribe(res => {
 
-  }
-
-  backList() {
-    this._router.navigate(['/seer/system/resource-manage/']);
-  }
-
-  updateResource() : void {
-    //alert(this.resource.resourceId);
-    this.service.updateResource(this.resource).then((data) => {
-      console.log(data.success);
-      if(data.success) {
-        //alert("1")  //新增成功跳转页面
-        this._router.navigate(['/seer/system/resource-manage/']);
-      }else{
-        //alert("0")
-        alert("更新失败~" + data.message);
-        this._router.navigate(['/seer/system/resource-manage/edit',this.resource.resourceId]);
-      }
-      //console.log(data.data);
+      }, errMsg => {
+        this.forbidSaveBtn = false;
+        // 错误处理的正确打开方式
+        this._messageService.open({
+          icon: 'fa fa-times-circle',
+          message: errMsg,
+          autoHideDuration: 3000,
+        })
+      })
+//
+  }//保存按钮处理函数
+  handleBackBtnClick() {
+    this._location.back()
+  } //返回按钮处理函数
+  alertSuccess(info:string){
+    this._messageService.open({
+      icon: 'fa fa-times-circle',
+      message: info,
+      autoHideDuration: 3000,
+    }).onClose().subscribe(() => {
+      this._router.navigate(['/seer/system/resource-manage/'])
     });
   }
-
-
-  addResource() : void{
-
-    this.service.createResource(this.resource).then((data) => {
-      console.log(data.success);
-
-      //alert(data.success);
-
-      if(data.success) {
-        //alert("1")  //新增成功 跳转页面
-        this._router.navigate(['/seer/system/resource-manage/']);
-      }else{
-        alert("添加失败~" + data.message);
-        this._router.navigate(['/seer/system/resource-manage/edit']);
-      }
-
-      console.log(data.data);
-    });
+  alertError(errMsg:string){
+    this.forbidSaveBtn = false;
+    // 错误处理的正确打开方式
+    this._messageService.open({
+      icon: 'fa fa-times-circle',
+      message: errMsg,
+      autoHideDuration: 3000,
+    })
   }
 }
