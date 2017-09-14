@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { dictManageRouting } from "./dict-manage.routing";
 import { NgaModule } from "../../../theme/nga.module";
-import { sharedModule } from "../../common/shared.module";
+import { SharedModule } from "../../common/shared.module";
 
 import { DictComponent } from "./components/dict.component";
 import { DictManageService } from "./dict-manage.service";
@@ -12,7 +12,7 @@ import { DictManageComponent } from "./dict-manage.component";
 @NgModule({
   imports: [
     NgaModule,
-    sharedModule,
+    SharedModule,
     dictManageRouting,
     TabsModule,
   ],

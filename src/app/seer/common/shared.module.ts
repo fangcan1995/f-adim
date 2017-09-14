@@ -98,10 +98,10 @@ import { seerTableComponent } from "./seer_table/seer.table";
 
   entryComponents:[MultiPickerComponent]
 })
-export class sharedModule {
+export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return <ModuleWithProviders> {
-      ngModule: sharedModule,
+      ngModule: SharedModule,
       providers: [
 
       ],

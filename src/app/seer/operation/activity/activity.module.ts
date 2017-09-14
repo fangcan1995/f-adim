@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { NgaModule } from '../../../theme/nga.module';
-import { sharedModule } from "../../common/shared.module";
+import { SharedModule } from "../../common/shared.module";
 
 import { routing } from './activity.routing';
 import { ActivityService } from "./activity.service";
@@ -10,7 +10,7 @@ import { ActivityEditComponent } from './components/activity-edit/activity-edit.
 @NgModule({
   imports: [
     NgaModule,
-    sharedModule,
+    SharedModule,
     routing,
   ],
   declarations: [

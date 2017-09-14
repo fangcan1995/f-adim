@@ -1,17 +1,17 @@
-import {Injectable} from '@angular/core';
-import {SERVER} from "../../const";
-import {BaseService} from "../../base.service";
-import {Result} from "../../model/result.class";
-import {RoleWithSysUserIdsVO} from "./components/role-edit/RoleWithSysUserIdsVO";
+import { Injectable } from '@angular/core';
+import { SERVER } from "../../const";
+import { BaseService } from "../../base.service";
+import { Result } from "../../model/result.class";
+import { RoleWithSysUserIdsVO } from "./components/role-edit/RoleWithSysUserIdsVO";
 
 @Injectable()
-export class RoleManageService extends BaseService<any>{
+export class RoleService extends BaseService<any>{
 
   private roleManageUrl = SERVER+'/sys/role';  // URL to web api
 
-
-  getRoles(): Promise<Result> {
+  getList(params?): Promise<Result> {
     return this.getAll(this.roleManageUrl);
+    
   }
 
   getRoleById(id: string): Promise<Result> {

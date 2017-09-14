@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { NgaModule } from '../../../theme/nga.module';
-import { sharedModule } from "../../common/shared.module";
+import { SharedModule } from "../../common/shared.module";
 
 import { routing } from './coupon.routing';
 import { CouponService } from "./coupon.service";
@@ -10,7 +10,7 @@ import { CouponEditComponent } from './components/coupon-edit/coupon-edit.compon
 @NgModule({
   imports: [
     NgaModule,
-    sharedModule,
+    SharedModule,
     routing,
   ],
   declarations: [

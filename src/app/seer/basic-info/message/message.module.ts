@@ -8,7 +8,7 @@ import { MessageAddComponent } from './components/message-add/message-add.compon
 // import { MessageAddedDialogComponent } from './components/message-added-dialog/message-added-dialog.component';
 import { MessageAddedDialogComponent } from './components/message-added-dialog/message-added-dialog.component';
 import { MessageEditDialogComponent } from "./components/message-edit-dialog/message-edit-dialog.component";
-import { sharedModule } from "../../common/shared.module";
+import { SharedModule } from "../../common/shared.module";
 import { MessageService } from "./message.service";
 @NgModule({
   imports: [
@@ -16,7 +16,7 @@ import { MessageService } from "./message.service";
     NgaModule,
     RatingModule,
     routing,
-    sharedModule,
+    SharedModule,
   ],
   declarations: [
     MessageComponent,

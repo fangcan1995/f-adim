@@ -1,15 +1,14 @@
 import {
   Component,
-  ViewEncapsulation,
   Input,
   OnInit,
   ViewChild,
 } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
+import { Location } from '@angular/common';
 
 import { Role } from "../../../../model/auth/role";
-import { RoleManageService } from "../../role-manage.service";
-import { Location } from '@angular/common';
+import { RoleService } from "../../role.service";
 import { Result } from "../../../../model/result.class";
 import { jsonTree } from "../../../../../theme/utils/json-tree";
 import { SeerTree } from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
@@ -18,10 +17,7 @@ import { TreeNode } from "../../../../../theme/modules/seer-tree/models/tree-nod
 import { TREE_PERMISSIONS } from "../../../../../theme/modules/seer-tree/constants/permissions";
 
 @Component({
-  selector: 'role-edit',
   templateUrl: './role-edit.component.html',
-  providers: [RoleManageService],
-  encapsulation: ViewEncapsulation.None
 })
 export class RoleEditComponent implements OnInit {
   @ViewChild('accountTree') accountTree: SeerTree;
@@ -46,7 +42,7 @@ export class RoleEditComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private location: Location,
-              private service: RoleManageService) {
+              private service: RoleService) {
   }
 
   /**
