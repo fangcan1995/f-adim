@@ -1,15 +1,18 @@
-<div class="header_box">
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="col-xs-12">
-        <seertable
-          [data]="source"
-          [titles]="titles"
-          [titleOption]="titleOption"
-          (notify)="onChange($event)"
-        ></seertable>
-      </div>
-    </div>
-  </div>
-</div>
+
 <div dynamic-component></div>
+  <seer-collapse-card>
+    <seer-filter
+      [hasGlobalFilter]="hasGlobalFilter"
+      [filters]="filters"
+      (onSearchBtnClicked)=handleSearchBtnClicked($event)
+    ></seer-filter>  
+  </seer-collapse-card>
+  <seer-collapse-card>
+    <seer-table
+      [data]="source"
+      [titles]="titles"
+     
+      (notify)="onChange($event)"
+    ></seer-table>
+  </seer-collapse-card>
+ <!-- (onFiltersChanged)=handleFiltersChanged($event)  -->

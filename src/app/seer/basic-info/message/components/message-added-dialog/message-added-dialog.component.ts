@@ -100,17 +100,17 @@ export class  MessageAddedDialogComponent extends BaseModalComponent implements 
   actionSet = {
     'update': {
       'type': 'update',
-      'name': '修改',
+      'name': '选择',
       // 'icon': 'ion-close-round',
       'className': 'btn btn-xs btn-info',
     },
-    'delete': {
-      'type': 'delete',
-      'name': '启用',
-      'className': 'btn btn-xs btn-info',
-      // 'icon': 'ion-close-round',
-      // 'action': 'remove'
-    },
+    // 'delete': {
+    //   'type': 'delete',
+    //   'name': '启用',
+    //   'className': 'btn btn-xs btn-info',
+    //   // 'icon': 'ion-close-round',
+    //   // 'action': 'remove'
+    // },
   }
   ngOnInit(){
   this.getDatas();
@@ -121,11 +121,11 @@ export class  MessageAddedDialogComponent extends BaseModalComponent implements 
         this.datas = res.data;
         console.log(this.datas);
         
-      //   this.record = _.map(this.datas, t => {
-      //   let actions;
-      //   actions = [this.actionSet.update, this.actionSet.delete]
-      //   return _.set(t, 'actions', actions)
-      // })
+        this.record = _.map(this.datas, t => {
+        let actions;
+        actions = [this.actionSet.update]
+        return _.set(t, 'actions', actions)
+      })
     });
   }
 }

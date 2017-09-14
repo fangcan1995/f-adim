@@ -51,7 +51,7 @@ export class InfoPublishEditComponent implements OnInit {
   @ViewChild('fileUpload') protected _fileUpload:ElementRef;
   onUpload:EventEmitter<any> = new EventEmitter();
   onUploadCompleted:EventEmitter<any> = new EventEmitter();
-  constructor(private InfoPublishService:InfoPublishService,private renderer:Renderer, protected _uploader:Ng2Uploader,private gs:GlobalState,private modalService: BsModalService) {
+  constructor(private location: Location,private InfoPublishService:InfoPublishService,private renderer:Renderer, protected _uploader:Ng2Uploader,private gs:GlobalState,private modalService: BsModalService) {
     // 模态层
      this.gs.subscribe(this.EVENT, (param) => {
       this.openModal(param); 
@@ -168,6 +168,10 @@ export class InfoPublishEditComponent implements OnInit {
   // ========================树保存事件=================================  
   public hideModal():void {
     this.autoShownModal.hide();
+  }
+  // ============================返回上一层=======================
+  goBack(): void {
+    this.location.back();
   }
    onSave(): void {
     // let rolesTemp: string[] = [];

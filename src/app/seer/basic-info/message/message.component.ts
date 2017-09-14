@@ -109,7 +109,7 @@ export class MessageComponent {
   }
    onChange(message):void {
     if(message.type=='add'){//新增
-      this._router.navigate(['/seer/basic-info/message/add']);
+      this._router.navigate(['/basic-info/message/add']);
     }
   }
 
@@ -126,11 +126,11 @@ export class MessageComponent {
   }
  onChange1(message):void {
     if(message.type=='add'){//新增
-      this._router.navigate(['/seer/basic-info/message/add']);
+      this._router.navigate(['/basic-info/message/add']);
     }
 
     if(message.type=='update'){ //编辑
-      this._router.navigate(['/seer/basic-info/message/edit',message.data.Id]);
+      this._router.navigate(['/basic-info/message/edit',message.data.Id]);
     }
     // // 删除一条记录
     // if(message.type=='delete'){

@@ -71,6 +71,21 @@ export class MessageService extends BaseService<any>{
       )
     })
   }
+   getdialogData(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      resolve(
+        {
+          'success': true,
+          'data':[
+              {"name":"xxxx","realName":"王大崔","phone":"1333333333","idCard":"xxxxxxx","sex":"男"},
+              {"name":"xxxx","realName":"王大崔","phone":"1333333333","idCard":"xxxxxxx","sex":"男"},
+              {"name":"xxxx","realName":"王大崔","phone":"1333333333","idCard":"xxxxxxx","sex":"男"},
+              {"name":"xxxx","realName":"王大崔","phone":"1333333333","idCard":"xxxxxxx","sex":"男"},
+            ]
+        } 
+      )
+    })
+  }
 
   getRoles(): Promise<Result> {
     return this.getAll(this.MessangUrl);
