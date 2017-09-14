@@ -4,7 +4,7 @@ import {Observable} from "rxjs/Observable";
 import * as _ from "lodash";
 
 @Injectable()
-export class CouponService {
+export class AdvertisingService {
 
   mockData = [
     {
