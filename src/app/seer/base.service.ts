@@ -40,8 +40,7 @@ export class BaseService<T> {
 
   private excelImport =  SERVER + '/sys/excel/importExcel';
 
-  constructor(protected http?: Http) {
-  }
+  constructor(protected http?: Http) {}
 
   private static handleError(error: any): Promise<any> {
     console.error('error', error); // for demo purposes only

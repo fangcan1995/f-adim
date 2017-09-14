@@ -10,7 +10,7 @@ import {
 } from '../../../theme/services';
 import { RoleService } from "./role.service";
 import { Role } from "../../model/auth/role";
-import { ACTIONS } from '../../common/seer-table';
+import { UPDATE, DELETE } from '../../common/seer-table/seer-table.actions';
 @Component({
   templateUrl: './role.component.html',
   styleUrls: [ './role.component.scss' ],
@@ -32,14 +32,17 @@ export class RoleComponent {
     this.getList();
   }
   getList(params?) {
-    this._roleService.getList()
+    this._roleService.getList(params)
     .then(res => {
       this.roles = res.data;
-      this.roles = _.map(res.data, r => _.set(r, 'actions', [ACTIONS.UPDATE, ACTIONS.DELETE]));
+      this.roles = _.map(res.data, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
     });
   }
   handleFiltersChanged($event) {
-    console.log($event)
+    let params = {
+      ...$event,
+    }
+    this.getList(params)
   }
   
   constructor(
@@ -52,7 +55,7 @@ export class RoleComponent {
     let { type, data } = $event;
 
     switch ( type ) {
-      case 'add':
+      case 'create':
         this._router.navigate(['/system/role/add']);
         break;
       case 'update':
@@ -62,26 +65,39 @@ export class RoleComponent {
         this._dialogService.confirm('确定删除吗？')
         .subscribe(action => {
           if ( action === 1 ) {
-            this._roleService.deleteRole(data.roleId).then((data) => {
-              if ( data.success ){
+            this._roleService.deleteOne(data.roleId)
+            .then(res => {
+              if ( res.success ) {
                 this.getList();
-              }else {
-                alert("删除失败");
+              } else {
+                this._messageService.open({
+                  icon: 'fa fa-times-circle',
+                  message: '删除失败',
+                  autoHideDuration: 3000,
+                })
               }
             });
           }
         })
         break;
-      case 'delete_all':
-        let idList = _(data).map(t => t.roleId).value();
-
-        this._roleService.deleteRole(idList.toString()).then((data) => {
-          if ( data.success) {
-            this.getList();
-          }else {
-            alert("删除失败");
+      case 'delete_multiple':
+        this._dialogService.confirm('确定删除吗？')
+        .subscribe(action => {
+          if ( action === 1 ) {
+            this._roleService.deleteMultiple(_.map(data, t => t['roleId']).toString())
+            .then((data) => {
+              if ( data.success ) {
+                this.getList();
+              } else {
+                this._messageService.open({
+                  icon: 'fa fa-times-circle',
+                  message: '删除失败',
+                  autoHideDuration: 3000,
+                })
+              }
+            });
           }
-        });
+        })
         break;
 
     }

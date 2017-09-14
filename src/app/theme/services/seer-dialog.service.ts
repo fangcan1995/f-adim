@@ -35,6 +35,7 @@ export class SeerDialogService {
   public onAction() {
     return this._onAction$;
   }
+
   public alert(msg) {
     this.show({
       content: msg,
@@ -45,13 +46,21 @@ export class SeerDialogService {
         }
       ]
     })
-    return this.onAction()
+    let _action$ = new Subject();
+    let subscription = this.onAction()
     .do(res => {
       this.hide();
     })
     .map(res => {
       return res.type;
     })
+    .subscribe(res => {
+      subscription.unsubscribe();
+      _action$.next(res)
+
+    })
+    return _action$;
+    
   }
   public confirm(msg) {
     this.show({
@@ -67,13 +76,19 @@ export class SeerDialogService {
         }
       ]
     })
-    return this.onAction()
+    let _action$ = new Subject();
+    let subscription = this.onAction()
     .do(res => {
       this.hide();
     })
     .map(res => {
-      return res.type
+      return res.type;
     })
+    .subscribe(res => {
+      subscription.unsubscribe();
+      _action$.next(res)
+    })
+    return _action$;
   }
 }
 

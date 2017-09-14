@@ -19,7 +19,7 @@
       class="btn btn-info pull-right btnGroup__item"
       type="button"
       *ngIf="!hideAddButton"
-      (click)="add()"
+      (click)="create()"
       >
       新增
     </button>
@@ -28,7 +28,7 @@
       type="button"
       *ngIf="!hideRemoveAll"
       [disabled]="!renderSelectedNum()"
-      (click)="removeAll()"
+      (click)="deleteMultiple()"
       >
       批量删除 {{renderSelectedNum()}}
     </button>

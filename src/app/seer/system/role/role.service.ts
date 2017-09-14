@@ -5,13 +5,25 @@ import { Result } from "../../model/result.class";
 import { RoleWithSysUserIdsVO } from "./components/role-edit/RoleWithSysUserIdsVO";
 
 @Injectable()
-export class RoleService extends BaseService<any>{
+export class RoleService extends BaseService<any> {
 
   private roleManageUrl = SERVER+'/sys/role';  // URL to web api
 
   getList(params?): Promise<Result> {
     return this.getAll(this.roleManageUrl);
-    
+  }
+  getOne(id): Promise<Result> {
+    const url = `${this.roleManageUrl}/${id}`;
+    return this.getAll(url);
+  }
+
+  deleteOne(id: string): Promise<Result> {
+    const url = `${this.roleManageUrl}/${id}`;
+    return this.delete(url);
+  }
+  deleteMultiple(idList: string): Promise<Result> {
+    const url = `${this.roleManageUrl}/${idList}`;
+    return this.delete(url);
   }
 
   getRoleById(id: string): Promise<Result> {
