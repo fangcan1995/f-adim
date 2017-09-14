@@ -57,9 +57,9 @@ export class MessageTemplateComponent {
   source = [];
   data=[];
   titles = [
-    {key:'name', label:'模板名称'},
-    {key:'type', label:'业务类型'},
-    {key:'content', label:'模板内容'},
+    {key:'tplName', label:'模板名称'},
+    {key:'tplType', label:'业务类型'},
+    {key:'tplContent', label:'模板内容'},
   ];
   //tplTypeOptions={};
 
@@ -108,11 +108,11 @@ export class MessageTemplateComponent {
   onChange(message):void {
     /*增加一条记录*/
     if(message.type == 'add'){
-      this._router.navigate(['/seer/basic-info/message-template/add']);
+      this._router.navigate(['/basic-info/message-template/add']);
     }
     /*修改*/
     if(message.type == 'update'){
-      this._router.navigate(['/seer/basic-info/message-template/edit',message.data.tplId]);
+      this._router.navigate(['/basic-info/message-template/edit',message.data.tplId]);
     }
     /*删除一条记录*/
     if(message.type=='delete'){

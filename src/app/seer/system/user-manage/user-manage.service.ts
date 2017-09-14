@@ -27,8 +27,29 @@ export class UserManageService {
     return this.roleManageService.getRoles();
   }
 
-  getUsers(): Promise<Result> {
+  getUsers(): Promise<any> {
+    // 原有真实数据请求
+                                                                                                                                                                                                                                                                                                                                              // return this.baseService.getAll(this.userManageUrl);
     return this.baseService.getAll(this.userManageUrl);
+    // 为了页面显示的假数据
+    // return new Promise((resolve, reject) => {
+    //   resolve(
+    //     {
+    //       'success': true,
+    //       'data':[
+    //         {"account":"xxxx","userName":"王大崔","organ":"大连总部","count":"正常","userId":"192.168.1.113","createTime":"2017-08-18 09:21:12","operator":"admin","updataTime":"017-08-18 09:21:12","roles":"超级管理员"},
+    //         {"account":"xxxx","userName":"王大崔","organ":"大连总部","count":"正常","userId":"192.168.1.113","createTime":"2017-08-18 09:21:12","operator":"admin","updataTime":"017-08-18 09:21:12","roles":"超级管理员"},
+    //         {"account":"xxxx","userName":"王大崔","organ":"大连总部","count":"正常","userId":"192.168.1.113","createTime":"2017-08-18 09:21:12","operator":"admin","updataTime":"017-08-18 09:21:12","roles":"超级管理员"},
+    //         {"account":"xxxx","userName":"王大崔","organ":"大连总部","count":"正常","userId":"192.168.1.113","createTime":"2017-08-18 09:21:12","operator":"admin","updataTime":"017-08-18 09:21:12","roles":"超级管理员"},
+    //         {"account":"xxxx","userName":"王大崔","organ":"大连总部","count":"正常","userId":"192.168.1.113","createTime":"2017-08-18 09:21:12","operator":"admin","updataTime":"017-08-18 09:21:12","roles":"超级管理员"},
+    //         {"account":"xxxx","userName":"王大崔","organ":"大连总部","count":"正常","userId":"192.168.1.113","createTime":"2017-08-18 09:21:12","operator":"admin","updataTime":"017-08-18 09:21:12","roles":"超级管理员"},
+    //         {"account":"xxxx","userName":"王大崔","organ":"大连总部","count":"正常","userId":"192.168.1.113","createTime":"2017-08-18 09:21:12","operator":"admin","updataTime":"017-08-18 09:21:12","roles":"超级管理员"},
+    //         {"account":"xxxx","userName":"王大崔","organ":"大连总部","count":"正常","userId":"192.168.1.113","createTime":"2017-08-18 09:21:12","operator":"admin","updataTime":"017-08-18 09:21:12","roles":"超级管理员"},
+    //         {"account":"xxxx","userName":"王大崔","organ":"大连总部","count":"正常","userId":"192.168.1.113","createTime":"2017-08-18 09:21:12","operator":"admin","updataTime":"017-08-18 09:21:12","roles":"超级管理员"},
+    //       ]
+    //     } 
+    //   )
+    // })
   }
 
   // getUserById(id: string): Promise<Result> {
