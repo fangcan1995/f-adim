@@ -13,6 +13,9 @@ import {
 } from "../../../theme/directives/dynamicComponent/dynamic-component.directive";
 import {OrgTreeDialogComponent} from "./components/tree/org-tree.component";
 import {OrgModel} from "./OrgModel";
+import { SeerDialogService } from '../../../theme/services/seer-dialog.service';
+
+import * as _ from 'lodash'
 @Component({
   selector: 'org-manage',
   templateUrl: './org-manage.component.html',
@@ -33,19 +36,55 @@ export class OrgManageComponent implements OnDestroy{
 
 
   //员工列表
-  tableTitle: string = "员工列表";
+  tableTitle: string = "机构员工列表";
   tableSource = [];
-
+  datas = [];
+  record = [];
   staffId: string;
+  hasGlobalFilter = "true"
+  titles = [
+    {key:'name',label:'姓名'},
+    {key:'place',label:'联系方式'},
+    {key:'tel',label:'职位'},
+  ];
+  actionSet = {
+    'delete': {
+      'type': 'delete',
+      'name': '删除',
+      'className': 'btn btn-xs btn-danger',
+      'icon': 'ion-close-round',
+      // 'action': 'remove'
+    },
+  }
+  filters = [
+    {
+      key: 'name',
+      label: '姓名',
+      type: 'input.text',
+    },
+     {
+      key: 'organ',
+      label: '职位',
+      type: 'input.text',
+    },
+    {
+      key: 'tel',
+      label: '联系方式',
+      type: 'input.text',
+    },
+  ]
 
-  constructor(protected service: OrgManageService, private router: Router, private _state: GlobalState) {
+  constructor(protected service: OrgManageService, private router: Router, private _state: GlobalState, private _dialogService: SeerDialogService,) {
     this._state.subscribe("orgStaffState",(a)=>{
       this.getStaffsByOrgId(this.staffId);
     })
   }
 
   ngOnInit() {
+    // 初始化树结构
     this.getOrganizations();
+    // 初始化表
+    this.getlist();
   }
 
   ngOnDestroy(): void {
@@ -63,7 +102,42 @@ export class OrgManageComponent implements OnDestroy{
       this.treeNode = nodes;
     });
   }
+ 
 
+  // 表的数据的获取
+  getlist(){
+     this.service.getData()
+      .then(res => {
+        this.datas = res.data;
+        this.record = _.map(this.datas, t => {
+        let actions;
+        actions = [this.actionSet.delete]
+        return _.set(t, 'actions', actions)
+      })
+    });
+  }
+   // 表格动作
+   onChange(message):void {
+    const type = message.type;
+    let data = message.data;
+    switch ( type ) {
+      case 'delete':
+        this._dialogService.confirm('确定删除吗？')
+          .subscribe(action => {
+            if ( action === 1 ) {
+              // this.service.deleteOne(message.data.id)
+              //   .subscribe(data => {
+              //     this.getList();
+              // });
+            }
+          })
+
+        break;
+      case 'delete_all':
+        let ids = _(data).map(t => t.id).value();
+        break;
+    }
+   }
   /*
    * 通过组织机构id获取所属员工
    * */

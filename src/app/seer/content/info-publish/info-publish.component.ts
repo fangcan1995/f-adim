@@ -11,6 +11,7 @@ import {infoModle} from "./infoModle";
 /*import any = jasmine.any;*/
 import {DynamicComponentLoader} from "../../../theme/directives/dynamicComponent/dynamic-component.directive";
 import { InfoPublishService } from "./info-publish.service";
+import { SeerDialogService } from '../../../theme/services/seer-dialog.service'
 import * as _ from 'lodash';
 @Component({
   templateUrl: './info-publish.component.html',
@@ -57,8 +58,8 @@ export class InfoPublishComponent {
       'type': 'delete',
       'name': '删除',
       'className': 'btn btn-xs btn-danger',
-      // 'icon': 'ion-close-round',
-      'action': 'remove'
+      'icon': 'ion-close-round',
+      // 'action': 'remove'
     },
   }
    //组织树
@@ -71,7 +72,7 @@ export class InfoPublishComponent {
 
   staffId: string;
 
-  constructor(protected service: InfoPublishService, private _router: Router, private _state: GlobalState) {
+  constructor(protected service: InfoPublishService, private _dialogService: SeerDialogService, private _router: Router, private _state: GlobalState) {
     this._state.subscribe("orgStaffState",(a)=>{
       this.getStaffsByOrgId(this.staffId);
     })
@@ -105,19 +106,29 @@ export class InfoPublishComponent {
   // 按钮跳转路由事件
   onChange(message):void {
     const type = message.type;
+    console.log(type);
+    
     let data = message.data;
     switch ( type ) {
       case 'add':
-        this._router.navigate(['/seer/content/info-publish/add']);
+        this._router.navigate(['/content/info-publish/add']);
         break;
       case 'update': 
-        this._router.navigate(['/seer/content/info-publish/edit',message.data.msgId])
+        this._router.navigate(['/content/info-publish/edit',message.data.msgId])
         break;
-      case 'remove':
-        this.service.deleteOne(message.data.id)
-        .subscribe(data => {
-          this.getList();
-        });
+      case 'delete':
+      console.log("1111111");
+      
+        this._dialogService.confirm('确定删除吗？')
+          .subscribe(action => {
+            if ( action === 1 ) {
+              // this.service.deleteOne(message.data.id)
+              //   .subscribe(data => {
+              //     this.getList();
+              // });
+            }
+          })
+
         break;
       case 'delete_all':
         let ids = _(data).map(t => t.id).value();
