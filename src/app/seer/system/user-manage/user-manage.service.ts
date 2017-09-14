@@ -24,7 +24,7 @@ export class UserManageService {
   }
 
   getRoles(): Promise<Result> {
-    return this.roleManageService.getRoles();
+    return this.roleManageService.getList();
   }
 
   getUsers(): Promise<any> {
