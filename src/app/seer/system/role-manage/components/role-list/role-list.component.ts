@@ -41,11 +41,11 @@ export class RoleListComponent implements OnInit{
   onChange(message):void {
 
     if(message.type=='add'){
-      this._router.navigate(['/seer/sys/role-manage/role']);
+      this._router.navigate(['/system/role-manage/role']);
     }
 
     if(message.type=='update'){
-      this._router.navigate(['/seer/sys/role-manage/role',message.data.roleId]);
+      this._router.navigate(['/system/role-manage/role',message.data.roleId]);
     }
 
     if(message.type=='delete'){
