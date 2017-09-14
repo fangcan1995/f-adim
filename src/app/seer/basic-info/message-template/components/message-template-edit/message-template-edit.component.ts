@@ -13,7 +13,7 @@ import {Template} from "../../../../model/auth/message-template";
 })
 export class MessageTemplateEditComponent implements OnInit {
   template: Template = new Template();
-  title = '新增消息模板';
+  title = '消息模板管理';
   constructor(private route: ActivatedRoute, private location: Location,private service: messageTplManageService){
   };
   ngOnInit(){

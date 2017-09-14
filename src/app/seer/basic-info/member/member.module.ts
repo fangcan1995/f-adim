@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { NgaModule } from "../../../theme/nga.module";
-import { sharedModule } from "../../common/shared.module";
+import { SharedModule } from "../../common/shared.module";
 import { routing } from './member.routing';
 
 import { MemberComponent } from './member.component';
@@ -10,7 +10,7 @@ import { MemberService } from './member.service';
 
 @NgModule({
   imports: [
-    sharedModule,
+    SharedModule,
     NgaModule,
     routing,
   ],

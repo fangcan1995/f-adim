@@ -29,6 +29,21 @@ export class OrgManageService {
     let url = `${this.orgManageUrl}/organizations`;
     return this.baseService.getAll(url);
   }
+  // 表格假数据
+ getData(): Promise<any>{
+   return new Promise((resolve, reject) => {
+      resolve(
+        {
+          'success': true,
+          'data':[
+              {"name":"xxxx","place":"王大崔","tel":"1333333333"},
+              {"name":"xxxx","place":"王大崔","tel":"1333333333"},
+              {"name":"xxxx","place":"王大崔","tel":"1333333333"},
+            ]
+        } 
+      )
+    })
+ }
 
   /*
    * 根据组织id获取员工

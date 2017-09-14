@@ -1,12 +1,11 @@
 import { Component, ViewChild, OnInit, OnDestroy } from "@angular/core";
 import {Router,ActivatedRoute} from "@angular/router";
 import * as _ from 'lodash';
-import { RiskEvalService } from "./risk-eval.service";
+import { RiskEvalService } from './risk-eval.service';
 import { SeerDialogService } from '../../../theme/services/seer-dialog.service';
 @Component({
   templateUrl: './risk-eval.component.html',
   styleUrls: ['./risk-eval.component.scss'],
-  providers: [RiskEvalService],
 })
 export class RiskEvalComponent implements OnInit, OnDestroy {
   hasGlobalFilter = true;

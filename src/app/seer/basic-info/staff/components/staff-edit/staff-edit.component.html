@@ -28,6 +28,13 @@
 
           </div>
         </form>
+      </seer-collapse-card>
+      <seer-collapse-card title="抵押车辆信息" cardClass="with-scroll" [canCollapse]=true>
+        <seer-simple-table
+          [titles]=titles
+          [data]=data
+        ></seer-simple-table>
+      </seer-collapse-card>
 <!-- <form class="form-horizontal">
     <div class="row">
       <div class="col-xs-12">
@@ -307,6 +314,7 @@
             </div>
           </div>
         </div>
+
         <div class="col-xs-2">
           <tr>
             <td class="person_td">
@@ -319,6 +327,7 @@
             </td>
           </tr>
         </div>
+        
         <div class="col-xs-3 staff_picture">
           <div class="picture-group" [ngClass]="{uploading: uploadInProgress}">
             <div class="picture-wrapper" (click)="bringFileSelector();">
@@ -337,12 +346,13 @@
             <input #fileUpload type="file" name="file" hidden="true" id="uploadFile" (change)="onFiles()">
           </div>
         </div>
+
         <div class="col-xs-2"></div>
       </div>
     </div>
   
 </form> -->
-      </seer-collapse-card>
+      
     </div>
 </div>
 

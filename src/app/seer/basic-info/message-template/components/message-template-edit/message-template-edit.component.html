@@ -5,68 +5,26 @@
   </div>
   <seer-card [title]="title" >
     <div class="row">
-      <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
-        <div class="form-group">
-          <label for="inputTplName">模板名称</label>
+      <!-- <div class="col-sm-6 col-xs-12 col-md-6 col-lg-12"> -->
+        <div class="form-inline" class="col-lg-3">
+          <label for="inputTplName">模板名称&nbsp;&nbsp;&nbsp;</label>
           <input type="text" class="form-control" name="inputTplName" id="inputTplName" [(ngModel)]="template.tplName"  required maxlength="50">
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
-        <div class="form-group">
-          <label for="inputTplCode">模板编码</label>
-          <input type="text" class="form-control" name="inputTplCode" id="inputTplCode" [(ngModel)]="template.tplCode"  required maxlength="30">
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
-        <div class="form-group">
-          <label for="inputTplType">模板所属类型</label>
+        <div class="form-inline" class="col-lg-3">
+          <label for="inputTplName">业务类型&nbsp;&nbsp;&nbsp;</label>
           <select type="email" class="form-control" name="inputTplType" id="inputTplType" [(ngModel)]="template.tplType" dict-select required
                   [key]="'MESSAGE_TEMPLATE_TYPE'"
                   [topOption]="{dictValueId:'',dictValueName:'请选择'}"
                   [selected]="template.tplType" >
           </select>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
-        <div class="form-group">
-          <label for="inputTplTitle">标题</label>
-          <input type="text" class="form-control" name="inputTplTitle" id="inputTplTitle" [(ngModel)]="template.tplTitle"  required maxlength="50">
+        <div class="form-inline" class="col-lg-12" style="margin-top:30px;">
+          <label for="inputTplName">模板内容&nbsp;&nbsp;&nbsp;</label>
+           <textarea class="form-control" name="inputTplBusiness" id="inputTplBusiness" style="width:100%; height:250px;"   [(ngModel)]="template.tplBusiness" required></textarea>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
-        <div class="form-group">
-          <label for="inputTplContent">模板正文</label>
-          <textarea class="form-control" name="inputTplContent" id="inputTplContent" cols="20" rows="4" [(ngModel)]="template.tplContent" required></textarea>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
-        <div class="form-group">
-          <label for="inputTplBusiness">模板参数描述</label>
-          <textarea class="form-control" name="inputTplBusiness" id="inputTplBusiness" cols="20" rows="4" [(ngModel)]="template.tplBusiness" required></textarea>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
-        <div class="form-group">
-          <label for="inputTplisSystem">是否系统模板</label>
-          <select type="email" class="form-control" name="inputTplisSystem" id="inputTplisSystem" [(ngModel)]="template.tplisSystem" dict-select required
-                  [key]="'IS_SYSMESSAGETEMPLATE'"
-                  [topOption]="{dictValueId:'',dictValueName:'请选择'}"
-                  [selected]="template.tplisSystem" >
-          </select>
-        </div>
-      </div>
+        <!-- <div>
+          根据后端传来的字段，已{{}}方式输出（用ngif判断 是从修改来还是新增来，来确定是否显示这个盒子）
+        </div> -->
     </div>
   </seer-card>
 </form>

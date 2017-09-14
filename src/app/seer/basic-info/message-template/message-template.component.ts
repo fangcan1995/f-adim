@@ -3,7 +3,7 @@ import {messageTplManageService} from "./message-template.service";
 import {Router} from "@angular/router";
 import {Location} from '@angular/common';
 import {Template} from "../../model/auth/message-template";
-
+import * as _ from 'lodash';
 @Component({
   selector: 'message-template',
   templateUrl: './message-template.Component.html',
@@ -14,6 +14,21 @@ export class MessageTemplateComponent {
   hasGlobalFilter = true;
   optionType=[{value:'', content: '请选择'}];
   optionisSystem=[{value:'', content: '请选择'}];
+  actionSet = {
+    'update': {
+      'type': 'update',
+      'name': '修改',
+      // 'icon': 'ion-close-round',
+      'className': 'btn btn-xs btn-info',
+    },
+    'delete': {
+      'type': 'delete',
+      'name': '启用',
+      'className': 'btn btn-xs btn-info',
+      // 'icon': 'ion-close-round',
+      // 'action': 'remove'
+    },
+  }
   filters = [
     {
       key: 'tplName',
@@ -42,13 +57,9 @@ export class MessageTemplateComponent {
   source = [];
   data=[];
   titles = [
-    {key:'account', label:'序号'},
     {key:'tplName', label:'模板名称'},
-    {key:'tplCode', label:'模板编码'},
-    {key:'tplType', label:'模板类型'},
-    {key:'tplDeclaration', label:'参数说明'},
+    {key:'tplType', label:'业务类型'},
     {key:'tplContent', label:'模板内容'},
-    {key:'tplisSystem', label:'系统模板'}
   ];
   //tplTypeOptions={};
 
@@ -78,32 +89,30 @@ export class MessageTemplateComponent {
       /*假数据*/
       data={
         "data":[
-          {"tplId":1,"account":"1","tplName":"借款人借款标未满标，流标","tplCode":"FAILD_MARK","tplType":"短信", "tplDeclaration":"参数说明1","tplContent":"模板内容2","tplisSystem":"是"},
-          {"tplId":2,"account":"2","tplName":"注册验证码","tplCode":"FAILD_MARK","tplType":"短信", "tplDeclaration":"参数说明1","tplContent":"模板内容2","tplisSystem":"是"},
-          {"tplId":3,"account":"3","tplName":"借款人借款标未满标，流标","tplCode":"FAILD_MARK","tplType":"短信", "tplDeclaration":"参数说明1","tplContent":"模板内容2","tplisSystem":"是"},
-          {"tplId":4,"account":"4","tplName":"注册验证码","tplCode":"FAILD_MARK","tplType":"短信", "tplDeclaration":"参数说明1","tplContent":"模板内容2","tplisSystem":"是"},
-          {"tplId":5,"account":"5","tplName":"借款人借款标未满标，流标","tplCode":"FAILD_MARK","tplType":"短信", "tplDeclaration":"参数说明1","tplContent":"模板内容2","tplisSystem":"是"},
-          {"tplId":6,"account":"6","tplName":"注册验证码","tplCode":"FAILD_MARK","tplType":"短信", "tplDeclaration":"参数说明1","tplContent":"模板内容2","tplisSystem":"是"},
-          {"tplId":7,"account":"7","tplName":"借款人借款标未满标，流标","tplCode":"FAILD_MARK","tplType":"短信", "tplDeclaration":"参数说明1","tplContent":"模板内容2","tplisSystem":"是"},
-          {"tplId":8,"account":"8","tplName":"注册验证码","tplCode":"FAILD_MARK","tplType":"短信", "tplDeclaration":"参数说明1","tplContent":"模板内容2","tplisSystem":"是"},
-          {"tplId":9,"account":"9","tplName":"借款人借款标未满标，流标","tplCode":"FAILD_MARK","tplType":"短信", "tplDeclaration":"参数说明1","tplContent":"模板内容2","tplisSystem":"是"},
-          {"tplId":10,"account":"10","tplName":"注册验证码","tplCode":"FAILD_MARK","tplType":"短信", "tplDeclaration":"参数说明1","tplContent":"模板内容2","tplisSystem":"是"},
-          {"tplId":11,"account":"11","tplName":"借款人借款标未满标，流标","tplCode":"FAILD_MARK","tplType":"短信", "tplDeclaration":"参数说明1","tplContent":"模板内容2","tplisSystem":"是"},
-          {"tplId":12,"account":"12","tplName":"注册验证码","tplCode":"FAILD_MARK","tplType":"短信", "tplDeclaration":"参数说明1","tplContent":"模板内容2","tplisSystem":"是"}
+          {"tplId":1,"tplName":"xxx","tplContent":"【巴巴汇】客官，您的借款申请已提交成功，请耐心等待审核呦~客服电话：400-024-0909","tplType":"贷款"},
+          {"tplId":2,"tplName":"xxx","tplContent":"【巴巴汇】客官，您的借款申请已提交成功，请耐心等待审核呦~客服电话：400-024-0909","tplType":"投资"},
+          {"tplId":3,"tplName":"xxx","tplContent":"【巴巴汇】客官，您的借款申请已提交成功，请耐心等待审核呦~客服电话：400-024-0909","tplType":"活动"},
+          {"tplId":4,"tplName":"xxx","tplContent":"【巴巴汇】客官，您的借款申请已提交成功，请耐心等待审核呦~客服电话：400-024-0909","tplType":"贷款"},
         ],"success":"true","message": "成功"};
       /*假数据*/
       this.data = data.data;
       this.source = data.data;
+       // 数据请求过来后 进行按钮添加
+      this.source = _.map(this.source, t => {
+        let actions;
+        actions = [this.actionSet.update, this.actionSet.delete]
+        return _.set(t, 'actions', actions)
+      })
     });
   }
   onChange(message):void {
     /*增加一条记录*/
     if(message.type == 'add'){
-      this._router.navigate(['/seer/message-manage/message-template/add']);
+      this._router.navigate(['/basic-info/message-template/add']);
     }
     /*修改*/
     if(message.type == 'update'){
-      this._router.navigate(['/seer/message-manage/message-template/edit',message.data.tplId]);
+      this._router.navigate(['/basic-info/message-template/edit',message.data.tplId]);
     }
     /*删除一条记录*/
     if(message.type=='delete'){

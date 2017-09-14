@@ -1,29 +1,45 @@
- <!-- <seer-card> 
-  <seertable
-    [data]="source"
-    [titles]="titles"
-    [translate]="dict"
-    [hideAddButton] = "true"
-    (notify)="onChange($event)"
-  ></seertable>
- </seer-card>  -->
 
 
- <seer-collapse-card>
-  <seer-filter
-    [hasGlobalFilter]="hasGlobalFilter"
-    [filters]="filters"
-    (onFiltersChanged)=handleFiltersChanged($event)
-    (onSearchBtnClicked)=handleSearchBtnClicked($event)
-  ></seer-filter>  
-</seer-collapse-card>
-
-
-<seer-collapse-card>
-  <seer-table
-    [data]="source"
-    [titles]="titles"
-    [translate]="dict"
-    (notify)="onChange($event)"
-  ></seer-table>
-</seer-collapse-card>
+<tabset style="margin-top:15px;">
+  <tab heading='手动发送'>
+  <seer-collapse-card>
+    <seer-filter
+      [hasGlobalFilter]="hasGlobalFilter"
+      [filters]="filters"
+      (onFiltersChanged)=handleFiltersChanged($event)
+      (onSearchBtnClicked)=handleSearchBtnClicked($event)
+    ></seer-filter>  
+  </seer-collapse-card>
+  <seer-collapse-card>
+    <seer-table
+      [data]="source"
+      [titles]="titles"
+      [translate]="dict"
+      [hideExport]="true"
+      [hidePrint]="true"
+      [hideActions]="true"
+      (notify)="onChange($event)"
+    ></seer-table>
+    </seer-collapse-card> 
+  </tab>
+  <tab heading='自动发送'>
+    <seer-collapse-card>
+    <seer-filter
+      [hasGlobalFilter]="hasGlobalFilter"
+      [filters]="filters"
+      (onFiltersChanged)=handleFiltersChanged($event)
+      (onSearchBtnClicked)=handleSearchBtnClicked($event)
+    ></seer-filter>  
+  </seer-collapse-card>
+  <seer-collapse-card>
+    <seer-table
+      [data]="datas"
+      [titles]="sendTitles"
+      [translate]="dict"
+      [hideExport]="true"
+      [hidePrint]="true"
+      (notify)="onChange1($event)"
+    ></seer-table>
+    </seer-collapse-card> 
+  </tab>
+</tabset>

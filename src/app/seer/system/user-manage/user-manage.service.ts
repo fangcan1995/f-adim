@@ -6,7 +6,7 @@ import {
 import { SERVER } from "../../const";
 import { User } from "../../model/auth/user";
 import { BaseService } from "../../base.service";
-import { RoleManageService } from "../role-manage/role-manage.service";
+import { RoleService } from "../role/role.service";
 import { Result } from "../../model/result.class";
 
 @Injectable()
@@ -15,7 +15,7 @@ export class UserManageService {
   private userManageUrl = SERVER + '/sys/user';
   private headers = new Headers({'Content-Type': 'application/json'});
 
-  constructor(private http: Http, private baseService:BaseService<User>, private roleManageService:RoleManageService) {
+  constructor(private http: Http, private baseService:BaseService<User>, private roleManageService:RoleService) {
   }
 
   private handleError(error: any): Promise<any> {
@@ -24,11 +24,32 @@ export class UserManageService {
   }
 
   getRoles(): Promise<Result> {
-    return this.roleManageService.getRoles();
+    return this.roleManageService.getList();
   }
 
-  getUsers(): Promise<Result> {
+  getUsers(): Promise<any> {
+    // 原有真实数据请求
+                                                                                                                                                                                                                                                                                                                                              // return this.baseService.getAll(this.userManageUrl);
     return this.baseService.getAll(this.userManageUrl);
+    // 为了页面显示的假数据
+    // return new Promise((resolve, reject) => {
+    //   resolve(
+    //     {
+    //       'success': true,
+    //       'data':[
+    //         {"account":"xxxx","userName":"王大崔","organ":"大连总部","count":"正常","userId":"192.168.1.113","createTime":"2017-08-18 09:21:12","operator":"admin","updataTime":"017-08-18 09:21:12","roles":"超级管理员"},
+    //         {"account":"xxxx","userName":"王大崔","organ":"大连总部","count":"正常","userId":"192.168.1.113","createTime":"2017-08-18 09:21:12","operator":"admin","updataTime":"017-08-18 09:21:12","roles":"超级管理员"},
+    //         {"account":"xxxx","userName":"王大崔","organ":"大连总部","count":"正常","userId":"192.168.1.113","createTime":"2017-08-18 09:21:12","operator":"admin","updataTime":"017-08-18 09:21:12","roles":"超级管理员"},
+    //         {"account":"xxxx","userName":"王大崔","organ":"大连总部","count":"正常","userId":"192.168.1.113","createTime":"2017-08-18 09:21:12","operator":"admin","updataTime":"017-08-18 09:21:12","roles":"超级管理员"},
+    //         {"account":"xxxx","userName":"王大崔","organ":"大连总部","count":"正常","userId":"192.168.1.113","createTime":"2017-08-18 09:21:12","operator":"admin","updataTime":"017-08-18 09:21:12","roles":"超级管理员"},
+    //         {"account":"xxxx","userName":"王大崔","organ":"大连总部","count":"正常","userId":"192.168.1.113","createTime":"2017-08-18 09:21:12","operator":"admin","updataTime":"017-08-18 09:21:12","roles":"超级管理员"},
+    //         {"account":"xxxx","userName":"王大崔","organ":"大连总部","count":"正常","userId":"192.168.1.113","createTime":"2017-08-18 09:21:12","operator":"admin","updataTime":"017-08-18 09:21:12","roles":"超级管理员"},
+    //         {"account":"xxxx","userName":"王大崔","organ":"大连总部","count":"正常","userId":"192.168.1.113","createTime":"2017-08-18 09:21:12","operator":"admin","updataTime":"017-08-18 09:21:12","roles":"超级管理员"},
+    //         {"account":"xxxx","userName":"王大崔","organ":"大连总部","count":"正常","userId":"192.168.1.113","createTime":"2017-08-18 09:21:12","operator":"admin","updataTime":"017-08-18 09:21:12","roles":"超级管理员"},
+    //       ]
+    //     } 
+    //   )
+    // })
   }
 
   // getUserById(id: string): Promise<Result> {

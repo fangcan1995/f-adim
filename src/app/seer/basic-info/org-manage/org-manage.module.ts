@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 
 import {NgaModule} from "../../../theme/nga.module";
 
-import {sharedModule} from "../../common/shared.module";
+import {SharedModule} from "../../common/shared.module";
 
 import { TabsModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { DatepickerModule } from 'ng2-bootstrap';
@@ -24,7 +24,7 @@ import {OrgTreeDialogComponent} from "./components/tree/org-tree.component";
     NgaModule,
     CommonModule,
     FormsModule,
-    sharedModule,
+    SharedModule,
     TabsModule,
     orgManageRouting,
     Ng2SmartTableModule,

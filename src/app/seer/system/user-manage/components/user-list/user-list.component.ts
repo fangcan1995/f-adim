@@ -12,6 +12,7 @@ import {
   DynamicComponentLoader,
   DynamicComponentParam,
 } from "../../../../../theme/directives/dynamicComponent/dynamic-component.directive";
+import * as _ from 'lodash'
 
 @Component({
   selector: 'user-list',
@@ -28,10 +29,117 @@ export class UserListComponent implements OnDestroy {
   EDITEVENT = 'editSysUser';
   source = [];
   roles = [];
-
+  record = [];
+  hasGlobalFilter = true;
   @ViewChild(DynamicComponentLoader)
   dynamicComponentLoader: DynamicComponentLoader;
+  filters = [
+    {
+      key: 'name',
+      label: '更新人',
+      type: 'select',
+      options: [
+        {
+          content: '正常'
+        },
+        {
+          value: '0',
+          content: '病假'
+        },
+        {
+          value: '1',
+          content: '事假',
+        },
+        {
+          value: '2',
+          content: '产假',
+        },
+        {
+          value: '3',
+          content: '婚假',
+        },
+        {
+          value: '4',
+          content: '出差',
+        }
+      ]
+    },
+    {
+      key: 'stage',
+      label: '员工状态',
+      type: 'select',
+       options: [
+        {
+          content: '正常'
+        },
+        {
+          value: '0',
+          content: '病假'
+        },
+        {
+          value: '1',
+          content: '事假',
+        },
+        {
+          value: '2',
+          content: '产假',
+        },
+        {
+          value: '3',
+          content: '婚假',
+        },
+        {
+          value: '4',
+          content: '出差',
+        }
+      ]
+    },
+    {
+      key: 'begigTime',
+      label: '开始时间',
+      type: 'input.data',
+    },
 
+
+
+
+    // {
+    //   key: 'gender',
+    //   label: '消息类型',
+    //   type: 'select',
+    //   options: [
+    //     {
+    //       content: '请选择'
+    //     },
+    //     {
+    //       value: '0',
+    //       content: '短信'
+    //     },
+    //     {
+    //       value: '1',
+    //       content: '电话',
+    //     }
+    //   ]
+    // },
+    // {
+    //   key: 'mobile',
+    //   label: '发送状态',
+    //   type: 'select',
+    //    options: [
+    //     {
+    //       content: '请选择'
+    //     },
+    //     {
+    //       value: '0',
+    //       content: '已发'
+    //     },
+    //     {
+    //       value: '1',
+    //       content: '未发',
+    //     }
+    //   ]
+    // },
+  ]
   titles = [
     {
       key:'account',
@@ -41,47 +149,24 @@ export class UserListComponent implements OnDestroy {
       key:'userName',
       label:'用户名称',
     },
-    // {
-    //   key:'roles',
-    //   label:'用户角色',
-    // },
     {
-      key:'createTime',
-      label:'创建时间',
-    }
-  ];
-
-  titleOption =[
-    {
-      key:'account',
-      label:'用户账号',
+      key:'organ',
+      label:'所属机构',
     },
     {
-      key:'userName',
-      label:'用户名称',
-    },
-    // {
-    //   key:'roles',
-    //   label:'用户角色',
-    // },
-    {
-      key:'staffId',
-      label:'所属员工',
-    },
-    {
-      key:'accountState',
+      key:'count',
       label:'账号状态',
     },
     {
-      key:'loginIp',
+      key:'userId',
       label:'最后登录IP',
     },
     {
-      key:'loginTime',
+      key:'createTime',
       label:'最后登录时间',
     },
     {
-      key:'createUser',
+      key:'operator',
       label:'创建人',
     },
     {
@@ -93,10 +178,76 @@ export class UserListComponent implements OnDestroy {
       label:'更新人',
     },
     {
-      key:'operateTime',
-      label:'更新时间',
-    }
+      key:'createTime',
+      label:'跟新时间',
+    },
+    {
+      key:'roles',
+      label:'用户角色',
+    },
   ];
+  actionSet = {
+    'update': {
+      'type': 'update',
+      'name': '修改',
+      // 'icon': 'ion-close-round',
+      'className': 'btn btn-xs btn-info',
+    },
+    'delete': {
+      'type': 'delete',
+      'name': '删除',
+      'className': 'btn btn-xs btn-danger',
+      'icon': 'ion-close-round',
+      // 'action': 'remove'
+    },
+  }
+
+  // titleOption =[
+  //   {
+  //     key:'account',
+  //     label:'用户账号',
+  //   },
+  //   {
+  //     key:'userName',
+  //     label:'用户名称',
+  //   },
+  //   {
+  //     key:'roles',
+  //     label:'用户角色',
+  //   },
+  //   {
+  //     key:'staffId',
+  //     label:'所属员工',
+  //   },
+  //   {
+  //     key:'accountState',
+  //     label:'账号状态',
+  //   },
+  //   {
+  //     key:'loginIp',
+  //     label:'最后登录IP',
+  //   },
+  //   {
+  //     key:'loginTime',
+  //     label:'最后登录时间',
+  //   },
+  //   {
+  //     key:'createUser',
+  //     label:'创建人',
+  //   },
+  //   {
+  //     key:'createTime',
+  //     label:'创建时间',
+  //   },
+  //   {
+  //     key:'operator',
+  //     label:'更新人',
+  //   },
+  //   {
+  //     key:'operateTime',
+  //     label:'更新时间',
+  //   }
+  // ];
 
   constructor(protected service: UserManageService, private router: Router, private _state: GlobalState) {
     /*弹出新增、修改页面订阅事件*/
@@ -119,6 +270,9 @@ export class UserListComponent implements OnDestroy {
   }
 
   public openModal(data) {
+    console.log(data);
+    console.log("---------------------------------------------------");
+    
     this.dynamicComponentLoader.loadComponent(data.component,data.data);
   }
 
@@ -130,6 +284,16 @@ export class UserListComponent implements OnDestroy {
   allUsersList() {
     this.service.getUsers().then((data) => {
       this.source = data.data;
+      console.log( this.source );
+      
+       this.record = _.map(this.source, t => {
+        let actions;
+        actions = [this.actionSet.update, this.actionSet.delete]
+        return _.set(t, 'actions', actions)
+      })
+
+
+
     });
   }
 
@@ -150,6 +314,9 @@ export class UserListComponent implements OnDestroy {
   }
 
   onChange(message):void {
+    console.log(message);
+    console.log("11111");
+    
     if(message.type == 'add'){ //新增
       this.popupAdd();
     }

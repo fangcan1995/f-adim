@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { NgaModule } from '../../../theme/nga.module';
-import { sharedModule } from "../../common/shared.module";
+import { SharedModule } from "../../common/shared.module";
 
 import { routing } from './intention.routing';
 import { IntentionComponent } from './intention.component';
@@ -12,7 +12,7 @@ import {IntentionCompletionComponent} from "./components/intention-completion/in
 @NgModule({
   imports: [
     NgaModule,
-    sharedModule,
+    SharedModule,
     routing,
   ],
   declarations: [
