@@ -7,7 +7,7 @@ import { SeerComponent } from './seer.component';
 
 const routes: Routes = [
   {
-    path: 'seer',
+    path: '',
     component: SeerComponent,
     children: [
       { path: '', redirectTo: 'workspace', pathMatch: 'full' },
