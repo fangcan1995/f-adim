@@ -71,7 +71,7 @@ export class MemberEditComponent implements OnInit {
         message: res.msg,
         autoHideDuration: 3000,
       }).onClose().subscribe(() => {
-        this._router.navigate(['/seer/basic-info/member'])
+        this._router.navigate(['/basic-info/member'])
       });
     }, errMsg => {
       this.forbidSaveBtn = false;
