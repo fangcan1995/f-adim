@@ -1,17 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Http, Request, RequestMethod, Response, RequestOptions, URLSearchParams } from '@angular/http';
+import { Http, Headers, Request, RequestMethod, Response, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import * as _ from 'lodash';
 
-const baseDomain = 'localhost';
+interface ResModel {
+  code: number,
+  msg: string,
+  data?: any,
+  extras?: any,
+}
+
+const baseDomain = '42.202.130.200';
 const basePort = 8080;
 const baseServer = `${baseDomain}:${basePort}`;
 
-export const baseUrl = `http://${baseServer}/api`;
-
+// export const baseUrl = `http://${baseServer}/api`;
+export const baseUrl = `http://${baseServer}`;
 export const apis = {
   'LOGIN': 'login',
   'LOGOUT': 'logout',
@@ -53,43 +60,47 @@ export class HttpInterceptorService {
       }
       _search.set(i, t);
     })
+
+    let headers = new Headers({ 'Content-Type': 'application/json' });
     let options;
     if ( method === 'GET' ) {
       options = new RequestOptions({
+        headers,
         method: _method,
         url: url,
         search: _search,
+
       });
     } else {
       options = new RequestOptions({
+        headers,
         method: _method,
         url: url,
         body: params
       });
     }
-    
     let req = new Request(options)
     return this._http.request(req)
     .map(this.extractData)
     .do(res => {
       console.log('__response__: ', res);
     })
-    .mergeMap(res => {
+    .catch(this.handleError);
+    /*.mergeMap(res => {
       if ( res.code === 0 ) {
         return Observable.of(res);
       } else {
         // 将错误放到错误回调中统一处理
-        return Observable.throw(res.msg);
+        return Observable.throw(res);
       }
-    })
-    .catch(this.handleError);
+    })*/
+    
   }
   private extractData(res: Response) {
       let body = res.json();
       return body || { };
   }
   private handleError (error: Response | any) {
-    // In a real world app, you might use a remote logging infrastructure
     let errMsg: string;
     if (error instanceof Response) {
       const body = error.json() || '';
@@ -98,7 +109,9 @@ export class HttpInterceptorService {
     } else {
       errMsg = error.message ? error.message : error.toString();
     }
-    console.error(errMsg);
-    return Observable.throw(errMsg);
+    return Observable.throw({
+      code: -1,
+      msg: errMsg,
+    });
   }
 }

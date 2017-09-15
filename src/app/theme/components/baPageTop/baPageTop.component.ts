@@ -62,7 +62,7 @@ export class BaPageTop implements OnInit,OnDestroy{
   }
 
   getLoginImage(){
-    let loginData = new LoginData;
+    /*let loginData = new LoginData;
     loginData = JSON.parse(localStorage.getItem('data'));
     this.staffManageService.getStaffById(loginData.currentUser.staffId)
       .subscribe(
@@ -72,13 +72,13 @@ export class BaPageTop implements OnInit,OnDestroy{
             this.loginImage = '../../../../assets/img/app/profile/Nasta.png'
           }
         },
-        error =>  this.errorMessage = <any>error);
+        error =>  this.errorMessage = <any>error);*/
   }
 
   getLoginName(){
-    let loginData = new LoginData;
+    /*let loginData = new LoginData;
     loginData = JSON.parse(localStorage.getItem('data'));
-    this.loginName = loginData.currentUser.userName;
+    this.loginName = loginData.currentUser.userName;*/
     return this.loginName;
   }
 

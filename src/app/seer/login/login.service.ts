@@ -15,7 +15,6 @@ export class LoginService {
   login (currentUser): Observable<Json> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-
     return this.http.post(this.loginUrl, currentUser , options)
       .map(this.extractData)
       .catch(this.handleError);

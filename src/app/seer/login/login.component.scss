@@ -1,0 +1,40 @@
+.auth-main {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+.auth-block {
+  width: 540px;
+  margin: 0 auto;
+  padding: 32px;
+  background-color: #fbfbfb;
+  color: #fff;
+  .logo {
+    display: block;
+    margin: 0 auto;
+    max-width: 240px;
+    width: 100%;
+  }
+  .form-group {
+    margin-bottom: 12px;
+  }
+}
+
+.seer_a_font{
+  color:#00abff;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+
+
+.page-bottom{
+  position: absolute;
+  top: 75%;
+  left:7%;
+  height: 160px;
+  overflow: auto;
+  width:90% ;
+}
