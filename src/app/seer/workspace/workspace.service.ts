@@ -6,14 +6,15 @@ import {Result} from "../model/result.class";
 export class WorkspaceService extends BaseService<any> {
 
   getTasks() {
-    let sessionData = localStorage.getItem('data');
+    /*let sessionData = localStorage.getItem('data');
     if (sessionData) {
       let currentUser = JSON.parse(sessionData)['currentUser'];
       if (currentUser && currentUser.staffId) {
         const url = `${SERVER}/workflow/basic/task/assignee/${currentUser.staffId}`
         return this.getAll(url);
       }
-    }
+    }*/
+    return new Promise(() => {});
   }
 
   getOrderCensorHistory(orderId):Promise<Result>{

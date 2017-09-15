@@ -8,20 +8,6 @@ import * as _ from 'lodash';
 
 
 
-const baseDomain = '42.202.130.200';
-const basePort = 8080;
-const baseServer = `${baseDomain}:${basePort}`;
-
-// export const baseUrl = `http://${baseServer}/api`;
-export const baseUrl = `http://${baseServer}`;
-export const apis = {
-  'LOGIN': 'login',
-  'LOGOUT': 'logout',
-  'SIGNUP': 'signup',
-  'WORKBENCH': 'workbench',
-  'MEMBERS': 'members',
-}
-
 export class ResModel {
   code: number;
   msg: string;
