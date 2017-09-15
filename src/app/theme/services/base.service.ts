@@ -37,13 +37,14 @@ export const apis = {
   'MEMBERS': 'members',
 }
 
-
+// 此服务用于继承，请不要注入使用；如果想用更灵活的http服务请使用HttpInterceptorService，最灵活的是angular2自带的Http服务；
 @Injectable()
 export class BaseService<T> {
   private _api: string;
   constructor(
     protected _httpInterceptorService: HttpInterceptorService,
     ) {}
+  // 当子类继承时，请在构造函数里调用一次设置接口名
   public setApi(api: string) {
     this._api = api;
   }
@@ -71,7 +72,7 @@ export class BaseService<T> {
   public deleteOne(id: string | number): Promise<ResModel> {
     return this._httpInterceptorService.request('DELETE', `${baseUrl}/${this._api}/${id}`).toPromise();
   }
-
+  // 从本地存储里获取用户信息
   public getUserFromLocal(): Promise<ResModel> {
     return new Promise(resolve => {
       resolve({
@@ -81,6 +82,7 @@ export class BaseService<T> {
       })
     });
   }
+  // 从服务器端获取用户信息
   public getUserFromServer(): Promise<ResModel> {
     return this._httpInterceptorService.request('GET', `${baseUrl}/user`).toPromise();
   }
