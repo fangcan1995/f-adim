@@ -81,7 +81,6 @@ import {
 import {Ng2BootstrapModule} from "ng2-bootstrap";
 import {TreePickerComponent} from "./components/tree-picker/tree-picker.component";
 import {TreePickerDirective} from "./components/tree-picker/tree-picker.directive";
-import {ChangePasswordComponent} from "./components/baChangePassword/baChangePassword.component";
 import {CheckboxPickerComponent} from "./components/checkbox-picker/checkbox-picker.component";
 import {CheckboxPickerDirective} from "./components/checkbox-picker/checkbox-picker.directive";
 
@@ -100,7 +99,6 @@ const NGA_COMPONENTS = [
   BaMsgCenter,
   BaMultiCheckbox,
   BaPageTop,
-  ChangePasswordComponent,
   BaPictureUploader,
   BaSidebar,
   ModalComponent,
@@ -174,7 +172,6 @@ const NGA_SUB_MODULES = [
   ],
   entryComponents: [
     TreePickerComponent,
-    ChangePasswordComponent,
     CheckboxPickerComponent
   ],
   providers: [

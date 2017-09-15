@@ -5,7 +5,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { DictManageService } from "../dict-manage.service";
-import { Json } from "../../../login/Json";
 import { DICT_TRANSLATE } from "./dict.translate";
 
 @Component({
@@ -18,7 +17,6 @@ export class DictComponent {
   title = '字典管理';
   addTitle: string;
   data = [];
-  json = Json;
   currentDict;
   titles = [
     {

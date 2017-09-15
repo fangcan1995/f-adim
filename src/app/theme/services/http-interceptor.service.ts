@@ -6,12 +6,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import * as _ from 'lodash';
 
-interface ResModel {
-  code: number,
-  msg: string,
-  data?: any,
-  extras?: any,
-}
+
 
 const baseDomain = '42.202.130.200';
 const basePort = 8080;
@@ -25,6 +20,13 @@ export const apis = {
   'SIGNUP': 'signup',
   'WORKBENCH': 'workbench',
   'MEMBERS': 'members',
+}
+
+export class ResModel {
+  code: number;
+  msg: string;
+  data?: any;
+  extras?: any;
 }
 
 @Injectable()
@@ -85,7 +87,6 @@ export class HttpInterceptorService {
     .do(res => {
       console.log('__response__: ', res);
     })
-    .catch(this.handleError);
     /*.mergeMap(res => {
       if ( res.code === 0 ) {
         return Observable.of(res);
@@ -94,6 +95,7 @@ export class HttpInterceptorService {
         return Observable.throw(res);
       }
     })*/
+    .catch(this.handleError);
     
   }
   private extractData(res: Response) {

@@ -24,7 +24,6 @@ import {
   titles
 } from './staff.config';
 
-import { Json } from "../../login/Json";
 import { NewStaffDto } from "./NewStaffDto";
 import { SearchStaffDto } from "./SearchStaffDto";
 import { STAFF_TRANSLATE } from "./staff.translate";
@@ -79,7 +78,6 @@ export class StaffComponent {
 
   public uploadInProgress:boolean = false;
   roleData = [];
-  json = Json;
   currentStaff;
 
   errorMessage;

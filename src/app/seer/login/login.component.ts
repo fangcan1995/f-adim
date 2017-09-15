@@ -13,7 +13,6 @@ import { Router, NavigationExtras } from '@angular/router';
 import { GlobalState } from '../../global.state';
 import { parseQueryString } from '../../theme/libs/utils';
 
-import { LoginService } from './login.service';
 import { AuthService } from '../../theme/services/auth.service';
 import { SeerMessageService } from '../../theme/services/seer-message.service';
 
@@ -48,7 +47,6 @@ export class LoginComponent {
 
   constructor(
     fb: FormBuilder,
-    private _loginService: LoginService,
     private _router: Router,
     private _state: GlobalState,
     private _authService: AuthService,
