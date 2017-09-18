@@ -34,6 +34,7 @@ export class SeerTableComponent implements OnInit {
   @Input() hideFilter;//隐藏全局过滤
   @Input() hideEditButton;//隐藏编辑按钮
   @Input() displayCopyButton;//显示复制新增按钮
+  @Input() displayOriginalData;//翻译不破坏原始数据，但全局搜索不好使
   @Input() addNewButton; //新增自定义按钮
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
   public rowsOnPage = 10;
@@ -87,9 +88,9 @@ export class SeerTableComponent implements OnInit {
           });
         }
       });
-
       this.service.getDictTranslate(transFields)
       .then(res => {
+        console.log(res)
         if ( res.success ) this.translate = res.data;
       });
     }

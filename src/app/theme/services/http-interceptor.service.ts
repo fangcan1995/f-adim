@@ -6,8 +6,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import * as _ from 'lodash';
 
-
-
 export class ResModel {
   code: number;
   msg: string;
@@ -18,7 +16,7 @@ export class ResModel {
 @Injectable()
 export class HttpInterceptorService {
   constructor(private _http: Http) { }
-  public request(method: string, url: string, params?: object) {
+  public request(method: string, url: string, params?: any, ignoreAuth?: boolean) {
     method = method.toUpperCase();
     let _method = null;
     switch (method) {
@@ -48,8 +46,9 @@ export class HttpInterceptorService {
       }
       _search.set(i, t);
     })
-
-    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let headers = new Headers();
+    headers.set('Content-Type', 'application/json')
+    headers.set('Authorization', '123')
     let options;
     if ( method === 'GET' ) {
       options = new RequestOptions({
@@ -68,6 +67,7 @@ export class HttpInterceptorService {
       });
     }
     let req = new Request(options)
+    console.log(req)
     return this._http.request(req)
     .map(this.extractData)
     .do(res => {

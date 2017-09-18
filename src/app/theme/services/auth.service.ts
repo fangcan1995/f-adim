@@ -6,10 +6,12 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import { menuTree } from '../utils/json-tree';
 import {
-  baseUrl,
-  apis,
   HttpInterceptorService,
 } from './http-interceptor.service';
+import {
+  BASE_URL,
+  API,
+} from './base.service';
 import { setStorage, delStorage } from '../libs/utils';
 @Injectable()
 export class AuthService {
@@ -25,7 +27,7 @@ export class AuthService {
     ) {}
   
   login(account: any, password: any): Observable<any> {
-    return this._httpInterceptorService.request('POST', `${baseUrl}/${apis['LOGIN']}`, { account, password })
+    return this._httpInterceptorService.request('POST', `${BASE_URL}/${API.LOGIN}`, { account, password })
     .do(res => {
       /*if ( res.code === 0 ) {
         this.isLoggedIn = true;
@@ -54,7 +56,7 @@ export class AuthService {
     })
   }
   /*logout(): Observable<any> {
-    return this.http.post(`${baseUrl}/${apis['LOGOUT']}`, {})
+    return this.http.post(`${BASE_URL}/${API['LOGOUT']}`, {})
     .map(this.extractData)
     .do(res => {
       if ( res.code === 0 ) {

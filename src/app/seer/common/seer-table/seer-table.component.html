@@ -77,10 +77,10 @@
           <div *ngIf="title.type=='input_number'">
             <input  type="number" class="form-control" [(ngModel)]="item[title.key]"/>
           </div>
-          <div *ngIf="title.type!='input_number'&&title.type!='link'&&displayOriginalData">
+          <div *ngIf="title.type!='input_number' && title.type!='link' && !displayOriginalData">
             <span class="seer_font">{{renderValue(title,item[title.key])}}</span>
           </div>
-          <div *ngIf="title.type!='input_number'&&title.type!='link'&&!displayOriginalData">
+          <div *ngIf="title.type!='input_number' && title.type!='link' && displayOriginalData">
             <span class="seer_font">{{item[title.key]}}</span>
           </div>
         </td>

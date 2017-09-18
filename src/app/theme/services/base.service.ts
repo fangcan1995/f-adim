@@ -23,13 +23,11 @@ const castDict2Translate = (dicts: any[] = [], map: Map<string, string>) => {
   return translate;
 };
 
-const baseDomain = '42.202.130.200';
-const basePort = 8080;
-const baseServer = `${baseDomain}:${basePort}`;
-
-// export const baseUrl = `http://${baseServer}/api`;
-export const baseUrl = `http://${baseServer}`;
-export const apis = {
+const BASE_DOMAIN = '42.202.130.200';
+const BASE_PORT = 8080;
+const BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
+export const BASE_URL = `http://${BASE_SERVER}`;
+export const API = {
   'LOGIN': 'login',
   'LOGOUT': 'logout',
   'SIGNUP': 'signup',
@@ -50,27 +48,27 @@ export class BaseService<T> {
   }
   // 获取列表
   public getList(params?: any): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${baseUrl}/${this._api}`, params).toPromise();
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/${this._api}`, params).toPromise();
   }
   // 获取一条记录
   public getOne(id: string | number): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${baseUrl}/${this._api}/${id}`).toPromise();
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/${this._api}/${id}`).toPromise();
   }
   // 新增一条记录
   public PostOne(params: any): Promise<ResModel> {
-    return this._httpInterceptorService.request('POST', `${baseUrl}/${this._api}`, params).toPromise();
+    return this._httpInterceptorService.request('POST', `${BASE_URL}/${this._api}`, params).toPromise();
   }
   // 修改一条记录，提供全部字段
   public putOne(id: string | number, params: any): Promise<ResModel> {
-    return this._httpInterceptorService.request('PUT', `${baseUrl}/${this._api}/${id}`, params).toPromise();
+    return this._httpInterceptorService.request('PUT', `${BASE_URL}/${this._api}/${id}`, params).toPromise();
   }
   // 修改一条记录，提供部分字段
   public patchOne(id: string | number, params: any): Promise<ResModel> {
-    return this._httpInterceptorService.request('PATCH', `${baseUrl}/${this._api}/${id}`, params).toPromise();
+    return this._httpInterceptorService.request('PATCH', `${BASE_URL}/${this._api}/${id}`, params).toPromise();
   }
   // 删除一条记录
   public deleteOne(id: string | number): Promise<ResModel> {
-    return this._httpInterceptorService.request('DELETE', `${baseUrl}/${this._api}/${id}`).toPromise();
+    return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${this._api}/${id}`).toPromise();
   }
   // 从本地存储里获取用户信息
   public getUserFromLocal(): Promise<ResModel> {
@@ -84,6 +82,8 @@ export class BaseService<T> {
   }
   // 从服务器端获取用户信息
   public getUserFromServer(): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${baseUrl}/user`).toPromise();
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/user`).toPromise();
   }
+
+  // 提交
 }

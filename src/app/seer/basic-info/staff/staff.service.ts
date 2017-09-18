@@ -3,11 +3,12 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import {
-  baseUrl,
-  apis,
   HttpInterceptorService,
 } from '../../../theme/services';
-
+import {
+  BASE_URL,
+  API,
+} from '../../../theme/services/base.service';
 import {NewStaffDto} from "./NewStaffDto";
 import {SearchStaffDto} from "./SearchStaffDto";
 import {SERVER} from "../../const";

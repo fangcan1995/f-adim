@@ -162,6 +162,7 @@ export class BaseService<T> {
    * @param dictKeyId
    */
   getDictByKey(dictKeyId: string): Promise<any> {
+    console.log('goes here');
     const sessionStorageKey = 'request dict key = ';
     let dict = sessionStorage.getItem(dictKeyId);
     //如果已经有缓存，则直接使用
