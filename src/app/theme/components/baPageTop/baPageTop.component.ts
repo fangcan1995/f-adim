@@ -8,9 +8,7 @@ import {
 
 import { GlobalState } from '../../../global.state';
 import { Router } from "@angular/router";
-import { LoginService } from "../../../seer/login/login.service";
 import { DynamicComponentLoader } from "../../directives/dynamicComponent/dynamic-component.directive";
-import { ChangePasswordComponent } from "../baChangePassword/baChangePassword.component";
 import { LoginData } from "../../../seer/model/LoginData";
 import { StaffService } from "../../../seer/basic-info/staff/staff.service";
 
@@ -20,7 +18,6 @@ import { StaffService } from "../../../seer/basic-info/staff/staff.service";
   styleUrls: ['./baPageTop.scss'],
   encapsulation: ViewEncapsulation.None,
   providers:[
-    LoginService,
     StaffService,
   ],
 })
@@ -38,7 +35,6 @@ export class BaPageTop implements OnInit,OnDestroy{
 
   constructor(
     private _state:GlobalState,
-    private _loginService:LoginService,
     private staffManageService:StaffService,
     private router:Router
     ) {
@@ -62,43 +58,17 @@ export class BaPageTop implements OnInit,OnDestroy{
   }
 
   getLoginImage(){
-    let loginData = new LoginData;
-    loginData = JSON.parse(localStorage.getItem('data'));
-    this.staffManageService.getStaffById(loginData.currentUser.staffId)
-      .subscribe(
-        res => {
-          this.loginImage = res.data.staffImageUrl;
-          if(!this.loginImage||this.loginImage == ''){
-            this.loginImage = '../../../../assets/img/app/profile/Nasta.png'
-          }
-        },
-        error =>  this.errorMessage = <any>error);
   }
 
   getLoginName(){
-    let loginData = new LoginData;
-    loginData = JSON.parse(localStorage.getItem('data'));
-    this.loginName = loginData.currentUser.userName;
     return this.loginName;
   }
 
   public logout() {
-    this._loginService.logout().subscribe(
-      json => {
-        this.isSuccess = json.success;
-        localStorage.removeItem('data');
-        localStorage.removeItem('isLogin');
-        localStorage.removeItem('leftMenus');
-        if (this.isSuccess == true) {
-          this.router.navigate(['/login']);
-        }
-      },
-      error =>  this.errorMessage = <any>error);
   }
 
   onChangePassword():void {
 
-      this.dynamicComponentLoader.loadComponent(ChangePasswordComponent, null);
   }
 
   ngOnDestroy(): void {

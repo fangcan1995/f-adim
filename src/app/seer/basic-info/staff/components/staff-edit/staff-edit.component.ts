@@ -17,12 +17,72 @@ import {
 
 import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
 import { StaffService } from '../../staff.service';
-
+import {
+  titles,
+} from '../../staff.config';
 @Component({
   templateUrl: './staff-edit.component.html',
   styleUrls: ['./staff-edit.component.scss']
 })
 export class StaffEditComponent implements OnInit {
+  titlesEducation=[
+    {
+      key:'毕业院校',
+      label:'毕业院校',
+    },
+    {
+      key:'所学专业',
+      label:'所学专业',
+    },
+    {
+      key:'学位',
+      label:'学位',
+    },
+    {
+      key:'毕业时间',
+      label:'毕业时间',
+    },
+  ];
+  titlesFamily=[
+    {
+      key:'与本人关系',
+      label:'与本人关系',
+    },
+    {
+      key:'姓名',
+      label:'姓名',
+    },
+    {
+      key:'工作单位及职务',
+      label:'工作单位及职务',
+    },
+    {
+      key:'联系电话',
+      label:'联系电话',
+    },
+  ];
+  titlesBusinessHistory=[
+    {
+      key:'起止日期',
+      label:'起止日期',
+    },
+    {
+      key:'工作单位',
+      label:'所学专业',
+    },
+    {
+      key:'职务/工种',
+      label:'职务/工种',
+    },
+    {
+      key:'证明人',
+      label:'证明人',
+    },
+    {
+      key:'联系电话',
+      label:'联系电话',
+    },
+  ];
   public staff: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
@@ -50,6 +110,10 @@ export class StaffEditComponent implements OnInit {
     defaultTitle: '选择账号',
   };
   private accountData: IMultiSelectOption[] = [];
+
+
+  public titles = titles;
+
   constructor(
     private _staffService: StaffService,
     private _messageService: SeerMessageService,
@@ -66,7 +130,9 @@ export class StaffEditComponent implements OnInit {
       if ( this._editType === 'edit' ) {
         this._staffService.getOne(params.id)
         .subscribe(res => {
+
           this.staff = res.data || {};
+          console.log(this.staff);
           this.forbidSaveBtn = false;
         }, errMsg => {
           // 错误处理的正确打开方式
@@ -157,7 +223,7 @@ export class StaffEditComponent implements OnInit {
     this._location.back()
   }
   handleSaveBtnClick() {
-    
+
 
   }
 }

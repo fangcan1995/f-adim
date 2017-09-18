@@ -8,6 +8,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
+import * as _ from 'lodash';
 import { Ng2Uploader } from "ng2-uploader";
 
 import {
@@ -17,14 +18,6 @@ import {
 } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 
 import { StaffService } from "./staff.service";
-
-import {
-  hasGlobalFilter,
-  filters,
-  titles
-} from './staff.config';
-
-import { Json } from "../../login/Json";
 import { NewStaffDto } from "./NewStaffDto";
 import { SearchStaffDto } from "./SearchStaffDto";
 import { STAFF_TRANSLATE } from "./staff.translate";
@@ -42,9 +35,246 @@ import { stringDistance } from "codelyzer/util/utils";
 })
 export class StaffComponent {
   // 控件设置
-  hasGlobalFilter = hasGlobalFilter;
-  filters = filters;
-  titles = titles;
+  hasGlobalFilter = true;
+  filters = [
+    {
+      key: 'staffDtoName',
+      label: '姓名',
+      type: 'input.text',
+    },
+    {
+      key: 'staffDtoNo',
+      label: '员工编号',
+      type: 'input.text',
+    },
+    {
+      key: '公司团队',
+      label: '公司团队',
+      type: 'select',
+    },
+    {
+      key: '邀请人数',
+      label: '邀请人数',
+      type: 'input.text',
+    },
+    {
+      key: '至',
+      label: '-',
+      type: 'input.text',
+    },
+    {
+      key:'职位',
+      label:'职位',
+      type: 'input.text',
+    },
+    {
+      key:'staffState',
+      label:'员工状态',
+      type: 'select',
+      options:[{value:'', content: '请选择'}]
+    },
+    {
+      key:'staffEntryDate',
+      label:'入职时间',
+      type: 'input.date',
+    },
+    {
+      key:'staffEntryDate',
+      label:'入职时间',
+      type: 'input.date',
+    },
+  ];
+  titles = [
+    {
+      key:'staffName',
+      label:'姓名',
+    },
+    {
+      key:'staffNo',
+      label:'员工编号',
+    },
+    {
+      key:'staffGender',
+      label:'性别',
+      hidden: true,
+    },
+    {
+      key:'staffCardId',
+      label:'身份证号',
+      hidden: true,
+    },
+    {
+      key:'orgName',
+      label:'分公司',
+    },
+    {
+      key:'团队',
+      label:'团队',
+    },
+    {
+      key:'职位',
+      label:'职位',
+    },
+    {
+      key:'staffState',
+      label:'员工状态',
+      isDict: true,
+    },
+    {
+      key:'staffEntryDate',
+      label:'入职时间',
+      type: 'date',
+    },
+    {
+      key:'邀请人数',
+      label:'邀请人数',
+    },
+    {
+      key:'登录次数',
+      label:'登录次数',
+    },
+    {
+      key:'最后登录时间',
+      label:'最后登录时间',
+    },
+    {
+      key:'最后登录IP',
+      label:'最后登录IP',
+    },
+    {
+      key:'staffOrigin',
+      label:'籍贯',
+      hidden: true,
+    },
+    {
+      key:'isMarried',
+      label:'婚姻情况',
+      hidden: true,
+    },
+    {
+      key:'haveChild',
+      label:'有无子女',
+      hidden: true,
+    },
+    {
+      key:'staffEducation',
+      label:'学历',
+      hidden: true,
+    },
+    {
+      key:'staffSchool',
+      label:'毕业院校',
+      hidden: true,
+    },
+    {
+      key:'staffPhone',
+      label:'手机',
+      hidden: true,
+    },
+    {
+      key:'staffQq',
+      label:'QQ号',
+      hidden: true,
+    },
+    {
+      key:'staffMail',
+      label:'邮箱',
+      hidden: true,
+    },
+    {
+      key:'staffWechat',
+      label:'微信号',
+      hidden: true,
+    },
+    {
+      key:'staffAdress',
+      label:'家庭住址',
+      hidden: true,
+    },
+    {
+      key:'staffTel',
+      label:'家庭电话',
+      hidden: true,
+    },
+    {
+      key:'staffContacts',
+      label:'紧急联系人',
+      hidden: true,
+    },
+    {
+      key:'staffContactsPhone',
+      label:'紧急联系人电话',
+      hidden: true,
+    },
+    {
+      key:'contractType',
+      label:'合同类型',
+      hidden: true,
+    },
+    {
+      key:'contractId',
+      label:'合同编号',
+      hidden: true,
+    },
+    {
+      key:'contractBeginTime',
+      label:'合同签订日期',
+      type: 'date',
+      hidden: true,
+    },
+    {
+      key:'contractEndTime',
+      label:'合同结束日期',
+      type: 'date',
+      hidden: true,
+    },
+    {
+      key:'staffLevel',
+      label:'员工等级',
+      hidden: true,
+    },
+    {
+      key:'staffDimissionDate',
+      label:'离职时间',
+      type: 'date',
+      hidden: true,
+    },
+    {
+      key:'createUser',
+      label:'创建用户',
+      hidden: true,
+    },
+    {
+      key:'createTime',
+      label:'创建时间',
+      type: 'date',
+      hidden: true,
+    },
+    {
+      key:'operator',
+      label:'操作用户',
+      hidden: true,
+    },
+    {
+      key:'operateTime',
+      label:'操作时间',
+      type: 'date',
+      hidden: true,
+    }
+  ];
+  actionSet={
+    'update': {
+      'type': 'update',
+      'name': '编辑',
+      'className': 'btn btn-xs btn-info',
+    },
+    'delete': {
+      'type': 'delete',
+      'name': '删除',
+      'className': 'btn btn-xs btn-danger',
+      'icon': 'ion-close-round',
+    }
+  };
 
   // 数据
   staffs = [];
@@ -54,7 +284,7 @@ export class StaffComponent {
   isCognate = false;
   checkAllinput = false;
   addTitle: string;
-  
+
   cognateAccount = [];
   selsectNotes = '';
   staffLevelStateDict = [];
@@ -63,7 +293,7 @@ export class StaffComponent {
   accountList = [];
   public defaultPicture = 'assets/img/theme/no-photo.png';
   public picture = 'assets/img/app/profile/Nasta.png';
-  public uploaderOptions:any = {
+  public uploaderOptions: any = {
     // url: 'http://website.com/upload'
   };
   canDelete:boolean = true;
@@ -79,7 +309,6 @@ export class StaffComponent {
 
   public uploadInProgress:boolean = false;
   roleData = [];
-  json = Json;
   currentStaff;
 
   errorMessage;
@@ -192,7 +421,7 @@ export class StaffComponent {
     this.roleData.push(this.currentRole);
   }
 
-  
+
 
   //请求service
   getStaffs(): void {
@@ -200,6 +429,12 @@ export class StaffComponent {
       .subscribe(
         res => {
           this.staffs = res.data;
+          this.staffs = _.map(this.staffs, t =>{
+            let actions;
+            actions = [this.actionSet.update, this.actionSet.delete];
+            return _.set(t, 'actions', actions);
+          })
+          //console.log(res.data);
         },
         error =>  this.errorMessage = <any>error);
   }
@@ -208,7 +443,7 @@ export class StaffComponent {
     let type = message.type;
     let data = message.data;
     switch ( type ) {
-      case 'add':
+      case 'create':
         this._router.navigate(['add'], {relativeTo: this._route});
         break;
       case 'update':
@@ -299,7 +534,7 @@ export class StaffComponent {
     let param = {
       "data": "",
       "titles": this.titles,
-      "keyName":keyName
+      "keyName":keyName,
     };
 
     //console.log(param);
@@ -358,7 +593,7 @@ export class StaffComponent {
     this.getStaffs();
   }
 
-  
+
 
   getCurrentRoles(): void{
     this.staffManageService.getCurrentRoles()

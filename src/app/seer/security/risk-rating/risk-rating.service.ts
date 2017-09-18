@@ -2,10 +2,12 @@ import { Injectable } from "@angular/core";
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 import {
-  baseUrl,
-  apis,
   HttpInterceptorService,
 } from '../../../theme/services';
+import {
+  BASE_URL,
+  API,
+} from '../../../theme/services/base.service';
 @Injectable()
 export class RiskRatingService{
   //private riskRatingUrl = SERVER+'/sys/role';  // 接口，请修改

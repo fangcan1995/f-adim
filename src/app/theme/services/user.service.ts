@@ -3,11 +3,12 @@ import { Observable } from 'rxjs/Observable';
 
 import { getStorage } from '../libs/utils';
 import {
-  baseUrl,
-  apis,
   HttpInterceptorService,
 } from './http-interceptor.service';
-
+import {
+  BASE_URL,
+  API,
+} from './base.service'
 @Injectable()
 export class UserService {
   constructor(private _httpInterceptorService: HttpInterceptorService) {}
@@ -17,6 +18,6 @@ export class UserService {
     });
   }
   getDataFromServer(id: string | number): Observable<any> {
-    return this._httpInterceptorService.request('GET', `${baseUrl}/${apis['USER']}/${id}`)
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['USER']}/${id}`)
   }
 }

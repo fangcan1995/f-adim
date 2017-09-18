@@ -43,6 +43,7 @@ interface JQuery {
 }
 
 declare var GoogleMapsLoader:any;
+declare var tinymce: any;
 declare var L:any;
 declare var AmCharts:any;
 declare var Chart:any;

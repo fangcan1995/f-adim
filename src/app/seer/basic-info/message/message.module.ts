@@ -5,7 +5,10 @@ import { routing } from './message.routing';
 import { MessageComponent } from './message.component';
 import { MessageEditComponent } from './components/message-edit/message-edit.component';
 import { MessageAddComponent } from './components/message-add/message-add.component';
-import { sharedModule } from "../../common/shared.module";
+// import { MessageAddedDialogComponent } from './components/message-added-dialog/message-added-dialog.component';
+import { MessageAddedDialogComponent } from './components/message-added-dialog/message-added-dialog.component';
+import { MessageEditDialogComponent } from "./components/message-edit-dialog/message-edit-dialog.component";
+import { SharedModule } from "../../common/shared.module";
 import { MessageService } from "./message.service";
 @NgModule({
   imports: [
@@ -13,12 +16,17 @@ import { MessageService } from "./message.service";
     NgaModule,
     RatingModule,
     routing,
-    sharedModule,
+    SharedModule,
   ],
   declarations: [
     MessageComponent,
     MessageEditComponent,
     MessageAddComponent,
+    MessageAddedDialogComponent,
+    MessageEditDialogComponent
+  ],
+  entryComponents:[
+     MessageAddedDialogComponent,
   ],
   providers: [
     MessageService,

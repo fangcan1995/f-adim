@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { NgaModule } from '../../../theme/nga.module';
-import { sharedModule } from "../../common/shared.module";
+import { SharedModule } from "../../common/shared.module";
 
 import { routing } from './red-packet.routing';
 import { RedPacketService } from "./red-packet.service";
@@ -10,7 +10,7 @@ import { RedPacketEditComponent } from './components/red-packet-edit/red-packet-
 @NgModule({
   imports: [
     NgaModule,
-    sharedModule,
+    SharedModule,
     routing,
   ],
   declarations: [

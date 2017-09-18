@@ -9,7 +9,8 @@ import {
 } from '@angular/core';
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import * as _ from 'lodash';
-import { SeerDialogService } from '../../../theme/services/seer-dialog.service';
+
+import { CREATE, DELETE_MULTIPLE } from './seer-table.actions';
 import { BaseService } from "../../base.service";
 
 @Component({
@@ -32,11 +33,10 @@ export class SeerTableComponent implements OnInit {
   @Input() hideRemoveButton; //隐藏删除按钮
   @Input() hideFilter;//隐藏全局过滤
   @Input() hideEditButton;//隐藏编辑按钮
-  @Input() displayDetailButton;//显示详情按钮
   @Input() displayCopyButton;//显示复制新增按钮
+  @Input() displayOriginalData;//翻译不破坏原始数据，但全局搜索不好使
   @Input() addNewButton; //新增自定义按钮
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
-  public filterQuery = "";
   public rowsOnPage = 10;
   public sortBy = '';
   public selectedAll = false;
@@ -88,9 +88,9 @@ export class SeerTableComponent implements OnInit {
           });
         }
       });
-
       this.service.getDictTranslate(transFields)
       .then(res => {
+        console.log(res)
         if ( res.success ) this.translate = res.data;
       });
     }
@@ -114,9 +114,6 @@ export class SeerTableComponent implements OnInit {
  
 
   handleActionsClick($event) {
-    if ( $event.action.action || this._actions[$event.action.action] ) {
-      return this._actions[$event.action.action].call(this, {type: $event.action.type, data: $event.item});
-    }
     this.notify.emit({type: $event.action.type, data: $event.item});
   }
 
@@ -126,35 +123,15 @@ export class SeerTableComponent implements OnInit {
   renderSelectButtonText() {
     return !this.selectButtonText ? '选择' : this.selectButtonText;
   }
-  private _actions = {
-    remove(event): void {
-      /**/
-    },
-    detail(event) {
-      event.data.selected = false;
-      if ( this.translate ) this.transferKeyWithDict(event, this.translate);
-      this.notify.emit({type: 'detail', data: event.data});
-    },
-    copyadd(event) {
-      event.data.selected = false;
-      if ( this.translate ) this.transferKeyWithDict(event, this.translate);
-      this.notify.emit({type: 'copy_add', data: event.data});
-    },
-    edit(event): void {
-      event.data.selected = false;
-      if ( this.translate ) this.transferKeyWithDict(event, this.translate);
-      this.notify.emit({type: 'edit', data: event.data});
-    },
-    removeAll(): void {
-      let list = [];
-      _.each(this.data, item => {
-        if ( item.selected ) list.push(item);
-      });
-    }
-  } 
-
+  deleteMultiple(): void {
+    let data = _.filter(this.data, t => t['selected'])
+    this.notify.emit({ type: DELETE_MULTIPLE.type, data });
+  }
   add(): void {
     this.notify.emit({type: 'add', data: {}});
+  }
+  create(): void {
+    this.notify.emit({ type: CREATE.type, data: {} })
   }
   //导入模板Excel
   exportTempExcel() : void {
@@ -177,15 +154,7 @@ export class SeerTableComponent implements OnInit {
     return _.filter(this.titles, t => !t['hidden'])
   }
   onChangeColumn(event): void {
-    let newTitles = [];
-    this.titles = _.map(this.titles, t => {
-     if ( event.indexOf(t['key']) != -1 ) {
-       _.set(t, 'hidden', false)
-     } else {
-       _.set(t, 'hidden', true)
-     }
-      return t
-    })
+    this.titles = _.map(this.titles, t => _.set(t, 'hidden', event.indexOf(t['key']) === -1));
   }
   transferKeyWithDict(obj: any, translate_copy: any, direction?: boolean | number): void {
     if ( direction ) {

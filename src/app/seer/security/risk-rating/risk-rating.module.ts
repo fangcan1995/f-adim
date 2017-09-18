@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { NgaModule } from '../../../theme/nga.module';
-import { sharedModule } from "../../common/shared.module";
+import { SharedModule } from "../../common/shared.module";
 
 import { routing } from './risk-rating.routing';
 import { RiskRatingService } from "./risk-rating.service";
@@ -10,7 +10,7 @@ import { RiskRatingEditComponent } from './components/risk-rating-edit/risk-rati
 @NgModule({
   imports: [
     NgaModule,
-    sharedModule,
+    SharedModule,
     routing,
   ],
   declarations: [

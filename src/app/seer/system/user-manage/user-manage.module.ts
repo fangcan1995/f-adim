@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { NgaModule } from "../../../theme/nga.module";
-import { sharedModule } from "../../common/shared.module";
+import { SharedModule } from "../../common/shared.module";
 
 import { userManageRouting } from "./user-manage.routing";
 import { UserManageService } from "./user-manage.service";
@@ -11,12 +11,12 @@ import { UserManageComponent } from "./user-manage.component";
 import { UserAddedDialogComponent } from "./components/user-added-dialog/user-added-dialog.component";
 import { UserEditComponent } from "./components/user-edit/user-edit.component";
 import { BaseService } from "../../base.service";
-import { RoleManageService } from "../role-manage/role-manage.service";
+import { RoleService } from "../role/role.service";
 
 @NgModule({
   imports: [
     NgaModule,
-    sharedModule,
+    SharedModule,
     userManageRouting
   ],
   declarations: [
@@ -29,7 +29,7 @@ import { RoleManageService } from "../role-manage/role-manage.service";
   ],
   providers: [
     UserManageService,
-    RoleManageService,
+    RoleService,
     BaseService
   ]
 })

@@ -40,6 +40,9 @@ export class UserAddedDialogComponent extends BaseModalComponent implements OnIn
   constructor(private service: UserManageService, private _state: GlobalState) {
     super();
     this.service.getRoles().then((data) => {
+      console.log(this.sysUser)
+      // 用于编辑数据的时候 带数据过页面 还有数据 单选的选择
+
       this.roles = data.data;
       if (this.flag == "1") {
         for (let role of this.roles) {
@@ -110,8 +113,8 @@ export class UserAddedDialogComponent extends BaseModalComponent implements OnIn
   /**
    * 树选择事件
    */
-  onTreePickerNotify($event){
-    if($event.eventName == "onSelectCompleted"){
+  onTreePickerNotify($event){ 
+    if($event.eventName == "onSelectCompleted"){ 
       if($event.data.length > 0) {
         this.sysUser.staffId = $event.data[0].id;
         this.staffName = $event.data[0].data.name;

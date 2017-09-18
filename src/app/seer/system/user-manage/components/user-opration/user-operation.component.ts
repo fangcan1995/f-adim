@@ -1,6 +1,5 @@
 import {Component, ViewEncapsulation, OnInit} from "@angular/core";
 import {UserManageService} from "../../user-manage.service";
-import {RoleManageService} from "../../../role-manage/role-manage.service";
 @Component({
   selector: 'user-operation',
   templateUrl: './user-operation.component.html',

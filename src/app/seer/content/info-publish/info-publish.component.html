@@ -3,22 +3,38 @@
   <div class="col-sm-3">
     <ba-card [title]="title" baCardClass="with-scroll">
         <div class="col-sm-12">
-            <seer-tree>
+            <seer-tree
+            (notify)="onNotify($event) "
+            [permissions]="treePermissions"
+            [nodes]="treeNode"
+            [defaultNodeName]="'新建部门'"
+            [loadingText]="''"
+            >
             </seer-tree>
         </div>    
-        </ba-card>
+    </ba-card>
   </div>
   <div class="col-sm-9">
     <ba-card [title]="tableTitle" baCardClass="with-scroll">
-      
+      <seer-collapse-card
+      >
+        <seer-filter
+          [hasGlobalFilter]="hasGlobalFilter"
+          [filters]="filters"
+          (onFiltersChanged)=handleFiltersChanged($event)
+          (onSearchBtnClicked)=handleSearchBtnClicked($event)
+        ></seer-filter>
+      </seer-collapse-card>
+      <seer-collapse-card
+      >
+        <seer-table
+          [data]="source"
+          [titles]="titles"
+          [translate]="dict"
+          (notify)="onChange($event)"
+        ></seer-table>
+      </seer-collapse-card>
     </ba-card>
   </div>
 </div>
 <div dynamic-component></div>
-
-<!-- 
-(notify)="onNotify($event) "
-          [permissions]="treePermissions"
-          [nodes]="treeNode"
-          [defaultNodeName]="'新建部门'"
-          [loadingText]="''" -->

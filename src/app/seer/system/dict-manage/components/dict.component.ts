@@ -1,6 +1,5 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { DictManageService } from "../dict-manage.service";
-import { Json } from "../../../login/Json";
 import { DICT_TRANSLATE } from "./dict.translate";
 import * as _ from 'lodash';
 import {SeerDialogService} from "../../../../theme/services/seer-dialog.service"
@@ -45,7 +44,6 @@ export class DictComponent {
       'icon': 'ion-close-round',
     }
   };
-  json = Json;
   currentDict;
   titles = [
     {
@@ -71,6 +69,7 @@ export class DictComponent {
     {
       key:'validState',
       label:'有效状态',
+      isDict: true,
     },
   ];
   translate = DICT_TRANSLATE;
@@ -88,7 +87,7 @@ export class DictComponent {
       .subscribe(
         res => {
           this.data = res.data;
-          this.data=_.map(this.data, t =>{
+          this.data = _.map(this.data, t =>{
             let actions;
             actions = [this.actionSet.copy, this.actionSet.update, this.actionSet.delete];
             return _.set(t, 'actions', actions);
