@@ -48,22 +48,22 @@ export class StaffComponent {
       type: 'input.text',
     },
     {
-      key: '公司团队',
+      key: 'orgName',
       label: '公司团队',
       type: 'select',
     },
     {
-      key: '邀请人数',
+      key: 'inviteNum1',
       label: '邀请人数',
       type: 'input.text',
     },
     {
-      key: '至',
+      key: 'inviteNum2',
       label: '-',
       type: 'input.text',
     },
     {
-      key:'职位',
+      key:'staffPosition',
       label:'职位',
       type: 'input.text',
     },
@@ -94,31 +94,16 @@ export class StaffComponent {
       label:'员工编号',
     },
     {
-      key:'staffGender',
-      label:'性别',
-      hidden: true,
-    },
-    {
-      key:'staffCardId',
-      label:'身份证号',
-      hidden: true,
-    },
-    {
       key:'orgName',
       label:'分公司',
     },
     {
-      key:'团队',
+      key:'staffTeam',
       label:'团队',
     },
     {
-      key:'职位',
+      key:'staffPosition',
       label:'职位',
-    },
-    {
-      key:'staffState',
-      label:'员工状态',
-      isDict: true,
     },
     {
       key:'staffEntryDate',
@@ -126,140 +111,20 @@ export class StaffComponent {
       type: 'date',
     },
     {
-      key:'邀请人数',
+      key:'inviteNum',
       label:'邀请人数',
     },
     {
-      key:'登录次数',
+      key:'loginNum',
       label:'登录次数',
     },
     {
-      key:'最后登录时间',
+      key:'lastLoginTime',
       label:'最后登录时间',
     },
     {
-      key:'最后登录IP',
+      key:'lastLoginIP',
       label:'最后登录IP',
-    },
-    {
-      key:'staffOrigin',
-      label:'籍贯',
-      hidden: true,
-    },
-    {
-      key:'isMarried',
-      label:'婚姻情况',
-      hidden: true,
-    },
-    {
-      key:'haveChild',
-      label:'有无子女',
-      hidden: true,
-    },
-    {
-      key:'staffEducation',
-      label:'学历',
-      hidden: true,
-    },
-    {
-      key:'staffSchool',
-      label:'毕业院校',
-      hidden: true,
-    },
-    {
-      key:'staffPhone',
-      label:'手机',
-      hidden: true,
-    },
-    {
-      key:'staffQq',
-      label:'QQ号',
-      hidden: true,
-    },
-    {
-      key:'staffMail',
-      label:'邮箱',
-      hidden: true,
-    },
-    {
-      key:'staffWechat',
-      label:'微信号',
-      hidden: true,
-    },
-    {
-      key:'staffAdress',
-      label:'家庭住址',
-      hidden: true,
-    },
-    {
-      key:'staffTel',
-      label:'家庭电话',
-      hidden: true,
-    },
-    {
-      key:'staffContacts',
-      label:'紧急联系人',
-      hidden: true,
-    },
-    {
-      key:'staffContactsPhone',
-      label:'紧急联系人电话',
-      hidden: true,
-    },
-    {
-      key:'contractType',
-      label:'合同类型',
-      hidden: true,
-    },
-    {
-      key:'contractId',
-      label:'合同编号',
-      hidden: true,
-    },
-    {
-      key:'contractBeginTime',
-      label:'合同签订日期',
-      type: 'date',
-      hidden: true,
-    },
-    {
-      key:'contractEndTime',
-      label:'合同结束日期',
-      type: 'date',
-      hidden: true,
-    },
-    {
-      key:'staffLevel',
-      label:'员工等级',
-      hidden: true,
-    },
-    {
-      key:'staffDimissionDate',
-      label:'离职时间',
-      type: 'date',
-      hidden: true,
-    },
-    {
-      key:'createUser',
-      label:'创建用户',
-      hidden: true,
-    },
-    {
-      key:'createTime',
-      label:'创建时间',
-      type: 'date',
-      hidden: true,
-    },
-    {
-      key:'operator',
-      label:'操作用户',
-      hidden: true,
-    },
-    {
-      key:'operateTime',
-      label:'操作时间',
-      type: 'date',
-      hidden: true,
     }
   ];
   actionSet={
@@ -278,7 +143,6 @@ export class StaffComponent {
 
   // 数据
   staffs = [];
-
   translate = STAFF_TRANSLATE;
   imageError;
   isCognate = false;
@@ -425,7 +289,7 @@ export class StaffComponent {
 
   //请求service
   getStaffs(): void {
-    this.staffManageService.getStaffs()
+    this.staffManageService.getLists()
       .subscribe(
         res => {
           this.staffs = res.data;
@@ -450,51 +314,8 @@ export class StaffComponent {
         this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
         break;
     }
-    /*if(message.type=='add'){
-      this.addTitle = "新建人员";
-      this.picture = 'assets/img/app/profile/Nasta.png';
-      this.cognateAccount = [];
-      this.selsectNotes = '';
-      this.currentRole = {roleName:'请选择'};
-      this.currentStaff = {
-      };
-    }
-    if(message.type=='update'){
-      this.addTitle = "修改人员";
-      this.picture = message.data.staffImageUrl;
-      this.cognateAccount = [];
-      this.selsectNotes = '';
-      this.currentStaff = message.data;
-      this.staffManageService.getOrgById(this.currentStaff.staffOrgId)
-        .subscribe(
-          res => {
-            if(res.data!=null){
-              this.staffOrgName = res.data.orgName;
-            }else{
-              this.staffOrgName = '';
-            }
-
-          },
-          error =>  this.errorMessage = <any>error);
-      if(message.data.contractBeginTime){
-        let d = new Date(message.data.contractBeginTime);
-        message.data.contractBeginTime = d.getFullYear()  + "-" + (d.getMonth()+1) + "-" + d.getDate();
-      }
-      if(message.data.contractEndTime){
-        let d = new Date(message.data.contractEndTime);
-        message.data.contractEndTime = d.getFullYear()  + "-" + (d.getMonth()+1) + "-" + d.getDate();
-      }
-      if(message.data.staffEntryDate){
-        let d = new Date(message.data.staffEntryDate);
-        message.data.staffEntryDate = d.getFullYear()  + "-" + (d.getMonth()+1) + "-" + d.getDate();
-      }
-      if(message.data.staffDimissionDate){
-        let d = new Date(message.data.staffDimissionDate);
-        message.data.staffDimissionDate = d.getFullYear()  + "-" + (d.getMonth()+1) + "-" + d.getDate();
-      }
-    }*/
     if(message.type=='delete'){
-      this.staffManageService.removeStaff(message.data.id)
+      this.staffManageService.deleteOne(message.data.id)
         .subscribe(
           res => {
             this.getStaffs();
@@ -502,7 +323,6 @@ export class StaffComponent {
           error =>  this.errorMessage = <any>error);
     }
     if(message.type=='delete_all'){
-
       let ids = [];
       message.data.forEach(function(item){
         ids.push(item.id)
@@ -513,76 +333,9 @@ export class StaffComponent {
             this.getStaffs();
           },
           error =>  this.errorMessage = <any>error);
-
-    }
-    if(message.type == 'export') {
-      //alert("export");
-      this.downloadTemplate("staffExport");
-    }
-
-    if(message.type=='import') {
-      //alert("import");
-      this.importExcel();
     }
   }
 
-  //导出模板
-  downloadTemplate(keyName) {
-    //alert("download");
-    //console.log(this.getData());
-
-    let param = {
-      "data": "",
-      "titles": this.titles,
-      "keyName":keyName,
-    };
-
-    //console.log(param);
-    this.staffManageService.exportExcel(param).subscribe(result=>{
-      //console.log(result.json().data);
-      this.download(result.data);
-    });
-  }
-
-  download(data) {
-    var a = document.createElement('a');
-    var url = data;
-    var filename = 'download.xls';
-    a.href = url;
-    a.download = filename;
-    a.click();
-  }
-
-  //导入Excel
-  importExcel(){
-    //alert("import");
-    this.renderer.invokeElementMethod(this._excelUpload.nativeElement, 'click');
-    return false;
-
-  }
-  @ViewChild('excelUpload') _excelUpload:ElementRef;
-
-  public onExcels():void {
-
-    let files = this._excelUpload.nativeElement.files;
-    if (files && files[0]) {
-      let fd = new FormData();
-      fd.append('file', files[0]);
-      fd.append('type','staffExport')
-
-      // this.service.importExcel(fd).then(result => {
-      //   console.log(result.json().data);
-      // });
-      this.staffManageService.importExcel(fd)
-        .subscribe(
-          res => {
-            alert(res.data);
-            this.getStaffs();
-          },
-          error =>  this.errorMessage = <any>error);
-
-    }
-  }
   cancel(): void{
     this.currentStaff = false;
     this.imageError = false;
@@ -592,9 +345,6 @@ export class StaffComponent {
     this.checkAllinput = false;
     this.getStaffs();
   }
-
-
-
   getCurrentRoles(): void{
     this.staffManageService.getCurrentRoles()
       .subscribe(
@@ -605,67 +355,9 @@ export class StaffComponent {
         },
       error => this.errorMessage = <any>error);
   }
-
   checkAllInput(){
     this.checkAllinput = true;
   }
-
-  checkCardId(number): boolean{
-    if(number!=null){
-      const reg = new RegExp('^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9]|X)$');
-      if(number.length==18 && number.match(reg)){
-        return false;
-      }else{
-        return true;
-      }
-    }else{
-      return true;
-    }
-  }
-
-  checkPhone(phone): boolean{
-    if(phone!=null){
-      const reg = new RegExp('^1[34578]\\d{9}$');
-      if(phone.length==11 && phone.match(reg)){
-        return false;
-      }else{
-        return true;
-      }
-    }else{
-      return true;
-    }
-  }
-
-  checkQq(number): boolean{
-    if(number!=null){
-      const reg = new RegExp('^(0|[1-9][0-9]*)$');
-      let int = parseInt(number);
-      if(int > 10000 && 5<=number.length && number.length<=15 && number.match(reg)){
-        return false;
-      }else{
-        return true;
-      }
-    }else{
-      return true;
-    }
-  }
-
-  checkEmail(number): boolean{
-    if(number!=null){
-      const reg = new RegExp('^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$');
-      if(number.match(reg)){
-        return false;
-      }else{
-        return true;
-      }
-    }else{
-      return true;
-    }
-  }
-
-
-
-
   handleFiltersChanged($event) {
     let params = {
       ...$event,

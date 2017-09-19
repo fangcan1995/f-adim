@@ -27,63 +27,64 @@ import {
 export class StaffEditComponent implements OnInit {
   titlesEducation=[
     {
-      key:'毕业院校',
+      key:'school',
       label:'毕业院校',
     },
     {
-      key:'所学专业',
+      key:'profession',
       label:'所学专业',
     },
     {
-      key:'学位',
+      key:'degree',
       label:'学位',
     },
     {
-      key:'毕业时间',
+      key:'graduationDate',
       label:'毕业时间',
     },
   ];
   titlesFamily=[
     {
-      key:'与本人关系',
+      key:'relation',
       label:'与本人关系',
     },
     {
-      key:'姓名',
+      key:'name',
       label:'姓名',
     },
     {
-      key:'工作单位及职务',
+      key:'work',
       label:'工作单位及职务',
     },
     {
-      key:'联系电话',
+      key:'phone',
       label:'联系电话',
     },
   ];
   titlesBusinessHistory=[
     {
-      key:'起止日期',
+      key:'startAndStopDate',
       label:'起止日期',
     },
     {
-      key:'工作单位',
+      key:'unit',
       label:'所学专业',
     },
     {
-      key:'职务/工种',
+      key:'position',
       label:'职务/工种',
     },
     {
-      key:'证明人',
+      key:'reterence',
       label:'证明人',
     },
     {
-      key:'联系电话',
+      key:'telephone',
       label:'联系电话',
     },
   ];
   public staff: any = {};
+  public family=[];
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
 
@@ -132,7 +133,9 @@ export class StaffEditComponent implements OnInit {
         .subscribe(res => {
 
           this.staff = res.data || {};
-          console.log(this.staff);
+          //this.family= res.data.family;
+
+          console.log(this.family);
           this.forbidSaveBtn = false;
         }, errMsg => {
           // 错误处理的正确打开方式
@@ -223,7 +226,36 @@ export class StaffEditComponent implements OnInit {
     this._location.back()
   }
   handleSaveBtnClick() {
-
+    if ( this.forbidSaveBtn ) return;
+    this.forbidSaveBtn = true;
+    let requestStream$;
+    if ( this._editType === 'edit' ) {
+      requestStream$ = this._staffService.putOne(this.staff.id, this.staff)
+    } else if ( this._editType === 'add' ) {
+      requestStream$ = this._staffService.postOne(this.staff)
+    } else {
+      return;
+    }
+    requestStream$
+      .subscribe(res => {
+        this._messageService.open({
+          icon: 'fa fa-times-circle',
+          message: res.msg,
+          autoHideDuration: 3000,
+        }).onClose().subscribe(() => {
+          this._router.navigate(['/basic-info/staff-manage'])
+        });
+      }, errMsg => {
+        this.forbidSaveBtn = false;
+        // 错误处理的正确打开方式
+        this._messageService.open({
+          icon: 'fa fa-times-circle',
+          message: errMsg,
+          autoHideDuration: 3000,
+        })
+      })
 
   }
+
+
 }
