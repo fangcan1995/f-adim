@@ -5,7 +5,7 @@
  * @param rename
  * @returns {Array}
  */
-export const jsonTree = function (data:any, config:JsonTreeConfig={}, rename:renameConfig[]=[]) {
+export const jsonTree = (data: any, config: JsonTreeConfig = {}, rename: renameConfig[] = []) => {
   let id = config.id || 'id',
     pid = config.parentId || 'parentId',
     children = config.children || 'children';
@@ -34,7 +34,7 @@ export const jsonTree = function (data:any, config:JsonTreeConfig={}, rename:ren
 
   return treeJson;
 };
-export const menuTree = function (data:any[]) {
+export const menuTree = (data: any[]) => {
   let id = 'resourceId',
     pid = 'resourceParentId',
     children = 'children',

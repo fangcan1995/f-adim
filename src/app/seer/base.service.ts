@@ -40,8 +40,7 @@ export class BaseService<T> {
 
   private excelImport =  SERVER + '/sys/excel/importExcel';
 
-  constructor(protected http?: Http) {
-  }
+  constructor(protected http?: Http) {}
 
   private static handleError(error: any): Promise<any> {
     console.error('error', error); // for demo purposes only
@@ -163,6 +162,7 @@ export class BaseService<T> {
    * @param dictKeyId
    */
   getDictByKey(dictKeyId: string): Promise<any> {
+    console.log('goes here');
     const sessionStorageKey = 'request dict key = ';
     let dict = sessionStorage.getItem(dictKeyId);
     //如果已经有缓存，则直接使用

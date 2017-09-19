@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { NgaModule } from '../../../theme/nga.module';
-import { sharedModule } from '../../common/shared.module';
+import { SharedModule } from '../../common/shared.module';
 import { TabsModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { routing } from './staff.routing';
@@ -13,7 +13,7 @@ import { OrgListComponent } from './components/orgList/org-list.component';
 @NgModule({
   imports: [
     NgaModule,
-    sharedModule,
+    SharedModule,
     TabsModule,
     routing,
   ],

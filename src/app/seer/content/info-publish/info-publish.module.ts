@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { NgaModule } from '../../../theme/nga.module';
-import { sharedModule } from "../../common/shared.module";
+import { SharedModule } from "../../common/shared.module";
 
 import { routing } from './info-publish.routing';
 import { InfoPublishService } from "./info-publish.service";
@@ -15,7 +15,7 @@ import { ModalComponent } from "../../../theme/components/ng2-bs4-modal/modal";
 @NgModule({
   imports: [
     NgaModule,
-    sharedModule,
+    SharedModule,
     routing,
     TreeModule
   ],

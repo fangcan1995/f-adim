@@ -4,7 +4,6 @@ import * as _ from 'lodash';
 import { SeerDialogService } from '../../../theme/services/seer-dialog.service';
 import { MemberService } from './member.service';
 @Component({
-  selector: 'member',
   templateUrl: './member.component.html',
   styleUrls: ['./member.component.scss'],
 })

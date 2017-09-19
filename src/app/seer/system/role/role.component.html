@@ -1,0 +1,15 @@
+<seer-collapse-card>
+  <seer-filter
+    [hasGlobalFilter]="hasGlobalFilter"
+    (onFiltersChanged)=handleFiltersChanged($event)
+    (onSearchBtnClicked)=handleSearchBtnClicked($event)
+  ></seer-filter>  
+</seer-collapse-card>
+<seer-collapse-card>
+  <seer-table
+    [data]="roles"
+    [titles]="titles"
+    [translate]="dict"
+    (notify)="handleNotify($event)"
+  ></seer-table>
+</seer-collapse-card>

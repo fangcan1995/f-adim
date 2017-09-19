@@ -19,7 +19,7 @@
       class="btn btn-info pull-right btnGroup__item"
       type="button"
       *ngIf="!hideAddButton"
-      (click)="add()"
+      (click)="create()"
       >
       新增
     </button>
@@ -28,7 +28,7 @@
       type="button"
       *ngIf="!hideRemoveAll"
       [disabled]="!renderSelectedNum()"
-      (click)="removeAll()"
+      (click)="deleteMultiple()"
       >
       批量删除 {{renderSelectedNum()}}
     </button>
@@ -43,7 +43,7 @@
     </div>
   </div>
 </div>
-<div class="row">
+<div class="row" style="overflow: auto;">
     <table
       class="table table-hover table-bordered table-striped"
       [mfData]="getData()"
@@ -77,10 +77,10 @@
           <div *ngIf="title.type=='input_number'">
             <input  type="number" class="form-control" [(ngModel)]="item[title.key]"/>
           </div>
-          <div *ngIf="title.type!='input_number'&&title.type!='link'&&displayOriginalData">
+          <div *ngIf="title.type!='input_number' && title.type!='link' && !displayOriginalData">
             <span class="seer_font">{{renderValue(title,item[title.key])}}</span>
           </div>
-          <div *ngIf="title.type!='input_number'&&title.type!='link'&&!displayOriginalData">
+          <div *ngIf="title.type!='input_number' && title.type!='link' && displayOriginalData">
             <span class="seer_font">{{item[title.key]}}</span>
           </div>
         </td>

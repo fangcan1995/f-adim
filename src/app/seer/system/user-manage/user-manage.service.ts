@@ -6,7 +6,7 @@ import {
 import { SERVER } from "../../const";
 import { User } from "../../model/auth/user";
 import { BaseService } from "../../base.service";
-import { RoleManageService } from "../role-manage/role-manage.service";
+import { RoleService } from "../role/role.service";
 import { Result } from "../../model/result.class";
 
 @Injectable()
@@ -15,7 +15,7 @@ export class UserManageService {
   private userManageUrl = SERVER + '/sys/user';
   private headers = new Headers({'Content-Type': 'application/json'});
 
-  constructor(private http: Http, private baseService:BaseService<User>, private roleManageService:RoleManageService) {
+  constructor(private http: Http, private baseService:BaseService<User>, private roleManageService:RoleService) {
   }
 
   private handleError(error: any): Promise<any> {
@@ -24,7 +24,7 @@ export class UserManageService {
   }
 
   getRoles(): Promise<Result> {
-    return this.roleManageService.getRoles();
+    return this.roleManageService.getList();
   }
 
   getUsers(): Promise<any> {

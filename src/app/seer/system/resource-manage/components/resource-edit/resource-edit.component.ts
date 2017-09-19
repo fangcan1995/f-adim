@@ -75,19 +75,6 @@ export class ResourceEditComponent implements OnInit {
     } else {
       return;
     }
-    requestStream$
-      .subscribe(res => {
-
-      }, errMsg => {
-        this.forbidSaveBtn = false;
-        // 错误处理的正确打开方式
-        this._messageService.open({
-          icon: 'fa fa-times-circle',
-          message: errMsg,
-          autoHideDuration: 3000,
-        })
-      })
-//
   }//保存按钮处理函数
   handleBackBtnClick() {
     this._location.back()

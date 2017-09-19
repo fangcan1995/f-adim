@@ -13,7 +13,6 @@ export * from './baMultiCheckbox';
 export * from './ng2-bs4-modal'
 export * from './seer-card'
 export * from './tree-picker'
-export * from './baChangePassword'
 export * from './workflow'
 export * from './timeline'
 export * from './seer-checkbox'

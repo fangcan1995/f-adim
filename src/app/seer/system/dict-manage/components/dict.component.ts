@@ -1,24 +1,49 @@
-import {
-  Component,
-  ViewEncapsulation,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component } from '@angular/core';
 import { DictManageService } from "../dict-manage.service";
-import { Json } from "../../../login/Json";
 import { DICT_TRANSLATE } from "./dict.translate";
-
+import * as _ from 'lodash';
+import {SeerDialogService} from "../../../../theme/services/seer-dialog.service"
 @Component({
   selector: 'DictComponent',
-  styleUrls: ['./dict.component.scss','./dicthead.component.css'],
+  styleUrls: ['./dict.component.scss'],
   templateUrl: './dictComponent.html',
   providers: [],
 })
 export class DictComponent {
   title = '字典管理';
+  hasGlobalFilter = true;
+  filters = [
+    {
+      key: 'dictKeyId',
+      label: '类型编号',
+      type: 'input.text',
+    },
+    {
+      key: 'dictKeyName',
+      label: '类型名称',
+      type: 'input.text',
+    }
+  ];
   addTitle: string;
   data = [];
-  json = Json;
+  actionSet = {
+    'copy': {
+      'type': 'copy',
+      'name': '复制新增',
+      'className': 'btn btn-xs btn-default',
+    },
+    'update': {
+      'type': 'update',
+      'name': '编辑',
+      'className': 'btn btn-xs btn-info',
+    },
+    'delete': {
+      'type': 'delete',
+      'name': '删除',
+      'className': 'btn btn-xs btn-danger',
+      'icon': 'ion-close-round',
+    }
+  };
   currentDict;
   titles = [
     {
@@ -44,75 +69,33 @@ export class DictComponent {
     {
       key:'validState',
       label:'有效状态',
+      isDict: true,
     },
   ];
-
-  titleOption =[
-    {
-      key:'dictKeyId',
-      label:'类型编号',
-    },
-    {
-      key:'dictKeyName',
-      label:'类型名称',
-    },
-    {
-      key:'dictValueId',
-      label:'值编号',
-    },
-    {
-      key:'dictValueName',
-      label:'值名称',
-    },
-    {
-      key:'dictSort',
-      label:'排序',
-    },
-    {
-      key:'validState',
-      label:'有效状态',
-    },
-    {
-      key:'createUser',
-      label:'创建用户',
-    },
-    {
-      key:'createTime',
-      label:'创建时间',
-    },
-    {
-      key:'operator',
-      label:'操作用户',
-    },
-    {
-      key:'operateTime',
-      label:'操作时间',
-    }
-  ];
-
   translate = DICT_TRANSLATE;
   errorMessage;
   checkAllinput = false;
 
-  constructor(private dictManageService:DictManageService){}
+  constructor(private dictManageService:DictManageService,private _dialogService: SeerDialogService,){}
 
   ngOnInit() {
     this.getDicts();
   }
-
-  checkAllInput(){
-    this.checkAllinput = true;
-  }
-
+  /*获取列表*/
   getDicts(): void {
     this.dictManageService.getDicts()
       .subscribe(
         res => {
           this.data = res.data;
+          this.data = _.map(this.data, t =>{
+            let actions;
+            actions = [this.actionSet.copy, this.actionSet.update, this.actionSet.delete];
+            return _.set(t, 'actions', actions);
+          })
         },
         error =>  this.errorMessage = <any>error);
   }
-
+  /*更新*/
   onChange(message):void {
 
     if(message.type=='add'){
@@ -163,12 +146,7 @@ export class DictComponent {
 
     }
   }
-
-  cancel(): void{
-    this.currentDict = false;
-    this.getDicts();
-  }
-
+  /*保存*/
   saveDict(): void{
     if(this.currentDict.dictId){
       this.dictManageService.updateDict(this.currentDict)
@@ -190,31 +168,5 @@ export class DictComponent {
           error =>  this.errorMessage = <any>error);
     }
   }
-
-  checkValueId(number): boolean{
-    if(number!=null){
-      const reg = new RegExp('^(0|[0-9][0-9]*)$');
-      if(number.length==2 && number.match(reg)){
-        return false;
-      }else{
-        return true;
-      }
-    }else{
-      return true;
-    }
-  }
-
-  checkSort(number): boolean{
-    if(number!=null){
-      if(number>=0){
-        return false;
-      }else{
-        return true;
-      }
-    }else{
-      return true;
-    }
-  }
-
 }
 
