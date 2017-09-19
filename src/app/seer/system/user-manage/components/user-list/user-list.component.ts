@@ -65,6 +65,12 @@ export class UserListComponent implements OnDestroy {
       ]
     },
     {
+      key: 'validState',
+      label: '状态',
+      type: 'select',
+      isDict: true,
+    },
+    {
       key: 'stage',
       label: '员工状态',
       type: 'select',

@@ -8,7 +8,7 @@ import {
 import {
   BASE_URL,
   API,
-} from './base.service'
+} from './base.service';
 @Injectable()
 export class UserService {
   constructor(private _httpInterceptorService: HttpInterceptorService) {}

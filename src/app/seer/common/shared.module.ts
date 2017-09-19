@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Ng2SmartTableModule } from "ng2-smart-table";
-import { DropdownModule, ModalModule  } from 'ng2-bootstrap';
+import { DropdownModule, ModalModule, DatepickerModule } from 'ng2-bootstrap';
 import { DataTableModule } from "angular2-datatable";
 
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
@@ -56,6 +56,7 @@ import { seerTableComponent } from "./seer_table/seer.table";
     Ng2SmartTableModule,
     DropdownModule,
     ModalModule,
+    DatepickerModule,
     DataTableModule,
     MultiselectDropdownModule,
     PaginationModule,
@@ -75,6 +76,7 @@ import { seerTableComponent } from "./seer_table/seer.table";
     Ng2SmartTableModule,
     DropdownModule,
     ModalModule,
+    DatepickerModule,
     seerTableComponent,
     MultiselectDropdownModule,
     PaginationModule,

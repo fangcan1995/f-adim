@@ -7,7 +7,7 @@ import {
 import {
   BASE_URL,
   API,
-} from '../../../theme/services/base.service';
+} from '../../../theme/services';
 @Injectable()
 export class RiskRatingService{
   //private riskRatingUrl = SERVER+'/sys/role';  // 接口，请修改
