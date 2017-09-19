@@ -97,7 +97,12 @@ export class UserListComponent implements OnDestroy {
     },
     {
       key: 'begigTime',
-      label: '开始时间',
+      label: '最后登录时间',
+      type: 'input.data',
+    },
+    {
+      key: 'endTime',
+      label: '跟新时间',
       type: 'input.data',
     },
 
