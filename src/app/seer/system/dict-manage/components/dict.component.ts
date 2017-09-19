@@ -136,6 +136,8 @@ export class DictComponent {
     if(message.type=='update'){
       this.addTitle = "修改字典";
       this.currentDict = message.data;
+      console.log(message.data);
+      
       this.checkAllinput = false;
     }
     if(message.type=='delete'){
