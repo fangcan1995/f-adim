@@ -8,6 +8,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
+import * as _ from 'lodash';
 import { Ng2Uploader } from "ng2-uploader";
 
 import {
@@ -17,13 +18,6 @@ import {
 } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 
 import { StaffService } from "./staff.service";
-
-import {
-  hasGlobalFilter,
-  filters,
-  titles
-} from './staff.config';
-
 import { NewStaffDto } from "./NewStaffDto";
 import { SearchStaffDto } from "./SearchStaffDto";
 import { STAFF_TRANSLATE } from "./staff.translate";
@@ -41,19 +35,120 @@ import { stringDistance } from "codelyzer/util/utils";
 })
 export class StaffComponent {
   // 控件设置
-  hasGlobalFilter = hasGlobalFilter;
-  filters = filters;
-  titles = titles;
+  hasGlobalFilter = true;
+  filters = [
+    {
+      key: 'staffDtoName',
+      label: '姓名',
+      type: 'input.text',
+    },
+    {
+      key: 'staffDtoNo',
+      label: '员工编号',
+      type: 'input.text',
+    },
+    {
+      key: 'orgName',
+      label: '公司团队',
+      type: 'select',
+    },
+    {
+      key: 'inviteNum1',
+      label: '邀请人数',
+      type: 'input.text',
+    },
+    {
+      key: 'inviteNum2',
+      label: '-',
+      type: 'input.text',
+    },
+    {
+      key:'staffPosition',
+      label:'职位',
+      type: 'input.text',
+    },
+    {
+      key:'staffState',
+      label:'员工状态',
+      type: 'select',
+      options:[{value:'', content: '请选择'}]
+    },
+    {
+      key:'staffEntryDate',
+      label:'入职时间',
+      type: 'input.date',
+    },
+    {
+      key:'staffEntryDate',
+      label:'入职时间',
+      type: 'input.date',
+    },
+  ];
+  titles = [
+    {
+      key:'staffName',
+      label:'姓名',
+    },
+    {
+      key:'staffNo',
+      label:'员工编号',
+    },
+    {
+      key:'orgName',
+      label:'分公司',
+    },
+    {
+      key:'staffTeam',
+      label:'团队',
+    },
+    {
+      key:'staffPosition',
+      label:'职位',
+    },
+    {
+      key:'staffEntryDate',
+      label:'入职时间',
+      type: 'date',
+    },
+    {
+      key:'inviteNum',
+      label:'邀请人数',
+    },
+    {
+      key:'loginNum',
+      label:'登录次数',
+    },
+    {
+      key:'lastLoginTime',
+      label:'最后登录时间',
+    },
+    {
+      key:'lastLoginIP',
+      label:'最后登录IP',
+    }
+  ];
+  actionSet={
+    'update': {
+      'type': 'update',
+      'name': '编辑',
+      'className': 'btn btn-xs btn-info',
+    },
+    'delete': {
+      'type': 'delete',
+      'name': '删除',
+      'className': 'btn btn-xs btn-danger',
+      'icon': 'ion-close-round',
+    }
+  };
 
   // 数据
   staffs = [];
-
   translate = STAFF_TRANSLATE;
   imageError;
   isCognate = false;
   checkAllinput = false;
   addTitle: string;
-  
+
   cognateAccount = [];
   selsectNotes = '';
   staffLevelStateDict = [];
@@ -190,14 +285,20 @@ export class StaffComponent {
     this.roleData.push(this.currentRole);
   }
 
-  
+
 
   //请求service
   getStaffs(): void {
-    this.staffManageService.getStaffs()
+    this.staffManageService.getLists()
       .subscribe(
         res => {
           this.staffs = res.data;
+          this.staffs = _.map(this.staffs, t =>{
+            let actions;
+            actions = [this.actionSet.update, this.actionSet.delete];
+            return _.set(t, 'actions', actions);
+          })
+          //console.log(res.data);
         },
         error =>  this.errorMessage = <any>error);
   }
@@ -206,58 +307,15 @@ export class StaffComponent {
     let type = message.type;
     let data = message.data;
     switch ( type ) {
-      case 'add':
+      case 'create':
         this._router.navigate(['add'], {relativeTo: this._route});
         break;
       case 'update':
         this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
         break;
     }
-    /*if(message.type=='add'){
-      this.addTitle = "新建人员";
-      this.picture = 'assets/img/app/profile/Nasta.png';
-      this.cognateAccount = [];
-      this.selsectNotes = '';
-      this.currentRole = {roleName:'请选择'};
-      this.currentStaff = {
-      };
-    }
-    if(message.type=='update'){
-      this.addTitle = "修改人员";
-      this.picture = message.data.staffImageUrl;
-      this.cognateAccount = [];
-      this.selsectNotes = '';
-      this.currentStaff = message.data;
-      this.staffManageService.getOrgById(this.currentStaff.staffOrgId)
-        .subscribe(
-          res => {
-            if(res.data!=null){
-              this.staffOrgName = res.data.orgName;
-            }else{
-              this.staffOrgName = '';
-            }
-
-          },
-          error =>  this.errorMessage = <any>error);
-      if(message.data.contractBeginTime){
-        let d = new Date(message.data.contractBeginTime);
-        message.data.contractBeginTime = d.getFullYear()  + "-" + (d.getMonth()+1) + "-" + d.getDate();
-      }
-      if(message.data.contractEndTime){
-        let d = new Date(message.data.contractEndTime);
-        message.data.contractEndTime = d.getFullYear()  + "-" + (d.getMonth()+1) + "-" + d.getDate();
-      }
-      if(message.data.staffEntryDate){
-        let d = new Date(message.data.staffEntryDate);
-        message.data.staffEntryDate = d.getFullYear()  + "-" + (d.getMonth()+1) + "-" + d.getDate();
-      }
-      if(message.data.staffDimissionDate){
-        let d = new Date(message.data.staffDimissionDate);
-        message.data.staffDimissionDate = d.getFullYear()  + "-" + (d.getMonth()+1) + "-" + d.getDate();
-      }
-    }*/
     if(message.type=='delete'){
-      this.staffManageService.removeStaff(message.data.id)
+      this.staffManageService.deleteOne(message.data.id)
         .subscribe(
           res => {
             this.getStaffs();
@@ -265,7 +323,6 @@ export class StaffComponent {
           error =>  this.errorMessage = <any>error);
     }
     if(message.type=='delete_all'){
-
       let ids = [];
       message.data.forEach(function(item){
         ids.push(item.id)
@@ -276,76 +333,9 @@ export class StaffComponent {
             this.getStaffs();
           },
           error =>  this.errorMessage = <any>error);
-
-    }
-    if(message.type == 'export') {
-      //alert("export");
-      this.downloadTemplate("staffExport");
-    }
-
-    if(message.type=='import') {
-      //alert("import");
-      this.importExcel();
     }
   }
 
-  //导出模板
-  downloadTemplate(keyName) {
-    //alert("download");
-    //console.log(this.getData());
-
-    let param = {
-      "data": "",
-      "titles": this.titles,
-      "keyName":keyName
-    };
-
-    //console.log(param);
-    this.staffManageService.exportExcel(param).subscribe(result=>{
-      //console.log(result.json().data);
-      this.download(result.data);
-    });
-  }
-
-  download(data) {
-    var a = document.createElement('a');
-    var url = data;
-    var filename = 'download.xls';
-    a.href = url;
-    a.download = filename;
-    a.click();
-  }
-
-  //导入Excel
-  importExcel(){
-    //alert("import");
-    this.renderer.invokeElementMethod(this._excelUpload.nativeElement, 'click');
-    return false;
-
-  }
-  @ViewChild('excelUpload') _excelUpload:ElementRef;
-
-  public onExcels():void {
-
-    let files = this._excelUpload.nativeElement.files;
-    if (files && files[0]) {
-      let fd = new FormData();
-      fd.append('file', files[0]);
-      fd.append('type','staffExport')
-
-      // this.service.importExcel(fd).then(result => {
-      //   console.log(result.json().data);
-      // });
-      this.staffManageService.importExcel(fd)
-        .subscribe(
-          res => {
-            alert(res.data);
-            this.getStaffs();
-          },
-          error =>  this.errorMessage = <any>error);
-
-    }
-  }
   cancel(): void{
     this.currentStaff = false;
     this.imageError = false;
@@ -355,9 +345,6 @@ export class StaffComponent {
     this.checkAllinput = false;
     this.getStaffs();
   }
-
-  
-
   getCurrentRoles(): void{
     this.staffManageService.getCurrentRoles()
       .subscribe(
@@ -368,67 +355,9 @@ export class StaffComponent {
         },
       error => this.errorMessage = <any>error);
   }
-
   checkAllInput(){
     this.checkAllinput = true;
   }
-
-  checkCardId(number): boolean{
-    if(number!=null){
-      const reg = new RegExp('^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9]|X)$');
-      if(number.length==18 && number.match(reg)){
-        return false;
-      }else{
-        return true;
-      }
-    }else{
-      return true;
-    }
-  }
-
-  checkPhone(phone): boolean{
-    if(phone!=null){
-      const reg = new RegExp('^1[34578]\\d{9}$');
-      if(phone.length==11 && phone.match(reg)){
-        return false;
-      }else{
-        return true;
-      }
-    }else{
-      return true;
-    }
-  }
-
-  checkQq(number): boolean{
-    if(number!=null){
-      const reg = new RegExp('^(0|[1-9][0-9]*)$');
-      let int = parseInt(number);
-      if(int > 10000 && 5<=number.length && number.length<=15 && number.match(reg)){
-        return false;
-      }else{
-        return true;
-      }
-    }else{
-      return true;
-    }
-  }
-
-  checkEmail(number): boolean{
-    if(number!=null){
-      const reg = new RegExp('^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$');
-      if(number.match(reg)){
-        return false;
-      }else{
-        return true;
-      }
-    }else{
-      return true;
-    }
-  }
-
-
-
-
   handleFiltersChanged($event) {
     let params = {
       ...$event,
