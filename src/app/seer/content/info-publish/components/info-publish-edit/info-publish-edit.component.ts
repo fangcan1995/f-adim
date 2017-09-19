@@ -198,15 +198,15 @@ export class InfoPublishEditComponent implements OnInit {
     console.log($event.eventName);
     
     
-    if($event.eventName == "onSelectCompleted"){ 
-      if($event.data.length > 0) {
-        this.sysUser.staffId = $event.data[0].id;
-        this.staffName = $event.data[0].data.name;
-      }else {
-        this.sysUser.staffId = undefined;
-        this.staffName = undefined;
-      }
-    }
+    // if($event.eventName == "onSelectCompleted"){ 
+    //   if($event.data.length > 0) {
+    //     this.sysUser.staffId = $event.data[0].id;
+    //     this.staffName = $event.data[0].data.name;
+    //   }else {
+    //     this.sysUser.staffId = undefined;
+    //     this.staffName = undefined;
+    //   }
+    // }
   }
 
 
