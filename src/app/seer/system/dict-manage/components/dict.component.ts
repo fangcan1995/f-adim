@@ -26,7 +26,7 @@ export class DictComponent {
   ];
   addTitle: string;
   data = [];
-  actionSet={
+  actionSet = {
     'copy': {
       'type': 'copy',
       'name': '复制新增',
