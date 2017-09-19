@@ -27,8 +27,12 @@ export class BaMenu {
   public hoverElemTop:number;
   protected _onRouteChange:Subscription;
   public outOfArea:number = -200;
-
-  constructor(private _router:Router, private _service:BaMenuService, private _state:GlobalState) {
+  public isMenuCollapsed:boolean = false;
+  constructor(
+    private _router:Router,
+    private _service:BaMenuService,
+    private _state:GlobalState
+    ) {
     this._onRouteChange = this._router.events.subscribe((event) => {
 
       if (event instanceof NavigationEnd) {
@@ -40,8 +44,16 @@ export class BaMenu {
         }
       }
     });
-  }
 
+    this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
+      this.isMenuCollapsed = isCollapsed;
+    });
+  }
+  public toggleMenu() {
+    this.isMenuCollapsed = !this.isMenuCollapsed;
+    this._state.notifyDataChanged('menu.isCollapsed', this.isMenuCollapsed);
+    return false;
+  }
   public selectMenuAndNotify():void {
     if (this.menuItems) {
       this.menuItems = this._service.selectMenuItem(this.menuItems);

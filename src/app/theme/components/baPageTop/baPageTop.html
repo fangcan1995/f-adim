@@ -1,7 +1,5 @@
 <div class="page-top clearfix" baScrollPosition maxHeight="50" (scrollChange)="scrolledChanged($event)" [ngClass]="{scrolled: isScrolled}">
   <a class="logo"><img src="../../../../assets/img/logo.png"></a>
-  <a href (click)="toggleMenu()" class="collapse-menu-link ion-navicon"></a>
-
   <div class="user-profile clearfix">
     <div class="hello-login-name">欢迎，{{getLoginName()}}。</div>
     <div class="dropdown al-user-profile">

@@ -21,36 +21,24 @@ import { StaffService } from "../../../seer/basic-info/staff/staff.service";
     StaffService,
   ],
 })
-export class BaPageTop implements OnInit,OnDestroy{
+export class BaPageTop implements OnInit{
 
   @ViewChild(DynamicComponentLoader)
   dynamicComponentLoader: DynamicComponentLoader;
 
   public isScrolled:boolean = false;
-  public isMenuCollapsed:boolean = false;
   isSuccess: boolean;
   loginName: string;
   errorMessage: string;
   loginImage: string;
 
   constructor(
-    private _state:GlobalState,
     private staffManageService:StaffService,
     private router:Router
     ) {
-    this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
-      this.isMenuCollapsed = isCollapsed;
-    });
   }
-
   ngOnInit(): void {
     this.getLoginImage();
-  }
-
-  public toggleMenu() {
-    this.isMenuCollapsed = !this.isMenuCollapsed;
-    this._state.notifyDataChanged('menu.isCollapsed', this.isMenuCollapsed);
-    return false;
   }
 
   public scrolledChanged(isScrolled) {
@@ -69,9 +57,5 @@ export class BaPageTop implements OnInit,OnDestroy{
 
   onChangePassword():void {
 
-  }
-
-  ngOnDestroy(): void {
-    this._state.unsubscribe("change_password_state");
   }
 }
