@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  TemplateRef
 } from '@angular/core';
 import {
   Router,
@@ -16,10 +17,18 @@ import {
 } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 
 import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
+
 import { StaffService } from '../../staff.service';
 import {
   titles,
 } from '../../staff.config';
+import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
+import { ModalDirective ,BsModalService} from 'ngx-bootstrap/modal';
+import {jsonTree} from "../../../../../theme/utils/json-tree";
+import {TREE_PERMISSIONS} from "../../../../../theme/modules/seer-tree/constants/permissions";
+import {TREE_EVENTS} from "../../../../../theme/modules/seer-tree/constants/events";
+import {SeerTree} from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
+
 @Component({
   templateUrl: './staff-edit.component.html',
   styleUrls: ['./staff-edit.component.scss']
@@ -83,11 +92,15 @@ export class StaffEditComponent implements OnInit {
       label:'联系电话',
     },
   ];
+  isDimission=false;
   public staff: any = {};
   public family=[];
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
-
+  //组织树
+  treeTitle = "组织机构树";
+  treePermissions = TREE_PERMISSIONS.NOTIFY|TREE_PERMISSIONS.ADD|TREE_PERMISSIONS.EDIT|TREE_PERMISSIONS.DELETE|TREE_PERMISSIONS.DRAG|TREE_PERMISSIONS.SHOW_FILTER|TREE_PERMISSIONS.SHOW_ADD_ROOT;
+  treeNode = [];
   //下面两个为多个checkbox选择插件配置
   dropdownSettings: IMultiSelectSettings = {
     pullRight: false,
@@ -121,8 +134,11 @@ export class StaffEditComponent implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private _location: Location,
+    private modalService: BsModalService
   ) {}
   ngOnInit() {
+    this.getOrganizations();
+    //this.isDimission=false;
     this._route.url.mergeMap(url => {
       this._editType = url[0].path
       return this._route.params
@@ -256,6 +272,29 @@ export class StaffEditComponent implements OnInit {
       })
 
   }
-
+  /*离职处理,员工状态选中离职后，激活离职时间按钮*/
+  Dimission(staffStateId:any){
+    //alert(typeof staffStateId);
+    if(staffStateId=='02'){
+      this.isDimission=true;
+    }else{
+      this.isDimission=false;
+    }
+  }
+  /*
+  * 获取全部组织机构
+  * */
+  getOrganizations() {
+    this._staffService.getOrganizations().then((result) => {
+      result.data.map(org=>org['children']=[]);
+      let nodes = jsonTree(result.data,{parentId:'orgParentId',children:'children'},[{origin:'orgName',replace:'name'}]);
+      this.treeNode = nodes;
+    });
+  }
+  // =====================模态层==============================
+  public modalRef: BsModalRef;
+  public openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
 
 }

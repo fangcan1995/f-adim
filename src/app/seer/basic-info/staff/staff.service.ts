@@ -1,36 +1,27 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import {SERVER} from "../../const";
+import {BaseService} from "../../base.service";
+import {Result} from "../../model/result.class";
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
-import {
-  HttpInterceptorService,
-} from '../../../theme/services';
-import {
-  BASE_URL,
-  API,
-} from '../../../theme/services/base.service';
-import {NewStaffDto} from "./NewStaffDto";
 import {SearchStaffDto} from "./SearchStaffDto";
-import {SERVER} from "../../const";
-
 
 
 @Injectable()
-export class StaffService {
-
+export class StaffService extends BaseService<any>{
   private getAllRolesUrl = SERVER+'/sys/role';
-
   private getAllStaffsUrl = SERVER+'/basic/staff/all';
   private addStaffUrl = SERVER+'/basic/staff/ins';
   private getStaffByTermsUrl = SERVER+'/basic/staff/terms';
-
   private updateStaffUrl = SERVER+'/basic/staff/upd';
   private deleteByIdUrl = SERVER+'/basic/staff/';
   private getStaffByIdUrl = SERVER+'/basic/staff/';
   private deleteSelectedStaffUrl = SERVER+'/basic/staff/deleteSelected';
+  private getOrgListUrl = SERVER+'/basicinfo/organizations'; //获取机构列表
   private getOrgByIdUrl = SERVER+'/basicinfo/organization';
+  //private excelExport = SERVER + '/sys/excel/download';
 
-  private excelExport = SERVER + '/sys/excel/download';
   listData=[
     {
       "id":"1",
@@ -38,6 +29,7 @@ export class StaffService {
       "orgName":"互联网金融部",   //分公司
       "staffTeam":"技术部",       //团队
       "staffPosition":"Java攻城狮",//职位
+      "staffBankCard":"621000441122286" ,//工资卡
       "staffState":"01",  //员工状态 STAFF_STATE
       "staffEntryDate":"2016-08-18",   //入职时间
       "staffDimissionDate":"2017-08-18",  //离职时间
@@ -82,10 +74,12 @@ export class StaffService {
     },
 
   ];//假数据
-  constructor (
+
+/*  constructor (
     private http: Http,
-    private _httpInterceptorService: HttpInterceptorService,
-  ) {}
+
+    //private _httpInterceptorService: HttpInterceptorService
+  ) {}*/
   getOne(id): Observable<any> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
@@ -137,14 +131,14 @@ export class StaffService {
       .map(this.extractData)
       .catch(this.handleError);
   }
-  getStaffByTerms(searchStaffDto: SearchStaffDto): Observable<any> {
+  /*getStaffByTerms(searchStaffDto: SearchStaffDto): Observable<any> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.getStaffByTermsUrl,searchStaffDto,options)
       .map(this.extractData)
       .catch(this.handleError);
-  }
+  }*/
   // 获取数据列表
   /*getLists (): Observable<any> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -253,7 +247,13 @@ export class StaffService {
       .catch(this.handleError);
   }
 
-
+  /*
+     * 查询全部库房
+     * */
+  getOrganizations(): Promise<Result> {
+    //let url = `${this.orgManageUrl}/organizations`;
+    return this.getAll(this.getOrgListUrl);
+  }
 
 
 
