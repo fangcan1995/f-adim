@@ -59,8 +59,7 @@ $bootstrap-panel-radius: 7px;
 $bootstrap-panel-text: #7d7d7d;
 $bootstrap-panel-bg: #ffffff;
 $bootstrap-panel-header-bg: #ffffff;
-//$bootstrap-panel-header-border: 1px solid $border-light;
-$bootstrap-panel-header-border: 3px solid #00abff;
+$bootstrap-panel-header-border: 1px solid $input-border;
 $bootstrap-panel-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
 
 
@@ -85,6 +84,9 @@ $danger-bg: tint($danger, 20%);
 // link colors
 $activelink: #285eb8;
 $hoverlink: darken($activelink, 20%);
+
+
+$card-content-padding-horizontal: 30px;
 
 // main background
 @mixin body-bg() {
