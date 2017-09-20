@@ -12,7 +12,7 @@
               <div class="row">
                 <label for="staffNo" class="col-sm-4 control-label">员工编号</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="staffNo"  [(ngModel)]="staff.staffNo" [ngModelOptions]="{standalone: true}">
+                  <input type="text" class="form-control" id="staffNo"  [(ngModel)]="staff.staffNo" [ngModelOptions]="{standalone: true}" disabled>
                 </div>
               </div>
             </div>
@@ -57,7 +57,7 @@
               <div class="row">
                 <label for="staffState" class="col-sm-4 control-label">员工状态</label>
                 <div class="col-sm-8 ">
-                  <select type="email" class="form-control" name="contractType" id="staffState" (change)="Dimission($event.target.value)"  [(ngModel)]="staff.staffState" dict-select required
+                  <select type="email" class="form-control" name="contractType" id="staffState" (change)="staffStateChange($event.target.value)"  [(ngModel)]="staff.staffState" dict-select required
                           [key]="'STAFF_STATE'"
                           [topOption]="{dictValueId:'',dictValueName:'请选择'}"
                           [selected]="staff.staffState" >

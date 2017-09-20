@@ -14,7 +14,6 @@ import {jsonTree} from "../../../../../theme/utils/json-tree";
 })
 export class StaffAddComponent implements OnInit {
   public staff: any = {};
-  public family=[];
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
   treeNode = [];//组织树
@@ -34,22 +33,7 @@ export class StaffAddComponent implements OnInit {
       this._editType = url[0].path
       return this._route.params
     }).subscribe(params => {
-      if ( this._editType === 'edit' ) {
-        this._staffService.getOne(params.id)
-        .subscribe(res => {
-          this.staff = res.data || {};
-          this.forbidSaveBtn = false;
-        }, errMsg => {
-          // 错误处理的正确打开方式
-          this._messageService.open({
-            icon: 'fa fa-times-circle',
-            message: errMsg,
-            autoHideDuration: 3000,
-          }).onClose().subscribe(() => {
-            this._location.back()
-          })
-        })
-      } else if ( this._editType === 'add' ) {
+       if ( this._editType === 'add' ) {
         this.forbidSaveBtn = false;
       }
     })

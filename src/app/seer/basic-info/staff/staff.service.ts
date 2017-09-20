@@ -6,6 +6,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 import {SearchStaffDto} from "./SearchStaffDto";
+import {HttpInterceptorService} from "../../../theme/services/http-interceptor.service"
 
 
 @Injectable()
@@ -74,11 +75,11 @@ export class StaffService extends BaseService<any>{
     },
 
   ];//假数据
-
+  private _httpInterceptorService: HttpInterceptorService
 /*  constructor (
     private http: Http,
 
-    //private _httpInterceptorService: HttpInterceptorService
+    private _httpInterceptorService: HttpInterceptorService
   ) {}*/
   getOne(id): Observable<any> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -185,7 +186,8 @@ export class StaffService extends BaseService<any>{
       .catch(this.handleError);
   }*/
   putOne(id, params): Observable<any> {
-    // return this._httpInterceptorService.request('PUT', `${baseUrl}/${apis['MEMBERS']}/${id}`, params)
+     //return this._httpInterceptorService.request('PUT', `{this.updateStaffUrl}/${id}`, params)
+    //
     let index = _.findIndex(this.listData, t => t.id === id);
     if ( index != -1 ) {
       this.listData[index] = params;
@@ -197,6 +199,7 @@ export class StaffService extends BaseService<any>{
       extras: {}
     }
     return Observable.of(res);
+    //
   }
 
   // 删除一条数据
