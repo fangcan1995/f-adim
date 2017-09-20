@@ -9,6 +9,7 @@ import {BaseService} from "../../base.service"
 
 import { StaffComponent } from './staff.component';
 import { StaffEditComponent } from './components/staff-edit/staff-edit.component';
+import {StaffAddComponent} from "./components/staff-add/staff-add.component"
 import { OrgListComponent } from './components/orgList/org-list.component';
 import {OrgTreeDialogComponent} from "../org-manage/components/tree/org-tree.component"
 @NgModule({
@@ -21,6 +22,7 @@ import {OrgTreeDialogComponent} from "../org-manage/components/tree/org-tree.com
   declarations: [
     StaffComponent,
     StaffEditComponent,
+    StaffAddComponent,
     OrgListComponent,
     OrgTreeDialogComponent,
   ],

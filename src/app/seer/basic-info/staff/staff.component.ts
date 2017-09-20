@@ -188,7 +188,7 @@ export class StaffComponent {
 
   ngOnInit() {
     this.getStaffs();
-    this.getCurrentRoles();
+    //this.getCurrentRoles();
     if (this._canUploadOnServer()) {
       setTimeout(() => {
         this._uploader.setOptions(this.uploaderOptions);
@@ -280,7 +280,7 @@ export class StaffComponent {
   removeCurrentRole(){
     this.currentRole = null;
     this.roleData = [];
-    this.getCurrentRoles();
+    //this.getCurrentRoles();
     this.currentRole = {roleName:'请选择'};
     this.roleData.push(this.currentRole);
   }
@@ -327,12 +327,7 @@ export class StaffComponent {
       message.data.forEach(function(item){
         ids.push(item.id)
       });
-      this.staffManageService.removeAllSelectedStaffs(ids)
-        .subscribe(
-          res => {
-            this.getStaffs();
-          },
-          error =>  this.errorMessage = <any>error);
+
     }
   }
 
@@ -345,7 +340,7 @@ export class StaffComponent {
     this.checkAllinput = false;
     this.getStaffs();
   }
-  getCurrentRoles(): void{
+  /*getCurrentRoles(): void{
     this.staffManageService.getCurrentRoles()
       .subscribe(
         res => {
@@ -354,7 +349,7 @@ export class StaffComponent {
           this.roleData.push(this.currentRole);
         },
       error => this.errorMessage = <any>error);
-  }
+  }*/
   checkAllInput(){
     this.checkAllinput = true;
   }
