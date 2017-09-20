@@ -98,7 +98,7 @@ export class DictComponent {
   /*更新*/
   onChange(message):void {
 
-    if(message.type=='add'){
+    if(message.type=='create'){
       this.addTitle = "新建字典";
       this.currentDict = {
       };
@@ -120,7 +120,7 @@ export class DictComponent {
       this.addTitle = "修改字典";
       this.currentDict = message.data;
       console.log(message.data);
-      
+
       this.checkAllinput = false;
     }
     if(message.type=='delete'){
