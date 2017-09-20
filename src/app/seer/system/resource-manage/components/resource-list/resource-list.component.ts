@@ -120,7 +120,7 @@ export class ResourceListComponent implements OnInit{
     let data = message.data;
     console.log(type);
     switch ( type ) {
-      case 'add':
+      case 'create':
         this._router.navigate(['/system/resource-manage/edit']);
         break;
       case 'update':

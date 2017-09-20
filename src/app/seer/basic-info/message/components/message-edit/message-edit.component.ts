@@ -131,7 +131,7 @@ export class MessageEditComponent {
         })
       } 
     };
-    // =====================模态层==============================
+  // =====================模态层==============================
   public modalRef: BsModalRef;
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);

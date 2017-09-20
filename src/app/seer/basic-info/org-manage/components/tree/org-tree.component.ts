@@ -74,6 +74,7 @@ export class OrgTreeDialogComponent extends BaseModalComponent implements OnInit
       $event.node.setIsExpanded(true)
     }
   }
+  
 
 
 }

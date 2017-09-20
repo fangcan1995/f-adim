@@ -12,6 +12,7 @@ import {
   DynamicComponentLoader,
   DynamicComponentParam,
 } from "../../../../../theme/directives/dynamicComponent/dynamic-component.directive";
+import { SeerDialogService } from '../../../.../../../../theme/services/seer-dialog.service'
 import * as _ from 'lodash'
 
 @Component({
@@ -102,7 +103,12 @@ export class UserListComponent implements OnDestroy {
     },
     {
       key: 'begigTime',
-      label: '开始时间',
+      label: '最后登录时间',
+      type: 'input.data',
+    },
+    {
+      key: 'endTime',
+      label: '跟新时间',
       type: 'input.data',
     },
 
@@ -255,7 +261,7 @@ export class UserListComponent implements OnDestroy {
   //   }
   // ];
 
-  constructor(protected service: UserManageService, private router: Router, private _state: GlobalState) {
+  constructor(protected service: UserManageService, private router: Router, private _state: GlobalState, private _dialogService: SeerDialogService,) {
     /*弹出新增、修改页面订阅事件*/
     this._state.subscribe(this.EVENT, (param) => {
       this.openModal(param);
@@ -318,34 +324,34 @@ export class UserListComponent implements OnDestroy {
   onDelete(event):void {
     this.service.deleteUser(event.data.id).then(()=>true).catch(()=>false);
   }
-
   onChange(message):void {
-    console.log(message);
-    console.log("11111");
+    const type = message.type;
+    console.log(type);
     
-    if(message.type == 'add'){ //新增
-      this.popupAdd();
-    }
-    if(message.type == 'update'){ //修改
-      this.popupEdit(message.data);
-    }
-    if(message.type == 'delete'){ //删除
-      this.service.deleteUser(message.data.userId).then((param) => {
-        if (param.success) {
-          this.allUsersList();
-        }
-      })
-    }
-    if(message.type=='delete_all'){ //批量删除
-      let ids = [];
-      message.data.forEach(function(item){
-        ids.push(item.userId);
-      });
-      this.service.batchDeleteUser(ids).then((param) => {
-        if (param.success) {
-          this.allUsersList();
-        }
-      })
+    let data = message.data;
+    switch ( type ) {
+      case 'add':
+         this.popupAdd();
+        break;
+      case 'update': 
+        this.popupEdit(message.data);
+        break;
+      case 'delete':
+      console.log("1111111");
+      
+        this._dialogService.confirm('确定删除吗？')
+          .subscribe(action => {
+            if ( action === 1 ) {
+              // this.service.deleteOne(message.data.id)
+              //   .subscribe(data => {
+              //     this.getList();
+              // });
+            }
+          })
+        break;
+      case 'delete_all':
+        let ids = _(data).map(t => t.id).value();
+        break;
     }
   }
 

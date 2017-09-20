@@ -97,45 +97,53 @@ export class DictComponent {
   }
   /*更新*/
   onChange(message):void {
-    const type = message.type;
-    let data = message.data;
-    switch ( type ) {
-      case 'add':
-        this.addTitle = "新建字典";
-        this.currentDict = {};
-        this.checkAllinput = false;
-        break;
-      case 'copy':
-        this.addTitle = "新建字典";
-        this.currentDict = {
-          dictKeyId:message.data.dictKeyId,
-          dictKeyName : message.data.dictKeyName,
-          validState:message.data.validState
-        };
-        this.checkAllinput = false;
-        break;
-      case 'update':
-        this.addTitle = "修改字典";
-        this.currentDict = message.data;
-        this.checkAllinput = false;
-        break;
-      case 'delete':
-        this._dialogService.confirm('确定删除吗？')
-          .subscribe(action => {
-            if ( action === 1 ) {
-              this.dictManageService.removeDict(message.data.dictId).subscribe((data) => {
-                if ( data.success ){
-                  this.getDicts();
-                }else {
-                  alert("删除失败");
-                }
-              });
-            }
-          })
-        break;
-      case 'delete_all':
-        let ids = _(data).map(t => t.id).value();
-        break;
+
+    if(message.type=='create'){
+      this.addTitle = "新建字典";
+      this.currentDict = {
+      };
+      this.checkAllinput = false;
+    }
+
+    if(message.type=='copy'){
+      this.addTitle = "新建字典";
+      this.currentDict = {
+        dictKeyId:message.data.dictKeyId,
+        dictKeyName : message.data.dictKeyName,
+        validState:message.data.validState
+      };
+      this.checkAllinput = false;
+    }
+
+
+    if(message.type=='update'){
+      this.addTitle = "修改字典";
+      this.currentDict = message.data;
+      console.log(message.data);
+
+      this.checkAllinput = false;
+    }
+    if(message.type=='delete'){
+      this.dictManageService.removeDict(message.data.dictId)
+        .subscribe(
+          res => {
+            this.getDicts();
+          },
+          error =>  this.errorMessage = <any>error);
+    }
+    if(message.type=='delete_all'){
+
+      let ids = [];
+      message.data.forEach(function(item){
+        ids.push(item.dictId)
+      });
+      this.dictManageService.removeAllSelectedDicts(ids)
+        .subscribe(
+          res => {
+            this.getDicts();
+          },
+          error =>  this.errorMessage = <any>error);
+
     }
   }
   /*保存*/

@@ -3,6 +3,7 @@ import {messageTplManageService} from "./message-template.service";
 import {Router} from "@angular/router";
 import {Location} from '@angular/common';
 import {Template} from "../../model/auth/message-template";
+import { SeerDialogService } from '../../../theme/services/seer-dialog.service'
 import * as _ from 'lodash';
 @Component({
   selector: 'message-template',
@@ -23,6 +24,13 @@ export class MessageTemplateComponent {
     },
     'delete': {
       'type': 'delete',
+      'name': '删除',
+      'className': 'btn btn-xs btn-danger',
+      // 'icon': 'ion-close-round',
+      // 'action': 'remove'
+    },
+    'start': {
+      'type': 'start',
       'name': '启用',
       'className': 'btn btn-xs btn-info',
       // 'icon': 'ion-close-round',
@@ -82,7 +90,7 @@ export class MessageTemplateComponent {
 
     this.allTplsList();
   }
-  constructor(protected service: messageTplManageService, private _router: Router) {}
+  constructor(protected service: messageTplManageService, private _router: Router, private _dialogService: SeerDialogService,) {}
   /*获取列表*/
   allTplsList():void{
     this.service.getTpls().then((data) => {
@@ -100,41 +108,71 @@ export class MessageTemplateComponent {
        // 数据请求过来后 进行按钮添加
       this.source = _.map(this.source, t => {
         let actions;
-        actions = [this.actionSet.update, this.actionSet.delete]
+        actions = [this.actionSet.update,this.actionSet.start,this.actionSet.delete]
         return _.set(t, 'actions', actions)
       })
     });
   }
   onChange(message):void {
     /*增加一条记录*/
-    if(message.type == 'add'){
-      this._router.navigate(['/basic-info/message-template/add']);
-    }
-    /*修改*/
-    if(message.type == 'update'){
-      this._router.navigate(['/basic-info/message-template/edit',message.data.tplId]);
-    }
-    /*删除一条记录*/
-    if(message.type=='delete'){
-      this.service.deleteTemplate(message.data.tplId).then((data) => {
-        if ( data.success ){
-          this.allTplsList();
-        }else {
-          alert("删除失败");
-        }
-      });
-    }
-    /*删除多条记录*/
-    if(message.type=='delete_all') {
-      let ids = [];
-      message.data.map((template:Template)=>ids.push(template.tplId));
-      this.service.deleteTemplate(ids.toString()).then((data) => {
-        if ( data.success) {
-          this.allTplsList();
-        }else {
-          alert("删除失败");
-        }
-      });
+    // if(message.type == 'add'){
+    //   this._router.navigate(['/basic-info/message-template/add']);
+    // }
+    // /*修改*/
+    // if(message.type == 'update'){
+    //   this._router.navigate(['/basic-info/message-template/edit',message.data.tplId]);
+    // }
+    // /*删除一条记录*/
+    // if(message.type=='delete'){
+    //   this.service.deleteTemplate(message.data.tplId).then((data) => {
+    //     if ( data.success ){
+    //       this.allTplsList();
+    //     }else {
+    //       alert("删除失败");
+    //     }
+    //   });
+    // }
+    // /*删除多条记录*/
+    // if(message.type=='delete_all') {
+    //   let ids = [];
+    //   message.data.map((template:Template)=>ids.push(template.tplId));
+    //   this.service.deleteTemplate(ids.toString()).then((data) => {
+    //     if ( data.success) {
+    //       this.allTplsList();
+    //     }else {
+    //       alert("删除失败");
+    //     }
+    //   });
+    // }
+
+    const type = message.type;
+    console.log(type);
+    
+    let data = message.data;
+    switch ( type ) {
+      case 'add':
+        this._router.navigate(['/basic-info/message-template/add']);
+        break;
+      case 'update': 
+        this._router.navigate(['/basic-info/message-template/edit',message.data.tplId])
+        break;
+      case 'delete':
+      console.log("1111111");
+      
+        this._dialogService.confirm('确定删除吗？')
+          .subscribe(action => {
+            if ( action === 1 ) {
+              // this.service.deleteOne(message.data.id)
+              //   .subscribe(data => {
+              //     this.getList();
+              // });
+            }
+          })
+
+        break;
+      case 'delete_all':
+        let ids = _(data).map(t => t.id).value();
+        break;
     }
   }
 }
