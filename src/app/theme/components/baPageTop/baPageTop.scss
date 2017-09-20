@@ -24,6 +24,8 @@
 
 .brand {
   position: relative;
+  float: left;
+  margin-right: 30px;
   width: $sidebar-width;
   height: $page-top-height;
   &:after {
@@ -40,13 +42,21 @@
 .logo {
   $logo-height: 57px;
   display: block;
-  float: left;
   margin-top: ($page-top-height - $logo-height) / 2;
   margin-left: 18px;
-
   img {
     height: $logo-height;
   }
+}
+.active-page {
+  float: left;
+  height: $page-top-height;
+  font-size: 18px;
+  line-height: $page-top-height;
+}
+.active-page-icon {
+  margin-right: 10px;
+  color: $icon-color-light;
 }
 .user-profile {
   float: right;
