@@ -8,7 +8,7 @@
   min-width: $resMin;
   height: $page-top-height;
   background-color: $default;
-  border-bottom: 1px solid $border;
+  border-bottom: 1px solid $input-border;
   
 
   .dropdown-toggle::after {
@@ -22,21 +22,32 @@
   }
 }
 
-a.logo {
+.brand {
+  position: relative;
+  width: $sidebar-width;
+  height: $page-top-height;
+  &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -10px;
+    width: 1px;
+    height: 20px;
+    background-color: $input-border;
+  }
+}
+.logo {
+  $logo-height: 57px;
   display: block;
   float: left;
-  margin-top: ($page-top-height - 57px) / 2;
+  margin-top: ($page-top-height - $logo-height) / 2;
   margin-left: 18px;
 
   img {
-    height: 57px;
+    height: $logo-height;
   }
 }
-
-a.al-logo:hover {
-  color: $primary;
-}
-
 .user-profile {
   float: right;
   min-width: 310px;

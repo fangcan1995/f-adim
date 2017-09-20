@@ -23,8 +23,6 @@ export class BaMenu {
 
   public menuItems:any[];
   public showHoverElem:boolean;
-  public hoverElemHeight:number;
-  public hoverElemTop:number;
   protected _onRouteChange:Subscription;
   public outOfArea:number = -200;
   public isMenuCollapsed:boolean = false;
@@ -74,10 +72,6 @@ export class BaMenu {
   }
 
   public hoverItem($event):void {
-    this.showHoverElem = true;
-    this.hoverElemHeight = $event.currentTarget.clientHeight;
-    // TODO: get rid of magic 46 constant
-    this.hoverElemTop = $event.currentTarget.getBoundingClientRect().top - 46;
   }
 
   public toggleSubMenu($event):boolean {

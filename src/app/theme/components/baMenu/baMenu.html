@@ -2,7 +2,7 @@
 	<li class="al-sidebar-list-item">
 	  <a class="al-sidebar-list-all" href (click)="toggleMenu()">
 	  	<i class="{{ isMenuCollapsed ? 'icon-menu-indent' : 'icon-menu-outdent' }}"></i>
-	    <span [style.display]="isMenuCollapsed ? 'none' : 'inline'">{{ '全部分类' }}</span>
+	    <span>{{ '全部分类' }}</span>
 	  </a>
 	</li>
 <ba-menu-item
@@ -11,5 +11,4 @@
   (toggleSubMenu)="toggleSubMenu($event)"
   *ngFor="let item of menuItems"></ba-menu-item>
 </ul>
-<div class="sidebar-hover-elem" [ngStyle]="{top: hoverElemTop + 'px', height: hoverElemHeight + 'px'}"
-   [ngClass]="{'show-hover-elem': showHoverElem }"></div>
+
