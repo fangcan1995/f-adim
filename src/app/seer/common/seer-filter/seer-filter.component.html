@@ -12,10 +12,9 @@
     <button
       type="button"
       class="btn btn-info align-self-center"
-      style="margin-top: 1px"
       [class.complexfilter__btn--active]=isFiltersShown
       (click)=handleComplexBtnClick()
-      >高级查询<i class="fa fa-angle-down fa-angle-up complexfilter__icon"></i></button>
+      >高级检索<i class="icon-angle-down complexfilter__icon"></i></button>
   </div>
 </div>
 <div [@slideInOut]="isFilterShown()" style="overflow: hidden;" *ngIf="filters">

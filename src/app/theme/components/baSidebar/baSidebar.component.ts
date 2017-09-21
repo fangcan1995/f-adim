@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, ViewEncapsulation} from '@angular/core';
+import {Component, ViewChild, ElementRef, HostListener, ViewEncapsulation} from '@angular/core';
 import {GlobalState} from '../../../global.state';
 import {MENU} from '../../../app.menu';
 import * as _ from 'lodash';
@@ -18,8 +18,9 @@ export class BaSidebar {
   public menuHeight:number;
   public isMenuCollapsed:boolean = false;
   public isMenuShouldCollapsed:boolean = false;
-
-
+  private _offsetTop: number;
+  private _defaultTop:number;
+  @ViewChild('sidebar') sidebar: ElementRef;
   constructor(private _elementRef:ElementRef, private _state:GlobalState) {
 
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
@@ -28,6 +29,8 @@ export class BaSidebar {
   }
 
   public ngOnInit():void {
+    this._defaultTop = this.sidebar.nativeElement.offsetTop; // parseInt(window.getComputedStyle(this.sidebar.nativeElement).top);
+    this._offsetTop = this._defaultTop;
     if (this._shouldMenuCollapse()) {
       this.menuCollapse();
     }
@@ -70,5 +73,11 @@ export class BaSidebar {
 
   private _shouldMenuCollapse():boolean {
     return window.innerWidth <= layoutSizes.resWidthCollapseSidebar;
+  }
+  public handleScroll({ direction, scrollY }) {
+    if ( scrollY > this._defaultTop ) {
+      scrollY = this._defaultTop;
+    }
+    this._offsetTop = this._defaultTop - scrollY;
   }
 }

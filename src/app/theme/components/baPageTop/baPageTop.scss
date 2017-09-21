@@ -9,8 +9,9 @@
   height: $page-top-height;
   background-color: $default;
   border-bottom: 1px solid $input-border;
-  
-
+  &.hide {
+    transform: translateY(-100%);
+  }
   .dropdown-toggle::after {
     display: none;
   }

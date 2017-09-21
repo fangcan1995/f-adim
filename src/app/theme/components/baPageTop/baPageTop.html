@@ -1,4 +1,14 @@
-<div class="page-top clearfix" baScrollPosition maxHeight="50" (scrollChange)="scrolledChanged($event)" [ngClass]="{scrolled: isScrolled}">
+<div
+  class="page-top clearfix"
+  #pageTop
+  baScrollPosition
+  scroll-direction
+  maxHeight="50"
+  (scrollChange)="scrolledChanged($event)"
+  [ngClass]="{scrolled: isScrolled, hide: isHidden}"
+  (onScroll)="handleScroll($event)"
+  [style.transform]="'translateY(' + _offsetTop + 'px)'"
+  >
   <div class="brand">
     <a class="logo"><img src="../../../../assets/img/logo.png"></a>
   </div>

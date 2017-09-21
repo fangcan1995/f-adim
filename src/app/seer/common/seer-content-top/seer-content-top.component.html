@@ -1,4 +1,10 @@
-<div class="content-top" #contentTop>
+<div
+  class="content-top"
+  #contentTop
+  scroll-direction
+  (onScroll)="handleScroll($event)"
+  [style.transform]="'translateY(' + _offsetTop + 'px)'"
+  >
   <ng-content></ng-content>
 </div>
 <div class="content-top-pad"></div>

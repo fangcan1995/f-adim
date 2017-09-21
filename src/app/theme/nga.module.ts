@@ -44,7 +44,8 @@ import {
   BaThemeRun,
   ClickOutsideDirective,
   DynamicComponentLoader,
-  FormValidatorDirective
+  FormValidatorDirective,
+  ScrollDirection,
 } from './directives';
 
 import {
@@ -124,7 +125,8 @@ const NGA_DIRECTIVES = [
   ClickOutsideDirective,
   DynamicComponentLoader,
   FormValidatorDirective,
-  CheckboxPickerDirective
+  CheckboxPickerDirective,
+  ScrollDirection,
 ];
 
 const NGA_PIPES = [

@@ -4,6 +4,7 @@ import {
   ViewChild,
   OnDestroy,
   OnInit,
+  ElementRef
 } from '@angular/core';
 
 import { GlobalState } from '../../../global.state';
@@ -26,6 +27,7 @@ import { StaffService } from "../../../seer/basic-info/staff/staff.service";
 export class BaPageTop implements OnInit{
 
   @ViewChild(DynamicComponentLoader)
+  @ViewChild('pageTop') pageTop: ElementRef;
   dynamicComponentLoader: DynamicComponentLoader;
 
   public isScrolled:boolean = false;
@@ -35,6 +37,8 @@ export class BaPageTop implements OnInit{
   loginImage: string;
   activePageTitle: string;
   activePageIcon: string;
+  isHidden: boolean;
+  _offsetTop:number;
   constructor(
     private staffManageService:StaffService,
     private router:Router,
@@ -68,7 +72,18 @@ export class BaPageTop implements OnInit{
   public scrolledChanged(isScrolled) {
     this.isScrolled = isScrolled;
   }
+  public handleScroll({ direction, scrollY }) {
+    let { offsetTop, offsetHeight } = this.pageTop.nativeElement;
+    this._offsetTop = -scrollY
+    if ( scrollY > offsetTop + offsetHeight ) {
+      scrollY = offsetTop + offsetHeight;
+      this.isHidden = !!direction
+    } else {
+      this.isHidden = false
+    }
 
+    this._offsetTop = -scrollY
+  }
   getLoginImage(){
   }
 
