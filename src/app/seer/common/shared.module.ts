@@ -27,7 +27,7 @@ import { SeerFilterComponent } from './seer-filter';
 import { SeerTableComponent } from './seer-table';
 import { SeerSimpleTableComponent } from './seer-simple-table';
 import { SeerCollapseCardComponent } from './seer-collapse-card';
-
+import { SeerContentTopComponent } from './seer-content-top';
 // 待干掉
 import { seerAlertComponent } from "./seer_alert/seer_alert";
 import { seerTableComponent } from "./seer_table/seer.table";
@@ -47,6 +47,7 @@ import { seerTableComponent } from "./seer_table/seer.table";
     SeerTableComponent,
     SeerSimpleTableComponent,
     SeerCollapseCardComponent,
+    SeerContentTopComponent,
   ],
   imports: [
     CommonModule,
@@ -96,6 +97,7 @@ import { seerTableComponent } from "./seer_table/seer.table";
     SeerTableComponent,
     SeerSimpleTableComponent,
     SeerCollapseCardComponent,
+    SeerContentTopComponent,
   ],
 
   entryComponents:[MultiPickerComponent]

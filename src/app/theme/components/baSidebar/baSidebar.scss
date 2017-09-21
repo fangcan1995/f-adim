@@ -77,12 +77,12 @@ a.al-sidebar-list-link {
   overflow: hidden;
   display: block;
   padding-left: ($sidebar-item-width - $sidebar-icon-size) / 2;
-  height: $sidebar-item-height;
+  height: $sidebar-item-height - 2px;
   text-shadow: none;
   font-size: 14px;
   text-decoration: none;
   color: $default-text;
-  line-height: $sidebar-item-height;
+  line-height: $sidebar-item-height - 2px;
   white-space: nowrap;
   cursor: pointer;
   &:hover {
@@ -120,13 +120,13 @@ a.al-sidebar-list-link {
 
 a.al-sidebar-list-all {
   display: block;
-  height: $sidebar-item-height;
+  height: $sidebar-item-height - 2px;
   padding-left: ($sidebar-item-width - $sidebar-icon-size) / 2;
   text-shadow: none;
   font-size: 14px;
   text-decoration: none;
   color: $default-text;
-  line-height: $sidebar-item-height;
+  line-height: $sidebar-item-height - 2px;
   white-space: nowrap;
   overflow: hidden;
   cursor: pointer;

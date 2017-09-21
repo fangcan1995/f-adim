@@ -1,0 +1,31 @@
+@import 'conf/conf';
+.content-top {
+  position: fixed;
+  z-index: 902;
+  top: $page-top-height - 1;
+  right: 0;
+  left: $sidebar-width - 1;
+  padding: 12px 10px 12px 24px;
+  background-color: $default;
+  border: 1px solid $input-border;
+  transition: left 0.5s ease;
+}
+
+@mixin layout-collapsed() {
+  .content-top {
+    left: $sidebar-item-width - 1;
+  }
+}
+
+@media (min-width: 1200px) {
+  :host-context(.menu-collapsed) {
+    @include layout-collapsed();
+  }
+}
+@media (max-width: 1200px) and (min-width: $resXS) {
+	@include layout-collapsed();
+}
+
+@media (max-width: $resXS) {
+	@include layout-collapsed();
+}
