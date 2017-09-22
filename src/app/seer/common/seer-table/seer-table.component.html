@@ -45,29 +45,29 @@
 </div>
 <div class="row" style="overflow: auto;">
     <table
-      class="table table-hover table-bordered table-striped"
+      class="table table-hover"
       [mfData]="getData()"
       #mf="mfDataTable" [(mfSortBy)]="sortBy"
       [mfRowsOnPage]="rowsOnPage"
       >
       <thead>
-      <tr class="header_border">
-        <th class="table-checkbox">
-          <input
-            type="checkbox"
-            [(ngModel)]="selectedAll"
-            (change)="selectAll()"/>
-        </th>
-        <th *ngFor="let title of filterShownTitles()" class="text-center">
-          <mfDefaultSorter by="{{ title.key }}"><b class="seer_font">{{ title.label }}</b></mfDefaultSorter>
-        </th>
-        <th class="text-center" *ngIf="!hideActions"><b class="seer_font">操作</b></th>
-      </tr>
+        <tr>
+          <th class="table-checkbox">
+            <input
+              type="checkbox"
+              [(ngModel)]="selectedAll"
+              (change)="selectAll()"/>
+          </th>
+          <th *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
+            <mfDefaultSorter by="{{ title.key }}"><b class="seer_font">{{ title.label }}</b></mfDefaultSorter>
+          </th>
+          <th class="table-actions" *ngIf="!hideActions"><b class="seer_font">操作</b></th>
+        </tr>
       </thead>
       <tbody>
       <tr *ngFor="let item of mf.data ">
         <td class="table-checkbox"><input type="checkbox" [(ngModel)]="item.selected" (change)="selectOne(item)"/></td>
-        <td *ngFor="let title of filterShownTitles()" class="text-center">
+        <td *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
 
           <div *ngIf="title.type=='link'">
             <a (click)="openLink(item)">
@@ -84,15 +84,15 @@
             <span class="seer_font">{{item[title.key]}}</span>
           </div>
         </td>
-        <td class="text-center table-actions" *ngIf="!hideActions">
+        <td class="table-actions" *ngIf="!hideActions">
           <span *ngIf="item.actions">
-            <i *ngFor="let action of item.actions" class="{{ action.icon }}"></i>
-            <!-- <button
-              type="button"
+            <i
               *ngFor="let action of item.actions"
-              class="{{ action.className }}"
+              class="table-action {{ action.icon }}"
               (click)="handleActionsClick({action: action, item: item})"
-              ><i *ngIf="action.icon" class="{{ action.icon }}" style="margin-right: 4px"></i>{{ action.name }}</button> -->
+              popover="{{ action.name }}"
+              triggers="mouseenter:mouseleave"
+              ></i>
           </span>
         </td>
       </tr>

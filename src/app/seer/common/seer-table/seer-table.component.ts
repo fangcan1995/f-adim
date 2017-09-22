@@ -13,6 +13,13 @@ import * as _ from 'lodash';
 import { CREATE, DELETE_MULTIPLE } from './seer-table.actions';
 import { BaseService } from "../../base.service";
 
+export interface TableTitleModel {
+  key: string | number,
+  label: string,
+  isDict?: boolean,
+  textAlign?: string, // 默认left 可传 center right
+}
+
 @Component({
   selector: 'seer-table',
   templateUrl: './seer-table.component.html',
