@@ -71,8 +71,8 @@ export class RiskEvalComponent implements OnInit, OnDestroy {
     const type = message.type;
     let data = message.data;
     switch ( type ) {
-      case 'add':
-        this._router.navigate(['/seer/security/risk-eval/add']);
+      case 'create':
+        this._router.navigate(['/security/risk-eval/add']);
         break;
       case 'update':
         this._router.navigate([`edit/${message.data.id}`], {relativeTo: this._route} );
