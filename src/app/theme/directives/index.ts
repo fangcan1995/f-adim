@@ -4,3 +4,4 @@ export * from './baSlimScroll';
 export * from './dynamicComponent'
 export * from './clickOutside'
 export * from './form-validator'
+export * from './scroll-direction';

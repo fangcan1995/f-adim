@@ -4,6 +4,7 @@ import {
   ViewChild,
   OnDestroy,
   OnInit,
+  ElementRef
 } from '@angular/core';
 
 import { GlobalState } from '../../../global.state';
@@ -11,6 +12,8 @@ import { Router } from "@angular/router";
 import { DynamicComponentLoader } from "../../directives/dynamicComponent/dynamic-component.directive";
 import { LoginData } from "../../../seer/model/LoginData";
 import { StaffService } from "../../../seer/basic-info/staff/staff.service";
+
+
 
 @Component({
   selector: 'ba-page-top',
@@ -21,42 +24,66 @@ import { StaffService } from "../../../seer/basic-info/staff/staff.service";
     StaffService,
   ],
 })
-export class BaPageTop implements OnInit,OnDestroy{
+export class BaPageTop implements OnInit{
 
   @ViewChild(DynamicComponentLoader)
+  @ViewChild('pageTop') pageTop: ElementRef;
   dynamicComponentLoader: DynamicComponentLoader;
 
   public isScrolled:boolean = false;
-  public isMenuCollapsed:boolean = false;
   isSuccess: boolean;
   loginName: string;
   errorMessage: string;
   loginImage: string;
-
+  activePageTitle: string;
+  activePageIcon: string;
+  isHidden: boolean;
+  _offsetTop:number;
   constructor(
-    private _state:GlobalState,
     private staffManageService:StaffService,
-    private router:Router
+    private router:Router,
+    private _state: GlobalState
     ) {
-    this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
-      this.isMenuCollapsed = isCollapsed;
+
+    this._state.subscribe('menu.activeLink', (activeLink) => {
+      console.log(activeLink)
+      if ( !activeLink || !activeLink.route || !activeLink.route.paths ) {
+        this.activePageTitle = '';
+        this.activePageTitle = null;
+
+      } else {
+        this.activePageTitle = activeLink.title;
+        this.activePageIcon = this._getActivePageIcon(activeLink);
+      }
     });
   }
-
   ngOnInit(): void {
     this.getLoginImage();
   }
-
-  public toggleMenu() {
-    this.isMenuCollapsed = !this.isMenuCollapsed;
-    this._state.notifyDataChanged('menu.isCollapsed', this.isMenuCollapsed);
-    return false;
+  private _getActivePageIcon(activeLink) {
+    if ( !activeLink.icon && !activeLink.parent ) {
+        return null;
+    } else if ( !activeLink.icon && activeLink.parent ) {
+      return this._getActivePageIcon(activeLink.parent);
+    } else {
+      return activeLink.icon;
+    }
   }
-
   public scrolledChanged(isScrolled) {
     this.isScrolled = isScrolled;
   }
+  public handleScroll({ direction, scrollY }) {
+    let { offsetTop, offsetHeight } = this.pageTop.nativeElement;
+    this._offsetTop = -scrollY
+    if ( scrollY > offsetTop + offsetHeight ) {
+      scrollY = offsetTop + offsetHeight;
+      this.isHidden = !!direction
+    } else {
+      this.isHidden = false
+    }
 
+    this._offsetTop = -scrollY
+  }
   getLoginImage(){
   }
 
@@ -69,9 +96,5 @@ export class BaPageTop implements OnInit,OnDestroy{
 
   onChangePassword():void {
 
-  }
-
-  ngOnDestroy(): void {
-    this._state.unsubscribe("change_password_state");
   }
 }

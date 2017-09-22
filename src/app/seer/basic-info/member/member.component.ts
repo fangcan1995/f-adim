@@ -72,6 +72,7 @@ export class MemberComponent implements OnInit, OnDestroy {
       'type': 'update',
       'name': '编辑',
       'className': 'btn btn-xs btn-info',
+      'icon': 'icon-edit',
     },
     'delete': {
       'type': 'delete',
