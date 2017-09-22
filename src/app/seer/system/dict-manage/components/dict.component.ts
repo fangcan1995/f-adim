@@ -3,6 +3,7 @@ import { DictManageService } from "../dict-manage.service";
 import { DICT_TRANSLATE } from "./dict.translate";
 import * as _ from 'lodash';
 import {SeerDialogService} from "../../../../theme/services/seer-dialog.service"
+import {COPY_CREATE,UPDATE, DELETE} from "../../../common/seer-table/seer-table.actions"
 @Component({
   selector: 'DictComponent',
   styleUrls: ['./dict.component.scss'],
@@ -26,24 +27,6 @@ export class DictComponent {
   ];
   addTitle: string;
   data = [];
-  actionSet = {
-    'copy': {
-      'type': 'copy',
-      'name': '复制新增',
-      'className': 'btn btn-xs btn-default',
-    },
-    'update': {
-      'type': 'update',
-      'name': '编辑',
-      'className': 'btn btn-xs btn-info',
-    },
-    'delete': {
-      'type': 'delete',
-      'name': '删除',
-      'className': 'btn btn-xs btn-danger',
-      'icon': 'ion-close-round',
-    }
-  };
   currentDict;
   titles = [
     {
@@ -87,11 +70,7 @@ export class DictComponent {
       .subscribe(
         res => {
           this.data = res.data;
-          this.data = _.map(this.data, t =>{
-            let actions;
-            actions = [this.actionSet.copy, this.actionSet.update, this.actionSet.delete];
-            return _.set(t, 'actions', actions);
-          })
+          this.data = _.map(this.data, r => _.set(r, 'actions', [ COPY_CREATE,UPDATE, DELETE ]));
         },
         error =>  this.errorMessage = <any>error);
   }
@@ -105,7 +84,7 @@ export class DictComponent {
       this.checkAllinput = false;
     }
 
-    if(message.type=='copy'){
+    if(message.type=='copy_create'){
       this.addTitle = "新建字典";
       this.currentDict = {
         dictKeyId:message.data.dictKeyId,

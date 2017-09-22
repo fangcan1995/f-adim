@@ -5,7 +5,7 @@ import {Router} from "@angular/router";
 import {GlobalState} from "../../../../../global.state";
 import * as _ from 'lodash';
 import {SeerDialogService} from "../../../../../theme/services/seer-dialog.service"
-
+import {UPDATE, DELETE} from "../../../../common/seer-table/seer-table.actions"
 @Component({
   selector: 'resource-list',
   templateUrl: './resource-list.component.html',
@@ -37,19 +37,7 @@ export class ResourceListComponent implements OnInit{
   source: LocalDataSource = new LocalDataSource();
   resource = [];
   data1 = [];
-  actionSet={
-    'update': {
-      'type': 'update',
-      'name': '编辑',
-      'className': 'btn btn-xs btn-info',
-    },
-    'delete': {
-      'type': 'delete',
-      'name': '删除',
-      'className': 'btn btn-xs btn-danger',
-      'icon': 'ion-close-round',
-    }
-  };
+
   titles = [
     {
       key:'resourceId',
@@ -105,11 +93,7 @@ export class ResourceListComponent implements OnInit{
     this.service.getResources().then((data) => {
       this.source.load(data.data);
       this.data1 = data.data;
-      this.data1=_.map(this.data1, t =>{
-        let actions;
-        actions = [this.actionSet.update, this.actionSet.delete];
-        return _.set(t, 'actions', actions);
-      })
+      this.data1 = _.map(this.data1, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
     });
   }
 

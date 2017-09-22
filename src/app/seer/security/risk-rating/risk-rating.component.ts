@@ -3,6 +3,7 @@ import {Router,ActivatedRoute} from "@angular/router";
 import * as _ from 'lodash';
 import { RiskRatingService } from "./risk-rating.service";
 import { SeerDialogService } from '../../../theme/services/seer-dialog.service';
+import { UPDATE, DELETE } from '../../common/seer-table/seer-table.actions';
 @Component({
   templateUrl: './risk-rating.component.html',
   styleUrls: ['./risk-rating.component.scss'],
@@ -13,19 +14,6 @@ export class RiskRatingComponent implements OnInit, OnDestroy {
   title = '风险等级设置';
   source = [];
   data = [];
-  actionSet={
-    'update': {
-      'type': 'update',
-      'name': '编辑',
-      'className': 'btn btn-xs btn-info',
-    },
-    'delete': {
-      'type': 'delete',
-      'name': '删除',
-      'className': 'btn btn-xs btn-danger',
-      'icon': 'ion-close-round',
-    }
-  };
   titles = [
     {key:'s2id_riskLevel', label:'风险等级'},
     {key:'score', label:'对应分值'},
@@ -50,13 +38,7 @@ export class RiskRatingComponent implements OnInit, OnDestroy {
     //this.actions = [this.actionSet.update, this.actionSet.delete];
     this.service.getLists().subscribe(res => {
       this.source = res.data;
-      this.source = _.map(this.source, t =>{
-        let actions;
-        actions = [this.actionSet.update, this.actionSet.delete];
-        //console.log(_.set(t, 'actions', actions));
-        return _.set(t, 'actions', actions);
-      })
-      //this.source = data.data;
+      this.source = _.map(res.data, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
     });
   }
   /*更新*/
