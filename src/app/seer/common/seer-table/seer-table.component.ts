@@ -57,6 +57,10 @@ export class SeerTableComponent implements OnInit {
     checkedPlural: '显示',
     defaultTitle: '请选择',
   }
+  public multiSelectSettings = {
+    buttonClasses: 'btn btn-outline-dark btn-block',
+  }
+  public dt: Date = new Date();
   constructor(
     private service: BaseService<any>,
   ) { }

@@ -13,6 +13,10 @@ import * as _ from 'lodash';
 import { trim } from '../../../theme/libs/utils'
 import { Animations } from '../../../theme/animations/animations';
 import { BaseService } from "../../base.service";
+
+import { defineLocale } from 'ngx-bootstrap/bs-moment';
+import { de } from 'ngx-bootstrap/locale';
+
 export interface FilterModel {
   key: string | number,
   label: string,
