@@ -4,7 +4,7 @@
     [filters]="filters"
     (onFiltersChanged)=handleFiltersChanged($event)
     (onSearchBtnClicked)=handleSearchBtnClicked($event)
-  ></seer-filter>  
+  ></seer-filter>
 </seer-collapse-card>
 
 <seer-collapse-card>
@@ -13,6 +13,10 @@
     [titles]="titles"
     [translate]="translate"
     (notify)="onChange($event)"
+    [hideExport]="true"
+    [hidePrint]="true"
+    [hideRemoveAll]="true"
+    [hideColumns]="true"
   ></seer-table>
 </seer-collapse-card>
 

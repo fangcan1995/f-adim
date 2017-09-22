@@ -3,6 +3,7 @@ import {Router,ActivatedRoute} from "@angular/router";
 import * as _ from 'lodash';
 import { RiskEvalService } from './risk-eval.service';
 import { SeerDialogService } from '../../../theme/services/seer-dialog.service';
+import { UPDATE, DELETE } from '../../common/seer-table/seer-table.actions';
 @Component({
   templateUrl: './risk-eval.component.html',
   styleUrls: ['./risk-eval.component.scss'],
@@ -19,19 +20,6 @@ export class RiskEvalComponent implements OnInit, OnDestroy {
   title = '测评题目';
   source = [];
   data = [];
-  actionSet={
-    'update': {
-      'type': 'update',
-      'name': '编辑',
-      'className': 'btn btn-xs btn-info',
-    },
-    'delete': {
-      'type': 'delete',
-      'name': '删除',
-      'className': 'btn btn-xs btn-danger',
-      'icon': 'ion-close-round',
-    }
-  };
   titles = [
     {key:'examName', label:'测评题目'},
     {key:'examTypeName', label:'题目类型'},
@@ -47,7 +35,6 @@ export class RiskEvalComponent implements OnInit, OnDestroy {
 
   }
   ngOnInit() {
-    //this.actions = [this.actionSet.update, this.actionSet.delete];
     this.getList();
   }
   ngOnDestroy(): void {
@@ -55,15 +42,9 @@ export class RiskEvalComponent implements OnInit, OnDestroy {
   }
   /*获取列表*/
   getList():void{
-    //this.actions = [this.actionSet.update, this.actionSet.delete];
     this.service.getRiskEvals().subscribe(res => {
       this.source = res.data;
-      this.source = _.map(this.source, t =>{
-        let actions;
-        actions = [this.actionSet.update, this.actionSet.delete];
-        return _.set(t, 'actions', actions);
-      })
-      //this.source = data.data;
+      this.source = _.map(res.data, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
     });
   }
   /*更新*/

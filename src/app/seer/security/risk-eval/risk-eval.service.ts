@@ -13,36 +13,42 @@ export class RiskEvalService {
   //private riskEvalUrl = SERVER+'/sys/role';  // 接口，请修改
   listData=[
     {
-      "id":"1","examName":"当您进行投资时，能接受的亏损程度是多少？","examType":"0","examTypeName":"单选","updateDate":"2017-01-05 13:23:48",
-      "examAResult":"无法承受风险", "examAScores":"1",
-      "examBResult":"虽然厌恶风险但愿意承担一些风险", "examBScores":"2",
-      "examCResult":"在深思熟虑后愿意承担一定的风险", "examCScores":"3",
-      "examDResult":"敢冒风险，比较激进", "examDScores":"4"
+      "id": "1",
+      "examName": "当您进行投资时，能接受的亏损程度是多少？",
+      "examType": "0",
+      "updateDate": "2017-01-05 13:23:48",
+      answers: [
+        {"id": "1", "title": "无法承受风险", "score": "1"},
+        {"id": "2", "title": "虽然厌恶风险但愿意承担一些风险", "score": "2"},
+        {"id": "3", "title": "在深思熟虑后愿意承担一定的风险", "score": "3"},
+        {"id": "4", "title": "敢冒风险，比较激进", "score": "4"},
+      ]
     },
-    {"id":"2","examName":"在一般情況下，在您的家庭收入中，有百分之几可用作投资或储蓄？","examType":"1","examTypeName":" 多选","updateDate":"2017-01-05 13:23:48",
-      "examAResult":"无法承受风险", "examAScores":"1",
-      "examBResult":"虽然厌恶风险但愿意承担一些风险", "examBScores":"2",
-      "examCResult":"在深思熟虑后愿意承担一定的风险", "examCScores":"3",
-      "examDResult":"敢冒风险，比较激进", "examDScores":"4"
+    {
+
+        "id": "2",
+        "examName": "在一般情況下，在您的家庭收入中，有百分之几可用作投资或储蓄？",
+        "examType": "1",
+        "updateDate": "2017-01-05 13:23:48",
+      answers: [
+        {"id": "1", "title": "无法承受风险", "score": "1"},
+        {"id": "2", "title": "虽然厌恶风险但愿意承担一些风险", "score": "2"},
+        {"id": "3", "title": "在深思熟虑后愿意承担一定的风险", "score": "3"},
+        {"id": "4", "title": "敢冒风险，比较激进", "score": "4"},
+      ]
     },
-    {"id":"3","examName":"您对风险的承受程度是？","examType":"1","examTypeName":" 多选","updateDate":"2017-01-05 13:23:48",
-      "examAResult":"无法承受风险", "examAScores":"1",
-      "examBResult":"虽然厌恶风险但愿意承担一些风险", "examBScores":"2",
-      "examCResult":"在深思熟虑后愿意承担一定的风险", "examCScores":"3",
-      "examDResult":"敢冒风险，比较激进", "examDScores":"4"
-    },
-    {"id":"4","examName":"您是否有过P2P、股票、基金、债券等的投资经历，如有，投资时间是多长？","examType":"0","examTypeName":"单选","updateDate":"2017-01-05 13:23:48",
-      "examAResult":"无法承受风险", "examAScores":"1",
-      "examBResult":"虽然厌恶风险但愿意承担一些风险", "examBScores":"2",
-      "examCResult":"在深思熟虑后愿意承担一定的风险", "examCScores":"3",
-      "examDResult":"敢冒风险，比较激进", "examDScores":"4"
-    },
-    {"id":"5","examName":"您目前持有以下何种投资产品?","examType":"1","examTypeName":" 多选","updateDate":"2017-01-05 13:23:48",
-      "examAResult":"无法承受风险", "examAScores":"1",
-      "examBResult":"虽然厌恶风险但愿意承担一些风险", "examBScores":"2",
-      "examCResult":"在深思熟虑后愿意承担一定的风险", "examCScores":"3",
-      "examDResult":"敢冒风险，比较激进", "examDScores":"4"
-    },
+    {
+        "id": "3",
+        "examName": "您对风险的承受程度是？",
+        "examType": "1",
+        "updateDate": "2017-01-05 13:23:48",
+      answers: [
+        {"id": "1", "title": "无法承受风险", "score": "1"},
+        {"id": "2", "title": "虽然厌恶风险但愿意承担一些风险", "score": "2"},
+        {"id": "3", "title": "在深思熟虑后愿意承担一定的风险", "score": "3"},
+        {"id": "4", "title": "敢冒风险，比较激进", "score": "4"},
+      ]
+    }
   ];  //假数据
   constructor(private _httpInterceptorService: HttpInterceptorService) {}
   // 获取数据列表

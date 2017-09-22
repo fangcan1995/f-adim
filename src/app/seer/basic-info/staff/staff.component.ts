@@ -2,7 +2,7 @@ import {Component, Renderer} from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import * as _ from 'lodash';
 import { StaffService } from "./staff.service";
-
+import { UPDATE, DELETE } from '../../common/seer-table/seer-table.actions';
 @Component({
   templateUrl: './staff.component.html',
   styleUrls: ['./staff.component.scss'],
@@ -102,19 +102,6 @@ export class StaffComponent {
       label:'最后登录IP',
     }
   ];
-  actionSet={
-    'update': {
-      'type': 'update',
-      'name': '编辑',
-      'className': 'btn btn-xs btn-info',
-    },
-    'delete': {
-      'type': 'delete',
-      'name': '删除',
-      'className': 'btn btn-xs btn-danger',
-      'icon': 'ion-close-round',
-    }
-  };
   staffs = [];// 数据
   errorMessage;
 
@@ -135,11 +122,7 @@ export class StaffComponent {
       .subscribe(
         res => {
           this.staffs = res.data;
-          this.staffs = _.map(this.staffs, t =>{
-            let actions;
-            actions = [this.actionSet.update, this.actionSet.delete];
-            return _.set(t, 'actions', actions);
-          })
+          this.staffs = _.map(this.staffs, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
         },
         error =>  this.errorMessage = <any>error);
   }
