@@ -7,9 +7,13 @@ import { Ng2SmartTableModule } from "ng2-smart-table";
 import {
     DropdownModule,
     ModalModule,
-    DatepickerModule,
     PaginationModule,
 } from 'ng2-bootstrap';
+import {
+    PopoverModule,
+    BsDatepickerModule,
+} from 'ngx-bootstrap';
+
 import { DataTableModule } from "angular2-datatable";
 
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
@@ -35,7 +39,6 @@ import { SeerContentTopComponent } from './seer-content-top';
 // 待干掉
 import { seerAlertComponent } from "./seer_alert/seer_alert";
 import { seerTableComponent } from "./seer_table/seer.table";
-import { PopoverModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -62,7 +65,6 @@ import { PopoverModule } from 'ngx-bootstrap';
     Ng2SmartTableModule,
     DropdownModule,
     ModalModule,
-    DatepickerModule,
     DataTableModule,
     MultiselectDropdownModule,
     PaginationModule,
@@ -72,6 +74,7 @@ import { PopoverModule } from 'ngx-bootstrap';
     CKEditorModule,
     ChartsModule,
     PopoverModule.forRoot(),
+    BsDatepickerModule.forRoot(),
   ],
   providers:[
 
@@ -83,7 +86,6 @@ import { PopoverModule } from 'ngx-bootstrap';
     Ng2SmartTableModule,
     DropdownModule,
     ModalModule,
-    DatepickerModule,
     seerTableComponent,
     MultiselectDropdownModule,
     PaginationModule,

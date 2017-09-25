@@ -18,6 +18,7 @@ import { TREE_PERMISSIONS } from "../../../../../theme/modules/seer-tree/constan
 
 @Component({
   templateUrl: './role-edit.component.html',
+  styleUrls: [ './role-edit.component.scss' ]
 })
 export class RoleEditComponent implements OnInit {
   @ViewChild('accountTree') accountTree: SeerTree;

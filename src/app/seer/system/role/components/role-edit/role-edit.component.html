@@ -1,7 +1,9 @@
 <form (submit)="save()">
-<div class="form-page-header">
-  <button type="button" class="btn btn-default" (click)="goBack()">返回列表</button>
+<seer-content-top>
+  <button type="button" class="btn btn-outline-dark" (click)="goBack()">返回</button>
   <button type="submit" class="btn btn-primary">保存</button>
+</seer-content-top>
+<div class="form-page-header">
 </div>
 <seer-card [title]="title">
   <div class="row">

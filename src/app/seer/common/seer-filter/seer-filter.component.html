@@ -11,12 +11,13 @@
   <div class="col" *ngIf="filters">
     <button
       type="button"
-      class="btn btn-info align-self-center"
+      class="btn btn-primary"
       [class.complexfilter__btn--active]=isFiltersShown
       (click)=handleComplexBtnClick()
       >高级检索<i class="icon-angle-down complexfilter__icon"></i></button>
   </div>
 </div>
+
 <div [@slideInOut]="isFilterShown()" style="overflow: hidden;" *ngIf="filters">
   <div class="row filter__container form-horizontal">
     <div class="col-sm-12 col-md-6 col-lg-4 col-xlg-3 form-group" *ngFor="let filter of filters">
@@ -30,6 +31,21 @@
             (change)="handleFilterChange($event, filter)">
             <option *ngFor="let option of filter.options" [ngValue]="option.value" >{{ option.content }}</option>
           </select>
+          <div 
+            class="input-group"
+            *ngIf="filter.type === 'datepicker'">
+            <input 
+              class="form-control filter__input"
+              type="text"
+              [minDate]="minDate"
+              [maxDate]="maxDate"
+              #dp="bsDatepicker"
+              bsDatepicker
+              [(bsValue)]="bsValue">
+              <span class="input-group-btn">
+                <button class="btn btn-default" (click)="dp.show()"><i class="fa fa-calendar"></i></button>
+              </span>
+          </div>
           <input
             class="form-control filter__input"
             *ngIf="filter.type.indexOf('input') != -1"
@@ -41,14 +57,15 @@
 
     </div>
   </div>
-  <div>
-    <button type="button" [disabled]="renderSearchBtn()" #searchBtn class="btn btn-search btn-info"
-    >搜索</button>
+  <div class="filter__btnGroup clearfix">
     <button
       type="button"
-      class="btn btn-default"
+      class="btn btn-outline-dark"
       (click)="handleResetBtnClick()"
       >重置</button>
+    <button type="button" [disabled]="renderSearchBtn()" #searchBtn class="btn btn-search btn-primary"
+    >搜索</button>
+    
   </div>
 </div>
 
