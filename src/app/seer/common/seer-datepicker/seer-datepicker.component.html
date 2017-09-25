@@ -1,0 +1,17 @@
+<div 
+  class="input-group">
+  <input 
+    class="form-control"
+    type="text"
+    [minDate]="minDate"
+    [maxDate]="maxDate"
+    #dp="bsDatepicker"
+    bsDatepicker
+    value="{{ date | date: dateFormatingRules }}"
+    [(bsValue)]="date"
+    [bsConfig]="bsConfig"
+    >
+  <span class="input-group-btn">
+    <button class="btn btn-default" (click)="dp.show()"><i class="fa fa-calendar"></i></button>
+  </span>
+</div>

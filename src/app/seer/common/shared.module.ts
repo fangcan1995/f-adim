@@ -36,6 +36,7 @@ import { SeerTableComponent } from './seer-table';
 import { SeerSimpleTableComponent } from './seer-simple-table';
 import { SeerCollapseCardComponent } from './seer-collapse-card';
 import { SeerContentTopComponent } from './seer-content-top';
+import { SeerDatepickerComponent } from './seer-datepicker';
 // 待干掉
 import { seerAlertComponent } from "./seer_alert/seer_alert";
 import { seerTableComponent } from "./seer_table/seer.table";
@@ -56,6 +57,7 @@ import { seerTableComponent } from "./seer_table/seer.table";
     SeerSimpleTableComponent,
     SeerCollapseCardComponent,
     SeerContentTopComponent,
+    SeerDatepickerComponent,
   ],
   imports: [
     CommonModule,
@@ -106,6 +108,7 @@ import { seerTableComponent } from "./seer_table/seer.table";
     SeerSimpleTableComponent,
     SeerCollapseCardComponent,
     SeerContentTopComponent,
+    SeerDatepickerComponent,
   ],
 
   entryComponents:[MultiPickerComponent]
