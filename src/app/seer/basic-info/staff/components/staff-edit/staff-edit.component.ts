@@ -28,7 +28,7 @@ import {jsonTree} from "../../../../../theme/utils/json-tree";
 import {TREE_PERMISSIONS} from "../../../../../theme/modules/seer-tree/constants/permissions";
 import {TREE_EVENTS} from "../../../../../theme/modules/seer-tree/constants/events";
 import {SeerTree} from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
-
+import { UPDATE, DELETE } from '../../../../common/seer-table/seer-table.actions';
 @Component({
   templateUrl: './staff-edit.component.html',
   styleUrls: ['./staff-edit.component.scss']
@@ -94,7 +94,9 @@ export class StaffEditComponent implements OnInit {
   ];
   isDimission=false;
   public staff: any = {};
-  public family=[];
+  educationalBackground=[];
+  family=[];
+  businessExperience=[];
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
   //组织树
@@ -149,8 +151,12 @@ export class StaffEditComponent implements OnInit {
         .subscribe(res => {
 
           this.staff = res.data || {};
-          //this.family= res.data.family;
-
+          this.educationalBackground=res.data.educationalBackground;
+          this.educationalBackground= _.map(this.educationalBackground, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
+          this.family= res.data.family;
+          this.family= _.map(this.family, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
+          this.businessExperience=res.data.businessExperience;
+          this.businessExperience= _.map(this.businessExperience, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
           //console.log(this.staff);
           this.forbidSaveBtn = false;
         }, errMsg => {

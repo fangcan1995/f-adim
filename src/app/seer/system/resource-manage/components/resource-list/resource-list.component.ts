@@ -34,10 +34,9 @@ export class ResourceListComponent implements OnInit{
       type: 'input.text',
     }
   ];
-  source: LocalDataSource = new LocalDataSource();
-  resource = [];
-  data1 = [];
-
+  //source: LocalDataSource = new LocalDataSource();
+ // resource = [];
+  data = []; //数据
   titles = [
     {
       key:'resourceId',
@@ -85,24 +84,20 @@ export class ResourceListComponent implements OnInit{
     protected service: ResourceManageService,private _router: Router,private _state:GlobalState,private _dialogService: SeerDialogService,) {
       this.getAllDate();
   }
-
   ngOnInit() {
     this.getAllDate();
   }
   getAllDate() {
     this.service.getResources().then((data) => {
-      this.source.load(data.data);
-      this.data1 = data.data;
-      this.data1 = _.map(this.data1, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
+      this.data = data.data;
+      this.data = _.map(this.data, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
     });
   }
-
-
   /*更新*/
   onChange(message):void {
     const type = message.type;
     let data = message.data;
-    console.log(type);
+    //console.log(type);
     switch ( type ) {
       case 'create':
         this._router.navigate(['/system/resource-manage/edit']);
