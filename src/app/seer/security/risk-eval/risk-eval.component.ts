@@ -22,7 +22,7 @@ export class RiskEvalComponent implements OnInit, OnDestroy {
   data = [];
   titles = [
     {key:'examName', label:'测评题目'},
-    {key:'examTypeName', label:'题目类型'},
+    {key:'riskEvalQuestionType', label:'题目类型',isDict:true},
     {key:'updateDate', label:'更新时间'},
   ];
 

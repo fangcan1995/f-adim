@@ -15,38 +15,38 @@ export class RiskEvalService {
     {
       "id": "1",
       "examName": "当您进行投资时，能接受的亏损程度是多少？",
-      "examType": "0",
+      "riskEvalQuestionType": "0",
       "updateDate": "2017-01-05 13:23:48",
-      answers: [
-        {"id": "1", "title": "无法承受风险", "score": "1"},
-        {"id": "2", "title": "虽然厌恶风险但愿意承担一些风险", "score": "2"},
-        {"id": "3", "title": "在深思熟虑后愿意承担一定的风险", "score": "3"},
-        {"id": "4", "title": "敢冒风险，比较激进", "score": "4"},
+      "answers": [
+        {"id": "A", "title": "无法承受风险", "score": "1"},
+        {"id": "B", "title": "虽然厌恶风险但愿意承担一些风险", "score": "2"},
+        {"id": "C", "title": "在深思熟虑后愿意承担一定的风险", "score": "3"},
+        {"id": "D", "title": "敢冒风险，比较激进", "score": "4"},
       ]
     },
     {
 
         "id": "2",
         "examName": "在一般情況下，在您的家庭收入中，有百分之几可用作投资或储蓄？",
-        "examType": "1",
+        "riskEvalQuestionType": "1",
         "updateDate": "2017-01-05 13:23:48",
-      answers: [
-        {"id": "1", "title": "无法承受风险", "score": "1"},
-        {"id": "2", "title": "虽然厌恶风险但愿意承担一些风险", "score": "2"},
-        {"id": "3", "title": "在深思熟虑后愿意承担一定的风险", "score": "3"},
-        {"id": "4", "title": "敢冒风险，比较激进", "score": "4"},
+        "answers": [
+        {"id": "A", "title": "无法承受风险", "score": "1"},
+        {"id": "B", "title": "虽然厌恶风险但愿意承担一些风险", "score": "2"},
+        {"id": "C", "title": "在深思熟虑后愿意承担一定的风险", "score": "3"},
+        {"id": "D", "title": "敢冒风险，比较激进", "score": "4"},
       ]
     },
     {
         "id": "3",
         "examName": "您对风险的承受程度是？",
-        "examType": "1",
+        "riskEvalQuestionType": "1",
         "updateDate": "2017-01-05 13:23:48",
-      answers: [
-        {"id": "1", "title": "无法承受风险", "score": "1"},
-        {"id": "2", "title": "虽然厌恶风险但愿意承担一些风险", "score": "2"},
-        {"id": "3", "title": "在深思熟虑后愿意承担一定的风险", "score": "3"},
-        {"id": "4", "title": "敢冒风险，比较激进", "score": "4"},
+         "answers": [
+        {"id": "A", "title": "无法承受风险", "score": "1"},
+        {"id": "B", "title": "虽然厌恶风险但愿意承担一些风险", "score": "2"},
+        {"id": "C", "title": "在深思熟虑后愿意承担一定的风险", "score": "3"},
+        {"id": "D", "title": "敢冒风险，比较激进", "score": "4"},
       ]
     }
   ];  //假数据
@@ -77,7 +77,7 @@ export class RiskEvalService {
   getOne(id): Observable<any> {
     // return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MEMBERS']}/${id}`);
     let data = _.find(this.listData, x => x.id === id);
-    console.log(data)
+    //console.log(data)
     let res = {
       code: 0,
       msg: '',
