@@ -4,11 +4,19 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Ng2SmartTableModule } from "ng2-smart-table";
-import { DropdownModule, ModalModule  } from 'ng2-bootstrap';
+import {
+    DropdownModule,
+    ModalModule,
+    PaginationModule,
+} from 'ng2-bootstrap';
+import {
+    PopoverModule,
+    BsDatepickerModule,
+} from 'ngx-bootstrap';
+
 import { DataTableModule } from "angular2-datatable";
 
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
-import { PaginationModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { MyDatePickerModule } from 'mydatepicker/dist/my-date-picker.module';
 import { Ng2DatetimePickerModule } from 'ng2-datetime-picker';
 import { CKEditorModule } from 'ng2-ckeditor';
@@ -27,7 +35,7 @@ import { SeerFilterComponent } from './seer-filter';
 import { SeerTableComponent } from './seer-table';
 import { SeerSimpleTableComponent } from './seer-simple-table';
 import { SeerCollapseCardComponent } from './seer-collapse-card';
-
+import { SeerContentTopComponent } from './seer-content-top';
 // 待干掉
 import { seerAlertComponent } from "./seer_alert/seer_alert";
 import { seerTableComponent } from "./seer_table/seer.table";
@@ -47,6 +55,7 @@ import { seerTableComponent } from "./seer_table/seer.table";
     SeerTableComponent,
     SeerSimpleTableComponent,
     SeerCollapseCardComponent,
+    SeerContentTopComponent,
   ],
   imports: [
     CommonModule,
@@ -64,6 +73,8 @@ import { seerTableComponent } from "./seer_table/seer.table";
     NgaModule,
     CKEditorModule,
     ChartsModule,
+    PopoverModule.forRoot(),
+    BsDatepickerModule.forRoot(),
   ],
   providers:[
 
@@ -94,6 +105,7 @@ import { seerTableComponent } from "./seer_table/seer.table";
     SeerTableComponent,
     SeerSimpleTableComponent,
     SeerCollapseCardComponent,
+    SeerContentTopComponent,
   ],
 
   entryComponents:[MultiPickerComponent]

@@ -114,6 +114,8 @@ export class UserAddedDialogComponent extends BaseModalComponent implements OnIn
    * 树选择事件
    */
   onTreePickerNotify($event){ 
+    console.log($event);
+    console.log($event.eventName);
     if($event.eventName == "onSelectCompleted"){ 
       if($event.data.length > 0) {
         this.sysUser.staffId = $event.data[0].id;

@@ -2,19 +2,12 @@
 	padding-top: 22px;
 	text-align: right;
 }
-
-.filter__input,
-select.filter__input:not([size]):not([multiple]) {
-	padding: 0 7.5px;
-	height: 30px;
-	line-height: 30px;
-}
-
 .complexfilter__icon {
+	display: inline-block;
 	font-style: normal;
 	margin-left: 8px;
-	-webkit-transform: rotate3d(0, 0, 1, 0);
-	        transform: rotate3d(0, 0, 1, 0);
+	-webkit-transform: rotateZ(0);
+	        transform: rotateZ(0);
 	transition: -webkit-transform 0.2s linear;
 	transition: transform 0.2s linear;
 	transition: transform 0.2s linear, -webkit-transform 0.2s linear;
@@ -22,7 +15,16 @@ select.filter__input:not([size]):not([multiple]) {
 
 .complexfilter__btn--active {
   .complexfilter__icon {
-    -webkit-transform: rotate3d(0, 0, 1, 180deg);
-            transform: rotate3d(0, 0, 1, 180deg);
+    -webkit-transform: rotateZ(180deg);
+            transform: rotateZ(180deg);
   }
+}
+.filter__btnGroup {
+	button {
+		float: left;
+		margin-right: 8px;
+		&:last-child {
+			margin-right: 0;
+		}
+	}
 }

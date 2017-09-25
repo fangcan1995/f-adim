@@ -1,40 +1,26 @@
-import { NgModule }      from '@angular/core';
-import {Routes, RouterModule} from "@angular/router";
-import {FormsModule} from "@angular/forms";
-import {CommonModule} from "@angular/common";
-import {WorkspaceHomeComponent} from "./components/home/workspace-home.component";
-import {NgaModule} from "../../theme/nga.module";
-import {WorkspaceComponent} from "./workspace.component";
-import {TodoListComponent} from "./components/todo-list/todo-list.component";
-import {WorkspaceService} from "./workspace.service";
+import { NgModule } from '@angular/core';
+import { NgaModule } from '../../theme/nga.module';
+import { SharedModule } from '../common/shared.module';
+import { routing } from './workspace.routing';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: WorkspaceComponent,
-    children: [
-      {path:'', component:WorkspaceHomeComponent},
-    ]
-  }
-];
+import { WorkspaceService } from './workspace.service';
 
-const SERVICES = [
-  WorkspaceService
-];
+import { WorkspaceComponent } from './workspace.component';
+import { TodoComponent } from './components/todo/todo.component';
 
 @NgModule({
   imports: [
-    FormsModule,
-    CommonModule,
+    SharedModule,
     NgaModule,
-    RouterModule.forChild(routes),
+    routing,
   ],
   declarations: [
     WorkspaceComponent,
-    WorkspaceHomeComponent,
-    TodoListComponent
+    TodoComponent
   ],
-  providers:[...SERVICES]
+  providers:[
+    WorkspaceService
+  ]
 })
 export class WorkspaceModule {
 }

@@ -5,9 +5,10 @@
     (click)="handleHeaderClick()"
     [style.cursor]="canCollapse ? 'pointer' : 'auto'"
     >
-    <h3 class="card-title">{{title}}<i *ngIf="canCollapse" class="fa fa-chevron-right cardTitle__icon" style="margin-left: 8px"></i></h3>
+    <h3 class="card-title">{{title}}</h3>
+    <i *ngIf="canCollapse" class="icon-angle-double-down cardTitle__icon"></i>
   </div>
-  <div class="card-body" [@slideInOut]="isExpanded()" style="overflow: auto;">
+  <div class="card-body" [@slideInOut]="isExpanded()">
     <div class="card-content">
       <ng-content></ng-content>
     </div>

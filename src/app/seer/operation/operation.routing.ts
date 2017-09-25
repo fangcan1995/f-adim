@@ -3,12 +3,10 @@ import {
   RouterModule,
 } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
-import { OperationComponent } from './operation.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: OperationComponent,
     children: [
       { path: '', redirectTo: 'activity'},
       { path: 'activity', loadChildren:'./activity/activity.module#ActivityModule' },

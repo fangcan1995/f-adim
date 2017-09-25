@@ -1,17 +1,27 @@
-.card {
-	border-radius: 0;
-}
+@import '../../../theme/sass/conf/conf';
 .card-body {
+	overflow: hidden;
 	padding: 0;
 }
 
 .card-content {
-	padding: 15px 22px;
+	padding: 15px $card-content-padding-horizontal;
+}
+.card-header {
+	position: relative;
 }
 
 .cardTitle__icon {
+	$size: 16px;
+	position: absolute;
+	top: 50%;
+	right: $card-content-padding-horizontal;
+	margin-top: -($size / 2);
+	width: $size;
+	height: $size;
+	font-size: $size;
+	color: $icon-color-light;
 	font-style: normal;
-	margin-left: 8px;
 	-webkit-transform: rotate3d(0, 0, 1, 0);
 	        transform: rotate3d(0, 0, 1, 0);
 	transition: -webkit-transform 0.2s linear;
@@ -20,7 +30,7 @@
 }
 .card--open {
 	.cardTitle__icon {
-		-webkit-transform: rotate3d(0, 0, 1, 90deg);
-	        transform: rotate3d(0, 0, 1, 90deg);
+		-webkit-transform: rotate3d(0, 0, 1, 180deg);
+	        transform: rotate3d(0, 0, 1, 180deg);
 	}
 }

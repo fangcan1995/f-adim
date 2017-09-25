@@ -1,13 +1,7 @@
-import {Component} from '@angular/core';
-
+import { Component } from "@angular/core";
 @Component({
-  selector: 'workspace',
-  styles: [],
-  template: `
-<router-outlet></router-outlet>`
+  templateUrl: './workspace.component.html',
+  styleUrls: [ './workspace.component.scss' ],
 })
 export class WorkspaceComponent {
-
-  constructor() {
-  }
 }

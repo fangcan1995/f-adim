@@ -1,0 +1,56 @@
+<div class="auth-main">
+  <div class="auth-block">
+    <img class="logo" src="../../../assets/img/theme/loginLogo.png" />
+    <form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+      <div class="form-group row">
+        <div class="col-sm-12">
+            <input 
+              type="text"
+              class="form-control"
+              placeholder="账号"
+              name="account"
+              required
+              [formControl]="account"
+            />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <input 
+            type="password"
+            class="form-control"
+            placeholder="密码"
+            name="password"
+            required
+            [formControl]="password"
+          />
+        </div>
+      </div>
+
+      <div class="col-sm-12">
+        <div class="pull-right">
+          <div class="seer_a_font">忘记密码</div>
+        </div>
+      </div>
+
+      <div class="col-sm-12">
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">登 录</button>
+        </div>
+      </div>
+
+    </form>
+    <div class="col-sm-12">
+      <div class="text-center">
+        <div class="seer_a_font">巴巴汇WEB管理系统基础框架</div>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="text-center">
+        <div class="seer_a_font" (click)="versionShow()">版本更新</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div dynamic-component></div>

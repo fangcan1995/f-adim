@@ -5,356 +5,257 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <seer-collapse-card title="人员管理" cardClass="with-scroll" [canCollapse]=true>
-        <form class="form-horizontal">
+      <form class="form-horizontal">
+        <seer-collapse-card title="职位基本信息" cardClass="with-scroll" [canCollapse]=true>
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="name" class="col-sm-4 control-label">员工编号</label>
+                <label for="staffNo" class="col-sm-4 control-label">员工编号</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="staffNo" placeholder="员工编号" [(ngModel)]="staff.staffNo" [ngModelOptions]="{standalone: true}">
+                  <input type="text" class="form-control" id="staffNo"  [(ngModel)]="staff.staffNo" [ngModelOptions]="{standalone: true}" disabled>
                 </div>
               </div>
             </div>
-
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="name" class="col-sm-4 control-label">姓名</label>
+                <label for="orgName" class="col-sm-4 control-label">公司团队</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" id="orgName"  [(ngModel)]="staff.orgName" [ngModelOptions]="{standalone: true}" (click)="openModal(template)">
+                  <template #template>
+
+                    <div class="modal-body">
+
+                      <seer-tree
+                        (notify)="onNotify($event) "
+                        [nodes]="treeNode"
+                        [defaultNodeName]="'新建部门'"
+                        [loadingText]="''">
+                      </seer-tree>
+
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="staffPosition" class="col-sm-4 control-label">职位</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" id="staffPosition" [(ngModel)]="staff.staffPosition" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="staffBankCard" class="col-sm-4 control-label">工资卡号</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" id="staffBankCard" placeholder="工资卡号" [(ngModel)]="staff.staffBankCard" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="staffState" class="col-sm-4 control-label">员工状态</label>
+                <div class="col-sm-8 ">
+                  <select type="email" class="form-control" name="contractType" id="staffState" (change)="staffStateChange($event.target.value)"  [(ngModel)]="staff.staffState" dict-select required
+                          [key]="'STAFF_STATE'"
+                          [topOption]="{dictValueId:'',dictValueName:'请选择'}"
+                          [selected]="staff.staffState" >
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="staffEntryDate" class="col-sm-4 control-label">入职时间</label>
+                <div class="col-sm-8 ">
+                  <input type="date" class="form-control" id="staffEntryDate" [(ngModel)]="staff.staffEntryDate" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="staffDimissionDate" class="col-sm-4 control-label">离职时间</label>
+                <div class="col-sm-8 ">
+                  <input type="date" class="form-control" id="staffDimissionDate"  [(ngModel)]="staff.staffDimissionDate" [ngModelOptions]="{standalone: true}"  *ngIf="isDimission==true" >
+                  <input type="date" class="form-control" disabled *ngIf="isDimission==false">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="contractType" class="col-sm-4 control-label">合同类型</label>
+                <div class="col-sm-8 ">
+                  <select type="email" class="form-control" name="contractType" id="contractType" [(ngModel)]="staff.contractType" dict-select required
+                          [key]="'STAFF_CONTRACT_TYPE'"
+                          [topOption]="{dictValueId:'',dictValueName:'请选择'}"
+                          [selected]="staff.contractType" >
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="contractId" class="col-sm-4 control-label">合同编号</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" id="contractId"  [(ngModel)]="staff.contractId" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="contractBeginTime" class="col-sm-4 control-label">合同签订日期</label>
+                <div class="col-sm-8 ">
+                  <input type="date" class="form-control" id="contractBeginTime" [(ngModel)]="staff.contractBeginTime" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="contractEndTime" class="col-sm-4 control-label">合同结束日期</label>
+                <div class="col-sm-8 ">
+                  <input type="date" class="form-control" id="contractEndTime"  [(ngModel)]="staff.contractEndTime" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+          </div>
+        </seer-collapse-card>
+        <seer-collapse-card title="个人基本信息" cardClass="with-scroll" [canCollapse]=true>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="staffName" class="col-sm-4 control-label">姓名</label>
                 <div class="col-sm-8 ">
                   <input type="text" class="form-control" id="staffName" placeholder="姓名" [(ngModel)]="staff.staffName" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
             </div>
-
-          </div>
-        </form>
-      </seer-collapse-card>
-      <seer-collapse-card title="抵押车辆信息" cardClass="with-scroll" [canCollapse]=true>
-        <seer-simple-table
-          [titles]=titles
-          [data]=data
-        ></seer-simple-table>
-      </seer-collapse-card>
-<!-- <form class="form-horizontal">
-    <div class="row">
-      <div class="col-xs-12">
-      </div>
-      <div class="col-xs-12">
-        <div class="col-xs-2"><label class="person_label">性别</label></div>
-        <div class="col-xs-3">
-          <select class="form-control person_space" name="sel1"
-                  dict-select
-                  [key]="'STAFF_GENDER'"
-                  [selected]="currentStaff.staffGender"
-                  [topOption]="{dictValueId:'',dictValueName:'请选择'}"
-                  [(ngModel)]="currentStaff.staffGender">
-          </select>
-        </div>
-        <div class="col-xs-2"><label class="person_label">民族</label></div>
-        <div class="col-xs-3">
-          <input type="text" class="form-control person_space" name="currentStaff.staffNation" [(ngModel)]="currentStaff.staffNation"/>
-        </div>
-        <div class="col-xs-2"></div>
-      </div>
-      <div class="col-xs-12">
-        <div class="col-xs-2"><label class="person_label required">身份证号</label></div>
-        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&checkCardId(currentStaff.staffCardId)}">
-          <input type="text" class="form-control person_space" name="currentStaff.staffCardId" pattern="^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$" minlength="18" maxlength="18" required fv [message]="'格式错误，请输入18位数字(最后一位可填写大写英文字母X)。'" [(ngModel)]="currentStaff.staffCardId"/>
-        </div>
-        <div class="col-xs-2"><label class="person_label">家庭住址</label></div>
-        <div class="col-xs-3">
-          <input type="text" class="form-control person_space" name="currentStaff.staffAdress" [(ngModel)]="currentStaff.staffAdress"/>
-        </div>
-        <div class="col-xs-2"></div>
-      </div>
-      <div class="col-xs-12">
-        <div class="col-xs-2"><label class="person_label">籍贯</label></div>
-        <div class="col-xs-3">
-          <input type="text" class="form-control person_space" name="currentStaff.staffOrigin" [(ngModel)]="currentStaff.staffOrigin"/>
-        </div>
-        <div class="col-xs-2"><label class="person_label">婚姻情况</label></div>
-        <div class="col-xs-3">
-          <select class="form-control person_space" name="sel2"
-                  dict-select
-                  [key]="'IS_MERRIED'"
-                  [selected]="currentStaff.isMarried"
-                  [topOption]="{dictValueId:'',dictValueName:'请选择'}"
-                  [(ngModel)]="currentStaff.isMarried">
-          </select>
-        </div>
-        <div class="col-xs-2"></div>
-      </div>
-      <div class="col-xs-12">
-        <div class="col-xs-2"><label class="person_label">有无子女</label></div>
-        <div class="col-xs-3">
-          <select class="form-control person_space" name="sel3"
-                  dict-select
-                  [key]="'HAVE_CHILD'"
-                  [selected]="currentStaff.haveChild"
-                  [topOption]="{dictValueId:'',dictValueName:'请选择'}"
-                  [(ngModel)]="currentStaff.haveChild">
-          </select>
-        </div>
-        <div class="col-xs-2"><label class="person_label required">学历</label></div>
-        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentStaff.staffEducation}">
-          <select class="form-control person_space" name="sel4" required
-                  dict-select
-                  [key]="'STAFF_EDUCATION'"
-                  [selected]="currentStaff.staffEducation"
-                  [topOption]="{dictValueId:'',dictValueName:'请选择'}"
-                  [(ngModel)]="currentStaff.staffEducation">
-          </select>
-        </div>
-        <div class="col-xs-2"></div>
-      </div>
-      <div class="col-xs-12">
-        <div class="col-xs-2"><label class="person_label">毕业院校</label></div>
-        <div class="col-xs-3">
-          <input type="text" class="form-control person_space" name="currentStaff.staffSchool" [(ngModel)]="currentStaff.staffSchool"/>
-        </div>
-        <div class="col-xs-2"><label class="person_label required">手机号</label></div>
-        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&checkPhone(currentStaff.staffPhone)}">
-          <input type="text" class="form-control person_space" name="currentStaff.staffPhone" pattern="^1[34578]\d{9}$"  minlength="11" maxlength="11" fv  [message]="'格式错误，请输入11位数字格式。例如：13xxxxxxxxx。'" required [(ngModel)]="currentStaff.staffPhone" (input)="getAccountList()"/>
-        </div>
-        <div class="col-xs-2"></div>
-      </div>
-      <div class="col-xs-12">
-        <div class="col-xs-2"><label class="person_label required">QQ号</label></div>
-        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&checkQq(currentStaff.staffQq)}">
-          <input type="text" class="form-control person_space" name="currentStaff.staffQq" pattern="^(0|[1-9][0-9]*)$" min="10000" minlength="5" maxlength="15" fv [message]="'格式错误，请输入大于5位小于15位数字格式（最小值为10000）。例如：10000。'"  required [(ngModel)]="currentStaff.staffQq"/>
-        </div>
-        <div class="col-xs-2"><label class="person_label required">邮箱</label></div>
-        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&checkEmail(currentStaff.staffMail)}">
-          <input type="email" class="form-control person_space" name="currentStaff.staffMail" pattern="^[a-z0-9]+([._\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$" fv [message]="'格式错误，请输入正确的格式。例如：xxxxxxx@xx.xx。'" required [(ngModel)]="currentStaff.staffMail" (input)="getAccountList()"/>
-        </div>
-        <div class="col-xs-2"></div>
-      </div>
-      <div class="col-xs-12">
-        <div class="col-xs-2"><label class="person_label">微信号</label></div>
-        <div class="col-xs-3">
-          <input type="text" class="form-control person_space" name="currentStaff.staffWechat" [(ngModel)]="currentStaff.staffWechat" (input)="getAccountList()"/>
-        </div>
-        <div class="col-xs-2"><label class="person_label">家庭电话</label></div>
-        <div class="col-xs-3">
-          <input type="text" class="form-control person_space" name="currentStaff.staffTel" [(ngModel)]="currentStaff.staffTel"/>
-        </div>
-        <div class="col-xs-2"></div>
-      </div>
-      <div class="col-xs-12">
-        <div class="col-xs-2"><label class="person_label">紧急联系人</label></div>
-        <div class="col-xs-3">
-          <input type="text" class="form-control person_space" name="currentStaff.staffContacts" [(ngModel)]="currentStaff.staffContacts"/>
-        </div>
-        <div class="col-xs-2"><label class="person_label">紧急联系人电话</label></div>
-        <div class="col-xs-3">
-          <input type="text" class="form-control person_space" name="currentStaff.staffContactsPhone" [(ngModel)]="currentStaff.staffContactsPhone"/>
-        </div>
-        <div class="col-xs-2"></div>
-      </div>
-      <div class="col-xs-12">
-        <div class="col-xs-2"><label class="person_label">合同类型</label></div>
-        <div class="col-xs-3">
-          <select class="form-control person_space" name="sel5"
-                  [(ngModel)]="contractType">
-            <option *ngFor="let x of translate.contractType"
-                    [ngValue]="x.dictValueId">
-              {{x.dictValueName}}
-            </option>
-          </select>
-        </div>
-        <div class="col-xs-2"><label class="person_label">合同编号</label></div>
-        <div class="col-xs-3">
-          <input type="text" class="form-control person_space" name="currentStaff.contractId" [(ngModel)]="currentStaff.contractId"/>
-        </div>
-        <div class="col-xs-2"></div>
-      </div>
-      <div class="col-xs-12">
-        <div class="col-xs-2"><label class="person_label">合同签订日期</label></div>
-        <div class="col-xs-3">
-          <input
-            readonly="readonly"
-            class="form-control person_space"
-            name="currentStaff.contractBeginTime"
-            [(ngModel)]="currentStaff.contractBeginTime"
-            close-on-select="true"
-            date-only="true"
-            ng2-datetime-picker
-          />
-        </div>
-        <div class="col-xs-2"><label class="person_label">合同结束日期</label></div>
-        <div class="col-xs-3">
-          <input
-            readonly="readonly"
-            class="form-control person_space"
-            name="currentStaff.contractEndTime"
-            [(ngModel)]="currentStaff.contractEndTime"
-            close-on-select="true"
-            date-only="true"
-            ng2-datetime-picker
-          />
-        </div>
-        <div class="col-xs-2"></div>
-      </div>
-      <div class="col-xs-12">
-        <div class="col-xs-2"><label class="person_label">入职时间</label></div>
-        <div class="col-xs-3">
-          <input
-            readonly="readonly"
-            class="form-control person_space"
-            name="currentStaff.staffEntryDate"
-            [(ngModel)]="currentStaff.staffEntryDate"
-            close-on-select="true"
-            date-only="true"
-            ng2-datetime-picker
-          />
-        </div>
-        <div class="col-xs-2"><label class="person_label">离职时间</label></div>
-        <div class="col-xs-3">
-          <input
-            readonly="readonly"
-            class="form-control person_space"
-            name="currentStaff.staffDimissionDate"
-            [(ngModel)]="currentStaff.staffDimissionDate"
-            close-on-select="true"
-            date-only="true"
-            ng2-datetime-picker
-          />
-        </div>
-        <div class="col-xs-2"></div>
-      </div>
-      <div class="col-xs-12">
-        <div class="col-xs-2"><label class="person_label required">员工状态</label></div>
-        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentStaff.staffState}">
-          <select class="form-control person_space" name="sel6" required
-                  dict-select
-                  [key]="'STAFF_STATE'"
-                  [selected]="currentStaff.staffState"
-                  [topOption]="{dictValueId:'',dictValueName:'请选择'}"
-                  [(ngModel)]="currentStaff.staffState">
-          </select>
-        </div>
-        <div class="col-xs-2"><label class="person_label required">员工等级</label></div>
-        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentStaff.staffLevel}">
-          <select class="form-control person_space" name="sel7" required
-                  dict-select
-                  [key]="'STAFF_LEVEL'"
-                  [selected]="currentStaff.staffLevel"
-                  [topOption]="{dictValueId:'',dictValueName:'请选择'}"
-                  [(ngModel)]="currentStaff.staffLevel">
-          </select>
-        </div>
-      </div>
-      <div class="col-xs-12">
-        <div class="col-xs-2"><label class="person_label required">所属组织机构</label></div>
-        <div class="col-xs-3">
-          <div class="form-group">
-            <div class="input-group" [ngClass]="{'has-error': checkAllinput&&!currentStaff.staffOrgId}">
-              <input class="form-control person_space" readonly="readonly" type="text" required name="staffOrgName" [(ngModel)]="staffOrgName"/>
-              <input style="display: none" type="text" class="form-control" name="currentStaff.staffOrgId" required [(ngModel)]="currentStaff.staffOrgId"/>
-              <span class="input-group-btn">
-                <a class="btn btn-default seer_link" (click)="loadOrgList()"><i class="fa fa-search" aria-hidden="true"></i></a>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="col-xs-7"></div>
-      </div>
-      <div class="col-xs-12">
-        <div class="col-xs-2">
-          <div class="cognate_top_label" *ngIf="!currentStaff.id"></div>
-          <div class="cognate_mid_label" *ngIf="isCognate&&accountList.length>0">
-            <label class="person_label">选择账户</label>
-          </div>
-          <div class="cognate_foot_label" *ngIf="isCognate&&cognateAccount.length>0&&cognateAccount!=[]">
-            <label class="person_label">选择角色</label>
-          </div>
-          <div style="float: left;color:#F00;width: 300%; margin-top:20px;" >{{selsectNotes}}</div>
-        </div>
-        <div class="col-xs-3">
-          <div>
-            <div class="cognate_top">
-              <input type="checkbox" class="person_cognate" name="isCognate" [(ngModel)]="isCognate" (change)="getAccountList()"/>是否关联
-            </div>
-          </div>
-          <div>
-            <div class="staff_select" *ngIf="isCognate&&accountList.length>0">
-              <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4" name ="accountLists" (change)="removeCurrentRole()">
-                <ss-multiselect-dropdown
-                  name = "accountListss"
-                  [options]="accountData"
-                  [(ngModel)]="cognateAccount"
-                  (ngModelChange)="onChangeColonne($event)"
-                  class="pull-left allocation_list_space"
-                  [settings]="dropdownSettings"
-                  [texts]="myRepertoryTexts"
-                  style="margin-left:5px"
-                ></ss-multiselect-dropdown>
-              </div>
-              <select class="form-control person_space" name="sel"
-                      [(ngModel)]="cognateAccount" (change)="removeCurrentRole()">
-                <option *ngFor="let x of accountList"
-                        [ngValue]="x.key">
-                &lt;!&ndash;<option *ngFor="let x of [{key:currentStaff.staffNo,label:'员工编号'},{key:currentStaff.staffPhone,label:'手机号'},{key:currentStaff.staffMail,label:'邮箱'},{key:currentStaff.staffWechat,label:'微信'}]"&ndash;&gt;
-                        &lt;!&ndash;[ngValue]="x.key">&ndash;&gt;
-                  {{x.label}}
-                </option>
-              </select>
-            </div>
-            <div></div>
-          </div>
-          <div>
-            <div class="staff_role" *ngIf="isCognate&&cognateAccount.length>0&&cognateAccount!=[]">
-              <select class="form-control person_space" name="sel8"
-                      [(ngModel)]="currentRole">
-                <option *ngFor="let role of roleData"
-                        [ngValue]="role">
-                  {{role.roleName}}
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-xs-2">
-          <tr>
-            <td class="person_td">
-              <label class="person_label">上传图片</label>
-            </td>
-          </tr>
-          <tr>
-            <td class="person_td">
-              <div class="alert alert-danger" *ngIf="imageError">{{imageError}}</div>
-            </td>
-          </tr>
-        </div>
-        
-        <div class="col-xs-3 staff_picture">
-          <div class="picture-group" [ngClass]="{uploading: uploadInProgress}">
-            <div class="picture-wrapper" (click)="bringFileSelector();">
-              <img src="{{ picture }}" *ngIf="picture">
-              <img src="{{ defaultPicture }}" *ngIf="!picture && defaultPicture">
-
-              <div class="loading" *ngIf="uploadInProgress">
-                <div class="spinner">
-                  <div class="double-bounce1"></div>
-                  <div class="double-bounce2"></div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="staffGender" class="col-sm-4 control-label">性别</label>
+                <div class="col-sm-8 ">
+                  <select type="email" class="form-control" name="staffGender" id="staffGender" [(ngModel)]="staff.staffGender" dict-select required
+                          [key]="'STAFF_GENDER'"
+                          [topOption]="{dictValueId:'',dictValueName:'请选择'}"
+                          [selected]="staff.staffGender" >
+                  </select>
                 </div>
               </div>
             </div>
-            <i class="ion-ios-close-outline" (click)="removePicture();" *ngIf="picture && canDelete"></i>
-            <a href class="change-picture" (click)="bringFileSelector();">选择图片</a>
-            <input #fileUpload type="file" name="file" hidden="true" id="uploadFile" (change)="onFiles()">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="staffBirthday" class="col-sm-4 control-label">出生日期</label>
+                <div class="col-sm-8 ">
+                  <input type="date" class="form-control" id="staffBirthday"  [(ngModel)]="staff.staffBirthday" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="staffOrigin" class="col-sm-4 control-label">籍贯</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" id="staffOrigin"  [(ngModel)]="staff.staffOrigin" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="staffNation" class="col-sm-4 control-label">民族</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" id="staffNation"  [(ngModel)]="staff.staffNation" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="staffCensusRegister" class="col-sm-4 control-label">户籍地</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" id="staffCensusRegister"  [(ngModel)]="staff.staffCensusRegister" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="isMarried" class="col-sm-4 control-label">婚否</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" id="isMarried"  [(ngModel)]="staff.isMarried" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="PoliticalStatus" class="col-sm-4 control-label">政治面貌</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" id="PoliticalStatus"  [(ngModel)]="staff.PoliticalStatus" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="healthCondition" class="col-sm-4 control-label">健康状况</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" id="healthCondition"  [(ngModel)]="staff.healthCondition" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="staffPhone" class="col-sm-4 control-label">手机号码</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" id="staffPhone"  [(ngModel)]="staff.staffPhone" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="staffIDnumber" class="col-sm-4 control-label">身份证号</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" id="staffIDnumber"  [(ngModel)]="staff.staffIDnumber" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="certificate" class="col-sm-4 control-label">证件</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" id="certificate"  [(ngModel)]="staff.certificate" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
+              <div class="row">
+                <label for="residence" class="col-sm-2 control-label">现居住地</label>
+                <div class="col-sm-10 ">
+                  <input type="text" class="form-control" id="residence"  [(ngModel)]="staff.residence" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+
           </div>
+        </seer-collapse-card>
+        <seer-collapse-card title="学历技能信息" cardClass="with-scroll" [canCollapse]=true>
+          <seer-table
+            [data]="staff.educationalBackground"
+            [titles]="titlesEducation"
+            [translate]="translate"
+          ></seer-table>
+        </seer-collapse-card>
+        <seer-collapse-card title="家庭主要关系" cardClass="with-scroll" [canCollapse]=true>
+          <seer-table
+            [data]="staff.family"
+            [titles]="titlesFamily"
+            [translate]="translate"
+          ></seer-table>
+        </seer-collapse-card>
+        <seer-collapse-card title="主要工作经历" cardClass="with-scroll" [canCollapse]=true>
+          <seer-table
+            [data]="staff.businessExperience"
+            [titles]="titlesBusinessHistory"
+            [translate]="translate"
+          ></seer-table>
+        </seer-collapse-card>
+        </form>
         </div>
-
-        <div class="col-xs-2"></div>
-      </div>
-    </div>
-  
-</form> -->
-      
-    </div>
-</div>
-
-
+        </div>
 <div dynamic-component></div>

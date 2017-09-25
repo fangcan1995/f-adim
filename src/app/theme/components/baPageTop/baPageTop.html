@@ -1,7 +1,20 @@
-<div class="page-top clearfix" baScrollPosition maxHeight="50" (scrollChange)="scrolledChanged($event)" [ngClass]="{scrolled: isScrolled}">
-  <a  class="al-logo clearfix"><img src="../../../../assets/img/theme/logo.png"></a>
-  <a href (click)="toggleMenu()" class="collapse-menu-link ion-navicon"></a>
-
+<div
+  class="page-top clearfix"
+  #pageTop
+  baScrollPosition
+  scroll-direction
+  maxHeight="50"
+  (scrollChange)="scrolledChanged($event)"
+  [ngClass]="{scrolled: isScrolled, hide: isHidden}"
+  (onScroll)="handleScroll($event)"
+  [style.transform]="'translateY(' + _offsetTop + 'px)'"
+  >
+  <div class="brand">
+    <a class="logo"><img src="../../../../assets/img/logo.png"></a>
+  </div>
+  <div class="active-page">
+    <i class="active-page-icon {{activePageIcon}}"></i><span class="active-page-title">{{ activePageTitle }}</span>
+  </div>
   <div class="user-profile clearfix">
     <div class="hello-login-name">欢迎，{{getLoginName()}}。</div>
     <div class="dropdown al-user-profile">

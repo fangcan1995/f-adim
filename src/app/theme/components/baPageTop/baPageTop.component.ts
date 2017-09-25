@@ -4,15 +4,16 @@ import {
   ViewChild,
   OnDestroy,
   OnInit,
+  ElementRef
 } from '@angular/core';
 
 import { GlobalState } from '../../../global.state';
 import { Router } from "@angular/router";
-import { LoginService } from "../../../seer/login/login.service";
 import { DynamicComponentLoader } from "../../directives/dynamicComponent/dynamic-component.directive";
-import { ChangePasswordComponent } from "../baChangePassword/baChangePassword.component";
 import { LoginData } from "../../../seer/model/LoginData";
 import { StaffService } from "../../../seer/basic-info/staff/staff.service";
+
+
 
 @Component({
   selector: 'ba-page-top',
@@ -20,88 +21,80 @@ import { StaffService } from "../../../seer/basic-info/staff/staff.service";
   styleUrls: ['./baPageTop.scss'],
   encapsulation: ViewEncapsulation.None,
   providers:[
-    LoginService,
     StaffService,
   ],
 })
-export class BaPageTop implements OnInit,OnDestroy{
+export class BaPageTop implements OnInit{
 
   @ViewChild(DynamicComponentLoader)
+  @ViewChild('pageTop') pageTop: ElementRef;
   dynamicComponentLoader: DynamicComponentLoader;
 
   public isScrolled:boolean = false;
-  public isMenuCollapsed:boolean = false;
   isSuccess: boolean;
   loginName: string;
   errorMessage: string;
   loginImage: string;
-
+  activePageTitle: string;
+  activePageIcon: string;
+  isHidden: boolean;
+  _offsetTop:number;
   constructor(
-    private _state:GlobalState,
-    private _loginService:LoginService,
     private staffManageService:StaffService,
-    private router:Router
+    private router:Router,
+    private _state: GlobalState
     ) {
-    this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
-      this.isMenuCollapsed = isCollapsed;
+
+    this._state.subscribe('menu.activeLink', (activeLink) => {
+      console.log(activeLink)
+      if ( !activeLink || !activeLink.route || !activeLink.route.paths ) {
+        this.activePageTitle = '';
+        this.activePageTitle = null;
+
+      } else {
+        this.activePageTitle = activeLink.title;
+        this.activePageIcon = this._getActivePageIcon(activeLink);
+      }
     });
   }
-
   ngOnInit(): void {
     this.getLoginImage();
   }
-
-  public toggleMenu() {
-    this.isMenuCollapsed = !this.isMenuCollapsed;
-    this._state.notifyDataChanged('menu.isCollapsed', this.isMenuCollapsed);
-    return false;
+  private _getActivePageIcon(activeLink) {
+    if ( !activeLink.icon && !activeLink.parent ) {
+        return null;
+    } else if ( !activeLink.icon && activeLink.parent ) {
+      return this._getActivePageIcon(activeLink.parent);
+    } else {
+      return activeLink.icon;
+    }
   }
-
   public scrolledChanged(isScrolled) {
     this.isScrolled = isScrolled;
   }
+  public handleScroll({ direction, scrollY }) {
+    let { offsetTop, offsetHeight } = this.pageTop.nativeElement;
+    this._offsetTop = -scrollY
+    if ( scrollY > offsetTop + offsetHeight ) {
+      scrollY = offsetTop + offsetHeight;
+      this.isHidden = !!direction
+    } else {
+      this.isHidden = false
+    }
 
+    this._offsetTop = -scrollY
+  }
   getLoginImage(){
-    let loginData = new LoginData;
-    loginData = JSON.parse(localStorage.getItem('data'));
-    this.staffManageService.getStaffById(loginData.currentUser.staffId)
-      .subscribe(
-        res => {
-          this.loginImage = res.data.staffImageUrl;
-          if(!this.loginImage||this.loginImage == ''){
-            this.loginImage = '../../../../assets/img/app/profile/Nasta.png'
-          }
-        },
-        error =>  this.errorMessage = <any>error);
   }
 
   getLoginName(){
-    let loginData = new LoginData;
-    loginData = JSON.parse(localStorage.getItem('data'));
-    this.loginName = loginData.currentUser.userName;
     return this.loginName;
   }
 
   public logout() {
-    this._loginService.logout().subscribe(
-      json => {
-        this.isSuccess = json.success;
-        localStorage.removeItem('data');
-        localStorage.removeItem('isLogin');
-        localStorage.removeItem('leftMenus');
-        if (this.isSuccess == true) {
-          this.router.navigate(['/login']);
-        }
-      },
-      error =>  this.errorMessage = <any>error);
   }
 
   onChangePassword():void {
 
-      this.dynamicComponentLoader.loadComponent(ChangePasswordComponent, null);
-  }
-
-  ngOnDestroy(): void {
-    this._state.unsubscribe("change_password_state");
   }
 }

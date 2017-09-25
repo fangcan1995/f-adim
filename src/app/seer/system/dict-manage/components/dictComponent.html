@@ -1,28 +1,35 @@
 <form (ngSubmit)="saveDict()">
-  <div class="header" *ngIf="currentDict">
-    <button type="button" class="btn btn-default" (click)="cancel()">返回列表</button>
-    <button type="submit"
-            class="btn btn-info"
-            (click)="checkAllInput()"
-    >保存
-    </button>
-  </div>
-
-  <div *ngIf="!currentDict" class="row frame card">
-    <div class="col-xs-12">
-      <div class="seer-table-padding">
-        <seertable
-          [data]="data"
-          [titles]="titles"
-          [translate]="translate"
-          [titleOption]="titleOption"
-          [displayCopyButton]="true"
-          (notify)="onChange($event)"
-        ></seertable>
-      </div>
+  <div  *ngIf="currentDict">
+    <div style="margin-bottom: 24px;">
+      <button class="btn btn-primary" (click)="handleBackBtnClick()">返回</button>
+      <button class="btn btn-primary" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
     </div>
   </div>
 
+  <div *ngIf="!currentDict" >
+    <seer-collapse-card
+    >
+      <seer-filter
+        [hasGlobalFilter]="hasGlobalFilter"
+        [filters]="filters"
+        (onFiltersChanged)=handleFiltersChanged($event)
+        (onSearchBtnClicked)=handleSearchBtnClicked($event)
+      ></seer-filter>
+    </seer-collapse-card>
+    <seer-collapse-card
+    >
+      <seer-table
+        [data]="data"
+        [titles]="titles"
+        [translate]="translate"
+        (notify)="onChange($event)"
+        [hideExport]="true"
+        [hidePrint]="true"
+        [hideRemoveAll]="true"
+        [hideColumns]="true"
+      ></seer-table>
+    </seer-collapse-card>
+  </div>
   <div class="row" *ngIf="currentDict">
     <ba-card [title]="addTitle" baCardClass="with-scroll">
       <div class="col-xs-12">

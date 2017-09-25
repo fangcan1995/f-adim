@@ -1,0 +1,110 @@
+@import "../variables";
+
+// color scheme
+// $primary: #4A9BE0 !default;
+/*$info: #2dacd1 !default;*/
+$info: #5db2ff !default;
+$success: #90b900 !default;
+$warning: #dfb81c !default;
+// $danger: #e85656 !default;
+
+$default: #fff;
+$body-bg: #F0F3F4;
+
+$default-text: #333;
+$content-text: #333;
+$help-text: #999;
+$primary: #3b9ff3;
+$danger: #ff5800;
+$success: #01c700; //ui稿错误待修正；
+
+$main-color: #3b9ff3;
+$sub-color-1: #a2d5ff;
+$sub-color-2: #20c2ea;
+$sub-color-3: #00ccb6;
+$sub-color-4: #65e5a8;
+
+$icon-color: #333;
+$icon-color-light: #c0c0c0;
+
+$bg-color: #f6f6f6;
+
+$border: #f1f1f1;
+$input-border: #ddd;
+
+
+$label-text: #ffffff;
+$disabled: #666666; // color for disabled state
+$disabled-bg: tint($disabled, 15%);// background color for disable state
+
+
+// $border: #d6d6d6;// border color
+$border-light: tint($border, 15%);// lighter version of border color (for hovers)
+// $input-border: shade($border, 5%);// input border color
+$input-background: #ffffff; // input border color for hover
+$dropdown-text: #7d7d7d; // dropdown text color
+
+// sidebar colors
+$sidebar: #ffffff;
+$sidebar-text: #414141;
+
+// specific components colors
+$mail-box: whitesmoke;
+$auth-panel-background: #ffffff;
+$progress-background: rgba(#000000, 0.07);
+$progress-default: rgba(#000000, 0.15);
+
+// bootstrap card panel styles
+$bootstrap-panel-radius: 7px;
+$bootstrap-panel-text: #7d7d7d;
+$bootstrap-panel-bg: #ffffff;
+$bootstrap-panel-header-bg: #ffffff;
+$bootstrap-panel-header-border: 1px solid $input-border;
+$bootstrap-panel-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
+
+
+$primary-light: tint($primary, 30%);
+$info-light: tint($info, 30%);
+$success-light: tint($success, 30%);
+$warning-light: tint($warning, 30%);
+$danger-light: tint($danger, 30%);
+
+$primary-dark: shade($primary, 15%);
+$info-dark: shade($info, 15%);
+$success-dark: shade($success, 15%);
+$warning-dark: shade($warning, 15%);
+$danger-dark: shade($danger, 15%);
+
+$primary-bg: tint($primary, 20%);
+$info-bg: tint($info, 20%);
+$success-bg: tint($success, 20%);
+$warning-bg: tint($warning, 20%);
+$danger-bg: tint($danger, 20%);
+
+// link colors
+$activelink: #285eb8;
+$hoverlink: darken($activelink, 20%);
+
+
+
+
+// main background
+@mixin body-bg() {
+  background-color: $bg-color;
+  &::before {
+    content: '';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    will-change: transform;
+    z-index: 0;
+  }
+}
+
+// additional background if you want another layer
+@mixin additional-bg() {
+  //display: block; // additional background layer, hidden by default
+}

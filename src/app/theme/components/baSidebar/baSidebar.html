@@ -1,4 +1,12 @@
-<aside class="al-sidebar" (mouseleave)="hoverElemTop=outOfArea" sidebarResize style="z-index:1000;">
+<aside
+  class="al-sidebar"
+  (mouseleave)="hoverElemTop=outOfArea"
+  sidebarResize
+  scroll-direction
+  #sidebar
+  (onScroll)="handleScroll($event)"
+  [style.top]="_offsetTop + 'px'"
+  >
   <ba-menu [menuRoutes]="routes"
            [menuHeight]="menuHeight"
            [sidebarCollapsed]="isMenuCollapsed"

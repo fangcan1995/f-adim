@@ -12,38 +12,98 @@ import 'rxjs/add/operator/switchMap';
 import * as _ from 'lodash';
 import { trim } from '../../../theme/libs/utils'
 import { Animations } from '../../../theme/animations/animations';
+import { BaseService } from "../../base.service";
+
+import { defineLocale } from 'ngx-bootstrap/bs-moment';
+import { de } from 'ngx-bootstrap/locale';
+
 export interface FilterModel {
   key: string | number,
   label: string,
   value: string | number,
   type?: string,
   options?: Array<any>,
+  isDict?: boolean,
+  dictKeyId?: string | number,
 }
 
 @Component({
   selector: 'seer-filter',
   templateUrl: 'seer-filter.component.html',
   styleUrls: [ 'seer-filter.component.scss' ],
-  animations: [ Animations.slideInOut ]
+  animations: [ Animations.slideInOut ],
+  providers: [BaseService]
 })
 export class SeerFilterComponent implements OnInit {
   @Input() hasGlobalFilter: boolean; // 是否有全局搜索输入框
   @Input() globalFilterValue: string; 
   @Input() filters: Array<FilterModel>;
+  @Input() translate;
+  
   @Output() onInit: EventEmitter<any> = new EventEmitter<any>();
   @Output() onFiltersChanged: EventEmitter<any> = new EventEmitter<any>();
   @Output() onSearchBtnClicked: EventEmitter<any> = new EventEmitter<any>();
   private isFiltersShown: boolean = false;
   filters$ = new Subject();
-
   @ViewChild('searchBtn') searchBtn;
 
-  constructor() { }
+  constructor(
+    private service: BaseService<any>,
+  ) { }
   ngOnInit() {
     this.onInit.emit({
       ...this.getFilterParams(this.filters),
       global: this.globalFilterValue
     });
+
+    /** 增加的部分 */
+    if ( !this.translate ) {
+      let transFields = [];
+      _.each(this.filters, filter => {
+        if ( filter.isDict ) {
+          transFields.push({
+            field: filter.key,
+            dictKeyId: filter.dictKeyId,
+          });
+        }
+      });
+      this.service.getDictTranslate(transFields)
+      .then(res => {
+        if ( res.success ) this.translate = res.data;
+        console.log(this.translate)
+        _.each(this.filters, filter => {
+          if ( filter.isDict && this.translate && _.isArray(this.translate[filter.key]) ) {
+            filter.options = [
+              {
+                content: '请选择',
+              },
+              ..._.map(this.translate[filter.key], x => {
+                return {
+                  value: x['dictValueId'],
+                  content: x['dictValueName'],
+                }
+              })
+            ]
+          }
+        });
+      });
+    } else {
+      _.each(this.filters, filter => {
+        if ( filter.isDict && this.translate && _.isArray(this.translate[filter.key]) ) {
+          filter.options = [
+            {
+              content: '请选择',
+            },
+            ..._.map(this.translate[filter.key], x => {
+              return {
+                value: x['dictValueId'],
+                content: x['dictValueName'],
+              }
+            })
+          ]
+        }
+      });
+    }
     
   }
 
@@ -97,6 +157,7 @@ export class SeerFilterComponent implements OnInit {
       ...this.getFilterParams(this.filters),
       global: this.globalFilterValue
     })
+    console.log(this.filters)
   }
   handleResetBtnClick() {
     _.each(this.filters, x => {
@@ -115,4 +176,5 @@ export class SeerFilterComponent implements OnInit {
     })
     return filterParams;
   }
+
 }

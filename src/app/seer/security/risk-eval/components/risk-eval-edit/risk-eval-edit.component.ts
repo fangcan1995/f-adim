@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 import { Observable } from 'rxjs/Observable';
 import { RiskEvalService } from "../../risk-eval.service";
 import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
+import { UPDATE, DELETE } from '../../../../common/seer-table/seer-table.actions';
 @Component({
   templateUrl: './risk-eval-edit.component.html',
   styleUrls: ['./risk-eval-edit.component.scss']
@@ -17,6 +18,21 @@ export class RiskEvalEditComponent implements OnInit {
   public riskEval: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
+  answers=[];
+  titlesAnswers = [
+    {
+      key:'id',
+      label:'答案编号',
+    },
+    {
+      key:'title',
+      label:'答案内容',
+    },
+    {
+      key:'score',
+      label:'分值',
+    }
+  ];
   constructor(
     private _riskEvalService: RiskEvalService,
     private _messageService: SeerMessageService,
@@ -31,11 +47,12 @@ export class RiskEvalEditComponent implements OnInit {
     })
       .subscribe(params => {
         if ( this._editType === 'edit' ) {
-          console.log(params.id)
+          //console.log(params.id)
           this._riskEvalService.getOne(params.id)
             .subscribe(res => {
               this.riskEval = res.data || {};
-
+              this.answers=res.data.answers || [];
+              this.answers = _.map(this.answers, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
               this.forbidSaveBtn = false;
             }, errMsg => {
               // 错误处理的正确打开方式
@@ -60,7 +77,7 @@ export class RiskEvalEditComponent implements OnInit {
     this.forbidSaveBtn = true;
     let requestStream$;
     if ( this._editType === 'edit' ) {
-      requestStream$ = this._riskEvalService.putOne(this.riskEval.id, this.riskEval)
+      requestStream$ = this._riskEvalService.putOne(this.riskEval.id, this.riskEval);
     } else if ( this._editType === 'add' ) {
       requestStream$ = this._riskEvalService.postOne(this.riskEval)
     } else {

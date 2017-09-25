@@ -1,15 +1,14 @@
-import {Component, ViewEncapsulation, OnInit} from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import {WorkspaceService} from "../../workspace.service";
 import {Result} from "../../../model/result.class";
 import {Router} from "@angular/router";
 import {ORDER_STATE} from "../../../const";
 @Component({
-  selector: 'todo-list',
-  templateUrl: './todo-list.component.html',
-  styleUrls: ['../../workspace.css'],
-  encapsulation: ViewEncapsulation.None
+  selector: 'todo',
+  templateUrl: './todo.component.html',
+  styleUrls: [ '../../workspace.component.scss' ],
 })
-export class TodoListComponent implements OnInit {
+export class TodoComponent implements OnInit {
   constructor(private service: WorkspaceService, private router:Router) {
   }
 
