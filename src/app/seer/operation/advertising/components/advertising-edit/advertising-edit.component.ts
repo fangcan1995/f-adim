@@ -1,19 +1,13 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
-import {
-  Router,
-  ActivatedRoute,
-} from '@angular/router';
-import { Location } from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {Router, ActivatedRoute} from '@angular/router';
+import {Location} from '@angular/common';
 import * as _ from 'lodash';
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 import {AdvertisingService} from "../../advertising.service";
 
 @Component({
-  templateUrl: './coupon-edit.component.html',
-  styleUrls: ['./coupon-edit.component.scss']
+  templateUrl: './advertising-edit.component.html',
+  styleUrls: ['./advertising-edit.component.scss']
 })
 export class AdvertisingEditComponent implements OnInit {
 

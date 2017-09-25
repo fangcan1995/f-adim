@@ -12,37 +12,56 @@ export class AdvertisingComponent implements OnInit, OnDestroy{
 
   hasGlobalFilter = true;
   filters = [
-    {key: 'couponTheme', label: '加息劵主题', type: 'input.text'},
-    {key: 'activityTheme', label: '所属活动', type: 'input.text'},
-    {key: 'realName', label: '发送用户', type: 'input.text'},
-    {
-      key: 'state', label: '状态', type: 'select',
+    {key: 'advertisingType', label: '广告类型', type: 'select',
       options: [
         {content: '请选择'},
-        {value: '0', content: '男'},
-        {value: '1', content: '女'}
+        {value: '0', content: 'banner'},
+        {value: '1', content: '分享邀请'}
       ]
     },
-    {key: 'issueDateBegin', label: '发放日期', type: 'input.text'},
+    {key: 'showEnd', label: '投放端', type: 'select',
+      options: [
+        {content: '请选择'},
+        {value: '0', content: 'PC端'},
+        {value: '1', content: '移动端'},
+        {value: '1', content: '全平台'}
+      ]
+    },
+    {key: 'issueDateBegin', label: '添加时间', type: 'input.text'},
     {key: 'issueDateEnd', label: '一　　　', type: 'input.text'}
   ];
 
-  coupons = [];
+  ads = [];
   titles = [
-    {key: 'couponTheme', label: '加息劵主题'},
-    {key: 'activityTheme', label: '所属活动'},
-    {key: 'realName', label: '用户真实姓名'},
-    {key: 'raiseInterestRates', label: '加息点(%)'},
-    {key: 'startSum', label: '起用金额(元)'},
-    {key: 'issueDate', label: '发放日期'},
-    {key: 'expirationDate', label: '截止日期'},
+    {key: 'advertisingTitle', label: '广告标题'},
+    {key: 'advertisingType', label: '广告类型'},
+    {key: 'showEnd', label: '投放端'},
+    {key: 'adLink', label: '广告链接'},
+    {key: 'addDate', label: '添加时间'},
     {key: 'state', label: '状态'}
   ];
 
   actionSet = {
-    'sendAgain': {
-      'type': 'sendAgain',
-      'name': '重新发送',
+    'update': {
+      'type': 'update',
+      'name': '编辑',
+      'className': 'btn btn-xs btn-info',
+    },
+    'delete': {
+      'type': 'delete',
+      'name': '删除',
+      'className': 'btn btn-xs btn-danger',
+      'icon': 'ion-close-round',
+      'action': 'remove'
+    },
+    'startUsing': {
+      'type': 'startUsing',
+      'name': '启用',
+      'className': 'btn btn-xs btn-info',
+    },
+    'disable': {
+      'type': 'disable',
+      'name': '禁用',
       'className': 'btn btn-xs btn-info',
     }
   };
@@ -58,13 +77,16 @@ export class AdvertisingComponent implements OnInit, OnDestroy{
   getList(params?) {
     this._advertisingService.getList(params)
       .subscribe(res => {
-        this.coupons = res.data;
-        this.coupons = _.map(this.coupons, t => {
+        this.ads = res.data;
+        this.ads = _.map(this.ads, t => {
           let status = t.someStatus;
           let actions;
           switch (status) {
             case "1":
-              actions = [this.actionSet.sendAgain];
+              actions = [this.actionSet.disable, this.actionSet.update, this.actionSet.delete];
+              break;
+            case "2":
+              actions = [this.actionSet.startUsing, this.actionSet.update, this.actionSet.delete];
               break;
             default:
               break;

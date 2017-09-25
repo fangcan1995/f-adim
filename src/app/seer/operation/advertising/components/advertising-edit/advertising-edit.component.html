@@ -5,61 +5,12 @@
   </div>
   <div class="row justify-content-center">
     <div class="col-md-12">
-      <seer-collapse-card title="加息劵基本信息" cardClass="with-scroll" [canCollapse]=true>
+      <seer-collapse-card title="广告基本信息" cardClass="with-scroll" [canCollapse]=true>
         <form class="form-horizontal">
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="couponTheme" class="col-sm-4 control-label">加息劵主题</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="couponTheme" placeholder="加息劵主题"
-                         [(ngModel)]="coupon.couponTheme"
-                         [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="startSum" class="col-sm-4 control-label">最低适用额度</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="startSum" placeholder="最低适用额度"
-                         [(ngModel)]="coupon.startSum" [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="raiseInterestRates" class="col-sm-4 control-label">加息点</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="raiseInterestRates" placeholder="加息点"
-                         [(ngModel)]="coupon.raiseInterestRates"
-                         [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="validDays" class="col-sm-4 control-label">有效天数</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="validDays" placeholder="有效天数"
-                         [(ngModel)]="coupon.validDays"
-                         [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="raiseInterestTerm" class="col-sm-4 control-label">加息期限</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="raiseInterestTerm" placeholder="加息期限"
-                         [(ngModel)]="coupon.raiseInterestTerm"
-                         [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="applicableProduct" class="col-sm-4 control-label">适用产品</label>
+                <label for="applicableProduct" class="col-sm-4 control-label">广告标题</label>
                 <div class="col-sm-8">
                   <select class="form-control" id="applicableProduct"
                           [(ngModel)]="coupon.applicableProduct"
@@ -70,7 +21,7 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="superpositionRedPacket" class="col-sm-4 control-label">红包叠加使用</label>
+                <label for="superpositionRedPacket" class="col-sm-4 control-label">广告类型</label>
                 <div class="col-sm-8">
                   <select class="form-control" id="superpositionRedPacket"
                           [(ngModel)]="coupon.superpositionRedPacket"
@@ -81,7 +32,7 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="superpositionCoupon" class="col-sm-4 control-label">加息劵叠加使用</label>
+                <label for="superpositionCoupon" class="col-sm-4 control-label">投放端</label>
                 <div class="col-sm-8">
                   <select class="form-control" id="superpositionCoupon"
                           [(ngModel)]="coupon.superpositionCoupon"
@@ -92,42 +43,20 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="" class="col-sm-4 control-label">所属活动</label>
-                <div class="col-sm-8">
-                  <div class="input-group">
-                    <input class="form-control" type="text" readonly="readonly"/>
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" tree-picker [excludeFolders]="true" [multiSelect]="false" [selectParentCascade]="false"><i class="fa fa-search"></i></button>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </seer-collapse-card>
-    </div>
-    <div class="col-md-12">
-      <seer-collapse-card title="发送参数信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
-        <form class="form-horizontal">
-          <div class="row">
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="sendMode" class="col-sm-4 control-label">发送方式</label>
+                <label for="activityTheme" class="col-sm-4 control-label">广告链接</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="sendMode" placeholder="加息劵主题"
-                         [(ngModel)]="coupon.sendMode"
+                  <input type="text" class="form-control" id="activityTheme" placeholder="活动主题"
+                         [(ngModel)]="coupon.activityTheme"
                          [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="form-group col-sm-12">
               <div class="row">
-                <label for="sendDate" class="col-sm-4 control-label">发送日期</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="sendDate" placeholder="发送日期"
-                         [(ngModel)]="coupon.sendDate"
-                         [ngModelOptions]="{standalone: true}">
+                <label for="remark" class="col-sm-4 col-md-2 col-xlg-1 control-label">广告图片</label>
+                <div class="col-sm-8 col-md-10 col-xlg-11">
+                  <textarea class="form-control" id="remark" placeholder="备注" [(ngModel)]="coupon.remark"
+                            [ngModelOptions]="{standalone: true}"></textarea>
                 </div>
               </div>
             </div>
