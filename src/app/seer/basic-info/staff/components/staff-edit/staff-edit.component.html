@@ -236,23 +236,35 @@
         </seer-collapse-card>
         <seer-collapse-card title="学历技能信息" cardClass="with-scroll" [canCollapse]=true>
           <seer-table
-            [data]="staff.educationalBackground"
+            [data]="educationalBackground"
             [titles]="titlesEducation"
             [translate]="translate"
+            [hideExport]="true"
+            [hidePrint]="true"
+            [hideRemoveAll]="true"
+            [hideColumns]="true"
           ></seer-table>
         </seer-collapse-card>
         <seer-collapse-card title="家庭主要关系" cardClass="with-scroll" [canCollapse]=true>
           <seer-table
-            [data]="staff.family"
+            [data]="family"
             [titles]="titlesFamily"
             [translate]="translate"
+            [hideExport]="true"
+            [hidePrint]="true"
+            [hideRemoveAll]="true"
+            [hideColumns]="true"
           ></seer-table>
         </seer-collapse-card>
         <seer-collapse-card title="主要工作经历" cardClass="with-scroll" [canCollapse]=true>
           <seer-table
-            [data]="staff.businessExperience"
+            [data]="businessExperience"
             [titles]="titlesBusinessHistory"
             [translate]="translate"
+            [hideExport]="true"
+            [hidePrint]="true"
+            [hideRemoveAll]="true"
+            [hideColumns]="true"
           ></seer-table>
         </seer-collapse-card>
         </form>
