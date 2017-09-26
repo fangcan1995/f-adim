@@ -1,18 +1,24 @@
 @import 'conf/conf';
 .content-top {
-  position: fixed;
+  position: relative;
   z-index: 902;
-  top: $page-top-height - 1;
-  right: 0;
-  left: $sidebar-width;
+  margin-top: -1px;
   padding: ($sidebar-item-height - $form-ele-height) / 2 - 1px 24px;
   background-color: $default;
   border-width: 1px 0;
   border-color: $input-border;
   border-style: solid;
-  transition: left 0.5s ease;
+  
+  
 }
-
+.content-top.fixedTop {
+  position: fixed;
+  top: $page-top-height;
+  right: 0;
+  left: $sidebar-width;
+  transition: left 0.5s ease;
+  
+}
 @mixin layout-collapsed() {
   .content-top {
     left: $sidebar-item-width;
