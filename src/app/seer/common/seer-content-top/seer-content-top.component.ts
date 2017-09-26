@@ -1,15 +1,24 @@
-import { Component, ViewChild, ElementRef, OnInit, OnDestroy, Input } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  ElementRef,
+  OnInit,
+  OnDestroy,
+  Input
+} from '@angular/core';
+import { GlobalState } from '../../../global.state';
 @Component({
   selector: 'seer-content-top',
   templateUrl: './seer-content-top.component.html',
   styleUrls: [ './seer-content-top.component.scss' ],
 })
-export class SeerContentTopComponent{
+export class SeerContentTopComponent {
   @ViewChild('contentTop') contentTop:ElementRef;
   @Input() fixedTop:boolean = true;
   private _offsetTop:number;
   private _defaultTop:number;
-  constructor() {}
+  constructor(
+    private _state: GlobalState) {}
 
   ngAfterViewInit() {
   	this._defaultTop = this.contentTop.nativeElement.offsetTop;
@@ -22,14 +31,9 @@ export class SeerContentTopComponent{
     this._offsetTop = -scrollY;
   }
   ngOnInit() {
-    if ( this.fixedTop ) {
-      document.getElementsByClassName('al-content')[0].classList.add('fixedContentTop')
-    } else {
-      document.getElementsByClassName('al-content')[0].classList.remove('fixedContentTop')
-    }
-    
+    this._state.notify('contentTop.fixed', this.fixedTop);
   }
   ngOnDestroy() {
-    document.getElementsByClassName('al-content')[0].classList.remove('fixedContentTop')
+    this._state.notify('contentTop.fixed', this.fixedTop);
   }
 }

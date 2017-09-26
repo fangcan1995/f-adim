@@ -1,4 +1,5 @@
 import {Component, ViewEncapsulation} from '@angular/core';
+import { GlobalState } from '../global.state';
 @Component({
   selector: 'seer',
   encapsulation: ViewEncapsulation.None,
@@ -7,7 +8,7 @@ import {Component, ViewEncapsulation} from '@angular/core';
     <ba-sidebar></ba-sidebar>
     <ba-page-top></ba-page-top>
     <div class="al-main">
-      <div class="al-content">
+      <div class="al-content" [class.fixedContentTop]=isContentTopFixed >
         <router-outlet></router-outlet>
       </div>
     </div>
@@ -17,8 +18,13 @@ import {Component, ViewEncapsulation} from '@angular/core';
     `
 })
 export class SeerComponent {
-
-  constructor() {
+  isContentTopFixed:boolean;
+  constructor(
+    private _state: GlobalState
+    ) {
+    this._state.subscribe('contentTop.fixed', res => {
+      this.isContentTopFixed = res;
+    })
   }
 
   ngOnInit() {
