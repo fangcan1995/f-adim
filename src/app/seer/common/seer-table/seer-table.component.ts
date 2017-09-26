@@ -82,7 +82,7 @@ export class SeerTableComponent implements OnInit {
       let multiColumnOptions = [];
 
       _.each(this.titles, title => {
-        
+
         if ( !title.hidden ) {
           multiColumnOptions.push(title.key);
         }
@@ -94,7 +94,7 @@ export class SeerTableComponent implements OnInit {
       this.multiColumnArray = multiColumnArray;
       this.multiColumnOptions = multiColumnOptions;
     }
-    
+
     /** 增加的部分 */
     if ( !this.translate ) {
       let transFields: {field: string | number,dictKeyId?: string}[] = [];
@@ -128,7 +128,7 @@ export class SeerTableComponent implements OnInit {
     this.selectedAll = selectedAll;
     this.notify.emit({type: 'select_one', data: event});
   }
- 
+
 
   handleActionsClick($event) {
     this.notify.emit({type: $event.action.type, data: $event.item});
@@ -195,7 +195,7 @@ export class SeerTableComponent implements OnInit {
         }
       })
     }
-    
+
   }
   openLink(event) {
     event.selected = false;
