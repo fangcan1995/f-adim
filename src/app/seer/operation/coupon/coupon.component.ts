@@ -31,7 +31,6 @@ export class CouponComponent implements OnInit, OnDestroy{
   titles = [
     {key: 'couponTheme', label: '加息劵主题'},
     {key: 'activityTheme', label: '所属活动'},
-    {key: 'realName', label: '用户真实姓名'},
     {key: 'raiseInterestRates', label: '加息点(%)'},
     {key: 'startSum', label: '起用金额(元)'},
     {key: 'issueDate', label: '发放日期'},
@@ -48,7 +47,7 @@ export class CouponComponent implements OnInit, OnDestroy{
   };
 
   constructor(private _couponService: CouponService, private _dialogService: SeerDialogService,
-              private _router: Router, private _activatedRoute: ActivatedRoute,) {
+              private _router: Router, private _activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -79,7 +78,7 @@ export class CouponComponent implements OnInit, OnDestroy{
     const type = message.type;
     let data = message.data;
     switch (type) {
-      case 'add':
+      case 'create':
         this._router.navigate(['add'], {relativeTo: this._activatedRoute});
         break;
       case 'update':

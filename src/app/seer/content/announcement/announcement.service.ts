@@ -1,93 +1,86 @@
-import { Injectable } from '@angular/core';
-import {Observable} from "rxjs/Observable";
+import {Injectable} from "@angular/core";
 import {HttpInterceptorService} from "../../../theme/services/http-interceptor.service";
-import * as _ from "lodash";
+import {Observable} from "rxjs/Observable";
+import * as _ from 'lodash';
 
 @Injectable()
-export class RedPacketService {
+export class AnnouncementService {
+
+  constructor(private _httpInterceptorService: HttpInterceptorService) {
+  }
 
   mockData = [
     {
       "id": "1",
-      "redPacketTheme": "xxxxxxx",
-      "activityTheme": "xxxxx",
-      "redPacketRates": "1000.00",
-      "startSum": "2000.00",
-      "issueDate": "2017.6.9",
-      "expirationDate": "2017.6.9",
-      "state": "发送失败",
-      "someStatus": "1"
+      "activityTheme": "本拉登",
+      "activityType": "本·拉登",
+      "activityKind": "0",
+      "activityDays": "52",
+      "activityStartTime": "0",
+      "activityState": "123456",
+      "someStatus": "2"
     },
     {
       "id": "2",
-      "redPacketTheme": "xxxxxxx",
-      "activityTheme": "xxxxx",
-      "redPacketRates": "1000.00",
-      "startSum": "2000.00",
-      "issueDate": "2017.6.9",
-      "expirationDate": "2017.6.9",
-      "state": "发送失败",
-      "someStatus": "1"
+      "activityTheme": "本拉登",
+      "activityType": "本·拉登",
+      "activityKind": "0",
+      "activityDays": "52",
+      "activityStartTime": "0",
+      "activityState": "123456",
+      "someStatus": "2"
     },
     {
       "id": "3",
-      "redPacketTheme": "xxxxxxx",
-      "activityTheme": "xxxxx",
-      "redPacketRates": "1000.00",
-      "startSum": "2000.00",
-      "issueDate": "2017.6.9",
-      "expirationDate": "2017.6.9",
-      "state": "发送成功",
+      "activityTheme": "本拉登",
+      "activityType": "本·拉登",
+      "activityKind": "0",
+      "activityDays": "52",
+      "activityStartTime": "0",
+      "activityState": "123456",
       "someStatus": "2"
     },
     {
       "id": "4",
-      "redPacketTheme": "xxxxxxx",
-      "activityTheme": "xxxxx",
-      "redPacketRates": "1000.00",
-      "startSum": "2000.00",
-      "issueDate": "2017.6.9",
-      "expirationDate": "2017.6.9",
-      "state": "发送成功",
-      "someStatus": "2"
+      "activityTheme": "本拉登",
+      "activityType": "本·拉登",
+      "activityKind": "0",
+      "activityDays": "52",
+      "activityStartTime": "0",
+      "activityState": "123456",
+      "someStatus": "1"
     },
     {
       "id": "5",
-      "redPacketTheme": "xxxxxxx",
-      "activityTheme": "xxxxx",
-      "redPacketRates": "1000.00",
-      "startSum": "2000.00",
-      "issueDate": "2017.6.9",
-      "expirationDate": "2017.6.9",
-      "state": "发送成功",
-      "someStatus": "2"
+      "activityTheme": "本拉登",
+      "activityType": "本·拉登",
+      "activityKind": "0",
+      "activityDays": "52",
+      "activityStartTime": "0",
+      "activityState": "123456",
+      "someStatus": "1"
     },
     {
       "id": "6",
-      "redPacketTheme": "xxxxxxx",
-      "activityTheme": "xxxxx",
-      "redPacketRates": "1000.00",
-      "startSum": "2000.00",
-      "issueDate": "2017.6.9",
-      "expirationDate": "2017.6.9",
-      "state": "发送成功",
-      "someStatus": "2"
+      "activityTheme": "本拉登",
+      "activityType": "本·拉登",
+      "activityKind": "0",
+      "activityDays": "52",
+      "activityStartTime": "0",
+      "activityState": "123456",
+      "someStatus": "1"
     },
     {
       "id": "7",
-      "redPacketTheme": "xxxxxxx",
-      "activityTheme": "xxxxx",
-      "redPacketRates": "1000.00",
-      "startSum": "2000.00",
-      "issueDate": "2017.6.9",
-      "expirationDate": "2017.6.9",
-      "state": "发送成功",
-      "someStatus": "2"
+      "activityTheme": "本拉登",
+      "activityType": "本·拉登",
+      "activityKind": "0",
+      "activityDays": "52",
+      "activityStartTime": "0",
+      "activityState": "123456",
+      "someStatus": "1"
     }
   ];
-
-  constructor(private _httpInterceptorService: HttpInterceptorService) {
-  }
 
   // 获取数据列表
   getList(params?): Observable<any> {
@@ -159,5 +152,4 @@ export class RedPacketService {
     };
     return Observable.of(res);
   }
-
 }
