@@ -6,6 +6,7 @@ $hover: 24;
 }
 
 .btn {
+  padding: 0;
   width: 120px;
   height: $form-ele-height;
   
@@ -15,12 +16,12 @@ $hover: 24;
 }
 .input-group-btn {
   > .btn {
-    width: auto;
+    width: 80px;
   }
 }
-.btn:hover {
+/* .btn:hover {
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
-}
+} */
 
 @mixin styleButton($color, $borderColor) {
   background: $color;

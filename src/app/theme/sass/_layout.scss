@@ -137,9 +137,11 @@ a {
     }
   }
 }
-
+.al-content.fixedContentTop {
+  padding: $sidebar-item-height + 8px 32px 8px 40px;
+}
 .al-content {
-  padding: 8px 32px 8px 40px;
+  // padding: 8px 32px 8px 40px;
 }
 
 @media screen and (max-width: $resXS) {

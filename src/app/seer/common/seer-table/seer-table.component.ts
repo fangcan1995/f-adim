@@ -44,6 +44,9 @@ export class SeerTableComponent implements OnInit {
   @Input() displayOriginalData;//翻译不破坏原始数据，但全局搜索不好使
   @Input() addNewButton; //新增自定义按钮
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
+  @Input() page:number;
+  @Input() pageSize:number;
+  @Input() paginationRules:number;
   public rowsOnPage = 10;
   public sortBy = '';
   public selectedAll = false;

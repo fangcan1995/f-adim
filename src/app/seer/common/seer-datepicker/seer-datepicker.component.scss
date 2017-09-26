@@ -1,0 +1,26 @@
+@import '../../../theme/sass/conf/conf';
+.input-group-btn {
+	position: absolute;
+	z-index: 4;
+	top: 0;
+	right: 0;
+	width: auto;
+	
+	button.btn.btn-default {
+		width: 36px;
+		border: 0;
+		/* border-width: 0 0 0 1px;
+		border-style: solid;
+		border-color: $input-border; */
+	}
+
+}
+
+.form-control {
+	padding-right: 36px;
+}
+/* .form-control:focus + .input-group-btn {
+	button.btn.btn-default {
+		border-color: #62b2f5;
+	}
+} */

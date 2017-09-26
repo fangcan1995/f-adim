@@ -2,7 +2,7 @@
   <div class="col-sm-4" *ngIf="hasGlobalFilter">
     <input
       type="text"
-      class="form-control filter__input"
+      class="form-control"
       placeholder="全局搜索"
       [(ngModel)]=globalFilterValue
       (keyup)=handleGlobalFilterInputChange()
@@ -25,33 +25,24 @@
         <label class="label-control col-sm-4 ">{{ filter.label }}</label>
         <div class="col-sm-8">
           <select
-            class="form-control filter__input"
+            class="form-control"
             *ngIf="filter.type === 'select'"
             [(ngModel)]="filter.value"
-            (change)="handleFilterChange($event, filter)">
+            (change)="handleFilterChange()">
             <option *ngFor="let option of filter.options" [ngValue]="option.value" >{{ option.content }}</option>
           </select>
-          <div 
-            class="input-group"
-            *ngIf="filter.type === 'datepicker'">
-            <input 
-              class="form-control filter__input"
-              type="text"
-              [minDate]="minDate"
-              [maxDate]="maxDate"
-              #dp="bsDatepicker"
-              bsDatepicker
-              [(bsValue)]="bsValue">
-              <span class="input-group-btn">
-                <button class="btn btn-default" (click)="dp.show()"><i class="fa fa-calendar"></i></button>
-              </span>
-          </div>
+          <seer-datepicker
+            *ngIf="filter.type === 'datepicker'"
+            [dateFormatingRules]="'yyyy年MM月dd日'"
+            [(date)]="filter.value"
+            (dateChange)="handleFilterChange()"
+            ></seer-datepicker>
           <input
-            class="form-control filter__input"
+            class="form-control"
             *ngIf="filter.type.indexOf('input') != -1"
             [type]="filter.type.split('.')[1] || 'text'"
             [(ngModel)]="filter.value"
-            (keyup)="handleFilterChange($event, filter)"/>
+            (keyup)="handleFilterChange()"/>
         </div>
       </div>
 
