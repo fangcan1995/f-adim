@@ -12,7 +12,10 @@
     <seer-table
       [data]="data"
       [titles]="titles"
-      [translate]="dict"
+      [pageNum]="pageInfo.pageNum"
+      [pageSize]="pageInfo.pageSize"
+      [total]="pageInfo.total"
+      [paginationRules]="0"
       (notify)="onChange($event)"
       [hideExport]="true"
       [hidePrint]="true"
