@@ -22,7 +22,9 @@
 .label-danger {
   background: $danger;
 }
-
+.form-group {
+  margin-bottom: $space-between;
+}
 .form-horizontal {
   label {
     line-height: $form-ele-height;
@@ -33,13 +35,17 @@
 
 .form-group {
   label {
-    margin-bottom: 5px;
+    // margin-bottom: 5px;
     color: $content-text;
     font-weight: $font-normal;
     font-size: 14px;
   }
 }
-
+.form-group {
+  .input-group {
+    margin-bottom: 0;
+  }
+}
 .form-control {
   height: $form-ele-height;
   color: $content-text;

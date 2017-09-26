@@ -1,5 +1,5 @@
 @import '../conf/conf';
-$card-title-height: 56px;
+$card-title-height: 36px;
 $card-header-font-size: 16px;
 .card.card-blur {
   $blurredBgUrl: $images-root + 'blur-bg-blurred.jpg';
@@ -18,7 +18,7 @@ $card-header-font-size: 16px;
   background-color: $bootstrap-panel-bg;
   border: 1px solid $border;
   position: relative;
-  margin-bottom: 24px;
+  margin-bottom: $space-between;
   &.animated {
     animation-duration: 0.5s;
   }

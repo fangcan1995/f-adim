@@ -1,7 +1,12 @@
-import {Component, ViewEncapsulation, OnInit, Input, Output, EventEmitter, OnChanges, ViewChild} from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter, OnChanges, ViewChild} from '@angular/core';
 
-
-window['CKEDITOR_BASEPATH'] = '//cdn.ckeditor.com/4.6.0/standard/';
+import './ckeditor.loader';
 import 'ckeditor';
 
 
