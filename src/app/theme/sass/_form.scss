@@ -1,3 +1,4 @@
+@import 'conf/conf';
 .label {
   border-radius: 0;
 }
@@ -24,7 +25,7 @@
 
 .form-horizontal {
   label {
-    line-height: 34px;
+    line-height: 26px;
     margin-bottom: 0;
     padding-top: 0 !important;
   }
@@ -35,12 +36,12 @@
     margin-bottom: 5px;
     color: $content-text;
     font-weight: $font-normal;
-    font-size: 13px;
+    font-size: 14px;
   }
 }
 
 .form-control {
-  height: 36px;
+  height: $form-ele-height;
   color: $content-text;
   @include placeholderStyle($content-text, 0.7);
   border: 1px solid $input-border;
