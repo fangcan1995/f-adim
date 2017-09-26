@@ -107,7 +107,7 @@
                 <li class="page-item" [class.disabled]="pageNum <= 1" (click)="pageNum <= 1 ? null : setPageNum(pageNum-1)">
                   <a class="page-link">上一页</a>
                 </li>
-                <li class="page-item" *ngIf="pageNum > 3">
+                <li class="page-item" *ngIf="pageNum > 3" (click)="setPageNum(1)">
                   <a class="page-link">1</a>
                 </li>
                 <li class="page-item" *ngIf="pageNum > 4">
@@ -131,7 +131,7 @@
                 <li class="page-item" *ngIf="pageNum <= pageLength - 4">
                     <a class="page-link">...</a>
                 </li>
-                <li class="page-item" *ngIf="pageNum <= pageLength - 3">
+                <li class="page-item" *ngIf="pageNum <= pageLength - 3"  (click)="setPageNum(pageLength)">
                     <a class="page-link">{{pageLength}}</a>
                 </li>
 
