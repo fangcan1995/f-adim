@@ -1,50 +1,52 @@
-<div class="row btnGroup">
-  <div class="col-sm-6 btnGroup__left">
-    <button class="btn btn-outline-dark btnGroup__item" *ngIf="!hidePrint" type="button" (click)="importExcel()"><i class="icon-import"></i>导入</button>
-      <div class="btn-group btnGroup__item" *ngIf="!hideExport">
-        <button type="button" class="btn btn-outline-dark dropdown-toggle" id="js-export-btn" data-toggle="dropdown" aria-expanded="false" >
-          <i class="icon-export"></i>导出<span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu"  aria-labelledby="js-export-btn" role="menu">
-          <li class="dropdown-item export">PDF</li>
-          <li class="dropdown-item export" (click)="exportExcel()">Excel</li>
-          <li class="dropdown-item export">Another Excel</li>
-          <li class="dropdown-item export" (click)="exportTempExcel()">导出模板Excel</li>
-        </ul>
-      </div>
-    <button class="btn btn-primary btnGroup__item" *ngIf="!hidePrint" disabled type="button"><i class="icon-print"></i>打印</button>
-  </div>
-  <div class="col-sm-6 btnGroup__right">
-    <button
-      class="btn btn-info pull-right btnGroup__item"
-      type="button"
-      *ngIf="!hideAddButton"
-      (click)="create()"
-      >
-      新增
-    </button>
-    <button
-      class="btn btn-danger pull-right btnGroup__item"
-      type="button"
-      *ngIf="!hideRemoveAll"
-      [disabled]="!renderSelectedNum()"
-      (click)="deleteMultiple()"
-      >
-      批量删除 {{renderSelectedNum()}}
-    </button>
-    <div class="pull-right btnGroup__item" *ngIf="!hideColumns">
-      <ss-multiselect-dropdown
-        [options]="multiColumnArray"
-        [(ngModel)]="multiColumnOptions"
-        (ngModelChange)="onChangeColumn($event)"
-        [texts]="multiSelectTexts"
-        [settings]="multiSelectSettings"
+<div>
+  <div class="row btnGroup">
+    <div class="col-sm-6 btnGroup__left">
+      <button class="btn btn-outline-dark btnGroup__item" *ngIf="!hidePrint" type="button" (click)="importExcel()"><i class="icon-import"></i>导入</button>
+        <div class="btn-group btnGroup__item" *ngIf="!hideExport">
+          <button type="button" class="btn btn-outline-dark dropdown-toggle" id="js-export-btn" data-toggle="dropdown" aria-expanded="false" >
+            <i class="icon-export"></i>导出<span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu"  aria-labelledby="js-export-btn" role="menu">
+            <li class="dropdown-item export">PDF</li>
+            <li class="dropdown-item export" (click)="exportExcel()">Excel</li>
+            <li class="dropdown-item export">Another Excel</li>
+            <li class="dropdown-item export" (click)="exportTempExcel()">导出模板Excel</li>
+          </ul>
+        </div>
+      <button class="btn btn-primary btnGroup__item" *ngIf="!hidePrint" disabled type="button"><i class="icon-print"></i>打印</button>
+    </div>
+    <div class="col-sm-6 btnGroup__right">
+      <button
+        class="btn btn-info pull-right btnGroup__item"
+        type="button"
+        *ngIf="!hideAddButton"
+        (click)="create()"
         >
-      </ss-multiselect-dropdown>
+        新增
+      </button>
+      <button
+        class="btn btn-danger pull-right btnGroup__item"
+        type="button"
+        *ngIf="!hideRemoveAll"
+        [disabled]="!renderSelectedNum()"
+        (click)="deleteMultiple()"
+        >
+        批量删除 {{renderSelectedNum()}}
+      </button>
+      <div class="pull-right btnGroup__item" *ngIf="!hideColumns">
+        <ss-multiselect-dropdown
+          [options]="multiColumnArray"
+          [(ngModel)]="multiColumnOptions"
+          (ngModelChange)="onChangeColumn($event)"
+          [texts]="multiSelectTexts"
+          [settings]="multiSelectSettings"
+          >
+        </ss-multiselect-dropdown>
+      </div>
     </div>
   </div>
 </div>
-<div class="row" style="overflow: auto;">
+<div style="overflow: auto;">
     <table
       class="table table-hover">
       <thead>

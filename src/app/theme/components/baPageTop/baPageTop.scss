@@ -26,7 +26,7 @@
 .brand {
   position: relative;
   float: left;
-  margin-right: 30px;
+  margin-right: $card-content-padding-horizontal;
   width: $sidebar-width;
   height: $page-top-height;
   &:after {

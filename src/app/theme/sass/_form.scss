@@ -25,7 +25,7 @@
 
 .form-horizontal {
   label {
-    line-height: 26px;
+    line-height: $form-ele-height;
     margin-bottom: 0;
     padding-top: 0 !important;
   }
@@ -70,8 +70,8 @@ select.form-control[multiple] option {
 }
 select.form-control:not([size]):not([multiple]) {
   padding: 0 7.5px;
-  height: 36px;
-  line-height: 36px;
+  height: $form-ele-height;
+  line-height: $form-ele-height;
 }
 textarea.form-control {
   height: 96px;
