@@ -108,7 +108,7 @@ export class MessageComponent {
       });
   }
    onChange(message):void {
-    if(message.type=='add'){//新增
+    if(message.type=='create'){//新增
       this._router.navigate(['/basic-info/message/add']);
     }
   }
@@ -125,6 +125,10 @@ export class MessageComponent {
     });
   }
  onChange1(message):void {
+   console.log(message);
+   console.log("===============================");
+   
+   
     if(message.type=='add'){//新增
       this._router.navigate(['/basic-info/message/add']);
     }

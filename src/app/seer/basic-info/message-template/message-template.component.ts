@@ -37,30 +37,30 @@ export class MessageTemplateComponent {
       // 'action': 'remove'
     },
   }
-  filters = [
-    {
-      key: 'tplName',
-      label: '模板名称',
-      type: 'input.text',
-    },
-    {
-      key: 'tplCode',
-      label: '模板类型',
-      type: 'input.text',
-    },
-    {
-      key: 'tplType',
-      label: '消息模板类型',
-      type: 'select',
-      options: this.optionType
-    },
-    {
-      key: 'tplisSystem',
-      label: '是否系统模板',
-      type: 'select',
-      options: this.optionisSystem
-    },
-  ]
+  // filters = [
+  //   {
+  //     key: 'tplName',
+  //     label: '模板名称',
+  //     type: 'input.text',
+  //   },
+  //   {
+  //     key: 'tplCode',
+  //     label: '模板类型',
+  //     type: 'input.text',
+  //   },
+  //   {
+  //     key: 'tplType',
+  //     label: '消息模板类型',
+  //     type: 'select',
+  //     options: this.optionType
+  //   },
+  //   {
+  //     key: 'tplisSystem',
+  //     label: '是否系统模板',
+  //     type: 'select',
+  //     options: this.optionisSystem
+  //   },
+  // ]
   title = '消息模板';
   source = [];
   data=[];
@@ -150,7 +150,7 @@ export class MessageTemplateComponent {
     
     let data = message.data;
     switch ( type ) {
-      case 'add':
+      case 'create':
         this._router.navigate(['/basic-info/message-template/add']);
         break;
       case 'update': 
