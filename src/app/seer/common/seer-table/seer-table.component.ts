@@ -56,8 +56,7 @@ export class SeerTableComponent implements OnInit {
 
 
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
-  @Output() changePageSize: EventEmitter<any> = new EventEmitter<any>();
-  @Output() changePageNum: EventEmitter<any> = new EventEmitter<any>();
+  @Output() changePage: EventEmitter<any> = new EventEmitter<any>();
 
   public sortBy = '';
   private pageLength:number;
@@ -242,18 +241,27 @@ export class SeerTableComponent implements OnInit {
     }
     return value;
   }
-  setPageSize(rows) {
+  setPageSize($event) {
+    let value = +$event.target.value;
     if ( this.paginationRules ) {
-      this.rowsOnPage = rows;
-      this.pageLength = Math.ceil(this.data.length / this.rowsOnPage)
+      this.rowsOnPage = value;
+      this.pageLength = Math.ceil(this.data.length / this.rowsOnPage);
       if ( this.pageNum > this.pageLength) {
         this.pageNum = this.pageLength
       } else if ( this.pageNum < 1 ) {
         this.pageNum = 1;
       }
-      
+    } else {
+      let pageNum = this.pageNum;
+      let pageLength = Math.ceil(this.total / value);
+      if ( pageNum > pageLength ) {
+        pageNum = pageLength
+      } else if ( pageNum < 1 ) {
+        pageNum = 1;
+      }
+      this.changePage.emit({pageSize: value, pageNum})
     }
-    this.changePageSize.emit(rows)
+    
   }
   setPageNum(pageNum) {
     if ( this.paginationRules ) {
@@ -264,9 +272,10 @@ export class SeerTableComponent implements OnInit {
       } else if ( this.pageNum < 1 ) {
         this.pageNum = 1;
       }
-      
+    } else {
+      this.changePage.emit({pageSize: this.pageSize, pageNum})
     }
-    this.changePageNum.emit(pageNum)
+    
   }
 }
 
