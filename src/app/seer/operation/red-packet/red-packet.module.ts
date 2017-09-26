@@ -19,9 +19,6 @@ import { RedPacketEditComponent } from './components/red-packet-edit/red-packet-
   ],
   providers: [
     RedPacketService,
-
-  ],
-  exports: [
   ]
 })
 export class RedPacketModule {

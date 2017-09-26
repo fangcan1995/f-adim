@@ -43,6 +43,11 @@ export class MemberComponent implements OnInit, OnDestroy {
       label: '手机号',
       type: 'input.text',
     },
+    {
+      key:'date',
+      label:'日期控件',
+      type: 'datepicker',
+    },
   ]
   members = [];
   titles = [
@@ -66,12 +71,14 @@ export class MemberComponent implements OnInit, OnDestroy {
       label:'手机号',
       hidden: false,
     },
+    
   ];
   actionSet = {
     'update': {
       'type': 'update',
       'name': '编辑',
       'className': 'btn btn-xs btn-info',
+      'icon': 'icon-edit',
     },
     'delete': {
       'type': 'delete',
@@ -123,7 +130,7 @@ export class MemberComponent implements OnInit, OnDestroy {
     const type = message.type;
     let data = message.data;
     switch ( type ) {
-      case 'add':
+      case 'create':
         this._router.navigate(['add'], {relativeTo: this._route});
         break;
       case 'update': 

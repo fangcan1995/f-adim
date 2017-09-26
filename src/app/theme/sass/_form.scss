@@ -40,10 +40,11 @@
 }
 
 .form-control {
+  height: 36px;
   color: $content-text;
   @include placeholderStyle($content-text, 0.7);
   border: 1px solid $input-border;
-  border-radius: 0px;
+  border-radius: 2px;
   background-color: $input-background;
   box-shadow: none;
   font-size: 14px;
@@ -66,7 +67,11 @@ select.form-control:not([multiple]) option {
 select.form-control[multiple] option {
   color: $default-text;
 }
-
+select.form-control:not([size]):not([multiple]) {
+  padding: 0 7.5px;
+  height: 36px;
+  line-height: 36px;
+}
 textarea.form-control {
   height: 96px;
 }

@@ -12,7 +12,7 @@
               <div class="row">
                 <label for="staffNo" class="col-sm-4 control-label">员工编号</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="staffNo"  [(ngModel)]="staff.staffNo" [ngModelOptions]="{standalone: true}">
+                  <input type="text" class="form-control" id="staffNo"  [(ngModel)]="staff.staffNo" [ngModelOptions]="{standalone: true}" disabled>
                 </div>
               </div>
             </div>
@@ -20,7 +20,20 @@
               <div class="row">
                 <label for="orgName" class="col-sm-4 control-label">公司团队</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="orgName"  [(ngModel)]="staff.orgName" [ngModelOptions]="{standalone: true}">
+                  <input type="text" class="form-control" id="orgName"  [(ngModel)]="staff.orgName" [ngModelOptions]="{standalone: true}" (click)="openModal(template)">
+                  <template #template>
+
+                    <div class="modal-body">
+
+                      <seer-tree
+                        (notify)="onNotify($event) "
+                        [nodes]="treeNode"
+                        [defaultNodeName]="'新建部门'"
+                        [loadingText]="''">
+                      </seer-tree>
+
+                    </div>
+                  </template>
                 </div>
               </div>
             </div>
@@ -34,9 +47,9 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="bankCard" class="col-sm-4 control-label">工资卡号</label>
+                <label for="staffBankCard" class="col-sm-4 control-label">工资卡号</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="bankCard" placeholder="工资卡号" [(ngModel)]="staff.orgName" [ngModelOptions]="{standalone: true}">
+                  <input type="text" class="form-control" id="staffBankCard" placeholder="工资卡号" [(ngModel)]="staff.staffBankCard" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
             </div>
@@ -44,7 +57,7 @@
               <div class="row">
                 <label for="staffState" class="col-sm-4 control-label">员工状态</label>
                 <div class="col-sm-8 ">
-                  <select type="email" class="form-control" name="contractType" id="staffState" [(ngModel)]="staff.staffState" dict-select required
+                  <select type="email" class="form-control" name="contractType" id="staffState" (change)="staffStateChange($event.target.value)"  [(ngModel)]="staff.staffState" dict-select required
                           [key]="'STAFF_STATE'"
                           [topOption]="{dictValueId:'',dictValueName:'请选择'}"
                           [selected]="staff.staffState" >
@@ -64,7 +77,8 @@
               <div class="row">
                 <label for="staffDimissionDate" class="col-sm-4 control-label">离职时间</label>
                 <div class="col-sm-8 ">
-                  <input type="date" class="form-control" id="staffDimissionDate"  [(ngModel)]="staff.staffDimissionDate" [ngModelOptions]="{standalone: true}">
+                  <input type="date" class="form-control" id="staffDimissionDate"  [(ngModel)]="staff.staffDimissionDate" [ngModelOptions]="{standalone: true}"  *ngIf="isDimission==true" >
+                  <input type="date" class="form-control" disabled *ngIf="isDimission==false">
                 </div>
               </div>
             </div>
@@ -222,23 +236,35 @@
         </seer-collapse-card>
         <seer-collapse-card title="学历技能信息" cardClass="with-scroll" [canCollapse]=true>
           <seer-table
-            [data]="staff.educationalBackground"
+            [data]="educationalBackground"
             [titles]="titlesEducation"
             [translate]="translate"
+            [hideExport]="true"
+            [hidePrint]="true"
+            [hideRemoveAll]="true"
+            [hideColumns]="true"
           ></seer-table>
         </seer-collapse-card>
         <seer-collapse-card title="家庭主要关系" cardClass="with-scroll" [canCollapse]=true>
           <seer-table
-            [data]="staff.family"
+            [data]="family"
             [titles]="titlesFamily"
             [translate]="translate"
+            [hideExport]="true"
+            [hidePrint]="true"
+            [hideRemoveAll]="true"
+            [hideColumns]="true"
           ></seer-table>
         </seer-collapse-card>
         <seer-collapse-card title="主要工作经历" cardClass="with-scroll" [canCollapse]=true>
           <seer-table
-            [data]="staff.businessExperience"
+            [data]="businessExperience"
             [titles]="titlesBusinessHistory"
             [translate]="translate"
+            [hideExport]="true"
+            [hidePrint]="true"
+            [hideRemoveAll]="true"
+            [hideColumns]="true"
           ></seer-table>
         </seer-collapse-card>
         </form>

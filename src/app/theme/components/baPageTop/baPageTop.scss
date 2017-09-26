@@ -8,9 +8,10 @@
   min-width: $resMin;
   height: $page-top-height;
   background-color: $default;
-  border-bottom: 1px solid $border;
-  
-
+  border-bottom: 1px solid $input-border;
+  &.hide {
+    transform: translateY(-100%);
+  }
   .dropdown-toggle::after {
     display: none;
   }
@@ -22,21 +23,42 @@
   }
 }
 
-a.logo {
-  display: block;
+.brand {
+  position: relative;
   float: left;
-  margin-top: ($page-top-height - 57px) / 2;
-  margin-left: 18px;
-
-  img {
-    height: 57px;
+  margin-right: 30px;
+  width: $sidebar-width;
+  height: $page-top-height;
+  &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -10px;
+    width: 1px;
+    height: 20px;
+    background-color: $input-border;
   }
 }
-
-a.al-logo:hover {
-  color: $primary;
+.logo {
+  $logo-height: 57px;
+  display: block;
+  margin-top: ($page-top-height - $logo-height) / 2;
+  margin-left: 18px;
+  img {
+    height: $logo-height;
+  }
 }
-
+.active-page {
+  float: left;
+  height: $page-top-height;
+  font-size: 18px;
+  line-height: $page-top-height;
+}
+.active-page-icon {
+  margin-right: 10px;
+  color: $icon-color-light;
+}
 .user-profile {
   float: right;
   min-width: 310px;

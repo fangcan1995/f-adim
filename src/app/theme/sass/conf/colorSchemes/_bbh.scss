@@ -25,7 +25,7 @@ $sub-color-3: #00ccb6;
 $sub-color-4: #65e5a8;
 
 $icon-color: #333;
-$icon-color-light: #a2d5ff;
+$icon-color-light: #c0c0c0;
 
 $bg-color: #f6f6f6;
 
@@ -59,8 +59,7 @@ $bootstrap-panel-radius: 7px;
 $bootstrap-panel-text: #7d7d7d;
 $bootstrap-panel-bg: #ffffff;
 $bootstrap-panel-header-bg: #ffffff;
-//$bootstrap-panel-header-border: 1px solid $border-light;
-$bootstrap-panel-header-border: 3px solid #00abff;
+$bootstrap-panel-header-border: 1px solid $input-border;
 $bootstrap-panel-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
 
 
@@ -85,6 +84,9 @@ $danger-bg: tint($danger, 20%);
 // link colors
 $activelink: #285eb8;
 $hoverlink: darken($activelink, 20%);
+
+
+
 
 // main background
 @mixin body-bg() {

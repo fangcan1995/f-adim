@@ -2,7 +2,7 @@
   <div class="col-sm-4" *ngIf="hasGlobalFilter">
     <input
       type="text"
-      class="form-control filter__input"
+      class="form-control"
       placeholder="全局搜索"
       [(ngModel)]=globalFilterValue
       (keyup)=handleGlobalFilterInputChange()
@@ -11,13 +11,13 @@
   <div class="col" *ngIf="filters">
     <button
       type="button"
-      class="btn btn-info align-self-center"
-      style="margin-top: 1px"
+      class="btn btn-primary"
       [class.complexfilter__btn--active]=isFiltersShown
       (click)=handleComplexBtnClick()
-      >高级查询<i class="fa fa-angle-down fa-angle-up complexfilter__icon"></i></button>
+      >高级检索<i class="icon-angle-down complexfilter__icon"></i></button>
   </div>
 </div>
+
 <div [@slideInOut]="isFilterShown()" style="overflow: hidden;" *ngIf="filters">
   <div class="row filter__container form-horizontal">
     <div class="col-sm-12 col-md-6 col-lg-4 col-xlg-3 form-group" *ngFor="let filter of filters">
@@ -25,31 +25,38 @@
         <label class="label-control col-sm-4 ">{{ filter.label }}</label>
         <div class="col-sm-8">
           <select
-            class="form-control filter__input"
+            class="form-control"
             *ngIf="filter.type === 'select'"
             [(ngModel)]="filter.value"
-            (change)="handleFilterChange($event, filter)">
+            (change)="handleFilterChange()">
             <option *ngFor="let option of filter.options" [ngValue]="option.value" >{{ option.content }}</option>
           </select>
+          <seer-datepicker
+            *ngIf="filter.type === 'datepicker'"
+            [dateFormatingRules]="'yyyy年MM月dd日'"
+            [(date)]="filter.value"
+            (dateChange)="handleFilterChange()"
+            ></seer-datepicker>
           <input
-            class="form-control filter__input"
+            class="form-control"
             *ngIf="filter.type.indexOf('input') != -1"
             [type]="filter.type.split('.')[1] || 'text'"
             [(ngModel)]="filter.value"
-            (keyup)="handleFilterChange($event, filter)"/>
+            (keyup)="handleFilterChange()"/>
         </div>
       </div>
 
     </div>
   </div>
-  <div>
-    <button type="button" [disabled]="renderSearchBtn()" #searchBtn class="btn btn-search btn-info"
-    >搜索</button>
+  <div class="filter__btnGroup clearfix">
     <button
       type="button"
-      class="btn btn-default"
+      class="btn btn-outline-dark"
       (click)="handleResetBtnClick()"
       >重置</button>
+    <button type="button" [disabled]="renderSearchBtn()" #searchBtn class="btn btn-search btn-primary"
+    >搜索</button>
+    
   </div>
 </div>
 

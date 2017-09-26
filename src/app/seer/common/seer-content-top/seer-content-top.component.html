@@ -1,0 +1,10 @@
+<div
+  class="content-top"
+  [class.fixedTop]="fixedTop"
+  #contentTop
+  scroll-direction
+  (onScroll)="handleScroll($event)"
+  [style.transform]="_offsetTop ? 'translateY(' + _offsetTop + 'px)' : null"
+  >
+  <ng-content></ng-content>
+</div>

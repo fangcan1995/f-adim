@@ -13,6 +13,13 @@ import * as _ from 'lodash';
 import { CREATE, DELETE_MULTIPLE } from './seer-table.actions';
 import { BaseService } from "../../base.service";
 
+export interface TableTitleModel {
+  key: string | number,
+  label: string,
+  isDict?: boolean,
+  textAlign?: string, // 默认left 可传 center right
+}
+
 @Component({
   selector: 'seer-table',
   templateUrl: './seer-table.component.html',
@@ -37,6 +44,10 @@ export class SeerTableComponent implements OnInit {
   @Input() displayOriginalData;//翻译不破坏原始数据，但全局搜索不好使
   @Input() addNewButton; //新增自定义按钮
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
+  @Input() pageNum:number;
+  @Input() pageSize:number;
+  @Input() paginationRules:number;
+  @Input() total:number;
   public rowsOnPage = 10;
   public sortBy = '';
   public selectedAll = false;
@@ -50,6 +61,10 @@ export class SeerTableComponent implements OnInit {
     checkedPlural: '显示',
     defaultTitle: '请选择',
   }
+  public multiSelectSettings = {
+    buttonClasses: 'btn btn-outline-dark btn-block',
+  }
+  public dt: Date = new Date();
   constructor(
     private service: BaseService<any>,
   ) { }

@@ -9,16 +9,17 @@ $resXS: 500px;
 $resXXS: 435px;
 $resMin: 320px;
 
-$top-height: 46px;
 $top-dropdown-height:26px;
-$sidebar-width: 220px;
-
+$sidebar-width: 260px;
+$sidebar-item-width: 56px;
+$sidebar-item-height: 56px;
+$sidebar-icon-size: 18px;
 $small-card-height: 114px;
 $xsmall-card-height: 187px;
 $medium-card-height: 400px;
 $extra-medium-card-height: 550px;
 $large-card-height: 974px;
-
+$form-ele-height: 36px;
 $default-animation-duration: 0.2s;
 $default-animation-style: ease-out;
 
@@ -42,4 +43,6 @@ $dribble-color: #F26798;
 $behace-color: #0093FA;
 
 
-$page-top-height: 82px;
+$page-top-height: 83px;
+$top-height: $page-top-height - 1px;
+$card-content-padding-horizontal: 30px;

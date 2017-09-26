@@ -1,16 +1,21 @@
-
+@import '../../../theme/sass/conf/conf';
 :host /deep/ {
-  .table_nombre {
-    position:absolute;
-    background-color: #80b9e9;
-    padding:10px;
-    color:white;
+    
+  .table {
+    border: 0;
+    color: $default-text;
+    thead {
+      border-style: solid;
+      border-color: $border;
+      border-width: 1px 1px 0;
+    }
+    tbody {
+      border-style: solid;
+      border-color: $border;
+      border-width: 0 1px;
+    }
   }
-  .header_border {
-    border-bottom: solid;
-    border-color: #00abff;
-  }
-
+  
   .seer_font{
     font-size: 11px;
     font-family: 'Microsoft Sans Serif' , Arial, Helvetica, Verdana;
@@ -24,13 +29,47 @@
   }
 
   .table-actions {
-    button {
-      margin-right: 4px;
-      &:last-of-type {
+    font-size: 16px;
+    text-align: left;
+    i.table-action {
+      margin-right: 14px;
+      cursor: pointer;
+      &::last-of-type {
         margin-right: 0;
       }
+      &:hover {
+        color: $primary;
+      } 
     }
   }
+  .popover {
+    font-size: 12px;
+    line-height: 1.2;
+    color: #fff;
+    background-color: rgba(0, 0, 0, .7);
+    border: 0;
+  }
+  .popover-arrow {
+    border-width: 4px;
+    &:after {
+      border-top-color: rgba(0, 0, 0, .7);
+    }
+  }
+  .popover-content {
+    padding: 4px 8px;
+  }
+  .bs-popover-top .arrow, .bs-popover-bottom .arrow {
+    left: calc(50%) !important;
+  }
+  .popover.popover-top .popover-arrow, .popover.bs-tether-element-attached-bottom .popover-arrow {
+    border-top-color: rgba(0, 0, 0, .7);
+    bottom: -4px;
+    margin-left: -4px;
+    &:after {
+      display: none;
+    }
+  }
+
   th,
   td {
     width: auto;
@@ -40,16 +79,21 @@
   }
   .table-checkbox {
     width: 48px;
+    text-align: center;
   }
   .export{
     cursor:pointer;
   }
   .btnGroup {
-    margin-bottom: 8px;
+    margin-bottom: 15px;
+    i {
+      margin-right: 8px;
+    }
   }
   .btnGroup__left {
     .btnGroup__item {
-      margin-right: 5px;
+      float: left;
+      margin-right: 8px;
       &:last-child {
         margin-right: 0;
       }
@@ -57,10 +101,29 @@
   }
   .btnGroup__right {
     .btnGroup__item {
-      margin-left: 5px;
+      margin-left: 8px;
       &:last-child {
         margin-left: 0;
       }
     }
   }
+  ss-multiselect-dropdown {
+    .btn-group {
+      .btn {
+        padding: 0 15px;
+        width: auto;
+        min-width: 120px;
+      }
+    }
+  }
+}
+
+.t-a-left {
+  text-align: left;
+}
+.t-a-center {
+  text-align: center;
+}
+.t-a-right {
+  text-align: right;
 }

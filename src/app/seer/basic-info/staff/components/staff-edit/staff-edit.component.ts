@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  TemplateRef
 } from '@angular/core';
 import {
   Router,
@@ -16,10 +17,18 @@ import {
 } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 
 import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
+
 import { StaffService } from '../../staff.service';
 import {
   titles,
 } from '../../staff.config';
+import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
+import { ModalDirective ,BsModalService} from 'ngx-bootstrap/modal';
+import {jsonTree} from "../../../../../theme/utils/json-tree";
+import {TREE_PERMISSIONS} from "../../../../../theme/modules/seer-tree/constants/permissions";
+import {TREE_EVENTS} from "../../../../../theme/modules/seer-tree/constants/events";
+import {SeerTree} from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
+import { UPDATE, DELETE } from '../../../../common/seer-table/seer-table.actions';
 @Component({
   templateUrl: './staff-edit.component.html',
   styleUrls: ['./staff-edit.component.scss']
@@ -83,11 +92,17 @@ export class StaffEditComponent implements OnInit {
       label:'联系电话',
     },
   ];
+  isDimission=false;
   public staff: any = {};
-  public family=[];
+  educationalBackground=[];
+  family=[];
+  businessExperience=[];
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
-
+  //组织树
+  treeTitle = "组织机构树";
+  treePermissions = TREE_PERMISSIONS.NOTIFY|TREE_PERMISSIONS.ADD|TREE_PERMISSIONS.EDIT|TREE_PERMISSIONS.DELETE|TREE_PERMISSIONS.DRAG|TREE_PERMISSIONS.SHOW_FILTER|TREE_PERMISSIONS.SHOW_ADD_ROOT;
+  treeNode = [];
   //下面两个为多个checkbox选择插件配置
   dropdownSettings: IMultiSelectSettings = {
     pullRight: false,
@@ -121,8 +136,11 @@ export class StaffEditComponent implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private _location: Location,
+    private modalService: BsModalService
   ) {}
   ngOnInit() {
+    this.getOrganizations();
+    //this.isDimission=false;
     this._route.url.mergeMap(url => {
       this._editType = url[0].path
       return this._route.params
@@ -133,9 +151,13 @@ export class StaffEditComponent implements OnInit {
         .subscribe(res => {
 
           this.staff = res.data || {};
-          //this.family= res.data.family;
-
-          console.log(this.family);
+          this.educationalBackground=res.data.educationalBackground;
+          this.educationalBackground= _.map(this.educationalBackground, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
+          this.family= res.data.family;
+          this.family= _.map(this.family, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
+          this.businessExperience=res.data.businessExperience;
+          this.businessExperience= _.map(this.businessExperience, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
+          //console.log(this.staff);
           this.forbidSaveBtn = false;
         }, errMsg => {
           // 错误处理的正确打开方式
@@ -153,75 +175,7 @@ export class StaffEditComponent implements OnInit {
     })
   }
 
-  saveStaff(): void{
-    /*if(this.currentStaff.id){
-      let newStaffDto = new NewStaffDto;
-      newStaffDto.buzStaffDto = this.currentStaff;
-      newStaffDto.account = this.cognateAccount;
-      newStaffDto.sysRole = this.currentRole;
-      this.staffManageService.updateStaff(newStaffDto)
-        .subscribe(
-          res => {
-            this.isCognate = false;
-            this.checkAllinput = false;
-            this.currentStaff = false;
-            this.staffOrgName = '';
-            this.getStaffs();
-          },
-          error =>  this.errorMessage = <any>error);
-    }else{
-      let newStaffDto = new NewStaffDto;
-      newStaffDto.buzStaffDto = this.currentStaff;
-      newStaffDto.account = this.cognateAccount;
-      newStaffDto.sysRole = this.currentRole;
-      this.staffManageService.addStaff(newStaffDto)
-        .subscribe(
-          res => {
-            this.isCognate = false;
-            this.checkAllinput = false;
-            this.currentStaff = false;
-            this.staffOrgName = '';
-            this.getStaffs();
-          },
-          error =>  this.errorMessage = <any>error);
-    }*/
-  }
-  getAccountList(): void {
-    /*if(this.isCognate == true){
-      this.selsectNotes = '';
-      this.cognateAccount = [];
-      this.accountList = [];
-      if(this.currentStaff.staffNo){
-        let map1 = {key:this.currentStaff.staffNo,label:'员工编号'};
-        this.accountList.push(map1)
-      }
-      if(this.currentStaff.staffPhone){
-        let map1 = {key:this.currentStaff.staffPhone,label:'手机号'};
-        this.accountList.push(map1)
-      }
-      if(this.currentStaff.staffMail){
-        let map1 = {key:this.currentStaff.staffMail,label:'邮箱'};
-        this.accountList.push(map1)
-      }
-      if(this.currentStaff.staffWechat){
-        let map1 = {key:this.currentStaff.staffWechat,label:'微信'};
-        this.accountList.push(map1)
-      }
-    }else{
-      this.accountList = [];
-      this.cognateAccount = [];
-      this.selsectNotes = '';
-      this.currentRole = null;
-    }
-    let mulitiColloneArray = [];
-    if(this.accountList){
-      let x = 1;
-      this.accountList.forEach(function (brand) {
-        mulitiColloneArray.push({id: brand.key, name: brand.label});
-      });
-    }
-    this.accountData = mulitiColloneArray;*/
-  }
+
   handleBackBtnClick() {
     this._location.back()
   }
@@ -230,9 +184,8 @@ export class StaffEditComponent implements OnInit {
     this.forbidSaveBtn = true;
     let requestStream$;
     if ( this._editType === 'edit' ) {
+      //console.log(this.staff);
       requestStream$ = this._staffService.putOne(this.staff.id, this.staff)
-    } else if ( this._editType === 'add' ) {
-      requestStream$ = this._staffService.postOne(this.staff)
     } else {
       return;
     }
@@ -256,6 +209,26 @@ export class StaffEditComponent implements OnInit {
       })
 
   }
-
+  /*离职处理,员工状态选中离职后，激活离职时间按钮*/
+  staffStateChange(staffStateId:any){
+    if(staffStateId=='02'){
+      this.isDimission=true;
+    }else{
+      this.isDimission=false;
+    }
+  }
+  /* 获取全部组织机构 */
+  getOrganizations() {
+    this._staffService.getOrganizations().then((result) => {
+      result.data.map(org=>org['children']=[]);
+      let nodes = jsonTree(result.data,{parentId:'orgParentId',children:'children'},[{origin:'orgName',replace:'name'}]);
+      this.treeNode = nodes;
+    });
+  }
+  /* 模态层 */
+  public modalRef: BsModalRef;
+  public openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
 
 }

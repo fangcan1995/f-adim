@@ -69,6 +69,7 @@ export class BaMenuService {
       // this is a menu object
       item = object.data.menu;
       item.route = object;
+      if ( parent ) item.parent = parent;
       delete item.route.data.menu;
     } else {
       item.route = object;

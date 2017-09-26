@@ -10,9 +10,16 @@
   <seer-collapse-card
   >
     <seer-table
-      [data]="data1"
+      [data]="data"
       [titles]="titles"
-      [translate]="dict"
+      [pageNum]="pageInfo.pageNum"
+      [pageSize]="pageInfo.pageSize"
+      [total]="pageInfo.total"
+      [paginationRules]="0"
       (notify)="onChange($event)"
+      [hideExport]="true"
+      [hidePrint]="true"
+      [hideRemoveAll]="true"
+      [hideColumns]="true"
     ></seer-table>
   </seer-collapse-card>

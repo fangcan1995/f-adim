@@ -1,0 +1,42 @@
+@import 'conf/conf';
+.table {
+  margin-bottom: 0;
+  border: 1px solid $border;
+}
+
+.table-hover tbody tr:hover {
+  background-color: $border; 
+}
+
+.table caption + thead tr:first-child th,
+.table caption + thead tr:first-child td,
+.table colgroup + thead tr:first-child th,
+.table colgroup + thead tr:first-child td,
+.table thead:first-child tr:first-child th,
+.table thead:first-child tr:first-child td {
+  border-top: 0;
+}
+
+.table thead th,
+.table thead td {
+  border-style: solid;
+  border-color: $border;
+  border-width: 0 0 1px;
+}
+
+.table th, .table td {
+  border-style: solid;
+  border-color: $border;
+  border-width: 0 0 1px;
+}
+.table tfoot th, .table tfoot td {
+  border: 0;
+}
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+  padding: 12px 4px;
+}

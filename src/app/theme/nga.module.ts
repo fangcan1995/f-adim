@@ -44,7 +44,8 @@ import {
   BaThemeRun,
   ClickOutsideDirective,
   DynamicComponentLoader,
-  FormValidatorDirective
+  FormValidatorDirective,
+  ScrollDirection,
 } from './directives';
 
 import {
@@ -83,7 +84,6 @@ import {TreePickerComponent} from "./components/tree-picker/tree-picker.componen
 import {TreePickerDirective} from "./components/tree-picker/tree-picker.directive";
 import {CheckboxPickerComponent} from "./components/checkbox-picker/checkbox-picker.component";
 import {CheckboxPickerDirective} from "./components/checkbox-picker/checkbox-picker.directive";
-
 // import {MaterialModule} from "@angular/material";
 
 import { CKEditorModule } from 'ng2-ckeditor';
@@ -124,7 +124,8 @@ const NGA_DIRECTIVES = [
   ClickOutsideDirective,
   DynamicComponentLoader,
   FormValidatorDirective,
-  CheckboxPickerDirective
+  CheckboxPickerDirective,
+  ScrollDirection,
 ];
 
 const NGA_PIPES = [
@@ -148,7 +149,8 @@ const NGA_SUB_MODULES = [
   // MaterialModule,
   Ng2BootstrapModule,
   TreeModule,
-  CKEditorModule
+  CKEditorModule,
+
 ];
 
 @NgModule({
@@ -162,13 +164,13 @@ const NGA_SUB_MODULES = [
     CommonModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   exports: [
     ...NGA_PIPES,
     ...NGA_DIRECTIVES,
     ...NGA_COMPONENTS,
-    ...NGA_SUB_MODULES
+    ...NGA_SUB_MODULES,
   ],
   entryComponents: [
     TreePickerComponent,
@@ -193,6 +195,7 @@ export class NgaModule {
         SeerDialogService,
         UserService,
         LoggerService,
+
       ],
     };
   }

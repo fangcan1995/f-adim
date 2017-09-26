@@ -13,6 +13,7 @@ import * as _ from 'lodash';
 import { trim } from '../../../theme/libs/utils'
 import { Animations } from '../../../theme/animations/animations';
 import { BaseService } from "../../base.service";
+
 export interface FilterModel {
   key: string | number,
   label: string,
@@ -25,8 +26,8 @@ export interface FilterModel {
 
 @Component({
   selector: 'seer-filter',
-  templateUrl: 'seer-filter.component.html',
-  styleUrls: [ 'seer-filter.component.scss' ],
+  templateUrl: './seer-filter.component.html',
+  styleUrls: [ './seer-filter.component.scss' ],
   animations: [ Animations.slideInOut ],
   providers: [BaseService]
 })
@@ -40,9 +41,9 @@ export class SeerFilterComponent implements OnInit {
   @Output() onFiltersChanged: EventEmitter<any> = new EventEmitter<any>();
   @Output() onSearchBtnClicked: EventEmitter<any> = new EventEmitter<any>();
   private isFiltersShown: boolean = false;
+
   filters$ = new Subject();
   @ViewChild('searchBtn') searchBtn;
-
   constructor(
     private service: BaseService<any>,
   ) { }
@@ -153,7 +154,8 @@ export class SeerFilterComponent implements OnInit {
       ...this.getFilterParams(this.filters),
       global: this.globalFilterValue
     })
-    console.log(this.filters)
+    console.log(this.filters[4].value)
+    
   }
   handleResetBtnClick() {
     _.each(this.filters, x => {

@@ -57,7 +57,8 @@ export class ResourceEditComponent implements OnInit {
     let requestStream$;
     if ( this._editType === 'edit' ) {
       this.service.putOne(this.resource).then((data) => {
-        if(data.success) {
+        console.log(data);
+        if(data.code=='0') {
           this.alertSuccess("更新成功");
         }else{
           this.alertError("更新失败");
@@ -66,7 +67,7 @@ export class ResourceEditComponent implements OnInit {
       });
     } else if ( this._editType === 'add' ) {
       this.service.postOne(this.resource).then((data) => {
-        if(data.success) {
+        if(data.code=='0') {
           this.alertSuccess("添加成功");
         }else{
           this.alertError("添加失败");

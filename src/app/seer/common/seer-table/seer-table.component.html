@@ -1,18 +1,18 @@
 <div class="row btnGroup">
   <div class="col-sm-6 btnGroup__left">
-    <button class="btn btn-default btnGroup__item" *ngIf="!hidePrint" type="button" (click)="importExcel()">导入</button>
-    <button class="btn btn-default btnGroup__item" *ngIf="!hidePrint" disabled type="button">打印</button>
-    <div class="btn-group btnGroup__item" *ngIf="!hideExport">
-      <button type="button" class="btn btn-default dropdown-toggle" id="js-export-btn" data-toggle="dropdown" aria-expanded="false" >
-        导出<span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu"  aria-labelledby="js-export-btn" role="menu">
-        <li class="dropdown-item export">PDF</li>
-        <li class="dropdown-item export" (click)="exportExcel()">Excel</li>
-        <li class="dropdown-item export">Another Excel</li>
-        <li class="dropdown-item export" (click)="exportTempExcel()">导出模板Excel</li>
-      </ul>
-    </div>
+    <button class="btn btn-outline-dark btnGroup__item" *ngIf="!hidePrint" type="button" (click)="importExcel()"><i class="icon-import"></i>导入</button>
+      <div class="btn-group btnGroup__item" *ngIf="!hideExport">
+        <button type="button" class="btn btn-outline-dark dropdown-toggle" id="js-export-btn" data-toggle="dropdown" aria-expanded="false" >
+          <i class="icon-export"></i>导出<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu"  aria-labelledby="js-export-btn" role="menu">
+          <li class="dropdown-item export">PDF</li>
+          <li class="dropdown-item export" (click)="exportExcel()">Excel</li>
+          <li class="dropdown-item export">Another Excel</li>
+          <li class="dropdown-item export" (click)="exportTempExcel()">导出模板Excel</li>
+        </ul>
+      </div>
+    <button class="btn btn-primary btnGroup__item" *ngIf="!hidePrint" disabled type="button"><i class="icon-print"></i>打印</button>
   </div>
   <div class="col-sm-6 btnGroup__right">
     <button
@@ -38,6 +38,7 @@
         [(ngModel)]="multiColumnOptions"
         (ngModelChange)="onChangeColumn($event)"
         [texts]="multiSelectTexts"
+        [settings]="multiSelectSettings"
         >
       </ss-multiselect-dropdown>
     </div>
@@ -45,29 +46,29 @@
 </div>
 <div class="row" style="overflow: auto;">
     <table
-      class="table table-hover table-bordered table-striped"
+      class="table table-hover"
       [mfData]="getData()"
       #mf="mfDataTable" [(mfSortBy)]="sortBy"
       [mfRowsOnPage]="rowsOnPage"
       >
       <thead>
-      <tr class="header_border">
-        <th class="table-checkbox">
-          <input
-            type="checkbox"
-            [(ngModel)]="selectedAll"
-            (change)="selectAll()"/>
-        </th>
-        <th *ngFor="let title of filterShownTitles()" class="text-center">
-          <mfDefaultSorter by="{{ title.key }}"><b class="seer_font">{{ title.label }}</b></mfDefaultSorter>
-        </th>
-        <th class="text-center" *ngIf="!hideActions"><b class="seer_font">操作</b></th>
-      </tr>
+        <tr>
+          <th class="table-checkbox">
+            <input
+              type="checkbox"
+              [(ngModel)]="selectedAll"
+              (change)="selectAll()"/>
+          </th>
+          <th *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
+            <mfDefaultSorter by="{{ title.key }}"><b class="seer_font">{{ title.label }}</b></mfDefaultSorter>
+          </th>
+          <th class="table-actions" *ngIf="!hideActions"><b class="seer_font">操作</b></th>
+        </tr>
       </thead>
       <tbody>
       <tr *ngFor="let item of mf.data ">
         <td class="table-checkbox"><input type="checkbox" [(ngModel)]="item.selected" (change)="selectOne(item)"/></td>
-        <td *ngFor="let title of filterShownTitles()" class="text-center">
+        <td *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
 
           <div *ngIf="title.type=='link'">
             <a (click)="openLink(item)">
@@ -84,14 +85,15 @@
             <span class="seer_font">{{item[title.key]}}</span>
           </div>
         </td>
-        <td class="text-center table-actions" *ngIf="!hideActions">
+        <td class="table-actions" *ngIf="!hideActions">
           <span *ngIf="item.actions">
-            <button
-              type="button"
+            <i
               *ngFor="let action of item.actions"
-              class="{{ action.className }}"
+              class="table-action {{ action.icon }}"
               (click)="handleActionsClick({action: action, item: item})"
-              ><i *ngIf="action.icon" class="{{ action.icon }}" style="margin-right: 4px"></i>{{ action.name }}</button>
+              popover="{{ action.name }}"
+              triggers="mouseenter:mouseleave"
+              ></i>
           </span>
         </td>
       </tr>
