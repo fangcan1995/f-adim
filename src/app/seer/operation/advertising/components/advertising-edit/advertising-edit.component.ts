@@ -1,33 +1,26 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
-import {
-  Router,
-  ActivatedRoute,
-} from '@angular/router';
-import { Location } from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {Router, ActivatedRoute} from '@angular/router';
+import {Location} from '@angular/common';
 import * as _ from 'lodash';
-import { Observable } from 'rxjs/Observable';
-import {RedPacketService} from "../../red-packet.service";
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
+import {AdvertisingService} from "../../advertising.service";
 
 @Component({
-  templateUrl: './red-packet-edit.component.html',
-  styleUrls: ['./red-packet-edit.component.scss']
+  templateUrl: './advertising-edit.component.html',
+  styleUrls: ['./advertising-edit.component.scss']
 })
-export class RedPacketEditComponent implements OnInit {
+export class AdvertisingEditComponent implements OnInit {
 
-  public redPacket: any = {};
+  public coupon: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
 
-  constructor(private _redPacketService: RedPacketService,
+  constructor(private _advertisingService: AdvertisingService,
               private _messageService: SeerMessageService,
               private _activatedRoute: ActivatedRoute,
               private _router: Router,
-              private _location: Location) {}
-
+              private _location: Location) {
+  }
 
   ngOnInit() {
     this._activatedRoute.url.mergeMap(url => {
@@ -37,9 +30,9 @@ export class RedPacketEditComponent implements OnInit {
       .subscribe(params => {
         if (this._editType === 'edit') {
           console.log(params.id);
-          this._redPacketService.getOne(params.id)
+          this._advertisingService.getOne(params.id)
             .subscribe(res => {
-              this.redPacket = res.data || {};
+              this.coupon = res.data || {};
               this.forbidSaveBtn = false;
             }, errMsg => {
               // 错误处理的正确打开方式
@@ -66,9 +59,9 @@ export class RedPacketEditComponent implements OnInit {
     this.forbidSaveBtn = true;
     let requestStream$;
     if (this._editType === 'edit') {
-      requestStream$ = this._redPacketService.putOne(this.redPacket.id, this.redPacket)
+      requestStream$ = this._advertisingService.putOne(this.coupon.id, this.coupon)
     } else if (this._editType === 'add') {
-      requestStream$ = this._redPacketService.postOne(this.redPacket)
+      requestStream$ = this._advertisingService.postOne(this.coupon)
     } else {
       return;
     }
@@ -90,6 +83,7 @@ export class RedPacketEditComponent implements OnInit {
           autoHideDuration: 3000,
         })
       })
+
   }
 
 }

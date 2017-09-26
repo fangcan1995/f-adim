@@ -1,87 +1,80 @@
 import { Injectable } from '@angular/core';
-import {Observable} from "rxjs/Observable";
 import {HttpInterceptorService} from "../../../theme/services/http-interceptor.service";
+import {Observable} from "rxjs/Observable";
 import * as _ from "lodash";
 
 @Injectable()
-export class RedPacketService {
+export class AdvertisingService {
 
   mockData = [
     {
       "id": "1",
-      "redPacketTheme": "xxxxxxx",
-      "activityTheme": "xxxxx",
-      "redPacketRates": "1000.00",
-      "startSum": "2000.00",
-      "issueDate": "2017.6.9",
-      "expirationDate": "2017.6.9",
-      "state": "发送失败",
+      "advertisingTitle": "xxxxxxx",
+      "advertisingType": "banner",
+      "showEnd": "PC端",
+      "adLink": "https://www.baba88.com",
+      "addDate": "2017-09-04 10:21:12",
+      "state": "启用中",
       "someStatus": "1"
     },
     {
       "id": "2",
-      "redPacketTheme": "xxxxxxx",
-      "activityTheme": "xxxxx",
-      "redPacketRates": "1000.00",
-      "startSum": "2000.00",
-      "issueDate": "2017.6.9",
-      "expirationDate": "2017.6.9",
-      "state": "发送失败",
+      "advertisingTitle": "xxxxxxx",
+      "advertisingType": "banner",
+      "showEnd": "移动端",
+      "adLink": "https://www.baba88.com",
+      "addDate": "2017-09-04 10:21:12",
+      "state": "启用中",
       "someStatus": "1"
     },
     {
       "id": "3",
-      "redPacketTheme": "xxxxxxx",
-      "activityTheme": "xxxxx",
-      "redPacketRates": "1000.00",
-      "startSum": "2000.00",
-      "issueDate": "2017.6.9",
-      "expirationDate": "2017.6.9",
-      "state": "发送成功",
-      "someStatus": "2"
+      "advertisingTitle": "xxxxxxx",
+      "advertisingType": "分享邀请",
+      "showEnd": "全平台",
+      "adLink": "https://www.baba88.com",
+      "addDate": "2017-09-04 10:21:12",
+      "state": "启用中",
+      "someStatus": "1"
     },
     {
       "id": "4",
-      "redPacketTheme": "xxxxxxx",
-      "activityTheme": "xxxxx",
-      "redPacketRates": "1000.00",
-      "startSum": "2000.00",
-      "issueDate": "2017.6.9",
-      "expirationDate": "2017.6.9",
-      "state": "发送成功",
+      "advertisingTitle": "xxxxxxx",
+      "advertisingType": "小游戏",
+      "showEnd": "全平台",
+      "adLink": "https://www.baba88.com",
+      "addDate": "2017-09-04 10:21:12",
+      "state": "已禁用",
       "someStatus": "2"
     },
     {
       "id": "5",
-      "redPacketTheme": "xxxxxxx",
-      "activityTheme": "xxxxx",
-      "redPacketRates": "1000.00",
-      "startSum": "2000.00",
-      "issueDate": "2017.6.9",
-      "expirationDate": "2017.6.9",
-      "state": "发送成功",
+      "advertisingTitle": "xxxxxxx",
+      "advertisingType": "平台实力",
+      "showEnd": "全平台",
+      "adLink": "https://www.baba88.com",
+      "addDate": "2017-09-04 10:21:12",
+      "state": "已禁用",
       "someStatus": "2"
     },
     {
       "id": "6",
-      "redPacketTheme": "xxxxxxx",
-      "activityTheme": "xxxxx",
-      "redPacketRates": "1000.00",
-      "startSum": "2000.00",
-      "issueDate": "2017.6.9",
-      "expirationDate": "2017.6.9",
-      "state": "发送成功",
+      "advertisingTitle": "xxxxxxx",
+      "advertisingType": "推荐订阅",
+      "showEnd": "移动端",
+      "adLink": "https://www.baba88.com",
+      "addDate": "2017-09-04 10:21:12",
+      "state": "已禁用",
       "someStatus": "2"
     },
     {
       "id": "7",
-      "redPacketTheme": "xxxxxxx",
-      "activityTheme": "xxxxx",
-      "redPacketRates": "1000.00",
-      "startSum": "2000.00",
-      "issueDate": "2017.6.9",
-      "expirationDate": "2017.6.9",
-      "state": "发送成功",
+      "advertisingTitle": "xxxxxxx",
+      "advertisingType": "banner",
+      "showEnd": "全平台",
+      "adLink": "https://www.baba88.com",
+      "addDate": "2017-09-04 10:21:12",
+      "state": "已禁用",
       "someStatus": "2"
     }
   ];

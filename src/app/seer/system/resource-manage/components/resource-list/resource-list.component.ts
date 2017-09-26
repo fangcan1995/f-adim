@@ -16,70 +16,47 @@ import {UPDATE, DELETE} from "../../../../common/seer-table/seer-table.actions"
 
 export class ResourceListComponent implements OnInit{
   title = '资源列表';
-  hasGlobalFilter = true;
-  filters = [
-    {
-      key: 'resourceId',
-      label: '资源编号',
-      type: 'input.text',
-    },
-    {
-      key: 'resourceName',
-      label: '资源名',
-      type: 'input.text',
-    },
-    {
-      key: 'resourceParentId',
-      label: '资源父编号',
-      type: 'input.text',
-    }
-  ];
-  //source: LocalDataSource = new LocalDataSource();
- // resource = [];
+  hasGlobalFilter = false;  //是否打开高级检索
+  filters = [];  //过滤条件
+  pageInfo={
+    "pageNum":1,
+    "pageSize":10,
+    "sort":"menuPid,sortNum",
+    "total":"",
+  }; //分页及排序
   data = []; //数据
   titles = [
     {
-      key:'resourceId',
-      label:'资源编号'
+      key:'menuId',
+      label:'菜单编号'
     },
     {
-      key:'resourceParentId',
-      label:'资源父编号'
+      key:'menuPid',
+      label:'菜单父编号'
     },
     {
-      key:'resourceName',
-      label:'资源名'
-    }
-
-    ,
+      key:'menuName',
+      label:'菜单名'
+    },
     {
-      key:'resourceContent',
-      label:'资源内容'
-    }
-    ,
+      key:'menuType',
+      label:'菜单类型',
+      /*isDict:true*/
+    },
     {
-      key:'resourceType',
-      label:'资源类型',
-      isDict:true
-    }
-    ,
+      key:'menuDesc',
+      label:'菜单说明',
+    },
     {
-      key:'resourceSort',
-      label:'资源顺序'
-    }
-    ,
+      key:'sortNum',
+      label:'菜单顺序',
+    },
     {
-      key:'resourcePermission',
-      label:'资源权限'
-    }
-    ,
-    {
-      key:'validState',
+      key:'menuStatus',
       label:'有效状态',
-      isDict:true
-
     }
-  ];
+  ]; //列表中显示的字段
+
   constructor(
     protected service: ResourceManageService,private _router: Router,private _state:GlobalState,private _dialogService: SeerDialogService,) {
       this.getAllDate();
@@ -88,8 +65,11 @@ export class ResourceListComponent implements OnInit{
     this.getAllDate();
   }
   getAllDate() {
-    this.service.getResources().then((data) => {
-      this.data = data.data;
+    this.service.getResources(this.pageInfo).then((data) => {
+      this.pageInfo.pageNum=data.data.pageNum;  //当前页
+      this.pageInfo.pageSize=data.data.pageSize; //每页记录数
+      this.pageInfo.total=data.data.total; //记录总数
+      this.data = data.data.list;         //记录列表
       this.data = _.map(this.data, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
     });
   }
@@ -97,20 +77,19 @@ export class ResourceListComponent implements OnInit{
   onChange(message):void {
     const type = message.type;
     let data = message.data;
-    //console.log(type);
     switch ( type ) {
       case 'create':
         this._router.navigate(['/system/resource-manage/edit']);
         break;
       case 'update':
-        this._router.navigate(['/system/resource-manage/edit',message.data.resourceId]);
+        this._router.navigate(['/system/resource-manage/edit',message.data.menuId]);
         break;
       case 'delete':
         this._dialogService.confirm('确定删除吗？')
           .subscribe(action => {
             if ( action === 1 ) {
-              this.service.deleteResource(message.data.resourceId).then((data) => {
-                if ( data.success ){
+              this.service.deleteResource(message.data.menuId).then((data) => {
+                if ( data.code=='0' ){
                   this.getAllDate();
                 }else {
                   alert("删除失败");

@@ -1,20 +1,16 @@
 import { Injectable } from '@angular/core';
-import {
-  Headers,
-  Http,
-} from "@angular/http";
-
-
+import {Headers, Http,} from "@angular/http";
 import { SERVER } from "../../const";
 import { ResourceModel } from "./resource-model.class";
 import { ReourceBaseService } from "./base.service";
-import { Result } from "./result-model.class";
-import { Observable } from 'rxjs/Observable';
+/*import { Result } from "./result-model.class";
+import { Observable } from 'rxjs/Observable';*/
 
 @Injectable()
 export class ResourceManageService {
 
-  private resourceManageUrl = SERVER+'/sys/resource';  // URL to web api
+  //private resourceManageUrl = SERVER+'/sys/resource';  // URL to web api
+  private resourceManageUrl ='http://172.16.1.249:8090/resources';
   private headers = new Headers({'Content-Type': 'application/json'});
 
   constructor(private http: Http, private baseService:ReourceBaseService<ResourceModel>) {
@@ -25,15 +21,17 @@ export class ResourceManageService {
     return Promise.reject(error.message || error);
   }
 
-  getResources(): Promise<any> {
-    return this.baseService.getAll(this.resourceManageUrl);
+  getResources(pageInfo:any): Promise<any> {
+    const page=`?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
+    const sort=`&sort=${pageInfo.sort}`;
+    const url = `${this.resourceManageUrl}/${page}${sort}`;
+    return this.baseService.getAll(url);
   }
 
   postOne(resource: ResourceModel): Promise<any> {
     const url = `${this.resourceManageUrl}/`;
     return this.baseService.create(url,resource);
   }
-
 
   getOne(resourceId: string): Promise<any> {
     const url = `${this.resourceManageUrl}/${resourceId}`;
