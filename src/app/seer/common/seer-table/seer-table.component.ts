@@ -43,13 +43,25 @@ export class SeerTableComponent implements OnInit {
   @Input() displayCopyButton;//显示复制新增按钮
   @Input() displayOriginalData;//翻译不破坏原始数据，但全局搜索不好使
   @Input() addNewButton; //新增自定义按钮
+
+  @Input() rowsOnPageSet: Array<number> = [10, 15, 30]; // 每页可显示条数的枚举
+  @Input() rowsOnPage:number;
+
+  @Input() paginationRules:number = 1; // 0后端分页 1前端分页
+
+  // 当后端分页时，必须传下列3个值， 当前端分页时，传rowsOnPage
+  @Input() pageNum:number = 1; // 页码
+  @Input() pageSize:number; // 每页显示条数
+  @Input() total:number; // 数据总量
+
+
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
-  @Input() pageNum:number;
-  @Input() pageSize:number;
-  @Input() paginationRules:number;
-  @Input() total:number;
-  public rowsOnPage = 10;
+  @Output() changePageSize: EventEmitter<any> = new EventEmitter<any>();
+  @Output() changePageNum: EventEmitter<any> = new EventEmitter<any>();
+
   public sortBy = '';
+  private pageLength:number;
+
   public selectedAll = false;
   private multiColumnArray: IMultiSelectOption[] = [];
   private multiColumnOptions = [];
@@ -67,9 +79,11 @@ export class SeerTableComponent implements OnInit {
   public dt: Date = new Date();
   constructor(
     private service: BaseService<any>,
-  ) { }
+  ) { 
+  }
 
   ngOnInit(): void {
+    if( !this.rowsOnPage ) this.rowsOnPage = this.rowsOnPageSet[0];
     this.titles = _.clone(this.titles);
 
     if ( _.isArray(this.titles) && this.titles.length ) {
@@ -110,12 +124,15 @@ export class SeerTableComponent implements OnInit {
       });
     }
   }
-
+  ngOnChanges() {
+    this.pageLength = this.paginationRules ? Math.ceil(this.data.length / this.rowsOnPage) : Math.ceil(this.total / this.pageSize)
+  }
   selectAll(): void {
-    _.each(this.data, item => {
+    let data = !this.paginationRules ? this.data.slice((this.pageNum - 1) * this.pageSize, (this.pageNum - 1) * this.pageSize + this.pageSize) : this.data.slice((this.pageNum - 1) * this.rowsOnPage, (this.pageNum - 1) * this.rowsOnPage + this.rowsOnPage)
+    _.each(data, item => {
       item.selected = this.selectedAll;
     })
-    this.notify.emit({type: 'select_all', data: this.data});
+    this.notify.emit({type: 'select_all', data: data});
   }
 
   selectOne(event): void {
@@ -158,12 +175,13 @@ export class SeerTableComponent implements OnInit {
   }
 
   getData() {
+    let data = !this.paginationRules ? this.data.slice((this.pageNum - 1) * this.pageSize, (this.pageNum - 1) * this.pageSize + this.pageSize) : this.data.slice((this.pageNum - 1) * this.rowsOnPage, (this.pageNum - 1) * this.rowsOnPage + this.rowsOnPage)
     if ( this.translate ) {
-      _.each(this.data, item => {
+      _.each(data, item => {
         this.transferKeyWithDict(item, this.translate, 1);
       });
     }
-    return this.data;
+    return data;
   }
   filterShownTitles() {
     return _.filter(this.titles, t => !t['hidden'])
@@ -223,6 +241,32 @@ export class SeerTableComponent implements OnInit {
       })
     }
     return value;
+  }
+  setPageSize(rows) {
+    if ( this.paginationRules ) {
+      this.rowsOnPage = rows;
+      this.pageLength = Math.ceil(this.data.length / this.rowsOnPage)
+      if ( this.pageNum > this.pageLength) {
+        this.pageNum = this.pageLength
+      } else if ( this.pageNum < 1 ) {
+        this.pageNum = 1;
+      }
+      
+    }
+    this.changePageSize.emit(rows)
+  }
+  setPageNum(pageNum) {
+    if ( this.paginationRules ) {
+      this.pageNum = pageNum;
+      this.pageLength = Math.ceil(this.data.length / this.rowsOnPage)
+      if ( this.pageNum > this.pageLength) {
+        this.pageNum = this.pageLength
+      } else if ( this.pageNum < 1 ) {
+        this.pageNum = 1;
+      }
+      
+    }
+    this.changePageNum.emit(pageNum)
   }
 }
 

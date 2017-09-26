@@ -8,9 +8,17 @@
 </seer-content-top>
 <seer-collapse-card>
   <seer-table
+    [paginationRules]="paginationRules"
+    [rowsOnPageSet]="rowsOnPageSet"
+    [rowsOnPage]="rowsOnPage"
+    [pageSize]="pageSize"
     [data]="members"
     [titles]="titles"
     [translate]="dict"
     (notify)="onChange($event)"
+    (changePageSize)="onPageSizeChange($event)"
+    (changePageNum)="onPageNumChange($event)"
+    [total]="total"
+    [pageNum]="pageNum"
   ></seer-table>
 </seer-collapse-card>

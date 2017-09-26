@@ -20,7 +20,7 @@
   
 }
 @mixin layout-collapsed() {
-  .content-top {
+  .content-top.fixedTop {
     left: $sidebar-item-width;
   }
 }

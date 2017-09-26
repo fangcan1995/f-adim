@@ -33,7 +33,7 @@
           </select>
           <seer-datepicker
             *ngIf="filter.type === 'datepicker'"
-            [dateFormatingRules]="'yyyy年MM月dd日'"
+            [dateFormatingRules]="dateFormatingRules || 'yyyy年MM月dd日'"
             [(date)]="filter.value"
             (dateChange)="handleFilterChange()"
             ></seer-datepicker>

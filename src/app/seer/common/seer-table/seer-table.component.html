@@ -46,11 +46,7 @@
 </div>
 <div class="row" style="overflow: auto;">
     <table
-      class="table table-hover"
-      [mfData]="getData()"
-      #mf="mfDataTable" [(mfSortBy)]="sortBy"
-      [mfRowsOnPage]="rowsOnPage"
-      >
+      class="table table-hover">
       <thead>
         <tr>
           <th class="table-checkbox">
@@ -60,16 +56,15 @@
               (change)="selectAll()"/>
           </th>
           <th *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
-            <mfDefaultSorter by="{{ title.key }}"><b class="seer_font">{{ title.label }}</b></mfDefaultSorter>
+            {{ title.label }}
           </th>
           <th class="table-actions" *ngIf="!hideActions"><b class="seer_font">操作</b></th>
         </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let item of mf.data ">
+      <tr *ngFor="let item of getData() ">
         <td class="table-checkbox"><input type="checkbox" [(ngModel)]="item.selected" (change)="selectOne(item)"/></td>
         <td *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
-
           <div *ngIf="title.type=='link'">
             <a (click)="openLink(item)">
               <span class="seer_font seer_a_font">{{item[title.key]}}</span>
@@ -99,12 +94,104 @@
       </tr>
       </tbody>
       <tfoot>
-      <tr>
-        <td [attr.colspan]="titles.length + 2">
-          <div>
-            <mfBootstrapPaginator [rowsOnPageSet]="[10,15,30]"></mfBootstrapPaginator>
-          </div>
-
+        <tr *ngIf="paginationRules === 0">
+            <td  [attr.colspan]="titles.length + 2">
+                <ul class="pagination" *ngIf="pageLength > 1">
+                  <li class="page-item" [class.disabled]="pageNum <= 1" (click)="pageNum <= 1 ? null : setPageNum(1)">
+                      <a class="page-link">&laquo;</a>
+                  </li>
+                  <!-- <li class="page-item" [class.disabled]="pageNum <= 1" (click)="pageNum <= 1 ? null : setPageNum(pageNum-1)">
+                      <a class="page-link">上一页</a>
+                  </li> -->
+                  <li class="page-item" *ngIf="pageNum > 4 && pageNum + 1 > pageLength" (click)="setPageNum(pageNum - 4)">
+                      <a class="page-link">{{pageNum-4}}</a>
+                  </li>
+                  <li class="page-item" *ngIf="pageNum > 3 && pageNum + 2 > pageLength" (click)="setPageNum(pageNum - 3)">
+                      <a class="page-link">{{pageNum-3}}</a>
+                  </li>
+                  <li class="page-item" *ngIf="pageNum > 2" (click)="setPageNum(pageNum - 2)">
+                      <a class="page-link">{{pageNum-2}}</a>
+                  </li>
+                  <li class="page-item" *ngIf="pageNum > 1" (click)="setPageNum(pageNum - 1)">
+                      <a class="page-link">{{pageNum-1}}</a>
+                  </li>
+                  <li class="page-item active">
+                      <a class="page-link">{{pageNum}}</a>
+                  </li>
+                  <li class="page-item" *ngIf="pageNum + 1 <= pageLength" (click)="setPageNum(pageNum + 1)">
+                      <a class="page-link">{{pageNum+1}}</a>
+                  </li>
+                  <li class="page-item" *ngIf="pageNum + 2 <= pageLength" (click)="setPageNum(pageNum + 2)">
+                      <a class="page-link">{{pageNum+2}}</a>
+                  </li>
+                  <li class="page-item" *ngIf="pageNum + 3 <= pageLength && pageNum < 3" (click)="setPageNum(pageNum + 3)">
+                      <a class="page-link">{{pageNum+3}}</a>
+                  </li>
+                  <li class="page-item" *ngIf="pageNum + 4 <= pageLength && pageNum < 2" (click)="setPageNum(pageNum + 4)">
+                      <a class="page-link">{{pageNum+4}}</a>
+                  </li>
+                  <!-- <li class="page-item" [class.disabled]="pageNum >= pageLength" (click)="pageNum >= pageLength ? null : setPageNum(pageNum+1)">
+                      <a class="page-link">下一页</a>
+                  </li> -->
+                  <li class="page-item" [class.disabled]="pageNum >= pageLength" (click)="pageNum >= pageLength ? null : setPageNum(pageLength)">
+                      <a class="page-link">&raquo;</a>
+                  </li>
+                </ul>
+                <ul class="pagination pull-right float-sm-right">
+                    <li class="page-item" *ngFor="let rows of rowsOnPageSet" [class.active]="pageSize===rows" (click)="setPageSize(rows)" >
+                        <a class="page-link">{{rows}}</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+      <tr *ngIf="paginationRules === 1">
+        <td  [attr.colspan]="titles.length + 2">
+          <ul class="pagination" *ngIf="pageLength > 1">
+            <li class="page-item" [class.disabled]="pageNum <= 1" (click)="pageNum <= 1 ? null : setPageNum(1)">
+                <a class="page-link">&laquo;</a>
+            </li>
+            <!-- <li class="page-item" [class.disabled]="pageNum <= 1" (click)="pageNum <= 1 ? null : setPageNum(pageNum-1)">
+                <a class="page-link">上一页</a>
+            </li> -->
+            <li class="page-item" *ngIf="pageNum > 4 && pageNum + 1 > pageLength" (click)="setPageNum(pageNum - 4)">
+                <a class="page-link">{{pageNum-4}}</a>
+            </li>
+            <li class="page-item" *ngIf="pageNum > 3 && pageNum + 2 > pageLength" (click)="setPageNum(pageNum - 3)">
+                <a class="page-link">{{pageNum-3}}</a>
+            </li>
+            <li class="page-item" *ngIf="pageNum > 2" (click)="setPageNum(pageNum - 2)">
+                <a class="page-link">{{pageNum-2}}</a>
+            </li>
+            <li class="page-item" *ngIf="pageNum > 1" (click)="setPageNum(pageNum - 1)">
+                <a class="page-link">{{pageNum-1}}</a>
+            </li>
+            <li class="page-item active">
+                <a class="page-link">{{pageNum}}</a>
+            </li>
+            <li class="page-item" *ngIf="pageNum + 1 <= pageLength" (click)="setPageNum(pageNum + 1)">
+                <a class="page-link">{{pageNum+1}}</a>
+            </li>
+            <li class="page-item" *ngIf="pageNum + 2 <= pageLength" (click)="setPageNum(pageNum + 2)">
+                <a class="page-link">{{pageNum+2}}</a>
+            </li>
+            <li class="page-item" *ngIf="pageNum + 3 <= pageLength && pageNum < 3" (click)="setPageNum(pageNum + 3)">
+                <a class="page-link">{{pageNum+3}}</a>
+            </li>
+            <li class="page-item" *ngIf="pageNum + 4 <= pageLength && pageNum < 2" (click)="setPageNum(pageNum + 4)">
+                <a class="page-link">{{pageNum+4}}</a>
+            </li>
+            <!-- <li class="page-item" [class.disabled]="pageNum >= pageLength" (click)="pageNum >= pageLength ? null : setPageNum(pageNum+1)">
+                <a class="page-link">下一页</a>
+            </li> -->
+            <li class="page-item" [class.disabled]="pageNum >= pageLength" (click)="pageNum >= pageLength ? null : setPageNum(pageLength)">
+                <a class="page-link">&raquo;</a>
+            </li>
+          </ul>
+          <ul class="pagination pull-right float-sm-right">
+              <li class="page-item" *ngFor="let rows of rowsOnPageSet" [class.active]="rowsOnPage===rows" (click)="setPageSize(rows)" >
+                  <a class="page-link">{{rows}}</a>
+              </li>
+          </ul>
         </td>
       </tr>
       </tfoot>

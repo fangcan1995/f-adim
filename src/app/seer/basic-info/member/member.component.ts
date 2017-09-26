@@ -92,6 +92,13 @@ export class MemberComponent implements OnInit, OnDestroy {
       'className': 'btn btn-xs btn-default',
     }
   }
+  paginationRules = 1;
+  rowsOnPageSet = [10, 15, 30];
+  rowsOnPage = 10;
+  pageNum = 1;
+  pageSize = 15;
+  queryParams = {};
+  total = 0;
   constructor(
     private _memberService: MemberService,
     private _router: Router,
@@ -99,9 +106,14 @@ export class MemberComponent implements OnInit, OnDestroy {
     private _dialogService: SeerDialogService,
   ) {}
   ngOnInit(): void {
-    this.getList();
+    let params = {
+      pageSize: this.pageSize,
+      pageNum: this.pageNum,
+    }
+    this.getList(params);
   }
   getList(params?) {
+    console.log(params)
     this._memberService.getList(params)
     .subscribe(res => {
       this.members = res.data;
@@ -123,10 +135,10 @@ export class MemberComponent implements OnInit, OnDestroy {
         }
         return _.set(t, 'actions', actions)
       })
+      this.total = this.members.length;
     })
   }
   onChange(message) {
-    console.log(message)
     const type = message.type;
     let data = message.data;
     switch ( type ) {
@@ -157,14 +169,39 @@ export class MemberComponent implements OnInit, OnDestroy {
     console.log('member component destroied')
   }
   handleFiltersChanged($event) {
+    this.queryParams = $event;
     let params = {
-      ...$event,
+      ...this.queryParams,
+      pageSize: this.pageSize,
+      PageNum: this.pageNum,
     }
     this.getList(params)
   }
   handleSearchBtnClicked($event) {
+    this.queryParams = $event;
     let params = {
-      ...$event,
+      ...this.queryParams,
+      pageSize: this.pageSize,
+      PageNum: this.pageNum,
+    }
+    this.getList(params)
+  }
+
+  onPageSizeChange($event) {
+    this.pageSize = $event;
+    let params = {
+      ...this.queryParams,
+      pageSize: this.pageSize,
+      PageNum: this.pageNum,
+    }
+    this.getList(params)
+  }
+  onPageNumChange($event) {
+    this.pageNum = $event;
+    let params = {
+      ...this.queryParams,
+      pageSize: this.pageSize,
+      PageNum: this.pageNum,
     }
     this.getList(params)
   }
