@@ -110,7 +110,7 @@ export class InfoPublishComponent {
     
     let data = message.data;
     switch ( type ) {
-      case 'add':
+      case 'create':
         this._router.navigate(['/content/info-publish/add']);
         break;
       case 'update': 

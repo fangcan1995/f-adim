@@ -191,7 +191,7 @@ export class InfoPublishEditComponent implements OnInit {
    //==================树选择事件================================
   //  树选择事件 判断部分
   onTreePickerNotify($event){ 
-    debugger;
+    
     console.log(Object.keys($event.node));
 
     
