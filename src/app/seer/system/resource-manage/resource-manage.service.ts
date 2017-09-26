@@ -44,7 +44,6 @@ export class ResourceManageService {
   }
 
   deleteResource(resourceId: string): Promise<any> {
-    console.log(resourceId);
     const url = `${this.resourceManageUrl}/${resourceId}`;
     return this.baseService.delete(url);
   }
