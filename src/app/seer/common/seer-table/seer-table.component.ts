@@ -128,7 +128,7 @@ export class SeerTableComponent implements OnInit {
     this.pageLength = this.paginationRules ? Math.ceil(this.data.length / this.rowsOnPage) : Math.ceil(this.total / this.pageSize)
   }
   selectAll(): void {
-    let data = !this.paginationRules ? this.data.slice((this.pageNum - 1) * this.pageSize, (this.pageNum - 1) * this.pageSize + this.pageSize) : this.data.slice((this.pageNum - 1) * this.rowsOnPage, (this.pageNum - 1) * this.rowsOnPage + this.rowsOnPage)
+    let data = !this.paginationRules ? this.data.slice(0, this.pageSize) : this.data.slice((this.pageNum - 1) * this.rowsOnPage, (this.pageNum - 1) * this.rowsOnPage + this.rowsOnPage)
     _.each(data, item => {
       item.selected = this.selectedAll;
     })
@@ -175,7 +175,7 @@ export class SeerTableComponent implements OnInit {
   }
 
   getData() {
-    let data = !this.paginationRules ? this.data.slice((this.pageNum - 1) * this.pageSize, (this.pageNum - 1) * this.pageSize + this.pageSize) : this.data.slice((this.pageNum - 1) * this.rowsOnPage, (this.pageNum - 1) * this.rowsOnPage + this.rowsOnPage)
+    let data = !this.paginationRules ? this.data.slice(0, this.pageSize) : this.data.slice((this.pageNum - 1) * this.rowsOnPage, (this.pageNum - 1) * this.rowsOnPage + this.rowsOnPage)
     if ( this.translate ) {
       _.each(data, item => {
         this.transferKeyWithDict(item, this.translate, 1);
