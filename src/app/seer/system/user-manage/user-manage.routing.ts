@@ -6,7 +6,7 @@ import {
 import { UserManageComponent } from "./user-manage.component";
 import { UserHomeComponent } from "./components/user-home/user-home.component";
 import { UserEditComponent } from "./components/user-edit/user-edit.component";
-
+import { UserAddedDialogComponent } from "./components/user-added-dialog/user-added-dialog.component";
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
   {
@@ -14,7 +14,8 @@ const routes: Routes = [
     component: UserManageComponent,
     children: [
       { path: '', component: UserHomeComponent},
-      { path: 'edit/:roleId', component: UserEditComponent},
+      { path: 'edit/:id', component: UserEditComponent},
+      { path: 'add', component: UserAddedDialogComponent},
     ]
   }
 ];
