@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {Location} from '@angular/common';
 import {Template} from "../../model/auth/message-template";
 import { SeerDialogService } from '../../../theme/services/seer-dialog.service'
+import {UPDATE, DELETE,CREATE} from "../../common/seer-table/seer-table.actions"
 import * as _ from 'lodash';
 @Component({
   selector: 'message-template',
@@ -13,54 +14,9 @@ import * as _ from 'lodash';
 })
 export class MessageTemplateComponent {
   hasGlobalFilter = true;
-  optionType=[{value:'', content: '请选择'}];
-  optionisSystem=[{value:'', content: '请选择'}];
-  actionSet = {
-    'update': {
-      'type': 'update',
-      'name': '修改',
-      // 'icon': 'ion-close-round',
-      'className': 'btn btn-xs btn-info',
-    },
-    'delete': {
-      'type': 'delete',
-      'name': '删除',
-      'className': 'btn btn-xs btn-danger',
-      // 'icon': 'ion-close-round',
-      // 'action': 'remove'
-    },
-    'start': {
-      'type': 'start',
-      'name': '启用',
-      'className': 'btn btn-xs btn-info',
-      // 'icon': 'ion-close-round',
-      // 'action': 'remove'
-    },
-  }
-  // filters = [
-  //   {
-  //     key: 'tplName',
-  //     label: '模板名称',
-  //     type: 'input.text',
-  //   },
-  //   {
-  //     key: 'tplCode',
-  //     label: '模板类型',
-  //     type: 'input.text',
-  //   },
-  //   {
-  //     key: 'tplType',
-  //     label: '消息模板类型',
-  //     type: 'select',
-  //     options: this.optionType
-  //   },
-  //   {
-  //     key: 'tplisSystem',
-  //     label: '是否系统模板',
-  //     type: 'select',
-  //     options: this.optionisSystem
-  //   },
-  // ]
+  // optionType=[{value:'', content: '请选择'}];
+  // optionisSystem=[{value:'', content: '请选择'}];
+  
   title = '消息模板';
   source = [];
   data=[];
@@ -73,20 +29,20 @@ export class MessageTemplateComponent {
 
   ngOnInit() {
     //获取数据字典内容
-    this.service.getDictByKey('MESSAGE_TEMPLATE_TYPE').then((result) => {
-      if (result.success) {
-        result.data.sort((a,b)=>+a.dictSort-+b.dictSort).forEach(dict=>{
-          this.optionType.push({ value:dict.dictValueId,content:dict.dictValueName});
-        });
-      }
-    });
-    this.service.getDictByKey('IS_SYSMESSAGETEMPLATE').then((result) => {
-        if (result.success) {
-          result.data.sort((a, b) => +a.dictSort - +b.dictSort).forEach(dict => {
-            this.optionisSystem.push({value: dict.dictValueId, content: dict.dictValueName});
-          });
-      };
-    });
+    // this.service.getDictByKey('MESSAGE_TEMPLATE_TYPE').then((result) => {
+    //   if (result.success) {
+    //     result.data.sort((a,b)=>+a.dictSort-+b.dictSort).forEach(dict=>{
+    //       this.optionType.push({ value:dict.dictValueId,content:dict.dictValueName});
+    //     });
+    //   }
+    // });
+    // this.service.getDictByKey('IS_SYSMESSAGETEMPLATE').then((result) => {
+    //     if (result.success) {
+    //       result.data.sort((a, b) => +a.dictSort - +b.dictSort).forEach(dict => {
+    //         this.optionisSystem.push({value: dict.dictValueId, content: dict.dictValueName});
+    //       });
+    //   };
+    // });
 
     this.allTplsList();
   }
@@ -105,46 +61,10 @@ export class MessageTemplateComponent {
       /*假数据*/
       this.data = data.data;
       this.source = data.data;
-       // 数据请求过来后 进行按钮添加
-      this.source = _.map(this.source, t => {
-        let actions;
-        actions = [this.actionSet.update,this.actionSet.start,this.actionSet.delete]
-        return _.set(t, 'actions', actions)
-      })
+     this.source = _.map(this.source, r => _.set(r, 'actions', [ UPDATE, CREATE,DELETE ]));
     });
   }
   onChange(message):void {
-    /*增加一条记录*/
-    // if(message.type == 'add'){
-    //   this._router.navigate(['/basic-info/message-template/add']);
-    // }
-    // /*修改*/
-    // if(message.type == 'update'){
-    //   this._router.navigate(['/basic-info/message-template/edit',message.data.tplId]);
-    // }
-    // /*删除一条记录*/
-    // if(message.type=='delete'){
-    //   this.service.deleteTemplate(message.data.tplId).then((data) => {
-    //     if ( data.success ){
-    //       this.allTplsList();
-    //     }else {
-    //       alert("删除失败");
-    //     }
-    //   });
-    // }
-    // /*删除多条记录*/
-    // if(message.type=='delete_all') {
-    //   let ids = [];
-    //   message.data.map((template:Template)=>ids.push(template.tplId));
-    //   this.service.deleteTemplate(ids.toString()).then((data) => {
-    //     if ( data.success) {
-    //       this.allTplsList();
-    //     }else {
-    //       alert("删除失败");
-    //     }
-    //   });
-    // }
-
     const type = message.type;
     console.log(type);
     
@@ -157,8 +77,6 @@ export class MessageTemplateComponent {
         this._router.navigate(['/basic-info/message-template/edit',message.data.tplId])
         break;
       case 'delete':
-      console.log("1111111");
-      
         this._dialogService.confirm('确定删除吗？')
           .subscribe(action => {
             if ( action === 1 ) {
