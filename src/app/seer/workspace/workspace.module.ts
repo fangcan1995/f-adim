@@ -7,6 +7,8 @@ import { WorkspaceService } from './workspace.service';
 
 import { WorkspaceComponent } from './workspace.component';
 import { TodoComponent } from './components/todo/todo.component';
+import {EnddoComponent} from "./components/enddo/enddo.component";
+import {OthersComponent} from "./components/others/others.component"
 
 @NgModule({
   imports: [
@@ -16,7 +18,9 @@ import { TodoComponent } from './components/todo/todo.component';
   ],
   declarations: [
     WorkspaceComponent,
-    TodoComponent
+    TodoComponent,
+    EnddoComponent,
+    OthersComponent
   ],
   providers:[
     WorkspaceService
