@@ -1,71 +1,92 @@
 <!--<modal [animation]="animation" [backdrop]="backdrop" [size]="'lg'">-->
-<modal [animation]="animation" [backdrop]="backdrop">
-  <modal-header>
+<!-- <modal [animation]="animation" [backdrop]="backdrop"> -->
+  <!-- <modal-header>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
     <h4 class="modal-title">{{title}}</h4>
   </modal-header>
-  <modal-body>
+  <modal-body> -->
     <!--<div class="header_box1">-->
       <!--<div class="row spbrow">-->
-    <div class="form-group ">
-      <div class="row">
-          <label for="idNumber" class="col-sm-2 control-label" style="text-align:right; height:35px; line-height:35px;">用户账号</label>
-          <div class="col-sm-9">
-              <input type="text" class="form-control" id="idNumber" [(ngModel)]="sysUser.account">
-          </div>
-      </div>
-    </div> 
-    <div class="form-group ">
-      <div class="row">
-          <label for="idNumber" class="col-sm-2 control-label" style="text-align:right; height:35px; line-height:35px;">用户名称</label>
-          <div class="col-sm-9">
-              <input type="text" class="form-control" id="idNumber" [(ngModel)]="sysUser.userName">
-          </div>
-      </div>
-    </div> 
-    <div class="form-group ">
-      <div class="row">
-          <label for="idNumber" class="col-sm-2 control-label" style="text-align:right; height:35px; line-height:35px;">用户密码</label>
-          <div class="col-sm-9">
-              <input type="text" class="form-control" id="idNumber"  [(ngModel)]="sysUser.password">
-          </div>
-      </div>
-    </div> 
-    <div class="form-group ">
-      <div class="row">
-          <label for="idNumber" class="col-sm-2 control-label" style="text-align:right; height:35px; line-height:35px;">所属人员</label>
-          <div class="col-sm-9">
-            <div class="input-group">
-              <input class="form-control" type="text" readonly="readonly" [(ngModel)]="staffName"/>
-              <span class="input-group-btn">
-                <button class="btn btn-default" tree-picker [data]="staffs" (notify)="onTreePickerNotify($event)" [excludeFolders]="true" [multiSelect]="false" [selectParentCascade]="false"><i class="fa fa-search"></i></button>
-              </span>
+<!-- <form (submit)="save()"> -->
+  <div class="form-page-header">
+      <button type="button" class="btn btn-default" (click)="goBack()">返回列表</button>
+      <button type="submit" class="btn btn-primary" *ngIf="buttonFlag" (click)="onSave()">保存</button>
+  </div>
+  <div class="row">
+    <ba-card [title]="newTitle" baCardClass="with-scroll">
+      <div class="form-group ">
+        <div class="row">
+            <label for="idNumber" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">用户账号</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="idNumber"  [(ngModel)]="sysUser.account"  >  
+            </div> 
+            <label for="idNumber" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">用户名称</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="idNumber" [(ngModel)]="sysUser.userName"> 
             </div>
-          </div>
-      </div>
-    </div> 
-    <div class="form-group ">
-      <div class="row">
-          <label for="idNumber" class="col-sm-2 control-label" style="text-align:right; height:35px; line-height:35px;">用户角色</label>
-          <div class="col-sm-9">
-            <div class="form-group">
-              <div data-spy="scroll" data-offset="0" class="scrollspy-example">
-                <div class="form-check" *ngFor="let data of roles">
-                  <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" [(ngModel)]="data.selected">{{data.roleName}}
-                  </label>
+        </div>
+      </div>  
+      <!-- <div class="form-group ">
+        
+      </div>  -->
+      <!-- <div class="form-group ">
+        <div class="row">
+            <label for="idNumber" class="col-sm-2 control-label" style="text-align:right; height:35px; line-height:35px;">用户密码</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="idNumber"  [(ngModel)]="sysUser.password">   
+            </div>
+        </div>
+      </div>  -->
+      <div class="form-group ">
+        <div class="row">
+            <label for="idNumber" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">所属人员</label>
+            <div class="col-sm-4">
+              <div class="input-group">
+                <input class="form-control" type="text" readonly="readonly" [(ngModel)]="staffName"/>
+                <span class="input-group-btn">
+                  <button class="btn btn-default" tree-picker [data]="staffs" (notify)="onTreePickerNotify($event)" [excludeFolders]="true" [multiSelect]="false" [selectParentCascade]="false"><i class="fa fa-search"></i></button>
+                </span>
+              </div>
+            </div>
+            <label for="idNumber" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">用户角色</label>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <div data-spy="scroll" data-offset="0" class="scrollspy-example">
+                  <div class="form-check" *ngFor="let data of roles">
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input" [(ngModel)]="data.selected">{{data.roleName}}
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-      </div>
-    </div> 
-  </modal-body>
-  <modal-footer>
-    <button type="button" class="btn btn-primary" *ngIf="buttonFlag" (click)="onSave()">保存</button>
-    <button type="button" class="btn btn-primary" *ngIf="!buttonFlag" (click)="onEdit()">保存</button>
-    <button type="button" class="btn btn-default" (click)="onDestroy()">关闭</button>
-  </modal-footer>
-</modal>
+        </div>
+      </div> 
+      <!-- <div class="form-group ">
+        <div class="row">
+            <label for="idNumber" class="col-sm-2 control-label" style="text-align:right; height:35px; line-height:35px;">用户角色</label>
+            <div class="col-sm-9">
+              <div class="form-group">
+                <div data-spy="scroll" data-offset="0" class="scrollspy-example">
+                  <div class="form-check" *ngFor="let data of roles">
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input" [(ngModel)]="data.selected">{{data.roleName}}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>   -->
+    <!-- </modal-body>
+    <modal-footer> -->
+      <!-- <button type="button" class="btn btn-primary" *ngIf="buttonFlag" (click)="onSave()">保存</button>
+      <button type="button" class="btn btn-primary" *ngIf="!buttonFlag" (click)="onEdit()">保存</button>
+      <button type="button" class="btn btn-default" (click)="onDestroy()">关闭</button> -->
+    <!-- </modal-footer> -->
+  <!-- </modal> -->
+    </ba-card>
+  </div>
+<!-- </form>    -->
