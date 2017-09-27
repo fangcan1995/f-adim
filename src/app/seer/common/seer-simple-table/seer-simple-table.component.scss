@@ -1,0 +1,129 @@
+@import '../../../theme/sass/conf/conf';
+:host /deep/ {
+    
+  .table {
+    border: 0;
+    color: $default-text;
+    thead {
+      border-style: solid;
+      border-color: $border;
+      border-width: 1px 1px 0;
+    }
+    tbody {
+      border-style: solid;
+      border-color: $border;
+      border-width: 0 1px;
+    }
+  }
+  
+  .seer_font{
+    font-size: 11px;
+    font-family: 'Microsoft Sans Serif' , Arial, Helvetica, Verdana;
+  }
+
+
+  .seer_a_font{
+    color: #00abff;
+    text-decoration:underline;
+    cursor:pointer;
+  }
+
+  .table-actions {
+    font-size: 14px;
+    text-align: left;
+    i.table-action {
+      margin-right: 14px;
+      cursor: pointer;
+      &::last-of-type {
+        margin-right: 0;
+      }
+      &:hover {
+        color: $primary;
+      } 
+    }
+  }
+  .popover {
+    font-size: 12px;
+    line-height: 1.2;
+    color: #fff;
+    background-color: rgba(0, 0, 0, .7);
+    border: 0;
+  }
+  .popover-arrow {
+    border-width: 4px;
+    &:after {
+      border-top-color: rgba(0, 0, 0, .7);
+    }
+  }
+  .popover-content {
+    padding: 4px 8px;
+  }
+  .bs-popover-top .arrow, .bs-popover-bottom .arrow {
+    left: calc(50%) !important;
+  }
+  .popover.popover-top .popover-arrow, .popover.bs-tether-element-attached-bottom .popover-arrow {
+    border-top-color: rgba(0, 0, 0, .7);
+    bottom: -4px;
+    margin-left: -4px;
+    &:after {
+      display: none;
+    }
+  }
+
+  th,
+  td {
+    width: auto;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .table-checkbox {
+    width: 48px;
+    text-align: center;
+  }
+  .export{
+    cursor:pointer;
+  }
+  .btnGroup {
+    margin-bottom: 15px;
+    i {
+      margin-right: 8px;
+    }
+  }
+  .btnGroup__left {
+    .btnGroup__item {
+      float: left;
+      margin-right: 8px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+  .btnGroup__right {
+    .btnGroup__item {
+      margin-left: 8px;
+      &:last-child {
+        margin-left: 0;
+      }
+    }
+  }
+  ss-multiselect-dropdown {
+    .btn-group {
+      .btn {
+        padding: 0 15px;
+        width: auto;
+        min-width: 120px;
+      }
+    }
+  }
+}
+
+.t-a-left {
+  text-align: left;
+}
+.t-a-center {
+  text-align: center;
+}
+.t-a-right {
+  text-align: right;
+}

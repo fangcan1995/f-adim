@@ -30,12 +30,12 @@ export class SeerDatepickerComponent implements OnInit {
 	}
 	dateValue: Date;
 	@Output() dateChange = new EventEmitter();
-    @Input()
-    get date() {
-        return this.dateValue;
-    }
-    set date(val) {
-    	this.dateValue = val;
-        this.dateChange.emit(this.dateValue);
-    }
+  @Input()
+  get date() {
+    return this.dateValue;
+  }
+  set date(val) {
+  	this.dateValue = val;
+    this.dateChange.emit(this.dateValue);
+  }
 }

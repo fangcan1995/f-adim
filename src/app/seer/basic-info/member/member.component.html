@@ -4,7 +4,7 @@
     [filters]="filters"
     (onFiltersChanged)=handleFiltersChanged($event)
     (onSearchBtnClicked)=handleSearchBtnClicked($event)
-  ></seer-filter>  
+  ></seer-filter>
 </seer-content-top>
 <seer-collapse-card>
   <seer-table
@@ -12,6 +12,9 @@
     [rowsOnPageSet]="rowsOnPageSet"
     [rowsOnPage]="rowsOnPage"
     [pageSize]="pageSize"
+    [customActions]="customActions"
+    [hideAddButton]=true
+    [hideRemoveAll]=true
     [data]="members"
     [titles]="titles"
     [translate]="dict"

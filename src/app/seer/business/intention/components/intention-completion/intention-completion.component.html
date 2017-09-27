@@ -1,34 +1,35 @@
+<seer-content-top>
+  <button class="btn btn-outline-dark" (click)="handleBackBtnClick()">返回</button>
+  <button class="btn btn-primary" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">提交审核</button>
+</seer-content-top>
 <div class="widgets">
-  <div style="margin-bottom: 24px;">
-    <button class="btn btn-primary" (click)="handleBackBtnClick()">返回</button>
-    <button class="btn btn-primary" [disabled]="forbidSaveBtn">提交审核</button>
-  </div>
   <div class="row justify-content-center">
     <div class="col-md-12">
       <seer-collapse-card title="基本信息" cardClass="with-scroll" [canCollapse]=true>
+        <button class="btn btn-outline-dark" (click)="handleBackBtnClick()">保存</button>
         <form class="form-horizontal">
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="realName" class="col-sm-4 control-label">用户名</label>
+                <label for="account" class="col-sm-4 control-label">用户名</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="realName" placeholder="用户名" [(ngModel)]="member.name" [ngModelOptions]="{standalone: true}">
+                  <input type="text" class="form-control" id="account" placeholder="用户名" [(ngModel)]="member.account" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="name" class="col-sm-4 control-label">客户姓名</label>
+                <label for="realName" class="col-sm-4 control-label">客户姓名</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="客户姓名" [(ngModel)]="member.real_name" [ngModelOptions]="{standalone: true}">
+                  <input type="text" class="form-control" id="realName" placeholder="客户姓名" [(ngModel)]="member.realName" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="mobile" class="col-sm-4 control-label">手机号</label>
+                <label for="mobilePhone" class="col-sm-4 control-label">手机号</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="educationalBackground" placeholder="手机号" [(ngModel)]="member.mobile" [ngModelOptions]="{standalone: true}">
+                  <input type="text" class="form-control" id="mobilePhone" placeholder="手机号" [(ngModel)]="member.mobilePhone" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
             </div>
@@ -36,7 +37,7 @@
               <div class="row">
                 <label for="idNumber" class="col-sm-4 control-label">身份证号</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="idNumber" placeholder="身份证号" [(ngModel)]="member.id_number" [ngModelOptions]="{standalone: true}">
+                  <input type="text" class="form-control" id="idNumber" placeholder="身份证号" [(ngModel)]="member.idNumber" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
             </div>
@@ -44,7 +45,13 @@
               <div class="row">
                 <label for="gender" class="col-sm-4 control-label">性别</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="gender" placeholder="性别" [(ngModel)]="member.gender" [ngModelOptions]="{standalone: true}">
+                  <!--<input type="text" class="form-control" id="gender" placeholder="性别" [(ngModel)]="member.gender" [ngModelOptions]="{standalone: true}">-->
+                  <select class="form-control" id="gender" placeholder="">
+                    <option>请选择</option>
+                    <option value="0">女</option>
+                    <option value="1">男</option>
+                    <option value="2">其他</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -58,55 +65,173 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="educationalBackground" class="col-sm-4 control-label">学历</label>
+                <label for="education" class="col-sm-4 control-label">学历</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="educationalBackground" placeholder="学历" [(ngModel)]="member.educational_background" [ngModelOptions]="{standalone: true}">
+                  <!--<input type="text" class="form-control" id="education" placeholder="学历" [(ngModel)]="member.education" [ngModelOptions]="{standalone: true}">-->
+                  <select class="form-control" id="education" placeholder="">
+                    <option>请选择</option>
+                    <option value="0">博士</option>
+                    <option value="1">硕士</option>
+                    <option value="2">本科</option>
+                    <option value="3">大专</option>
+                    <option value="4">高中及以下</option>
+                  </select>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="marriage" class="col-sm-4 control-label">婚姻状况</label>
+                <label for="maritalStatus" class="col-sm-4 control-label">婚姻状况</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="marriage" placeholder="婚姻状况" [(ngModel)]="member.marriage" [ngModelOptions]="{standalone: true}">
+                  <!--<input type="text" class="form-control" id="maritalStatus" placeholder="婚姻状况" [(ngModel)]="member.maritalStatus" [ngModelOptions]="{standalone: true}">-->
+                  <select class="form-control" id="maritalStatus" placeholder="">
+                    <option>请选择</option>
+                    <option value="0">未婚</option>
+                    <option value="1">已婚</option>
+                    <option value="2">离异</option>
+                    <option value="3">其他</option>
+                  </select>
                 </div>
               </div>
             </div>
             <div class="col-sm-12">
               <div class="row">
-                <label for="censusRegister" class="col-sm-4 col-md-2 col-xlg-1 control-label">户口所在地</label>
-                <div class="col-sm-8 col-md-10 col-xlg-11">
+                <label for="domicilePlace" class="col-sm-4 col-md-2 col-xlg-1 control-label">户口所在地</label>
+                <div class="col-sm-8 col-md-10 col-xlg-11" id="domicilePlace">
                   <div class="row">
-                    <div class="col-sm-12 col-md-4 col-xlg-2 form-group">
-                      <select class="form-control" id="censusRegister" placeholder="户口所在地">
+                    <div class="form-group col-sm-12 col-md-4 col-xlg-2">
+                      <select class="form-control"  placeholder="">
 
                       </select>
                     </div>
-                    <div class="col-sm-12 col-md-4 col-xlg-2 form-group">
-                      <select class="form-control" id="censusRegister" placeholder="户口所在地">
+                    <div class="form-group col-sm-12 col-md-4 col-xlg-2">
+                      <select class="form-control"  placeholder="">
 
                       </select>
                     </div>
-                    <div class="col-sm-12 col-md-4 col-xlg-2 form-group">
-                      <select class="form-control" id="censusRegister" placeholder="户口所在地">
+                    <div class="form-group col-sm-12 col-md-4 col-xlg-2">
+                      <select class="form-control"  placeholder="">
 
                       </select>
                     </div>
-                    <div class="col-sm-12 col-md-12 col-xlg-6 form-group">
-                      <input type="text" class="form-control" id="residence" placeholder="详情地址" [(ngModel)]="member.residence" [ngModelOptions]="{standalone: true}">
+                    <div class="form-group col-sm-12 col-md-12 col-xlg-6">
+                      <input type="text" class="form-control" id="fullAddress" placeholder="详细地址" [(ngModel)]="member.fullAddress" [ngModelOptions]="{standalone: true}">
                     </div>
                   </div>
-                  
                 </div>
-                
               </div>
             </div>
+            <div class="col-sm-12">
+            <div class="row">
+              <label for="currentAddress" class="col-sm-4 col-md-2 col-xlg-1 control-label">现居住地</label>
+              <div class="col-sm-8 col-md-10 col-xlg-11" id="currentAddress">
+                <div class="row">
+                  <div class="form-group col-sm-12 col-md-4 col-xlg-2">
+                    <select class="form-control"  placeholder="">
 
-            <div class="form-group col-sm-12">
+                    </select>
+                  </div>
+                  <div class="form-group col-sm-12 col-md-4 col-xlg-2">
+                    <select class="form-control"  placeholder="">
+
+                    </select>
+                  </div>
+                  <div class="form-group col-sm-12 col-md-4 col-xlg-2">
+                    <select class="form-control"  placeholder="">
+
+                    </select>
+                  </div>
+                  <div class="form-group col-sm-12 col-md-12 col-xlg-6">
+                    <input type="text" class="form-control" id="residence" placeholder="详情地址" [(ngModel)]="member.residence" [ngModelOptions]="{standalone: true}">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </form>
+      </seer-collapse-card>
+    </div>
+    <div class="col-md-12">
+      <seer-collapse-card title="借款信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+        <button class="btn btn-outline-dark" (click)="handleBackBtnClick()">保存</button>
+        <form class="form-horizontal">
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="residence" class="col-sm-4 col-md-2 col-xlg-1 control-label">现居地址</label>
-                <div class="col-sm-8 col-md-10 col-xlg-11">
-                  <input type="text" class="form-control" id="residence" placeholder="现居地址" [(ngModel)]="member.residence" [ngModelOptions]="{standalone: true}">
+                <label for="loanType" class="col-sm-4 control-label">借款类型</label>
+                <div class="col-sm-8">
+                  <select class="form-control" class="form-control" id="loanType" placeholder="">
+                    <option value="0">汇车贷</option>
+                    <option value="1">汇房贷</option>
+                    <option value="2">信用贷</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="loanAmount" class="col-sm-4 control-label">借款金额</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="loanAmount" placeholder="借款金额" [(ngModel)]="loanInfo.loanAmount" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="lifeOfLoan" class="col-sm-4 control-label">借款期限</label>
+                <div class="col-sm-8 ">
+                  <select class="form-control" id="lifeOfLoan" placeholder="">
+                    <option>请选择</option>
+                    <option value="3">三个月</option>
+                    <option value="6">六个月</option>
+                    <option value="12">十二个月</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="annualRate" class="col-sm-4 control-label">年利率</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="annualRate" placeholder="年利率" [(ngModel)]="loanInfo.annualRate" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="projectName" class="col-sm-4 control-label">项目名称</label>
+                <div class="col-sm-8">
+                  <input class="form-control" id="projectName" placeholder="项目名称" [(ngModel)]="loanInfo.projectName" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="repaymentMethod" class="col-sm-4 control-label">还款方式</label>
+                <div class="col-sm-8">
+                  <select class="form-control" id="repaymentMethod" placeholder="">
+                    <option>请选择</option>
+                    <option value="0">按月付息，到期还款</option>
+                    <option value="1">一次性还本付息</option>
+                    <option value="2">等额本息</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="serviceFee" class="col-sm-4 control-label">手续费</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="serviceFee" placeholder="手续费" [(ngModel)]="member.educational_background" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+              <div class="row">
+                <label for="loanPurpose" class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 ">借款用途</label>
+                <div class="col-sm-11 col-md-10 col-lg-10 col-xlg-11">
+                  <textarea class="form-control" id="loanPurpose" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 84px;"></textarea>
                 </div>
               </div>
             </div>
@@ -115,23 +240,190 @@
       </seer-collapse-card>
     </div>
     <div class="col-md-12">
-      <seer-collapse-card title="借款信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
-
+      <seer-collapse-card title="选择抵押物" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+        <button class="btn btn-primary" (click)="handleBackBtnClick()">新增车辆</button><p></p>
+        <form class="form-horizontal">
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+              <div class="row">
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title">车牌号：辽B·12345</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text">简介：摩根 Plus 4，200公里，3年车龄，评估价格为70万。</p>
+                    <a href="#" class="card-link">设为抵押物</a>
+                    <a href="#" class="card-link">查看详情</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+              <div class="row">
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title">车牌号：辽B·12345</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text">简介：摩根 Plus 4，200公里，3年车龄，评估价格为70万。</p>
+                    <a href="#" class="card-link">设为抵押物</a>
+                    <a href="#" class="card-link">查看详情</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+              <div class="row">
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title">车牌号：辽B·12345</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text">简介：摩根 Plus 4，200公里，3年车龄，评估价格为70万。</p>
+                    <a href="#" class="card-link">设为抵押物</a>
+                    <a href="#" class="card-link">查看详情</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <button class="btn btn-primary" (click)="handleBackBtnClick()">新增房产</button><p></p>
+        <form class="form-horizontal">
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+              <div class="row">
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title">产权证号：12345678</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text">简介：甘井子区，建筑面积100平米，商品房，2012年承建，评估价格为200万。</p>
+                    <a href="#" class="card-link">设为抵押物</a>
+                    <a href="#" class="card-link">查看详情</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+              <div class="row">
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title">产权证号：12345678</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text">简介：甘井子区，建筑面积100平米，商品房，2012年承建，评估价格为200万。</p>
+                    <a href="#" class="card-link">设为抵押物</a>
+                    <a href="#" class="card-link">查看详情</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+              <div class="row">
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title">产权证号：12345678</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text">简介：甘井子区，建筑面积100平米，商品房，2012年承建，评估价格为200万。</p>
+                    <a href="#" class="card-link">设为抵押物</a>
+                    <a href="#" class="card-link">查看详情</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
       </seer-collapse-card>
     </div>
     <div class="col-md-12">
-      <seer-collapse-card title="抵押车辆信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
-
+      <seer-collapse-card title="信用信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+        <button class="btn btn-primary" (click)="handleBackBtnClick()">征信查询</button><p></p>
+        <form class="form-horizontal">
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+              <div class="row">
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title">个人风险汇总信息</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text">查询时间：2012-09-12 12:00:12</p>
+                    <a href="#" class="card-link">预览</a>
+                    <a href="#" class="card-link">下载</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+              <div class="row">
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title"> 个人信用报告</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text">查询时间：2012-09-12 12:00:12</p>
+                    <a href="#" class="card-link">预览</a>
+                    <a href="#" class="card-link">下载</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+              <div class="row">
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title">个人反欺诈分析报告</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text">未查询</p>
+                    <a href="#" class="card-link">查询</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
       </seer-collapse-card>
     </div>
     <div class="col-md-12">
-      <seer-collapse-card title="附件信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
-
-      </seer-collapse-card>
-    </div>
-    <div class="col-md-12">
-      <seer-collapse-card title="审批流程" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
-
+      <seer-collapse-card title="附件信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+        <button class="btn btn-primary" (click)="handleBackBtnClick()">上传附件</button><p></p>
+        <form class="form-horizontal">
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+              <div class="row">
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title">附件名称：房屋图片1</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text">文件类型：图片，上传时间：2017-09-27，上传人：XXX。</p>
+                    <a href="#" class="card-link">下载</a>
+                    <a href="#" class="card-link">删除</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+              <div class="row">
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title">附件名称：房屋图片2</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text">文件类型：图片，上传时间：2017-09-27，上传人：XXX。</p>
+                    <a href="#" class="card-link">下载</a>
+                    <a href="#" class="card-link">删除</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+              <div class="row">
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title">附件名称：房屋图片3</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text">文件类型：图片，上传时间：2017-09-27，上传人：XXX。</p>
+                    <a href="#" class="card-link">下载</a>
+                    <a href="#" class="card-link">删除</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
       </seer-collapse-card>
     </div>
   </div>

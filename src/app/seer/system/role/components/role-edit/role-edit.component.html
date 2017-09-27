@@ -3,9 +3,7 @@
   <button type="button" class="btn btn-outline-dark" (click)="goBack()">返回</button>
   <button type="submit" class="btn btn-primary">保存</button>
 </seer-content-top>
-<div class="form-page-header">
-</div>
-<seer-card [title]="title">
+<seer-collapse-card [title]="title">
   <div class="row">
     <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
       <div class="form-group">
@@ -21,21 +19,21 @@
       </div>
     </div>
   </div>
-  <div class="row col-lg-12">
-    <hr>
-    <div class="col-lg-5">
-      <seer-card [title]="'设置账号'">
-        <seer-tree #accountTree
-                   [permissions]="accountPermission" [nodes]="accounts"></seer-tree>
-      </seer-card>
-    </div>
-    <div class="col-lg-2"></div>
-    <div class="col-lg-5">
-      <seer-card [title]="'设置权限'">
-        <seer-tree #resourceTree
-                   [permissions]="resourcePermission" [nodes]="resources"></seer-tree>
-      </seer-card>
-    </div>
+  
+</seer-collapse-card>
+
+<div class="row">
+  <div class="col-lg-6">
+    <seer-collapse-card [title]="'设置账号'">
+      <seer-tree #accountTree
+                 [permissions]="accountPermission" [nodes]="accounts"></seer-tree>
+    </seer-collapse-card>
   </div>
-</seer-card>
+  <div class="col-lg-6">
+    <seer-collapse-card [title]="'设置权限'">
+      <seer-tree #resourceTree
+                 [permissions]="resourcePermission" [nodes]="resources"></seer-tree>
+    </seer-collapse-card>
+  </div>
+</div>
 </form>

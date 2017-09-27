@@ -204,11 +204,11 @@ export class BaseService<T> {
       .catch(BaseService.handleError);
   }
 
-  getDictTranslate(translateFields: {field: string,dictKeyId?: string}[] = []):Promise<Result> {
+  getDictTranslate(translateFields: {field: string | number,dictKeyId?: string}[] = []):Promise<Result> {
     //生成一个map，记录了字典keyId和字段名，用于替换名字不一样的情况
     let map = new Map();
     _.each(translateFields, field => {
-      map.set(field.field, field.dictKeyId ? field.dictKeyId : field.field.replace(/([A-Z]+)/g, (all, letter)=>'_'+letter).toUpperCase());
+      map.set(field.field, field.dictKeyId ? field.dictKeyId : field.field.toString().replace(/([A-Z]+)/g, (all, letter)=>'_'+letter).toUpperCase());
     });
 
     const cachedDicts = 'cached dicts';

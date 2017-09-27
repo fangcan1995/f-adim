@@ -1,0 +1,48 @@
+<div>
+	<div class="pull-left float-sm-left">
+	  每页显示条数
+	  <select [value]="rowsOnPage" (change)="setRowsOnPage($event)">
+	    <option *ngFor="let rows of rowsOnPageSet" [value]="rows">{{rows}}</option>
+	  </select>
+	  共{{ rowCount }}条
+	</div>
+	<div class="pull-right float-sm-right">
+	  <ul class="pagination " *ngIf="getPageCount() > 0">
+	    <li class="page-item" [class.disabled]="getPageNumber() <= 1" (click)="getPageNumber() <= 1 ? null : setPageNumber(getPageNumber() - 1)">
+	      <a class="page-link">上一页</a>
+	    </li>
+	    <li class="page-item" *ngIf="getPageNumber() > 3" (click)="setPageNumber(1)">
+	      <a class="page-link">1</a>
+	    </li>
+	    <li class="page-item" *ngIf="getPageNumber() > 4">
+	      <a class="page-link">...</a>
+	    </li>
+	    <li class="page-item" *ngIf="getPageNumber() > 2" (click)="setPageNumber(getPageNumber() - 2)">
+	      <a class="page-link">{{getPageNumber()-2}}</a>
+	    </li>
+	    <li class="page-item" *ngIf="getPageNumber() > 1" (click)="setPageNumber(getPageNumber() - 1)">
+	      <a class="page-link">{{getPageNumber()-1}}</a>
+	    </li>
+	    <li class="page-item active">
+	      <a class="page-link">{{getPageNumber()}}</a>
+	    </li>
+	    <li class="page-item" *ngIf="getPageNumber() <= getPageCount() - 1" (click)="setPageNumber(getPageNumber() + 1)">
+	        <a class="page-link">{{getPageNumber()+1}}</a>
+	    </li>
+	    <li class="page-item" *ngIf="getPageNumber() <= getPageCount() - 2" (click)="setPageNumber(getPageNumber() + 2)">
+	        <a class="page-link">{{getPageNumber()+2}}</a>
+	    </li>
+	    <li class="page-item" *ngIf="getPageNumber() <= getPageCount() - 4">
+	        <a class="page-link">...</a>
+	    </li>
+	    <li class="page-item" *ngIf="getPageNumber() <= getPageCount() - 3"  (click)="setPageNumber(getPageCount())">
+	        <a class="page-link">{{getPageCount()}}</a>
+	    </li>
+
+	    <li class="page-item" [class.disabled]="getPageNumber() >= getPageCount()" (click)="getPageNumber() >= getPageCount() ? null : setPageNumber(getPageNumber() + 1)">
+	      <a class="page-link">下一页</a>
+	    </li>
+	  </ul>
+	  共{{ getPageCount() }}页
+	</div>  
+</div>
