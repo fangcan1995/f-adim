@@ -36,6 +36,7 @@ export class IntentionComponent {
       'type': 'completion',
       'name': '补全资料',
       'className': 'btn btn-xs btn-info',
+      'icon': 'icon-edit'
     }
   }
 
@@ -49,7 +50,7 @@ export class IntentionComponent {
     this.getList();
   }
   getList(params?) {
-    this.data = this.intentionService.getList(params);
+    this.data = this.intentionService.getIntentionList(params);
     this.data = _.map(this.data, t => {
       let actions = [this.actionSet.completion];
       return _.set(t, 'actions', actions);
