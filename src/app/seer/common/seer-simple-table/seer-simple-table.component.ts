@@ -76,20 +76,35 @@ export class SeerSimpleTableComponent implements OnInit {
   }
   ngOnChanges(): void {
     this.data = _(this.data)
-    .map(t => _.set(t, '_ACTIONS_', [ UPDATE, DELETE ]))
+    .map(t => {
+      return {
+        data: t,
+        actions: [ UPDATE, DELETE ],
+        editState: false,
+        copy: _.clone(t),
+      }
+    })
     .value();
   }
   handleActionsClick($event) {
     switch ($event.action.type) {
       case UPDATE.type:
-        $event.item['_EDIT_STATE_'] = 'EDIT';
-        $event.item['_ACTIONS_'] = [ SAVE, CANCEL ]
-        console.log($event.item)
-
+        $event.item.editState = 'EDIT';
+        $event.item.actions = [ SAVE, CANCEL ]
         // this.notify.emit({type: $event.action.type, data: $event.item});
         break;
       case DELETE.type:
         // this.notify.emit({type: $event.action.type, data: $event.item});
+        break;
+      case SAVE.type:
+        $event.item.data = _.clone($event.item.copy);
+        $event.item.editState = false;
+        $event.item.actions = [ UPDATE, DELETE ]
+        break;
+      case CANCEL.type:
+        $event.item.copy = _.clone($event.item.data);
+        $event.item.editState = false;
+        $event.item.actions = [ UPDATE, DELETE ]
         break;
     }
 

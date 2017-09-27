@@ -40,7 +40,7 @@ export class SeerTableComponent implements OnInit {
   @Input() hidePrint;//隐藏打印
   @Input() hideRemoveButton; //隐藏删除按钮
   @Input() displayOriginalData;//翻译不破坏原始数据，但全局搜索不好使
-
+  @Input() customActions: Array<any>;
   @Input() rowsOnPageSet: Array<number> = [10, 15, 30]; // 每页可显示条数的枚举
   @Input() rowsOnPage:number = 10;
 
@@ -53,7 +53,7 @@ export class SeerTableComponent implements OnInit {
 
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
   @Output() changePage: EventEmitter<any> = new EventEmitter<any>();
-  
+
   public sortBy: string | number = '';
   public selectedAll = false;
   private multiColumnArray: IMultiSelectOption[] = [];
