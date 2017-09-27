@@ -1,15 +1,57 @@
-<table
-  class="table table-hover table-bordered table-striped"
-  [mfData]="getData()"
-  #mf="mfDataTable" [(mfSortBy)]="sortBy"
-  [mfRowsOnPage]="rowsOnPage"
-  >
-  <thead>
-  <tr class="header_border">
-    <th *ngFor="let title of titles" class="text-center">
-      <mfDefaultSorter by="{{ title.key }}"><b class="seer_font">{{ title.label }}</b></mfDefaultSorter>
-    </th>
-    <th class="text-center" *ngIf="!hideActions"><b class="seer_font">操作</b></th>
-  </tr>
-  </thead>
-</table>
+<div style="overflow: auto;">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
+          {{ title.label }}
+        </th>
+        <th class="table-actions" *ngIf="!hideActions"><b class="seer_font">操作</b></th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of getData() ">
+      <td *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
+        <div *ngIf="title.type=='link'">
+          <a (click)="openLink(item)">
+            <span class="seer_font seer_a_font">{{item[title.key]}}</span>
+          </a>
+        </div>
+        <div *ngIf="title.type=='input_number'">
+          <input  type="number" class="form-control" [(ngModel)]="item[title.key]"/>
+        </div>
+        <div *ngIf="title.type!='input_number' && title.type!='link' && !displayOriginalData">
+          <span class="seer_font">{{renderValue(title,item[title.key])}}</span>
+        </div>
+        <div *ngIf="title.type!='input_number' && title.type!='link' && displayOriginalData">
+          <span class="seer_font">{{item[title.key]}}</span>
+        </div>
+      </td>
+      <td class="table-actions" *ngIf="!hideActions">
+        <span *ngIf="item.actions">
+          <i
+            *ngFor="let action of item.actions"
+            class="table-action {{ action.icon }}"
+            (click)="handleActionsClick({action: action, item: item})"
+            popover="{{ action.name }}"
+            triggers="mouseenter:mouseleave"
+            ></i>
+        </span>
+      </td>
+    </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td  [attr.colspan]="titles.length + 2">
+          <seer-pagination
+            [rowCount]="total"
+            [rowsOnPageSet]="rowsOnPageSet"
+            [rowsOnPage]="paginationRules ? rowsOnPage : pageSize"
+            [pageNumber]="pageNum"
+            (notify)="onPageChange($event)"
+          ></seer-pagination>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+

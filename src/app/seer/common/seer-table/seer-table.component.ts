@@ -18,6 +18,7 @@ export interface TableTitleModel {
   label: string,
   isDict?: boolean,
   textAlign?: string, // 默认left 可传 center right
+  hidden?: boolean,
 }
 
 @Component({
@@ -27,7 +28,7 @@ export interface TableTitleModel {
   providers: [BaseService]
 })
 export class SeerTableComponent implements OnInit {
-  @Input() data;   //数据数组
+  @Input() data = [];   //数据数组
   @Input() titles;  //标题数组
   @Input() translate; //翻译JSON
   @Input() hideColumns; //隐藏动态列
@@ -45,14 +46,14 @@ export class SeerTableComponent implements OnInit {
   @Input() addNewButton; //新增自定义按钮
 
   @Input() rowsOnPageSet: Array<number> = [10, 15, 30]; // 每页可显示条数的枚举
-  @Input() rowsOnPage:number;
+  @Input() rowsOnPage:number = 10;
 
   @Input() paginationRules:number = 1; // 0后端分页 1前端分页
 
   // 当后端分页时，必须传下列3个值， 当前端分页时，传rowsOnPage
   @Input() pageNum:number = 1; // 页码
   @Input() pageSize:number; // 每页显示条数
-  @Input() total:number; // 数据总量
+  @Input() total:number = 0; // 数据总量
 
 
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
@@ -79,10 +80,10 @@ export class SeerTableComponent implements OnInit {
   constructor(
     private service: BaseService<any>,
   ) { 
+    if( !this.rowsOnPage ) this.rowsOnPage = this.rowsOnPageSet[0];
   }
 
   ngOnInit(): void {
-    if( !this.rowsOnPage ) this.rowsOnPage = this.rowsOnPageSet[0];
     this.titles = _.clone(this.titles);
 
     if ( _.isArray(this.titles) && this.titles.length ) {
@@ -127,7 +128,7 @@ export class SeerTableComponent implements OnInit {
     this.pageLength = this.paginationRules ? Math.ceil(this.data.length / this.rowsOnPage) : Math.ceil(this.total / this.pageSize)
   }
   selectAll(): void {
-    let data = !this.paginationRules ? this.data.slice(0, this.pageSize) : this.data.slice((this.pageNum - 1) * this.rowsOnPage, (this.pageNum - 1) * this.rowsOnPage + this.rowsOnPage)
+    let data = !this.paginationRules ? this._sliceData(this.data, 1, this.pageSize) : this._sliceData(this.data, this.pageNum, this.rowsOnPage)
     _.each(data, item => {
       item.selected = this.selectedAll;
     })
@@ -172,9 +173,11 @@ export class SeerTableComponent implements OnInit {
   importExcel(): void {
     this.notify.emit({type: 'import', data: {}});
   }
-
+  private _sliceData(data, pn, rop) {
+    return data.slice((pn-1)*rop, pn*rop)
+  }
   getData() {
-    let data = !this.paginationRules ? this.data.slice(0, this.pageSize) : this.data.slice((this.pageNum - 1) * this.rowsOnPage, (this.pageNum - 1) * this.rowsOnPage + this.rowsOnPage)
+    let data = !this.paginationRules ? this._sliceData(this.data, 1, this.pageSize) : this._sliceData(this.data, this.pageNum, this.rowsOnPage)
     if ( this.translate ) {
       _.each(data, item => {
         this.transferKeyWithDict(item, this.translate, 1);
@@ -241,41 +244,12 @@ export class SeerTableComponent implements OnInit {
     }
     return value;
   }
-  setPageSize($event) {
-    let value = +$event.target.value;
-    if ( this.paginationRules ) {
-      this.rowsOnPage = value;
-      this.pageLength = Math.ceil(this.data.length / this.rowsOnPage);
-      if ( this.pageNum > this.pageLength) {
-        this.pageNum = this.pageLength
-      } else if ( this.pageNum < 1 ) {
-        this.pageNum = 1;
-      }
-    } else {
-      let pageNum = this.pageNum;
-      let pageLength = Math.ceil(this.total / value);
-      if ( pageNum > pageLength ) {
-        pageNum = pageLength
-      } else if ( pageNum < 1 ) {
-        pageNum = 1;
-      }
-      this.changePage.emit({pageSize: value, pageNum})
-    }
-    
-  }
-  setPageNum(pageNum) {
-    if ( this.paginationRules ) {
-      this.pageNum = pageNum;
-      this.pageLength = Math.ceil(this.data.length / this.rowsOnPage)
-      if ( this.pageNum > this.pageLength) {
-        this.pageNum = this.pageLength
-      } else if ( this.pageNum < 1 ) {
-        this.pageNum = 1;
-      }
-    } else {
-      this.changePage.emit({pageSize: this.pageSize, pageNum})
-    }
-    
+  onPageChange($event) {
+    this.rowsOnPage = $event.rowsOnPage;
+    this.changePage.emit({
+      pageSize: $event.rowsOnPage,
+      pageNum: $event.pageNumber,
+    })
   }
 }
 

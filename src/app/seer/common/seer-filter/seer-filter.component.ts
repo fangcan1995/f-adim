@@ -68,7 +68,6 @@ export class SeerFilterComponent implements OnInit {
       this.service.getDictTranslate(transFields)
       .then(res => {
         if ( res.success ) this.translate = res.data;
-        console.log(this.translate)
         _.each(this.filters, filter => {
           if ( filter.isDict && this.translate && _.isArray(this.translate[filter.key]) ) {
             filter.options = [

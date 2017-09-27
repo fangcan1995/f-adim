@@ -1,4 +1,4 @@
-export interface SeerTreeNode{
+export interface SeerTreeNode {
   name: string;
   id: string;
   expanded?: boolean;

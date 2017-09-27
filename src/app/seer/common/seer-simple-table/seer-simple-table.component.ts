@@ -7,32 +7,187 @@ import {
   EventEmitter,
   OnChanges
 } from '@angular/core';
+import { IMultiSelectOption } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import * as _ from 'lodash';
+
+import { CREATE, DELETE_MULTIPLE } from '../seer-table/seer-table.actions';
+import { BaseService } from "../../base.service";
+
+export interface TableTitleModel {
+  key: string,
+  label: string,
+  isDict?: boolean,
+  textAlign?: string, // 默认left 可传 center right
+}
+
 @Component({
   selector: 'seer-simple-table',
   templateUrl: './seer-simple-table.component.html',
   styleUrls: ['./seer-simple-table.component.scss'],
+  providers: [BaseService]
 })
 export class SeerSimpleTableComponent implements OnInit {
-  @Input() titles;
-  @Input() data;
-  @Input() translate;
-  public rowsOnPage = 10;
+  @Input() data: Array<any> = [];   //数据数组
+  @Input() titles: Array<TableTitleModel> = [];  //标题数组
+  @Input() translate; //翻译JSON
+  @Input() hideColumns; //隐藏动态列
+  @Input() hideRemoveAll; //隐藏全部删除按钮
+  @Input() selectButtonText;//选择按钮文字
+  @Input() hideAddButton;//隐藏新增按钮
+  @Input() hideActions;//隐藏事件列
+  @Input() hideExport;//隐藏导出
+  @Input() hidePrint;//隐藏打印
+  @Input() hideRemoveButton; //隐藏删除按钮
+  @Input() hideFilter;//隐藏全局过滤
+  @Input() hideEditButton;//隐藏编辑按钮
+  @Input() displayCopyButton;//显示复制新增按钮
+  @Input() displayOriginalData;//翻译不破坏原始数据，但全局搜索不好使
+  @Input() addNewButton; //新增自定义按钮
+
+  @Input() rowsOnPageSet: Array<number> = [10, 15, 30]; // 每页可显示条数的枚举
+  @Input() rowsOnPage:number = 10;
+
+  @Input() paginationRules:number = 1; // 0后端分页 1前端分页
+
+  // 当后端分页时，必须传下列3个值， 当前端分页时，传rowsOnPage
+  @Input() pageNum:number = 1; // 页码
+  @Input() pageSize:number; // 每页显示条数
+  @Input() total:number = 0; // 数据总量
+
+
+  @Output() notify: EventEmitter<any> = new EventEmitter<any>();
+  @Output() changePage: EventEmitter<any> = new EventEmitter<any>();
+
   public sortBy = '';
-  constructor() {
+  private pageLength:number;
 
+  public selectedAll = false;
+  private multiColumnArray: IMultiSelectOption[] = [];
+  private multiColumnOptions = [];
+
+  public currentDeleteEvents = [];
+  public currentDeleteEvent;
+  public multiSelectTexts = {
+    checked: '显示',
+    checkedPlural: '显示',
+    defaultTitle: '请选择',
   }
-  ngOnInit() {
-
+  public multiSelectSettings = {
+    buttonClasses: 'btn btn-outline-dark btn-block',
+  }
+  public dt: Date = new Date();
+  constructor(
+    private service: BaseService<any>,
+  ) { 
+    if( !this.rowsOnPage ) this.rowsOnPage = this.rowsOnPageSet[0];
   }
 
+  ngOnInit(): void {
+    this.titles = _.clone(this.titles);
+
+    if ( _.isArray(this.titles) && this.titles.length ) {
+      this.sortBy = this.titles[0].key;
+
+      let multiColumnArray = [];
+      let multiColumnOptions = [];
+
+      _.each(this.titles, title => {
+        
+        if ( !title.hidden ) {
+          multiColumnOptions.push(title.key);
+        }
+        multiColumnArray.push({
+          id: title.key,
+          name: title.label,
+        });
+      });
+      this.multiColumnArray = multiColumnArray;
+      this.multiColumnOptions = multiColumnOptions;
+    }
+    
+    /** 增加的部分 */
+    if ( !this.translate ) {
+      let transFields: {field: string,dictKeyId?: string}[] = [];
+      _.each(this.titles, title => {
+        if ( title.isDict ) {
+          transFields.push({
+            field: title.key,
+            dictKeyId: title.dictKeyId
+          });
+        }
+      });
+      this.service.getDictTranslate(transFields)
+      .then(res => {
+        if ( res.success ) this.translate = res.data;
+      });
+    }
+  }
+  ngOnChanges() {
+    this.pageLength = this.paginationRules ? Math.ceil(this.data.length / this.rowsOnPage) : Math.ceil(this.total / this.pageSize)
+  }
+  selectAll(): void {
+    let data = !this.paginationRules ? this.data.slice(0, this.pageSize) : this.data.slice((this.pageNum - 1) * this.rowsOnPage, (this.pageNum - 1) * this.rowsOnPage + this.rowsOnPage)
+    _.each(data, item => {
+      item.selected = this.selectedAll;
+    })
+    this.notify.emit({type: 'select_all', data: data});
+  }
+
+  selectOne(event): void {
+    let selectedAll = true;
+    _.each(this.data, item => {
+      if ( !item.selected ) return selectedAll = false;
+    })
+    this.selectedAll = selectedAll;
+    this.notify.emit({type: 'select_one', data: event});
+  }
+ 
+
+  handleActionsClick($event) {
+    this.notify.emit({type: $event.action.type, data: $event.item});
+  }
+
+  renderSelectedNum() {
+    return _.reduce(this.data, (result, n) => result = n['selected'] ? result + 1 : result, 0)
+  }
+  renderSelectButtonText() {
+    return !this.selectButtonText ? '选择' : this.selectButtonText;
+  }
+  deleteMultiple(): void {
+    let data = _.filter(this.data, t => t['selected'])
+    this.notify.emit({ type: DELETE_MULTIPLE.type, data });
+  }
+  add(): void {
+    this.notify.emit({type: 'add', data: {}});
+  }
+  create(): void {
+    this.notify.emit({ type: CREATE.type, data: {} })
+  }
+  //导入模板Excel
+  exportTempExcel() : void {
+    this.notify.emit({type: 'export', data: {}});
+  }
+  //导入Excel
+  importExcel(): void {
+    this.notify.emit({type: 'import', data: {}});
+  }
+  private _sliceData(data, pn, rop) {
+    return data.slice((pn-1)*rop, pn*rop)
+  }
   getData() {
+    let data = !this.paginationRules ? this._sliceData(this.data, 1, this.pageSize) : this._sliceData(this.data, this.pageNum, this.rowsOnPage)
     if ( this.translate ) {
-      _.each(this.data, item => {
+      _.each(data, item => {
         this.transferKeyWithDict(item, this.translate, 1);
       });
     }
-    return this.data;
+    return data;
+  }
+  filterShownTitles() {
+    return _.filter(this.titles, t => !t['hidden'])
+  }
+  onChangeColumn(event): void {
+    this.titles = _.map(this.titles, t => _.set(t, 'hidden', event.indexOf(t['key']) === -1));
   }
   transferKeyWithDict(obj: any, translate_copy: any, direction?: boolean | number): void {
     if ( direction ) {
@@ -54,4 +209,47 @@ export class SeerSimpleTableComponent implements OnInit {
     }
     
   }
+  openLink(event) {
+    event.selected = false;
+    if ( this.translate ) this.transferKeyWithDict(event, this.translate);
+    this.notify.emit({type: 'link', data: event});
+  }
+  exportExcel() {
+    let param = {
+      "data": this.getData(),
+      "titles": this.titles
+    };
+    this.service.exportExcel(param)
+    .then(result => {
+      this.download(result.json().data);
+    });
+  }
+
+  download(data) {
+    const a = document.createElement('a');
+    const url = data;
+    const filename = 'download.xls';
+    a.href = url;
+    a.download = filename;
+    a.click();
+  }
+
+  renderValue(title, value) {
+    if ( this.translate && this.translate[title.key] && this.translate[title.key].length ) {
+      _.each(this.translate[title.key], o => {
+        if ( o.dictValueId == value ) value = o.dictValueName;
+      })
+    }
+    return value;
+  }
+  onPageChange($event) {
+    this.rowsOnPage = $event.rowsOnPage;
+    this.changePage.emit({
+      pageSize: $event.rowsOnPage,
+      pageNum: $event.pageNumber,
+    })
+  }
 }
+
+
+

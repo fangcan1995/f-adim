@@ -98,48 +98,13 @@
       <tfoot>
         <tr>
           <td  [attr.colspan]="titles.length + 2">
-              每页显示条数
-              <select [value]="paginationRules ? rowsOnPage : pageSize" (change)="setPageSize($event)">
-                <option *ngFor="let rows of rowsOnPageSet" [value]="rows">{{rows}}</option>
-              </select>
-              共{{ total }}条
-              <ul class="pagination pull-right float-sm-right" *ngIf="pageLength > 1">
-                <li class="page-item" [class.disabled]="pageNum <= 1" (click)="pageNum <= 1 ? null : setPageNum(pageNum-1)">
-                  <a class="page-link">上一页</a>
-                </li>
-                <li class="page-item" *ngIf="pageNum > 3" (click)="setPageNum(1)">
-                  <a class="page-link">1</a>
-                </li>
-                <li class="page-item" *ngIf="pageNum > 4">
-                  <a class="page-link">...</a>
-                </li>
-                <li class="page-item" *ngIf="pageNum > 2" (click)="setPageNum(pageNum - 2)">
-                  <a class="page-link">{{pageNum-2}}</a>
-                </li>
-                <li class="page-item" *ngIf="pageNum > 1" (click)="setPageNum(pageNum - 1)">
-                  <a class="page-link">{{pageNum-1}}</a>
-                </li>
-                <li class="page-item active">
-                  <a class="page-link">{{pageNum}}</a>
-                </li>
-                <li class="page-item" *ngIf="pageNum <= pageLength - 1" (click)="setPageNum(pageNum + 1)">
-                    <a class="page-link">{{pageNum+1}}</a>
-                </li>
-                <li class="page-item" *ngIf="pageNum <= pageLength - 2" (click)="setPageNum(pageNum + 2)">
-                    <a class="page-link">{{pageNum+2}}</a>
-                </li>
-                <li class="page-item" *ngIf="pageNum <= pageLength - 4">
-                    <a class="page-link">...</a>
-                </li>
-                <li class="page-item" *ngIf="pageNum <= pageLength - 3"  (click)="setPageNum(pageLength)">
-                    <a class="page-link">{{pageLength}}</a>
-                </li>
-
-                <li class="page-item" [class.disabled]="pageNum >= pageLength" (click)="pageNum >= pageLength ? null : setPageNum(pageNum+1)">
-                  <a class="page-link">下一页</a>
-                </li>
-              </ul>
-              共{{ pageLength }}页
+            <seer-pagination
+              [rowCount]="total"
+              [rowsOnPageSet]="rowsOnPageSet"
+              [rowsOnPage]="paginationRules ? rowsOnPage : pageSize"
+              [pageNumber]="pageNum"
+              (notify)="onPageChange($event)"
+            ></seer-pagination>
           </td>
         </tr>
       </tfoot>
