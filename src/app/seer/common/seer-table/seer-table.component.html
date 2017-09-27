@@ -33,6 +33,7 @@
         >
         批量删除 {{renderSelectedNum()}}
       </button>
+
       <div class="pull-right btnGroup__item" *ngIf="!hideColumns">
         <ss-multiselect-dropdown
           [options]="multiColumnArray"
@@ -43,6 +44,16 @@
           >
         </ss-multiselect-dropdown>
       </div>
+      
+      <button
+        class="pull-right btnGroup__item {{action.className}}"
+        type="button"
+        *ngFor="let action of customActions"
+        (click)="onCustomAction(action)"
+        >
+        {{ action.name }}
+      </button>
+      
     </div>
   </div>
 </div>

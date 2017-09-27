@@ -237,6 +237,10 @@ export class SeerTableComponent implements OnInit {
       pageNum: $event.pageNumber,
     })
   }
+  onCustomAction({type}) {
+    let data = _.filter(this.data, t => t['selected'])
+    this.notify.emit({type: type, data});
+  }
 }
 
 
