@@ -7,13 +7,15 @@ import {
 import { UserManageService } from "../../user-manage.service";
 import { Router } from "@angular/router";
 import { GlobalState } from "../../../../../global.state";
-import { UserAddedDialogComponent } from "../user-added-dialog/user-added-dialog.component";
+// import { UserAddedDialogComponent } from "../user-added-dialog/user-added-dialog.component";
 import {
   DynamicComponentLoader,
   DynamicComponentParam,
 } from "../../../../../theme/directives/dynamicComponent/dynamic-component.directive";
 import { SeerDialogService } from '../../../.../../../../theme/services/seer-dialog.service'
+import {UPDATE, DELETE} from "../../../../common/seer-table/seer-table.actions"
 import * as _ from 'lodash'
+
 
 @Component({
   selector: 'user-list',
@@ -21,9 +23,10 @@ import * as _ from 'lodash'
   providers: [UserManageService],
   styleUrls: ['./user-list.scss'],
   encapsulation: ViewEncapsulation.None,
-  entryComponents: [UserAddedDialogComponent]
+  // entryComponents: [UserAddedDialogComponent]
 })
 export class UserListComponent implements OnDestroy {
+  userList = ""
   title = '用户列表';
   EVENT = 'openUserAddedDialog';
   SAVEEVENT = 'saveSysUser';
@@ -111,46 +114,6 @@ export class UserListComponent implements OnDestroy {
       label: '跟新时间',
       type: 'input.data',
     },
-
-
-
-
-    // {
-    //   key: 'gender',
-    //   label: '消息类型',
-    //   type: 'select',
-    //   options: [
-    //     {
-    //       content: '请选择'
-    //     },
-    //     {
-    //       value: '0',
-    //       content: '短信'
-    //     },
-    //     {
-    //       value: '1',
-    //       content: '电话',
-    //     }
-    //   ]
-    // },
-    // {
-    //   key: 'mobile',
-    //   label: '发送状态',
-    //   type: 'select',
-    //    options: [
-    //     {
-    //       content: '请选择'
-    //     },
-    //     {
-    //       value: '0',
-    //       content: '已发'
-    //     },
-    //     {
-    //       value: '1',
-    //       content: '未发',
-    //     }
-    //   ]
-    // },
   ]
   titles = [
     {
@@ -198,22 +161,6 @@ export class UserListComponent implements OnDestroy {
       label:'用户角色',
     },
   ];
-  actionSet = {
-    'update': {
-      'type': 'update',
-      'name': '修改',
-      // 'icon': 'ion-close-round',
-      'className': 'btn btn-xs btn-info',
-    },
-    'delete': {
-      'type': 'delete',
-      'name': '删除',
-      'className': 'btn btn-xs btn-danger',
-      'icon': 'ion-close-round',
-      // 'action': 'remove'
-    },
-  }
-
   // titleOption =[
   //   {
   //     key:'account',
@@ -261,7 +208,7 @@ export class UserListComponent implements OnDestroy {
   //   }
   // ];
 
-  constructor(protected service: UserManageService, private router: Router, private _state: GlobalState, private _dialogService: SeerDialogService,) {
+  constructor(protected service: UserManageService, private router: Router, private _state: GlobalState, private _dialogService: SeerDialogService) {
     /*弹出新增、修改页面订阅事件*/
     this._state.subscribe(this.EVENT, (param) => {
       this.openModal(param);
@@ -282,44 +229,32 @@ export class UserListComponent implements OnDestroy {
   }
 
   public openModal(data) {
-    console.log(data);
-    console.log("---------------------------------------------------");
-    
     this.dynamicComponentLoader.loadComponent(data.component,data.data);
   }
 
   ngOnDestroy(): any {
     this._state.unsubscribe(this.EVENT);
   }
-
   /*刷新用户信息列表*/
   allUsersList() {
     this.service.getUsers().then((data) => {
       this.source = data.data;
-      console.log( this.source );
-      
-       this.record = _.map(this.source, t => {
-        let actions;
-        actions = [this.actionSet.update, this.actionSet.delete]
-        return _.set(t, 'actions', actions)
-      })
-
-
-
+      console.log( this.source);
+      this.source = _.map(this.source, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
     });
   }
 
   /*弹出新增用户模态窗口*/
-  popupAdd(): void {
-    let param: DynamicComponentParam = {component: UserAddedDialogComponent, data: {title:'新增用户', flag: '0'} };
-    this._state.notify(this.EVENT, param);
-  }
+  // popupAdd(): void {
+  //   let param: DynamicComponentParam = {component: UserAddedDialogComponent, data: {title:'新增用户', flag: '0'} };
+  //   this._state.notify(this.EVENT, param);
+  // }
 
   /*弹出修改用户模态窗口*/
-  popupEdit(event):void {
-    let param: DynamicComponentParam = {component: UserAddedDialogComponent, data: {user: event, title:'修改用户', flag: '1'} };
-    this._state.notify(this.EVENT, param);
-  }
+  // popupEdit(event):void {
+  //   let param: DynamicComponentParam = {component: UserAddedDialogComponent, data: {user: event, title:'修改用户', flag: '1'} };
+  //   this._state.notify(this.EVENT, param);
+  // }
 
   onDelete(event):void {
     this.service.deleteUser(event.data.id).then(()=>true).catch(()=>false);
@@ -329,12 +264,16 @@ export class UserListComponent implements OnDestroy {
     console.log(type);
     
     let data = message.data;
+
     switch ( type ) {
-      case 'add':
-         this.popupAdd();
+      case 'create':
+        //  this.popupAdd();
+         this.router.navigate(['/system/user-manage/add/']);
         break;
       case 'update': 
-        this.popupEdit(message.data);
+        // this.popupEdit(message.data);
+      this.router.navigate(['/system/user-manage/edit',message.data.userId]);
+       
         break;
       case 'delete':
       console.log("1111111");
@@ -354,5 +293,4 @@ export class UserListComponent implements OnDestroy {
         break;
     }
   }
-
 }

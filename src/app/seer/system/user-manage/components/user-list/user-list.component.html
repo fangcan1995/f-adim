@@ -1,18 +1,41 @@
 
-<div dynamic-component></div>
-  <seer-collapse-card>
+<!-- <div dynamic-component></div> -->
+  <!-- <seer-collapse-card>
     <seer-filter
       [hasGlobalFilter]="hasGlobalFilter"
       [filters]="filters"
       (onSearchBtnClicked)=handleSearchBtnClicked($event)
     ></seer-filter>  
   </seer-collapse-card>
-  <seer-collapse-card>
+   <seer-collapse-card>
     <seer-table
       [data]="source"
       [titles]="titles"
      
       (notify)="onChange($event)"
     ></seer-table>
-  </seer-collapse-card>
+  </seer-collapse-card>  -->
  <!-- (onFiltersChanged)=handleFiltersChanged($event)  -->
+
+  <seer-collapse-card
+  >
+    <seer-filter
+      [hasGlobalFilter]="hasGlobalFilter"
+      [filters]="filters"
+      (onFiltersChanged)=handleFiltersChanged($event)
+      (onSearchBtnClicked)=handleSearchBtnClicked($event)
+    ></seer-filter>
+  </seer-collapse-card>
+  <seer-collapse-card
+  >
+    <seer-table
+      [data]="source"
+      [titles]="titles"
+     
+      (notify)="onChange($event)"
+      
+      
+      [hideRemoveAll]="true"
+      [hideColumns]="true"
+    ></seer-table>
+  </seer-collapse-card>
