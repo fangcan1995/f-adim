@@ -1,6 +1,7 @@
 
 import {Component, OnInit} from "@angular/core";
-import {DELETE, UPDATE} from "../../../../common/seer-simple-table/seer-simple-table.actions";
+import {IntentionService} from "../../intention.service";
+import {ActivatedRoute, Params} from "@angular/router";
 @Component({
   templateUrl: './intention-completion.component.html',
   styleUrls: ['./intention-completion.component.scss']
@@ -18,54 +19,87 @@ export class IntentionCompletionComponent implements OnInit {
     },
     { key: 'mobile', label: '手机号', type: 'input.text' },*/
   ];
-  title = '意向处理';
-
-  titles = [
-    { key:'projectId', label:'项目编号' },
-    { key:'projectName', label:'项目名称', },
-    { key:'memberId', label:'会员编号' },
-    { key:'memberName', label:'会员姓名' },
-    { key:'loanAmount', label:'借款金额' },
-    { key:'lifeOfLoan', label:'借款期限' },
-    { key:'applyTime', label:'申请时间' },
-    { key:'projectStatus', label:'项目状态' },
-  ];
-  actionSet = {
-    'completion': {
-      'type': 'completion',
-      'name': '补全资料',
-      'className': 'btn btn-xs btn-info',
-    }
-  }
-
-  data = [
-    { "actions": [UPDATE, DELETE], "projectId" : "122433223", "projectName": "000000", "memberId": "232343432", "memberName": "0000", "loanAmount": "2222", "lifeOfLoan": "1111", "applyTime": "11111", "projectStatus": "111"},
-    { "actions": [UPDATE, DELETE], "projectId" : "122433223", "projectName": "000000", "memberId": "232343432", "memberName": "0000", "loanAmount": "2222", "lifeOfLoan": "1111", "applyTime": "111", "projectStatus": "111"},
-    { "actions": [UPDATE, DELETE], "projectId" : "122433223", "projectName": "000000", "memberId": "232343432", "memberName": "0000", "loanAmount": "2222", "lifeOfLoan": "1111", "applyTime": "111", "projectStatus": "111"},
-    { "actions": [UPDATE, DELETE], "projectId" : "122433223", "projectName": "000000", "memberId": "232343432", "memberName": "0000", "loanAmount": "2222", "lifeOfLoan": "1111", "applyTime": "111", "projectStatus": "111"},
-    { "actions": [UPDATE, DELETE], "projectId" : "122433223", "projectName": "000000", "memberId": "232343432", "memberName": "0000", "loanAmount": "2222", "lifeOfLoan": "1111", "applyTime": "1111", "projectStatus": "111"},
-    { "actions": [UPDATE, DELETE], "projectId" : "122433223", "projectName": "000000", "memberId": "232343432", "memberName": "0000", "loanAmount": "2222", "lifeOfLoan": "1111", "applyTime": "11111", "projectStatus": "111"},
-    { "actions": [UPDATE, DELETE], "projectId" : "122433223", "projectName": "000000", "memberId": "232343432", "memberName": "0000", "loanAmount": "2222", "lifeOfLoan": "1111", "applyTime": "111", "projectStatus": "111"},
-    { "actions": [UPDATE, DELETE], "projectId" : "122433223", "projectName": "000000", "memberId": "232343432", "memberName": "0000", "loanAmount": "2222", "lifeOfLoan": "1111", "applyTime": "111", "projectStatus": "111"},
-    { "actions": [UPDATE, DELETE], "projectId" : "122433223", "projectName": "000000", "memberId": "232343432", "memberName": "0000", "loanAmount": "2222", "lifeOfLoan": "1111", "applyTime": "11111", "projectStatus": "111"},
-  ];
-
-
-
-
-
 
   public member: any = {};
 
   public loanInfo: any = {};
 
+  public pawnVehicle: any = [];
 
-  public provices =[]
+  public pawnHouse: any = [];
 
-  constructor(){}
+  public creditInfo: any = [];
+
+  public attachment: any = [];
+
+  public intentionId: string;
+
+  constructor(private service: IntentionService, private route: ActivatedRoute,){}
 
   ngOnInit() {
 
+    this.route.params.subscribe((params: Params) => {
+      params['id']? this.intentionId = params['id']:"";
+      //this.getIntentionById(this.intentionId);
+    });
+
+  }
+
+  //补填会员基本资料
+  protected updateMember() {
+    this.service.updateMember(this.member).then((result) => {
+      if(result.code == 0) {
+        console.log("success");
+      }else {
+        console.log("fail");
+      }
+    });
+  }
+
+  //补填贷款资料
+  protected updateLoanInfo() {
+    this.service.updateLoanInfo(this.loanInfo).then((result) => {
+      if(result.code == 0) {
+        console.log("success");
+      }else {
+        console.log("fail");
+      }
+    });
+  }
+
+  //通过id获取意向信息
+  protected getIntentionById(intentionId :string) {
+    this.service.getIntentionById(intentionId).then((result) => {
+      if("0" == result.code) {
+        this.member = result.data.member;
+        this.loanInfo = result.data.loanInfo;
+        this.pawnHouse = result.data.pawnHouse;
+        this.attachment = result.data.attachment;
+        this.creditInfo = result.data.creditInfo;
+        this.pawnVehicle = result.data.pawnVehicle;
+      }else {
+        console.log("fail");
+      }
+    });
+  }
+
+  //新增抵押车辆
+  protected createPawnVehicle() {
+
+  }
+
+  //移除抵押车辆
+  protected removePawnVehicle() {
+
+  }
+
+  //新增抵押房产
+  protected createPawnHouse() {
+
+  }
+
+  //移除抵押房产
+  protected removePawnHouse() {
 
   }
 
