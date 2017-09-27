@@ -16,7 +16,9 @@
       [titles]="titles"
       [translate]="dict"
       [hideExport]="true"
+      [hideColumns]="true"
       [hidePrint]="true"
+      [hideRemoveAll]="true"
       [hideActions]="true"
       (notify)="onChange($event)"
     ></seer-table>
@@ -38,6 +40,8 @@
       [translate]="dict"
       [hideExport]="true"
       [hidePrint]="true"
+      [hideColumns]="true"
+      [hideRemoveAll]="true"
       (notify)="onChange1($event)"
     ></seer-table>
     </seer-collapse-card> 

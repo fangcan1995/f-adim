@@ -49,54 +49,6 @@ export class  MessageAddedDialogComponent extends BaseModalComponent implements 
 
   }
   hasGlobalFilter = true;
-  filters = [
-    {
-      key: 'name',
-      label: '接收账号',
-      type: 'input.text',
-    },
-    {
-      key: 'real_name',
-      label: '接收号码',
-      type: 'input.text',
-    },
-    {
-      key: 'gender',
-      label: '消息类型',
-      type: 'select',
-      options: [
-        {
-          content: '请选择'
-        },
-        {
-          value: '0',
-          content: '短信'
-        },
-        {
-          value: '1',
-          content: '电话',
-        }
-      ]
-    },
-    {
-      key: 'mobile',
-      label: '发送状态',
-      type: 'select',
-       options: [
-        {
-          content: '请选择'
-        },
-        {
-          value: '0',
-          content: '已发'
-        },
-        {
-          value: '1',
-          content: '未发',
-        }
-      ]
-    },
-  ]
   actionSet = {
     'update': {
       'type': 'update',

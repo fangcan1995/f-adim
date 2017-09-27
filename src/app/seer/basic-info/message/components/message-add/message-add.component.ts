@@ -30,54 +30,54 @@ export class MessageAddComponent {
   template: Message = new Message();
   hasGlobalFilter = true;
   record = []
-  filters = [
-    {
-      key: 'name',
-      label: '接收账号',
-      type: 'input.text',
-    },
-    {
-      key: 'real_name',
-      label: '接收号码',
-      type: 'input.text',
-    },
-    {
-      key: 'gender',
-      label: '消息类型',
-      type: 'select',
-      options: [
-        {
-          content: '请选择'
-        },
-        {
-          value: '0',
-          content: '短信'
-        },
-        {
-          value: '1',
-          content: '电话',
-        }
-      ]
-    },
-    {
-      key: 'mobile',
-      label: '发送状态',
-      type: 'select',
-       options: [
-        {
-          content: '请选择'
-        },
-        {
-          value: '0',
-          content: '已发'
-        },
-        {
-          value: '1',
-          content: '未发',
-        }
-      ]
-    },
-  ]
+  // filters = [
+  //   {
+  //     key: 'name',
+  //     label: '接收账号',
+  //     type: 'input.text',
+  //   },
+  //   {
+  //     key: 'real_name',
+  //     label: '接收号码',
+  //     type: 'input.text',
+  //   },
+  //   {
+  //     key: 'gender',
+  //     label: '消息类型',
+  //     type: 'select',
+  //     options: [
+  //       {
+  //         content: '请选择'
+  //       },
+  //       {
+  //         value: '0',
+  //         content: '短信'
+  //       },
+  //       {
+  //         value: '1',
+  //         content: '电话',
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     key: 'mobile',
+  //     label: '发送状态',
+  //     type: 'select',
+  //      options: [
+  //       {
+  //         content: '请选择'
+  //       },
+  //       {
+  //         value: '0',
+  //         content: '已发'
+  //       },
+  //       {
+  //         value: '1',
+  //         content: '未发',
+  //       }
+  //     ]
+  //   },
+  // ]
   titles = [
     {key:'name',label:'用户名'},
     {key:'realName',label:'真实姓名'},
