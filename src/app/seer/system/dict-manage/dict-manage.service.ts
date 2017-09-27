@@ -27,7 +27,6 @@ export class DictManageService extends BaseService<DictModel>{
       }
     }
     const url = `${this.apiUrl}/${page}${sort}${query}`;
-    alert(url);
     return this.getAll(url);
   }
 
