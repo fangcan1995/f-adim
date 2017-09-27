@@ -17,6 +17,7 @@ import { SeerDialogService } from '../../../theme/services/seer-dialog.service';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { ModalDirective ,BsModalService} from 'ngx-bootstrap/modal';
 import { User } from "../../model/auth/user"
+import {DELETE} from "../../common/seer-table/seer-table.actions"
 import * as _ from 'lodash'
 @Component({
   selector: 'org-manage',
@@ -38,6 +39,7 @@ export class OrgManageComponent implements OnDestroy{
   sysUser : User = new User();
   staffs = [];
   staffName;
+  staf;
   flag: string;
 
 
@@ -123,12 +125,10 @@ export class OrgManageComponent implements OnDestroy{
      this.service.getData()
       .then(res => {
         this.datas = res.data;
-        this.record = _.map(this.datas, t => {
-        let actions;
-        actions = [this.actionSet.delete]
-        return _.set(t, 'actions', actions)
+       
+        this.datas = _.map(this.datas, r => _.set(r, 'actions', [ DELETE ]));
       })
-    });
+  
   }
    // 表格动作
    onChange(message):void {
@@ -162,35 +162,38 @@ export class OrgManageComponent implements OnDestroy{
   /*
    * 组织树通知
    * */
-  onNotify($event){
+  onNotify($event){   
     console.log($event);
-    // console.log(JSON.stringify($event.node));
-    // console.log($event.node.data);
-   console.log("222222222222222222");
-   
+    console.log("=============================");
+    
     // debugger;
-    if($event.eventName == "onSelectCompleted"){ 
-      if($event.data.length > 0) {
-        this.sysUser.staffId = $event.data[0].id;
-        this.staffName = $event.data[0].data.name;
-      }else {
-        this.sysUser.staffId = undefined;
-        this.staffName = undefined;
+    // if($event.eventName == "onSelectCompleted"){ 
+    //   if($event.data.length > 0) {
+    //     this.sysUser.staffId = $event.data[0].id;
+    //     this.staffName = $event.data[0].data.name;
+    //   }else {
+    //     this.sysUser.staffId = undefined;
+    //     this.staffName = undefined;
+    //   }
+    // }  
+    
+    if($event.eventName == "onFocus"){
+      if($event.node.children.length > 0){
+        for(let i = 0 ; i < $event.node.data.children.length; i++){
+          console.log($event.node.data.children);  
+          console.log("-------------------------------------");
+          this.staf = $event.node.data.name
+          this.staffName = $event.node.data.children[i].name    
+        }
+      }else{
+       this.staf = $event.node.data.name
+       this.staffName =""
       }
-    }  
-    // if($event.eventName == "onFocus"){
-    //   console.log($event.data);
-    //   console.log("111111");
-      
-    //    this.sysUser.staffId = $event.data.name;
-    //    console.log(this.sysUser.staffId);
-       
-    //    this.staffName = $event.data.data.name;
-    //    console.log(this.staffName);
-    // }else{
-    //   this.sysUser.staffId = undefined;
-    //   this.staffName = undefined;
-    // }
+    }else{
+      this.staffName = undefined;
+    }
+    
+
 
 
 

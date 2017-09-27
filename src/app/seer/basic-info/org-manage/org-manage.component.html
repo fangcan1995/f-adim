@@ -1,5 +1,13 @@
 
 <div class="row">
+  <seer-collapse-card>
+      <seer-filter
+      [hasGlobalFilter]="hasGlobalFilter"
+      [filters]="filters"
+      (onFiltersChanged)=handleFiltersChanged($event)
+      (onSearchBtnClicked)=handleSearchBtnClicked($event)
+      ></seer-filter>  
+  </seer-collapse-card>
   <div class="col-sm-4">
     <ba-card [title]="treeTitle" baCardClass="with-scroll">
       <div class="col-sm-12">
@@ -7,7 +15,7 @@
           (notify)="onNotify($event) "
           [permissions]="treePermissions"
           [nodes]="treeNode"
-          [defaultNodeName]="'新建部门'"
+         
           [loadingText]="''">
         </seer-tree>
       </div>
@@ -16,12 +24,16 @@
   </div>
   <div class="col-sm-8"> 
     <ba-card [title]="tableTitle" baCardClass="with-scroll">
+       <button type="button" class="btn btn-sx btn-info" style="margin-bottom:10px;">保存</button>
        <div class="form-group ">
         <div class="row">
           <label for="idNumber" class="col-sm-2 control-label" style="text-align:center; height:35px; line-height:35px;">机构名称</label>
-          <label for="idNumber" class="col-sm-3 control-label" style="text-align:left; height:35px; line-height:35px;">互联网金融部</label>
+          <!-- <label for="idNumber" class="col-sm-3 control-label" style="text-align:left; height:35px; line-height:35px;">互联网金融部</label> -->
           <div class="col-sm-3">
-            <input type="text" class="form-control" id="idNumber" placeholder="xxx" >
+            <input type="text" class="form-control" id="idNumber" placeholder="部门"  [(ngModel)]="staf"  disabled> 
+          </div>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" id="idNumber" placeholder="下级部门" [(ngModel)]="staffName">
           </div>
         </div>
       </div>  
@@ -29,10 +41,10 @@
         <div class="row">
           <label for="idNumber" class="col-sm-2  col-md-2 control-label" style="text-align:center; height:35px; line-height:35px;">机构负责人</label>
           <div class="col-sm-3">
-            <input type="text" class="form-control" id="idNumber" placeholder="xxxx" > 
+            <input type="text" class="form-control" id="idNumber" placeholder="xxxx" disabled> 
           </div>
           <div class="col-sm-4">
-             <input type="text" class="form-control" id="idNumber" placeholder="1333333333" > 
+             <input type="text" class="form-control" id="idNumber" placeholder="1333333333" disabled> 
           </div>
         </div>
       </div> 
@@ -40,10 +52,10 @@
         <div class="row">
           <label for="idNumber" class="col-sm-2 col-md-2  control-label" style="text-align:center; height:35px; line-height:35px;">上级负责人</label>
           <div class="col-sm-3">
-            <input type="text" class="form-control" id="idNumber" placeholder="xxxx" > 
+            <input type="text" class="form-control" id="idNumber" placeholder="xxxx" disabled> 
           </div>
           <div class="col-sm-4">
-             <input type="text" class="form-control" id="idNumber" placeholder="1888888888" > 
+             <input type="text" class="form-control" id="idNumber" placeholder="1888888888" disabled> 
           </div>
         </div>
       </div> 
@@ -87,8 +99,8 @@
                <!-- [permissions]="treePermissions"   是否可更改-->
               </div>
               <div class="modal-footer">
-                 <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
                  <button type="button" class="btn btn-sx btn-info" (click)="modalRef.hide()">确定</button>
+                 <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
               </div>
             </template>  
           </div>
@@ -102,6 +114,7 @@
         [hideExport]="true"
         [hidePrint]="true"
         [hideRemoveAll]="true"
+        [hideColumns]="true"
         [hideAddButton]="true"
         (notify)="onChange($event)"
       ></seer-table>
