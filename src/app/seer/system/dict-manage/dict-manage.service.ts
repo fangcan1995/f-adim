@@ -1,103 +1,60 @@
-import { Injectable } from "@angular/core";
-import {
-  Http,
-  Response,
-  Headers,
-  RequestOptions,
-} from '@angular/http';
-
+import { Injectable } from '@angular/core';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { SERVER } from "../../const";
+import {DictModel} from "./DictModel";
+import {BaseService} from "../../base.service";
 import { Observable } from 'rxjs/Observable';
-
-import {SERVER} from "../../const";
-
+import * as _ from 'lodash';
+import {Result} from "../../model/result.class";
 
 @Injectable()
-export class DictManageService {
+export class DictManageService extends BaseService<DictModel>{
+  private apiUrl = 'http://172.16.1.25:8090/dicts';  // URL to web api
 
-  private getAllDictsUrl = SERVER + '/sys/dict';
-  private addDictUrl = SERVER + '/sys/dict';
-  private getDictByKeyIdUrl = SERVER + '/sys/dict/key/';
-
-  private updateDictUrl = SERVER + '/sys/dict';
-  private deleteByIdUrl = SERVER + '/sys/dict/';
-  private deleteSelectedDictUrl = SERVER + '/sys/dict/deleteSelected';
-
-  constructor(private http: Http) {
+  private handleError(error: any): Promise<any> {
+    console.error('出错啦', error); // for demo purposes only
+    return Promise.reject(error.message || error);
   }
 
-  private extractData(res: Response) {
-    let body = res.json();
-    return body || {};
-  }
-
-  private handleError(error: Response | any) {
-    // In a real world app, we might use a remote logging infrastructure
-    let errMsg: string;
-    if (error instanceof Response) {
-      const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    } else {
-      errMsg = error.message ? error.message : error.toString();
+  getDicts(pageInfo:any): Promise<any> {
+    const page=`?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
+    const sort=`&sortBy=${pageInfo.sort}`;
+    const jsonQueryObj = pageInfo.query;
+    let query="";
+    for (var prop in jsonQueryObj) {
+      if(jsonQueryObj[prop]){
+        query+=`&${prop}=${jsonQueryObj[prop]}`;
+      }
     }
-    console.error(errMsg);
-    return Observable.throw(errMsg);
+    const url = `${this.apiUrl}/${page}${sort}${query}`;
+    alert(url);
+    return this.getAll(url);
   }
 
-  getDicts(): Observable<any> {
-    let headers = new Headers({'Content-Type': 'application/json'});
-    let options = new RequestOptions({headers: headers});
-
-    return this.http.get(this.getAllDictsUrl, options)
-      .map(this.extractData)
-      .catch(this.handleError);
+  postOne(dict: DictModel): Promise<any> {
+    console.log(dict);
+    const url = `${this.apiUrl}/`;
+    return this.create(url,dict);
   }
 
-  getDictByKeyId(key): Observable<any> {
-    let headers = new Headers({'Content-Type': 'application/json'});
-    let options = new RequestOptions({headers: headers});
-
-    return this.http.get(this.getDictByKeyIdUrl + key, options)
-      .map(this.extractData)
-      .catch(this.handleError);
+  getOne(dictId: string): Promise<any> {
+    const url = `${this.apiUrl}/${dictId}`;
+    return this.getById(url);
   }
 
-  addDict(dict: Object): Observable<any> {
-    let headers = new Headers({'Content-Type': 'application/json'});
-    let options = new RequestOptions({headers: headers});
-
-    return this.http.post(this.addDictUrl, dict, options)
-      .map(this.extractData)
-      .catch(this.handleError);
+  putOne(dict: DictModel): Promise<any> {
+    const url = `${this.apiUrl}/`;
+    return this.update(url,dict);
   }
 
-  updateDict(dict: Object): Observable<any> {
-    let headers = new Headers({'Content-Type': 'application/json'});
-    let options = new RequestOptions({headers: headers});
-    return this.http.put(this.updateDictUrl, dict, options)
-      .map(this.extractData)
-      .catch(this.handleError);
+  deleteDict(dictId: string): Promise<any> {
+    const url = `${this.apiUrl}/${dictId}`;
+    return this.delete(url);
   }
 
-  removeDict(id): Observable<any> {
-    let headers = new Headers({'Content-Type': 'application/json'});
-    let options = new RequestOptions({headers: headers});
-
-    return this.http.delete(this.deleteByIdUrl + "/" + id, options)
-      .map(this.extractData)
-      .catch(this.handleError);
+  searchDicts(param:any): Promise<any> {
+    const url = `${this.apiUrl}/`;
+    return this.search(url,param);
   }
-
-
-  removeAllSelectedDicts(ids: Array<String>): Observable<any> {
-    let headers = new Headers({'Content-Type': 'application/json'});
-    let options = new RequestOptions({headers: headers});
-    return this.http.post(this.deleteSelectedDictUrl, ids, options)
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
-
 
 }
-
-
