@@ -30,3 +30,16 @@ export const DETAIL = {
 	name: '详情',
 	className: 'btn btn-xs btn-default',
 };
+export const SAVE = {
+	type: 'save',
+	name: '保存',
+	className: '',
+	icon: 'fa fa-check'
+}
+
+export const CANCEL = {
+	type: 'cancel',
+	name: '取消',
+	className: '',
+	icon: 'fa fa-remove'
+}

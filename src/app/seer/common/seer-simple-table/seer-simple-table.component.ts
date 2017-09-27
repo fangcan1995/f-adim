@@ -10,10 +10,8 @@ import {
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import * as _ from 'lodash';
 
-import { CREATE, DELETE_MULTIPLE } from '../seer-table/seer-table.actions';
+import { CREATE, UPDATE, DELETE, SAVE, CANCEL } from '../seer-table/seer-table.actions';
 import { BaseService } from "../../base.service";
-
-
 @Component({
   selector: 'seer-simple-table',
   templateUrl: './seer-simple-table.component.html',
@@ -38,12 +36,6 @@ export class SeerSimpleTableComponent implements OnInit {
 
   public sortBy = '';
 
-  public selectedAll = false;
-  private multiColumnArray: IMultiSelectOption[] = [];
-  private multiColumnOptions = [];
-
-  public currentDeleteEvents = [];
-  public currentDeleteEvent;
   public multiSelectTexts = {
     checked: '显示',
     checkedPlural: '显示',
@@ -52,7 +44,6 @@ export class SeerSimpleTableComponent implements OnInit {
   public multiSelectSettings = {
     buttonClasses: 'btn btn-outline-dark btn-block',
   }
-  public dt: Date = new Date();
   constructor(
     private service: BaseService<any>,
   ) { 
@@ -61,25 +52,9 @@ export class SeerSimpleTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.titles = _.clone(this.titles);
-
+    
     if ( _.isArray(this.titles) && this.titles.length ) {
       this.sortBy = this.titles[0].key;
-
-      let multiColumnArray = [];
-      let multiColumnOptions = [];
-
-      _.each(this.titles, title => {
-        
-        if ( !title.hidden ) {
-          multiColumnOptions.push(title.key);
-        }
-        multiColumnArray.push({
-          id: title.key,
-          name: title.label,
-        });
-      });
-      this.multiColumnArray = multiColumnArray;
-      this.multiColumnOptions = multiColumnOptions;
     }
     
     /** 增加的部分 */
@@ -99,15 +74,32 @@ export class SeerSimpleTableComponent implements OnInit {
       });
     }
   }
-
+  ngOnChanges(): void {
+    this.data = _(this.data)
+    .map(t => _.set(t, '_ACTIONS_', [ UPDATE, DELETE ]))
+    .value();
+  }
   handleActionsClick($event) {
-    this.notify.emit({type: $event.action.type, data: $event.item});
+    switch ($event.action.type) {
+      case UPDATE.type:
+        $event.item['_EDIT_STATE_'] = 'EDIT';
+        $event.item['_ACTIONS_'] = [ SAVE, CANCEL ]
+        console.log($event.item)
+
+        // this.notify.emit({type: $event.action.type, data: $event.item});
+        break;
+      case DELETE.type:
+        // this.notify.emit({type: $event.action.type, data: $event.item});
+        break;
+    }
+
   }
   private _sliceData(data, pn, rop) {
     return data.slice((pn-1)*rop, pn*rop)
   }
   getData() {
-    let data = this._sliceData(this.data, this.pageNumber, this.rowsOnPage)
+    let data = this._sliceData(this.data, this.pageNumber, this.rowsOnPage);
+    
     if ( this.translate ) {
       _.each(data, item => {
         this.transferKeyWithDict(item, this.translate, 1);
@@ -117,12 +109,6 @@ export class SeerSimpleTableComponent implements OnInit {
   }
   getRowCount() {
     return this.data.length;
-  }
-  filterShownTitles() {
-    return _.filter(this.titles, t => !t['hidden'])
-  }
-  onChangeColumn(event): void {
-    this.titles = _.map(this.titles, t => _.set(t, 'hidden', event.indexOf(t['key']) === -1));
   }
   transferKeyWithDict(obj: any, translate_copy: any, direction?: boolean | number): void {
     if ( direction ) {
@@ -149,26 +135,9 @@ export class SeerSimpleTableComponent implements OnInit {
     if ( this.translate ) this.transferKeyWithDict(event, this.translate);
     this.notify.emit({type: 'link', data: event});
   }
-  exportExcel() {
-    let param = {
-      "data": this.getData(),
-      "titles": this.titles
-    };
-    this.service.exportExcel(param)
-    .then(result => {
-      this.download(result.json().data);
-    });
-  }
+  create() {
 
-  download(data) {
-    const a = document.createElement('a');
-    const url = data;
-    const filename = 'download.xls';
-    a.href = url;
-    a.download = filename;
-    a.click();
   }
-
   renderValue(title, value) {
     if ( this.translate && this.translate[title.key] && this.translate[title.key].length ) {
       _.each(this.translate[title.key], o => {

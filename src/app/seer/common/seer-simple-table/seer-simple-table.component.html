@@ -1,8 +1,16 @@
+<button
+  class="btn btn-info"
+  type="button"
+  *ngIf="!hideAddButton"
+  (click)="create()"
+  >
+  新增
+</button>
 <div style="overflow: auto;">
   <table class="table table-hover">
     <thead>
       <tr>
-        <th *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
+        <th *ngFor="let title of titles" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
           {{ title.label }}
         </th>
         <th class="table-actions" *ngIf="!hideActions"><b class="seer_font">操作</b></th>
@@ -10,26 +18,29 @@
     </thead>
     <tbody>
     <tr *ngFor="let item of getData() ">
-      <td *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
-        <div *ngIf="title.type=='link'">
+      <td *ngFor="let title of titles" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
+        <div *ngIf="item['_EDIT_STATE_'] === 'EDIT'">
+          <input type="text" [(ngModel)]="item[title.key]">
+        </div>
+        <div *ngIf="title.type == 'link' && item['_EDIT_STATE_'] != 'EDIT'">
           <a (click)="openLink(item)">
             <span class="seer_font seer_a_font">{{item[title.key]}}</span>
           </a>
         </div>
-        <div *ngIf="title.type=='input_number'">
+        <div *ngIf="title.type == 'input_number' && item['_EDIT_STATE_'] != 'EDIT'">
           <input  type="number" class="form-control" [(ngModel)]="item[title.key]"/>
         </div>
-        <div *ngIf="title.type!='input_number' && title.type!='link' && !displayOriginalData">
+        <div *ngIf="title.type != 'input_number' && title.type != 'link' && !displayOriginalData && item['_EDIT_STATE_'] != 'EDIT'">
           <span class="seer_font">{{renderValue(title,item[title.key])}}</span>
         </div>
-        <div *ngIf="title.type!='input_number' && title.type!='link' && displayOriginalData">
+        <div *ngIf="title.type != 'input_number' && title.type != 'link' && displayOriginalData && item['_EDIT_STATE_'] != 'EDIT'">
           <span class="seer_font">{{item[title.key]}}</span>
         </div>
       </td>
       <td class="table-actions" *ngIf="!hideActions">
         <span *ngIf="item.actions">
           <i
-            *ngFor="let action of item.actions"
+            *ngFor="let action of item['_ACTIONS_']"
             class="table-action {{ action.icon }}"
             (click)="handleActionsClick({action: action, item: item})"
             popover="{{ action.name }}"

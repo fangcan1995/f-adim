@@ -53,15 +53,11 @@ export class SeerTableComponent implements OnInit {
 
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
   @Output() changePage: EventEmitter<any> = new EventEmitter<any>();
-
-  public sortBy:string | number = '';
-
+  
+  public sortBy: string | number = '';
   public selectedAll = false;
   private multiColumnArray: IMultiSelectOption[] = [];
   private multiColumnOptions = [];
-
-  public currentDeleteEvents = [];
-  public currentDeleteEvent;
   public multiSelectTexts = {
     checked: '显示',
     checkedPlural: '显示',
@@ -70,7 +66,6 @@ export class SeerTableComponent implements OnInit {
   public multiSelectSettings = {
     buttonClasses: 'btn btn-outline-dark btn-block',
   }
-  public dt: Date = new Date();
   constructor(
     private service: BaseService<any>,
   ) { 
@@ -79,7 +74,7 @@ export class SeerTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.titles = _.clone(this.titles);
-
+    this.data = _.clone(this.data);
     if ( _.isArray(this.titles) && this.titles.length ) {
       this.sortBy = this.titles[0].key;
 
