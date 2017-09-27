@@ -15,5 +15,10 @@
 </seer-collapse-card>
 
 <seer-collapse-card>
-  <seer-simple-table></seer-simple-table>
+  <seer-simple-table
+    [data]="roles"
+    [titles]="titles"
+    [translate]="dict"
+    (notify)="handleNotify($event)"
+  ></seer-simple-table>
 </seer-collapse-card>

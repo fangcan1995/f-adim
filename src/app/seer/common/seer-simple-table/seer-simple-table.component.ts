@@ -13,12 +13,6 @@ import * as _ from 'lodash';
 import { CREATE, DELETE_MULTIPLE } from '../seer-table/seer-table.actions';
 import { BaseService } from "../../base.service";
 
-export interface TableTitleModel {
-  key: string,
-  label: string,
-  isDict?: boolean,
-  textAlign?: string, // 默认left 可传 center right
-}
 
 @Component({
   selector: 'seer-simple-table',
@@ -28,38 +22,21 @@ export interface TableTitleModel {
 })
 export class SeerSimpleTableComponent implements OnInit {
   @Input() data: Array<any> = [];   //数据数组
-  @Input() titles: Array<TableTitleModel> = [];  //标题数组
+  @Input() titles: Array<any> = [];  //标题数组
   @Input() translate; //翻译JSON
-  @Input() hideColumns; //隐藏动态列
-  @Input() hideRemoveAll; //隐藏全部删除按钮
-  @Input() selectButtonText;//选择按钮文字
-  @Input() hideAddButton;//隐藏新增按钮
   @Input() hideActions;//隐藏事件列
-  @Input() hideExport;//隐藏导出
-  @Input() hidePrint;//隐藏打印
-  @Input() hideRemoveButton; //隐藏删除按钮
-  @Input() hideFilter;//隐藏全局过滤
   @Input() hideEditButton;//隐藏编辑按钮
   @Input() displayCopyButton;//显示复制新增按钮
   @Input() displayOriginalData;//翻译不破坏原始数据，但全局搜索不好使
-  @Input() addNewButton; //新增自定义按钮
 
   @Input() rowsOnPageSet: Array<number> = [10, 15, 30]; // 每页可显示条数的枚举
   @Input() rowsOnPage:number = 10;
-
-  @Input() paginationRules:number = 1; // 0后端分页 1前端分页
-
-  // 当后端分页时，必须传下列3个值， 当前端分页时，传rowsOnPage
-  @Input() pageNum:number = 1; // 页码
-  @Input() pageSize:number; // 每页显示条数
-  @Input() total:number = 0; // 数据总量
-
+  @Input() pageNumber:number = 1;
 
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
   @Output() changePage: EventEmitter<any> = new EventEmitter<any>();
 
   public sortBy = '';
-  private pageLength:number;
 
   public selectedAll = false;
   private multiColumnArray: IMultiSelectOption[] = [];
@@ -122,66 +99,24 @@ export class SeerSimpleTableComponent implements OnInit {
       });
     }
   }
-  ngOnChanges() {
-    this.pageLength = this.paginationRules ? Math.ceil(this.data.length / this.rowsOnPage) : Math.ceil(this.total / this.pageSize)
-  }
-  selectAll(): void {
-    let data = !this.paginationRules ? this.data.slice(0, this.pageSize) : this.data.slice((this.pageNum - 1) * this.rowsOnPage, (this.pageNum - 1) * this.rowsOnPage + this.rowsOnPage)
-    _.each(data, item => {
-      item.selected = this.selectedAll;
-    })
-    this.notify.emit({type: 'select_all', data: data});
-  }
-
-  selectOne(event): void {
-    let selectedAll = true;
-    _.each(this.data, item => {
-      if ( !item.selected ) return selectedAll = false;
-    })
-    this.selectedAll = selectedAll;
-    this.notify.emit({type: 'select_one', data: event});
-  }
- 
 
   handleActionsClick($event) {
     this.notify.emit({type: $event.action.type, data: $event.item});
-  }
-
-  renderSelectedNum() {
-    return _.reduce(this.data, (result, n) => result = n['selected'] ? result + 1 : result, 0)
-  }
-  renderSelectButtonText() {
-    return !this.selectButtonText ? '选择' : this.selectButtonText;
-  }
-  deleteMultiple(): void {
-    let data = _.filter(this.data, t => t['selected'])
-    this.notify.emit({ type: DELETE_MULTIPLE.type, data });
-  }
-  add(): void {
-    this.notify.emit({type: 'add', data: {}});
-  }
-  create(): void {
-    this.notify.emit({ type: CREATE.type, data: {} })
-  }
-  //导入模板Excel
-  exportTempExcel() : void {
-    this.notify.emit({type: 'export', data: {}});
-  }
-  //导入Excel
-  importExcel(): void {
-    this.notify.emit({type: 'import', data: {}});
   }
   private _sliceData(data, pn, rop) {
     return data.slice((pn-1)*rop, pn*rop)
   }
   getData() {
-    let data = !this.paginationRules ? this._sliceData(this.data, 1, this.pageSize) : this._sliceData(this.data, this.pageNum, this.rowsOnPage)
+    let data = this._sliceData(this.data, this.pageNumber, this.rowsOnPage)
     if ( this.translate ) {
       _.each(data, item => {
         this.transferKeyWithDict(item, this.translate, 1);
       });
     }
     return data;
+  }
+  getRowCount() {
+    return this.data.length;
   }
   filterShownTitles() {
     return _.filter(this.titles, t => !t['hidden'])
@@ -246,7 +181,7 @@ export class SeerSimpleTableComponent implements OnInit {
     this.rowsOnPage = $event.rowsOnPage;
     this.changePage.emit({
       pageSize: $event.rowsOnPage,
-      pageNum: $event.pageNumber,
+      pageNumber: $event.pageNumber,
     })
   }
 }

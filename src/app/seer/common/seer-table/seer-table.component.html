@@ -99,7 +99,7 @@
         <tr>
           <td  [attr.colspan]="titles.length + 2">
             <seer-pagination
-              [rowCount]="total"
+              [rowCount]="getRowCount()"
               [rowsOnPageSet]="rowsOnPageSet"
               [rowsOnPage]="paginationRules ? rowsOnPage : pageSize"
               [pageNumber]="pageNum"

@@ -19,6 +19,7 @@ export interface TableTitleModel {
   isDict?: boolean,
   textAlign?: string, // 默认left 可传 center right
   hidden?: boolean,
+  dictKeyId?: string,
 }
 
 @Component({
@@ -28,22 +29,17 @@ export interface TableTitleModel {
   providers: [BaseService]
 })
 export class SeerTableComponent implements OnInit {
-  @Input() data = [];   //数据数组
-  @Input() titles;  //标题数组
+  @Input() data: Array<any>  = [];   //数据数组
+  @Input() titles: Array<any>;  //标题数组
   @Input() translate; //翻译JSON
   @Input() hideColumns; //隐藏动态列
   @Input() hideRemoveAll; //隐藏全部删除按钮
-  @Input() selectButtonText;//选择按钮文字
   @Input() hideAddButton;//隐藏新增按钮
   @Input() hideActions;//隐藏事件列
   @Input() hideExport;//隐藏导出
   @Input() hidePrint;//隐藏打印
   @Input() hideRemoveButton; //隐藏删除按钮
-  @Input() hideFilter;//隐藏全局过滤
-  @Input() hideEditButton;//隐藏编辑按钮
-  @Input() displayCopyButton;//显示复制新增按钮
   @Input() displayOriginalData;//翻译不破坏原始数据，但全局搜索不好使
-  @Input() addNewButton; //新增自定义按钮
 
   @Input() rowsOnPageSet: Array<number> = [10, 15, 30]; // 每页可显示条数的枚举
   @Input() rowsOnPage:number = 10;
@@ -55,12 +51,10 @@ export class SeerTableComponent implements OnInit {
   @Input() pageSize:number; // 每页显示条数
   @Input() total:number = 0; // 数据总量
 
-
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
   @Output() changePage: EventEmitter<any> = new EventEmitter<any>();
 
-  public sortBy = '';
-  private pageLength:number;
+  public sortBy:string | number = '';
 
   public selectedAll = false;
   private multiColumnArray: IMultiSelectOption[] = [];
@@ -108,7 +102,7 @@ export class SeerTableComponent implements OnInit {
     
     /** 增加的部分 */
     if ( !this.translate ) {
-      let transFields: {field: string,dictKeyId?: string}[] = [];
+      let transFields: {field: string | number,dictKeyId?: string}[] = [];
       _.each(this.titles, title => {
         if ( title.isDict ) {
           transFields.push({
@@ -117,15 +111,11 @@ export class SeerTableComponent implements OnInit {
           });
         }
       });
-      console.log(transFields)
       this.service.getDictTranslate(transFields)
       .then(res => {
         if ( res.success ) this.translate = res.data;
       });
     }
-  }
-  ngOnChanges() {
-    this.pageLength = this.paginationRules ? Math.ceil(this.data.length / this.rowsOnPage) : Math.ceil(this.total / this.pageSize)
   }
   selectAll(): void {
     let data = !this.paginationRules ? this._sliceData(this.data, 1, this.pageSize) : this._sliceData(this.data, this.pageNum, this.rowsOnPage)
@@ -152,9 +142,7 @@ export class SeerTableComponent implements OnInit {
   renderSelectedNum() {
     return _.reduce(this.data, (result, n) => result = n['selected'] ? result + 1 : result, 0)
   }
-  renderSelectButtonText() {
-    return !this.selectButtonText ? '选择' : this.selectButtonText;
-  }
+
   deleteMultiple(): void {
     let data = _.filter(this.data, t => t['selected'])
     this.notify.emit({ type: DELETE_MULTIPLE.type, data });
@@ -176,6 +164,9 @@ export class SeerTableComponent implements OnInit {
   private _sliceData(data, pn, rop) {
     return data.slice((pn-1)*rop, pn*rop)
   }
+  getRowCount() {
+    return !this.paginationRules ? this.total : this.data.length;
+  }
   getData() {
     let data = !this.paginationRules ? this._sliceData(this.data, 1, this.pageSize) : this._sliceData(this.data, this.pageNum, this.rowsOnPage)
     if ( this.translate ) {
@@ -189,7 +180,7 @@ export class SeerTableComponent implements OnInit {
     return _.filter(this.titles, t => !t['hidden'])
   }
   onChangeColumn(event): void {
-    this.titles = _.map(this.titles, t => _.set(t, 'hidden', event.indexOf(t['key']) === -1));
+    this.titles = _(this.titles).map(t => _.set(t, 'hidden', event.indexOf(t.key) === -1)).value();
   }
   transferKeyWithDict(obj: any, translate_copy: any, direction?: boolean | number): void {
     if ( direction ) {
