@@ -99,7 +99,7 @@ export class SeerSimpleTableComponent implements OnInit {
       case SAVE.type:
         $event.item.data = _.clone($event.item.copy);
         $event.item.editState = false;
-        $event.item.actions = [ UPDATE, DELETE ]
+        $event.item.actions = [ UPDATE, DELETE ];
         break;
       case CANCEL.type:
         $event.item.copy = _.clone($event.item.data);
