@@ -12,6 +12,7 @@ import {infoModle} from "./infoModle";
 import {DynamicComponentLoader} from "../../../theme/directives/dynamicComponent/dynamic-component.directive";
 import { InfoPublishService } from "./info-publish.service";
 import { SeerDialogService } from '../../../theme/services/seer-dialog.service'
+import {UPDATE, DELETE} from "../../common/seer-table/seer-table.actions"
 import * as _ from 'lodash';
 @Component({
   templateUrl: './info-publish.component.html',
@@ -46,22 +47,6 @@ export class InfoPublishComponent {
     },
     
   ]
-  // 操作按钮
-  actionSet = {
-    'update': {
-      'type': 'update',
-      'name': '修改',
-      // 'icon': 'ion-close-round',
-      'className': 'btn btn-xs btn-info',
-    },
-    'delete': {
-      'type': 'delete',
-      'name': '删除',
-      'className': 'btn btn-xs btn-danger',
-      'icon': 'ion-close-round',
-      // 'action': 'remove'
-    },
-  }
    //组织树
   treePermissions = TREE_PERMISSIONS.NOTIFY|TREE_PERMISSIONS.ADD|TREE_PERMISSIONS.EDIT|TREE_PERMISSIONS.DELETE|TREE_PERMISSIONS.DRAG|TREE_PERMISSIONS.SHOW_FILTER|TREE_PERMISSIONS.SHOW_ADD_ROOT;
   treeNode = [];
@@ -90,13 +75,7 @@ export class InfoPublishComponent {
     this.service.getDatas()
     .then(res => {
       this.source = res.data;
-      
-      // 数据请求过来后 进行按钮添加
-      this.source = _.map(this.source, t => {
-        let actions;
-        actions = [this.actionSet.update, this.actionSet.delete]
-        return _.set(t, 'actions', actions)
-      })
+      this.source = _.map(this.source, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
     });
   }
 
@@ -117,8 +96,6 @@ export class InfoPublishComponent {
         this._router.navigate(['/content/info-publish/edit',message.data.msgId])
         break;
       case 'delete':
-      console.log("1111111");
-      
         this._dialogService.confirm('确定删除吗？')
           .subscribe(action => {
             if ( action === 1 ) {
