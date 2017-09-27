@@ -4,7 +4,10 @@ import {
   OnInit,
   Input,
   Output,
-  EventEmitter, OnChanges, ViewChild} from '@angular/core';
+  EventEmitter,
+  OnChanges,
+  ViewChild
+} from '@angular/core';
 
 import './ckeditor.loader';
 import 'ckeditor';

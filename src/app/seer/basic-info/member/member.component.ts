@@ -92,7 +92,7 @@ export class MemberComponent implements OnInit, OnDestroy {
       'className': 'btn btn-xs btn-default',
     }
   }
-  paginationRules = 0;
+  paginationRules = 1;
   rowsOnPageSet = [10, 15, 30];
   rowsOnPage = 10;
   pageNum = 1;
@@ -187,17 +187,9 @@ export class MemberComponent implements OnInit, OnDestroy {
     this.getList(params)
   }
 
-  onPageSizeChange($event) {
-    this.pageSize = $event;
-    let params = {
-      ...this.queryParams,
-      pageSize: this.pageSize,
-      PageNum: this.pageNum,
-    }
-    this.getList(params)
-  }
-  onPageNumChange($event) {
-    this.pageNum = $event;
+  onPageChange($event) {
+    this.pageSize = $event.pageSize;
+    this.pageNum = $event.pageNum;
     let params = {
       ...this.queryParams,
       pageSize: this.pageSize,

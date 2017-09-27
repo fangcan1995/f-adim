@@ -16,10 +16,8 @@
     [titles]="titles"
     [translate]="dict"
     (notify)="onChange($event)"
-    (changePageSize)="onPageSizeChange($event)"
-    (changePageNum)="onPageNumChange($event)"
+    (changePage)="onPageChange($event)"
     [total]="total"
     [pageNum]="pageNum"
   ></seer-table>
 </seer-collapse-card>
-<seer-editor></seer-editor>

@@ -34,6 +34,6 @@ export class SeerContentTopComponent {
     this._state.notify('contentTop.fixed', this.fixedTop);
   }
   ngOnDestroy() {
-    this._state.notify('contentTop.fixed', this.fixedTop);
+    this._state.notify('contentTop.fixed', false);
   }
 }

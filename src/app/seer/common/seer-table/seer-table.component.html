@@ -99,55 +99,47 @@
         <tr>
           <td  [attr.colspan]="titles.length + 2">
               每页显示条数
-              <select>
-                <option *ngFor="let rows of rowsOnPageSet">{{rows}}</option>
+              <select [value]="paginationRules ? rowsOnPage : pageSize" (change)="setPageSize($event)">
+                <option *ngFor="let rows of rowsOnPageSet" [value]="rows">{{rows}}</option>
               </select>
-              <ul class="pagination" *ngIf="pageLength > 1">
-                <li class="page-item" [class.disabled]="pageNum <= 1" (click)="pageNum <= 1 ? null : setPageNum(1)">
-                    <a class="page-link">&laquo;</a>
+              共{{ total }}条
+              <ul class="pagination pull-right float-sm-right" *ngIf="pageLength > 1">
+                <li class="page-item" [class.disabled]="pageNum <= 1" (click)="pageNum <= 1 ? null : setPageNum(pageNum-1)">
+                  <a class="page-link">上一页</a>
                 </li>
-                <!-- <li class="page-item" [class.disabled]="pageNum <= 1" (click)="pageNum <= 1 ? null : setPageNum(pageNum-1)">
-                    <a class="page-link">上一页</a>
-                </li> -->
-                <li class="page-item" *ngIf="pageNum > 4 && pageNum + 1 > pageLength" (click)="setPageNum(pageNum - 4)">
-                    <a class="page-link">{{pageNum-4}}</a>
+                <li class="page-item" *ngIf="pageNum > 3" (click)="setPageNum(1)">
+                  <a class="page-link">1</a>
                 </li>
-                <li class="page-item" *ngIf="pageNum > 3 && pageNum + 2 > pageLength" (click)="setPageNum(pageNum - 3)">
-                    <a class="page-link">{{pageNum-3}}</a>
+                <li class="page-item" *ngIf="pageNum > 4">
+                  <a class="page-link">...</a>
                 </li>
                 <li class="page-item" *ngIf="pageNum > 2" (click)="setPageNum(pageNum - 2)">
-                    <a class="page-link">{{pageNum-2}}</a>
+                  <a class="page-link">{{pageNum-2}}</a>
                 </li>
                 <li class="page-item" *ngIf="pageNum > 1" (click)="setPageNum(pageNum - 1)">
-                    <a class="page-link">{{pageNum-1}}</a>
+                  <a class="page-link">{{pageNum-1}}</a>
                 </li>
                 <li class="page-item active">
-                    <a class="page-link">{{pageNum}}</a>
+                  <a class="page-link">{{pageNum}}</a>
                 </li>
-                <li class="page-item" *ngIf="pageNum + 1 <= pageLength" (click)="setPageNum(pageNum + 1)">
+                <li class="page-item" *ngIf="pageNum <= pageLength - 1" (click)="setPageNum(pageNum + 1)">
                     <a class="page-link">{{pageNum+1}}</a>
                 </li>
-                <li class="page-item" *ngIf="pageNum + 2 <= pageLength" (click)="setPageNum(pageNum + 2)">
+                <li class="page-item" *ngIf="pageNum <= pageLength - 2" (click)="setPageNum(pageNum + 2)">
                     <a class="page-link">{{pageNum+2}}</a>
                 </li>
-                <li class="page-item" *ngIf="pageNum + 3 <= pageLength && pageNum < 3" (click)="setPageNum(pageNum + 3)">
-                    <a class="page-link">{{pageNum+3}}</a>
+                <li class="page-item" *ngIf="pageNum <= pageLength - 4">
+                    <a class="page-link">...</a>
                 </li>
-                <li class="page-item" *ngIf="pageNum + 4 <= pageLength && pageNum < 2" (click)="setPageNum(pageNum + 4)">
-                    <a class="page-link">{{pageNum+4}}</a>
+                <li class="page-item" *ngIf="pageNum <= pageLength - 3"  (click)="setPageNum(pageLength)">
+                    <a class="page-link">{{pageLength}}</a>
                 </li>
-                <!-- <li class="page-item" [class.disabled]="pageNum >= pageLength" (click)="pageNum >= pageLength ? null : setPageNum(pageNum+1)">
-                    <a class="page-link">下一页</a>
-                </li> -->
-                <li class="page-item" [class.disabled]="pageNum >= pageLength" (click)="pageNum >= pageLength ? null : setPageNum(pageLength)">
-                    <a class="page-link">&raquo;</a>
+
+                <li class="page-item" [class.disabled]="pageNum >= pageLength" (click)="pageNum >= pageLength ? null : setPageNum(pageNum+1)">
+                  <a class="page-link">下一页</a>
                 </li>
               </ul>
-              <ul class="pagination pull-right float-sm-right">
-                  <li class="page-item" *ngFor="let rows of rowsOnPageSet" [class.active]="!paginationRules ? pageSize === rows : rowsOnPage === rows" (click)="setPageSize(rows)" >
-                      <a class="page-link">{{rows}}</a>
-                  </li>
-              </ul>
+              共{{ pageLength }}页
           </td>
         </tr>
       </tfoot>
