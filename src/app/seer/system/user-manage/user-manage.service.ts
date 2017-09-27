@@ -13,6 +13,7 @@ import { Result } from "../../model/result.class";
 export class UserManageService {
 
   private userManageUrl = SERVER + '/sys/user';
+  // 地址 http
   private headers = new Headers({'Content-Type': 'application/json'});
 
   constructor(private http: Http, private baseService:BaseService<User>, private roleManageService:RoleService) {
@@ -53,8 +54,13 @@ export class UserManageService {
   }
 
   // getUserById(id: string): Promise<Result> {
-  //   return this.getUsers().then(users => users.find(user => user.userId === id));
+  //   // const url = `${this.resourceManageUrl}/${resourceId}`;
+  //   // return this.baseService.getById(url);
   // }
+  // //  getOne(resourceId: string): Promise<any> {
+  // //   const url = `${this.resourceManageUrl}/${resourceId}`;
+  // //   return this.baseService.getById(url);
+  // // }
 
   updateUser(user: User): Promise<Result> {
     const url = `${this.userManageUrl}`;
