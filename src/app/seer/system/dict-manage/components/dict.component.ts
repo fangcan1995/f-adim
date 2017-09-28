@@ -203,6 +203,36 @@ export class DictComponent implements OnInit{
   handleBackBtnClick() {
     this.getDicts();
   } //返回按钮处理函数
+  handleFiltersChanged($event) {
+    let params=$event;
+    this.pageInfo.query = params;
+    console.log(params);
+    this.getDicts();
+  }
+
+  handleSearchBtnClicked($event) {
+
+
+    /*this.queryParams = $event;
+    let params = {
+      ...this.queryParams,
+      pageSize: this.pageSize,
+      PageNum: this.pageNum,
+    };
+    this.getList(params)*/
+  }
+
+  onPageChange($event) {
+    /*console.log($event);
+    this.pageSize = $event.pageSize;
+    this.pageNum = $event.pageNum;
+    let params = {
+      ...this.queryParams,
+      pageSize: this.pageSize,
+      PageNum: this.pageNum,
+    };
+    this.getList(params)*/
+  }
   alertSuccess(info:string){
     this._messageService.open({
       icon: 'fa fa-times-circle',

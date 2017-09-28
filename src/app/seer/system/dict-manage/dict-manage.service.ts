@@ -20,7 +20,7 @@ export class DictManageService extends BaseService<DictModel>{
     const page=`?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
     const sort=`&sortBy=${pageInfo.sort}`;
     const jsonQueryObj = pageInfo.query;
-    let query="";
+    let query:string="";
     for (var prop in jsonQueryObj) {
       if(jsonQueryObj[prop]){
         query+=`&${prop}=${jsonQueryObj[prop]}`;
