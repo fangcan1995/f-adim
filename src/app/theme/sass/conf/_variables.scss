@@ -49,3 +49,6 @@ $space-between-h: 8px;
 $page-top-height: 52px;
 $top-height: $page-top-height - 1px;
 $card-content-padding-horizontal: 30px;
+$card-header-height: 36px;
+$card-header-font-size: 16px;
+$card-header-vertical-padding: ($card-header-height - $card-header-font-size) / 2;

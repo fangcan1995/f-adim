@@ -1,6 +1,6 @@
 @import '../conf/conf';
-$card-title-height: 36px;
-$card-header-font-size: 16px;
+
+
 .card.card-blur {
   $blurredBgUrl: $images-root + 'blur-bg-blurred.jpg';
   background: url($blurredBgUrl);
@@ -43,7 +43,7 @@ $card-header-font-size: 16px;
 
   &.with-scroll {
     .card-body {
-      height: calc(100% - #{$card-title-height});
+      height: calc(100% - #{$card-header-height});
       overflow-y: auto;
     }
   }
@@ -67,10 +67,9 @@ $card-header-font-size: 16px;
 .card-header, .card-footer {
   color: $content-text;
   border-bottom: $bootstrap-panel-header-border;
-  height: $card-title-height;
+  height: $card-header-height;
   font-size: $card-header-font-size;
-  $vertical-padding: ($card-title-height - $card-header-font-size) / 2;
-  padding: $vertical-padding $card-content-padding-horizontal;
+  padding: $card-header-vertical-padding $card-content-padding-horizontal;
   background-color: $bootstrap-panel-header-bg;
 }
 

@@ -89,25 +89,33 @@ export class SeerSimpleTableComponent implements OnInit {
   handleActionsClick($event) {
     switch ($event.action.type) {
       case UPDATE.type:
-        $event.item.editState = 'EDIT';
-        $event.item.actions = [ SAVE, CANCEL ]
-        // this.notify.emit({type: $event.action.type, data: $event.item});
+        this.notify.emit({type: $event.action.type, data: $event.item});
         break;
       case DELETE.type:
-        // this.notify.emit({type: $event.action.type, data: $event.item});
+        this.notify.emit({type: $event.action.type, data: $event.item});
         break;
       case SAVE.type:
-        $event.item.data = _.clone($event.item.copy);
-        $event.item.editState = false;
-        $event.item.actions = [ UPDATE, DELETE ];
+        this.notify.emit({type: $event.action.type, data: $event.item});
         break;
       case CANCEL.type:
-        $event.item.copy = _.clone($event.item.data);
-        $event.item.editState = false;
-        $event.item.actions = [ UPDATE, DELETE ]
+        this.notify.emit({type: $event.action.type, data: $event.item});
         break;
     }
 
+  }
+  public edit(item) {
+    item.editState = 'EDIT';
+    item.actions = [ SAVE, CANCEL ];
+  }
+  public save(item) {
+    item.data = _.clone(item.copy);
+    item.editState = false;
+    item.actions = [ UPDATE, DELETE ];
+  }
+  public cancel(item) {
+    item.copy = _.clone(item.data);
+    item.editState = false;
+    item.actions = [ UPDATE, DELETE ]
   }
   private _sliceData(data, pn, rop) {
     return data.slice((pn-1)*rop, pn*rop)

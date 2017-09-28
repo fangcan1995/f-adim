@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import { Animations } from '../../../theme/animations/animations';
 @Component({
   selector: 'seer-collapse-card',
@@ -12,6 +12,8 @@ export class SeerCollapseCardComponent implements OnInit, OnChanges {
   @Input() cardType:String;
   @Input() canCollapse: boolean = false;
   @Input() defaultExpand: boolean = true;
+  @Input() headerActions;
+  @Output() notify = new EventEmitter();
   private _isExpanded: boolean = false;
   constructor() {}
   ngOnInit() {
@@ -25,5 +27,9 @@ export class SeerCollapseCardComponent implements OnInit, OnChanges {
   }
   handleHeaderClick() {
   	this._isExpanded = this.canCollapse ? !this._isExpanded : true;
+  }
+  handleHeaderActionsClick($event, { type }) {
+    $event.stopPropagation();
+    this.notify.emit({ type })
   }
 }

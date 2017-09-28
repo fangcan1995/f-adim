@@ -152,7 +152,6 @@ export class MemberComponent implements OnInit, OnDestroy {
   }
 
   onPageChange($event) {
-    console.log($event);
     this.pageSize = $event.pageSize;
     this.pageNum = $event.pageNum;
     let params = {

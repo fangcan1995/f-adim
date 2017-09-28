@@ -14,11 +14,17 @@
   ></seer-table>
 </seer-collapse-card>
 
-<seer-collapse-card>
+<seer-collapse-card
+  [title]="'simple'"
+  [canCollapse]="true"
+  [headerActions]="simpleTableActions"
+  (notify)="handleSimpleTableCardNotify($event)"
+  >
   <seer-simple-table
+    #simpleTable
     [data]="roles"
     [titles]="titles"
     [translate]="dict"
-    (notify)="handleNotify($event)"
+    (notify)="handleSimpleTableNotify($event)"
   ></seer-simple-table>
 </seer-collapse-card>

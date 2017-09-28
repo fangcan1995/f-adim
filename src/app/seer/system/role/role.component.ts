@@ -1,6 +1,7 @@
 import {
 	Component,
 	OnInit,
+  ViewChild
 } from '@angular/core';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
@@ -15,12 +16,14 @@ import { RoleService } from './role.service';
   templateUrl: './role.component.html',
   styleUrls: [ './role.component.scss' ],
 })
-export class RoleComponent {
+export class RoleComponent implements OnInit {
   hasGlobalFilter = hasGlobalFilter;
   titles = tableTitles;
   offset = 0;
   limit = 10;
   roles = [];
+  simpleTableActions = [ UPDATE, DELETE ]
+  @ViewChild('simpleTable') simpleTable
   ngOnInit() {
     this.getList();
   }
@@ -94,5 +97,11 @@ export class RoleComponent {
         })
         break;
     }
+  }
+  handleSimpleTableNotify($event) {
+    console.log($event)
+  }
+  handleSimpleTableCardNotify($event) {
+    console.log($event)
   }
 }

@@ -1,4 +1,5 @@
 @import '../../../theme/sass/conf/conf';
+@import '../../../theme/sass/bootstrap-overrides/card';
 .card-body {
 	overflow: hidden;
 	padding: 0;
@@ -10,13 +11,18 @@
 .card-header {
 	position: relative;
 }
-
+.card-title {
+	margin-bottom: 0;
+    width: auto;
+}
 .cardTitle__icon {
 	$size: 16px;
-	position: absolute;
-	top: 50%;
-	right: $card-content-padding-horizontal;
-	margin-top: -($size / 2);
+	//position: absolute;
+	//top: 50%;
+	//right: $card-content-padding-horizontal;
+	//margin-top: -($size / 2);
+	display: inline-block;
+	margin-left: 8px;
 	width: $size;
 	height: $size;
 	font-size: $size;
@@ -31,6 +37,16 @@
 .card--open {
 	.cardTitle__icon {
 		-webkit-transform: rotate3d(0, 0, 1, 180deg);
-	        transform: rotate3d(0, 0, 1, 180deg);
+	        	transform: rotate3d(0, 0, 1, 180deg);
+	}
+}
+.card-header-actions {
+	position: relative;
+	margin-top: ($card-header-height - $button-height) / 2 - $card-header-vertical-padding;
+	button {
+		margin-left: 8px;
+		&:last-child {
+			margin-left: 0;
+		}
 	}
 }
