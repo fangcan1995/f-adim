@@ -94,7 +94,7 @@
           </div>
         </td>
         <td class="table-actions" *ngIf="!hideActions">
-          <span *ngIf="item.actions">
+          <div *ngIf="item.actions">
             <i
               *ngFor="let action of item.actions"
               class="table-action {{ action.icon }}"
@@ -102,7 +102,7 @@
               popover="{{ action.name }}"
               triggers="mouseenter:mouseleave"
               ></i>
-          </span>
+          </div>
         </td>
       </tr>
       </tbody>

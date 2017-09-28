@@ -100,6 +100,14 @@ export class RoleComponent implements OnInit {
   }
   handleSimpleTableNotify($event) {
     console.log($event)
+    let { type, key } = $event;
+    switch ( type ) {
+      case 'save':
+        console.log(this.simpleTable.getFormatDataByKey(key))
+        setTimeout(() => {
+          this.simpleTable.save(key);
+        }, 3000)
+    }
   }
   handleSimpleTableCardNotify($event) {
     console.log($event)

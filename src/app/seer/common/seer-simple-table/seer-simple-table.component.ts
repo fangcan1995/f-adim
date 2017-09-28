@@ -26,10 +26,11 @@ export class SeerSimpleTableComponent implements OnInit {
   @Input() hideEditButton;//隐藏编辑按钮
   @Input() displayCopyButton;//显示复制新增按钮
   @Input() displayOriginalData;//翻译不破坏原始数据，但全局搜索不好使
-
   @Input() rowsOnPageSet: Array<number> = [10, 15, 30]; // 每页可显示条数的枚举
   @Input() rowsOnPage:number = 10;
   @Input() pageNumber:number = 1;
+
+  @Input() primaryKey;
 
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
   @Output() changePage: EventEmitter<any> = new EventEmitter<any>();
@@ -76,46 +77,64 @@ export class SeerSimpleTableComponent implements OnInit {
   }
   ngOnChanges(): void {
     this.data = _(this.data)
-    .map(t => {
+    .map((t, i) => {
       return {
+        key: this.primaryKey ? t[this.primaryKey] : i,
         data: t,
         actions: [ UPDATE, DELETE ],
         editState: false,
         copy: _.clone(t),
+        editData: _.clone(t),
       }
     })
     .value();
   }
   handleActionsClick($event) {
-    switch ($event.action.type) {
+    console.log($event)
+    let { action, item } = $event;
+    switch ( action.type ) {
       case UPDATE.type:
-        this.notify.emit({type: $event.action.type, data: $event.item});
+        this.edit(item.key);
         break;
       case DELETE.type:
-        this.notify.emit({type: $event.action.type, data: $event.item});
+        this.notify.emit({type: action.type, key: item.key});
         break;
       case SAVE.type:
-        this.notify.emit({type: $event.action.type, data: $event.item});
+        this.notify.emit({type: action.type, key: item.key});
         break;
       case CANCEL.type:
-        this.notify.emit({type: $event.action.type, data: $event.item});
+        this.cancel(item.key)
         break;
+
     }
+    
 
   }
-  public edit(item) {
+  public edit(key) {
+    let item = _.find(this.data, t => t.key === key)
+    item.copy = _.clone(item.data);
+    item.editData = _.clone(item.data);
+
     item.editState = 'EDIT';
     item.actions = [ SAVE, CANCEL ];
   }
-  public save(item) {
-    item.data = _.clone(item.copy);
+  public save(key) {
+    let item = _.find(this.data, t => t.key === key);
+    item.data = _.clone(item.editData);
     item.editState = false;
     item.actions = [ UPDATE, DELETE ];
   }
-  public cancel(item) {
-    item.copy = _.clone(item.data);
+  public cancel(key) {
+    let item = _.find(this.data, t => t.key === key);
+    item.data = _.clone(item.copy);
     item.editState = false;
     item.actions = [ UPDATE, DELETE ]
+  }
+  public getFormatDataByKey(key) {
+    return _.cloneDeep(_.find(this.data, t => t.key === key));
+  }
+  public getFormatData() {
+    return _.cloneDeep(this.data);
   }
   private _sliceData(data, pn, rop) {
     return data.slice((pn-1)*rop, pn*rop)

@@ -23,6 +23,7 @@
   <seer-simple-table
     #simpleTable
     [data]="roles"
+    [primaryKey]="'roleId'"
     [titles]="titles"
     [translate]="dict"
     (notify)="handleSimpleTableNotify($event)"
