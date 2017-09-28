@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {Location} from '@angular/common';
-import * as _ from 'lodash';
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 import {AdvertisingService} from "../../advertising.service";
+import {Location} from "@angular/common";
 
 @Component({
   templateUrl: './advertising-edit.component.html',

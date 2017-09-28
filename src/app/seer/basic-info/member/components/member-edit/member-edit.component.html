@@ -1,15 +1,15 @@
 <seer-content-top>
   <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
   <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
-  <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">1</button>
-  <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">2</button>
-  <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">3</button>
-  <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">4</button>
+  <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">锁定/解锁</button>
+  <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">交易密码重置</button>
+  <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">登录密码重置</button>
+  <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">征信查询</button>
 </seer-content-top>
 <div class="widgets">
   <div class="row justify-content-center">
     <div class="col-md-12">
-      <seer-collapse-card title="会员基本信息" cardClass="with-scroll" [canCollapse]=true>
+      <seer-collapse-card title="基本信息" cardClass="with-scroll" [canCollapse]=true>
         <form class="form-horizontal">
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
@@ -26,6 +26,15 @@
                 <label for="realName" class="col-sm-4 control-label">真实姓名</label>
                 <div class="col-sm-8">
                   <input type="text" class="form-control" id="realName" placeholder="真实姓名"
+                         [(ngModel)]="member.real_name" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="" class="col-sm-4 control-label">身份证号</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="" placeholder="身份证号"
                          [(ngModel)]="member.real_name" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
@@ -50,6 +59,15 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
+                <label for="" class="col-sm-4 control-label">学历</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="" placeholder="学历"
+                         [(ngModel)]="member.id_number" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
                 <label for="marriage" class="col-sm-4 control-label">婚姻状况</label>
                 <div class="col-sm-8">
                   <input type="text" class="form-control" id="marriage" placeholder="婚姻状况" [(ngModel)]="member.marriage"
@@ -59,27 +77,18 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="idNumber" class="col-sm-4 control-label">身份证号</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="idNumber" placeholder="身份证号"
-                         [(ngModel)]="member.id_number" [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="educationalBackground" class="col-sm-4 control-label">学历</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="educationalBackground" placeholder="学历"
-                         [(ngModel)]="member.educational_background" [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
                 <label for="annualIncome" class="col-sm-4 control-label">年收入</label>
                 <div class="col-sm-8">
                   <input type="text" class="form-control" id="annualIncome" placeholder="年收入"
+                         [(ngModel)]="member.annual_income" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="" class="col-sm-4 control-label">社保</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="" placeholder="社保"
                          [(ngModel)]="member.annual_income" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
@@ -95,19 +104,27 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="qq" class="col-sm-4 control-label">QQ</label>
+                <label for="qq" class="col-sm-4 control-label">电子邮件</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="qq" placeholder="QQ" [(ngModel)]="member.qq"
+                  <input type="text" class="form-control" id="qq" placeholder="电子邮件" [(ngModel)]="member.qq"
                          [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
             </div>
-
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="" class="col-sm-4 control-label">住房情况</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="" placeholder="住房情况" [(ngModel)]="member.qq"
+                         [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
             <div class="form-group col-sm-12">
               <div class="row">
-                <label for="censusRegister" class="col-sm-4 col-md-2 col-xlg-1 control-label">户口所在地</label>
+                <label for="censusRegister" class="col-sm-4 col-md-2 col-xlg-1 control-label">户籍地址</label>
                 <div class="col-sm-8 col-md-10 col-xlg-11">
-                  <input type="text" class="form-control" id="censusRegister" placeholder="户口所在地"
+                  <input type="text" class="form-control" id="censusRegister" placeholder="户籍地址"
                          [(ngModel)]="member.census_register" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
@@ -115,9 +132,9 @@
 
             <div class="form-group col-sm-12">
               <div class="row">
-                <label for="residence" class="col-sm-4 col-md-2 col-xlg-1 control-label">现居地址</label>
+                <label for="residence" class="col-sm-4 col-md-2 col-xlg-1 control-label">现居住地</label>
                 <div class="col-sm-8 col-md-10 col-xlg-11">
-                  <input type="text" class="form-control" id="residence" placeholder="现居地址"
+                  <input type="text" class="form-control" id="residence" placeholder="现居住地"
                          [(ngModel)]="member.residence" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
@@ -132,7 +149,6 @@
                 </div>
               </div>
             </div>
-
             <div class="form-group col-sm-12">
               <div class="row">
                 <label for="debtIntroduction" class="col-sm-4 col-md-2 col-xlg-1 control-label">债务介绍</label>
@@ -142,6 +158,14 @@
                 </div>
               </div>
             </div>
+          </div>
+        </form>
+      </seer-collapse-card>
+    </div>
+    <div class="col-md-12">
+      <seer-collapse-card title="紧急联系人" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
+        <form class="form-horizontal">
+          <div class="row">
 
           </div>
         </form>
@@ -151,7 +175,6 @@
       <seer-collapse-card title="工作信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
         <form class="form-horizontal">
           <div class="row">
-
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
                 <label for="companyName" class="col-sm-4 control-label">公司名称</label>
@@ -161,7 +184,6 @@
                 </div>
               </div>
             </div>
-
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
                 <label for="companyProperty" class="col-sm-4 control-label">公司性质</label>
@@ -171,7 +193,6 @@
                 </div>
               </div>
             </div>
-
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
                 <label for="companySize" class="col-sm-4 control-label">公司规模</label>
@@ -181,7 +202,6 @@
                 </div>
               </div>
             </div>
-
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
                 <label for="duty" class="col-sm-4 control-label">职务</label>
@@ -191,7 +211,6 @@
                 </div>
               </div>
             </div>
-
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
                 <label for="name" class="col-sm-4 control-label">工作年限</label>
@@ -200,7 +219,6 @@
                 </div>
               </div>
             </div>
-
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
                 <label for="name" class="col-sm-4 control-label">工作电话</label>
@@ -209,7 +227,6 @@
                 </div>
               </div>
             </div>
-
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
                 <label for="name" class="col-sm-4 control-label">月收入</label>
@@ -218,22 +235,64 @@
                 </div>
               </div>
             </div>
-
             <div class="form-group col-sm-12">
               <div class="row">
-                <label for="residence" class="col-sm-4 col-md-2 col-xlg-1 control-label">工作地址</label>
+                <label for="residence" class="col-sm-4 col-md-2 col-xlg-1 control-label">工作地点</label>
                 <div class="col-sm-8 col-md-10 col-xlg-11">
                   <input type="text" class="form-control" id="residence" placeholder="工作地址">
                 </div>
               </div>
             </div>
-
           </div>
         </form>
       </seer-collapse-card>
     </div>
     <div class="col-md-12">
-      <seer-collapse-card title="个人财务状况" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
+      <seer-collapse-card title="账户信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
+        <form class="form-horizontal">
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              <div class="row">
+                <label for="companyName" class="col-sm-4 control-label">账户归属</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" id="companyName" placeholder="账户归属"
+                         [(ngModel)]="member.company_name" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              <div class="row">
+                <label for="companyProperty" class="col-sm-4 control-label">账户用户名</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" id="companyProperty" placeholder="账户用户名"
+                         [(ngModel)]="member.company_property" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              <div class="row">
+                <label for="companySize" class="col-sm-4 control-label">开户行</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" id="companySize" placeholder="开户行"
+                         [(ngModel)]="member.company_size" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              <div class="row">
+                <label for="companySize" class="col-sm-4 control-label">银行账户</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" id="companySize" placeholder="银行账户"
+                         [(ngModel)]="member.company_size" [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </seer-collapse-card>
+    </div>
+    <div class="col-md-12">
+      <seer-collapse-card title="财务状况" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
         <form class="form-horizontal">
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
@@ -245,17 +304,14 @@
                 </div>
               </div>
             </div>
-
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label for="companyProperty" class="col-sm-4 control-label">自有房产</label>
+                <label for="name" class="col-sm-4 control-label">每月信用卡还款金额</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="companyProperty" placeholder="自有房产"
-                         [(ngModel)]="member.company_property" [ngModelOptions]="{standalone: true}">
+                  <input type="text" class="form-control" id="name" placeholder="每月信用卡还款金额">
                 </div>
               </div>
             </div>
-
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
                 <label for="companySize" class="col-sm-4 control-label">每月房屋按揭金额</label>
@@ -265,7 +321,14 @@
                 </div>
               </div>
             </div>
-
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              <div class="row">
+                <label for="name" class="col-sm-4 control-label">每月汽车按揭金额</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" id="name" placeholder="每月汽车按揭金额">
+                </div>
+              </div>
+            </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
                 <label for="duty" class="col-sm-4 control-label">自有汽车</label>
@@ -275,21 +338,12 @@
                 </div>
               </div>
             </div>
-
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label for="name" class="col-sm-4 control-label">每月汽车按揭金额</label>
+                <label for="companyProperty" class="col-sm-4 control-label">自有房产</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="每月汽车按揭金额">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              <div class="row">
-                <label for="name" class="col-sm-4 control-label">每月信用卡还款金额</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="每月信用卡还款金额">
+                  <input type="text" class="form-control" id="companyProperty" placeholder="自有房产"
+                         [(ngModel)]="member.company_property" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
             </div>
@@ -298,220 +352,29 @@
       </seer-collapse-card>
     </div>
     <div class="col-md-12">
-      <seer-collapse-card title="抵押物信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
+      <seer-collapse-card title="车辆信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
         <form class="form-horizontal">
           <div class="row">
 
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="companyName" class="col-sm-4 control-label">车辆品牌</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="companyName" placeholder="车辆品牌"
-                         [(ngModel)]="member.company_name" [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="companyProperty" class="col-sm-4 control-label">车辆型号</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="companyProperty" placeholder="车辆型号"
-                         [(ngModel)]="member.company_property" [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="companySize" class="col-sm-4 control-label">车架号</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="companySize" placeholder="车架号"
-                         [(ngModel)]="member.company_size" [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="duty" class="col-sm-4 control-label">车牌号</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="duty" placeholder="车牌号" [(ngModel)]="member.duty"
-                         [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="name" class="col-sm-4 control-label">登记证号</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="登记证号">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="name" class="col-sm-4 control-label">车龄</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="车龄">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="name" class="col-sm-4 control-label">行驶里程</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="行驶里程">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="name" class="col-sm-4 control-label">评估价格</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="评估价格">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="name" class="col-sm-4 control-label">抵押物描述</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="抵押物描述">
-                </div>
-              </div>
-            </div>
-
           </div>
+        </form>
+      </seer-collapse-card>
+    </div>
+    <div class="col-md-12">
+      <seer-collapse-card title="房屋信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
+        <form class="form-horizontal">
           <div class="row">
 
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              <div class="row">
-                <label for="companyName" class="col-sm-4 control-label">房产地址</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="companyName" placeholder="房产地址"
-                         [(ngModel)]="member.company_name" [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              <div class="row">
-                <label for="companyProperty" class="col-sm-4 control-label">房屋类型</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="companyProperty" placeholder="房屋类型"
-                         [(ngModel)]="member.company_property" [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              <div class="row">
-                <label for="companySize" class="col-sm-4 control-label">建筑面积</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="companySize" placeholder="建筑面积"
-                         [(ngModel)]="member.company_size" [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              <div class="row">
-                <label for="duty" class="col-sm-4 control-label">房龄</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="duty" placeholder="房龄" [(ngModel)]="member.duty"
-                         [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              <div class="row">
-                <label for="name" class="col-sm-4 control-label">贷款年限</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="贷款年限">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              <div class="row">
-                <label for="name" class="col-sm-4 control-label">尚欠贷余额</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="尚欠贷余额">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              <div class="row">
-                <label for="name" class="col-sm-4 control-label">土地所有证号</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="土地所有证号">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              <div class="row">
-                <label for="name" class="col-sm-4 control-label">房屋产权所有证号</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="房屋产权所有证号">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              <div class="row">
-                <label for="name" class="col-sm-4 control-label">所有权1</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="所有权1">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              <div class="row">
-                <label for="name" class="col-sm-4 control-label">所有权2</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="所有权2">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              <div class="row">
-                <label for="name" class="col-sm-4 control-label">所有权3</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="所有权3">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              <div class="row">
-                <label for="name" class="col-sm-4 control-label">按揭银行</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="按揭银行">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              <div class="row">
-                <label for="name" class="col-sm-4 control-label">产权份额</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="产权份额">
-                </div>
-              </div>
-            </div>
           </div>
+        </form>
+      </seer-collapse-card>
+    </div>
+    <div class="col-md-12">
+      <seer-collapse-card title="个人征信信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
+        <form class="form-horizontal">
+          <div class="row">
 
+          </div>
         </form>
       </seer-collapse-card>
     </div>
