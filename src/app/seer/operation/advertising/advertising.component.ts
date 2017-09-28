@@ -101,7 +101,7 @@ export class AdvertisingComponent implements OnInit, OnDestroy{
     const type = message.type;
     let data = message.data;
     switch (type) {
-      case 'add':
+      case 'create':
         this._router.navigate(['add'], {relativeTo: this._activatedRoute});
         break;
       case 'update':
