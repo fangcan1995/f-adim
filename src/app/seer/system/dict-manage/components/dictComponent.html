@@ -27,6 +27,7 @@
         [paginationRules]="0"
         [translate]="translate"
         (notify)="onChange($event)"
+        (changePage)="handlePageChange($event)"
         [hideExport]="true"
         [hidePrint]="true"
         [hideRemoveAll]="true"

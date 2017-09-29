@@ -74,12 +74,6 @@ export class ResourceListComponent implements OnInit{
       this.data = _.map(this.data, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
     });
   };
-  onPageChange($event) {
-    alert();
-    //this.pageInfo.pageSize = $event.rowsOnPage;
-    //this.pageInfo.pageNum=$event.pageNumber;
-    this.getAllDate();
-  }//分页
   /*更新*/
   onChange(message):void {
     const type = message.type;
@@ -111,8 +105,10 @@ export class ResourceListComponent implements OnInit{
     }
   }
   handlePageChange($event) {
-    console.log($event);
-  }
+    this.pageInfo.pageSize = $event.pageSize;
+    this.pageInfo.pageNum=$event.pageNum;
+    this.getAllDate();
+  }//分页
 /*  handleSearchBtnClicked($event) {
 
 
