@@ -35,6 +35,7 @@ export class SeerSimpleTableComponent implements OnInit {
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
   @Output() changePage: EventEmitter<any> = new EventEmitter<any>();
 
+
   public sortBy = '';
 
   public multiSelectTexts = {
