@@ -79,7 +79,7 @@ export class SeerSimpleTableComponent implements OnInit {
     this.data = _(this.data)
     .map((t, i) => {
       return {
-        key: this.primaryKey ? t[this.primaryKey] : i,
+        key: i,//this.primaryKey ? t[this.primaryKey] : i,
         data: t,
         actions: [ UPDATE, DELETE ],
         editState: false,
@@ -105,30 +105,42 @@ export class SeerSimpleTableComponent implements OnInit {
       case CANCEL.type:
         this.cancel(item.key)
         break;
-
+      case CREATE.type:
+        this.create();
     }
     
 
   }
   public edit(key) {
-    let item = _.find(this.data, t => t.key === key)
+    let item = _.find(this.data, t => t.key === key);
     item.copy = _.clone(item.data);
     item.editData = _.clone(item.data);
 
     item.editState = 'EDIT';
     item.actions = [ SAVE, CANCEL ];
   }
-  public save(key) {
+  public save(key, data?) {
     let item = _.find(this.data, t => t.key === key);
-    item.data = _.clone(item.editData);
+    if ( data ) {
+      item.data = _.clone(data);
+    } else {
+      item.data = _.clone(item.editData);
+    }
     item.editState = false;
     item.actions = [ UPDATE, DELETE ];
+  }
+  public create() {
+    let key = 
+    this.data.push({});
   }
   public cancel(key) {
     let item = _.find(this.data, t => t.key === key);
     item.data = _.clone(item.copy);
     item.editState = false;
     item.actions = [ UPDATE, DELETE ]
+  }
+  public delete(key) {
+    _.remove(this.data, t => t.key === key);
   }
   public getFormatDataByKey(key) {
     return _.cloneDeep(_.find(this.data, t => t.key === key));
@@ -177,9 +189,7 @@ export class SeerSimpleTableComponent implements OnInit {
     if ( this.translate ) this.transferKeyWithDict(event, this.translate);
     this.notify.emit({type: 'link', data: event});
   }
-  create() {
 
-  }
   renderValue(title, value) {
     if ( this.translate && this.translate[title.key] && this.translate[title.key].length ) {
       _.each(this.translate[title.key], o => {
