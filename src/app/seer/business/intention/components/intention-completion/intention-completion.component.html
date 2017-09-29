@@ -5,8 +5,7 @@
 <div class="widgets">
   <div class="row justify-content-center">
     <div class="col-md-12">
-      <seer-collapse-card title="基本信息" cardClass="with-scroll" [canCollapse]=true>
-        <button class="btn btn-outline-dark" (click)="handleBackBtnClick()">保存</button>
+      <seer-collapse-card title="基本信息" cardClass="with-scroll" [canCollapse]="true" [headerActions]="memberActions" (notify)="handleMemberCardNotify($event)">
         <form class="form-horizontal">
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
@@ -153,8 +152,7 @@
       </seer-collapse-card>
     </div>
     <div class="col-md-12">
-      <seer-collapse-card title="借款信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
-        <button class="btn btn-outline-dark" (click)="handleBackBtnClick()">保存</button>
+      <seer-collapse-card title="借款信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true [headerActions]="loanActions" (notify)="handleLoanCardNotify($event)">
         <form class="form-horizontal">
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
@@ -173,7 +171,7 @@
               <div class="row">
                 <label for="loanAmount" class="col-sm-4 control-label">借款金额</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="loanAmount" placeholder="借款金额" [(ngModel)]="loanInfo.loanAmount" [ngModelOptions]="{standalone: true}">
+                  <input type="text" class="form-control" id="loanAmount" placeholder="借款金额" [(ngModel)]="loan.loanAmount" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
             </div>
@@ -194,7 +192,7 @@
               <div class="row">
                 <label for="annualRate" class="col-sm-4 control-label">年利率</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="annualRate" placeholder="年利率" [(ngModel)]="loanInfo.annualRate" [ngModelOptions]="{standalone: true}">
+                  <input type="text" class="form-control" id="annualRate" placeholder="年利率" [(ngModel)]="loan.annualRate" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
             </div>
@@ -202,7 +200,7 @@
               <div class="row">
                 <label for="projectName" class="col-sm-4 control-label">项目名称</label>
                 <div class="col-sm-8">
-                  <input class="form-control" id="projectName" placeholder="项目名称" [(ngModel)]="loanInfo.projectName" [ngModelOptions]="{standalone: true}">
+                  <input class="form-control" id="projectName" placeholder="项目名称" [(ngModel)]="loan.projectName" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
             </div>
@@ -240,89 +238,44 @@
       </seer-collapse-card>
     </div>
     <div class="col-md-12">
-      <seer-collapse-card title="选择抵押物" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
-        <button class="btn btn-primary" (click)="handleBackBtnClick()">新增车辆</button><p></p>
+      <seer-collapse-card title="信用信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <form class="form-horizontal">
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
               <div class="row">
-                <div class="card" style="width: 20rem;">
-                  <div class="card-body">
-                    <h4 class="card-title">车牌号：辽B·12345</h4>
-                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
-                    <p class="card-text">简介：摩根 Plus 4，200公里，3年车龄，评估价格为70万。</p>
-                    <a href="#" class="card-link">设为抵押物</a>
-                    <a href="#" class="card-link">查看详情</a>
+                <div class="card border-primary mb-3" style="max-width: 20rem;">
+                  <div class="card-header">Header</div>
+                  <div class="card-body text-secondary">
+                    <h4 class="card-title">Primary card title</h4>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="card-link">预览</a>
+                    <a href="#" class="card-link">下载</a>
                   </div>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
               <div class="row">
-                <div class="card" style="width: 20rem;">
-                  <div class="card-body">
-                    <h4 class="card-title">车牌号：辽B·12345</h4>
-                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
-                    <p class="card-text">简介：摩根 Plus 4，200公里，3年车龄，评估价格为70万。</p>
-                    <a href="#" class="card-link">设为抵押物</a>
-                    <a href="#" class="card-link">查看详情</a>
+                <div class="card border-secondary mb-3" style="max-width: 20rem;">
+                  <div class="card-header">Header</div>
+                  <div class="card-body text-secondary">
+                    <h4 class="card-title">Secondary card title</h4>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="card-link">预览</a>
+                    <a href="#" class="card-link">下载</a>
                   </div>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
               <div class="row">
-                <div class="card" style="width: 20rem;">
-                  <div class="card-body">
-                    <h4 class="card-title">车牌号：辽B·12345</h4>
-                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
-                    <p class="card-text">简介：摩根 Plus 4，200公里，3年车龄，评估价格为70万。</p>
-                    <a href="#" class="card-link">设为抵押物</a>
-                    <a href="#" class="card-link">查看详情</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-        <button class="btn btn-primary" (click)="handleBackBtnClick()">新增房产</button><p></p>
-        <form class="form-horizontal">
-          <div class="row">
-            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
-              <div class="row">
-                <div class="card" style="width: 20rem;">
-                  <div class="card-body">
-                    <h4 class="card-title">产权证号：12345678</h4>
-                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
-                    <p class="card-text">简介：甘井子区，建筑面积100平米，商品房，2012年承建，评估价格为200万。</p>
-                    <a href="#" class="card-link">设为抵押物</a>
-                    <a href="#" class="card-link">查看详情</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
-              <div class="row">
-                <div class="card" style="width: 20rem;">
-                  <div class="card-body">
-                    <h4 class="card-title">产权证号：12345678</h4>
-                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
-                    <p class="card-text">简介：甘井子区，建筑面积100平米，商品房，2012年承建，评估价格为200万。</p>
-                    <a href="#" class="card-link">设为抵押物</a>
-                    <a href="#" class="card-link">查看详情</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
-              <div class="row">
-                <div class="card" style="width: 20rem;">
-                  <div class="card-body">
-                    <h4 class="card-title">产权证号：12345678</h4>
-                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
-                    <p class="card-text">简介：甘井子区，建筑面积100平米，商品房，2012年承建，评估价格为200万。</p>
-                    <a href="#" class="card-link">设为抵押物</a>
-                    <a href="#" class="card-link">查看详情</a>
+                <div class="card border-secondary mb-3" style="max-width: 20rem;">
+                  <div class="card-header">Header</div>
+                  <div class="card-body text-secondary">
+                    <h4 class="card-title">Secondary card title</h4>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="card-link">预览</a>
+                    <a href="#" class="card-link">下载</a>
                   </div>
                 </div>
               </div>
@@ -333,7 +286,6 @@
     </div>
     <div class="col-md-12">
       <seer-collapse-card title="信用信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
-        <button class="btn btn-primary" (click)="handleBackBtnClick()">征信查询</button><p></p>
         <form class="form-horizontal">
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
@@ -379,7 +331,107 @@
       </seer-collapse-card>
     </div>
     <div class="col-md-12">
-      <seer-collapse-card title="附件信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+      <seer-collapse-card title="选择抵押物" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+
+        <div class="row">
+          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+            <div class="row">
+              <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Button with data-target
+              </button>
+            </div>
+          </div>
+        </div>
+        <form class="form-horizontal">
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+              <div class="row">
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title">车牌号：辽B·12345</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text">简介：摩根 Plus 4，200公里，3年车龄，评估价格为70万。</p>
+                    <a href="#" class="card-link">设为抵押物</a>
+                    <a href="#" class="card-link">查看详情</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+              <div class="row">
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title">车牌号：辽B·12345</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text">简介：摩根 Plus 4，200公里，3年车龄，评估价格为70万。</p>
+                    <a href="#" class="card-link">设为抵押物</a>
+                    <a href="#" class="card-link">查看详情</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+              <div class="row">
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title">车牌号：辽B·12345</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text">简介：摩根 Plus 4，200公里，3年车龄，评估价格为70万。</p>
+                    <a href="#" class="card-link">设为抵押物</a>
+                    <a href="#" class="card-link">查看详情</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <form class="form-horizontal">
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+              <div class="row">
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title">产权证号：12345678</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text">简介：甘井子区，建筑面积100平米，商品房，2012年承建，评估价格为200万。</p>
+                    <a href="#" class="card-link">设为抵押物</a>
+                    <a href="#" class="card-link">查看详情</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+              <div class="row">
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title">产权证号：12345678</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text">简介：甘井子区，建筑面积100平米，商品房，2012年承建，评估价格为200万。</p>
+                    <a href="#" class="card-link">设为抵押物</a>
+                    <a href="#" class="card-link">查看详情</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+              <div class="row">
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title">产权证号：12345678</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                    <p class="card-text">简介：甘井子区，建筑面积100平米，商品房，2012年承建，评估价格为200万。</p>
+                    <a href="#" class="card-link">设为抵押物</a>
+                    <a href="#" class="card-link">查看详情</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </seer-collapse-card>
+    </div>
+    <div class="col-md-12">
+      <seer-collapse-card title="审核资料" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <button class="btn btn-primary" (click)="handleBackBtnClick()">上传附件</button><p></p>
         <form class="form-horizontal">
           <div class="row">
