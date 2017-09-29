@@ -110,6 +110,9 @@ export class ResourceListComponent implements OnInit{
         break;
     }
   }
+  handlePageChange($event) {
+    console.log($event);
+  }
 /*  handleSearchBtnClicked($event) {
 
 

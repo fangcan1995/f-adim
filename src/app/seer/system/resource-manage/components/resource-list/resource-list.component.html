@@ -17,6 +17,7 @@
       [total]="pageInfo.total"
       [paginationRules]="0"
       (notify)="onChange($event)"
+      (changePage)="handlePageChange($event)"
       [hideExport]="true"
       [hidePrint]="true"
       [hideRemoveAll]="true"
