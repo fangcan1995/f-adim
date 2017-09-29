@@ -48,7 +48,7 @@ export class HttpInterceptorService {
     })
     let headers = new Headers();
     headers.set('Content-Type', 'application/json')
-    headers.set('Authorization', '123')
+    // headers.set('Authorization', '123')
     let options;
     if ( method === 'GET' ) {
       options = new RequestOptions({
@@ -82,7 +82,7 @@ export class HttpInterceptorService {
       }
     })*/
     .catch(this.handleError);
-    
+
   }
   private extractData(res: Response) {
       let body = res.json();

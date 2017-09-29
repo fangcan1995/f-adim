@@ -1,36 +1,51 @@
-<seer-card>
-  <div class="row" style="margin-bottom: 10px;">
-    <seer-checkbox (click)="reset()" [isChecked]="isChecked({code:all})" [label]="'全部('+originalTasks.length+')'"></seer-checkbox>
-    <seer-checkbox (click)="toggleCategory(taskType.ORDER)" [isChecked]="isChecked(taskType.ORDER)" [label]="'意向处理('+getCategoryCount(taskType.ORDER)+')'"></seer-checkbox>
-    <seer-checkbox (click)="toggleCategory(taskType.STORAGE)" [isChecked]="isChecked(taskType.STORAGE)" [label]="'标的管理('+getCategoryCount(taskType.STORAGE)+')'"></seer-checkbox>
-    <seer-checkbox (click)="toggleCategory(taskType.ACTIVITY)" [isChecked]="isChecked(taskType.ACTIVITY)" [label]="'项目管理('+getCategoryCount(taskType.ACTIVITY)+')'"></seer-checkbox>
-  </div>
-  <div class="row">
-    <ul class="mail-list">
-      <li class="list-item" *ngFor="let task of tasks">
-        <div class="item-subject" style="left:20px;">
-          <span class="label {{getTasksCategory(task.category).color}}">{{getTasksCategory(task.category).categoryName}}</span>
-          <span style="cursor: pointer; color: #333333" (click)="directToTaskHandlePage(getTasksCategory(task.category).detailPageUrl,task.id)">
+
+<div style="margin:10px 30px; background: #c12e2a">
+  <seer-card>
+    <div class="row" style="margin-bottom: 10px;">
+      <seer-checkbox (click)="ckboxToggle('all')" [isChecked]="isChecked.all" [label]="'全部('+pageInfo.total+')'"></seer-checkbox>
+      <seer-checkbox
+        *ngFor="let taskType of taskTypes"
+        (click)="ckboxToggle(taskType.code)"
+        [isChecked]="isChecked[taskType.code]"
+        [label]="taskType.categoryName+'('+getCategoryCount(taskType.category)+')'"
+      >
+      </seer-checkbox>
+      <!--  <seer-checkbox (click)="toggleCategory(taskType.ORDER)" [isChecked]="isChecked(taskType.ORDER)" [label]="'意向处理('+getCategoryCount(taskType.ORDER)+')'"></seer-checkbox>
+        <seer-checkbox (click)="toggleCategory(taskType.STORAGE)" [isChecked]="isChecked(taskType.STORAGE)" [label]="'标的管理('+getCategoryCount(taskType.STORAGE)+')'"></seer-checkbox>
+        <seer-checkbox (click)="toggleCategory(taskType.ACTIVITY)" [isChecked]="isChecked(taskType.ACTIVITY)" [label]="'项目管理('+getCategoryCount(taskType.ACTIVITY)+')'"></seer-checkbox>-->
+    </div>
+    <div class="row">
+      <!--<seer-table
+        [data]="tasks"
+        [titles]="titles"
+        (notify)="onChange($event)"
+        [hideExport]="true"
+        [hidePrint]="true"
+        [hideRemoveAll]="true"
+        [hideColumns]="true"
+      ></seer-table>-->
+      <ul class="mail-list">
+        <li class="list-item" *ngFor="let task of data">
+          <div class="item-subject" style="left:20px;">
+            <span class="label {{getTasksCategory(task.category).color}}">{{getTasksCategory(task.category).categoryName}}</span>
+            <span style="cursor: pointer; color: #333333" (click)="directToTaskHandlePage(getTasksCategory(task.category).detailPageUrl,task.id)">
             {{task.name}}
           </span>
-        </div>
-        <div class=" pull-right item-time">
-          {{task.createTime}}
-        </div>
-      </li>
-    </ul>
-    <!--<ul class="mail-list">
-      <li class="list-item" *ngFor="let task of tasks">
-        <div class="item-subject" style="left:20px;">
-          <span class="label {{getLabelColor(task)}}">{{getLabelName(task)}}</span>
-          <span style="cursor: pointer; color: #333333" (click)="directToTaskHandlePage(task)">
-            {{task.name}}
-          </span>
-        </div>
-        <div class=" pull-right item-time">
-          {{task.createTime}}
-        </div>
-      </li>
-    </ul>-->
-  </div>
-</seer-card>
+          </div>
+          <div class=" pull-right item-time">
+            {{task.createTime}}
+          </div>
+        </li>
+      </ul>
+      <div style="margin: 30px 10px">
+        <seer-pagination
+          [rowCount]=this.pageInfo.total
+          [rowsOnPageSet]="[10, 15, 30]"
+          [rowsOnPage]=this.pageInfo.pageSize
+          [pageNumber]=this.pageInfo.pageNum
+          (notify)="onPageChange($event)"
+        ></seer-pagination>
+      </div>
+    </div>
+  </seer-card>
+</div>

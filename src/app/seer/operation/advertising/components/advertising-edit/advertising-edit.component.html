@@ -13,7 +13,7 @@
                 <label for="applicableProduct" class="col-sm-4 control-label">广告标题</label>
                 <div class="col-sm-8">
                   <select class="form-control" id="applicableProduct"
-                          [(ngModel)]="coupon.applicableProduct"
+                          [(ngModel)]="advertising.title"
                           [ngModelOptions]="{standalone: true}">
                   </select>
                 </div>
@@ -24,7 +24,7 @@
                 <label for="superpositionRedPacket" class="col-sm-4 control-label">广告类型</label>
                 <div class="col-sm-8">
                   <select class="form-control" id="superpositionRedPacket"
-                          [(ngModel)]="coupon.superpositionRedPacket"
+                          [(ngModel)]="advertising.adType"
                           [ngModelOptions]="{standalone: true}">
                   </select>
                 </div>
@@ -35,7 +35,7 @@
                 <label for="superpositionCoupon" class="col-sm-4 control-label">投放端</label>
                 <div class="col-sm-8">
                   <select class="form-control" id="superpositionCoupon"
-                          [(ngModel)]="coupon.superpositionCoupon"
+                          [(ngModel)]="advertising.putEnv"
                           [ngModelOptions]="{standalone: true}">
                   </select>
                 </div>
@@ -45,8 +45,8 @@
               <div class="row">
                 <label for="activityTheme" class="col-sm-4 control-label">广告链接</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="activityTheme" placeholder="活动主题"
-                         [(ngModel)]="coupon.activityTheme"
+                  <input type="text" class="form-control" id="activityTheme" placeholder="广告链接"
+                         [(ngModel)]="advertising.url"
                          [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
@@ -55,7 +55,7 @@
               <div class="row">
                 <label for="remark" class="col-sm-4 col-md-2 col-xlg-1 control-label">广告图片</label>
                 <div class="col-sm-8 col-md-10 col-xlg-11">
-                  <textarea class="form-control" id="remark" placeholder="备注" [(ngModel)]="coupon.remark"
+                  <textarea class="form-control" id="remark" placeholder="备注" [(ngModel)]="advertising.url"
                             [ngModelOptions]="{standalone: true}"></textarea>
                 </div>
               </div>

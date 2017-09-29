@@ -12,96 +12,267 @@ import * as _ from 'lodash';
 })
 export class EnddoComponent implements OnInit {
   originalTasks = [];
-  tasks = [];
-  taskscategory=taskScategory;
+  data = [];
+  titles = [
+    {key:'category', label:'任务类型'},
+    {key:'name', label:'任务内容',isDict:true},
+    {key:'createTime', label:'任务发布时间'},
+
+  ];
+  pageInfo={
+    "pageNum":1,
+    "pageSize":10,
+    "sort":"menuPid,sortNum",
+    "total":10,
+    "query":{
+      "category":""
+    }
+  }; //分页及排序
+  isChecked={
+    "all":true,
+    "first":false,
+    "second":false,
+    "third":false,
+    "forth":false,
+    "fifth":false,
+    "sixth":false,
+    "seventh":false
+  };
+  taskTypes=taskScategory;  //单选框列表
+  currentType="all";  //当前选中类型
   constructor(private service: WorkspaceService, private router:Router) {
   }
-
   ngOnInit(): void {
-    let todoPromise = this.service.getTasks();
-    if (todoPromise) {
-      todoPromise.then((result: Result) => {
-        if (result.success) {
-          result.data={
-            "pageNum": 1,
-            "pageSize": 10,
-            "total": 13,
-            "list": [
-              {
-                "id": 1,
-                "category": "01",
-                "createTime": "2017-03-31 11:53:39",
-                "description": "8af57377-5549-4c90-a0a4-ca1621553686",
-                "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
-              }
-            ],
-          };
-
-          this.originalTasks = result.data.list;
-          console.log(result.data);
-          if(this.originalTasks.length>1){
-            //倒序排序
-            this.originalTasks = this.originalTasks.sort((a,b)=>a.createTime>b.createTime?-1:1)
-          }
-          this.tasks = result.data.list;
-        } else {
-          alert(result.message);
-        }
-      })
-    }
+    this.getList();
   }
+  getList(){
+    let data_temp={
+      "pageNum": 1,
+      "pageSize": 10,
+      "total": 12,
+      "list": [
+        {
+          "id": 1,
+          "category": "01",
+          "createTime": "2017-03-31 11:53:39",
+          "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+          "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+        },
+        {
+          "id": 2,
+          "category": "02",
+          "createTime": "2017-03-31 11:53:39",
+          "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+          "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+        },
+        {
+          "id": 3,
+          "category": "03",
+          "createTime": "2017-03-31 11:53:39",
+          "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+          "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+        },
+        {
+          "id": 4,
+          "category": "04",
+          "createTime": "2017-03-31 11:53:39",
+          "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+          "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+        },
+        {
+          "id": 5,
+          "category": "05",
+          "createTime": "2017-03-31 11:53:39",
+          "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+          "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+        },
+        {
+          "id": 6,
+          "category": "06",
+          "createTime": "2017-03-31 11:53:39",
+          "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+          "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+        },
+        {
+          "id": 7,
+          "category": "07",
+          "createTime": "2017-03-31 11:53:39",
+          "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+          "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+        },
+        {
+          "id": 8,
+          "category": "01",
+          "createTime": "2017-03-31 11:53:39",
+          "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+          "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+        },
+        {
+          "id": 9,
+          "category": "01",
+          "createTime": "2017-03-31 11:53:39",
+          "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+          "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+        },
+        {
+          "id": 10,
+          "category": "01",
+          "createTime": "2017-03-31 11:53:39",
+          "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+          "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+        },
+        {
+          "id": 11,
+          "category": "01",
+          "createTime": "2017-03-31 11:53:39",
+          "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+          "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+        },
+        {
+          "id": 12,
+          "category": "01",
+          "createTime": "2017-03-31 11:53:39",
+          "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+          "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+        }
+      ]}
+    this.pageInfo.pageNum=data_temp.pageNum;  //当前页
+    this.pageInfo.pageSize=data_temp.pageSize; //每页记录数
+    this.pageInfo.total=data_temp.total; //记录总数
+    this.data = data_temp.list;         //记录列表
+    //this.originalTasks = data_temp.list;
+    /*this.service.getTasks(this.pageInfo).then((data) => {
+      data={
+          "pageNum": 1,
+          "pageSize": 10,
+          "total": 12,
+          "list": [
+            {
+              "id": 1,
+              "category": "01",
+              "createTime": "2017-03-31 11:53:39",
+              "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+              "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+            },
+            {
+              "id": 2,
+              "category": "02",
+              "createTime": "2017-03-31 11:53:39",
+              "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+              "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+            },
+            {
+              "id": 3,
+              "category": "03",
+              "createTime": "2017-03-31 11:53:39",
+              "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+              "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+            },
+            {
+              "id": 4,
+              "category": "04",
+              "createTime": "2017-03-31 11:53:39",
+              "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+              "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+            },
+            {
+              "id": 5,
+              "category": "05",
+              "createTime": "2017-03-31 11:53:39",
+              "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+              "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+            },
+            {
+              "id": 6,
+              "category": "06",
+              "createTime": "2017-03-31 11:53:39",
+              "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+              "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+            },
+            {
+              "id": 7,
+              "category": "07",
+              "createTime": "2017-03-31 11:53:39",
+              "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+              "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+            },
+            {
+              "id": 8,
+              "category": "01",
+              "createTime": "2017-03-31 11:53:39",
+              "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+              "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+            },
+            {
+              "id": 9,
+              "category": "01",
+              "createTime": "2017-03-31 11:53:39",
+              "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+              "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+            },
+            {
+              "id": 10,
+              "category": "01",
+              "createTime": "2017-03-31 11:53:39",
+              "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+              "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+            },
+            {
+              "id": 11,
+              "category": "01",
+              "createTime": "2017-03-31 11:53:39",
+              "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+              "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+            },
+            {
+              "id": 12,
+              "category": "01",
+              "createTime": "2017-03-31 11:53:39",
+              "description": "8af57377-5549-4c90-a0a4-ca1621553686",
+              "name": "汇车贷-HCD201707190001 来自 XXXX 的申请 ",
+            }
+          ]}
+      this.pageInfo.pageNum=data.pageNum;  //当前页
+      this.pageInfo.pageSize=data.pageSize; //每页记录数
+      this.pageInfo.total=data.total; //记录总数
+      this.data = data.list;         //记录列表
+    });*/
+  }//获取数据
   getTasksCategory(category:any){
-    let data =_.find(this.taskscategory, x => x.category === category);
+    let data =_.find(this.taskTypes, x => x.category === category);
     return data;
   }
-
-
-
-
-  all = 0xf;
-  selectedTaskCategories: number = this.all;
-
-  taskType = {
-    ORDER: {code:0x1, categories:['01','02','03']},
-    STORAGE: {code:0x2, categories:['04','05','06']},
-    ACTIVITY: {code:0x8, categories:['07']},
-  };
-
-  toggleCategory(category) {
-    this.selectedTaskCategories = this.selectedTaskCategories ^ category.code;
-    this.toggleItems();
-  }
-
   getCategoryCount(category){
+    //console.log(category);
     let count = 0;
     this.originalTasks.map(task => {
-      count += category.categories.indexOf(task.category)>=0?1:0;
+      count += category.indexOf(task.category)>=0?1:0;
     });
     return count;
-  }
-
-  toggleItems() {
-    let tempList = [];
-    for (let k in this.taskType) {
-      if (this.taskType[k].code == (this.selectedTaskCategories & this.taskType[k].code)) {
-        tempList.push(...this.originalTasks.filter(task => {
-          return this.taskType[k].categories.indexOf(task.category)>=0;
-        }))
+  }//获取任务数量
+  ckboxToggle(category:any){
+    if(this.currentType!=category){
+      for ( var i in this.isChecked) {
+        this.isChecked[i]=false;
       }
+      if(category=="all"){
+        this.currentType='all';
+        this.isChecked['all']=true;
+        this.pageInfo.query.category="";
+      }else{
+        this.currentType=category;
+        this.isChecked[category]=true;
+        this.pageInfo.query.category=category;
+      }
+      this.getList();
     }
-    this.tasks = tempList.sort((a, b) => a.timestamp - b.timestamp);
-  }
-
-  reset() {
-    this.selectedTaskCategories = this.selectedTaskCategories != this.all ? this.all : 0;
-    this.toggleItems();
-  }
-
-  isChecked(category) {
-    return category.code == (this.selectedTaskCategories & category.code);
-  }
+  }//选框点击
   directToTaskHandlePage(url:any,id:any){
     this.router.navigate([url,id]);
-  }
-
+  }//？？
+  onPageChange($event) {
+    this.pageInfo.pageSize = $event.rowsOnPage;
+    this.pageInfo.pageNum=$event.pageNumber;
+    this.getList();
+  }//分页
 }
