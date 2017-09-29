@@ -4,7 +4,12 @@ import * as _ from 'lodash';
 import {SeerDialogService} from "../../../theme/services/seer-dialog.service";
 import {AdvertisingService} from "./advertising.service";
 import {UPDATE,DELETE} from "../../common/seer-table/seer-table.actions";
-
+export const TO_USE = {
+  type: 'to_use',
+  name: '启用',
+  icon: 'icon-edit',
+  className: 'btn btn-xs btn-default',
+};
 @Component({
   templateUrl: './advertising.component.html',
   styleUrls: ['./advertising.component.scss'],
@@ -77,7 +82,7 @@ export class AdvertisingComponent implements OnInit, OnDestroy {
       })
 
     this.ads = _.map(this.ads, t => {
-      return _.set(t, 'actions', [UPDATE, DELETE]);
+      return _.set(t, 'actions', [TO_USE, UPDATE, DELETE]);
     })
   }
 
