@@ -78,6 +78,7 @@
       <tr *ngFor="let item of getData() ">
         <td class="table-checkbox"><input type="checkbox" [(ngModel)]="item.selected" (change)="selectOne(item)"/></td>
         <td *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
+
           <div *ngIf="title.type=='link'">
             <a (click)="openLink(item)">
               <span class="seer_font seer_a_font">{{item[title.key]}}</span>
@@ -86,12 +87,13 @@
           <div *ngIf="title.type=='input_number'">
             <input  type="number" class="form-control" [(ngModel)]="item[title.key]"/>
           </div>
-          <div *ngIf="title.type!='input_number' && title.type!='link' && !displayOriginalData">
+          <div *ngIf="title.type!='input_number' && title.type!='link' && title.type != 'html' && !displayOriginalData">
             <span class="seer_font">{{renderValue(title,item[title.key])}}</span>
           </div>
-          <div *ngIf="title.type!='input_number' && title.type!='link' && displayOriginalData">
+          <div *ngIf="title.type!='input_number' && title.type!='link' && title.type != 'html' && displayOriginalData">
             <span class="seer_font">{{item[title.key]}}</span>
           </div>
+          <div *ngIf="title.type === 'html'" [innerHTML]="item[title.key]"></div>
         </td>
         <td class="table-actions" *ngIf="!hideActions">
           <div *ngIf="item.actions">
