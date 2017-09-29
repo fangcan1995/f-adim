@@ -23,7 +23,7 @@ export class ResourceManageService {
 
   getResources(pageInfo:any): Promise<any> {
     const page=`?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
-    const sort=`&sort=${pageInfo.sort}`;
+    const sort=`&sortBy=${pageInfo.sort}`;
     const url = `${this.resourceManageUrl}/${page}${sort}`;
     return this.baseService.getAll(url);
   }
