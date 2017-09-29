@@ -6,7 +6,7 @@ import {Result} from "../model/result.class";
 export class WorkspaceService extends BaseService<any> {
   private apiUrl=``;
 
-  getTasks(pageInfo:any) {
+  getTasks(pageInfo?:any) {
     /*let sessionData = localStorage.getItem('data');
     if (sessionData) {
       let currentUser = JSON.parse(sessionData)['currentUser'];

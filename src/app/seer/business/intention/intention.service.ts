@@ -42,27 +42,15 @@ export class IntentionService extends BaseService<any>{
     return this.update(url, params);
   }
 
-  //新增抵押车辆
-  public createPawnVehicle(params?): Promise<any> {
-    const url = `${this.intentionUrl}/pawnVehicle`;
-    return this.create(url, params);
+  //新增抵押物
+  public createPawn(params?): Promise<any> {
+    const url = `${this.intentionUrl}/${params.intentionId}/pawn`;
+    return this.update(url, params);
   }
 
-  //移除抵押车辆
-  public removePawnVehicle(pawnVehicleId?): Promise<any> {
-    const url = `${this.intentionUrl}/pawnVehicle/${pawnVehicleId}`;
-    return this.delete(url);
-  }
-
-  //新增抵押房产
-  public createPawnHouse(params?): Promise<any> {
-    const url = `${this.intentionUrl}/pawnHouse`;
-    return this.create(url, params);
-  }
-
-  //移除抵押房产
-  public removePawnHouse(pawnHouseId?): Promise<any> {
-    const url = `${this.intentionUrl}/pawnHouse/${pawnHouseId}`;
+  //移除抵押物
+  public removePawn(intentionId?): Promise<any> {
+    const url = `${this.intentionUrl}/${intentionId}/pawn`;
     return this.delete(url);
   }
 

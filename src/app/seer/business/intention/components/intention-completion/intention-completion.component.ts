@@ -2,6 +2,7 @@
 import {Component, OnInit} from "@angular/core";
 import {IntentionService} from "../../intention.service";
 import {ActivatedRoute, Params} from "@angular/router";
+import {DELETE, SAVE, UPDATE} from "../../../../common/seer-table/seer-table.actions";
 @Component({
   templateUrl: './intention-completion.component.html',
   styleUrls: ['./intention-completion.component.scss']
@@ -20,15 +21,19 @@ export class IntentionCompletionComponent implements OnInit {
     { key: 'mobile', label: '手机号', type: 'input.text' },*/
   ];
 
+  public memberActions = [ UPDATE, SAVE ];
+
+  public loanActions = [ UPDATE, SAVE ];
+
   public member: any = {};
 
-  public loanInfo: any = {};
+  public loan: any = {};
 
-  public pawnVehicle: any = [];
+  public vehicles: any = [];
 
-  public pawnHouse: any = [];
+  public houses: any = [];
 
-  public creditInfo: any = [];
+  public credits: any = [];
 
   public attachment: any = [];
 
@@ -58,7 +63,7 @@ export class IntentionCompletionComponent implements OnInit {
 
   //补填贷款资料
   protected updateLoanInfo() {
-    this.service.updateLoanInfo(this.loanInfo).then((result) => {
+    this.service.updateLoanInfo(this.loan).then((result) => {
       if(result.code == 0) {
         console.log("success");
       }else {
@@ -71,36 +76,36 @@ export class IntentionCompletionComponent implements OnInit {
   protected getIntentionById(intentionId :string) {
     this.service.getIntentionById(intentionId).then((result) => {
       if("0" == result.code) {
+        this.loan = result.data.loan;
         this.member = result.data.member;
-        this.loanInfo = result.data.loanInfo;
-        this.pawnHouse = result.data.pawnHouse;
+        this.houses = result.data.member.houses;
         this.attachment = result.data.attachment;
-        this.creditInfo = result.data.creditInfo;
-        this.pawnVehicle = result.data.pawnVehicle;
+        this.credits = result.data.member.credits;
+        this.vehicles = result.data.member.vehicles;
       }else {
         console.log("fail");
       }
     });
   }
 
-  //新增抵押车辆
-  protected createPawnVehicle() {
+  //新增抵押物
+  protected createPawn() {
 
   }
 
-  //移除抵押车辆
-  protected removePawnVehicle() {
+  //移除抵押物
+  protected removePawn() {
 
   }
 
-  //新增抵押房产
-  protected createPawnHouse() {
-
+  //会员操作（修改保存）
+  protected handleMemberCardNotify($event){
+    console.log($event)
   }
 
-  //移除抵押房产
-  protected removePawnHouse() {
-
+  //借款操作（修改保存）
+  protected handleLoanCardNotify($event){
+    console.log($event)
   }
 
 }
