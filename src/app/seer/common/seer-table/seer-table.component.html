@@ -36,8 +36,8 @@
 
       <div class="pull-right btnGroup__item" *ngIf="!hideColumns">
         <ss-multiselect-dropdown
-          [options]="multiColumnArray"
-          [(ngModel)]="multiColumnOptions"
+          [options]="multiColumnOptions"
+          [(ngModel)]="multiColumnArray"
           (ngModelChange)="onChangeColumn($event)"
           [texts]="multiSelectTexts"
           [settings]="multiSelectSettings"

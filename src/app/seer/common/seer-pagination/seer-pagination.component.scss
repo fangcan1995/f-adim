@@ -1,0 +1,66 @@
+@import '../../../theme/sass/conf/conf';
+$pagination-height: 26px;
+.seer-pagination {
+	margin-top: 12px;
+	margin-bottom: 12px;
+	font-size: 12px;
+	line-height: $pagination-height;
+	.pagination {
+		margin-top: 0;
+		margin-bottom: 0;
+		margin-right: 10px;
+	}
+	.rows-info {
+		color: $help-text;
+	}
+	.rowsOnPage-label {
+		margin-right: 8px;
+	}
+	.rowsOnPage {
+		display: inline-block;
+		width: 60px;
+		height: $pagination-height;
+		margin-right: 14px;
+	}
+	.pageCount {
+		color: $help-text;	
+	}
+	.page-item-ignore .page-link {
+		border: 1px solid transparent;
+		background-color: transparent;
+		cursor: auto;
+	}
+}
+
+.pagination-sm .page-link {
+	padding: 0 4px;
+	height: $pagination-height;
+	font-size: 12px;
+	line-height: $pagination-height - 2px;
+	cursor: pointer;
+}
+.pagination-sm .page-item {
+	.page-link {
+		margin-right: 6px;
+		min-width: $pagination-height;
+		border-radius: .2rem;
+		text-align: center;
+	}
+	&:last-child {
+		.page-link {
+			margin-right: 0;
+			width: 80px;
+		}
+	}
+	&:first-child {
+		.page-link {
+			width: 80px;
+		}
+	}
+
+}
+.page-item.active .page-link, .page-item.active .page-link:focus, .page-item.active .page-link:hover {
+	background-color: $primary;
+	border-color: inherit;
+}
+
