@@ -84,15 +84,17 @@ export class SeerTableComponent implements OnInit {
       _.each(this.titles, title => {
 
         if ( !title.hidden ) {
-          multiColumnOptions.push(title.key);
+          multiColumnArray.push(title.key);
         }
-        multiColumnArray.push({
+        multiColumnOptions.push({
           id: title.key,
           name: title.label,
         });
       });
       this.multiColumnArray = multiColumnArray;
       this.multiColumnOptions = multiColumnOptions;
+      console.log(this.titles);
+      console.log(this.multiColumnArray)
     }
 
     /** 增加的部分 */
@@ -175,7 +177,16 @@ export class SeerTableComponent implements OnInit {
     return _.filter(this.titles, t => !t['hidden'])
   }
   onChangeColumn(event): void {
+    console.log(event)
     this.titles = _(this.titles).map(t => _.set(t, 'hidden', event.indexOf(t.key) === -1)).value();
+    let multiColumnArray = [];
+    _.each(this.titles, title => {
+      if ( !title.hidden ) {
+        multiColumnArray.push(title.key);
+      }
+
+    });
+    this.multiColumnArray = multiColumnArray;
   }
   transferKeyWithDict(obj: any, translate_copy: any, direction?: boolean | number): void {
     if ( direction ) {
