@@ -154,7 +154,7 @@ export class SeerSimpleTableComponent implements OnInit {
     return data.slice((pn-1)*rop, pn*rop)
   }
   getData() {
-    let data = this._sliceData(this.data, this.pageNumber, this.rowsOnPage);
+    let data = this.hidePagination ? this.data : this._sliceData(this.data, this.pageNumber, this.rowsOnPage);
     
     if ( this.translate ) {
       _.each(data, item => {
