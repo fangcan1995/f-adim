@@ -54,7 +54,7 @@ export class MemberComponent implements OnInit, OnDestroy {
       className: 'btn btn-xs btn-default',
     }
   ];
-  paginationRules = 0;
+  paginationRules = 1;
   rowsOnPageSet = [10, 15, 30];
   rowsOnPage = 10;
   pageNum = 1;

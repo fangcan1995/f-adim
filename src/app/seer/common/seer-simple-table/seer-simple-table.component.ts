@@ -29,6 +29,7 @@ export class SeerSimpleTableComponent implements OnInit {
   @Input() rowsOnPageSet: Array<number> = [10, 15, 30]; // 每页可显示条数的枚举
   @Input() rowsOnPage:number = 10;
   @Input() pageNumber:number = 1;
+  @Input() hidePagination: boolean;
 
   @Input() primaryKey;
 
@@ -201,6 +202,7 @@ export class SeerSimpleTableComponent implements OnInit {
   }
   onPageChange($event) {
     this.rowsOnPage = $event.rowsOnPage;
+    this.pageNumber = $event.pageNumber;
     this.changePage.emit({
       pageSize: $event.rowsOnPage,
       pageNumber: $event.pageNumber,

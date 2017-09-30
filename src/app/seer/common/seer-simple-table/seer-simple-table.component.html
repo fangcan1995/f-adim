@@ -51,7 +51,7 @@
     </tr>
     </tbody>
     <tfoot>
-      <tr>
+      <tr *ngIf="!hidePagination">
         <td [attr.colspan]="titles.length + 2">
           <seer-pagination
             [rowCount]="getRowCount()"
