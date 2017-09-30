@@ -1,0 +1,37 @@
+@import 'conf/conf';
+.checkable-card {
+	.card-header {
+		border-bottom: 1px solid $border;
+	}
+	&:hover {
+		border: 1px solid $primary;
+	}
+	&.active {
+		border: 1px solid $primary;
+		&:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			right: 0;
+			display: block;
+			width: 0;
+			height: 0;
+			border-style: solid;
+			border-color: $primary transparent transparent;
+			border-width: $card-header-height 0 0 $card-header-height;
+		}
+		&:after {
+			content: '\F00C';
+			position: absolute;
+			top: 4px;
+			right: 4px;
+			display: block;
+			font: normal normal normal 14px/1 FontAwesome;
+			font-size: inherit;
+			text-rendering: auto;
+			-webkit-font-smoothing: antialiased;
+			color: $default;
+
+		}
+	}
+}
