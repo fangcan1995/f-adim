@@ -222,17 +222,11 @@ export class DictComponent implements OnInit{
     this.getList(params)*/
   }
 
-  onPageChange($event) {
-    /*console.log($event);
-    this.pageSize = $event.pageSize;
-    this.pageNum = $event.pageNum;
-    let params = {
-      ...this.queryParams,
-      pageSize: this.pageSize,
-      PageNum: this.pageNum,
-    };
-    this.getList(params)*/
-  }
+  handlePageChange($event) {
+    this.pageInfo.pageSize = $event.pageSize;
+    this.pageInfo.pageNum=$event.pageNum;
+    this.getDicts();
+  }//分页
   alertSuccess(info:string){
     this._messageService.open({
       icon: 'fa fa-times-circle',
