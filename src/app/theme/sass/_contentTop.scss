@@ -3,7 +3,8 @@
   position: relative;
   z-index: 902;
   margin-top: -1px;
-  padding: ($sidebar-item-height - $form-ele-height) / 2 - 1px 24px;
+  margin-bottom: 8px;
+  padding: ($sidebar-item-height - $button-height) / 2 - 1px $card-content-padding-horizontal;
   background-color: $default;
   border-width: 1px 0;
   border-color: $input-border;
@@ -16,11 +17,12 @@
   top: $page-top-height;
   right: 0;
   left: $sidebar-width;
+  margin-bottom: 0;
   transition: left 0.5s ease;
   
 }
 @mixin layout-collapsed() {
-  .content-top {
+  .content-top.fixedTop {
     left: $sidebar-item-width;
   }
 }

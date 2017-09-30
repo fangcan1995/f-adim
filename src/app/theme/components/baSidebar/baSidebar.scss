@@ -78,7 +78,7 @@ a.al-sidebar-list-link {
   padding-left: ($sidebar-item-width - $sidebar-icon-size) / 2;
   height: $sidebar-item-height - 2px;
   text-shadow: none;
-  font-size: 14px;
+  font-size: 12px;
   text-decoration: none;
   color: $default-text;
   line-height: $sidebar-item-height - 2px;
@@ -122,7 +122,7 @@ a.al-sidebar-list-all {
   height: $sidebar-item-height - 2px;
   padding-left: ($sidebar-item-width - $sidebar-icon-size) / 2;
   text-shadow: none;
-  font-size: 14px;
+  font-size: 12px;
   text-decoration: none;
   color: $default-text;
   line-height: $sidebar-item-height - 2px;
@@ -142,7 +142,7 @@ a.al-sidebar-list-all {
     height: $sidebar-icon-size;
     line-height: $sidebar-icon-size;
     text-shadow: none;
-    font-size: 16px;
+    font-size: $sidebar-icon-size;
     position: absolute;
     right: ($sidebar-item-width - $sidebar-icon-size) / 2;
     top: ($sidebar-item-height - $sidebar-icon-size) / 2;
@@ -220,12 +220,12 @@ a.al-sidebar-list-all {
     a {
       display: block;
       text-shadow: none;
-      font-size: 13px;
+      font-size: 12px;
       text-decoration: none;
       color: $help-text;
       padding-left: $sidebar-item-width;
-      height: 42px;
-      line-height: 42px;
+      height: $sidebar-item-height;
+      line-height: $sidebar-item-height;
       list-style: square;
       &:before {
         content: '-';

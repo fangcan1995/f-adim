@@ -1,6 +1,10 @@
+@import '../../../theme/sass/conf/conf';
 .filter__container {
-	padding-top: 22px;
+	padding-top: $space-between;
 	text-align: right;
+}
+.globalFilter {
+	height: $button-height;
 }
 .complexfilter__icon {
 	display: inline-block;

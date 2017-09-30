@@ -21,9 +21,10 @@ export class ResourceListComponent implements OnInit{
   pageInfo={
     "pageNum":1,
     "pageSize":10,
-    "sort":"menuPid,sortNum",
+    "sort":"id",
     "total":"",
-  }; //分页及排序
+    "query":{},
+  }; //分页、排序、检索
   data = []; //数据
   titles = [
     {
@@ -72,7 +73,7 @@ export class ResourceListComponent implements OnInit{
       this.data = data.data.list;         //记录列表
       this.data = _.map(this.data, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
     });
-  }
+  };
   /*更新*/
   onChange(message):void {
     const type = message.type;
@@ -103,4 +104,22 @@ export class ResourceListComponent implements OnInit{
         break;
     }
   }
+  handlePageChange($event) {
+    this.pageInfo.pageSize = $event.pageSize;
+    this.pageInfo.pageNum=$event.pageNum;
+    this.getAllDate();
+  }//分页
+/*  handleSearchBtnClicked($event) {
+
+
+    this.queryParams = $event;
+    let params = {
+      ...this.queryParams,
+      pageSize: this.pageSize,
+      PageNum: this.pageNum,
+    };
+    this.getList(params)
+  }*/
+
+
 }

@@ -2,7 +2,7 @@
   <div class="col-sm-4" *ngIf="hasGlobalFilter">
     <input
       type="text"
-      class="form-control"
+      class="form-control globalFilter"
       placeholder="全局搜索"
       [(ngModel)]=globalFilterValue
       (keyup)=handleGlobalFilterInputChange()
@@ -33,7 +33,7 @@
           </select>
           <seer-datepicker
             *ngIf="filter.type === 'datepicker'"
-            [dateFormatingRules]="'yyyy年MM月dd日'"
+            [dateFormatingRules]="dateFormatingRules || 'yyyy年MM月dd日'"
             [(date)]="filter.value"
             (dateChange)="handleFilterChange()"
             ></seer-datepicker>
@@ -45,7 +45,6 @@
             (keyup)="handleFilterChange()"/>
         </div>
       </div>
-
     </div>
   </div>
   <div class="filter__btnGroup clearfix">
@@ -56,7 +55,7 @@
       >重置</button>
     <button type="button" [disabled]="renderSearchBtn()" #searchBtn class="btn btn-search btn-primary"
     >搜索</button>
-    
+
   </div>
 </div>
 

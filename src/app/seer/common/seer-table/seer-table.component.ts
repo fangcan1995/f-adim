@@ -18,6 +18,8 @@ export interface TableTitleModel {
   label: string,
   isDict?: boolean,
   textAlign?: string, // 默认left 可传 center right
+  hidden?: boolean,
+  dictKeyId?: string,
 }
 
 @Component({
@@ -27,35 +29,35 @@ export interface TableTitleModel {
   providers: [BaseService]
 })
 export class SeerTableComponent implements OnInit {
-  @Input() data;   //数据数组
-  @Input() titles;  //标题数组
+  @Input() data: Array<any>  = [];   //数据数组
+  @Input() titles: Array<any>;  //标题数组
   @Input() translate; //翻译JSON
   @Input() hideColumns; //隐藏动态列
   @Input() hideRemoveAll; //隐藏全部删除按钮
-  @Input() selectButtonText;//选择按钮文字
   @Input() hideAddButton;//隐藏新增按钮
   @Input() hideActions;//隐藏事件列
   @Input() hideExport;//隐藏导出
   @Input() hidePrint;//隐藏打印
   @Input() hideRemoveButton; //隐藏删除按钮
-  @Input() hideFilter;//隐藏全局过滤
-  @Input() hideEditButton;//隐藏编辑按钮
-  @Input() displayCopyButton;//显示复制新增按钮
   @Input() displayOriginalData;//翻译不破坏原始数据，但全局搜索不好使
-  @Input() addNewButton; //新增自定义按钮
+  @Input() customActions: Array<any>;
+  @Input() rowsOnPageSet: Array<number> = [10, 15, 30]; // 每页可显示条数的枚举
+  @Input() rowsOnPage:number = 10;
+
+  @Input() paginationRules:number = 1; // 0后端分页 1前端分页
+
+  // 当后端分页时，必须传下列3个值， 当前端分页时，传rowsOnPage
+  @Input() pageNum:number = 1; // 页码
+  @Input() pageSize:number; // 每页显示条数
+  @Input() total:number = 0; // 数据总量
+
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
-  @Input() pageNum:number;
-  @Input() pageSize:number;
-  @Input() paginationRules:number;
-  @Input() total:number;
-  public rowsOnPage = 10;
-  public sortBy = '';
+  @Output() changePage: EventEmitter<any> = new EventEmitter<any>();
+
+  public sortBy: string | number = '';
   public selectedAll = false;
   private multiColumnArray: IMultiSelectOption[] = [];
   private multiColumnOptions = [];
-
-  public currentDeleteEvents = [];
-  public currentDeleteEvent;
   public multiSelectTexts = {
     checked: '显示',
     checkedPlural: '显示',
@@ -64,14 +66,15 @@ export class SeerTableComponent implements OnInit {
   public multiSelectSettings = {
     buttonClasses: 'btn btn-outline-dark btn-block',
   }
-  public dt: Date = new Date();
   constructor(
     private service: BaseService<any>,
-  ) { }
+  ) { 
+    if( !this.rowsOnPage ) this.rowsOnPage = this.rowsOnPageSet[0];
+  }
 
   ngOnInit(): void {
     this.titles = _.clone(this.titles);
-
+    this.data = _.clone(this.data);
     if ( _.isArray(this.titles) && this.titles.length ) {
       this.sortBy = this.titles[0].key;
 
@@ -79,11 +82,11 @@ export class SeerTableComponent implements OnInit {
       let multiColumnOptions = [];
 
       _.each(this.titles, title => {
-        
+
         if ( !title.hidden ) {
-          multiColumnOptions.push(title.key);
+          multiColumnArray.push(title.key);
         }
-        multiColumnArray.push({
+        multiColumnOptions.push({
           id: title.key,
           name: title.label,
         });
@@ -91,10 +94,10 @@ export class SeerTableComponent implements OnInit {
       this.multiColumnArray = multiColumnArray;
       this.multiColumnOptions = multiColumnOptions;
     }
-    
+
     /** 增加的部分 */
     if ( !this.translate ) {
-      let transFields: {field: string,dictKeyId?: string}[] = [];
+      let transFields: {field: string | number,dictKeyId?: string}[] = [];
       _.each(this.titles, title => {
         if ( title.isDict ) {
           transFields.push({
@@ -103,19 +106,18 @@ export class SeerTableComponent implements OnInit {
           });
         }
       });
-      console.log(transFields)
       this.service.getDictTranslate(transFields)
       .then(res => {
         if ( res.success ) this.translate = res.data;
       });
     }
   }
-
   selectAll(): void {
-    _.each(this.data, item => {
+    let data = !this.paginationRules ? this._sliceData(this.data, 1, this.pageSize) : this._sliceData(this.data, this.pageNum, this.rowsOnPage)
+    _.each(data, item => {
       item.selected = this.selectedAll;
     })
-    this.notify.emit({type: 'select_all', data: this.data});
+    this.notify.emit({type: 'select_all', data: data});
   }
 
   selectOne(event): void {
@@ -126,7 +128,7 @@ export class SeerTableComponent implements OnInit {
     this.selectedAll = selectedAll;
     this.notify.emit({type: 'select_one', data: event});
   }
- 
+
 
   handleActionsClick($event) {
     this.notify.emit({type: $event.action.type, data: $event.item});
@@ -135,9 +137,7 @@ export class SeerTableComponent implements OnInit {
   renderSelectedNum() {
     return _.reduce(this.data, (result, n) => result = n['selected'] ? result + 1 : result, 0)
   }
-  renderSelectButtonText() {
-    return !this.selectButtonText ? '选择' : this.selectButtonText;
-  }
+
   deleteMultiple(): void {
     let data = _.filter(this.data, t => t['selected'])
     this.notify.emit({ type: DELETE_MULTIPLE.type, data });
@@ -156,20 +156,34 @@ export class SeerTableComponent implements OnInit {
   importExcel(): void {
     this.notify.emit({type: 'import', data: {}});
   }
-
+  private _sliceData(data, pn, rop) {
+    return data.slice((pn-1)*rop, pn*rop)
+  }
+  getRowCount() {
+    return !this.paginationRules ? this.total : this.data.length;
+  }
   getData() {
+    let data = !this.paginationRules ? this._sliceData(this.data, 1, this.pageSize) : this._sliceData(this.data, this.pageNum, this.rowsOnPage)
     if ( this.translate ) {
-      _.each(this.data, item => {
+      _.each(data, item => {
         this.transferKeyWithDict(item, this.translate, 1);
       });
     }
-    return this.data;
+    return data;
   }
   filterShownTitles() {
     return _.filter(this.titles, t => !t['hidden'])
   }
   onChangeColumn(event): void {
-    this.titles = _.map(this.titles, t => _.set(t, 'hidden', event.indexOf(t['key']) === -1));
+    this.titles = _(this.titles).map(t => _.set(t, 'hidden', event.indexOf(t.key) === -1)).value();
+    let multiColumnArray = [];
+    _.each(this.titles, title => {
+      if ( !title.hidden ) {
+        multiColumnArray.push(title.key);
+      }
+
+    });
+    this.multiColumnArray = multiColumnArray;
   }
   transferKeyWithDict(obj: any, translate_copy: any, direction?: boolean | number): void {
     if ( direction ) {
@@ -189,7 +203,7 @@ export class SeerTableComponent implements OnInit {
         }
       })
     }
-    
+
   }
   openLink(event) {
     event.selected = false;
@@ -223,6 +237,18 @@ export class SeerTableComponent implements OnInit {
       })
     }
     return value;
+  }
+  onPageChange($event) {
+    this.rowsOnPage = $event.rowsOnPage;
+    this.pageNum = $event.pageNumber;
+    this.changePage.emit({
+      pageSize: $event.rowsOnPage,
+      pageNum: $event.pageNumber,
+    })
+  }
+  onCustomAction({type}) {
+    let data = _.filter(this.data, t => t['selected'])
+    this.notify.emit({type: type, data});
   }
 }
 

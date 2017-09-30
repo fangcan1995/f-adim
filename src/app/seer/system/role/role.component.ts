@@ -1,6 +1,7 @@
 import {
 	Component,
 	OnInit,
+  ViewChild
 } from '@angular/core';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
@@ -8,26 +9,28 @@ import {
   SeerDialogService,
   SeerMessageService,
 } from '../../../theme/services';
-import { UPDATE, DELETE } from '../../common/seer-table/seer-table.actions';
+import { UPDATE, DELETE, COPY_CREATE } from '../../common/seer-table/seer-table.actions';
 import { hasGlobalFilter, tableTitles } from './role.config';
 import { RoleService } from './role.service';
 @Component({
   templateUrl: './role.component.html',
   styleUrls: [ './role.component.scss' ],
 })
-export class RoleComponent {
+export class RoleComponent implements OnInit {
   hasGlobalFilter = hasGlobalFilter;
   titles = tableTitles;
   offset = 0;
   limit = 10;
   roles = [];
+  simpleTableActions = [ UPDATE, DELETE ]
+  @ViewChild('simpleTable') simpleTable
   ngOnInit() {
     this.getList();
   }
   getList(params?) {
     this._roleService.getList(params)
     .then(res => {
-      this.roles = _.map(res.data, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
+      this.roles = _.map(res.data, r => _.set(r, 'actions', [ COPY_CREATE, UPDATE, DELETE ]));
     });
   }
   handleFiltersChanged($event) {
@@ -94,5 +97,26 @@ export class RoleComponent {
         })
         break;
     }
+  }
+  handleSimpleTableNotify($event) {
+    console.log($event)
+    let { type, key } = $event;
+    switch ( type ) {
+      case 'save':
+        console.log(this.simpleTable.getFormatDataByKey(key))
+        setTimeout(() => {
+          this.simpleTable.save(key);
+        }, 3000)
+        break;
+      case 'delete':
+        console.log(this.simpleTable.getFormatDataByKey(key))
+        setTimeout(() => {
+          this.simpleTable.delete(key);
+        }, 3000)
+        break;
+    }
+  }
+  handleSimpleTableCardNotify($event) {
+    console.log($event)
   }
 }

@@ -13,3 +13,21 @@
     (notify)="handleNotify($event)"
   ></seer-table>
 </seer-collapse-card>
+
+<seer-collapse-card
+  [title]="'simple'"
+  [canCollapse]="true"
+  [headerActions]="simpleTableActions"
+  (notify)="handleSimpleTableCardNotify($event)"
+  >
+  <seer-simple-table
+    #simpleTable
+    [data]="roles"
+    [titles]="titles"
+    [translate]="dict"
+    [rowsOnPageSet]="[5, 10, 15]"
+    [rowsOnPage]="5"
+    (notify)="handleSimpleTableNotify($event)"
+    [hidePagination]="true"
+  ></seer-simple-table>
+</seer-collapse-card>

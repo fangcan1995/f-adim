@@ -10,16 +10,17 @@ $resXXS: 435px;
 $resMin: 320px;
 
 $top-dropdown-height:26px;
-$sidebar-width: 260px;
-$sidebar-item-width: 56px;
-$sidebar-item-height: 56px;
-$sidebar-icon-size: 18px;
+$sidebar-width: 231px;
+$sidebar-item-width: 51px;
+$sidebar-item-height: 38px;
+$sidebar-icon-size: 14px;
 $small-card-height: 114px;
 $xsmall-card-height: 187px;
 $medium-card-height: 400px;
 $extra-medium-card-height: 550px;
 $large-card-height: 974px;
-$form-ele-height: 36px;
+$form-ele-height: 30px;
+$button-height: 26px;
 $default-animation-duration: 0.2s;
 $default-animation-style: ease-out;
 
@@ -42,7 +43,12 @@ $stackoverflow-color: #2F96E8;
 $dribble-color: #F26798;
 $behace-color: #0093FA;
 
+$space-between: 10px;
+$space-between-h: 8px;
 
-$page-top-height: 83px;
+$page-top-height: 52px;
 $top-height: $page-top-height - 1px;
 $card-content-padding-horizontal: 30px;
+$card-header-height: 36px;
+$card-header-font-size: 16px;
+$card-header-vertical-padding: ($card-header-height - $card-header-font-size) / 2;

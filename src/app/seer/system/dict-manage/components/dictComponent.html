@@ -21,8 +21,13 @@
       <seer-table
         [data]="data"
         [titles]="titles"
+        [pageNum]="pageInfo.pageNum"
+        [pageSize]="pageInfo.pageSize"
+        [total]="pageInfo.total"
+        [paginationRules]="0"
         [translate]="translate"
         (notify)="onChange($event)"
+        (changePage)="handlePageChange($event)"
         [hideExport]="true"
         [hidePrint]="true"
         [hideRemoveAll]="true"
@@ -34,40 +39,42 @@
     <ba-card [title]="addTitle" baCardClass="with-scroll">
       <div class="col-xs-12">
         <div class="col-xs-2"><label class="person_label required">类型编号</label></div>
-        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentDict.dictKeyId}">
-          <input type="text" class="form-control person_space" required [(ngModel)]="currentDict.dictKeyId" name="currentDict.dictKeyId"/>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentDict.category}">
+          <input type="text" name="currentDict.id" *ngIf="IsEdit" [(ngModel)]="currentDict.id">
+          <input type="text" class="form-control person_space" required [(ngModel)]="currentDict.category" name="currentDict.category"/>
         </div>
         <div class="col-xs-2"><label class="person_label required">类型名称</label></div>
-        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentDict.dictKeyName}">
-          <input type="text" class="form-control person_space" required [(ngModel)]="currentDict.dictKeyName" name="currentDict.dictKeyName"/>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentDict.categoryName}">
+          <input type="text" class="form-control person_space" required [(ngModel)]="currentDict.categoryName" name="currentDict.categoryName"/>
         </div>
         <div class="col-xs-2"></div>
       </div>
       <div class="col-xs-12">
         <div class="col-xs-2"><label class="person_label required">值编号</label></div>
-        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&checkValueId(currentDict.dictValueId)}">
-          <input type="text" class="form-control person_space" pattern="^(0|[0-9][0-9]*)$" minlength="2" maxlength="2" required [(ngModel)]="currentDict.dictValueId" name="currentDict.dictValueId"/>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&checkValueId(currentDict.itemId)}">
+          <input type="text" class="form-control person_space" pattern="^(0|[0-9][0-9]*)$" minlength="2" maxlength="2" required [(ngModel)]="currentDict.itemId" name="currentDict.itemId"/>
         </div>
         <div class="col-xs-2"><label class="person_label required">值名称</label></div>
-        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentDict.dictValueName}">
-          <input type="text" class="form-control person_space" required [(ngModel)]="currentDict.dictValueName" name="currentDict.dictValueName"/>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentDict.itemName}">
+          <input type="text" class="form-control person_space" required [(ngModel)]="currentDict.itemName" name="currentDict.itemName"/>
         </div>
         <div class="col-xs-2"></div>
       </div>
       <div class="col-xs-12">
         <div class="col-xs-2"><label class="person_label required">排序</label></div>
-        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&checkSort(currentDict.dictSort)}">
-          <input type="number" class="form-control person_space" min="0" required [(ngModel)]="currentDict.dictSort" name="currentDict.dictSort"/>
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&checkSort(currentDict.itemSort)}">
+          <input type="text" class="form-control person_space" min="0" required [(ngModel)]="currentDict.itemSort" name="currentDict.itemSort"/>
         </div>
         <div class="col-xs-2"><label class="person_label required">有效状态</label></div>
-        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentDict.validState}">
-          <select class="form-control person_space" name="sel" required
+        <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentDict.delFlag}">
+          <input type="text" class="form-control person_space" min="0" required [(ngModel)]="currentDict.delFlag" name="currentDict.delFlag"/>
+          <!--<select class="form-control person_space" name="sel" required
                   dict-select
                   [key]="'VALID_STATE'"
                   [selected]="currentDict.validState"
                   [topOption]="{dictValueId:'',dictValueName:'请选择'}"
                   [(ngModel)]="currentDict.validState">
-          </select>
+          </select>-->
         </div>
         <div class="col-xs-2"></div>
       </div>

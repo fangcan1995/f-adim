@@ -22,6 +22,7 @@ export interface FilterModel {
   options?: Array<any>,
   isDict?: boolean,
   dictKeyId?: string | number,
+  dateFormatingRules?: string,
 }
 
 @Component({
@@ -67,7 +68,6 @@ export class SeerFilterComponent implements OnInit {
       this.service.getDictTranslate(transFields)
       .then(res => {
         if ( res.success ) this.translate = res.data;
-        console.log(this.translate)
         _.each(this.filters, filter => {
           if ( filter.isDict && this.translate && _.isArray(this.translate[filter.key]) ) {
             filter.options = [
@@ -154,8 +154,6 @@ export class SeerFilterComponent implements OnInit {
       ...this.getFilterParams(this.filters),
       global: this.globalFilterValue
     })
-    console.log(this.filters[4].value)
-    
   }
   handleResetBtnClick() {
     _.each(this.filters, x => {

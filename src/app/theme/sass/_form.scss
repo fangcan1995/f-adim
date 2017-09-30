@@ -1,3 +1,4 @@
+@import 'conf/conf';
 .label {
   border-radius: 0;
 }
@@ -21,10 +22,12 @@
 .label-danger {
   background: $danger;
 }
-
+.form-group {
+  margin-bottom: $space-between;
+}
 .form-horizontal {
   label {
-    line-height: 34px;
+    line-height: $form-ele-height;
     margin-bottom: 0;
     padding-top: 0 !important;
   }
@@ -32,22 +35,26 @@
 
 .form-group {
   label {
-    margin-bottom: 5px;
+    // margin-bottom: 5px;
     color: $content-text;
     font-weight: $font-normal;
-    font-size: 13px;
+    font-size: 12px;
   }
 }
-
+.form-group {
+  .input-group {
+    margin-bottom: 0;
+  }
+}
 .form-control {
-  height: 36px;
+  height: $form-ele-height;
   color: $content-text;
   @include placeholderStyle($content-text, 0.7);
   border: 1px solid $input-border;
   border-radius: 2px;
   background-color: $input-background;
   box-shadow: none;
-  font-size: 14px;
+  font-size: 12px;
   &:focus {
     color: $content-text;
     box-shadow: none;
@@ -69,8 +76,8 @@ select.form-control[multiple] option {
 }
 select.form-control:not([size]):not([multiple]) {
   padding: 0 7.5px;
-  height: 36px;
-  line-height: 36px;
+  height: $form-ele-height;
+  line-height: $form-ele-height;
 }
 textarea.form-control {
   height: 96px;

@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {Location} from '@angular/common';
-import * as _ from 'lodash';
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 import {AdvertisingService} from "../../advertising.service";
+import {Location} from "@angular/common";
 
 @Component({
   templateUrl: './advertising-edit.component.html',
@@ -11,7 +10,7 @@ import {AdvertisingService} from "../../advertising.service";
 })
 export class AdvertisingEditComponent implements OnInit {
 
-  public coupon: any = {};
+  public advertising: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
 
@@ -32,7 +31,7 @@ export class AdvertisingEditComponent implements OnInit {
           console.log(params.id);
           this._advertisingService.getOne(params.id)
             .subscribe(res => {
-              this.coupon = res.data || {};
+              this.advertising = res.data || {};
               this.forbidSaveBtn = false;
             }, errMsg => {
               // 错误处理的正确打开方式
@@ -59,9 +58,9 @@ export class AdvertisingEditComponent implements OnInit {
     this.forbidSaveBtn = true;
     let requestStream$;
     if (this._editType === 'edit') {
-      requestStream$ = this._advertisingService.putOne(this.coupon.id, this.coupon)
+      requestStream$ = this._advertisingService.putOne(this.advertising.id, this.advertising)
     } else if (this._editType === 'add') {
-      requestStream$ = this._advertisingService.postOne(this.coupon)
+      requestStream$ = this._advertisingService.postOne(this.advertising)
     } else {
       return;
     }

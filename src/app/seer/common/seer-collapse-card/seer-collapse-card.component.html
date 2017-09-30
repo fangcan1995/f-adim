@@ -5,8 +5,10 @@
     (click)="handleHeaderClick()"
     [style.cursor]="canCollapse ? 'pointer' : 'auto'"
     >
-    <h3 class="card-title">{{title}}</h3>
-    <i *ngIf="canCollapse" class="icon-angle-double-down cardTitle__icon"></i>
+    <h3 class="card-title pull-left">{{title}}<i *ngIf="canCollapse" class="icon-angle-double-down cardTitle__icon"></i></h3>
+    <div class="card-header-actions pull-right">
+      <button class="pull-right btnGroup__item {{action.className}}" *ngFor="let action of headerActions" (click)="handleHeaderActionsClick($event, action)">{{ action.name }}</button>
+    </div>
   </div>
   <div class="card-body" [@slideInOut]="isExpanded()">
     <div class="card-content">

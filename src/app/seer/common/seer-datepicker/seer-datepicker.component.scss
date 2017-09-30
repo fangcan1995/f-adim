@@ -5,9 +5,9 @@
 	top: 0;
 	right: 0;
 	width: auto;
-	
 	button.btn.btn-default {
-		width: 36px;
+		width: $form-ele-height;
+		height: $form-ele-height;
 		border: 0;
 		/* border-width: 0 0 0 1px;
 		border-style: solid;

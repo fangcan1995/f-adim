@@ -47,13 +47,21 @@ export class StaffAddComponent implements OnInit {
   handleSaveBtnClick() {
     if ( this.forbidSaveBtn ) return;
     this.forbidSaveBtn = true;
-    let requestStream$;
+    //let requestStream$;
     if ( this._editType === 'add' ) {
-      requestStream$ = this._staffService.createStaff(this.staff)
+      this._staffService.postOne(this.staff).then((data) => {
+        if(data.code=='0') {
+          //this.alertSuccess("添加成功");
+          alert('添加成功');
+        }else{
+          alert('添加失败');
+          //this.alertError("添加失败");
+        }
+      });
     } else {
       return;
     }
-    requestStream$
+   /* requestStream$
       .subscribe(res => {
         this._messageService.open({
           icon: 'fa fa-times-circle',
@@ -70,7 +78,7 @@ export class StaffAddComponent implements OnInit {
           message: errMsg,
           autoHideDuration: 3000,
         })
-      })
+      })*/
 
   }
 
@@ -79,6 +87,7 @@ export class StaffAddComponent implements OnInit {
     this._staffService.getOrganizations().then((result) => {
       result.data.map(org=>org['children']=[]);
       let nodes = jsonTree(result.data,{parentId:'orgParentId',children:'children'},[{origin:'orgName',replace:'name'}]);
+      console.log(nodes);
       this.treeNode = nodes;
     });
   }
@@ -86,6 +95,7 @@ export class StaffAddComponent implements OnInit {
   /* 模态层 */
   public modalRef: BsModalRef;
   public openModal(template: TemplateRef<any>) {
+    //console.log(template);
     this.modalRef = this.modalService.show(template);
   }
 

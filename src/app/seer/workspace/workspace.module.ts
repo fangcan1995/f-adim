@@ -2,11 +2,10 @@ import { NgModule } from '@angular/core';
 import { NgaModule } from '../../theme/nga.module';
 import { SharedModule } from '../common/shared.module';
 import { routing } from './workspace.routing';
-
 import { WorkspaceService } from './workspace.service';
-
 import { WorkspaceComponent } from './workspace.component';
 import { TodoComponent } from './components/todo/todo.component';
+import {EnddoComponent} from "./components/enddo/enddo.component";
 
 @NgModule({
   imports: [
@@ -16,7 +15,8 @@ import { TodoComponent } from './components/todo/todo.component';
   ],
   declarations: [
     WorkspaceComponent,
-    TodoComponent
+    TodoComponent,
+    EnddoComponent
   ],
   providers:[
     WorkspaceService
