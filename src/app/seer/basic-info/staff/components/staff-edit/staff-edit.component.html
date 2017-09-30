@@ -255,6 +255,7 @@
             [data]="educationalBackground"
             [titles]="titlesEducation"
             [primaryKey]="id"
+            [hidePagination]="true"
             (notify)="handleSimpleTableNotify($event)"
             >
           </seer-simple-table>
@@ -264,6 +265,7 @@
           <seer-simple-table
             [data]="family"
             [titles]="titlesFamily"
+            [hidePagination]="true"
           >
           </seer-simple-table>
         </seer-collapse-card>
@@ -271,6 +273,7 @@
           <seer-simple-table
             [data]="businessExperience"
             [titles]="titlesBusinessHistory"
+            [hidePagination]="true"
           >
           </seer-simple-table>
         </seer-collapse-card>
