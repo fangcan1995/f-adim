@@ -5,14 +5,17 @@
     (onFiltersChanged)=handleFiltersChanged($event)
     (onSearchBtnClicked)=handleSearchBtnClicked($event)
   ></seer-filter>
-</seer-collapse-card>
 
-<seer-collapse-card>
   <seer-table
     [data]="staffs"
     [titles]="titles"
+    [pageNum]="pageInfo.pageNum"
+    [pageSize]="pageInfo.pageSize"
+    [total]="pageInfo.total"
+    [paginationRules]="0"
     [translate]="translate"
     (notify)="onChange($event)"
+    (changePage)="handlePageChange($event)"
     [hideExport]="true"
     [hidePrint]="true"
     [hideRemoveAll]="true"

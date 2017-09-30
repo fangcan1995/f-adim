@@ -1,7 +1,8 @@
 import {
   Component,
   OnInit,
-  TemplateRef
+  TemplateRef,
+  ViewChild
 } from '@angular/core';
 import {
   Router,
@@ -34,21 +35,26 @@ import { UPDATE, DELETE } from '../../../../common/seer-table/seer-table.actions
   styleUrls: ['./staff-edit.component.scss']
 })
 export class StaffEditComponent implements OnInit {
+  @ViewChild('simpleTable') simpleTable;
   titlesEducation=[
     {
-      key:'school',
+      key:'id',
+      label:'id',
+    },
+    {
+      key:'department',
       label:'毕业院校',
     },
     {
-      key:'profession',
+      key:'eduLevel',
       label:'所学专业',
     },
     {
-      key:'degree',
+      key:'eduMajor',
       label:'学位',
     },
     {
-      key:'graduationDate',
+      key:'endTime',
       label:'毕业时间',
     },
   ];
@@ -94,6 +100,7 @@ export class StaffEditComponent implements OnInit {
   ];
   isDimission=false;
   public staff: any = {};
+  //sysEmployer={};
   educationalBackground=[];
   family=[];
   businessExperience=[];
@@ -147,15 +154,16 @@ export class StaffEditComponent implements OnInit {
     })
     .subscribe(params => {
       if ( this._editType === 'edit' ) {
-        this._staffService.getOne(params.id)
-        .subscribe(res => {
 
-          this.staff = res.data || {};
-          this.educationalBackground=res.data.educationalBackground;
+        this._staffService.getOne(params.id).then(res => {
+          console.log(res);
+          this.staff=res.data.sysEmployer || {};
+          //this.sysEmployer=res.data.sysEmployer;
+          this.educationalBackground=res.data.sysEduExperList;
           this.educationalBackground= _.map(this.educationalBackground, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
-          this.family= res.data.family;
+          this.family= res.data.sysEmployContactList;
           this.family= _.map(this.family, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
-          this.businessExperience=res.data.businessExperience;
+          this.businessExperience=res.data.sysWorkExperList;
           this.businessExperience= _.map(this.businessExperience, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
           //console.log(this.staff);
           this.forbidSaveBtn = false;
@@ -185,7 +193,7 @@ export class StaffEditComponent implements OnInit {
     let requestStream$;
     if ( this._editType === 'edit' ) {
       //console.log(this.staff);
-      requestStream$ = this._staffService.putOne(this.staff.id, this.staff)
+      requestStream$ = this._staffService.putOne(this.staff);
     } else {
       return;
     }
@@ -209,6 +217,35 @@ export class StaffEditComponent implements OnInit {
       })
 
   }
+  handleSimpleTableNotify($event){
+    //alert();
+    console.log($event);
+
+    let { type, key } = $event;
+
+    switch ( type ) {
+      case 'save':
+        this.simpleTable.save(key);
+        //console.log(this.simpleTable.getFormatDataByKey(key))
+        this._staffService.putOneEdu(key).subscribe((data) => {
+          if(data.code==0) {
+            //this.simpleTable.editable=false;
+            //this.alertSuccess("添加成功");
+          }else{
+            alert(2);
+            //this.alertError("添加失败");
+          }
+        });
+        break;
+      case 'delete':
+        //console.log(this.simpleTable.getFormatDataByKey(key))
+        setTimeout(() => {
+          alert(1);
+          this.simpleTable.delete(key);
+        }, 3000)
+        break;
+    }
+  }
   /*离职处理,员工状态选中离职后，激活离职时间按钮*/
   staffStateChange(staffStateId:any){
     if(staffStateId=='02'){
@@ -230,5 +267,7 @@ export class StaffEditComponent implements OnInit {
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
+  save(prams){
 
+  }
 }
