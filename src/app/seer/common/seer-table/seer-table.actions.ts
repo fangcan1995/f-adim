@@ -2,7 +2,7 @@ export const CREATE = {
 	type: 'create',
 	name: '新增',
 	className: 'btn btn-xs btn-default',
-		icon: 'icon-edit',
+	icon: 'icon-edit',
 };
 export const DELETE = {
 	type: 'delete',
@@ -25,11 +25,7 @@ export const COPY_CREATE = {
 	type: 'copy_create',
 	name: '复制新增',
 	className: 'btn btn-xs btn-default',
-<<<<<<< HEAD
-	icon: 'icon-edit',
-=======
 	icon: 'icon-copy-create',
->>>>>>> d47ab093af2b3b85031d3a199aa24e73ff0a620b
 };
 export const DETAIL = {
 	type: 'detail',

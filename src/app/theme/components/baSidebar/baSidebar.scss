@@ -398,7 +398,7 @@ a.al-sidebar-list-all {
     @include sidebar-collapsed();
   }
   .al-main {
-    margin-left: 0;
+    margin-left: $sidebar-item-width;
   }
   .al-footer {
     padding-left: 0;

@@ -51,6 +51,20 @@ export class AuthService {
         let data = res.data || {};
         localStorage.setItem('data', JSON.stringify(data));
         localStorage.setItem('leftMenus',JSON.stringify(menuTree(res.data.currentResources)));
+
+
+        // 新版走这里，暂时用模拟数据替代
+        setStorage({
+          key: 'user',
+          value: {
+            name: '巴巴汇的家人们大家早上好',
+            avatar: '../../../assets/img/logo.png',
+          },
+        })
+        setStorage({
+          key: 'token',
+          value: '123321123321123321',
+        })
       }
       
     })

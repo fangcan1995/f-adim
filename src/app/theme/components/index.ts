@@ -19,3 +19,4 @@ export * from './seer-checkbox'
 export * from './checkbox-picker';
 export * from './seer-message';
 export * from './seer-dialog';
+export * from './preload-image';

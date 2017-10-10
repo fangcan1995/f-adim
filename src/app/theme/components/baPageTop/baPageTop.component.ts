@@ -10,19 +10,11 @@ import {
 import { GlobalState } from '../../../global.state';
 import { Router } from "@angular/router";
 import { DynamicComponentLoader } from "../../directives/dynamicComponent/dynamic-component.directive";
-import { LoginData } from "../../../seer/model/LoginData";
-import { StaffService } from "../../../seer/basic-info/staff/staff.service";
-
-
-
+import { UserService } from '../../services/user.service';
 @Component({
   selector: 'ba-page-top',
   templateUrl: './baPageTop.html',
   styleUrls: ['./baPageTop.scss'],
-  encapsulation: ViewEncapsulation.None,
-  providers:[
-    StaffService,
-  ],
 })
 export class BaPageTop implements OnInit{
 
@@ -39,14 +31,13 @@ export class BaPageTop implements OnInit{
   activePageIcon: string;
   isHidden: boolean;
   _offsetTop:number;
+  user: any = {};
   constructor(
-    private staffManageService:StaffService,
     private router:Router,
-    private _state: GlobalState
+    private _state: GlobalState,
+    private _userService: UserService,
     ) {
-
     this._state.subscribe('menu.activeLink', (activeLink) => {
-      console.log(activeLink)
       if ( !activeLink || !activeLink.route || !activeLink.route.paths ) {
         this.activePageTitle = '';
         this.activePageTitle = null;
@@ -58,7 +49,9 @@ export class BaPageTop implements OnInit{
     });
   }
   ngOnInit(): void {
-    this.getLoginImage();
+    this._userService.getDataFromLocal().subscribe(res => {
+      this.user = res;
+    });
   }
   private _getActivePageIcon(activeLink) {
     if ( !activeLink.icon && !activeLink.parent ) {
@@ -84,17 +77,6 @@ export class BaPageTop implements OnInit{
 
     this._offsetTop = -scrollY
   }
-  getLoginImage(){
-  }
-
-  getLoginName(){
-    return this.loginName;
-  }
-
   public logout() {
-  }
-
-  onChangePassword():void {
-
   }
 }
