@@ -30,7 +30,7 @@ export class SeerSimpleTableComponent implements OnInit {
   @Input() rowsOnPage:number = 10;
   @Input() pageNumber:number = 1;
   @Input() hidePagination: boolean;
-
+  @Input() hideAddButton;//隐藏新增按钮
   @Input() primaryKey;
 
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
