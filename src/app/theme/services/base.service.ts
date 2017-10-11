@@ -23,12 +23,12 @@ const castDict2Translate = (dicts: any[] = [], map: Map<string, string>) => {
   return translate;
 };
 
-const BASE_DOMAIN = '42.202.130.200';
-const BASE_PORT = 8080;
+const BASE_DOMAIN = '172.16.1.236';
+const BASE_PORT = 8060;
 const BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export const BASE_URL = `http://${BASE_SERVER}`;
 export const API = {
-  'LOGIN': 'login',
+  'LOGIN': 'uaa/oauth/token',
   'LOGOUT': 'logout',
   'SIGNUP': 'signup',
   'WORKBENCH': 'workbench',
