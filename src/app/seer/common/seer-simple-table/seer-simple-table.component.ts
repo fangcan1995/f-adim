@@ -109,6 +109,7 @@ export class SeerSimpleTableComponent implements OnInit {
         break;
       case CREATE.type:
         this.create();
+        break;
     }
     
 
@@ -132,14 +133,32 @@ export class SeerSimpleTableComponent implements OnInit {
     item.actions = [ UPDATE, DELETE ];
   }
   public create() {
-    let key = 
-    this.data.push({});
+    let key = _.reduce(this.data, (x, y) => {
+      return x['key'] > y['key'] ? x['key'] : y['key'];
+    }, 0) + 1;
+    let data = {};
+     _.each(this.titles, t => {
+      data[t.key] = null;
+    })
+    this.data.unshift({
+      key,
+      copy: data,
+      editData: data,
+      data: data,
+      actions: [ SAVE, CANCEL ],
+      editState: 'CREATE',
+    })
   }
   public cancel(key) {
     let item = _.find(this.data, t => t.key === key);
-    item.data = _.clone(item.copy);
-    item.editState = false;
-    item.actions = [ UPDATE, DELETE ]
+    if ( item.editState === 'CREATE' ) {
+      _.remove(this.data, t => t.key === key);
+    } else {
+      item.data = _.clone(item.copy);
+      item.editState = false;
+      item.actions = [ UPDATE, DELETE ]
+    }
+    
   }
   public delete(key) {
     _.remove(this.data, t => t.key === key);
