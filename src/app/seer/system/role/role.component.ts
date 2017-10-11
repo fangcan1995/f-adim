@@ -106,6 +106,8 @@ export class RoleComponent implements OnInit {
         console.log(this.simpleTable.getFormatDataByKey(key))
         setTimeout(() => {
           this.simpleTable.save(key);
+          // data只请求一次，不要更新data，以下是错误的用例，因为请求data会改变table里的key，所以如果多次改变data我当刷新处理；
+          // this.getList();
         }, 3000)
         break;
       case 'delete':

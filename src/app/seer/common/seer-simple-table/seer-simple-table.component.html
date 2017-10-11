@@ -19,21 +19,21 @@
     <tbody>
     <tr *ngFor="let item of getData() ">
       <td *ngFor="let title of titles" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}" [style.padding]="item.editState ? '4px 0': null">
-        <div *ngIf="item.editState === 'EDIT'">
+        <div *ngIf="item.editState === 'EDIT' || item.editState === 'CREATE' ">
           <input class="form-control" style="width: auto; max-width: 90%; padding-right: 4px; padding-left: 4px" type="text" [(ngModel)]="item.editData[title.key]">
         </div>
-        <div *ngIf="title.type == 'link' && item.editState != 'EDIT'">
+        <div *ngIf="title.type == 'link' && item.editState != 'EDIT' && item.editState != 'CREATE'">
           <a (click)="openLink(item)">
             <span class="seer_font seer_a_font">{{item.data[title.key]}}</span>
           </a>
         </div>
-        <div *ngIf="title.type == 'input_number' && item.editState != 'EDIT'">
+        <div *ngIf="title.type == 'input_number' && item.editState != 'EDIT' && item.editState != 'CREATE'">
           <input  type="number" class="form-control" [(ngModel)]="item.data[title.key]"/>
         </div>
-        <div *ngIf="title.type != 'input_number' && title.type != 'link' && !displayOriginalData && item.editState != 'EDIT'">
+        <div *ngIf="title.type != 'input_number' && title.type != 'link' && !displayOriginalData && item.editState != 'EDIT' && item.editState != 'CREATE'">
           <span class="seer_font">{{renderValue(title,item.data[title.key])}}</span>
         </div>
-        <div *ngIf="title.type != 'input_number' && title.type != 'link' && displayOriginalData && item.editState != 'EDIT'">
+        <div *ngIf="title.type != 'input_number' && title.type != 'link' && displayOriginalData && item.editState != 'EDIT' && item.editState != 'CREATE'">
           <span class="seer_font">{{item.data[title.key]}}</span>
         </div>
       </td>
