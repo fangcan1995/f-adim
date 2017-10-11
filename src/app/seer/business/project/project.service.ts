@@ -47,8 +47,38 @@ export class ProjectService extends BaseService<any>{
     console.log(data);
     let res = {
       code: 0,
-      msg: '',
-      data,
+      message: "SUCCESS",
+      data:{
+        memberInfo: {
+          "realName": "张三",
+          "mobilePhone": "13813813138"
+        },   //基本信息
+        loanInfo: {
+          "jkje":"100000.00"
+        },     //借款信息
+        pawnVehicle: [{
+          "clpp":"宝马",
+          "clxh":"X5",
+          "cjh":"XXX",
+          "cph":"XXX",
+          "djzh":"XXX",
+          "cl":"3年",
+          "xslc":"100公里",
+          "pgjg":"160000.00",
+        }],    //抵押物（车辆）信息
+        pawnHouse: [{
+          "fcdz":"金马路20号",
+          "jzmj":"100平方米",
+
+        }],    //抵押物（房产）信
+        projectInfo: {},     //项目信息
+        creditInfo: [],   //个人征信列表
+        attachment: [],   //附件列表
+        investInfo:[],//投资记录
+        repayInfo:[],//还款记录
+        approvalInfo:[],//审批流程记录
+        adRepay:{}
+      },
       extras: {}
     }
     return Observable.of(res);
