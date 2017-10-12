@@ -25,15 +25,9 @@ export const COPY_CREATE = {
 	type: 'copy_create',
 	name: '复制新增',
 	className: 'btn btn-xs btn-default',
-<<<<<<< HEAD
-// <<<<<<< HEAD
-// 	icon: 'icon-edit',
-// =======
-// 	icon: 'icon-copy-create',
-// >>>>>>> d47ab093af2b3b85031d3a199aa24e73ff0a620b
-=======
-	icon: 'icon-copy-create',
->>>>>>> eacd66262b83616b0bde64371e77d7f58ca4a339
+
+    icon: 'icon-copy-create',
+
 };
 export const DETAIL = {
 	type: 'detail',
