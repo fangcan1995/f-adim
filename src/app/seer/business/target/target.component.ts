@@ -3,12 +3,13 @@ import {ActivatedRoute, Router} from "@angular/router";
 import * as _ from 'lodash';
 import { TargetService } from "./target.service";
 import {UPDATE, DELETE} from "../../common/seer-table/seer-table.actions"
+
 @Component({
   templateUrl: './target.component.html',
   styleUrls: ['./target.component.scss'],
 })
 export class TargetComponent {
-  constructor( private service: TargetService) {}
+  constructor( private service: TargetService, private _router: Router, private route: ActivatedRoute) {}
   hasGlobalFilter = true;
   source = [];
   filters = [
@@ -117,12 +118,22 @@ export class TargetComponent {
   ngOnInit() {
     this.getList();
   }
-   getList(params?):void{
+  getList(params?):void{
       this.service.getDatas()
       .then(res => {
         this.source = res.data;
         this.source = _.map(this.source, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
       });
+  }
+  onChange(message):void {
+    const type = message.type;
+    let data = message.data;
+     switch ( type ) {
+      case 'update':
+        this._router.navigate(['business/target/add']);
+        // this._router.navigate(['completion', data.projectId],{relativeTo: this.route});
+        break;
+    }
   }
 
  
