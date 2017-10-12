@@ -16,10 +16,12 @@ export class MessageService extends BaseService<any>{
         {
           'success': true,
           'data':[
-            {"roleName":"xxxx","validState":"短信","sendTime":"2017-08-18 09:21:12","sendway":"已发","msgId":"01"},
-            {"roleName":"xxxx","validState":"短信","sendTime":"2017-08-18 09:21:12","sendway":"已发","msgId":"02"},
-            {"roleName":"xxxx","validState":"短信","sendTime":"2017-08-18 09:21:12","sendway":"已发","msgId":"03"},
-            {"roleName":"xxxx","validState":"短信","sendTime":"2017-08-18 09:21:12","sendway":"已发","msgId":"04"}, 
+            {"roleName":"小头","realName":"大头","tel":"1398899899","IDcard":"211011199801010548","sex":"01"},
+            {"roleName":"小头","realName":"大头","tel":"1398899899","IDcard":"211011199801010548","sex":"01"},
+            {"roleName":"小头","realName":"大头","tel":"1398899899","IDcard":"211011199801010548","sex":"01"},
+            {"roleName":"小头","realName":"大头","tel":"1398899899","IDcard":"211011199801010548","sex":"01"},
+            {"roleName":"小头","realName":"大头","tel":"1398899899","IDcard":"211011199801010548","sex":"01"},
+            {"roleName":"小头","realName":"大头","tel":"1398899899","IDcard":"211011199801010548","sex":"01"},
           ]
         } 
       )
