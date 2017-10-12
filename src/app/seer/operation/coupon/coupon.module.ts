@@ -6,7 +6,7 @@ import { routing } from './coupon.routing';
 import { CouponService } from "./coupon.service";
 import { CouponComponent } from './coupon.component';
 import { CouponEditComponent } from './components/coupon-edit/coupon-edit.component';
-
+import { CouponAddComponent } from './components/coupon-add/coupon-add.component';
 @NgModule({
   imports: [
     NgaModule,
@@ -16,6 +16,7 @@ import { CouponEditComponent } from './components/coupon-edit/coupon-edit.compon
   declarations: [
     CouponComponent,
     CouponEditComponent,
+    CouponAddComponent,
   ],
   providers: [
     CouponService,

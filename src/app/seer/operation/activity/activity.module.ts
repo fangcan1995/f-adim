@@ -6,6 +6,7 @@ import { routing } from './activity.routing';
 import { ActivityService } from "./activity.service";
 import { ActivityComponent } from './activity.component';
 import { ActivityEditComponent } from './components/activity-edit/activity-edit.component';
+import { ActivityAddComponent } from './components/activity-add/activity-add.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { ActivityEditComponent } from './components/activity-edit/activity-edit.
   declarations: [
     ActivityComponent,
     ActivityEditComponent,
+    ActivityAddComponent
   ],
   providers: [
     ActivityService,

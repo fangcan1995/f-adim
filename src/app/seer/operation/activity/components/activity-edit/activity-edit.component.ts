@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit,ViewChild} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {Location} from '@angular/common';
 import * as _ from 'lodash';
@@ -15,13 +15,34 @@ export class ActivityEditComponent implements OnInit {
   public activity: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
-
+  public source = [];
+  public data = [];
+  @ViewChild('simpleTable') simpleTable
   constructor(private _activityService: ActivityService,
               private _messageService: SeerMessageService,
               private _activatedRoute: ActivatedRoute,
               private _router: Router,
               private _location: Location) {
   }
+  titles = [
+    {key:'roleName',label:'红包主题'},
+    {key:'validState',label:'适用产品'},
+    {key:'sendTime',label:'红包金额'},
+    {key:'sendway',label:'启用金额'},
+    {key:'Time',label:'有效期（天）'},
+    {key:'red',label:'红包叠加'},
+    {key:'add',label:'加息卷叠加'},
+  ];
+  title = [
+    {key:'roleName',label:'加息卷主题'},
+    {key:'validState',label:'适用产品'},
+    {key:'sendTime',label:'加息点（%）'},
+    {key:'sendway',label:'启用金额'},
+    {key:'Time',label:'有效期（天）'},
+    {key:'Time',label:'加息期限（天）'},
+    {key:'red',label:'红包叠加'},
+    {key:'add',label:'加息卷叠加'},
+  ];
 
   ngOnInit() {
     this._activatedRoute.url.mergeMap(url => {
@@ -49,8 +70,27 @@ export class ActivityEditComponent implements OnInit {
           this.forbidSaveBtn = false;
         }
       })
+      this.getList();
+      this.getData();
+  }
+// 假数据
+ getList(params?):void{
+      this._activityService.getDatas()
+      .then(res => {
+        console.log(res.data);
+        
+        this.source = res.data;
+      });
   }
 
+  getData(params?):void{
+      this._activityService.getData()
+      .then(res => {
+        console.log(res.data);
+        
+        this.data = res.data;
+      });
+  }
   handleBackBtnClick() {
     this._location.back()
   }
@@ -84,7 +124,31 @@ export class ActivityEditComponent implements OnInit {
           autoHideDuration: 3000,
         })
       })
-
+  }
+   handleSimpleTableNotify($event) {
+    console.log($event)
+    let { type, key } = $event;
+    switch ( type ) {
+      case 'save':
+        console.log(this.simpleTable.getFormatDataByKey(key))
+        setTimeout(() => {
+          this.simpleTable.save(key);
+        }, 3000)
+        break;
+      case 'delete':
+        console.log(this.simpleTable.getFormatDataByKey(key))
+        setTimeout(() => {
+          this.simpleTable.delete(key);
+        }, 3000)
+        break;
+    }
+  }
+  handleSimpleTableCardNotify($event) {
+    console.log($event)
+  }
+  // ======================选着人员页面跳转==================
+  choose(){
+     this._router.navigate(['operation/activity/edit']);
   }
 
 }
