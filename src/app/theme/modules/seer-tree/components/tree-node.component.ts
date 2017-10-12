@@ -12,7 +12,8 @@ import { ITreeNodeTemplate } from './tree-node-content.component';
     <div
       *ngIf="!node.isHidden"
       class="tree-node tree-node-level-{{ node.level }}"
-
+      [class.tree-node-expanded]="node.isExpanded"
+      [class.tree-node-collapsed]="node.isCollapsed"
       [class.tree-node-leaf]="node.isLeaf"
       [class.tree-node-active]="node.isActive"
       [class.tree-node-focused]="node.isFocused">

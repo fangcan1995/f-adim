@@ -38,6 +38,7 @@ import { SeerCollapseCardComponent } from './seer-collapse-card';
 import { SeerContentTopComponent } from './seer-content-top';
 import { SeerDatepickerComponent } from './seer-datepicker';
 import { SeerPaginationComponent } from './seer-pagination';
+
 // 待干掉
 import { seerAlertComponent } from "./seer_alert/seer_alert";
 import { seerTableComponent } from "./seer_table/seer.table";

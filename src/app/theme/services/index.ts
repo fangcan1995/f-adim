@@ -8,4 +8,6 @@ export * from './user.service';
 export * from './seer-message.service';
 export * from './seer-dialog.service';
 export * from './http-interceptor.service';
+export * from './preload-image.service';
 export * from './base.service';
+

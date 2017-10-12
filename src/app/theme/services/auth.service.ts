@@ -27,8 +27,16 @@ export class AuthService {
     ) {}
   
   login(account: any, password: any): Observable<any> {
-    return this._httpInterceptorService.request('POST', `${BASE_URL}/${API.LOGIN}`, { account, password })
+    let params = {
+      username: account,
+      password: password,
+      client_id: 'member',
+      client_secret: 'secret',
+      grant_type: 'password',
+    }
+    return this._httpInterceptorService.request('POST', `${BASE_URL}/${API.LOGIN}`, params)
     .do(res => {
+      console.log(res)
       /*if ( res.code === 0 ) {
         this.isLoggedIn = true;
         let data = res.data || {};
@@ -51,6 +59,20 @@ export class AuthService {
         let data = res.data || {};
         localStorage.setItem('data', JSON.stringify(data));
         localStorage.setItem('leftMenus',JSON.stringify(menuTree(res.data.currentResources)));
+
+
+        // 新版走这里，暂时用模拟数据替代
+        setStorage({
+          key: 'user',
+          value: {
+            name: '巴巴汇的家人们大家早上好',
+            avatar: '../../../assets/img/logo.png',
+          },
+        })
+        setStorage({
+          key: 'token',
+          value: '123321123321123321',
+        })
       }
       
     })

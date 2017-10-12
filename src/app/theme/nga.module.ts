@@ -34,6 +34,7 @@ import {
   SeerCheckbox,
   SeerMessageComponent,
   SeerDialogComponent,
+  PreloadImageComponent,
 } from './components';
 
 import { BaCardBlur } from './components/baCard/baCardBlur.directive';
@@ -69,6 +70,7 @@ import {
   UserService,
   LoggerService,
   HttpInterceptorService,
+  PreloadImageService,
 } from './services';
 
 import {
@@ -114,6 +116,7 @@ const NGA_COMPONENTS = [
   CheckboxPickerComponent,
   SeerMessageComponent,
   SeerDialogComponent,
+  PreloadImageComponent,
 ];
 
 const NGA_DIRECTIVES = [
@@ -146,7 +149,6 @@ const NGA_VALIDATORS = [
 ];
 
 const NGA_SUB_MODULES = [
-  // MaterialModule,
   Ng2BootstrapModule,
   TreeModule,
   CKEditorModule,
@@ -177,7 +179,9 @@ const NGA_SUB_MODULES = [
     CheckboxPickerComponent
   ],
   providers: [
-    HttpInterceptorService
+    HttpInterceptorService,
+    PreloadImageService
+
   ]
 })
 export class NgaModule {

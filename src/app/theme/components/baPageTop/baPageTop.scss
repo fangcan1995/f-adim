@@ -62,7 +62,7 @@
 .user-profile {
   float: right;
   min-width: 310px;
-  margin: 10px 30px 0 0;
+  margin: ($page-top-height - 32px) / 2 30px 0 0;
 }
 
 .al-user-profile {
@@ -70,21 +70,54 @@
   margin-right: 12px;
   transition: all .15s ease-in-out;
   padding: 0;
-  width: 36px;
-  height: 36px;
   border: 0;
   opacity: 1;
   position: relative;
-  a {
-    display: block;
+  .dropdown {
+    float: left;
   }
-  img {
-    width: $page-top-height*0.6;
-    height: $page-top-height*0.6;
+
+  ul.profile-dropdown:after {
+    bottom: 100%;
+    right: 0;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(255, 255, 255, 0);
+    border-bottom-color: #fff;
+    border-width: 10px;
+    margin-right: 28px;
+  }
+  a {
+    display: inline-block;
+  }
+  /deep/ img {
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
   }
-}
 
+}
+.profile-welcome {
+  float: right;
+  margin-left: 8px;
+  margin-bottom: 0;
+  max-width: 96px;
+  height: 32px;
+  line-height: 32px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: $default-text;
+}
+@media screen and (max-width: $resXS) {
+  .profile-welcome {
+    display: none;
+  }
+}
 a.refresh-data {
   color: $sidebar-text;
   font-size: 13px;

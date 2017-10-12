@@ -13,6 +13,32 @@ export class ResModel {
   extras?: any;
 }
 
+/**
+ * JSON 转换 URL
+ * 说明：
+ * 需要转换的JSON 数据 {"brandId" : "1" , "brandName" : "nihao"}
+ * 转换后返回  ：brandId=1&brandName=nihao
+ * @param params  是JSON
+ * @returns {url}
+ */
+const parseJson2URL = function (params) {
+  let paramStr = '';
+  let mappingOperator = '=';
+  let separator = '&';
+  for ( let key in params ) {
+    let value = params[key];
+    if ( value != null && value != '' ) {
+      if ( typeof value === 'string' || value instanceof Number || typeof value === 'number' || value instanceof Boolean || typeof value === 'boolean' ) {
+        paramStr += key + mappingOperator + value + separator;
+      } else if ( typeof value === 'object' ) {
+        paramStr += key + mappingOperator + JSON.stringify(value) + separator;
+      }
+    }
+  }
+  paramStr = paramStr.substring(0, paramStr.length - 1);
+  return paramStr;
+};
+
 @Injectable()
 export class HttpInterceptorService {
   constructor(private _http: Http) { }
@@ -38,16 +64,18 @@ export class HttpInterceptorService {
       default:
         return Observable.throw('请求方法已被禁用');
     }
-    let _search = new URLSearchParams();
+
     console.log('__request__: ', params);
+    /*let _search = new URLSearchParams();
+    
     _(params).each((t, i) => {
       if ( t instanceof Object ) {
         t = JSON.stringify(t)
       }
       _search.set(i, t);
-    })
+    })*/
     let headers = new Headers();
-    headers.set('Content-Type', 'application/json')
+    // headers.set('Content-Type', 'application/json')
     // headers.set('Authorization', '123')
     let options;
     if ( method === 'GET' ) {
@@ -55,7 +83,7 @@ export class HttpInterceptorService {
         headers,
         method: _method,
         url: url,
-        search: _search,
+        search: parseJson2URL(params),
 
       });
     } else {
@@ -63,7 +91,7 @@ export class HttpInterceptorService {
         headers,
         method: _method,
         url: url,
-        body: params
+        body: '?' + parseJson2URL(params),
       });
     }
     let req = new Request(options)

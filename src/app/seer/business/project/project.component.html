@@ -1,1 +1,21 @@
-项目管理
+<seer-collapse-card
+>
+  <seer-filter
+    [hasGlobalFilter]="hasGlobalFilter"
+    [filters]="filters"
+  ></seer-filter>
+</seer-collapse-card>
+<seer-collapse-card
+>
+  <seer-table
+    [data]="data"
+    [titles]="titles"
+    [translate]="dict"
+    [hideExport]="true"
+    [hidePrint]="true"
+    [hideRemoveAll]="true"
+    [hideColumns]="true"
+    [hideAddButton]="true"
+    (notify)="onChange($event)"
+  ></seer-table>
+</seer-collapse-card>

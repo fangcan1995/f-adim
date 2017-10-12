@@ -13,6 +13,7 @@ import {
 export class UserService {
   constructor(private _httpInterceptorService: HttpInterceptorService) {}
   getDataFromLocal(): Observable<any> {
+    
     return Observable.create(observer => {
       observer.next(getStorage({ key: 'user' }))
     });
@@ -20,4 +21,5 @@ export class UserService {
   getDataFromServer(id: string | number): Observable<any> {
     return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['USER']}/${id}`)
   }
+
 }
