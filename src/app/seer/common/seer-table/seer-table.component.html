@@ -62,21 +62,24 @@
       class="table table-hover">
       <thead>
         <tr>
-          <th class="table-checkbox">
+          <th *ngIf="!hideCheckbox" class="table-checkbox">
             <input
+
               type="checkbox"
               [(ngModel)]="selectedAll"
               (change)="selectAll()"/>
           </th>
+          <th *ngIf="showSeq" class="table-seq">序号</th>
           <th *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
             {{ title.label }}
           </th>
-          <th class="table-actions" *ngIf="!hideActions"><b class="seer_font">操作</b></th>
+          <th class="table-actions" *ngIf="!hideActions">操作</th>
         </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let item of getData() ">
-        <td class="table-checkbox"><input type="checkbox" [(ngModel)]="item.selected" (change)="selectOne(item)"/></td>
+      <tr *ngFor="let item of getData(); let i = index">
+        <td *ngIf="!hideCheckbox" class="table-checkbox"><input type="checkbox" [(ngModel)]="item.selected" (change)="selectOne(item)"/></td>
+        <td *ngIf="showSeq" class="table-seq">{{ i + 1 }}</td>
         <td *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
 
           <div *ngIf="title.type=='link'">
@@ -108,7 +111,7 @@
         </td>
       </tr>
       </tbody>
-      <tfoot>
+      <tfoot *ngIf="!hidePagination">
         <tr>
           <td [attr.colspan]="titles.length + 2">
             <seer-pagination

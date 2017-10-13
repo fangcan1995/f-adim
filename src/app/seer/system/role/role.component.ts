@@ -9,7 +9,7 @@ import {
   SeerDialogService,
   SeerMessageService,
 } from '../../../theme/services';
-import { UPDATE, DELETE, COPY_CREATE } from '../../common/seer-table/seer-table.actions';
+import { UPDATE, DELETE, COPY_CREATE, DOWNLOAD, DETAIL, PREVIEW } from '../../common/seer-table/seer-table.actions';
 import { hasGlobalFilter, tableTitles } from './role.config';
 import { RoleService } from './role.service';
 @Component({
@@ -22,7 +22,7 @@ export class RoleComponent implements OnInit {
   offset = 0;
   limit = 10;
   roles = [];
-  simpleTableActions = [ UPDATE, DELETE ]
+  simpleTableActions = [ DOWNLOAD, PREVIEW ]
   @ViewChild('simpleTable') simpleTable
   ngOnInit() {
     this.getList();

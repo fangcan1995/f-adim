@@ -111,7 +111,7 @@ export class SeerTree implements OnInit {
   };
   //树的配置
   private seerTreeOptions = {
-    levelPadding: 25,
+    // levelPadding: 33,
     isExpandedField: 'expanded',
     isSelectedField: 'selected',
     customIconField: 'customIcon',

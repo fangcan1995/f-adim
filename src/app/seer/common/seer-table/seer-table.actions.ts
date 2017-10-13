@@ -47,3 +47,17 @@ export const CANCEL = {
 	className: '',
 	icon: 'fa fa-remove'
 }
+
+export const DOWNLOAD = {
+	type: 'download',
+	name: '下载',
+	className: '',
+	icon: 'icon-download',
+}
+
+export const PREVIEW = {
+	type: 'preview',
+	name: '预览',
+	className: '',
+	icon: 'icon-preview'
+}

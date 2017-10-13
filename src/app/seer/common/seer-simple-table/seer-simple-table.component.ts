@@ -10,7 +10,7 @@ import {
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import * as _ from 'lodash';
 
-import { CREATE, UPDATE, DELETE, SAVE, CANCEL } from '../seer-table/seer-table.actions';
+import { CREATE, UPDATE, DELETE, SAVE, CANCEL, DOWNLOAD, PREVIEW } from '../seer-table/seer-table.actions';
 import { BaseService } from "../../base.service";
 @Component({
   selector: 'seer-simple-table',
@@ -32,7 +32,8 @@ export class SeerSimpleTableComponent implements OnInit {
   @Input() hidePagination: boolean;
   @Input() hideAddButton;//隐藏新增按钮
   @Input() primaryKey;
-
+  @Input() actions: Array<any> = [];
+  @Input() showSeq:boolean;
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
   @Output() changePage: EventEmitter<any> = new EventEmitter<any>();
 
@@ -83,7 +84,7 @@ export class SeerSimpleTableComponent implements OnInit {
       return {
         key: i,//this.primaryKey ? t[this.primaryKey] : i,
         data: t,
-        actions: [ UPDATE, DELETE ],
+        actions: this.actions,
         editState: false,
         copy: _.clone(t),
         editData: _.clone(t),
@@ -92,7 +93,6 @@ export class SeerSimpleTableComponent implements OnInit {
     .value();
   }
   handleActionsClick($event) {
-    console.log($event)
     let { action, item } = $event;
     switch ( action.type ) {
       case UPDATE.type:
@@ -109,6 +109,12 @@ export class SeerSimpleTableComponent implements OnInit {
         break;
       case CREATE.type:
         this.create();
+        break;
+      case DOWNLOAD.type:
+        this.notify.emit({type: action.type, key: item.key});
+        break;
+      case PREVIEW.type:
+        this.notify.emit({type: action.type, key: item.key});
         break;
     }
     

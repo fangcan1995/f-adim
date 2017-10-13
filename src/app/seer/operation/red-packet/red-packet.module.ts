@@ -6,7 +6,6 @@ import { routing } from './red-packet.routing';
 import { RedPacketService } from "./red-packet.service";
 import { RedPacketComponent } from './red-packet.component';
 import { RedPacketEditComponent } from './components/red-packet-edit/red-packet-edit.component';
-import { RedPacketAddComponent } from './components/red-packet-add/red-packet-add.component';
 @NgModule({
   imports: [
     NgaModule,
@@ -16,7 +15,6 @@ import { RedPacketAddComponent } from './components/red-packet-add/red-packet-ad
   declarations: [
     RedPacketComponent,
     RedPacketEditComponent,
-    RedPacketAddComponent,
   ],
   providers: [
     RedPacketService,

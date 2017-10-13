@@ -43,6 +43,9 @@ export class SeerTableComponent implements OnInit {
   @Input() customActions: Array<any>;
   @Input() rowsOnPageSet: Array<number> = [10, 15, 30]; // 每页可显示条数的枚举
   @Input() rowsOnPage:number = 10;
+  @Input() showSeq:boolean;
+  @Input() hideCheckbox: boolean;
+  @Input() hidePagination: boolean;
 
   @Input() paginationRules:number = 1; // 0后端分页 1前端分页
 
@@ -113,7 +116,7 @@ export class SeerTableComponent implements OnInit {
     }
   }
   selectAll(): void {
-    let data = !this.paginationRules ? this._sliceData(this.data, 1, this.pageSize) : this._sliceData(this.data, this.pageNum, this.rowsOnPage)
+    let data = !this.paginationRules ? this.hidePagination ? this.data :  this._sliceData(this.data, 1, this.pageSize) : this._sliceData(this.data, this.pageNum, this.rowsOnPage)
     _.each(data, item => {
       item.selected = this.selectedAll;
     })

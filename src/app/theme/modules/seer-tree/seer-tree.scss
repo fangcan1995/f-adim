@@ -76,7 +76,8 @@ $tree-node-height: 36px;
   }
 
   .tree-children {
-    padding-left: 0
+    padding-left: 33px;
+    position: relative;
   }
 
   .node-content-wrapper {
@@ -190,7 +191,7 @@ $tree-node-height: 36px;
     display: inline-block;
     position: relative;
     /* top: 1px; */
-    padding-right: 15.4px;
+    // padding-right: 33px;
     /* padding-left: 5px; */
   }
 
@@ -204,6 +205,46 @@ $tree-node-height: 36px;
     background: #ddffee;
     height: 28px;
     border: 2px dotted #888;
+  }
+  .tree-node .toggle-children-wrapper,
+  .tree-node .toggle-children-placeholder {
+    position: relative;
+    /* &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: -16px;
+      top: -$tree-node-height / 2;
+      bottom: $tree-node-height / 2;
+      border-left: 1px dotted $input-border;
+    } */
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: -16px;
+      width: 16px;
+      top: $tree-node-height / 2;
+      border-bottom: 1px dotted $input-border;
+    }
+  }
+  .tree-node.tree-node-level-1 > .node-wrapper > .toggle-children-wrapper,
+  .tree-node.tree-node-level-1 > .node-wrapper > .toggle-children-placeholder {
+    &:after {
+      display: none;
+    }
+  }
+  .tree-node .tree-children {
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 16px;
+      top: 0;
+      bottom: $tree-node-height / 2 + 1px;
+      width: 0;
+      border-left: 1px dotted $input-border;
+    }
   }
 
   //.node-content-wrapper, .tree-children {

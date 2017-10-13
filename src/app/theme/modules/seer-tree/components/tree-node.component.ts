@@ -16,15 +16,16 @@ import { ITreeNodeTemplate } from './tree-node-content.component';
       [class.tree-node-collapsed]="node.isCollapsed"
       [class.tree-node-leaf]="node.isLeaf"
       [class.tree-node-active]="node.isActive"
-      [class.tree-node-focused]="node.isFocused">
-
+      [class.tree-node-focused]="node.isFocused"
+      [style.padding-left]="getNodePadding()"
+      >
       <TreeNodeDropSlot
         *ngIf="nodeIndex === 0 && node.treeModel.options.allowDrag"
         [dropIndex]="nodeIndex"
         [node]="node.parent"
         ></TreeNodeDropSlot>
 
-        <div class="node-wrapper" [style.padding-left]="getNodePadding()">
+        <div class="node-wrapper" >
           <span
             *ngIf="node.hasChildren"
             class="toggle-children-wrapper"
@@ -99,7 +100,8 @@ export class TreeNodeComponent implements AfterViewInit {
   }
 
   getNodePadding() {
-    return (this.node.options.levelPadding) * (this.node.level - 1) + 'px';
+    // return (this.node.options.levelPadding) * (this.node.level - 1) + 'px';
+    return this.node.options.levelPadding ? this.node.level === 1 ? '0' : (this.node.options.levelPadding) + 'px' : '0';
   }
 
   ngAfterViewInit() {
