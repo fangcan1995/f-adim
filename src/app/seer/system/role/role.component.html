@@ -11,6 +11,9 @@
     [titles]="titles"
     [translate]="dict"
     (notify)="handleNotify($event)"
+    [hideCheckbox]="true"
+    [showSeq]="true"
+    [hidePagination]="true"
   ></seer-table>
 </seer-collapse-card>
 
@@ -29,5 +32,6 @@
     [rowsOnPage]="5"
     (notify)="handleSimpleTableNotify($event)"
     [hidePagination]="true"
+    [actions]="simpleTableActions"
   ></seer-simple-table>
 </seer-collapse-card>
