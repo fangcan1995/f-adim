@@ -33,7 +33,7 @@ export class SeerSimpleTableComponent implements OnInit {
   @Input() hideAddButton;//隐藏新增按钮
   @Input() primaryKey;
   @Input() actions: Array<any> = [];
-
+  @Input() showSeq:boolean;
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
   @Output() changePage: EventEmitter<any> = new EventEmitter<any>();
 
