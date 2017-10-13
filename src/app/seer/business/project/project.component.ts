@@ -155,8 +155,7 @@ export class ProjectComponent {
     let data = item.data;
     switch (type) {
       case 'check':
-        alert(1);
-        this._router.navigate(['check', data.projectId],{relativeTo: this.route});
+        this._router.navigate([`check/${data.projectId}`],{relativeTo: this.route});
         break;
       case 'detail':
         this._router.navigate([`edit/${data.projectId}`], {relativeTo: this.route} );

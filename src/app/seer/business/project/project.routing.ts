@@ -5,7 +5,7 @@ import {
 import { ModuleWithProviders } from '@angular/core';
 import { ProjectComponent } from './project.component';
 import { ProjectEditComponent } from './components/project-edit/project-edit.component';
-
+import { ProjectCheckComponent } from './components/project-check/project-check.component';
 const routes: Routes = [
   {
     path: '',
@@ -20,6 +20,10 @@ const routes: Routes = [
       },
       {
         path: 'edit/:id',
+        component: ProjectEditComponent,
+      },
+      {
+        path: 'check/:id',
         component: ProjectEditComponent,
       },
     ]

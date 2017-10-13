@@ -7,7 +7,6 @@ import { ProjectService } from "./project.service";
 
 import { ProjectComponent } from './project.component';
 import { ProjectEditComponent } from './components/project-edit/project-edit.component';
-
 @NgModule({
   imports: [
     NgaModule,
