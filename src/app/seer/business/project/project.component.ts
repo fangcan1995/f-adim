@@ -14,8 +14,13 @@ export class ProjectComponent {
     "total":"",
     "query":{
       "globalSearch":"",
-      "category":"",
-      "categoryName":"",
+      "realName":"",
+      "tel":"",
+      "type":"",
+      "time":"",
+      "state":"",
+      "fullTimeStart":"",
+      "fullTimeEnd":"",
     },
   }; //分页、排序、检索
   errorMessage;
@@ -152,7 +157,6 @@ export class ProjectComponent {
         this.pageInfo.pageSize=data.data.pageSize; //每页记录数
         this.pageInfo.total=data.data.total; //记录总数
         this.data = data.data.list;
-
       },
       error =>  this.errorMessage = <any>error);
   };*/
@@ -170,7 +174,6 @@ export class ProjectComponent {
       return _.set(t, 'actions', actions);
     })
   }
-
   onChange(item) {
     const type = item.type;
     let data = item.data;
@@ -186,11 +189,10 @@ export class ProjectComponent {
         break;
     }
   }
-  //分页
   handlePageChange($event) {
     this.pageInfo.pageSize = $event.pageSize;
     this.pageInfo.pageNum=$event.pageNum;
     this.getList();
-  }
+  }//分页
 }
 
