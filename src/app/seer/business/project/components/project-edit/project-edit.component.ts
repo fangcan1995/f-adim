@@ -10,14 +10,14 @@ import { Location } from '@angular/common';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs/Observable';
 import {ProjectService} from "../../project.service"
-import {ProjectModel} from "../../ProjectModel"
-/*import { UPDATE, DELETE } from '../../../../common/seer-table/seer-table.actions';*/
+import { DOWNLOAD, PREVIEW } from '../../../../common/seer-table/seer-table.actions';
+import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
 @Component({
   templateUrl: './project-edit.component.html',
   styleUrls: ['./project-edit.component.scss']
 })
 export class ProjectEditComponent implements OnInit {
-  actionSet = {
+  /*actionSet = {
     'DOWNLOAD': {
       'type': 'download',
       'name': '下载',
@@ -30,7 +30,7 @@ export class ProjectEditComponent implements OnInit {
       className: 'btn btn-xs btn-default',
       icon: 'fa fa-edit'
     }
-  };
+  };*/
   isPawnVehicleShow: boolean = true;
   isPawnHouseShow: boolean = true;
   isCreditInfoShow: boolean = true;
@@ -38,7 +38,7 @@ export class ProjectEditComponent implements OnInit {
   isadRepayShow: boolean = true;
   isadRepayCheck: boolean = false;
 
-  isNotEmpty: boolean = true;
+
   public project: any = {};
   private _editType: string = 'edit';
   public forbidSaveBtn: boolean = true;
@@ -107,6 +107,7 @@ export class ProjectEditComponent implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private _location: Location,
+    private _messageService: SeerMessageService
   ) {}
   ngOnInit() {
     this._route.url.mergeMap(url => {
@@ -127,8 +128,8 @@ export class ProjectEditComponent implements OnInit {
             //this.answers=res.data.answers || [];
             //let actions;
             //actions = [this.actionSet.DETAIL,this.actionSet.CHECK];
-            this.creditInfo = _.map(this.creditInfo, r => _.set(r, 'actions', [this.actionSet.DETAIL,this.actionSet.DOWNLOAD]));
-            this.attachment = _.map(this.attachment, r => _.set(r, 'actions', [this.actionSet.DOWNLOAD]));
+            this.creditInfo = _.map(this.creditInfo, r => _.set(r, 'actions', [PREVIEW,DOWNLOAD]));
+            this.attachment = _.map(this.attachment, r => _.set(r, 'actions', [DOWNLOAD]));
             this.investInfo=this.project.investInfo;
             this.repayInfo=this.project.repayInfo;
             this.approvalInfo=this.project.approvalInfo;
@@ -139,7 +140,7 @@ export class ProjectEditComponent implements OnInit {
           })
         //
         if ( this._editType === 'edit' ) {
-          //this.forbidSaveBtn = false;
+
           if(this.pawnVehicle.length<1){
             this.isPawnVehicleShow=false;
           };
@@ -153,6 +154,7 @@ export class ProjectEditComponent implements OnInit {
             this.isadRepayShow=false;
           };
         } else if ( this._editType === 'check' ) {
+          this.forbidSaveBtn = false;
           this.isPawnVehicleShow=false;
           this.isPawnHouseShow=false;
           this.isCreditInfoShow=false;
@@ -169,29 +171,67 @@ export class ProjectEditComponent implements OnInit {
   handleBackBtnClick() {
     this._location.back()
   }
-  /*
-  下载 浏览
-  */
+
+  //个人征信绑定事件
   handleCreditInfo($event){
+    console.log($event);
     let { type, key } = $event;
     switch ( type ) {
-      case 'DOWNLOAD':
+      case 'download':
         alert('下载');
         break;
-      case 'DETAIL':
-        alert('浏览');
+      case 'preview':
+        alert('预览');
+        break;
+      default:
         break;
     }
-  }//个人征信
+  }
+  //附件绑定事件
   handleAttachment($event){
     let { type, key } = $event;
     switch ( type ) {
-      case 'DOWNLOAD':
-        alert('下载');
+      case 'download':
+        alert('预览');
         break;
-      case 'DETAIL':
-        alert('浏览');
+      default:
         break;
     }
-  }//附件
+  }
+
+  //提交审核
+  handleSaveBtnClick($event){
+    if ( this.forbidSaveBtn ) return;
+    this.forbidSaveBtn = true;
+    if(!this.project.projectId){
+      this.projectService.postOne(this.project.projectId).then((data) => {
+        if(data.code=='0') {
+          this.alertSuccess("添加成功");
+        }else{
+          this.alertError("添加失败");
+        }
+      });
+    }
+
+  };
+  //成功提示
+  alertSuccess(info:string){
+    this._messageService.open({
+      icon: 'fa fa-times-circle',
+      message: info,
+      autoHideDuration: 3000,
+    }).onClose().subscribe(() => {
+      this._router.navigate(['/business/project/'])
+    });
+  };
+  //失败提示
+  alertError(errMsg:string){
+    this.forbidSaveBtn = false;
+    // 错误处理的正确打开方式
+    this._messageService.open({
+      icon: 'fa fa-times-circle',
+      message: errMsg,
+      autoHideDuration: 3000,
+    })
+  };
 }

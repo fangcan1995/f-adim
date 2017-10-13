@@ -216,24 +216,36 @@
         </seer-simple-table>
       </seer-collapse-card>
       <seer-collapse-card title="个人征信信息" cardClass="with-scroll" [canCollapse]=true *ngIf="isCreditInfoShow">
-        <seer-simple-table
+        <seer-table
           [data]="creditInfo"
           [titles]="titlesCreditInfo"
           [hidePagination]="true"
           [hideAddButton]="true"
+          [hideExport]="true"
+          [hidePrint]="true"
+          [hideCheckbox]="true"
+          [hideColumns]="true"
+          [hideRemoveAll]="true"
+          [showSeq]="true"
           (notify)="handleCreditInfo($event)"
         >
-        </seer-simple-table>
+        </seer-table>
       </seer-collapse-card>
       <seer-collapse-card title="附件信息" cardClass="with-scroll" [canCollapse]=true *ngIf="isAttachmentShow">
-        <seer-simple-table
+        <seer-table
           [data]="attachment"
           [titles]="titlesAttachment"
           [hidePagination]="true"
           [hideAddButton]="true"
+          [hideExport]="true"
+          [hidePrint]="true"
+          [hideCheckbox]="true"
+          [hideColumns]="true"
+          [hideRemoveAll]="true"
+          [showSeq]="true"
           (notify)="handleAttachment($event)"
         >
-        </seer-simple-table>
+        </seer-table>
       </seer-collapse-card>
       <seer-collapse-card title="投资记录" cardClass="with-scroll" [canCollapse]=true>
         <seer-simple-table
@@ -242,6 +254,7 @@
           [hidePagination]="true"
           [hideActions]="true"
           [hideAddButton]="true"
+          [showSeq]="true"
         >
         </seer-simple-table>
       </seer-collapse-card>
@@ -318,6 +331,7 @@
           [hidePagination]="true"
           [hideActions]="true"
           [hideAddButton]="true"
+          [showSeq]="true"
         >
         </seer-simple-table>
       </seer-collapse-card>
