@@ -189,7 +189,7 @@ export class ProjectComponent {
         break;
     }
   }
-  handlePageChange($event) {
+  onPageChange($event) {
     this.pageInfo.pageSize = $event.pageSize;
     this.pageInfo.pageNum=$event.pageNum;
     this.getList();

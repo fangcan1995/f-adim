@@ -10,7 +10,7 @@ export class MemberService {
   mockData = []
 
   constructor(private _httpInterceptorService: HttpInterceptorService) {
-    for (var i = 0; i < 100; i++) {
+    /*for (var i = 0; i < 100; i++) {
       this.mockData.push({
         "id": "1",
         "name": "本拉登" + i + "",
@@ -26,7 +26,54 @@ export class MemberService {
         "asset_introduction": "负债1,000,000",
         "someStatus": "1"
       })
-    }
+    }*/
+    this.mockData = [
+      {
+        "id": "1",
+        "aaa":"abc",
+        "bbb": "张三",
+        "ccc": "15942476543",
+        "ddd": "21142119843224242",
+        "eee": "男",
+        "fff": "2017-08-18 09:21:12",
+        "ggg": "1",
+        "hhh": "2017-08-18 09:21:12",
+        "iii": "192.168.1.1",
+        "jjj": "张三三",
+        "kkk":"10",
+        "lll":"36", //年龄
+      },
+      {
+        "id": "2",
+        "aaa":"lisi",
+        "bbb": "李四",
+        "ccc": "15942476543",
+        "ddd": "21142119843224242",
+        "eee": "男",
+        "fff": "2017-08-18 09:21:12",
+        "ggg": "2",
+        "hhh": "2017-08-18 09:21:12",
+        "iii": "192.168.1.1",
+        "jjj": "张三三",
+        "kkk":"10",
+        "lll":"36", //年龄
+      },
+      {
+        "id": "3",
+        "aaa":"wangwang",
+        "bbb": "王武",
+        "ccc": "15942476543",
+        "ddd": "21142119843224242",
+        "eee": "男",
+        "fff": "2017-08-18 09:21:12",
+        "ggg": "3",
+        "hhh": "2017-08-18 09:21:12",
+        "iii": "192.168.1.1",
+        "jjj": "张三三",
+        "kkk":"10",
+        "lll":"36", //年龄
+      },
+    ];
   }
 
   // 获取数据列表
