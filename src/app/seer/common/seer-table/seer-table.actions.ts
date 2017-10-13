@@ -25,7 +25,9 @@ export const COPY_CREATE = {
 	type: 'copy_create',
 	name: '复制新增',
 	className: 'btn btn-xs btn-default',
-	icon: 'icon-copy-create',
+
+    icon: 'icon-copy-create',
+
 };
 export const DETAIL = {
 	type: 'detail',

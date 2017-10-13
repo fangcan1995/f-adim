@@ -1,7 +1,4 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
+import {Component,OnInit,TemplateRef} from '@angular/core';
 import {
   Router,
   ActivatedRoute,
@@ -11,6 +8,8 @@ import * as _ from 'lodash';
 import { Observable } from 'rxjs/Observable';
 import {RedPacketService} from "../../red-packet.service";
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
+import { ModalDirective ,BsModalService} from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 
 @Component({
   templateUrl: './red-packet-edit.component.html',
@@ -26,7 +25,8 @@ export class RedPacketEditComponent implements OnInit {
               private _messageService: SeerMessageService,
               private _activatedRoute: ActivatedRoute,
               private _router: Router,
-              private _location: Location) {}
+              private _location: Location,
+              private modalService: BsModalService) {}
 
 
   ngOnInit() {
@@ -91,5 +91,13 @@ export class RedPacketEditComponent implements OnInit {
         })
       })
   }
-
+    // ==================模态层=========================
+  public modalRef: BsModalRef;
+  public open(template: TemplateRef<any>) {
+  this.modalRef = this.modalService.show(template);
+  }
+// ======================选着人员页面跳转==================
+  choose(){
+     this._router.navigate(['operation/red-packet/edit']);
+  }
 }

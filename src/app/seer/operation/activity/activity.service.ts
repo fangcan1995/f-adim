@@ -82,7 +82,32 @@ export class ActivityService {
 
   constructor(private _httpInterceptorService: HttpInterceptorService) {
   }
-
+  getDatas(): Promise<any> {
+      return new Promise((resolve, reject) => {
+        resolve(
+          {
+            'success': true,
+            'data':[
+                {"roleName":"xxxx","validState":"短信","sendTime":"自动","sendway":"2017-08-18 09:21:12","Time":"短信","red":"01","add":"01"},
+              
+              ]
+          } 
+        )
+      })
+    }
+    getData(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      resolve(
+        {
+          'success': true,
+          'data':[
+              {"roleName":"xxxx","validState":"短信","sendTime":"自动","sendway":"2017-08-18 09:21:12","Time":"短信","red":"01","add":"01"},
+            
+            ]
+        } 
+      )
+    })
+    }
   // 获取数据列表
   getList(params?): Observable<any> {
     // return this._httpInterceptorService.request('GET', `${baseUrl}/${apis['MEMBERS']}`, params);

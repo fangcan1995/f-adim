@@ -100,6 +100,21 @@ export class RedPacketService {
     };
     return Observable.of(res)
   }
+  getDatas(): Promise<any> {
+      return new Promise((resolve, reject) => {
+        resolve(
+          {
+            'success': true,
+            'data':[
+              {"roleName":"xxxx","validState":"短信","sendTime":"2017-08-18 09:21:12","sendway":"已发","msgId":"01"},
+              {"roleName":"xxxx","validState":"短信","sendTime":"2017-08-18 09:21:12","sendway":"已发","msgId":"02"},
+              {"roleName":"xxxx","validState":"短信","sendTime":"2017-08-18 09:21:12","sendway":"已发","msgId":"03"},
+              {"roleName":"xxxx","validState":"短信","sendTime":"2017-08-18 09:21:12","sendway":"已发","msgId":"04"}, 
+            ]
+          } 
+        )
+      })
+    }
 
   // 删除一条数据
   deleteOne(id): Observable<any> {

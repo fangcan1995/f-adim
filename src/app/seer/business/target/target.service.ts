@@ -8,13 +8,13 @@ export class TargetService {
                 {
                 'success': true,
                 'data':[
-                    {"number":"1","pNumber":"bxskshd1778","userName":"大头","telPhone":"1888888888","type":"汇车贷","money":"1000","date":"3个月","time":"2017-08-18 09:21:12","state":"意向终止"},
-                    {"number":"1","pNumber":"bxskshd1778","userName":"大头","telPhone":"1888888888","type":"汇车贷","money":"1000","date":"3个月","time":"2017-08-18 09:21:12","state":"意向终止"},
-                    {"number":"1","pNumber":"bxskshd1778","userName":"大头","telPhone":"1888888888","type":"汇车贷","money":"1000","date":"3个月","time":"2017-08-18 09:21:12","state":"意向终止"},
-                    {"number":"1","pNumber":"bxskshd1778","userName":"大头","telPhone":"1888888888","type":"汇车贷","money":"1000","date":"3个月","time":"2017-08-18 09:21:12","state":"意向终止"},
-                    {"number":"1","pNumber":"bxskshd1778","userName":"大头","telPhone":"1888888888","type":"汇车贷","money":"1000","date":"3个月","time":"2017-08-18 09:21:12","state":"意向终止"},
-                    {"number":"1","pNumber":"bxskshd1778","userName":"大头","telPhone":"1888888888","type":"汇车贷","money":"1000","date":"3个月","time":"2017-08-18 09:21:12","state":"意向终止"},
-                    {"number":"1","pNumber":"bxskshd1778","userName":"大头","telPhone":"1888888888","type":"汇车贷","money":"1000","date":"3个月","time":"2017-08-18 09:21:12","state":"意向终止"},
+                    {"number":"1","pNumber":"bxskshd1778","userName":"大头","telPhone":"1888888888","type":"汇车贷","money":"1000","date":"3个月","time":"2017-08-18 09:21:12","state":"意向终止","id":"1"},
+                    {"number":"1","pNumber":"bxskshd1778","userName":"大头","telPhone":"1888888888","type":"汇车贷","money":"1000","date":"3个月","time":"2017-08-18 09:21:12","state":"意向终止","id":"2"},
+                    {"number":"1","pNumber":"bxskshd1778","userName":"大头","telPhone":"1888888888","type":"汇车贷","money":"1000","date":"3个月","time":"2017-08-18 09:21:12","state":"意向终止","id":"3"},
+                    {"number":"1","pNumber":"bxskshd1778","userName":"大头","telPhone":"1888888888","type":"汇车贷","money":"1000","date":"3个月","time":"2017-08-18 09:21:12","state":"意向终止","id":"4"},
+                    {"number":"1","pNumber":"bxskshd1778","userName":"大头","telPhone":"1888888888","type":"汇车贷","money":"1000","date":"3个月","time":"2017-08-18 09:21:12","state":"意向终止","id":"5"},
+                    {"number":"1","pNumber":"bxskshd1778","userName":"大头","telPhone":"1888888888","type":"汇车贷","money":"1000","date":"3个月","time":"2017-08-18 09:21:12","state":"意向终止","id":"6"},
+                    {"number":"1","pNumber":"bxskshd1778","userName":"大头","telPhone":"1888888888","type":"汇车贷","money":"1000","date":"3个月","time":"2017-08-18 09:21:12","state":"意向终止","id":"7"},
                 ]
                 } 
             )
