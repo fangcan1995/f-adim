@@ -3,7 +3,7 @@ import {Router, ActivatedRoute} from "@angular/router";
 import * as _ from 'lodash';
 import {SeerDialogService} from '../../../theme/services/seer-dialog.service';
 import {MemberService} from './member.service';
-
+import { UPDATE, PREVIEW } from '../../common/seer-table/seer-table.actions';
 @Component({
   templateUrl: './member.component.html',
   styleUrls: ['./member.component.scss'],
@@ -45,14 +45,14 @@ export class MemberComponent implements OnInit, OnDestroy {
     {key: 'jjj', label: '邀请人', hidden: false},
     {key: 'kkk', label: '登录次数', hidden: false},
   ];
-  actionSet = {
+  /*actionSet = {
     'update': {
-      'type': 'update',
+      'type': 'user_statistics',
       'name': '编辑',
       'className': 'btn btn-xs btn-info',
       'icon': 'icon-edit',
     }
-  };
+  };*/
   customActions = [
     {
       type: 'user_statistics',
@@ -72,6 +72,7 @@ export class MemberComponent implements OnInit, OnDestroy {
               private _router: Router,
               private _route: ActivatedRoute,
               private _dialogService: SeerDialogService,) {
+
   }
 
   ngOnInit(): void {
@@ -91,12 +92,13 @@ export class MemberComponent implements OnInit, OnDestroy {
           let actions;
           switch (status) {
             case "1":
-              actions = [this.actionSet.update];
+              actions = [PREVIEW,UPDATE];
               break;
             case "3":
-              actions = [this.actionSet.update];
+              actions = [PREVIEW,UPDATE];
               break;
             default:
+              actions = [PREVIEW];
               break;
           }
           return _.set(t, 'actions', actions)
@@ -109,10 +111,13 @@ export class MemberComponent implements OnInit, OnDestroy {
     const type = message.type;
     let data = message.data;
     switch (type) {
-      case 'update':
+      /*case 'update':
         this._router.navigate(['add'], {relativeTo: this._route});
+        break;*///这段代码是什么意思？？？
+      case 'preview':
+        this._router.navigate([`detail/${data.id}`], {relativeTo: this._route});
         break;
-      case 'user_statistics':
+      case 'update':
         this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
         break;
       case 'delete':

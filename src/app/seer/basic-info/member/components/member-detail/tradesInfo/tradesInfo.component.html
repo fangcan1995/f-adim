@@ -1,0 +1,41 @@
+<div style="margin:10px 30px; background: #c12e2a">
+  <seer-card>
+    <div class="row justify-content-center">
+      <div class="col-md-12">
+        <!--<tabset>
+          <tab heading='全部交易记录'>
+
+          </tab>
+          <tab heading='投资记录'>
+
+          </tab>
+          <tab heading='充值记录'>
+
+          </tab>
+          <tab heading='提现记录'>
+
+          </tab>
+          <tab heading='借款记录'>
+
+          </tab>
+        </tabset>-->
+        <seer-collapse-card
+        >
+          <seer-filter
+            [hasGlobalFilter]="hasGlobalFilter"
+            [filters]="filters"
+          ></seer-filter>
+        </seer-collapse-card>
+        <seer-collapse-card title="借款记录" cardClass="with-scroll" [canCollapse]=true >
+          <seer-simple-table
+            [data]="tradesRecord"
+            [titles]="titlesTradesRecord"
+            [hideActions]="true"
+            [hideAddButton]="true"
+          >
+          </seer-simple-table>
+        </seer-collapse-card>
+      </div>
+    </div>
+  </seer-card>
+</div>

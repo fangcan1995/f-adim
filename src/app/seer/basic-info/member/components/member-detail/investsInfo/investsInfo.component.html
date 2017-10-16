@@ -1,0 +1,68 @@
+<div style="margin:10px 30px; background: #c12e2a">
+  <seer-card>
+    <div class="row justify-content-center">
+      <div class="col-md-12">
+        <seer-collapse-card title="投资统计" cardClass="with-scroll" [canCollapse]=true>
+          <div class="row" style="border-bottom:1px solid #ededed;margin-bottom: 10px">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              成功出借笔数:{{member.countInfo.aaa}}
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              成功出借金额:{{member.countInfo.bbb}}
+            </div>
+          </div>
+          <div class="row" style="border-bottom:1px solid #ededed;margin-bottom: 10px">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              已收笔数:
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              已收本金:
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              已收利息:
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              待收笔数:
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              待收本金:
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              待收利息:
+            </div>
+          </div>
+          <div class="row" style="">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              逾期已收笔数:
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              逾期已收本息:
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              逾期未收笔数:
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              逾期未收本息:
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              提前已收笔数:
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              提前已收本息:
+            </div>
+          </div>
+        </seer-collapse-card>
+        <seer-collapse-card title="投资记录" cardClass="with-scroll" [canCollapse]=true >
+          <seer-simple-table
+            [data]="investsRecord"
+            [titles]="titlesInvestsRecord"
+            [hidePagination]="true"
+            [hideActions]="true"
+            [hideAddButton]="true"
+          >
+          </seer-simple-table>
+        </seer-collapse-card>
+      </div>
+    </div>
+  </seer-card>
+</div>

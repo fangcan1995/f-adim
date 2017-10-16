@@ -7,15 +7,14 @@ import { Location } from '@angular/common';
 
 import * as _ from 'lodash';
 import { Observable } from 'rxjs/Observable';
-import { MemberService } from '../../member.service';
-import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
-import {UPDATE, DELETE,DOWNLOAD, PREVIEW} from "../../../../common/seer-table/seer-table.actions"
+import { MemberService } from '../../../member.service';
 
 @Component({
-  templateUrl: './member-edit.component.html',
-  styleUrls: ['./member-edit.component.scss']
+  selector: 'memberInfo',
+  templateUrl: './memberInfo.component.html',
+
 })
-export class MemberEditComponent implements OnInit {
+export class MemberInfoComponent implements OnInit {
   public member: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
@@ -78,7 +77,6 @@ export class MemberEditComponent implements OnInit {
   ];//征信
   constructor(
     private _memberService: MemberService,
-    private _messageService: SeerMessageService,
     private _route: ActivatedRoute,
     private _router: Router,
     private _location: Location,
@@ -88,67 +86,29 @@ export class MemberEditComponent implements OnInit {
       this._editType = url[0].path
       return this._route.params
     })
-    .subscribe(params => {
-      if ( this._editType === 'edit' ) {
-        this._memberService.getOne(params.id)
-        .subscribe(res => {
-          console.log(res.data);
-          this.member = res.data || {};
-          this.emergencyContact=res.data.emergencyContact;
-          this.vehicleInfo=res.data.vehicleInfo;
-          this.vehicleInfo = _.map(this.vehicleInfo, r => _.set(r, 'actions', [UPDATE, DELETE]));
-          this.houseInfo=res.data.houseInfo;
-          this.creditInfo=res.data.creditInfo;
-          this.creditInfo=_.map(this.creditInfo, r => _.set(r, 'actions', [DOWNLOAD, PREVIEW]))
-          this.forbidSaveBtn = false;
-        }, errMsg => {
-          // 错误处理的正确打开方式
-          this._messageService.open({
-            icon: 'fa fa-times-circle',
-            message: errMsg,
-            autoHideDuration: 3000,
-          }).onClose().subscribe(() => {
-            this._location.back()
-          })
-        })
-      } else if ( this._editType === 'add' ) {
-        this.forbidSaveBtn = false;
-      }
-    })
+      .subscribe(params => {
+        console.log(this._editType);
+        if ( this._editType === 'detail' ) {
+          this._memberService.getOne(params.id)
+            .subscribe(res => {
+              console.log(res.data);
+              this.member = res.data || {};
+              this.emergencyContact=res.data.emergencyContact;
+              this.vehicleInfo=res.data.vehicleInfo;
+              //this.vehicleInfo = _.map(this.vehicleInfo, r => _.set(r, 'actions', [UPDATE, DELETE]));
+              this.houseInfo=res.data.houseInfo;
+              this.creditInfo=res.data.creditInfo;
+              //this.creditInfo=_.map(this.creditInfo, r => _.set(r, 'actions', [DOWNLOAD, PREVIEW]))
+              this.forbidSaveBtn = false;
+            }, errMsg => {
+              // 错误处理的正确打开方式
+
+            })
+        }
+      })
   }
   handleBackBtnClick() {
     this._location.back()
-  }
-  handleSaveBtnClick() {
-    if ( this.forbidSaveBtn ) return;
-    this.forbidSaveBtn = true;
-    let requestStream$;
-    if ( this._editType === 'edit' ) {
-      requestStream$ = this._memberService.putOne(this.member.id, this.member)
-    } else if ( this._editType === 'add' ) {
-      requestStream$ = this._memberService.postOne(this.member)
-    } else {
-      return;
-    }
-    requestStream$
-    .subscribe(res => {
-      this._messageService.open({
-        icon: 'fa fa-times-circle',
-        message: res.msg,
-        autoHideDuration: 3000,
-      }).onClose().subscribe(() => {
-        this._router.navigate(['/basic-info/member'])
-      });
-    }, errMsg => {
-      this.forbidSaveBtn = false;
-      // 错误处理的正确打开方式
-      this._messageService.open({
-        icon: 'fa fa-times-circle',
-        message: errMsg,
-        autoHideDuration: 3000,
-      })
-    })
-
   }
 
 }

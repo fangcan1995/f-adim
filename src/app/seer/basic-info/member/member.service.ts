@@ -105,17 +105,198 @@ export class MemberService {
   getOne(id): Observable<any> {
     // return this._httpInterceptorService.request('GET', `${baseUrl}/${apis['MEMBERS']}/${id}`);
     let data = _.find(this.mockData, x => x.id === id);
-    console.log(data)
+    console.log(data);
     let res = {
+      code: 0,
+      message: "SUCCESS",
+      data:{
+        baseInfo: {
+          "realName": "张三",
+          "mobilePhone": "13813813138"
+        },   //基本信息
+        emergencyContact: [{
+          "name":"李四",
+          "relation":"父子"
+        }],
+        workInfo:{
+        },
+        accountInfo:{},
+        financialInfo:{},
+        vehicleInfo: [{
+          "aaa":"宝马",
+          "bbb":"X5",
+          "ccc":"XXX",
+          "ddd":"XXX",
+          "eee":"XXX",
+          "fff":"3年",
+          "ggg":"100公里",
+          "hhh":"160000.00",
+        },
+          {
+            "aaa":"宝马1",
+            "bbb":"X5",
+            "ccc":"XXX",
+            "ddd":"XXX",
+            "eee":"XXX",
+            "fff":"3年",
+            "ggg":"100公里",
+            "hhh":"160000.00",
+          }],    //抵押物（车辆）信息
+        houseInfo: [{
+          "fcdz":"金马路20号",
+          "jzmj":"100平方米",
+
+        }],    //抵押物（房产）信
+        creditInfo: [
+          {"aaa":"个人风险汇总信息","bbb":"已查询","ccc":"2018-09-12 15:00:00"},
+          {"aaa":" 个人信用报告","bbb":"已查询","ccc":"2018-09-12 15:00:00"},
+          {"aaa":" 个人反欺诈分析报告","bbb":"已查询","ccc":"2018-09-12 15:00:00"},
+        ],   //个人征信列表
+/*        attachment: [
+          {"aaa":"xxxx","bbb":"2018-09-12 15:00:00"},
+          {"aaa":" xxxx","bbb":"2018-09-12 15:00:00"},
+          {"aaa":" xxxx","bbb":"2018-09-12 15:00:00"},
+        ],   //附件列表*/
+/*        investInfo:[
+          {"aaa":"dreaming","bbb":"柳岩","ccc":"13840982567","ddd":"10000.00","eee":"2017-08-17 13:00:00","fff":"Andriod手机端"},
+          {"aaa":"123","bbb":"宋洋洋","ccc":"13840982567","ddd":"10000.00","eee":"2017-08-17 13:00:00","fff":"IOS手机端"}
+        ],//投资记录
+        repayInfo:[
+          {"aaa":"1","bbb":"2017-05-16","ccc":"2017-05-16 13:00:00","ddd":"3000.00","eee":"30.00","fff":"0.00","ggg":"3030.00","hhh":"已正常还款"},
+          {"aaa":"2","bbb":"2017-04-16","ccc":"2017-05-16 13:00:00","ddd":"2000.00","eee":"20.00","fff":"0.00","ggg":"2020.00","hhh":"逾期已还"},
+          {"aaa":"3","bbb":"2017-03-16","ccc":"2017-05-16 13:00:00","ddd":"1000.00","eee":"10.00","fff":"0.00","ggg":"1010.00","hhh":"逾期已还"},
+        ],//还款记录
+        approvalInfo:[
+          {"aaa":"XXX","bbb":"XXX","ccc":"XXX","ddd":"XXX"},
+          {"aaa":"XXX","bbb":"XXX","ccc":"XXX","ddd":"XXX"},
+          {"aaa":"XXX","bbb":"XXX","ccc":"XXX","ddd":"XXX"},
+        ],//审批流程记录
+        adRepay:{
+          "aaa":"10000.00","bbb":"100.00","ccc":"100.00","ddd":"2017-08-17 13:00:00"
+        }*/
+      }
+    }
+
+    /*let res = {
       code: 0,
       msg: '',
       data,
       extras: {}
-    }
+    }*/
     return Observable.of(res);
 
   }
+  // 获取一个会员的借款记录
+  getLoans(id): Observable<any> {
+    // return this._httpInterceptorService.request('GET', `${baseUrl}/${apis['MEMBERS']}/${id}`);
+    let data = _.find(this.mockData, x => x.id === id);
+    console.log(data);
+    let res = {
+      code: 0,
+      message: "SUCCESS",
+      data:{
+        countInfo: {
+          "aaa": "5",
+          "bbb": "1"
+        },   //基本信息
+        loansRecord: [{
+          "id": "BBH20170778961354",
+          "status": "待提交",
+          "count":"100000.00",
+          "qx":"3",
+          "yhbx":"1000.00",
+          "dhbx":"500.00",
+        }],
 
+      }
+    }
+
+    /*let res = {
+      code: 0,
+      msg: '',
+      data,
+      extras: {}
+    }*/
+    return Observable.of(res);
+
+  }
+  // 获取一个会员的投资记录
+  getInvests(id): Observable<any> {
+    // return this._httpInterceptorService.request('GET', `${baseUrl}/${apis['MEMBERS']}/${id}`);
+    let data = _.find(this.mockData, x => x.id === id);
+    console.log(data);
+    let res = {
+      code: 0,
+      message: "SUCCESS",
+      data:{
+        countInfo: {
+          "aaa": "5",
+          "bbb": "1"
+        },   //基本信息
+        investsRecord: [{
+          "id": "BBH20170778961354",
+          "status": "锁定中",
+          "count":"36900.00",
+          "qx":"12",
+          "aaa":"1000.00",
+          "bbb":"1",
+          "ccc":"500.00",
+        }],
+
+      }
+    }
+
+    /*let res = {
+      code: 0,
+      msg: '',
+      data,
+      extras: {}
+    }*/
+    return Observable.of(res);
+
+  }
+  // 获取一个会员的交易记录
+  getTrades(id): Observable<any> {
+    // return this._httpInterceptorService.request('GET', `${baseUrl}/${apis['MEMBERS']}/${id}`);
+    let data = _.find(this.mockData, x => x.id === id);
+    console.log(data);
+    let res = {
+      code: 0,
+      message: "SUCCESS",
+      data:{
+       tradesRecord: [
+         {
+          "aaa": "2017-09-23 11:00:01",
+          "bbb": "商户转账",
+          "ccc":"103.33",
+          "ddd":"成功",
+        },
+         {
+           "aaa": "2017-09-23 11:00:01",
+           "bbb": "商户转账",
+           "ccc":"103.33",
+           "ddd":"成功",
+         },
+         {
+           "aaa": "2017-09-23 11:00:01",
+           "bbb": "商户转账",
+           "ccc":"103.33",
+           "ddd":"成功",
+         },
+       ],
+
+      }
+    }
+
+    /*let res = {
+      code: 0,
+      msg: '',
+      data,
+      extras: {}
+    }*/
+    return Observable.of(res);
+
+  }
   // 添加一条数据
   postOne(params): Observable<any> {
     // return this._httpInterceptorService.request('POST', `${baseUrl}/${apis['MEMBERS']}`, params)

@@ -1,0 +1,176 @@
+<div style="margin:10px 30px; background: #c12e2a">
+  <seer-card>
+    <div class="row justify-content-center">
+      <div class="col-md-12">
+        <seer-collapse-card title="基本信息" cardClass="with-scroll" [canCollapse]=true>
+            <div class="row">
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                用户名:{{member.baseInfo.userName}}
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                真实姓名:{{member.baseInfo.realName}}
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  身份证号:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                性别:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                年龄:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                学历:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                婚姻状况:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                年收入:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                社保:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                手机号:{{member.baseInfo.mobilePhone}}
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                电子邮件:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                住房情况:
+              </div>
+              <div class="form-group col-sm-12">
+                户籍地址:
+              </div>
+              <div class="form-group col-sm-12">
+                现居住地
+              </div>
+
+              <div class="form-group col-sm-12">
+                资产介绍:
+              </div>
+              <div class="form-group col-sm-12">
+                债务介绍:
+              </div>
+            </div>
+        </seer-collapse-card>
+        <seer-collapse-card title="紧急联系人" cardClass="with-scroll" [canCollapse]=true >
+          <seer-simple-table
+            [data]="emergencyContact"
+            [titles]="titlesEmergencyContact"
+            [hidePagination]="true"
+            [hideActions]="true"
+            [hideAddButton]="true"
+          >
+          </seer-simple-table>
+        </seer-collapse-card>
+        <seer-collapse-card title="账户信息" cardClass="with-scroll" [canCollapse]=true >
+            <div class="row">
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+                账户归属:国汇财富
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+                账户用户名:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+                开户行:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+                银行账户:
+              </div>
+            </div>
+        </seer-collapse-card>
+        <seer-collapse-card title="财务状况" cardClass="with-scroll" [canCollapse]=true >
+            <div class="row">
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+                自有房产:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+                每月房屋按揭金额:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+                每月信用卡还款金额:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+                自有汽车:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+                每月汽车按揭金额:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+                每月无抵押货款还款额:
+              </div>
+            </div>
+        </seer-collapse-card>
+        <seer-collapse-card title="工作信息" cardClass="with-scroll" [canCollapse]=true >
+            <div class="row">
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                公司名称:XXX
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                公司性质:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                公司规模:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                职务:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                工作年限:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                工作电话:
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                月收入:
+              </div>
+              <div class="form-group col-sm-12">
+                工作地点:
+              </div>
+            </div>
+        </seer-collapse-card>
+        <seer-collapse-card title="车辆信息" cardClass="with-scroll" [canCollapse]=true >
+          <seer-simple-table
+            [data]="vehicleInfo"
+            [titles]="titlesVehicleInfo"
+            [hidePagination]="true"
+            [hideActions]="true"
+            [hideAddButton]="true"
+            [showSeq]="true"
+          >
+          </seer-simple-table>
+        </seer-collapse-card>
+        <seer-collapse-card title="房屋信息" cardClass="with-scroll" [canCollapse]=true >
+          <seer-simple-table
+            [data]="houseInfo"
+            [titles]="titlesHouseInfo"
+            [hidePagination]="true"
+            [hideActions]="true"
+            [hideAddButton]="true"
+            [showSeq]="true"
+          >
+          </seer-simple-table>
+        </seer-collapse-card>
+        <seer-collapse-card title="个人征信信息" cardClass="with-scroll" [canCollapse]=true >
+          <seer-table
+            [data]="creditInfo"
+            [titles]="titlesCreditInfo"
+            [hidePagination]="true"
+            [hideAddButton]="true"
+            [hideExport]="true"
+            [hidePrint]="true"
+            [hideCheckbox]="true"
+            [hideColumns]="true"
+            [hideRemoveAll]="true"
+            [showSeq]="true"
+            (notify)="handleCreditInfo($event)"
+            [hideActions]="true"
+          >
+          </seer-table>
+        </seer-collapse-card>
+      </div>
+    </div>
+  </seer-card>
+</div>

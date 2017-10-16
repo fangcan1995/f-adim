@@ -12,10 +12,10 @@ import { SeerMessageService } from '../../../../../theme/services/seer-message.s
 import {UPDATE, DELETE,DOWNLOAD, PREVIEW} from "../../../../common/seer-table/seer-table.actions"
 
 @Component({
-  templateUrl: './member-edit.component.html',
-  styleUrls: ['./member-edit.component.scss']
+  templateUrl: './member-detail.component.html',
+  styleUrls: ['./member-detail.component.scss']
 })
-export class MemberEditComponent implements OnInit {
+export class MemberDetailComponent implements OnInit {
   public member: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
