@@ -21,11 +21,23 @@
         </tabset>-->
         <seer-collapse-card
         >
+
+        <seer-checkbox (click)="ckboxToggle('all')" [isChecked]="isChecked.all" [label]="'全部交易记录'"></seer-checkbox>
+        <seer-checkbox
+          *ngFor="let tradeType of tradeTypes"
+          (click)="ckboxToggle(tradeType.code)"
+          [isChecked]="isChecked[tradeType.code]"
+          [label]="tradeType.tradeTypeName"
+        >
+        </seer-checkbox>
+        </seer-collapse-card>
+        <!--<seer-collapse-card
+        >
           <seer-filter
             [hasGlobalFilter]="hasGlobalFilter"
             [filters]="filters"
           ></seer-filter>
-        </seer-collapse-card>
+        </seer-collapse-card>-->
         <seer-collapse-card title="借款记录" cardClass="with-scroll" [canCollapse]=true >
           <seer-simple-table
             [data]="tradesRecord"

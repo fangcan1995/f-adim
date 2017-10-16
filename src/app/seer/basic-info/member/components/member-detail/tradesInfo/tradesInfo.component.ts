@@ -31,36 +31,47 @@ export class TradesInfoComponent implements OnInit {
       label:'状态',
     }
   ];
-  hasGlobalFilter = true;
-  filters = [
 
+  isChecked={
+    "all":true,
+    "first":false,
+    "second":false,
+    "third":false,
+    "forth":false
+  };
+  pageInfo={
+    "pageNum":1,
+    "pageSize":10,
+    "sort":"menuPid,sortNum",
+    "total":10,
+    "query":{
+      "category":""
+    }
+  }; //分页及排序
+  tradeTypes = [
     {
-      key: 'type',
-      label: '借款方式',
-      type: 'select',
-      options: [
-        {
-          content: '全部交易记录'
-        },
-        {
-          value: '0',
-          content: '投资记录'
-        },
-        {
-          value: '1',
-          content: '充值记录',
-        },
-        {
-          value: '2',
-          content: '提现记录',
-        },
-        {
-          value: '3',
-          content: '借款记录',
-        },
-      ]
+      "code":"first",
+      "category":"01",
+      "tradeTypeName":"投资记录",
     },
+    {
+      "code":"second",
+      "category":"02",
+      "tradeTypeName":"充值记录",
+    },
+    {
+      "code":"third",
+      "category":"03",
+      "tradeTypeName":"提现记录",
+    },
+    {
+      "code":"forth",
+      "category":"04",
+      "tradeTypeName":"借款记录",
+    }
   ];
+
+  currentType="all";  //当前选中类型
   constructor(
     private _memberService: MemberService,
     private _route: ActivatedRoute,
@@ -90,5 +101,23 @@ export class TradesInfoComponent implements OnInit {
   handleBackBtnClick() {
     this._location.back()
   }
+  ckboxToggle(category:any){
+    alert(category);
+    if(this.currentType!=category){
+      for ( var i in this.isChecked) {
+        this.isChecked[i]=false;
+      }
+      if(category=="all"){
+        this.currentType='all';
+        this.isChecked['all']=true;
+        this.pageInfo.query.category="";
+      }else{
+        this.currentType=category;
+        this.isChecked[category]=true;
+        this.pageInfo.query.category=category;
+      }
+      //this._memberService.getTrades(params.id);
+    }
+  }//选框点击
 
 }
