@@ -27,6 +27,7 @@ export class MemberEditComponent implements OnInit {
   vehicleInfo: any = []; //车辆信息
   houseInfo: any = [];  //房屋信息
   creditInfo: any = [];//个人征信信息
+  simpleTableActions;
   titlesEmergencyContact=[
     {
       key:'name',
@@ -96,7 +97,8 @@ export class MemberEditComponent implements OnInit {
           this.member = res.data || {};
           this.emergencyContact=res.data.emergencyContact;
           this.vehicleInfo=res.data.vehicleInfo;
-          this.vehicleInfo = _.map(this.vehicleInfo, r => _.set(r, 'actions', [UPDATE, DELETE]));
+          this.simpleTableActions=[UPDATE, DELETE];
+          //this.vehicleInfo = _.map(this.vehicleInfo, r => _.set(r, 'actions', this.simpleTableActions));
           this.houseInfo=res.data.houseInfo;
           this.creditInfo=res.data.creditInfo;
           this.creditInfo=_.map(this.creditInfo, r => _.set(r, 'actions', [DOWNLOAD, PREVIEW]))
