@@ -15,9 +15,11 @@
     [customActions]="customActions"
     [hideAddButton]=true
     [hideRemoveAll]=true
+    [hidePrint]="true"
     [data]="members"
     [titles]="titles"
     [translate]="dict"
+    [hideColumns]="true"
     (notify)="onChange($event)"
     (changePage)="onPageChange($event)"
     [total]="total"

@@ -1,0 +1,26 @@
+<seer-content-top>
+  <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
+  <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
+  <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">锁定/解锁</button>
+  <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">交易密码重置</button>
+  <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">登录密码重置</button>
+  <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">征信查询</button>
+</seer-content-top>
+<div class="widgets">
+  <div style="margin: 20px; background: #fff; border-left: 1px solid #ddd;border-right: 1px solid #ddd;border-bottom: 1px solid #ddd">
+    <tabset>
+      <tab heading='基本信息'>
+        <memberInfo></memberInfo>
+      </tab>
+      <tab heading='贷款信息'>
+        <loansInfo></loansInfo>
+      </tab>
+      <tab heading='投资信息'>
+        <investsInfo></investsInfo>
+      </tab>
+      <tab heading='交易记录'>
+        <tradesInfo></tradesInfo>
+      </tab>
+    </tabset>
+  </div>
+</div>

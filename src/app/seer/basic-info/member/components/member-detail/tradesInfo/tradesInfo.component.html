@@ -1,0 +1,60 @@
+<div style="margin:10px 30px; background: #c12e2a">
+  <seer-card>
+    <div class="row justify-content-center">
+      <div class="col-md-12">
+        <seer-collapse-card>
+          <seer-checkbox (click)="ckboxToggle('all')" [isChecked]="isChecked.all" [label]="'全部交易记录'"></seer-checkbox>
+          <seer-checkbox
+            *ngFor="let tradeType of tradeTypes"
+            (click)="ckboxToggle(tradeType.code)"
+            [isChecked]="isChecked[tradeType.code]"
+            [label]="tradeType.tradeTypeName"
+          >
+          </seer-checkbox>
+          <div class="row" style="padding:20px">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="" class="col-sm-4 control-label">交易时间</label>
+                <div class="col-sm-8 ">
+                  <seer-datepicker></seer-datepicker>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="" class="col-sm-1 control-label">—</label>
+                <div class="col-sm-8 ">
+                  <seer-datepicker></seer-datepicker>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="" class="col-sm-4 control-label">状态</label>
+                <div class="col-sm-8 ">
+                  <select name="" id="" class="form-control" >
+                    <option value="">全部</option>
+                    <option value="">成功</option>
+                    <option value="">失败</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </seer-collapse-card>
+
+        <seer-collapse-card title="借款记录" cardClass="with-scroll" [canCollapse]=true >
+          <seer-simple-table
+            [data]="tradesRecord"
+            [titles]="titlesTradesRecord"
+            [hideActions]="true"
+            [hideAddButton]="true"
+          >
+          </seer-simple-table>
+        </seer-collapse-card>
+      </div>
+    </div>
+  </seer-card>
+</div>

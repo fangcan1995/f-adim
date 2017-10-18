@@ -1,5 +1,5 @@
 <div class="widgets">
-  <div style="margin-bottom: 24px;">
+  <div style="margin-bottom: 10px; margin-top: 10px; margin-left: 10px">
     <button class="btn btn-primary" (click)="handleBackBtnClick()">返回</button>
     <button class="btn btn-primary" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
   </div>
@@ -195,40 +195,202 @@
         </div>
         <!---->
       </seer-collapse-card>
-      <seer-collapse-card title="抵押车辆信息" cardClass="with-scroll" [canCollapse]=true>
+      <seer-collapse-card title="抵押车辆信息" cardClass="with-scroll" [canCollapse]=true *ngIf="isPawnVehicleShow" >
         <seer-simple-table
-          #simpleTable
           [data]="pawnVehicle"
           [titles]="titlesPawnVehicle"
           [hidePagination]="true"
           [hideActions]="true"
-
-          (notify)="handleSimpleTableNotify($event)"
+          [hideAddButton]="true"
         >
         </seer-simple-table>
-      </seer-collapse-card>
-      <seer-collapse-card title="抵押房产信息" cardClass="with-scroll" [canCollapse]=true>
+      </seer-collapse-card >
+      <seer-collapse-card title="抵押房产信息" cardClass="with-scroll" [canCollapse]=true *ngIf="isPawnHouseShow">
         <seer-simple-table
-          #simpleTable
           [data]="pawnHouse"
           [titles]="titlesPawnHouse"
           [hidePagination]="true"
           [hideActions]="true"
-          (notify)="handleSimpleTableNotify($event)"
+          [hideAddButton]="true"
         >
         </seer-simple-table>
       </seer-collapse-card>
-      <seer-collapse-card title="个人征信信息" cardClass="with-scroll" [canCollapse]=true>
+      <seer-collapse-card title="个人征信信息" cardClass="with-scroll" [canCollapse]=true *ngIf="isCreditInfoShow">
+        <seer-table
+          [data]="creditInfo"
+          [titles]="titlesCreditInfo"
+          [hidePagination]="true"
+          [hideAddButton]="true"
+          [hideExport]="true"
+          [hidePrint]="true"
+          [hideCheckbox]="true"
+          [hideColumns]="true"
+          [hideRemoveAll]="true"
+          [showSeq]="true"
+          (notify)="handleCreditInfo($event)"
+        >
+        </seer-table>
       </seer-collapse-card>
-      <seer-collapse-card title="附件信息" cardClass="with-scroll" [canCollapse]=true>
+      <seer-collapse-card title="附件信息" cardClass="with-scroll" [canCollapse]=true *ngIf="isAttachmentShow">
+        <seer-table
+          [data]="attachment"
+          [titles]="titlesAttachment"
+          [hidePagination]="true"
+          [hideAddButton]="true"
+          [hideExport]="true"
+          [hidePrint]="true"
+          [hideCheckbox]="true"
+          [hideColumns]="true"
+          [hideRemoveAll]="true"
+          [showSeq]="true"
+          (notify)="handleAttachment($event)"
+        >
+        </seer-table>
       </seer-collapse-card>
       <seer-collapse-card title="投资记录" cardClass="with-scroll" [canCollapse]=true>
+        <seer-simple-table
+          [data]="investInfo"
+          [titles]="titlesInvestInfo"
+          [hidePagination]="true"
+          [hideActions]="true"
+          [hideAddButton]="true"
+          [showSeq]="true"
+        >
+        </seer-simple-table>
       </seer-collapse-card>
       <seer-collapse-card title="项目信息" cardClass="with-scroll" [canCollapse]=true>
+        <div class="row">
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="row">
+              <label class="col-sm-4 control-label">满标审核时间</label>
+              <div class="col-sm-8 ">
+                <label class="col-sm-4 form-control">{{project.projectInfo.aaa}}</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="row">
+              <label class="col-sm-4 control-label">投资人数</label>
+              <div class="col-sm-8 ">
+                <label class="col-sm-4 form-control">{{project.projectInfo.bbb}}人</label>
+              </div>
+            </div>
+          </div>
+        </div>
       </seer-collapse-card>
       <seer-collapse-card title="还款记录" cardClass="with-scroll" [canCollapse]=true>
+        <seer-simple-table
+          [data]="repayInfo"
+          [titles]="titlesRepayInfo"
+          [hidePagination]="true"
+          [hideActions]="true"
+          [hideAddButton]="true"
+        >
+        </seer-simple-table>
+      </seer-collapse-card>
+      <seer-collapse-card title="提前还款信息" cardClass="with-scroll" [canCollapse]=true *ngIf="isadRepayShow">
+        <div class="row">
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="row">
+              <label class="col-sm-4 control-label">应还本金</label>
+              <div class="col-sm-8 ">
+                <label class="col-sm-4 form-control">{{project.adRepay.aaa}}</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="row">
+              <label class="col-sm-4 control-label">应还利息</label>
+              <div class="col-sm-8 ">
+                <label class="col-sm-4 form-control">{{project.adRepay.bbb}}</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="row">
+              <label class="col-sm-4 control-label">应还总额</label>
+              <div class="col-sm-8 ">
+                <label class="col-sm-4 form-control">{{project.adRepay.ccc}}</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="row">
+              <label class="col-sm-4 control-label">申请时间</label>
+              <div class="col-sm-8 ">
+                <label class="col-sm-4 form-control">{{project.adRepay.ddd}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
       </seer-collapse-card>
       <seer-collapse-card title="审批流程" cardClass="with-scroll" [canCollapse]=true>
+        <seer-simple-table
+          [data]="approvalInfo"
+          [titles]="titlesApprovalInfo"
+          [hidePagination]="true"
+          [hideActions]="true"
+          [hideAddButton]="true"
+          [showSeq]="true"
+        >
+        </seer-simple-table>
+      </seer-collapse-card>
+      <seer-collapse-card title="审批意见" cardClass="with-scroll" [canCollapse]=true *ngIf="isadRepayCheck">
+        <form (ngSubmit)="saveDict()">
+        <div class="row">
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="row">
+              <label class="col-sm-4 control-label">审批意见</label>
+              <div class="col-sm-8 ">
+                <select class="form-control person_space" name="adRepay.aaa" required>
+                  <option value="1">通过</option>
+                  <option value="0">拒绝</option>
+                  <!--dict-select-->
+                  <!--[key]="'VALID_STATE'"-->
+                  <!--[selected]="currentDict.validState"-->
+                  <!--[topOption]="{dictValueId:'',dictValueName:'请选择'}"-->
+                  <!--[(ngModel)]="currentDict.validState">-->
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="row">
+              <label class="col-sm-4 control-label">原因</label>
+              <div class="col-sm-8 ">
+                  <select class="form-control person_space" name="adRepay.bbb" required>
+                    <option value="同意">同意</option>
+                    <option value="基本信息问题">基本信息问题</option>
+                    <option value="借款信息问题">借款信息问题</option>
+                    <option value="费用问题">费用问题</option>
+                    <option value="抵押物信息问题">抵押物信息问题</option>
+                    <option value="附件问题">附件问题</option>
+                    <option value="其他">其他</option>
+                    <!--dict-select-->
+                    <!--[key]="'VALID_STATE'"-->
+                    <!--[selected]="currentDict.validState"-->
+                    <!--[topOption]="{dictValueId:'',dictValueName:'请选择'}"-->
+                    <!--[(ngModel)]="currentDict.validState">-->
+                  </select>
+
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="row">
+              <label class="col-sm-4 control-label">备注</label>
+              <div class="col-sm-8 ">
+                <input type="text" class="form-control person_space" required [(ngModel)]="project.adRepay.ccc" name="adRepay.ccc"/>
+              </div>
+            </div>
+          </div>
+        </div>
+          <div class="row">
+            <div style="margin-bottom: 10px; margin-top: 10px; margin-left: 10px">
+              <button class="btn btn-primary" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
+            </div>
+          </div>
+        </form>
       </seer-collapse-card>
     </div>
   </div>

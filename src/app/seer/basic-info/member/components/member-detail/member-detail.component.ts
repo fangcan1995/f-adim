@@ -12,10 +12,10 @@ import { SeerMessageService } from '../../../../../theme/services/seer-message.s
 import {UPDATE, DELETE,DOWNLOAD, PREVIEW} from "../../../../common/seer-table/seer-table.actions"
 
 @Component({
-  templateUrl: './member-edit.component.html',
-  styleUrls: ['./member-edit.component.scss']
+  templateUrl: './member-detail.component.html',
+  styleUrls: ['./member-detail.component.scss']
 })
-export class MemberEditComponent implements OnInit {
+export class MemberDetailComponent implements OnInit {
   public member: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
@@ -27,7 +27,6 @@ export class MemberEditComponent implements OnInit {
   vehicleInfo: any = []; //车辆信息
   houseInfo: any = [];  //房屋信息
   creditInfo: any = [];//个人征信信息
-  simpleTableActions;
   titlesEmergencyContact=[
     {
       key:'name',
@@ -97,8 +96,7 @@ export class MemberEditComponent implements OnInit {
           this.member = res.data || {};
           this.emergencyContact=res.data.emergencyContact;
           this.vehicleInfo=res.data.vehicleInfo;
-          this.simpleTableActions=[UPDATE, DELETE];
-          //this.vehicleInfo = _.map(this.vehicleInfo, r => _.set(r, 'actions', this.simpleTableActions));
+          this.vehicleInfo = _.map(this.vehicleInfo, r => _.set(r, 'actions', [UPDATE, DELETE]));
           this.houseInfo=res.data.houseInfo;
           this.creditInfo=res.data.creditInfo;
           this.creditInfo=_.map(this.creditInfo, r => _.set(r, 'actions', [DOWNLOAD, PREVIEW]))

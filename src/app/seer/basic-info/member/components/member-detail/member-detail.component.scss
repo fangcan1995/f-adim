@@ -1,0 +1,21 @@
+@import '../../../../../theme/sass/conf/conf';
+.control-label {
+	text-align: right;
+}
+
+.right-button {
+  float: right;
+  margin-left: $space-between-h;
+  &:last-child {
+    margin-left: 0;
+  }
+}
+
+.left-button {
+  float: left;
+  display: block;
+  margin-right: $space-between-h;
+  &:last-child {
+    margin-right: 0;
+  }
+}

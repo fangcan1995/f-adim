@@ -7,7 +7,23 @@ import { ProjectService } from "./project.service";
   styleUrls: ['./project.component.scss'],
 })
 export class ProjectComponent {
-
+  pageInfo={
+    "pageNum":1,
+    "pageSize":10,
+    "sort":"fullTime",
+    "total":"",
+    "query":{
+      "globalSearch":"",
+      "realName":"",
+      "tel":"",
+      "type":"",
+      "time":"",
+      "state":"",
+      "fullTimeStart":"",
+      "fullTimeEnd":"",
+    },
+  }; //分页、排序、检索
+  errorMessage;
   hasGlobalFilter = true;
   filters = [
     {
@@ -120,7 +136,7 @@ export class ProjectComponent {
       type: 'detail',
       name: '详情',
       className: 'btn btn-xs btn-default',
-      icon: 'fa fa-edit'
+      icon: 'fa icon-preview'
     }
   }
 
@@ -131,10 +147,19 @@ export class ProjectComponent {
   ) {}
 
   ngOnInit(): void {
-    this.getList();
+    this.getList(this.pageInfo);
   }
   getList(params?) {
-    this.data = this.projectService.getIntentionList(params);
+    this.data = this.projectService.getProjectList(params);
+/*    this.data = this.projectService.getProjectList(params).then(
+      data => {
+        this.pageInfo.pageNum=data.data.pageNum;  //当前页
+        this.pageInfo.pageSize=data.data.pageSize; //每页记录数
+        this.pageInfo.total=data.data.total; //记录总数
+        this.data = data.data.list;
+      },
+      error =>  this.errorMessage = <any>error);
+  };*/
     this.data = _.map(this.data, t => {
       let projectStatus = t.projectStatus;
       let actions;
@@ -149,14 +174,12 @@ export class ProjectComponent {
       return _.set(t, 'actions', actions);
     })
   }
-
   onChange(item) {
     const type = item.type;
     let data = item.data;
     switch (type) {
       case 'check':
-        alert(1);
-        this._router.navigate(['check', data.projectId],{relativeTo: this.route});
+        this._router.navigate([`check/${data.projectId}`],{relativeTo: this.route});
         break;
       case 'detail':
         this._router.navigate([`edit/${data.projectId}`], {relativeTo: this.route} );
@@ -166,5 +189,10 @@ export class ProjectComponent {
         break;
     }
   }
+  onPageChange($event) {
+    this.pageInfo.pageSize = $event.pageSize;
+    this.pageInfo.pageNum=$event.pageNum;
+    this.getList();
+  }//分页
 }
 
