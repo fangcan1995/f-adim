@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 /**
  * 把普通json数组转为树形结构
  * @param data
@@ -28,55 +29,6 @@ export const jsonTree = (data: any, config: JsonTreeConfig = {}, rename: renameC
       !parent[children] && (parent[children] = []);
       parent[children].push(v);
     } else {
-      treeJson.push(v);
-    }
-  });
-
-  return treeJson;
-};
-export const menuTree = (data: any[]) => {
-  let id = 'resourceId',
-    pid = 'resourceParentId',
-    children = 'children',
-    path = 'resourceContent';
-
-  let idMap = [],
-    treeJson = [];
-
-  data.sort((a, b)=>a.resourceSort-b.resourceSort);
-
-  data.forEach(v => {
-    idMap[v[id]] = v;
-  });
-
-  data.forEach(v => {
-    let parent = idMap[v[pid]];
-    if(parent) {
-      !parent[children] && (parent[children] = []);
-      v['path'] = v.resourceContent;
-      if(v.resourceName){
-        v['data'] = v['data'] || {};
-        v['data']['menu'] = v['data']['menu'] || {};
-        v['data']['menu']['title'] = v['resourceName'];
-      }
-      if(v.resourceIcon){
-        v['data'] = v['data'] || {};
-        v['data']['menu'] = v['data']['menu'] || {};
-        v['data']['menu']['icon'] = v['resourceIcon'];
-      }
-      parent[children].push(v);
-    } else {
-      v['path'] = v['resourceContent'];
-      if(v.resourceName){
-        v['data'] = v['data'] || {};
-        v['data']['menu'] = v['data']['menu'] || {};
-        v['data']['menu']['title'] = v['resourceName'];
-      }
-      if(v.resourceIcon){
-        v['data'] = v['data'] || {};
-        v['data']['menu'] = v['data']['menu'] || {};
-        v['data']['menu']['icon'] = v['resourceIcon'];
-      }
       treeJson.push(v);
     }
   });

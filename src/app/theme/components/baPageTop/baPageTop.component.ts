@@ -16,7 +16,7 @@ import { UserService } from '../../services/user.service';
   templateUrl: './baPageTop.html',
   styleUrls: ['./baPageTop.scss'],
 })
-export class BaPageTop implements OnInit{
+export class BaPageTop implements OnInit {
 
   @ViewChild(DynamicComponentLoader)
   @ViewChild('pageTop') pageTop: ElementRef;
@@ -33,7 +33,7 @@ export class BaPageTop implements OnInit{
   _offsetTop:number;
   user: any = {};
   constructor(
-    private router:Router,
+    private router: Router,
     private _state: GlobalState,
     private _userService: UserService,
     ) {
@@ -49,9 +49,10 @@ export class BaPageTop implements OnInit{
     });
   }
   ngOnInit(): void {
-    /*this._userService.getDataFromLocal().subscribe(res => {
-      // this.user = res;
-    });*/
+    this._userService.getUserFromLocal()
+    .then(res => {
+      this.user = res.data;
+    })
   }
   private _getActivePageIcon(activeLink) {
     if ( !activeLink.icon && !activeLink.parent ) {

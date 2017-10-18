@@ -14,6 +14,7 @@ import { GlobalState } from '../../global.state';
 import { parseQueryString } from '../../theme/libs/utils';
 
 import { AuthService } from '../../theme/services/auth.service';
+import { UserService } from '../../theme/services/user.service';
 import { SeerMessageService } from '../../theme/services/seer-message.service';
 
 
@@ -50,6 +51,7 @@ export class LoginComponent {
     private _router: Router,
     private _state: GlobalState,
     private _authService: AuthService,
+    private _userService: UserService,
     private _messageService: SeerMessageService,
     ) {
     this.form = fb.group({
@@ -72,11 +74,11 @@ export class LoginComponent {
   
   login(account, password) {
     this._authService.login(account, password)
-    .subscribe(() => {
-      console.log(this._authService.isLoggedIn)
-      console.log(this._authService.redirectUrl)
+    .mergeMap(res => {
+      return this._userService.getDataFromServer()
+    })
+    .subscribe(res => {
       if ( this._authService.isLoggedIn ) {
-        
         let redirectUrl = this._authService.redirectUrl ? this._authService.redirectUrl : '/home';
         let redirectSearch = this._authService.redirectSearch;
         let loginSearch = parseQueryString(location.search);

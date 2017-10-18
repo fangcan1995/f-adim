@@ -9,7 +9,7 @@ import {Result} from "../../model/result.class";
 
 @Injectable()
 export class DictManageService extends BaseService<DictModel>{
-  private apiUrl = 'http://172.16.1.25:8090/dicts';  // URL to web api
+  private apiUrl = 'http://172.16.7.4:8090/dicts';  // URL to web api
 
   private handleError(error: any): Promise<any> {
     console.error('出错啦', error); // for demo purposes only

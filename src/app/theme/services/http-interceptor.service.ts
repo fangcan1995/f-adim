@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Request, RequestMethod, Response, RequestOptions, URLSearchParams } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/do';
+import { Observable } from 'rxjs/Rx';
 import * as _ from 'lodash';
 import { parseJson2URL } from '../libs/utils';
 export class ResModel {
@@ -73,14 +70,17 @@ export class HttpInterceptorService {
     .do(res => {
       console.log('__response__: ', res);
     })
-    /*.mergeMap(res => {
-      if ( res.code === 0 ) {
+    .mergeMap(res => {
+      if ( res.code == 0 ) {
         return Observable.of(res);
       } else {
         // 将错误放到错误回调中统一处理
-        return Observable.throw(res);
+        return Observable.throw({
+          code: res.code,
+          msg: res.message,
+        });
       }
-    })*/
+    })
     .catch(this.handleError);
 
   }

@@ -30,7 +30,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     return this.checkLogin(url);
   }
   checkLogin(url: string): boolean {
-    if ( this.authService.isLoggedIn || getStorage({ key: 'token' }) ) { return true; }
+    if ( this.authService.isLoggedIn || getStorage({ key: 'token' }) ) return true;
     this.authService.redirectUrl = url;
     let oldQueryString = location.search;
     let oldQueryParams = parseQueryString(oldQueryString);

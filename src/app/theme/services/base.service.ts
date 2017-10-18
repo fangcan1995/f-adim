@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from "@angular/http";
 import * as _ from 'lodash';
-
 import {
   ResModel,
   HttpInterceptorService,
@@ -85,11 +84,11 @@ export class BaseService<T> {
   public getUserFromServer(): Promise<ResModel> {
     return this._httpInterceptorService.request('GET', `${BASE_URL}/user`).toPromise();
   }
-  public getResourcesFromServer(): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['RESOURCES']}`).toPromise();
+  public getResourcesFromServer(params?): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET', `http://172.16.7.4:8090/${API['RESOURCES']}`, params).toPromise();
   }
   public getDictsFromServer(): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['DICTS']}`).toPromise();
+    return this._httpInterceptorService.request('GET', `http://172.16.7.4:8090/${API['DICTS']}`).toPromise();
   }
 
   // 提交

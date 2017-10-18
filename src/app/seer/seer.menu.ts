@@ -24,7 +24,8 @@ export const SEER_MENU = [
   //       icon: 'fa fa-th-list',
   //       title: '基础信息管理'
   //     }
-  //   }, children: [
+  //   }, 
+  //   children: [
   //   {
   //     path: '',
   //     data: {

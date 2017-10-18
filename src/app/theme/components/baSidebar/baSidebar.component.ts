@@ -1,19 +1,18 @@
-import {Component, ViewChild, ElementRef, HostListener, ViewEncapsulation} from '@angular/core';
-import {GlobalState} from '../../../global.state';
-import {MENU} from '../../../app.menu';
+import { Component, ViewChild, ElementRef, HostListener, ViewEncapsulation} from '@angular/core';
+import { GlobalState } from '../../../global.state';
 import * as _ from 'lodash';
-import {layoutSizes} from "../../theme.constants";
-
+import { layoutSizes } from "../../theme.constants";
+import { resources2Menu } from '../../libs/resources2Menu';
 @Component({
   selector: 'ba-sidebar',
-  encapsulation: ViewEncapsulation.None,
   templateUrl: './baSidebar.html',
   styleUrls: ['./baSidebar.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class BaSidebar {
 
   // here we declare which routes we want to use as a menu in our sidebar
-  public routes = JSON.parse(localStorage.getItem("leftMenus")); // we're creating a deep copy since we are going to change that object
+  public routes = []; // we're creating a deep copy since we are going to change that object
 
   public menuHeight:number;
   public isMenuCollapsed:boolean = false;
@@ -26,9 +25,12 @@ export class BaSidebar {
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
     });
+    console.log(this.routes)
   }
 
   public ngOnInit():void {
+    this.routes = resources2Menu(JSON.parse(localStorage.getItem("resources")));
+    console.log(this.routes);
     this._defaultTop = this.sidebar.nativeElement.offsetTop; // parseInt(window.getComputedStyle(this.sidebar.nativeElement).top);
     this._offsetTop = this._defaultTop;
     if (this._shouldMenuCollapse()) {
