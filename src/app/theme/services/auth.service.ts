@@ -36,45 +36,13 @@ export class AuthService {
     }
     return this._httpInterceptorService.request('POST', `${BASE_URL}/${API.LOGIN}`, params)
     .do(res => {
-      console.log(res)
-      /*if ( res.code === 0 ) {
+      if ( res && !res.error ) {
         this.isLoggedIn = true;
-        let data = res.data || {};
-
-        localStorage.setItem('data', JSON.stringify(data));
-        localStorage.setItem('isLogin', JSON.stringify(res.success));
-        localStorage.setItem('leftMenus',JSON.stringify(menuTree(res.data.currentResources)));
-
-        setStorage({
-          key: 'user',
-          value: data.user,
-        })
         setStorage({
           key: 'token',
-          value: data.token,
-        })
-      }*/
-      this.isLoggedIn = res.success;
-      if ( this.isLoggedIn ) {
-        let data = res.data || {};
-        localStorage.setItem('data', JSON.stringify(data));
-        localStorage.setItem('leftMenus',JSON.stringify(menuTree(res.data.currentResources)));
-
-
-        // 新版走这里，暂时用模拟数据替代
-        setStorage({
-          key: 'user',
-          value: {
-            name: '巴巴汇的家人们大家早上好',
-            avatar: '../../../assets/img/logo.png',
-          },
-        })
-        setStorage({
-          key: 'token',
-          value: '123321123321123321',
+          value: res,
         })
       }
-      
     })
   }
   /*logout(): Observable<any> {

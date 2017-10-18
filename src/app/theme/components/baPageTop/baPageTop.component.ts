@@ -49,9 +49,9 @@ export class BaPageTop implements OnInit{
     });
   }
   ngOnInit(): void {
-    this._userService.getDataFromLocal().subscribe(res => {
-      this.user = res;
-    });
+    /*this._userService.getDataFromLocal().subscribe(res => {
+      // this.user = res;
+    });*/
   }
   private _getActivePageIcon(activeLink) {
     if ( !activeLink.icon && !activeLink.parent ) {

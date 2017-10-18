@@ -39,7 +39,6 @@ export type StoreType = {
     BrowserAnimationsModule,
     AppRoutingModule,
     SeerModule,
-    LoginModule,
     CriteriaModule,
     CKEditorModule,
     ModalModule.forRoot(),

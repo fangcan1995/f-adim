@@ -20,7 +20,8 @@ export class MemberComponent implements OnInit, OnDestroy {
         {content: '请选择'},
         {value: '0', content: '男'},
         {value: '1', content: '女'}
-      ]
+      ],
+      disabled: true
     },
     {key: 'mobile', label: '手机号', type: 'input.text'},
     {key: 'date', label: '日期控件', type: 'datepicker'},

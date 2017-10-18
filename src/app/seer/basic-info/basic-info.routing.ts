@@ -10,7 +10,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'staff-manage'},
       { path: 'staff-manage', loadChildren:'./staff/staff.module#StaffModule' },
-      { path: 'org-manage', loadChildren:'./org-manage/org-manage.module' },
+      { path: 'org', loadChildren:'./org/org.module#OrgModule' },
       { path: 'member', loadChildren:'./member/member.module#MemberModule' },
       { path: 'message', loadChildren:'./message/message.module#MessageModule' },
       { path: 'message-template', loadChildren:'./message-template/message-template.module#MessageTemplateModule' },

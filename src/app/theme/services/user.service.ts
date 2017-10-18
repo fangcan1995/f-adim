@@ -8,18 +8,9 @@ import {
 import {
   BASE_URL,
   API,
+  BaseService,
 } from './base.service';
 @Injectable()
-export class UserService {
-  constructor(private _httpInterceptorService: HttpInterceptorService) {}
-  getDataFromLocal(): Observable<any> {
-    
-    return Observable.create(observer => {
-      observer.next(getStorage({ key: 'user' }))
-    });
-  }
-  getDataFromServer(id: string | number): Observable<any> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['USER']}/${id}`)
-  }
-
+export class UserService extends BaseService<any> {
+  
 }

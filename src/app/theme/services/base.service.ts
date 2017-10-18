@@ -23,7 +23,7 @@ const castDict2Translate = (dicts: any[] = [], map: Map<string, string>) => {
   return translate;
 };
 
-const BASE_DOMAIN = '172.16.1.236';
+const BASE_DOMAIN = '172.16.7.4';
 const BASE_PORT = 8060;
 const BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export const BASE_URL = `http://${BASE_SERVER}`;
@@ -31,8 +31,9 @@ export const API = {
   'LOGIN': 'uaa/oauth/token',
   'LOGOUT': 'logout',
   'SIGNUP': 'signup',
-  'WORKBENCH': 'workbench',
   'MEMBERS': 'members',
+  'RESOURCES': 'resources',
+  'DICTS': 'dicts',
 }
 
 // 此服务用于继承，请不要注入使用；如果想用更灵活的http服务请使用HttpInterceptorService，最灵活的是angular2自带的Http服务；
@@ -83,6 +84,12 @@ export class BaseService<T> {
   // 从服务器端获取用户信息
   public getUserFromServer(): Promise<ResModel> {
     return this._httpInterceptorService.request('GET', `${BASE_URL}/user`).toPromise();
+  }
+  public getResourcesFromServer(): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['RESOURCES']}`).toPromise();
+  }
+  public getDictsFromServer(): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['DICTS']}`).toPromise();
   }
 
   // 提交

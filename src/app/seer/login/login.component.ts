@@ -73,6 +73,8 @@ export class LoginComponent {
   login(account, password) {
     this._authService.login(account, password)
     .subscribe(() => {
+      console.log(this._authService.isLoggedIn)
+      console.log(this._authService.redirectUrl)
       if ( this._authService.isLoggedIn ) {
         
         let redirectUrl = this._authService.redirectUrl ? this._authService.redirectUrl : '/home';
