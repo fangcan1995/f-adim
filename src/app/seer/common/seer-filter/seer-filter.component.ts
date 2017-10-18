@@ -23,6 +23,7 @@ export interface FilterModel {
   isDict?: boolean,
   dictKeyId?: string | number,
   dateFormatingRules?: string,
+  disabled?: boolean,
 }
 
 @Component({
