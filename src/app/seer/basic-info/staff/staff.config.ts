@@ -18,157 +18,102 @@ export const filters = [
 ];
 export const titles = [
   {
-    key:'staffNo',
-    label:'员工编号',
-  },
-  {
-    key:'staffName',
+    key:'empName',
     label:'姓名',
   },
   {
-    key:'staffGender',
-    label:'性别',
-    hidden: true,
+    key:'emCode',
+    label:'员工编号',
   },
   {
-    key:'staffCardId',
-    label:'身份证号',
+    key:'pDepartmentName',
+    label:'分公司',
   },
   {
-    key:'staffNation',
-    label:'民族',
-    hidden: true,
+    key:'departmentName',
+    label:'团队',
   },
   {
-    key:'staffOrigin',
-    label:'籍贯',
-    hidden: true,
+    key:'position',
+    label:'职位',
   },
   {
-    key:'isMarried',
-    label:'婚姻情况',
-    hidden: true,
-  },
-  {
-    key:'haveChild',
-    label:'有无子女',
-    hidden: true,
-  },
-  {
-    key:'staffEducation',
-    label:'学历',
-    hidden: true,
-  },
-  {
-    key:'staffSchool',
-    label:'毕业院校',
-    hidden: true,
-  },
-  {
-    key:'staffPhone',
-    label:'手机',
-  },
-  {
-    key:'staffQq',
-    label:'QQ号',
-    hidden: true,
-  },
-  {
-    key:'staffMail',
-    label:'邮箱',
-    hidden: true,
-  },
-  {
-    key:'staffWechat',
-    label:'微信号',
-    hidden: true,
-  },
-  {
-    key:'staffAdress',
-    label:'家庭住址',
-    hidden: true,
-  },
-  {
-    key:'staffTel',
-    label:'家庭电话',
-    hidden: true,
-  },
-  {
-    key:'staffContacts',
-    label:'紧急联系人',
-    hidden: true,
-  },
-  {
-    key:'staffContactsPhone',
-    label:'紧急联系人电话',
-    hidden: true,
-  },
-  {
-    key:'orgName',
-    label:'所属组织机构',
-  },
-  {
-    key:'contractType',
-    label:'合同类型',
-  },
-  {
-    key:'contractId',
-    label:'合同编号',
-    hidden: true,
-  },
-  {
-    key:'contractBeginTime',
-    label:'合同签订日期',
-    type: 'date',
-    hidden: true,
-  },
-  {
-    key:'contractEndTime',
-    label:'合同结束日期',
-    type: 'date',
-    hidden: true,
-  },
-  {
-    key:'staffState',
-    label:'员工状态',
-  },
-  {
-    key:'staffLevel',
-    label:'员工等级',
-    hidden: true,
-  },
-  {
-    key:'staffEntryDate',
+    key:'entryTime',
     label:'入职时间',
     type: 'date',
-    hidden: true,
   },
   {
-    key:'staffDimissionDate',
-    label:'离职时间',
-    type: 'date',
-    hidden: true,
+    key:'inviteNum',
+    label:'邀请人数',
   },
   {
-    key:'createUser',
-    label:'创建用户',
-    hidden: true,
+    key:'loginNum',
+    label:'登录次数',
   },
   {
-    key:'createTime',
-    label:'创建时间',
-    type: 'date',
-    hidden: true,
+    key:'lastLoginTime',
+    label:'最后登录时间',
   },
   {
-    key:'operator',
-    label:'操作用户',
-    hidden: true,
-  },
-  {
-    key:'operateTime',
-    label:'操作时间',
-    type: 'date',
-    hidden: true,
+    key:'lastLoginIP',
+    label:'最后登录IP',
   }
+];;
+export const titlesEducation=[
+  {
+    key:'department',
+    label:'毕业院校',
+  },
+  {
+    key:'eduLevel',
+    label:'所学专业',
+  },
+  {
+    key:'eduMajor',
+    label:'学位',
+  },
+  {
+    key:'endTime',
+    label:'毕业时间',
+  },
+];
+export const titlesFamily=[
+  {
+    key:'relation',
+    label:'与本人关系',
+  },
+  {
+    key:'name',
+    label:'姓名',
+  },
+  {
+    key:'work',
+    label:'工作单位及职务',
+  },
+  {
+    key:'phone',
+    label:'联系电话',
+  },
+];
+export const titlesBusinessHistory=[
+  {
+    key:'startAndStopDate',
+    label:'起止日期',
+  },
+  {
+    key:'unit',
+    label:'所学专业',
+  },
+  {
+    key:'position',
+    label:'职务/工种',
+  },
+  {
+    key:'reterence',
+    label:'证明人',
+  },
+  {
+    key:'telephone',
+    label:'联系电话',
+  },
 ];

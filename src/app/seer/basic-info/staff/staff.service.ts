@@ -8,7 +8,6 @@ import * as _ from 'lodash';
 import {SearchStaffDto} from "./SearchStaffDto";
 import {HttpInterceptorService} from "../../../theme/services/http-interceptor.service"
 import {StaffModule} from "./staff.module"
-
 @Injectable()
 export class StaffService extends BaseService<StaffModule>{
   /*private getAllRolesUrl = SERVER+'/sys/role';
@@ -17,31 +16,34 @@ export class StaffService extends BaseService<StaffModule>{
   private getStaffByTermsUrl = SERVER+'/basic/staff/terms';
   private updateStaffUrl = SERVER+'/basic/staff/upd';
   private deleteByIdUrl = SERVER+'/basic/staff/';
-
   private deleteSelectedStaffUrl = SERVER+'/basic/staff/deleteSelected';
-
   private getOrgByIdUrl = SERVER+'/basicinfo/organization';*/
   //private excelExport = SERVER + '/sys/excel/download';
   private staffsAPI="http://172.16.1.249:8090/staffs";
+  private educationsAPI="educations";
+  private familyAPI="family";
+  private businessAPI="experiences";
+
   private getStaffByIdUrl = SERVER+'/basic/staff/';
   private getOrgListUrl = SERVER+'/basicinfo/organizations'; //获取机构列表
-  listData=[
-    {
+  mockData= {
+    "jobInfo":{
       "id":"1",
-      "staffNo":"2017090412369",  //员工编号
-      "orgName":"互联网金融部",   //分公司
-      "staffTeam":"技术部",       //团队
-      "staffPosition":"Java攻城狮",//职位
+      "emCode":"2017090412369",  //员工编号
+      "pDepartmentName":"互联网金融部",   //分公司
+      "departmentName":"技术部",       //团队
+      "position":"Java攻城狮",//职位
       "staffBankCard":"621000441122286" ,//工资卡
-      "staffState":"01",  //员工状态 STAFF_STATE
-      "staffEntryDate":"2016-08-18",   //入职时间
+      "empState":"01",  //员工状态 STAFF_STATE
+      "entryTime":"2016-08-18",   //入职时间
       "staffDimissionDate":"2017-08-18",  //离职时间
       "contractType":"02",   //合同类型 STAFF_CONTRACT_TYPE
       "contractId":"123456",  //合同编号
       "contractBeginTime":"2017-01-18",   //合同签订日期
       "contractEndTime":"2017-08-18",   //合同结束日期
-
-      "staffName":"张三", //员工姓名
+    },
+    "staffInfo":{
+      "empName":"张三", //员工姓名
       "staffGender":"01",//性别
       "staffBirthday":"2000-01-01",//生日
       "staffOrigin":"大连", //籍贯
@@ -54,41 +56,71 @@ export class StaffService extends BaseService<StaffModule>{
       "staffIDnumber":"210211200001013621",//身份证号
       "certificate":"会计证",//证书
       "residence":"黄河路200号",//居住地
-
       "inviteNum":"6",  //邀请人数
       "loginNum":"10",   //登录次数
       "lastLoginTime":"2017-08-18 09:21:12", //最后登录时间
       "lastLoginIP":"192.168.1.1",  //最后登录IP
-      "educationalBackground":[
-        {"eid":"101","school":"大连大学","profession":"会计","degree":"无","graduationDate":"2002-08-01"},
-        {"eid":"102","school":"大连大学","profession":"会计","degree":"学士学位","graduationDate":"2004-08-01"},
-      ],
-      "family":[
-        {"eid":"1","name":"王老三","relation":"父子","phone":"15942810100","work":"老王服务公司市场经理"},
-        {"eid":"2","name":"孩他妈","relation":"母子","phone":"15942810100"},
-      ],
-      "businessExperience":[
-        {"id":"1","startAndStopDate":"2015.9.6-2016.5.4","unit":"大连某公司","position":"市场经理","reterence":"大老王","telephone":"0411-8896326"}
-      ],
+    },
+    "educationalBackground":[
+      {"id":"101","department":"大连大学","eduLevel":"会计","eduMajor":"无","endTime":"2002-08-01"},
+      {"id":"102","department":"大连大学","eduLevel":"会计","eduMajor":"学士学位","endTime":"2004-08-01"},
+    ],
+    "family":[
+      {"id":"1","name":"王老三","relation":"父子","phone":"15942810100","work":"老王服务公司市场经理"},
+      {"id":"2","name":"孩他妈","relation":"母子","phone":"15942810100"},
+    ],
+    "businessExperience":[
+      {"id":"1","startAndStopDate":"2015.9.6-2016.5.4","unit":"大连某公司","position":"市场经理","reterence":"大老王","telephone":"0411-8896326"}
+    ],
+    }//假数据
+  listData=[
+    {
+      "id": "1",
+      "emCode": "2017090412369",  //员工编号
+      "pDepartmentName": "互联网金融部",   //分公司
+      "departmentName": "技术部",       //团队
+      "position": "Java攻城狮",//职位
+      "empState": "01",  //员工状态 STAFF_STATE
+      "entryTime": "2016-08-18",   //入职时间
+      "empName": "张三", //员工姓名
+      "inviteNum": "6",  //邀请人数
+      "loginNum": "10",   //登录次数
+      "lastLoginTime": "2017-08-18 09:21:12", //最后登录时间
+      "lastLoginIP": "192.168.1.1",  //最后登录IP
     },
     {
-      "id":"2","staffNo":"2017090412370","staffName":"刘某","orgName":"互联网金融部","staffTeam":"技术部","staffPosition":"设计师","staffState":"00",
-      "staffEntryDate":"2017-08-18","inviteNum":"2", "loginNum":"8", "lastLoginTime":"2017-08-18 09:21:12","lastLoginIP":"192.168.1.1"
-    },
-
+      "id": "2",
+      "emCode": "2017090412379",  //员工编号
+      "pDepartmentName": "互联网金融部",   //分公司
+      "departmentName": "技术部",       //团队
+      "position": "Java攻城狮",//职位
+      "empState": "01",  //员工状态 STAFF_STATE
+      "entryTime": "2016-08-18",   //入职时间
+      "empName": "李四", //员工姓名
+      "inviteNum": "6",  //邀请人数
+      "loginNum": "10",   //登录次数
+      "lastLoginTime": "2017-08-18 09:21:12", //最后登录时间
+      "lastLoginIP": "192.168.1.1",  //最后登录IP
+    }
   ];//假数据
 
   private _httpInterceptorService: HttpInterceptorService
-// 获取数据列表
-  getLists(pageInfo:any): Promise<any> {
-   /* let res = {
-      code: 0,
-      msg: '',
-      data: this.listData,
-      extras: {}
+  // 1、获取数据列表
+  //getLists(pageInfo:any): Promise<any> {
+  getLists(pageInfo:any):Observable<any> {
+    let res = {
+      "code": "0",
+      "message": "SUCCESS",
+      data:{
+        "pageNum": 1,
+        "pageSize": 10,
+        "total": 13,
+        "list": this.listData
+      }
     }
-    return Observable.of(res)*/
-    const page=`?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
+    return Observable.of(res);
+
+    /*const page=`?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
     const sort=`&sortBy=${pageInfo.sort}`;
     const jsonQueryObj = pageInfo.query;
     let query:string="";
@@ -98,21 +130,107 @@ export class StaffService extends BaseService<StaffModule>{
       }
     }
     const url = `${this.staffsAPI}/${page}${sort}${query}`;
-    //console.log(url);
-    return this.getAll(url);
+    return this.getAll(url);*/
+
   }
-  getOne(id: string): Promise<any> {
+  //2、根据id获取员工信息
+  //getOne(id: string): Promise<any> {
+  getOne(id: string):Observable<any>{
+    /*const url = `${this.staffsAPI}/${id}`;
+    return this.getById(url);*/
+    let res = {
+      "code": "0",
+      "message": "SUCCESS",
+      data: this.mockData
+    }
+    return Observable.of(res);
+
+  }
+  // 3、添加一个员工
+  postOne(params:StaffModule): Promise<any> {
+    console.log(params);
+    const url = `${this.staffsAPI}/`;
+    return this.create(url,params);
+  }
+  // 4、删除一个员工
+  deleteOne(id):  Promise<any> {
     const url = `${this.staffsAPI}/${id}`;
-    console.log(url);
-    return this.getById(url);
-
+    return this.delete(url);
   }
-
+  // 5、修改员工信息
+  putOne(params): Promise<any> {
+    const url = `${this.staffsAPI}/${params.id}`;
+    console.log(params);
+    console.log(url);
+    return this.update(url,params);
+  }
+  // 6、新增教育经历
+  postOneEdu(staffid,params): Promise<any> {
+    const url = `${this.staffsAPI}/${staffid}/${this.educationsAPI}`;
+    console.log(params);
+    console.log(url);
+    return this.create(url,params);
+  }
+  // 7、修改教育经历
+  putOneEdu(staffid,params): Promise<any> {
+    const url = `${this.staffsAPI}/${staffid}/${this.educationsAPI}/${params.id}`;
+    console.log(params);
+    console.log(url);
+    return this.update(url,params);
+  }
+  //8、删除教育经理
+  deleteEdu(staffid,eduId): Promise<any> {
+    const url = `${this.staffsAPI}/${staffid}/${this.educationsAPI}/${eduId}`;
+    console.log(eduId);
+    console.log(url);
+    return this.delete(url);
+  }
+  // 9、新增工作经验
+  postOneFamily(staffid,params): Promise<any> {
+    const url = `${this.staffsAPI}/${staffid}/${this.familyAPI}`;
+    console.log(params);
+    console.log(url);
+    return this.create(url,params);
+  }
+  // 10、修改工作经验
+  putOneFamily(staffid,params): Promise<any> {
+    const url = `${this.staffsAPI}/${staffid}/${this.familyAPI}/${params.id}`;
+    console.log(params);
+    console.log(url);
+    return this.update(url,params);
+  }
+  //11、删除工作经验
+  deleteFamily(staffid,familyId): Promise<any> {
+    const url = `${this.staffsAPI}/${staffid}/${this.familyAPI}/${familyId}`;
+    console.log(familyId);
+    console.log(url);
+    return this.delete(url);
+  }
+  // 12、新增联系人
+  postOneBusiness(staffid,params): Promise<any> {
+    const url = `${this.staffsAPI}/${staffid}/${this.businessAPI}`;
+    console.log(params);
+    console.log(url);
+    return this.create(url,params);
+  }
+  // 13、修改联系人
+  putOneBusiness(staffid,params): Promise<any> {
+    const url = `${this.staffsAPI}/${staffid}/${this.businessAPI}/${params.id}`;
+    console.log(params);
+    console.log(url);
+    return this.update(url,params);
+  }
+  //14、删除联系人
+  deleteBusiness(staffid,businessId): Promise<any> {
+    const url = `${this.staffsAPI}/${staffid}/${this.businessAPI}/${businessId}`;
+    console.log(businessId);
+    console.log(url);
+    return this.delete(url);
+  }
   private extractData(res: Response) {
     let body = res.json();
     return body || { };
   }
-
   private handleError (error: Response | any) {
     // In a real world app, we might use a remote logging infrastructure
     let errMsg: string;
@@ -126,27 +244,7 @@ export class StaffService extends BaseService<StaffModule>{
     console.error(errMsg);
     return Observable.throw(errMsg);
   }
-
-  /*getCurrentRoles(): Observable<any> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    return this.http.get(this.getAllRolesUrl,options)
-      .map(this.extractData)
-      .catch(this.handleError);
-  }*/
-  /*getOrgById(staffOrgId:string):Observable<any> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    return this.http.get(this.getOrgByIdUrl+"/"+staffOrgId,options)
-      .map(this.extractData)
-      .catch(this.handleError);
-  }*/
-
-
-  // 添加一条数据
-  createStaff(params): Observable<any> {
+  /*createStaff(params): Observable<any> {
     //假数据处理
     let id = _.reduce(this.listData, (max, n) => Number(n.id) > max ? Number(n.id) : max, 0) + 1;
     params.id = id;
@@ -158,58 +256,23 @@ export class StaffService extends BaseService<StaffModule>{
       extras: {}
     }
     return Observable.of(res);
-  }
-  postOne(params:StaffModule): Promise<any> {
-    console.log(params);
-    const url = `${this.staffsAPI}/`;
-    return this.create(url,params);
-  }
+  }*/
+  /*getCurrentRoles(): Observable<any> {
+  let headers = new Headers({ 'Content-Type': 'application/json' });
+  let options = new RequestOptions({ headers: headers });
 
-    /*createStaff(params): Promise<Result> {
-      const url = `${this.getOrgListUrl}/`;
-      return this.create(url,params);
-    }*/
-
-  // 修改一条数据，提供所有字段
-  /*updateStaff (staff:Object): Observable<any> {
+  return this.http.get(this.getAllRolesUrl,options)
+    .map(this.extractData)
+    .catch(this.handleError);
+}*/
+  /*getOrgById(staffOrgId:string):Observable<any> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(this.updateStaffUrl,staff,options)
+    return this.http.get(this.getOrgByIdUrl+"/"+staffOrgId,options)
       .map(this.extractData)
       .catch(this.handleError);
   }*/
-
-  putOne(params): Observable<any> {
-     //return this._httpInterceptorService.request('PUT', `{this.updateStaffUrl}/${params.id}`, params)
-    //
-    let index = _.findIndex(this.listData, t => t.id === params.id);
-    if ( index != -1 ) {
-      this.listData[index] = params;
-    }
-    let res = {
-      code: 0,
-      msg: '',
-      data: params,
-      extras: {}
-    }
-    return Observable.of(res);
-    //
-  }
-
-  putOneEdu(key): Observable<any> {
-    //let index = _.findIndex(this.listData, t => t.id === id);
-    //if ( index != -1 ) {
-      //this.listData[index] = params;
-    //}
-    let res = {
-      code: 0,
-      msg: '',
-      //data: params,
-      extras: {}
-    }
-    return Observable.of(res);
-  }
  /* putOneEdu(id,params): Observable<any> {
     //return this._httpInterceptorService.request('PUT', `{this.updateStaffUrl}/${id}`, params)
     //
@@ -236,10 +299,21 @@ export class StaffService extends BaseService<StaffModule>{
       .map(this.extractData)
       .catch(this.handleError);
   }*/
-  deleteOne(id):  Promise<any> {
-    const url = `${this.staffsAPI}/${id}`;
-    return this.delete(url);
-  }
+  /*createStaff(params): Promise<Result> {
+  const url = `${this.getOrgListUrl}/`;
+  return this.create(url,params);
+}*/
+
+  // 修改一条数据，提供所有字段
+  /*updateStaff (staff:Object): Observable<any> {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(this.updateStaffUrl,staff,options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }*/
+
 
 
   getStaffById(id): Observable<any> {
