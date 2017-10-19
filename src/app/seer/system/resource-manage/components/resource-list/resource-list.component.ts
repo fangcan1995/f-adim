@@ -27,10 +27,7 @@ export class ResourceListComponent implements OnInit{
   }; //分页、排序、检索
   data = []; //数据
   titles = [
-    {
-      key:'menuId',
-      label:'菜单编号'
-    },
+    
     {
       key:'menuPid',
       label:'菜单父编号'
@@ -67,6 +64,7 @@ export class ResourceListComponent implements OnInit{
   }
   getAllDate() {
     this.service.getResources(this.pageInfo).then((data) => {
+      console.log(data);
       this.pageInfo.pageNum=data.data.pageNum;  //当前页
       this.pageInfo.pageSize=data.data.pageSize; //每页记录数
       this.pageInfo.total=data.data.total; //记录总数

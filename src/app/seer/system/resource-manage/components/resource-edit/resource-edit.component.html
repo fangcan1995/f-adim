@@ -40,15 +40,16 @@
           <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
             <div class="form-group">
               <label for="menuType">菜单类型</label>
-              <input type="text" class="form-control" id="menuType" placeholder="" [(ngModel)]="resource.menuType"  name="menuPid"  value="{resource.menuType}" required >
+              <input type="text" class="form-control" id="menuType" placeholder="" [(ngModel)]="resource.menuType"  name="menuType"  value="{resource.menuType}" required >
             </div>
           </div>
           <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
             <div class="form-group">
-              <label for="menuDesc">菜单说明</label>
-              <input type="text" class="form-control" id="menuDesc" placeholder="" [(ngModel)]="resource.menuDesc" name="menuName"   value="{resource.menuDesc}" required >
+              <label for="hrefUrl">链接地址</label>
+              <input type="text" class="form-control" id="hrefUrl" placeholder="" [(ngModel)]="resource.hrefUrl"  name="hrefUrl"  value="{resource.hrefUrl}" required >
             </div>
           </div>
+
         </div>
         <div class="col-sm-12">
           <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
@@ -65,12 +66,12 @@
           </div>
         </div>
         <div class="col-sm-12">
-          <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+          <!--<div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
             <div class="form-group">
               <label for="target">target</label>
               <input type="text" class="form-control" id="target" placeholder="" [(ngModel)]="resource.target"  name="target"  value="{resource.target}" required >
             </div>
-          </div>
+          </div>-->
           <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
             <div class="form-group">
               <label for="icon">菜单图标</label>
@@ -79,6 +80,12 @@
           </div>
         </div>
         <div class="col-sm-12">
+          <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
+            <div class="form-group">
+              <label for="menuDesc">菜单说明</label>
+              <input type="text" class="form-control" id="menuDesc" placeholder="" [(ngModel)]="resource.menuDesc" name="menuName"   value="{resource.menuDesc}" required >
+            </div>
+          </div>
           <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
             <div class="form-group">
               <label for="remarks">备注</label>

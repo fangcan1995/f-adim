@@ -1,109 +1,32 @@
-import {
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild
-} from '@angular/core';
-import {
-  Router,
-  ActivatedRoute,
-} from '@angular/router';
+import { Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Router, ActivatedRoute,} from '@angular/router';
 import { Location } from '@angular/common';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs/Observable';
-import {
-  IMultiSelectOption,
-  IMultiSelectSettings,
-  IMultiSelectTexts,
-} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
-
+import {IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts,} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
-
 import { StaffService } from '../../staff.service';
-import {
-  titles,
-} from '../../staff.config';
+import {titles,titlesEducation,titlesFamily,titlesBusinessHistory} from '../../staff.config';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { ModalDirective ,BsModalService} from 'ngx-bootstrap/modal';
 import {jsonTree} from "../../../../../theme/utils/json-tree";
 import {TREE_PERMISSIONS} from "../../../../../theme/modules/seer-tree/constants/permissions";
 import {TREE_EVENTS} from "../../../../../theme/modules/seer-tree/constants/events";
 import {SeerTree} from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
-import { UPDATE, DELETE } from '../../../../common/seer-table/seer-table.actions';
+import { UPDATE, DELETE,SAVE } from '../../../../common/seer-table/seer-table.actions';
+
 @Component({
   templateUrl: './staff-edit.component.html',
   styleUrls: ['./staff-edit.component.scss']
 })
 export class StaffEditComponent implements OnInit {
   @ViewChild('simpleTable') simpleTable;
-  titlesEducation=[
-    {
-      key:'id',
-      label:'id',
-    },
-    {
-      key:'department',
-      label:'毕业院校',
-    },
-    {
-      key:'eduLevel',
-      label:'所学专业',
-    },
-    {
-      key:'eduMajor',
-      label:'学位',
-    },
-    {
-      key:'endTime',
-      label:'毕业时间',
-    },
-  ];
-  titlesFamily=[
-    {
-      key:'relation',
-      label:'与本人关系',
-    },
-    {
-      key:'name',
-      label:'姓名',
-    },
-    {
-      key:'work',
-      label:'工作单位及职务',
-    },
-    {
-      key:'phone',
-      label:'联系电话',
-    },
-  ];
-  titlesBusinessHistory=[
-    {
-      key:'startAndStopDate',
-      label:'起止日期',
-    },
-    {
-      key:'unit',
-      label:'所学专业',
-    },
-    {
-      key:'position',
-      label:'职务/工种',
-    },
-    {
-      key:'reterence',
-      label:'证明人',
-    },
-    {
-      key:'telephone',
-      label:'联系电话',
-    },
-  ];
-  isDimission=false;
   public staff: any = {};
-  //sysEmployer={};
   educationalBackground=[];
   family=[];
   businessExperience=[];
+  isDimission=false;
+  staffId;
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
   //组织树
@@ -132,10 +55,15 @@ export class StaffEditComponent implements OnInit {
     searchPlaceholder: '搜索...',
     defaultTitle: '选择账号',
   };
+
   private accountData: IMultiSelectOption[] = [];
 
-
-  public titles = titles;
+  public titlesEducation = titlesEducation;
+  public titlesFamily = titlesFamily;
+  public titlesBusinessHistory = titlesBusinessHistory;
+  collapseCardActions = [ SAVE ];
+  simpleTableActions=[UPDATE, DELETE];
+  @ViewChild('educationTable') educationTable
 
   constructor(
     private _staffService: StaffService,
@@ -146,24 +74,29 @@ export class StaffEditComponent implements OnInit {
     private modalService: BsModalService
   ) {}
   ngOnInit() {
-    this.getOrganizations();
+    //this.getOrganizations();//为什么要获取组织结构？
     //this.isDimission=false;
     this._route.url.mergeMap(url => {
-      this._editType = url[0].path
+      this._editType = url[0].path;
+
       return this._route.params
     })
     .subscribe(params => {
       if ( this._editType === 'edit' ) {
-
-        this._staffService.getOne(params.id).then(res => {
-          console.log(res);
-          this.staff=res.data.sysEmployer || {};
-          //this.sysEmployer=res.data.sysEmployer;
-          this.educationalBackground=res.data.sysEduExperList;
+        this.staffId=params.id;
+        this._staffService.getOne(params.id).subscribe(res => {
+          //console.log(res);
+          //this.staff=res.data.sysEmployer || {};
+          this.staff=res.data|| {};
+          //this.educationalBackground=res.data.sysEduExperList;
+          this.educationalBackground=this.staff.educationalBackground;
           this.educationalBackground= _.map(this.educationalBackground, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
-          this.family= res.data.sysEmployContactList;
+
+          //this.family= res.data.sysEmployContactList;
+          this.family=this.staff.family;
           this.family= _.map(this.family, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
-          this.businessExperience=res.data.sysWorkExperList;
+          //this.businessExperience=res.data.sysWorkExperList;
+          this.businessExperience=this.staff.businessExperience;
           this.businessExperience= _.map(this.businessExperience, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
           //console.log(this.staff);
           this.forbidSaveBtn = false;
@@ -217,7 +150,7 @@ export class StaffEditComponent implements OnInit {
       })
 
   }
-  handleSimpleTableNotify($event){
+  /*handleSimpleTableNotify($event){
     //alert();
     console.log($event);
 
@@ -245,7 +178,7 @@ export class StaffEditComponent implements OnInit {
         }, 3000)
         break;
     }
-  }
+  }*/
   /*离职处理,员工状态选中离职后，激活离职时间按钮*/
   staffStateChange(staffStateId:any){
     if(staffStateId=='02'){
@@ -261,6 +194,89 @@ export class StaffEditComponent implements OnInit {
       let nodes = jsonTree(result.data,{parentId:'orgParentId',children:'children'},[{origin:'orgName',replace:'name'}]);
       this.treeNode = nodes;
     });
+  }
+  //职位保存基本信息
+  jobInfoNotify(){
+    alert(0);
+  }
+  //职位个人基本信息
+  staffInfoNotify(){
+    alert(1);
+  }
+  //教育背景
+  educationalBackgroundNotify($event){
+    let { type, key } = $event;
+    let editData=this.educationTable.getFormatDataByKey(key).editData;
+    switch ( type ) {
+      case 'save':
+        if(editData.id){
+          this._staffService.putOneEdu(this.staffId,editData).then((result) => {
+            this.simpleTable.editable=false;
+          });//修改
+        }else{
+          this._staffService.postOneEdu(this.staffId,editData).then((result) => {
+            this.simpleTable.editable=false;
+          });//新增
+        }
+        alert('保存');
+        break;
+      case 'delete':
+        this._staffService.deleteEdu(this.staffId,editData.id).then((result) => {
+          this.simpleTable.editable=false;
+        });
+        alert('删除');
+        break;
+    }
+  }
+  //关系人
+  familyNotify($event){
+    let { type, key } = $event;
+    let editData=this.educationTable.getFormatDataByKey(key).editData;
+    switch ( type ) {
+      case 'save':
+        if(editData.id){
+          this._staffService.putOneFamily(this.staffId,editData).then((result) => {
+            this.simpleTable.editable=false;
+          });//修改
+        }else{
+          this._staffService.postOneFamily(this.staffId,editData).then((result) => {
+            this.simpleTable.editable=false;
+          });//新增
+        }
+        alert('保存');
+        break;
+      case 'delete':
+        this._staffService.deleteFamily(this.staffId,editData.id).then((result) => {
+          this.simpleTable.editable=false;
+        });
+        alert('删除');
+        break;
+    }
+  }
+  //工作经验
+  businessExperienceNotify($event){
+    let { type, key } = $event;
+    let editData=this.educationTable.getFormatDataByKey(key).editData;
+    switch ( type ) {
+      case 'save':
+        if(editData.id){
+          this._staffService.putOneBusiness(this.staffId,editData).then((result) => {
+            this.simpleTable.editable=false;
+          });//修改
+        }else{
+          this._staffService.postOneBusiness(this.staffId,editData).then((result) => {
+            this.simpleTable.editable=false;
+          });//新增
+        }
+        alert('保存');
+        break;
+      case 'delete':
+        this._staffService.deleteBusiness(this.staffId,editData.id).then((result) => {
+          this.simpleTable.editable=false;
+        });
+        alert('删除');
+        break;
+    }
   }
   /* 模态层 */
   public modalRef: BsModalRef;

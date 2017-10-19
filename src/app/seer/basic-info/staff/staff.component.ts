@@ -1,16 +1,16 @@
-import {Component, Renderer} from '@angular/core';
+import {Component} from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import * as _ from 'lodash';
 import { StaffService } from "./staff.service";
 import { UPDATE, DELETE } from '../../common/seer-table/seer-table.actions';
 import {SeerDialogService} from "../../../theme/services/seer-dialog.service"
+import {titles} from './staff.config';
 @Component({
   templateUrl: './staff.component.html',
   styleUrls: ['./staff.component.scss'],
-
 })
 export class StaffComponent {
-  // 控件设置
+
   hasGlobalFilter = true;
   filters = [
     {
@@ -60,49 +60,7 @@ export class StaffComponent {
       type: 'input.date',
     },
   ];
-  titles = [
-    {
-      key:'empName',
-      label:'姓名',
-    },
-    {
-      key:'emCode',
-      label:'员工编号',
-    },
-    {
-      key:'pDepartmentName',
-      label:'分公司',
-    },
-    {
-      key:'departmentName',
-      label:'团队',
-    },
-    {
-      key:'position',
-      label:'职位',
-    },
-    {
-      key:'entryTime',
-      label:'入职时间',
-      type: 'date',
-    },
-    {
-      key:'inviteNum',
-      label:'邀请人数',
-    },
-    {
-      key:'loginNum',
-      label:'登录次数',
-    },
-    {
-      key:'lastLoginTime',
-      label:'最后登录时间',
-    },
-    {
-      key:'lastLoginIP',
-      label:'最后登录IP',
-    }
-  ];
+  public titles = titles;
   pageInfo={
     "pageNum":1,
     "pageSize":10,
@@ -129,14 +87,13 @@ export class StaffComponent {
     private _route: ActivatedRoute,
     private staffManageService: StaffService,
     private _dialogService: SeerDialogService
-    ){
-  }
+    ){}
   ngOnInit() {
     this.getStaffs();
   }
   //获取列表
   getStaffs(): void {
-    this.staffManageService.getLists(this.pageInfo).then(
+    this.staffManageService.getLists(this.pageInfo).subscribe(
         res => {
           this.pageInfo.pageNum=res.data.pageNum;  //当前页
           this.pageInfo.pageSize=res.data.pageSize; //每页记录数
@@ -146,9 +103,9 @@ export class StaffComponent {
         },
         error =>  this.errorMessage = <any>error);
   }
+
   //增删改
   onChange(message):void {
-      console.log(message);
     let type = message.type;
     let data = message.data;
     switch ( type ) {
@@ -158,40 +115,42 @@ export class StaffComponent {
       case 'update':
         this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
         break;
+      case 'delete':
+        this._dialogService.confirm('确定删除吗？')
+          .subscribe(action => {
+            if ( action === 1 ) {
+              this.staffManageService.deleteOne(data.id).then((data) => {
+                if ( data.code=='0' ){
+                  this.getStaffs();
+                }else {
+                  alert("删除失败");
+                }
+              });
+            }
+          })
+        break;
+      case 'delete_all':
+        let ids = [];
+        message.data.forEach(function(item){
+          ids.push(item.id)
+        });
+      default:
+        break;
     }
-    if(message.type=='delete'){
-      this._dialogService.confirm('确定删除吗？')
-        .subscribe(action => {
-          if ( action === 1 ) {
-            this.staffManageService.deleteOne(data.id).then((data) => {
-              if ( data.code=='0' ){
-                this.getStaffs();
-              }else {
-                alert("删除失败");
-              }
-            });
-          }
-        })
-    }
-    /*if(message.type=='delete_all'){
-      let ids = [];
-      message.data.forEach(function(item){
-        ids.push(item.id)
-      });
-    }*/
   }
 
+  //分页
   handlePageChange($event) {
     this.pageInfo.pageSize = $event.pageSize;
     this.pageInfo.pageNum=$event.pageNum;
     this.getStaffs();
-  }//分页
+  }
+  //多条件查询
   handleFiltersChanged($event) {
     let params=$event;
     this.pageInfo.query = params;
-    //console.log(params);
     this.getStaffs();
-  }//多条件查询
+  }
 
 }
 

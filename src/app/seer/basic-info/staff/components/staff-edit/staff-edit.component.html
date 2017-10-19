@@ -1,18 +1,23 @@
+<seer-content-top>
+  <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
+  <!--<button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>-->
+</seer-content-top>
 <div class="widgets">
-  <div style="margin-bottom: 24px;">
-    <button class="btn btn-primary" (click)="handleBackBtnClick()">返回</button>
-    <button class="btn btn-primary" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
-  </div>
   <div class="row">
     <div class="col-md-12">
       <form class="form-horizontal">
-        <seer-collapse-card title="职位基本信息" cardClass="with-scroll" [canCollapse]=true>
+        <seer-collapse-card
+          title="职位基本信息"
+          [canCollapse]=true
+          [headerActions]="collapseCardActions"
+          (notify)="jobInfoNotify($event)"
+        >
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
                 <label for="emCode" class="col-sm-4 control-label">员工编号</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="emCode"  [(ngModel)]="staff.emCode" [ngModelOptions]="{standalone: true}" disabled>
+                  <input type="text" class="form-control" id="emCode"  [(ngModel)]="staff.jobInfo.emCode" [ngModelOptions]="{standalone: true}" disabled>
                 </div>
               </div>
             </div>
@@ -20,7 +25,7 @@
               <div class="row">
                 <label for="departmentId" class="col-sm-4 control-label">公司团队</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="departmentId"  [(ngModel)]="staff.departmentId" [ngModelOptions]="{standalone: true}" (click)="openModal(template)">
+                  <input type="text" class="form-control" id="departmentId"  [(ngModel)]="staff.jobInfo.departmentName" [ngModelOptions]="{standalone: true}" (click)="openModal(template)">
                   <template #template>
 
                     <div class="modal-body">
@@ -41,7 +46,7 @@
               <div class="row">
                 <label for="position" class="col-sm-4 control-label">职位</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="position" [(ngModel)]="staff.position" [ngModelOptions]="{standalone: true}">
+                  <input type="text" class="form-control" id="position" [(ngModel)]="staff.jobInfo.position" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
             </div>
@@ -49,7 +54,7 @@
               <div class="row">
                 <label for="salaryBankNo" class="col-sm-4 control-label">工资卡号</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="salaryBankNo" placeholder="工资卡号" [(ngModel)]="staff.salaryBankNo" [ngModelOptions]="{standalone: true}">
+                  <input type="text" class="form-control" id="salaryBankNo"  [(ngModel)]="staff.salaryBankNo" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
             </div>
@@ -67,9 +72,10 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="entryTime" class="col-sm-4 control-label">入职时间</label>
+                <label class="col-sm-4 control-label">入职时间</label>
                 <div class="col-sm-8 ">
-                  <input type="date" class="form-control" id="entryTime" [(ngModel)]="staff.entryTime" [ngModelOptions]="{standalone: true}">
+                  <seer-datepicker [(date)]="staff.jobInfo.entryTime"></seer-datepicker>
+
                 </div>
               </div>
             </div>
@@ -120,13 +126,18 @@
             </div>
           </div>
         </seer-collapse-card>
-        <seer-collapse-card title="个人基本信息" cardClass="with-scroll" [canCollapse]=true>
+        <seer-collapse-card
+          title="个人基本信息"
+          [canCollapse]=true
+          [headerActions]="collapseCardActions"
+          (notify)="staffInfoNotify($event)"
+        >
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
                 <label for="empName" class="col-sm-4 control-label">姓名</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="empName" placeholder="姓名" [(ngModel)]="staff.empName" [ngModelOptions]="{standalone: true}">
+                  <input type="text" class="form-control" id="empName" placeholder="姓名" [(ngModel)]="staff.staffInfo.empName" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
             </div>
@@ -234,29 +245,18 @@
 
           </div>
         </seer-collapse-card>
-        <!--<seer-collapse-card title="学历技能信息" cardClass="with-scroll" [canCollapse]=true>-->
-          <seer-collapse-card
+        <seer-collapse-card
             [title]="'学历技能信息'"
             [canCollapse]="true"
-
           >
-          <!--<seer-table
-            [data]="educationalBackground"
-            [titles]="titlesEducation"
-            [translate]="translate"
-            [hideExport]="true"
-            [hidePrint]="true"
-            [hideRemoveAll]="true"
-            [hideColumns]="true"
-
-          ></seer-table>-->
           <seer-simple-table
-            #simpleTable
+            #educationTable
             [data]="educationalBackground"
             [titles]="titlesEducation"
             [primaryKey]="id"
             [hidePagination]="true"
-            (notify)="handleSimpleTableNotify($event)"
+            [actions]="simpleTableActions"
+            (notify)="educationalBackgroundNotify($event)"
             >
           </seer-simple-table>
         </seer-collapse-card>
@@ -266,6 +266,8 @@
             [data]="family"
             [titles]="titlesFamily"
             [hidePagination]="true"
+            [actions]="simpleTableActions"
+            (notify)="familyNotify($event)"
           >
           </seer-simple-table>
         </seer-collapse-card>
@@ -274,6 +276,8 @@
             [data]="businessExperience"
             [titles]="titlesBusinessHistory"
             [hidePagination]="true"
+            [actions]="simpleTableActions"
+            (notify)="businessExperienceNotify($event)"
           >
           </seer-simple-table>
         </seer-collapse-card>

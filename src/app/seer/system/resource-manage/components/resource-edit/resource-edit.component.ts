@@ -10,6 +10,7 @@ import { Location } from '@angular/common';
 import { ResourceManageService } from "../../resource-manage.service";
 import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
 import { ResourceModel } from "../../resource-model.class";
+import {error} from "util";
 
 @Component({
   selector: 'app-resource-edit',
@@ -61,8 +62,9 @@ export class ResourceEditComponent implements OnInit {
           this.alertSuccess("更新成功");
         }else{
           this.alertError("更新失败");
-          //this._router.navigate(['/seer/system/resource-manage/edit',this.resource.resourceId]);
         }
+      }).catch(err => {
+        this.alertError("更新失败");
       });
     } else if ( this._editType === 'add' ) {
       this.service.postOne(this.resource).then((data) => {
@@ -71,7 +73,9 @@ export class ResourceEditComponent implements OnInit {
         }else{
           this.alertError("添加失败");
         }
-      });
+      }).catch(err => {
+        this.alertError("添加失败");
+      });;
     } else {
       return;
     }
