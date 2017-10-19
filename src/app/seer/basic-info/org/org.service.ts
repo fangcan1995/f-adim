@@ -9,7 +9,7 @@ import {Result} from "../../model/result.class";
 
 
 @Injectable()
-export class OrgManageService {
+export class OrgService {
 
   private orgManageUrl = SERVER + '/basicinfo';
   private headers = new Headers({'Content-Type': 'application/json'});

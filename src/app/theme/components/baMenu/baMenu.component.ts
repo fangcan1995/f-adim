@@ -63,7 +63,7 @@ export class BaMenu {
     if(this.menuRoutes){
       this.menuItems = this._service.convertRoutesToMenus(this.menuRoutes);
     }else{
-      this._router.navigate(['/login']);
+      // this._router.navigate(['/login']);
     }
   }
 

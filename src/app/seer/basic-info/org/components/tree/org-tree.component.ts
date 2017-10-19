@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { BaseModalComponent } from "../../../../../theme/directives/dynamicComponent/dynamic-component.directive";
 import { ModalComponent } from "../../../../../theme/components/ng2-bs4-modal/modal";
-import { OrgManageService } from "../../org-manage.service";
+import { OrgService } from "../../org.service";
 import { SeerTree } from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
 import { jsonTree } from "../../../../../theme/utils/json-tree";
 import { GlobalState } from "../../../../../global.state";
@@ -16,20 +16,20 @@ import { TREE_EVENTS } from "../../../../../theme/modules/seer-tree/constants/ev
   templateUrl: './org-tree.component.html',
   styleUrls: ['./org-tree.component.scss'],
   providers: [],
-
 })
 export class OrgTreeDialogComponent extends BaseModalComponent implements OnInit{
-
   /**
    * 1.找到modal组件
    */
   @ViewChild(ModalComponent) modal;
   @ViewChild(SeerTree) seerTree: SeerTree;
 
-  constructor(protected service?: OrgManageService, private gs?:GlobalState) {
+  constructor(
+    protected service?: OrgService,
+    private gs?: GlobalState,
+  ) {
     super();
   }
-
   ngOnInit(): void {
     this.getOrganizations();
 

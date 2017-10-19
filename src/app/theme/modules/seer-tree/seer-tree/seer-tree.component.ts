@@ -162,7 +162,7 @@ export class SeerTree implements OnInit {
     this.updatePermission(this.permissions);
   }
 
-  public updatePermission(permissions=0){
+  public updatePermission( permissions = 0 ) {
     this.permissions = permissions;
     this.seerTreeOptions.allowDrag = this.checkPermissions(TREE_PERMISSIONS.DRAG);
   }

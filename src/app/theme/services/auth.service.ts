@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/do';
+import { Observable } from 'rxjs/Rx';
 import { menuTree } from '../utils/json-tree';
 import {
   HttpInterceptorService,
+
 } from './http-interceptor.service';
+import { parseJson2URL } from '../libs/utils';
 import {
   BASE_URL,
   API,
@@ -23,7 +22,7 @@ export class AuthService {
   public redirectFragment: string;
 
   constructor(
-    private _httpInterceptorService: HttpInterceptorService
+    private _http: Http
     ) {}
   
   login(account: any, password: any): Observable<any> {
@@ -34,48 +33,40 @@ export class AuthService {
       client_secret: 'secret',
       grant_type: 'password',
     }
-    return this._httpInterceptorService.request('POST', `${BASE_URL}/${API.LOGIN}`, params)
+    let reqOpts = new RequestOptions({
+      search: parseJson2URL(params)
+    });
+    return this._http.post(`${BASE_URL}/${API.LOGIN}`, '?' + parseJson2URL(params), reqOpts)
+    .map(this.extractData)
     .do(res => {
       console.log(res)
-      /*if ( res.code === 0 ) {
+      if ( res && !res.error ) {
         this.isLoggedIn = true;
-        let data = res.data || {};
-
-        localStorage.setItem('data', JSON.stringify(data));
-        localStorage.setItem('isLogin', JSON.stringify(res.success));
-        localStorage.setItem('leftMenus',JSON.stringify(menuTree(res.data.currentResources)));
-
-        setStorage({
-          key: 'user',
-          value: data.user,
-        })
         setStorage({
           key: 'token',
-          value: data.token,
-        })
-      }*/
-      this.isLoggedIn = res.success;
-      if ( this.isLoggedIn ) {
-        let data = res.data || {};
-        localStorage.setItem('data', JSON.stringify(data));
-        localStorage.setItem('leftMenus',JSON.stringify(menuTree(res.data.currentResources)));
-
-
-        // 新版走这里，暂时用模拟数据替代
-        setStorage({
-          key: 'user',
-          value: {
-            name: '巴巴汇的家人们大家早上好',
-            avatar: '../../../assets/img/logo.png',
-          },
-        })
-        setStorage({
-          key: 'token',
-          value: '123321123321123321',
+          value: res,
         })
       }
-      
     })
+    .catch(this.handleError);
+  }
+  private extractData(res: Response) {
+      let body = res.json();
+      return body || { };
+  }
+  private handleError (error: Response | any) {
+    let errMsg: string;
+    if (error instanceof Response) {
+      const body = error.json() || '';
+      const err = body.error || JSON.stringify(body);
+      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    } else {
+      errMsg = error.message ? error.message : error.toString();
+    }
+    return Observable.throw({
+      code: -1,
+      msg: errMsg,
+    });
   }
   /*logout(): Observable<any> {
     return this.http.post(`${BASE_URL}/${API['LOGOUT']}`, {})

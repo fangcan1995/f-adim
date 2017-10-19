@@ -1,31 +1,35 @@
-import {Component, ViewChild, OnDestroy,TemplateRef} from "@angular/core";
-import {OrgManageService} from "./org-manage.service";
-import {GlobalState} from "../../../global.state";
+import {
+  Component,
+  ViewChild,
+  OnDestroy,
+  TemplateRef,
+} from "@angular/core";
 import {Router} from "@angular/router";
+import * as _ from 'lodash';
+
+import {OrgService} from "./org.service";
+import {GlobalState} from "../../../global.state";
 import {jsonTree} from "../../..//theme/utils/json-tree";
 import {TREE_PERMISSIONS} from "../../../theme/modules/seer-tree/constants/permissions";
 import {TREE_EVENTS} from "../../../theme/modules/seer-tree/constants/events";
 import {SeerTree} from "../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
 
-/*import any = jasmine.any;*/
 import {
   DynamicComponentLoader
 } from "../../../theme/directives/dynamicComponent/dynamic-component.directive";
-import {OrgTreeDialogComponent} from "./components/tree/org-tree.component";
-import {OrgModel} from "./OrgModel";
+import { OrgTreeDialogComponent } from "./components/tree/org-tree.component";
+import { OrgModel } from "./OrgModel";
 import { SeerDialogService } from '../../../theme/services/seer-dialog.service';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
-import { ModalDirective ,BsModalService} from 'ngx-bootstrap/modal';
-import { User } from "../../model/auth/user"
-import {DELETE} from "../../common/seer-table/seer-table.actions"
-import * as _ from 'lodash'
+import { ModalDirective, BsModalService } from 'ngx-bootstrap/modal';
+import { User } from "../../model/auth/user";
+import { DELETE } from "../../common/seer-table/seer-table.actions";
 @Component({
-  selector: 'org-manage',
-  templateUrl: './org-manage.component.html',
-  styleUrls: ['./org-manage.component.scss'],
+  templateUrl: './org.component.html',
+  styleUrls: ['./org.component.scss'],
   entryComponents: [OrgTreeDialogComponent]
 })
-export class OrgManageComponent implements OnDestroy{
+export class OrgComponent implements OnDestroy{
 
   @ViewChild(DynamicComponentLoader)
   dynamicComponentLoader: DynamicComponentLoader;
@@ -36,13 +40,11 @@ export class OrgManageComponent implements OnDestroy{
   treeTitle = "组织机构树";
   treePermissions = TREE_PERMISSIONS.NOTIFY|TREE_PERMISSIONS.ADD|TREE_PERMISSIONS.EDIT|TREE_PERMISSIONS.DELETE|TREE_PERMISSIONS.DRAG|TREE_PERMISSIONS.SHOW_FILTER|TREE_PERMISSIONS.SHOW_ADD_ROOT;
   treeNode = [];
-  sysUser : User = new User();
+  sysUser: User = new User();
   staffs = [];
   staffName;
   staf;
   flag: string;
-
-
 
   //员工列表
   tableTitle: string = "机构员工列表";
@@ -52,19 +54,10 @@ export class OrgManageComponent implements OnDestroy{
   staffId: string;
   hasGlobalFilter = "true"
   titles = [
-    {key:'name',label:'姓名'},
-    {key:'place',label:'联系方式'},
-    {key:'tel',label:'职位'},
+    { key:'name', label:'姓名' },
+    { key:'place', label:'联系方式' },
+    { key:'tel', label:'职位' },
   ];
-  actionSet = {
-    'delete': {
-      'type': 'delete',
-      'name': '删除',
-      'className': 'btn btn-xs btn-danger',
-      'icon': 'ion-close-round',
-      // 'action': 'remove'
-    },
-  }
   // filters = [
   //   {
   //     key: 'name',
@@ -83,8 +76,14 @@ export class OrgManageComponent implements OnDestroy{
   //   },
   // ]
 
-  constructor(protected service: OrgManageService, private router: Router, private _state: GlobalState, private _dialogService: SeerDialogService,private modalService: BsModalService) {
-    this._state.subscribe("orgStaffState",(a)=>{
+  constructor(
+    protected service: OrgService,
+    private router: Router,
+    private _state: GlobalState,
+    private _dialogService: SeerDialogService,
+    private modalService: BsModalService
+    ) {
+    this._state.subscribe("orgStaffState", a => {
       this.getStaffsByOrgId(this.staffId);
     })
   }
@@ -236,20 +235,20 @@ export class OrgManageComponent implements OnDestroy{
     // }
 
     /* 移动组织机构*/
-    // if ($event.eventName==TREE_EVENTS.onMoveNode){
-    //   console.log($event.node);
-    //   let orgModel = new OrgModel();
-    //   orgModel.id = $event.node.id;
-    //   orgModel.orgParentId = $event.node.parentId;
-    //   orgModel.orgSort = $event.to.index;
-    //     this.service.editOrganization(orgModel).then((result) => {
-    //     if(!result.success) {
-    //       if(!result.success) {
-    //         alert("操作失败，请重试！");
-    //       }
-    //     }
-    //   });
-    // }
+    if ( $event.eventName == TREE_EVENTS.onMoveNode ) {
+      console.log($event.node);
+      let orgModel = new OrgModel();
+      orgModel.id = $event.node.id;
+      orgModel.orgParentId = $event.node.parentId;
+      orgModel.orgSort = $event.to.index;
+        this.service.editOrganization(orgModel).then((result) => {
+        if(!result.success) {
+          if(!result.success) {
+            alert("操作失败，请重试！");
+          }
+        }
+      });
+    }
 
     /* 组织机构重命名*/
     // if ($event.eventName==TREE_EVENTS.onRenameNode){

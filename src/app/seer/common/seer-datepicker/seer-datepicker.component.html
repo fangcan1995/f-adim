@@ -10,8 +10,9 @@
     value="{{ date | date: dateFormatingRules }}"
     [(bsValue)]="date"
     [bsConfig]="bsConfig"
+    [disabled]="disabled"
     >
   <span class="input-group-btn">
-    <button class="btn btn-default" (click)="dp.show()"><i class="fa fa-calendar"></i></button>
+    <button class="btn btn-default" (click)="dp.show()" [disabled]="disabled"><i class="fa fa-calendar"></i></button>
   </span>
 </div>

@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   constructor(private authService: AuthService, private router: Router, private location: Location) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    let url: string = `/${location.pathname}`;
+    let url: string = `${location.pathname}`;
     return this.checkLogin(url);
   }
 
@@ -26,11 +26,11 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   }
 
   canLoad(route: Route): boolean {
-    let url: string = `/${location.pathname}`;
+    let url: string = `${location.pathname}`;
     return this.checkLogin(url);
   }
   checkLogin(url: string): boolean {
-    if ( this.authService.isLoggedIn || getStorage({ key: 'token' }) ) { return true; }
+    if ( this.authService.isLoggedIn || getStorage({ key: 'token' }) ) return true;
     this.authService.redirectUrl = url;
     let oldQueryString = location.search;
     let oldQueryParams = parseQueryString(oldQueryString);

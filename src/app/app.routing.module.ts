@@ -9,7 +9,7 @@ export const routes: Routes = [
   //     { path: 'seer', loadChildren: 'app/seer/seer.module#SeerModule'},
   //   ]
   // },
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  // { path: '', redirectTo: 'login', pathMatch: 'full' },
   // { path: 'seer', component: SeerComponent},
 ];
 

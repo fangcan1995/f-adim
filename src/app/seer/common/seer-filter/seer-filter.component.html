@@ -28,7 +28,8 @@
             class="form-control"
             *ngIf="filter.type === 'select'"
             [(ngModel)]="filter.value"
-            (change)="handleFilterChange()">
+            (change)="handleFilterChange()"
+            [disabled]="filter.disabled">
             <option *ngFor="let option of filter.options" [ngValue]="option.value" >{{ option.content }}</option>
           </select>
           <seer-datepicker
@@ -36,13 +37,16 @@
             [dateFormatingRules]="dateFormatingRules || 'yyyy年MM月dd日'"
             [(date)]="filter.value"
             (dateChange)="handleFilterChange()"
+            [disabled]="filter.disabled"
             ></seer-datepicker>
           <input
             class="form-control"
             *ngIf="filter.type.indexOf('input') != -1"
             [type]="filter.type.split('.')[1] || 'text'"
             [(ngModel)]="filter.value"
-            (keyup)="handleFilterChange()"/>
+            (keyup)="handleFilterChange()"
+            [disabled]="filter.disabled"
+            />
         </div>
       </div>
     </div>
