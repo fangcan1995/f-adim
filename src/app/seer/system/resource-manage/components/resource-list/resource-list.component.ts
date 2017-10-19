@@ -6,6 +6,7 @@ import {GlobalState} from "../../../../../global.state";
 import * as _ from 'lodash';
 import {SeerDialogService} from "../../../../../theme/services/seer-dialog.service"
 import {UPDATE, DELETE} from "../../../../common/seer-table/seer-table.actions"
+import { UserService } from '../../../../../theme/services/user.service';
 @Component({
   selector: 'resource-list',
   templateUrl: './resource-list.component.html',
@@ -56,7 +57,12 @@ export class ResourceListComponent implements OnInit{
   ]; //列表中显示的字段
 
   constructor(
-    protected service: ResourceManageService,private _router: Router,private _state:GlobalState,private _dialogService: SeerDialogService,) {
+    protected service: ResourceManageService,
+    private _router: Router,
+    private _state:GlobalState,
+    private _dialogService: SeerDialogService,
+    private _userService: UserService,
+    ) {
       this.getAllDate();
   }
   ngOnInit() {
@@ -90,6 +96,7 @@ export class ResourceListComponent implements OnInit{
               this.service.deleteResource(message.data.menuId).then((data) => {
                 if ( data.code=='0' ){
                   this.getAllDate();
+                  this.refreshMenu();
                 }else {
                   alert("删除失败");
                 }
@@ -101,6 +108,15 @@ export class ResourceListComponent implements OnInit{
         let ids = _(data).map(t => t.id).value();
         break;
     }
+  }
+  // 更新左侧导航菜单
+  refreshMenu() {
+    this._userService.getResourcesFromServer({ pageSize: 10000 })
+    .then(res => {
+      const resources = res.data ? res.data.list || [] : [];
+      this._userService.setResourcesToLocal(resources);
+      this._state.notify('menu.changed', resources);
+    })
   }
   handlePageChange($event) {
     this.pageInfo.pageSize = $event.pageSize;

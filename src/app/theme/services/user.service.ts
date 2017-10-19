@@ -38,5 +38,11 @@ export class UserService extends BaseService<any> {
     })
 
   }
+  public setResourcesToLocal(resources) {
+    setStorage({
+      key: 'resources',
+      value: resources,
+    })
+  }
 
 }

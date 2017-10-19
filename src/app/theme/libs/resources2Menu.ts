@@ -8,7 +8,7 @@ export const resources2Menu = (resources: any[]) => {
     v.data.menu = v.data.menu || {};
     v.data.menu.title = v.menuName;
     v.data.menu.icon = v.icon;
-    v.path = '';
+    v.path = v.hrefUrl;
 
     if ( parent && parent.menuId != v.menuId ) {
       v.parent = parent;

@@ -31,13 +31,21 @@ export class BaSidebar {
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
     });
+    this._state.subscribe('menu.changed',() => {
+      this._userService.getResourcesFromLocal()
+      .then(res => {
+        if ( res.code == 0 ) {
+          this.routes = resources2Menu(res.data);
+        }
+      })
+    })
   }
 
   public ngOnInit():void {
     this._userService.getResourcesFromLocal()
     .then(res => {
       if ( res.code == 0 ) {
-         this.routes = resources2Menu(res.data);
+        this.routes = resources2Menu(res.data);
       }
     })
     this._defaultTop = this.sidebar.nativeElement.offsetTop; 
