@@ -62,6 +62,7 @@ export class ResourceEditComponent implements OnInit {
           this.alertSuccess("更新成功");
         }else{
           this.alertError("更新失败");
+
           //this._router.navigate(['/seer/system/resource-manage/edit',this.resource.resourceId]);
         }
       });

@@ -9,4 +9,5 @@ export class ResourceModel {
     public  icon: string;
     public  menuStatus: string;
     public  remarks: string;
+    public  hrefUrl: string;
 }
