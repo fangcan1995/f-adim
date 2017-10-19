@@ -57,7 +57,6 @@ export class ResourceEditComponent implements OnInit {
     let requestStream$;
     if ( this._editType === 'edit' ) {
       this.service.putOne(this.resource).then((data) => {
-        console.log(data);
         if(data.code=='0') {
           this.alertSuccess("更新成功");
         }else{

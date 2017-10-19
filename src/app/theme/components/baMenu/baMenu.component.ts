@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs/Rx';
 
 import {BaMenuService} from './baMenu.service';
 import {GlobalState} from '../../../global.state';
+import * as _ from 'lodash';
 declare type Routes = Route[];
 
 @Component({
@@ -59,14 +60,16 @@ export class BaMenu {
     }
   }
 
-  public ngOnInit():void {
+  /*public ngOnInit():void {
     if(this.menuRoutes){
       this.menuItems = this._service.convertRoutesToMenus(this.menuRoutes);
     }else{
       // this._router.navigate(['/login']);
     }
+  }*/
+  public ngOnChanges(): void {
+      this.menuItems = this._service.convertRoutesToMenus(_.cloneDeep(this.menuRoutes || []));
   }
-
   public ngOnDestroy():void {
     this._onRouteChange.unsubscribe();
   }

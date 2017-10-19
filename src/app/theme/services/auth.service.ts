@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { menuTree } from '../utils/json-tree';
 import {
   HttpInterceptorService,
 
@@ -39,7 +38,6 @@ export class AuthService {
     return this._http.post(`${BASE_URL}/${API.LOGIN}`, '?' + parseJson2URL(params), reqOpts)
     .map(this.extractData)
     .do(res => {
-      console.log(res)
       if ( res && !res.error ) {
         this.isLoggedIn = true;
         setStorage({
@@ -68,11 +66,11 @@ export class AuthService {
       msg: errMsg,
     });
   }
-  /*logout(): Observable<any> {
-    return this.http.post(`${BASE_URL}/${API['LOGOUT']}`, {})
+  logout(): Observable<any> {
+    /*return this._http.post(`${BASE_URL}/${API['LOGOUT']}`, {})
     .map(this.extractData)
     .do(res => {
-      if ( res.code === 0 ) {
+      if ( res.code == 0 ) {
         this.isLoggedIn = false;
         delStorage({
           key: 'user',
@@ -80,8 +78,31 @@ export class AuthService {
         delStorage({
           key: 'token',
         })
+        delStorage({
+          key: 'resources',
+        })
+        delStorage({
+          key: 'dicts',
+        })
       }
     })
-    .catch(this.handleError);
-  }*/
+    .catch(this.handleError);*/
+
+    return Observable.create(subscriber => {
+      this.isLoggedIn = false;
+      delStorage({
+        key: 'user',
+      })
+      delStorage({
+        key: 'token',
+      })
+      delStorage({
+        key: 'resources',
+      })
+      delStorage({
+        key: 'dicts',
+      })
+      subscriber.next();
+    })
+  }
 }

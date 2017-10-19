@@ -21,7 +21,7 @@
       <div class="dropdown">
         <a class="profile-toggle-link dropdown-toggle" id="user-profile-dd" data-toggle="dropdown" aria-expanded="false">
           <preload-image [path]="user.avatar || ''" [defaultPath]="('default_avatar' | baProfilePicture: 'jpg')"></preload-image>
-          <div class="profile-welcome">{{user.name}}</div>
+          <div class="profile-welcome">{{user.loginName}}</div>
         </a>
         <ul class="dropdown-menu top-dropdown-menu profile-dropdown" aria-labelledby="user-profile-dd">
           <li class="dropdown-item"><i class="dropdown-arr"></i></li>

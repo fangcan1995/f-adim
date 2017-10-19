@@ -3,6 +3,8 @@ import { GlobalState } from '../../../global.state';
 import * as _ from 'lodash';
 import { layoutSizes } from "../../theme.constants";
 import { resources2Menu } from '../../libs/resources2Menu';
+import { UserService } from '../../services/user.service';
+import { getStorage } from '../../libs/utils'
 @Component({
   selector: 'ba-sidebar',
   templateUrl: './baSidebar.html',
@@ -20,18 +22,25 @@ export class BaSidebar {
   private _offsetTop: number;
   private _defaultTop:number;
   @ViewChild('sidebar') sidebar: ElementRef;
-  constructor(private _elementRef:ElementRef, private _state:GlobalState) {
+  constructor(
+    private _elementRef:ElementRef,
+    private _state:GlobalState,
+    private _userService: UserService
+  ) {
 
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
     });
-    console.log(this.routes)
   }
 
   public ngOnInit():void {
-    this.routes = resources2Menu(JSON.parse(localStorage.getItem("resources")));
-    console.log(this.routes);
-    this._defaultTop = this.sidebar.nativeElement.offsetTop; // parseInt(window.getComputedStyle(this.sidebar.nativeElement).top);
+    this._userService.getResourcesFromLocal()
+    .then(res => {
+      if ( res.code == 0 ) {
+         this.routes = resources2Menu(res.data);
+      }
+    })
+    this._defaultTop = this.sidebar.nativeElement.offsetTop; 
     this._offsetTop = this._defaultTop;
     if (this._shouldMenuCollapse()) {
       this.menuCollapse();

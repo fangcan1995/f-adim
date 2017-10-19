@@ -11,6 +11,7 @@ import { GlobalState } from '../../../global.state';
 import { Router } from "@angular/router";
 import { DynamicComponentLoader } from "../../directives/dynamicComponent/dynamic-component.directive";
 import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'ba-page-top',
   templateUrl: './baPageTop.html',
@@ -36,6 +37,7 @@ export class BaPageTop implements OnInit {
     private router: Router,
     private _state: GlobalState,
     private _userService: UserService,
+    private _authService: AuthService,
     ) {
     this._state.subscribe('menu.activeLink', (activeLink) => {
       if ( !activeLink || !activeLink.route || !activeLink.route.paths ) {
@@ -51,7 +53,7 @@ export class BaPageTop implements OnInit {
   ngOnInit(): void {
     this._userService.getUserFromLocal()
     .then(res => {
-      this.user = res.data;
+      this.user = res.data || {};
     })
   }
   private _getActivePageIcon(activeLink) {
@@ -79,5 +81,6 @@ export class BaPageTop implements OnInit {
     this._offsetTop = -scrollY
   }
   public logout() {
+    this._authService.logout().subscribe();
   }
 }

@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, Request, RequestMethod, Response, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import * as _ from 'lodash';
-import { parseJson2URL } from '../libs/utils';
+import { parseJson2URL, getStorage } from '../libs/utils';
 export class ResModel {
   code: number;
-  msg: string;
+  msg?: string;
   data?: any;
   extras?: any;
 }
 @Injectable()
 export class HttpInterceptorService {
   constructor(private _http: Http) { }
-  public request(method: string, url: string, params?: any, ignoreAuth?: boolean) {
+  public request(method: string, url: string, params?: any, ignoreAuth?: boolean, timeout?: number) {
     method = method.toUpperCase();
     let _method = null;
     switch (method) {
@@ -45,7 +45,13 @@ export class HttpInterceptorService {
     })*/
     let headers = new Headers();
     // headers.set('Content-Type', 'application/json')
-    // headers.set('Authorization', '123')
+    if ( !ignoreAuth ) {
+      const token = getStorage({ key: 'token' })
+      const tokenType = token.token_type;
+      const accessToken = token.access_token;
+      headers.set('Authorization', `${tokenType} ${accessToken}`)
+    }
+    
     let options;
     if ( method === 'GET' ) {
       options = new RequestOptions({
@@ -66,6 +72,7 @@ export class HttpInterceptorService {
     }
     let req = new Request(options)
     return this._http.request(req)
+    .timeout(timeout || 3000)
     .map(this.extractData)
     .do(res => {
       console.log('__response__: ', res);

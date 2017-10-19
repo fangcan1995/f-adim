@@ -23,7 +23,7 @@ const castDict2Translate = (dicts: any[] = [], map: Map<string, string>) => {
 };
 
 const BASE_DOMAIN = '172.16.7.4';
-const BASE_PORT = 8060;
+const BASE_PORT = 8020;
 const BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export const BASE_URL = `http://${BASE_SERVER}`;
 export const API = {
@@ -31,8 +31,9 @@ export const API = {
   'LOGOUT': 'logout',
   'SIGNUP': 'signup',
   'MEMBERS': 'members',
-  'RESOURCES': 'resources',
-  'DICTS': 'dicts',
+  'USER': 'users/getByToken',
+  'RESOURCES': 'permission/resources',
+  'DICTS': 'system/dicts',
 }
 
 // 此服务用于继承，请不要注入使用；如果想用更灵活的http服务请使用HttpInterceptorService，最灵活的是angular2自带的Http服务；
@@ -82,14 +83,38 @@ export class BaseService<T> {
   }
   // 从服务器端获取用户信息
   public getUserFromServer(): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/user`).toPromise();
+    return this._httpInterceptorService.request('GET', `http://172.16.1.249:8090/${API['USER']}`).toPromise();
   }
+  // 从本地获取资源（菜单）
+  public getResourcesFromLocal(): Promise<ResModel> {
+    return new Promise(resolve => {
+      resolve({
+        code: 0,
+        msg: '',
+        data: getStorage({ key: 'resources' })
+      })
+    })
+  }
+  // 从服务器获取资源（菜单）
   public getResourcesFromServer(params?): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `http://172.16.7.4:8090/${API['RESOURCES']}`, params).toPromise();
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['RESOURCES']}`, params, true).toPromise();
   }
-  public getDictsFromServer(): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `http://172.16.7.4:8090/${API['DICTS']}`).toPromise();
+  // 从本地获取字典
+  public getDictsFromLocal(): Promise<ResModel> {
+    return new Promise(resolve => {
+      resolve({
+        code: 0,
+        msg: '',
+        data: getStorage({ key: 'dicts' })
+      })
+    })
   }
+  public getDictsFromServer(params?): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['DICTS']}`, params, true).toPromise().catch(err => {
+      console.log(err)
+    });
+  }
+
 
   // 提交
 }
