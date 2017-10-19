@@ -11,7 +11,6 @@ export const resources2Menu = (resources: any[]) => {
     v.path = v.hrefUrl;
 
     if ( parent && parent.menuId != v.menuId ) {
-      v.parent = parent;
       !parent.children && (parent.children = []);
       parent.children.push(v);
     } else {

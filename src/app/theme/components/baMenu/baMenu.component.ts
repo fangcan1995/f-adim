@@ -69,6 +69,7 @@ export class BaMenu {
   }*/
   public ngOnChanges(): void {
       this.menuItems = this._service.convertRoutesToMenus(_.cloneDeep(this.menuRoutes || []));
+      this.selectMenuAndNotify();
   }
   public ngOnDestroy():void {
     this._onRouteChange.unsubscribe();

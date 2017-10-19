@@ -18,7 +18,7 @@ export const DELETE_MULTIPLE = {
 export const UPDATE = {
 	type: 'update',
 	name: '编辑',
-	className: 'btn btn-xs btn-info',
+	className: 'btn btn-xs btn-success',
 	icon: 'icon-edit',
 };
 export const COPY_CREATE = {
@@ -37,7 +37,7 @@ export const DETAIL = {
 export const SAVE = {
 	type: 'save',
 	name: '保存',
-	className: '',
+	className: 'btn btn-xs btn-primary',
 	icon: 'fa fa-check'
 }
 
