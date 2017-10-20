@@ -1,5 +1,6 @@
 
 
+<!--
 <tabset style="margin-top:15px;">
   <tab heading='手动发送'>
   <seer-collapse-card>
@@ -8,21 +9,9 @@
       [filters]="filters"
       (onFiltersChanged)=handleFiltersChanged($event)
       (onSearchBtnClicked)=handleSearchBtnClicked($event)
-    ></seer-filter>  
+    ></seer-filter>
   </seer-collapse-card>
-  <seer-collapse-card>
-    <seer-table
-      [data]="source"
-      [titles]="titles"
-      [translate]="dict"
-      [hideExport]="true"
-      [hideColumns]="true"
-      [hidePrint]="true"
-      [hideRemoveAll]="true"
-      [hideActions]="true"
-      (notify)="onChange($event)"
-    ></seer-table>
-    </seer-collapse-card> 
+
   </tab>
   <tab heading='自动发送'>
     <seer-collapse-card>
@@ -31,7 +20,7 @@
       [filters]="filters"
       (onFiltersChanged)=handleFiltersChanged($event)
       (onSearchBtnClicked)=handleSearchBtnClicked($event)
-    ></seer-filter>  
+    ></seer-filter>
   </seer-collapse-card>
   <seer-collapse-card>
     <seer-table
@@ -44,6 +33,28 @@
       [hideRemoveAll]="true"
       (notify)="onChange1($event)"
     ></seer-table>
-    </seer-collapse-card> 
+    </seer-collapse-card>
   </tab>
 </tabset>
+-->
+
+<seer-collapse-card>
+  <seer-filter
+    [hasGlobalFilter]="hasGlobalFilter"
+    [filters]="filters"
+    (onFiltersChanged)=handleFiltersChanged($event)
+    (onSearchBtnClicked)=handleSearchBtnClicked($event)
+  ></seer-filter>
+
+  <seer-table
+    [data]="source"
+    [titles]="titles"
+    [translate]="dict"
+    [hideExport]="true"
+    [hideColumns]="true"
+    [hidePrint]="true"
+    [hideRemoveAll]="true"
+
+    (notify)="onChange($event)"
+  ></seer-table>
+</seer-collapse-card>
