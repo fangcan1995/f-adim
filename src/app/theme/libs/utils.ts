@@ -64,40 +64,68 @@ const _clearCookie = () => {
 
 
 //本地存储
-const _existStorage = () => !!window.localStorage;
+const _existStorage = () => !!window.localStorage && !!window.sessionStorage;
 
-const setStorage = ( { key, value } ) => {
+const setStorage = ( { key, value }, forever? ) => {
     value = JSON.stringify(value);
     if ( _existStorage() ) {
+      if ( typeof forever === 'undefined' || forever === null ) {
+        window.sessionStorage.setItem(key, value);
         window.localStorage.setItem(key, value);
+      } else if ( forever ) {
+        window.localStorage.setItem(key, value);
+      } else {
+        window.sessionStorage.setItem(key, value);
+      }
     } else {
-        _setCookie(key, value);
+      _setCookie(key, value);
     }
 }
 
-const getStorage = ( { key } ) => {
+const getStorage = ( { key }, forever? ) => {
     let value = '';
     if ( _existStorage() ) {
+      if ( typeof forever === 'undefined' || forever === null ) {
+        value = window.sessionStorage.getItem(key);
+        if ( !value ) value = window.localStorage.getItem(key);
+      } else if ( forever ) {
         value = window.localStorage.getItem(key);
+      } else {
+        value = window.sessionStorage.getItem(key);
+      }
     } else {
-        value = _getCookie(key);
+      value = _getCookie(key);
     }
     return JSON.parse(value);
 }
 
-const delStorage = ( { key } ) => {
+const delStorage = ( { key }, forever? ) => {
     if ( _existStorage() ) {
+      if ( typeof forever === 'undefined' || forever === null ) {
+        window.sessionStorage.removeItem(key);
         window.localStorage.removeItem(key);
+      } else if ( forever ) {
+        window.localStorage.removeItem(key);
+      } else {
+        window.sessionStorage.removeItem(key);
+      }
     } else {
-        _delCookie(key);
+      _delCookie(key);
     }
 }
 
-const clearStorage = () => {
+const clearStorage = ( forever? ) => {
     if ( _existStorage() ) {
+      if ( typeof forever === 'undefined' || forever === null ) {
+        window.sessionStorage.clear();
         window.localStorage.clear();
+      } else if ( forever ) {
+        window.localStorage.clear();
+      } else {
+        window.sessionStorage.clear();
+      }
     } else {
-        _clearCookie();
+      _clearCookie();
     }
 }
 

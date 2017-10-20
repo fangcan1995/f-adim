@@ -45,12 +45,12 @@ export class ResourceEditComponent implements OnInit {
       this.isAdd = !this.editId;
     })
     this.title = this.isAdd ? '新建资源' : '修改资源';
-    this.forbidSaveBtn=false;
+    this.forbidSaveBtn = false;
     if(!this.isAdd) {
-      //this.getResourceById(this.editId);
       this._editType='edit';
       this.service.getOne(this.editId).then((data) => {
         this.resource = data.data;
+        console.log(this.resource)
       });
     }else {
       //this.forbidSaveBtn = false;

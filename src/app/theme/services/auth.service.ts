@@ -40,10 +40,6 @@ export class AuthService {
     .do(res => {
       if ( res && !res.error ) {
         this.isLoggedIn = true;
-        setStorage({
-          key: 'token',
-          value: res,
-        })
       }
     })
     .catch(this.handleError);

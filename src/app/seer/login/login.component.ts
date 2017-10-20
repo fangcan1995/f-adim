@@ -11,7 +11,7 @@ import {
 } from '@angular/forms';
 import { Router, NavigationExtras } from '@angular/router';
 import { GlobalState } from '../../global.state';
-import { parseQueryString } from '../../theme/libs/utils';
+import { parseQueryString, setStorage } from '../../theme/libs/utils';
 
 import { AuthService } from '../../theme/services/auth.service';
 import { UserService } from '../../theme/services/user.service';
@@ -75,9 +75,30 @@ export class LoginComponent {
   login(account, password) {
     this._authService.login(account, password)
     .mergeMap(res => {
+      if ( res && !res.error ) {
+        setStorage({
+          key: 'token',
+          value: res,
+        }, false)
+      }
       return this._userService.getDataFromServer()
     })
     .subscribe(res => {
+      let user = res[0].data || {};
+      let resources = res[1].data ? res[1].data.list || [] : [];
+      let dicts = res[2].data ? res[2].data.list || [] : [];
+      setStorage({
+        key: 'user',
+        value: user,
+      }, false)
+      setStorage({
+        key: 'resources',
+        value: resources,
+      }, false)
+      setStorage({
+        key: 'dicts',
+        value: dicts,
+      }, false)
       if ( this._authService.isLoggedIn ) {
         let redirectUrl = this._authService.redirectUrl ? this._authService.redirectUrl : '/home';
         let redirectSearch = this._authService.redirectSearch;
