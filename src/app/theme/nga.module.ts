@@ -35,6 +35,7 @@ import {
   SeerMessageComponent,
   SeerDialogComponent,
   PreloadImageComponent,
+  SeerCoolCheckboxComponent,
 } from './components';
 
 import { BaCardBlur } from './components/baCard/baCardBlur.directive';
@@ -117,6 +118,7 @@ const NGA_COMPONENTS = [
   SeerMessageComponent,
   SeerDialogComponent,
   PreloadImageComponent,
+  SeerCoolCheckboxComponent,
 ];
 
 const NGA_DIRECTIVES = [

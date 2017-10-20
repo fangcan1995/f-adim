@@ -25,7 +25,7 @@ const routes: Routes = [
       { path: 'operation', loadChildren: './operation/operation.module#OperationModule' },
       { path: 'security', loadChildren: './security/security.module#SecurityModule' },
       { path: 'content', loadChildren: './content/content.module#ContentModule' },
-      
+      { path: 'message', loadChildren: './message/message.module#MessageModule' },
     ]
   },
   { path: '**', component: PageNotFoundComponent }

@@ -68,6 +68,7 @@
               type="checkbox"
               [(ngModel)]="selectedAll"
               (change)="selectAll()"/>
+            <seer-cool-checkbox></seer-cool-checkbox>
           </th>
           <th *ngIf="showSeq" class="table-seq">序号</th>
           <th *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">

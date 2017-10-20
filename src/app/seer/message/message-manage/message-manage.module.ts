@@ -12,7 +12,6 @@ import { SharedModule } from "../../common/shared.module";
 import { MessageService } from "./message.service";
 @NgModule({
   imports: [
-
     NgaModule,
     RatingModule,
     routing,
@@ -34,5 +33,5 @@ import { MessageService } from "./message.service";
   exports: [
   ]
 })
-export class MessageModule {
+export class MessageManageModule {
 }
