@@ -63,12 +63,11 @@
       <thead>
         <tr>
           <th *ngIf="!hideCheckbox" class="table-checkbox">
-            <input
-
-              type="checkbox"
-              [(ngModel)]="selectedAll"
-              (change)="selectAll()"/>
-            <seer-cool-checkbox></seer-cool-checkbox>
+            <!-- 此处不能用 checkedChange -->
+            <seer-cool-checkbox
+              [(checked)]="selectedAll"
+              (change)="selectAll()"
+            ></seer-cool-checkbox>
           </th>
           <th *ngIf="showSeq" class="table-seq">序号</th>
           <th *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
@@ -79,7 +78,13 @@
       </thead>
       <tbody>
       <tr *ngFor="let item of getData(); let i = index">
-        <td *ngIf="!hideCheckbox" class="table-checkbox"><input type="checkbox" [(ngModel)]="item.selected" (change)="selectOne(item)"/></td>
+        <td *ngIf="!hideCheckbox" class="table-checkbox">
+          <!-- 此处不能用 checkedChange -->
+          <seer-cool-checkbox
+            [(checked)]="item.selected"
+            (change)="selectOne(item)"
+          ></seer-cool-checkbox>
+        </td>
         <td *ngIf="showSeq" class="table-seq">{{ i + 1 }}</td>
         <td *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
 

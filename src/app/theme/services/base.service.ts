@@ -113,6 +113,10 @@ export class BaseService<T> {
     return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['DICTS']}`, params, true).toPromise();
   }
 
+  public getDicts() {
+    
+  }
+
 
   // 提交
 }

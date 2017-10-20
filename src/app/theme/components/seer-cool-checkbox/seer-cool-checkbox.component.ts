@@ -1,36 +1,88 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'seer-cool-checkbox',
   styles: [`
     .cool-checkbox {
       position: relative;
-      display: inline-flex;
-      height: 1rem;
-      padding-left: 1rem;
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      
       margin-bottom: 0;
+      outline: none;
     }
-    .cool-checkbox .custom-control-input:checked ~ .custom-control-indicator {
-      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E");
-      box-shadow: none;
+    .cool-checkbox .cool-checkbox-input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      opacity: 0;
+    }
+    .cool-checkbox .cool-checkbox-indicator {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 14px;
+      height: 14px;
+      border-radius: .2em;
+      border-width: 1px;
+      border-style: solid;
+      border-color: #ddd;
+      line-height: 12px;
+    }
+    .cool-checkbox .cool-checkbox-indicator {
+      font-size: 12px;
+      text-alight: center;
+    }
+    .cool-checkbox .cool-checkbox-indicator:before {
+      display: none;
+      color: #058;
+    }
+    .cool-checkbox .cool-checkbox-input:checked ~ .cool-checkbox-indicator {
+      border-color: #058;
+    }
+    .cool-checkbox .cool-checkbox-input:checked ~ .cool-checkbox-indicator:before {
+      display: inline-block;
+    }
+    .cool-checkbox .cool-checkbox-input:focus ~ .cool-checkbox-indicator {
+      border-color: #058;
     }
 
-    .cool-checkbox .custom-control-input:focus ~ .custom-control-indicator {
-          box-shadow: none;
-        }
-
-    .cool-checkbox .custom-control-input:active ~ .custom-control-indicator {
-          box-shadow: none;
-        }
+    .cool-checkbox .cool-checkbox-input:active ~ .cool-checkbox-indicator {
+      border-color: #058;
+    }
+    .cool-checkbox .cool-checkbox-input:disabled ~ .cool-checkbox-indicator {
+      background-color: #ddd;
+      border-color: #ddd;
+    }
   `],
   template: `
-    <label class="cool-checkbox ">
-      <input type="checkbox" class="custom-control-input">
-      <span class="custom-control-indicator"></span>
+    <label class="cool-checkbox" (click)="onClicked($event)">
+      <input type="checkbox" class="cool-checkbox-input" [(ngModel)]="checked" (change)="onChange($event)" [disabled]="disabled" />
+      <span class="cool-checkbox-indicator fa fa-check"></span>
     </label>
     
   `
 })
 export class SeerCoolCheckboxComponent {
-
+  @Input() checkedValue: boolean;
+  @Input() disabled: boolean;
+  @Output() checkedChange = new EventEmitter();
+  @Output() click = new EventEmitter();
+  @Output() change = new EventEmitter();
+  @Input()
+  get checked() {
+    return this.checkedValue;
+  }
+  set checked(val) {
+    this.checkedValue = val;
+    this.checkedChange.emit(this.checkedValue);
+  }
+  onChange($event) {
+    this.change.emit($event);
+  }
+  onClicked($event) {
+    this.click.emit($event); 
+  }
 }
