@@ -5,6 +5,7 @@ import { RouterModule } from "@angular/router";
 import { NgaModule } from '../theme/nga.module';
 
 import { SeerComponent } from './seer.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { routing } from './seer.routing';
 
 @NgModule({
@@ -14,7 +15,10 @@ import { routing } from './seer.routing';
     NgaModule,
     routing,
   ],
-  declarations: [SeerComponent],
+  declarations: [
+  	SeerComponent,
+  	PageNotFoundComponent,
+  ],
 })
 export class SeerModule {
 }

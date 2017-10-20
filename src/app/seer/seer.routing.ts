@@ -4,6 +4,7 @@ import {
 } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 import { SeerComponent } from './seer.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuard } from '../theme/services/auth-guard.service';
 const routes: Routes = [
   {
@@ -24,8 +25,10 @@ const routes: Routes = [
       { path: 'operation', loadChildren: './operation/operation.module#OperationModule' },
       { path: 'security', loadChildren: './security/security.module#SecurityModule' },
       { path: 'content', loadChildren: './content/content.module#ContentModule' },
+      
     ]
-  }
+  },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forChild(routes);
