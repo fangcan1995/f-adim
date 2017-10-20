@@ -6,21 +6,7 @@ import {
   HttpInterceptorService,
 } from './http-interceptor.service';
 
-import { getStorage } from '../libs/utils';
-
-const castDict2Translate = (dicts: any[] = [], map: Map<string, string>) => {
-  let translate = {};
-  map.forEach((dictKeyId, field) => {
-    for (let i = 0; i < dicts.length; i++ ) {
-      let dict = dicts[i];
-      if (dict.dictKeyId == dictKeyId ) {
-        if ( !translate[field] ) translate[field] = [];
-        translate[field].push(dict);
-      }
-    }
-  });
-  return translate;
-};
+import { getStorage, castDict2Translate } from '../libs';
 
 const BASE_DOMAIN = '172.16.7.4';
 const BASE_PORT = 8020;
