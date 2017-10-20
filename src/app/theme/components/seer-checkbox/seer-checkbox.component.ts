@@ -17,10 +17,18 @@ import {Component, Input, Self} from '@angular/core';
       cursor: pointer;
       vertical-align: sub;
     }
+    .virtual-checkbox.disabled:before {
+      color: #aaa;
+    }
   `],
   template: `
   <span class="check-span">
-    <i id="{{label+id}}" class="virtual-checkbox" [ngClass]="{'ion-android-checkbox-outline-blank': !isChecked, 'ion-android-checkbox-outline':isChecked}"></i>
+    <i
+      id="{{label+id}}"
+      class="virtual-checkbox"
+      [ngClass]="{'ion-android-checkbox-outline-blank': !isChecked, 'ion-android-checkbox-outline':isChecked}"
+      [class.disabled]="disabled"
+      ></i>
     <label for="{{label+id}}" style="cursor: pointer;">{{label}}</label>
   </span>
   `
@@ -29,4 +37,5 @@ export class SeerCheckbox {
   @Input() label:string;
   id = new Date().getTime();
   @Input() isChecked:boolean;
+  @Input() disabled: boolean;
 }

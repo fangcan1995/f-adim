@@ -40,7 +40,7 @@
       <div class="col-xs-12">
         <div class="col-xs-2"><label class="person_label required">类型编号</label></div>
         <div class="col-xs-3" [ngClass]="{'has-error': checkAllinput&&!currentDict.category}">
-          <input type="text" name="currentDict.id" *ngIf="IsEdit" [(ngModel)]="currentDict.id">
+          <input type="hidden" name="currentDict.id"  *ngIf="IsEdit" [(ngModel)]="currentDict.id">
           <input type="text" class="form-control person_space" required [(ngModel)]="currentDict.category" name="currentDict.category"/>
         </div>
         <div class="col-xs-2"><label class="person_label required">类型名称</label></div>

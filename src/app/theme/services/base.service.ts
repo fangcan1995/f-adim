@@ -110,9 +110,7 @@ export class BaseService<T> {
     })
   }
   public getDictsFromServer(params?): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['DICTS']}`, params, true).toPromise().catch(err => {
-      console.log(err)
-    });
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['DICTS']}`, params, true).toPromise();
   }
 
 

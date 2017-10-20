@@ -11,7 +11,7 @@ const routes: Routes = [
     path: '',
     component: DictManageComponent,
     children: [
-      { path: '', component: DictComponent},
+      { path: '', component: DictComponent },
     ]
   }
 ];

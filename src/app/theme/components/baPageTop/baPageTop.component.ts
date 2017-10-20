@@ -46,7 +46,6 @@ export class BaPageTop implements OnInit {
 
       } else {
         this.activePageTitle = activeLink.title;
-        console.log(activeLink)
         this.activePageIcon = this._getActivePageIcon(activeLink);
       }
     });
