@@ -111,6 +111,7 @@ export class SeerTableComponent implements OnInit {
       });
       this.service.getDictTranslate(transFields)
       .then(res => {
+        console.log(res);
         if ( res.success ) this.translate = res.data;
       });
     }

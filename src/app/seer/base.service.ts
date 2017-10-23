@@ -210,7 +210,7 @@ export class BaseService<T> {
     _.each(translateFields, field => {
       map.set(field.field, field.dictKeyId ? field.dictKeyId : field.field.toString().replace(/([A-Z]+)/g, (all, letter)=>'_'+letter).toUpperCase());
     });
-
+    console.log(map)
     const cachedDicts = 'cached dicts';
     const dictsCacheTime = 'when dicts cached';
     const alreadyRequest = 'requested waiting for response';
@@ -219,7 +219,7 @@ export class BaseService<T> {
     const localDictsCacheTime = sessionStorage.getItem(dictsCacheTime);
     const nowTime = new Date().getTime();
     const dict = sessionStorage.getItem(cachedDicts);
-
+    console.log(dict)
     if ( dict && ( nowTime - +( localDictsCacheTime ? localDictsCacheTime : 0 ) ) < CACHE_DURATION ) {
       return new Promise((resolve, reject) => {
         resolve({success: true, data:castDict2Translate(JSON.parse(dict), map),from:'cache'});

@@ -39,6 +39,7 @@ import { SeerContentTopComponent } from './seer-content-top';
 import { SeerDatepickerComponent } from './seer-datepicker';
 import { SeerPaginationComponent } from './seer-pagination';
 import { SeerCoolCheckboxComponent } from './seer-cool-checkbox';
+import { SeerAddressPickerComponent } from './seer-address-picker';
 
 // 待干掉
 import { seerAlertComponent } from "./seer_alert/seer_alert";
@@ -63,6 +64,7 @@ import { seerTableComponent } from "./seer_table/seer.table";
     SeerDatepickerComponent,
     SeerPaginationComponent,
     SeerCoolCheckboxComponent,
+    SeerAddressPickerComponent,
   ],
   imports: [
     CommonModule,
@@ -116,6 +118,7 @@ import { seerTableComponent } from "./seer_table/seer.table";
     SeerDatepickerComponent,
     SeerPaginationComponent,
     SeerCoolCheckboxComponent,
+    SeerAddressPickerComponent,
   ],
 
   entryComponents:[MultiPickerComponent]

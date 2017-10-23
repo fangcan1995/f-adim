@@ -98,11 +98,9 @@ export class BaseService<T> {
   public getDictsFromServer(params?): Promise<ResModel> {
     return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['DICTS']}`, params, true).toPromise();
   }
-
-  public getDicts() {
-    
+  // 拉取字典数据
+  public getDicts(category, itemId?) {
+    const dictsCacheTime = 'DICTS_CACHE_TIME';
   }
 
-
-  // 提交
 }
