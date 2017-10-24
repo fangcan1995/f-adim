@@ -5,7 +5,6 @@ import {
   Output,
   EventEmitter,
   ViewChild,
-
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { defineLocale } from 'ngx-bootstrap/bs-moment';
@@ -19,6 +18,8 @@ defineLocale('zh-cn', zhCn);
   styleUrls: [ './seer-datepicker.component.scss' ],
 })
 export class SeerDatepickerComponent implements OnInit {
+  @Input() id;
+  @Input() name;
 	@Input() minDate;
 	@Input() maxDate;
   @Input() disabled;
