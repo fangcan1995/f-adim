@@ -40,13 +40,13 @@ export class MessageEditComponent {
       options:[{value:'', content: '全部'}]
     },
     {
-      key: 'eee',
+      key: 'sendNotify',
       label: '消息中心',
       type: 'select',
       options:[{value:'', content: '全部'}]
     },
     {
-      key: 'fff',
+      key: 'sendMessage',
       label: '短信通知',
       type: 'select',
       options:[{value:'', content: '全部'}]
@@ -117,9 +117,9 @@ export class MessageEditComponent {
     "query":{
       "aaa":"",
       "bbb":"",
-      "ddd":"",
-      "eee":"",
-      "fff":"",
+      "sendMail":"",
+      "sendNotify":"",
+      "sendMessage":"",
       "TimeStart":"",
       "TimeEnd":"",
       "ggg":""
@@ -128,8 +128,8 @@ export class MessageEditComponent {
   }; //分页、排序、检索
   cardActions1 = [this.modalActionSet.SEARCH];
   cardActions2 = [this.modalActionSet.All,this.modalActionSet.OK];
-  IsChecked={"ddd":false,"eee":true,"fff":true}
-  disabled={"ddd":false,"eee":false,"fff":false}
+  IsChecked={"sendMail":false,"sendNotify":true,"sendMessage":true}
+  disabled={"sendMail":false,"sendNotify":false,"sendMessage":false}
   constructor(
     private location: Location ,
     private _route: ActivatedRoute,
@@ -139,27 +139,7 @@ export class MessageEditComponent {
     private gs:GlobalState,
     private modalService: BsModalService){
   }
-  /*ngOnInit() {
-    this._route.url.mergeMap(url => {
-      this._editType = url[0].path;
-      return this._route.params
-    }).subscribe(params => {
-      if ( this._editType === 'edit' ) {
-        this.service.getMessageById(params.id).then(res => {
-          console.log(res.data);
-          this.message=res.data|| {};
-          this.forbidSaveBtn = false;
-        }, errMsg => {
-          // 错误处理的正确打开方式
-          alert('error');
-        })
-      } else if ( this._editType === 'add' ) {
-        alert();
-        this.forbidSaveBtn = false;
-      }
-    })
 
-  }*/
   ngOnInit() {
     this._route.params.subscribe(params => {
       this.editId = params['id'];
@@ -173,9 +153,10 @@ export class MessageEditComponent {
       //this.getResourceById(this.editId);
       this._editType='edit';
       this.service.getMessageById(this.editId).then((data) => {
+        console.log(data);
         this.message = data.data;
-        if(this.message.bbb=="后台员工"){
-          this.disabled={"ddd":true,"eee":true,"fff":false}
+        if(this.message.adaptationUser=="backend"){
+          this.disabled={"sendMail":true,"sendNotify":true,"sendMessage":false}
         }
       });
     }else {
@@ -189,13 +170,13 @@ export class MessageEditComponent {
     console.log(userTypeId);
     if(userTypeId=='1'){
       //this.isPickUsersAble=false;
-      this.disabled.ddd=false;
-      this.disabled.eee=false;
+      this.disabled.sendMail=false;
+      this.disabled.sendNotify=false;
       this.usersType="members"
     }else if(userTypeId=='2'){
       //this.isPickUsersAble=false;
-      this.disabled.ddd=true;
-      this.disabled.eee=true;
+      this.disabled.sendMail=true;
+      this.disabled.sendNotify=true;
       this.usersType="users"
     }
   }
@@ -235,31 +216,31 @@ export class MessageEditComponent {
   handleSaveBtnClick(){
     if ( this.forbidSaveBtn ) return;
     this.forbidSaveBtn = true;
-    let requestStream$;
+    //let requestStream$;
     if ( this._editType === 'edit' ) {
-      //console.log(this.staff);
-      requestStream$ = this.service.updateMessage(this.message);
+      this.service.putOne(this.message).then((data:any) => {
+        if(data.code=="0") {
+          this.alertSuccess(data.message);
+        }else{
+          this.alertError(data.message);
+        }
+      }).catch(err => {
+        this.alertError("更新失败");
+      });
+    } else if ( this._editType === 'add' ) {
+      this.service.postOne(this.message).then((data:any) => {
+        if(data.code=='0') {
+          this.alertSuccess("添加成功");
+        }else{
+          this.alertError("添加失败");
+        }
+      }).catch(err => {
+        this.alertError("添加失败");
+      });
     } else {
       return;
     }
-    requestStream$
-      .subscribe(res => {
-        this._messageService.open({
-          icon: 'fa fa-times-circle',
-          message: res.msg,
-          autoHideDuration: 3000,
-        }).onClose().subscribe(() => {
-          this._router.navigate(['/basic-info/staff-manage'])
-        });
-      }, errMsg => {
-        this.forbidSaveBtn = false;
-        // 错误处理的正确打开方式
-        this._messageService.open({
-          icon: 'fa fa-times-circle',
-          message: errMsg,
-          autoHideDuration: 3000,
-        })
-      })
+
   }
   //模态框
   public modalRef: BsModalRef;
@@ -268,5 +249,23 @@ export class MessageEditComponent {
     this.service.getUsers(this.usersType).then(res => {
       this.modalUsers = res.data.list;
     });
+  }
+  alertSuccess(info:string){
+    this._messageService.open({
+      icon: 'fa fa-times-circle',
+      message: info,
+      autoHideDuration: 3000,
+    }).onClose().subscribe(() => {
+      this._router.navigate(['/message/message/'])
+    });
+  }
+  alertError(errMsg:string){
+    this.forbidSaveBtn = false;
+    // 错误处理的正确打开方式
+    this._messageService.open({
+      icon: 'fa fa-times-circle',
+      message: errMsg,
+      autoHideDuration: 3000,
+    })
   }
 }

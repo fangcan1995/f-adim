@@ -13,7 +13,8 @@
                 <div class="form-group">
                   <label class="col-sm-4 control-label">消息名称</label>
                   <div class="col-sm-8 ">
-                    <input type="text" class="form-control" id="aaa"  [(ngModel)]="message.aaa" name="aaa"    required >
+                    <input type="text" name="message.id" [(ngModel)]="message.id">
+                    <input type="text" class="form-control" id="msgTitle"  [(ngModel)]="message.msgTitle" name="msgTitle"    required >
                   </div>
                 </div>
               </div>
@@ -25,12 +26,12 @@
                   <label class="col-sm-4 control-label">适配用户</label>
                   <div class="col-sm-8 ">
                     <select class="form-control"  disabled *ngIf="isAdd==false">
-                      <option value="1" selected>前台用户</option>
+                      <option value="message.adaptationUser">{{message.adaptationUser}}</option>
                     </select>
-                    <select class="form-control" id="bbb" name="bbb"  *ngIf="isAdd==true" (change)="selectUsersType($event.target.value)" >
+                    <select class="form-control" id="adaptationUser" name="adaptationUser"  *ngIf="isAdd==true" (change)="selectUsersType($event.target.value)" >
                       <option>请选择</option>
-                      <option value="1">前台用户</option>
-                      <option value="2">后台用户</option>
+                      <option value="frontend">前台用户</option>
+                      <option value="backend">后台用户</option>
                     </select>
                     <!--<select type="email" class="form-control" name="contractType" id="staffState" (change)="selectUsersType($event.target.value)"  [(ngModel)]="staff.staffState" dict-select required
                             [key]="'STAFF_STATE'"
@@ -44,7 +45,7 @@
                 <div class="form-group">
                   <label class="col-sm-4 control-label">消息类型</label>
                   <div class="col-sm-8 ">
-                    <select class="form-control" id="ccc"   >
+                    <select class="form-control" id="businessType"   >
                       <option>请选择</option>
                     </select>
                   </div>
@@ -56,9 +57,9 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">显示范围</label>
                   <div class="col-sm-8 ">
-                    <seer-checkbox (click)="ckboxToggle('ddd')" [isChecked]="IsChecked.ddd" [label]="'消息中心'" [disabled]="disabled.ddd"></seer-checkbox>
-                    <seer-checkbox (click)="ckboxToggle('eee')" [isChecked]="IsChecked.eee" [label]="'推送通知'" [disabled]="disabled.eee"></seer-checkbox>
-                    <seer-checkbox (click)="ckboxToggle('fff')" [isChecked]="IsChecked.fff" [label]="'短信通知'" [disabled]="disabled.fff"></seer-checkbox>
+                    <seer-checkbox (click)="ckboxToggle('sendMail')" [isChecked]="IsChecked.sendMail" [label]="'消息中心'" [disabled]="disabled.sendMail"></seer-checkbox>
+                    <seer-checkbox (click)="ckboxToggle('sendNotify')" [isChecked]="IsChecked.sendNotify" [label]="'推送通知'" [disabled]="disabled.sendNotify"></seer-checkbox>
+                    <seer-checkbox (click)="ckboxToggle('sendMessage')" [isChecked]="IsChecked.sendMessage" [label]="'短信通知'" [disabled]="disabled.sendMessage"></seer-checkbox>
                   </div>
                 </div>
               </div>
@@ -68,7 +69,7 @@
                 <div class="form-group">
                   <label class="col-sm-4 control-label">下发时间</label>
                   <div class="col-sm-8 ">
-                    <seer-datepicker [(date)]="message.hhh"></seer-datepicker>
+                    <seer-datepicker [(date)]="message.expectSendTime" name="expectSendTime" ></seer-datepicker>
                   </div>
                 </div>
               </div>
@@ -79,9 +80,9 @@
           <div class="row">
             <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">
               <div class="form-group">
-                <label class="col-sm-2 control-label">模板名称</label>
+                <label class="col-sm-2 control-label">消息简介</label>
                 <div class="col-sm-10 ">
-                  <input type="text" class="form-control" id="name" placeholder="模板名称">
+                  <input type="text" class="form-control" id="msgProfile" name="msgProfile">
                 </div>
               </div>
             </div>
@@ -89,9 +90,9 @@
           <div class="row">
             <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">
               <div class="form-group">
-                <label class="col-sm-2 control-label">模板内容</label>
+                <label class="col-sm-2 control-label">消息内容</label>
                 <div class="col-sm-10 ">
-                  <textarea class="form-control" id="debtIntroduction" placeholder="模板内容"></textarea>
+                  <textarea class="form-control" id="msgContent" name="msgContent" ></textarea>
                 </div>
               </div>
             </div>

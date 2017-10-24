@@ -6,6 +6,7 @@ import * as _ from 'lodash'
 import {PREVIEW,UPDATE, DELETE} from "../../common/seer-table/seer-table.actions"
 import {SeerDialogService} from "../../../theme/services/seer-dialog.service"
 import {_if} from "rxjs/observable/if";
+import {tokenKey} from "@angular/core/src/view/util";
 
 @Component({
   selector: 'message-rule',
@@ -16,52 +17,52 @@ export class MessageComponent {
   hasGlobalFilter = true;
   filters = [
     {
-      key: 'aaa',
-      label: '用户姓名',
+      key: 'msgTitle',
+      label: '消息名称',
       type: 'input.text',
     },
     {
-      key: 'bbb',
+      key: 'adaptationUser',
       label: '适配用户',
       type: 'select',
       options:[{value:'', content: '全部'},{value:'1', content: '前台用户'},{value:'2', content: '后台员工'}]
     },
     {
-      key: 'ddd',
+      key: 'businessType',
       label: '消息类型',
       type: 'select',
       options:[{value:'', content: '全部'}]
     },
     {
-      key: 'eee',
+      key: 'sendMail',
       label: '消息中心',
       type: 'select',
       options:[{value:'', content: '全部'}]
     },
     {
-      key: 'fff',
+      key: 'sendMessage',
       label: '短信通知',
       type: 'select',
       options:[{value:'', content: '全部'}]
     },
     {
-      key:'ggg',
+      key:'sendNotify',
       label:'推送通知',
       type: 'select',
       options:[{value:'', content: '全部'}]
     },
     {
-      key:'TimeStart',
+      key:'beginTime',
       label:'下发时间',
       type: 'datepicker',
     },
     {
-      key:'TimeEnd',
+      key:'endTime',
       label:'至',
       type: 'datepicker',
     },
     {
-      key:'ggg',
+      key:'msgProfile',
       label:'消息简介',
       type: 'input.text',
     },
@@ -69,38 +70,39 @@ export class MessageComponent {
   pageInfo={
     "pageNum":1,
     "pageSize":10,
-    "sort":"-entryTime",
+    "sort":"-createTime",
     "total":"",
     "query":{
-      "aaa":"",
-      "bbb":"",
-      "ddd":"",
-      "eee":"",
-      "fff":"",
-      "TimeStart":"",
-      "TimeEnd":"",
-      "ggg":""
+      "globalSearch":"",
+      "msgTitle":"",
+      "adaptationUser":"",
+      "sendMail":"",
+      "sendNotify":"",
+      "sendMessage":"",
+      "beginTime":"",
+      "endTime":"",
+      "msgProfile":""
     },
 
   }; //分页、排序、检索
   source = [];
   titles = [
-    {key:'aaa',label:'消息名称'},
-    {key:'bbb',label:'适配用户'},
-    {key:'ccc',label:'消息类型'},
-    {key:'ddd',label:'消息中心'},
-    {key:'eee',label:'推送通知'},
-    {key:'fff',label:'短信通知'},
-    {key:'ggg',label:'消息简介'},
-    {key:'hhh',label:'下发时间'},
-    {key:'iii',label:'最后修改时间'},
-    {key:'jjj',label:'最后修改人'},
+    {key:'msgTitle',label:'消息名称'},
+    {key:'adaptationUser',label:'适配用户'},
+    {key:'businessType',label:'消息类型'},
+    {key:'sendMail',label:'消息中心'},
+    {key:'sendNotify',label:'推送通知'},
+    {key:'sendMessage',label:'短信通知'},
+    {key:'msgProfile',label:'消息简介'},
+    {key:'expectSendTime',label:'下发时间'},
+    {key:'updateTime',label:'最后修改时间'},
+    {key:'updateUser',label:'最后修改人'},
   ];
   ngOnInit() {
     // 数据字典
-    this.service.getDictTranslate().then((result)=>{
+    /*this.service.getDictTranslate().then((result)=>{
       console.log(result)
-    })
+    })*/
     this.getList();
   }
   constructor(
@@ -109,18 +111,26 @@ export class MessageComponent {
     private _route: ActivatedRoute,
     private _dialogService: SeerDialogService
   ) {}
-    getList():void{
-      this.service.getDatas().then(res => {
+  //获取列表
+  getList():void{
+      this.service.getDatas(this.pageInfo).then(res => {
+        this.pageInfo.pageNum=res.data.pageNum;  //当前页
+        this.pageInfo.pageSize=res.data.pageSize; //每页记录数
+        this.pageInfo.total=res.data.total; //记录总数
         this.source = res.data.list;
+        console.log(this.pageInfo.total);
         this.source = _.map(this.source, r => {
-          let isPushed = r.isPushed;
+          let timingStatus = r.timingStatus;
           let actions;
-          switch (isPushed) {
-            case "1":
-              actions = [PREVIEW, DELETE];
+          switch (timingStatus) {
+            case 1:
+              actions = [PREVIEW, DELETE];             //即时消息
               break;
-            case "0":
-              actions = [PREVIEW, UPDATE, DELETE];
+            case 3:
+              actions = [PREVIEW, DELETE];            //定时消息并且已经发送
+              break;
+            case 2:
+              actions = [PREVIEW, UPDATE, DELETE];   //未发信息可以修改
               break;
             default:
               actions = [PREVIEW];
@@ -130,10 +140,11 @@ export class MessageComponent {
         })
       });
   }
-    onChange(message):void {
+  //
+  onChange(message):void {
       const type = message.type;
       let data = message.data;
-      console.log(type);
+      //console.log(type);
       switch (type) {
         case 'create':
           this._router.navigate([`edit`], {relativeTo: this._route});
@@ -154,18 +165,22 @@ export class MessageComponent {
                   //修改为不可见状态
                   let thisMessage=message.data;
                   thisMessage.isShow='0';
-                  this.service.updateMessage((thisMessage)).then(data => {
+                  this.service.putOne((thisMessage)).then(data => {
                     this.getList();
                   })
                 }else if(message.data.isPushed=='1'){
                   //删除
                   this.service.deleteMessage(message.data.id)
-                    .then(data => {
-                      this.getList();
-                    });
-
-
-
+                    .then((data:any) => {
+                      if(data.code=='0') {
+                        alert("删除成功");
+                        this.getList();
+                      }else{
+                        alert("删除失败");
+                      }
+                    }).catch(err => {
+                    alert("删除失败");
+                  });
                 };
 
               }
@@ -175,18 +190,32 @@ export class MessageComponent {
 
       }
     }
-
   //分页
   handlePageChange($event) {
     this.pageInfo.pageSize = $event.pageSize;
     this.pageInfo.pageNum=$event.pageNum;
     this.getList();
   }
-  //多条件查询
+  //全局搜索
   handleFiltersChanged($event) {
     let params=$event;
+    console.log(params);
     this.pageInfo.query = params;
     this.getList();
   }
+/*  //多条件检索
+  handleSearchBtnClicked($event) {
+    //alert(2);
+    let params=$event;
+    console.log(params);
+    /!*this.queryParams = $event;
+    let params = {
+      ...this.queryParams,
+      pageSize: this.pageSize,
+      PageNum: this.pageNum,
+    };*!/
+    this.getList();
+  }*/
+
 }
 

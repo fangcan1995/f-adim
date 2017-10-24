@@ -43,18 +43,21 @@
     [hasGlobalFilter]="hasGlobalFilter"
     [filters]="filters"
     (onFiltersChanged)=handleFiltersChanged($event)
-    (onSearchBtnClicked)=handleSearchBtnClicked($event)
+    (onSearchBtnClicked)=handleFiltersChanged($event)
   ></seer-filter>
 
   <seer-table
     [data]="source"
     [titles]="titles"
-    [translate]="dict"
+    [pageNum]="pageInfo.pageNum"
+    [pageSize]="pageInfo.pageSize"
+    [total]="pageInfo.total"
+    [paginationRules]="0"
+    (notify)="onChange($event)"
+    (changePage)="handlePageChange($event)"
     [hideExport]="true"
-    [hideColumns]="true"
     [hidePrint]="true"
     [hideRemoveAll]="true"
-
-    (notify)="onChange($event)"
+    [hideColumns]="true"
   ></seer-table>
 </seer-collapse-card>
