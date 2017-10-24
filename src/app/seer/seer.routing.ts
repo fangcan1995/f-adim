@@ -16,9 +16,9 @@ const routes: Routes = [
     component: SeerComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', redirectTo: 'workspace', pathMatch: 'full' },
-      { path: 'workspace', loadChildren:'./workspace/workspace.module#WorkspaceModule' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', loadChildren:'./home/home.module#HomeModule' },
+      { path: 'workspace', loadChildren:'./workspace/workspace.module#WorkspaceModule' },
       { path: 'business', loadChildren:'./business/business.module#BusinessModule' },
       { path: 'basic-info', loadChildren:'./basic-info/basic-info.module#BasicInfoModule' },
       { path: 'system', loadChildren:'./system/system.module#SystemModule' },

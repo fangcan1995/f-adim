@@ -99,7 +99,6 @@ export class RoleComponent implements OnInit {
     }
   }
   handleSimpleTableNotify($event) {
-    console.log($event)
     let { type, key } = $event;
     switch ( type ) {
       case 'save':
@@ -120,5 +119,8 @@ export class RoleComponent implements OnInit {
   }
   handleSimpleTableCardNotify($event) {
     console.log($event)
+  }
+  demodemo($event) {
+    console.log($event);
   }
 }

@@ -6,21 +6,7 @@ import {
   HttpInterceptorService,
 } from './http-interceptor.service';
 
-import { getStorage } from '../libs/utils';
-
-const castDict2Translate = (dicts: any[] = [], map: Map<string, string>) => {
-  let translate = {};
-  map.forEach((dictKeyId, field) => {
-    for (let i = 0; i < dicts.length; i++ ) {
-      let dict = dicts[i];
-      if (dict.dictKeyId == dictKeyId ) {
-        if ( !translate[field] ) translate[field] = [];
-        translate[field].push(dict);
-      }
-    }
-  });
-  return translate;
-};
+import { getStorage, castDict2Translate } from '../libs';
 
 const BASE_DOMAIN = '172.16.7.4';
 const BASE_PORT = 8020;
@@ -112,11 +98,9 @@ export class BaseService<T> {
   public getDictsFromServer(params?): Promise<ResModel> {
     return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['DICTS']}`, params, true).toPromise();
   }
-
-  public getDicts() {
-    
+  // 拉取字典数据
+  public getDicts(category, itemId?) {
+    const dictsCacheTime = 'DICTS_CACHE_TIME';
   }
 
-
-  // 提交
 }

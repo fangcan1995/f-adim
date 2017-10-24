@@ -30,7 +30,7 @@ import * as _ from 'lodash';
     [options]="seerTreeOptions"
     (onEvent)="onEvent($event)"
   >
-  <template #treeNodeTemplate let-node>
+  <ng-template #treeNodeTemplate let-node>
     <div>
       <i *ngIf="!node.isLeaf && checkPermissions(treePermissions.MULTI_SELECT)" (dblclick)="stopPropagation($event)" (click)="onToggleChildren($event,node)" class="virtual-checkbox" [class.ion-android-checkbox-outline-blank]="!node.isActive" [class.ion-android-checkbox-outline]="node.isActive && !node.isAllChildrenActive" [class.ion-android-checkbox]="node.isActive && node.isAllChildrenActive"></i>
       <i *ngIf="node.isLeaf && checkPermissions(treePermissions.MULTI_SELECT)" (dblclick)="stopPropagation($event)" (click)="onToggleLeaf($event,node)" class="virtual-checkbox" [class.ion-android-checkbox-outline-blank]="!node.isActive" [class.ion-android-checkbox-outline]="node.isActive"></i>
@@ -55,8 +55,8 @@ import * as _ from 'lodash';
     </div>
     
     
-  </template>
-  <template #loadingTemplate>{{loadingText}}</template>
+  </ng-template>
+  <ng-template #loadingTemplate>{{loadingText}}</ng-template>
   </angular2-tree>
   `
 })
