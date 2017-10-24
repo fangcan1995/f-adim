@@ -9,6 +9,7 @@ import {parseQueryString, getStorage} from "../../../theme/libs/utils"
 export class MessageService extends BaseService<any>{
 
   accessToken = getStorage({ key: 'token' }).access_token;
+  //accessToken='c516230a-4d45-4834-93a7-de24d700a5be';
   private MessageUrl = `http://172.16.1.234:8080/messages`;  // URL to web api
 
 
@@ -103,22 +104,17 @@ export class MessageService extends BaseService<any>{
   }
  /*新增*/
   postOne(template): Promise<Result> {
-
     const url = `${this.MessageUrl}?access_token=${this.accessToken}`;
-    console.log(url);
     return this.create(url,template);
   }
   /*修改*/
   putOne(template): Promise<Result> {
-
-    console.log(template);
-
     const url = `${this.MessageUrl}?access_token=${this.accessToken}`;
     return this.update(url,template);
   }
   /*删除*/
   deleteMessage(id: string): Promise<Result> {
-    const url = `${this.MessageUrl}?access_token=${this.accessToken}/${id}`;
+    const url = `${this.MessageUrl}/${id}?access_token=${this.accessToken}`;
     return this.delete(url);
   }
 
