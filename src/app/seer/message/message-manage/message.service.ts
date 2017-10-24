@@ -8,8 +8,8 @@ import {parseQueryString, getStorage} from "../../../theme/libs/utils"
 @Injectable()
 export class MessageService extends BaseService<any>{
 
-  //accessToken = getStorage({ key: 'token' }).access_token;
-  accessToken='c516230a-4d45-4834-93a7-de24d700a5be';
+  accessToken = getStorage({ key: 'token' }).access_token;
+  //accessToken='c516230a-4d45-4834-93a7-de24d700a5be';
   private MessageUrl = `http://172.16.1.234:8080/messages`;  // URL to web api
 
 
