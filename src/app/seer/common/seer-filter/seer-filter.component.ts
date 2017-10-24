@@ -52,7 +52,7 @@ export class SeerFilterComponent implements OnInit {
   ngOnInit() {
     this.onInit.emit({
       ...this.getFilterParams(this.filters),
-      global: this.globalFilterValue
+      globalSearch: this.globalFilterValue
     });
 
     /** 增加的部分 */
@@ -112,7 +112,7 @@ export class SeerFilterComponent implements OnInit {
       .subscribe(res => {
         this.onSearchBtnClicked.emit({
           ...this.getFilterParams(this.filters),
-          global: this.globalFilterValue
+          globalSearch: this.globalFilterValue
         })
       })
     }
@@ -124,7 +124,7 @@ export class SeerFilterComponent implements OnInit {
     .subscribe(filters => {
       this.onFiltersChanged.emit({
         ...this.getFilterParams(this.filters),
-        global: this.globalFilterValue
+        globalSearch: this.globalFilterValue
       })
     })
   }
@@ -140,7 +140,7 @@ export class SeerFilterComponent implements OnInit {
   handleGlobalFilterInputChange() {
     this.filters$.next({
       ...this.getFilterParams(this.filters),
-      global: this.globalFilterValue
+      globalSearch: this.globalFilterValue
     })
 
   }
@@ -153,7 +153,7 @@ export class SeerFilterComponent implements OnInit {
   handleFilterChange() {
     this.filters$.next({
       ...this.getFilterParams(this.filters),
-      global: this.globalFilterValue
+      globalSearch: this.globalFilterValue
     })
   }
   handleResetBtnClick() {
@@ -162,7 +162,7 @@ export class SeerFilterComponent implements OnInit {
     })
     this.filters$.next({
       ...this.getFilterParams(this.filters),
-      global: this.globalFilterValue
+      globalSearch: this.globalFilterValue
     })
   }
 
