@@ -23,9 +23,19 @@ export class RoleComponent implements OnInit {
   limit = 10;
   roles = [];
   simpleTableActions = [ DOWNLOAD, PREVIEW ]
+
+  classNames = {};
   @ViewChild('simpleTable') simpleTable
   ngOnInit() {
     this.getList();
+
+    setTimeout(() => {
+
+      this.classNames = {
+        containerClass: '122'
+      }
+
+    }, 3000)
   }
   getList(params?) {
     this._roleService.getList(params)

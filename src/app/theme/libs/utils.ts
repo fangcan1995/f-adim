@@ -261,6 +261,18 @@ const parseJson2URL = params => {
   return paramStr;
 };
 
+//默认值覆盖缺省值
+const overlayOpt = (opts, defaults) => {
+    for ( let def in defaults ) {
+        if (typeof opts[def] === 'undefined') {
+            opts[def] = defaults[def];
+        } else if ( typeof opts[def] === 'object' ) {
+            overlayOpt(opts[def], defaults[def]);
+        }
+    }
+    return opts;
+}
+
 export {
     isNumber,
     isTel,
@@ -277,4 +289,5 @@ export {
     dataURLtoBlob,
     parseQueryString,
     parseJson2URL,
+    overlayOpt,
 }

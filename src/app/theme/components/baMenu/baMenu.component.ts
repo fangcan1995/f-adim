@@ -60,13 +60,10 @@ export class BaMenu {
     }
   }
 
-  /*public ngOnInit():void {
-    if(this.menuRoutes){
-      this.menuItems = this._service.convertRoutesToMenus(this.menuRoutes);
-    }else{
-      // this._router.navigate(['/login']);
-    }
-  }*/
+  public ngOnInit():void {
+    this.menuItems = this._service.convertRoutesToMenus(_.cloneDeep(this.menuRoutes || []));
+    this.selectMenuAndNotify();
+  }
   public ngOnChanges(): void {
       this.menuItems = this._service.convertRoutesToMenus(_.cloneDeep(this.menuRoutes || []));
       this.selectMenuAndNotify();

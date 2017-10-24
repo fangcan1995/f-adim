@@ -1,5 +1,5 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import { cityJson } from '../../../theme/libs/cityJson';
+import { Component, OnInit, EventEmitter, Input, Output, OnChanges } from '@angular/core';
+import { cityJson, overlayOpt } from '../../../theme/libs';
 import * as _ from 'lodash';
 
 export class AddressModel {
@@ -9,37 +9,45 @@ export class AddressModel {
     ) {}
 }
 
-export interface AddressPickerOptionsModel {
-  
+export interface AddressPickerClassNamesModel {
+  containerClass?: string,
+  provinceContainerClass?: string,
+  provinceClass?: string,
+  cityContainerClass?: string,
+  cityClass?: string,
+  districtContainerClass?: string,
+  districtClass?: string,
+  addressContainerClass?: string,
+  addressClass?: string,
 }
 
 @Component({
   selector: 'seer-address-picker',
   template: `
-    <div class="row">
-      <div class="form-group col-xs-12 col-md-4 col-lg-2">
-        <select class="form-control" (change)="handleProvinceChange($event)">
+    <div class="{{ classNames.containerClass }}">
+      <div class="{{ classNames.provinceContainerClass }}">
+        <select class="{{ classNames.provinceClass }}" (change)="handleProvinceChange($event)" [disabled]="disabled">
           <option *ngFor="let p of getProvinces()" value="{{ p['item_code'] }}">{{ p.item_name }}</option>
         </select>
       </div>
-      <div class="form-group col-xs-12 col-md-4 col-lg-2">
-          <select class="form-control" (change)="handleCityChange($event)">
+      <div class="{{ classNames.cityContainerClass }}">
+          <select class="{{ classNames.cityClass }}" (change)="handleCityChange($event)" [disabled]="disabled">
             <option *ngFor="let c of getCitys()" value="{{ c['item_code'] }}">{{ c.item_name }}</option>
           </select>
       </div>
-      <div class="form-group col-xs-12 col-md-4 col-lg-2">
-          <select class="form-control" (change)="handleDistrictChange($event)">
+      <div class="{{ classNames.districtContainerClass }}">
+          <select class="{{ classNames.districtClass }}" (change)="handleDistrictChange($event)" [disabled]="disabled">
             <option *ngFor="let d of getDistricts()" value="{{ d['item_code'] }}">{{ d.item_name }}</option>
           </select>
       </div>
-      <div class="form-group col-xs-12 col-md-12 col-lg-6">
-        <input class="form-control" placeholder="详细地址" type="text" [(ngModel)]="address" (keyup)="handleAddressChange()">
+      <div class="{{ classNames.addressContainerClass }}">
+        <input class="{{ classNames.addressClass }}" placeholder="详细地址" type="text" [(ngModel)]="address" (keyup)="handleAddressChange()" [disabled]="disabled">
       </div>
       <ng-content></ng-content>
     </div>
   `,
 })
-export class SeerAddressPickerComponent implements OnInit {
+export class SeerAddressPickerComponent implements OnInit, OnChanges {
   defaultProvince: AddressModel = {
     item_code: null,
     item_name: '请选择省份',
@@ -61,7 +69,21 @@ export class SeerAddressPickerComponent implements OnInit {
   address: string = '';
   cityJson: AddressModel[] = _.cloneDeep(cityJson);
   cityMap = new Map;
-  @Input() options: AddressPickerOptionsModel;
+
+  @Input() classNames: AddressPickerClassNamesModel = {};
+  @Input() disabled: boolean;
+  private _defaultClassNames: AddressPickerClassNamesModel = {
+    containerClass: 'row',
+    provinceContainerClass: 'form-group col-xs-12 col-md-4 col-lg-2',
+    provinceClass: 'form-control',
+    cityContainerClass: 'form-group col-xs-12 col-md-4 col-lg-2',
+    cityClass: 'form-control',
+    districtContainerClass: 'form-group col-xs-12 col-md-4 col-lg-2',
+    districtClass: 'form-control',
+    addressContainerClass: 'form-group col-xs-12 col-md-12 col-lg-6',
+    addressClass: 'form-control',
+  }
+
   @Output() notify: EventEmitter<any> = new EventEmitter();
   constructor() {
     _.each(this.cityJson, t => {
@@ -81,9 +103,15 @@ export class SeerAddressPickerComponent implements OnInit {
     return this.districtRegExp.test(code);
   }
   ngOnInit() {
+    this.classNames = overlayOpt(this.classNames, this._defaultClassNames);
+
     this.curProvince = this.getProvinces()[0];
     this.curCity = this.getCitys()[0];
     this.curDistrict = this.getDistricts()[0];
+
+  }
+  ngOnChanges() {
+    this.classNames = overlayOpt(this.classNames, this._defaultClassNames);
   }
   private getProvinces() {
     let list = [];
