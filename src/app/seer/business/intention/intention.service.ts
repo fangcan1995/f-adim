@@ -5,30 +5,18 @@ import {SERVER} from "../../const";
 @Injectable()
 export class IntentionService extends BaseService<any>{
 
-  mockData = [
-    { "projectId" : "122433223", "projectName": "000000", "memberId": "232343432", "memberName": "0000", "loanAmount": "2222", "lifeOfLoan": "1111", "applyTime": "11111", "projectStatus": "111"},
-    { "projectId" : "122433223", "projectName": "000000", "memberId": "232343432", "memberName": "0000", "loanAmount": "2222", "lifeOfLoan": "1111", "applyTime": "111", "projectStatus": "111"},
-    { "projectId" : "122433223", "projectName": "000000", "memberId": "232343432", "memberName": "0000", "loanAmount": "2222", "lifeOfLoan": "1111", "applyTime": "111", "projectStatus": "111"},
-    { "projectId" : "122433223", "projectName": "000000", "memberId": "232343432", "memberName": "0000", "loanAmount": "2222", "lifeOfLoan": "1111", "applyTime": "111", "projectStatus": "111"},
-    { "projectId" : "122433223", "projectName": "000000", "memberId": "232343432", "memberName": "0000", "loanAmount": "2222", "lifeOfLoan": "1111", "applyTime": "1111", "projectStatus": "111"},
-    { "projectId" : "122433223", "projectName": "000000", "memberId": "232343432", "memberName": "0000", "loanAmount": "2222", "lifeOfLoan": "1111", "applyTime": "11111", "projectStatus": "111"},
-    { "projectId" : "122433223", "projectName": "000000", "memberId": "232343432", "memberName": "0000", "loanAmount": "2222", "lifeOfLoan": "1111", "applyTime": "111", "projectStatus": "111"},
-    { "projectId" : "122433223", "projectName": "000000", "memberId": "232343432", "memberName": "0000", "loanAmount": "2222", "lifeOfLoan": "1111", "applyTime": "111", "projectStatus": "111"},
-    { "projectId" : "122433223", "projectName": "000000", "memberId": "232343432", "memberName": "0000", "loanAmount": "2222", "lifeOfLoan": "1111", "applyTime": "11111", "projectStatus": "111"},
-  ];
-
   //意向
-  private intentionUrl = SERVER + '/intentions';
+  private intentionUrl = SERVER + 'subject/intentions';
 
   //会员
   private memberUrl = SERVER + '/members';
 
-
-  // 意向列表(分页)
-  public getIntentionList(params?): any {
-
-    return this.mockData;
+  public getIntentions(): Promise<any> {
+    return this.getAll(this.intentionUrl);
   }
+
+
+
 
   //根据意向ID查询意向信息
   public getIntentionById(intentionId): Promise<any> {

@@ -21,9 +21,9 @@ export class IntentionCompletionComponent implements OnInit {
     { key: 'mobile', label: '手机号', type: 'input.text' },*/
   ];
 
-  public memberActions = [ UPDATE, SAVE ];
+  public memberActions = [ UPDATE ];
 
-  public loanActions = [ UPDATE, SAVE ];
+  public loanActions = [ UPDATE ];
 
   public member: any = {};
 
@@ -38,6 +38,16 @@ export class IntentionCompletionComponent implements OnInit {
   public attachment: any = [];
 
   public intentionId: string;
+
+  public datas = [];
+
+  public titles = [
+    {key:'number',label:'编号'},
+    {key:'process',label:'审批流程'},
+    {key:'time',label:'审批时间'},
+    {key:'operator',label:'操作人员'},
+    {key:'result',label:'审批结果'},
+  ];
 
   constructor(private service: IntentionService, private route: ActivatedRoute,){}
 
