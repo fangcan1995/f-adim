@@ -1,0 +1,88 @@
+
+<seer-collapse-card title="借款信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true [headerActions]="actions" (notify)="handleLoanCardNotify($event)">
+  <form class="form-horizontal">
+    <div class="row">
+      <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+        <div class="row">
+          <label for="loanType" class="col-sm-4 control-label">借款类型</label>
+          <div class="col-sm-8">
+            <input *ngIf="disabled" class="form-control" [(ngModel)]="loan.loanType" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
+            <select *ngIf="!disabled" class="form-control" class="form-control" id="loanType" placeholder="">
+              <option value="0">汇车贷</option>
+              <option value="1">汇房贷</option>
+              <option value="2">信用贷</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+        <div class="row">
+          <label for="loanAmount" class="col-sm-4 control-label">借款金额</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="loanAmount" placeholder="借款金额" [(ngModel)]="loan.loanAmount" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+        <div class="row">
+          <label for="lifeOfLoan" class="col-sm-4 control-label">借款期限</label>
+          <div class="col-sm-8 ">
+            <input *ngIf="disabled" class="form-control" [(ngModel)]="loan.lifeOfLoan" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
+            <select *ngIf="!disabled" class="form-control" id="lifeOfLoan" placeholder="">
+              <option>请选择</option>
+              <option value="3">三个月</option>
+              <option value="6">六个月</option>
+              <option value="12">十二个月</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+        <div class="row">
+          <label for="annualRate" class="col-sm-4 control-label">年利率</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="annualRate" placeholder="年利率" [(ngModel)]="loan.annualRate" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+        <div class="row">
+          <label for="projectName" class="col-sm-4 control-label">项目名称</label>
+          <div class="col-sm-8">
+            <input class="form-control" id="projectName" placeholder="项目名称" [(ngModel)]="loan.projectName" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+        <div class="row">
+          <label for="repaymentMethod" class="col-sm-4 control-label">还款方式</label>
+          <div class="col-sm-8">
+            <input *ngIf="disabled" class="form-control" [(ngModel)]="loan.repaymentMethod" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
+            <select *ngIf="!disabled" class="form-control" id="repaymentMethod" placeholder="">
+              <option>请选择</option>
+              <option value="0">按月付息，到期还款</option>
+              <option value="1">一次性还本付息</option>
+              <option value="2">等额本息</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+        <div class="row">
+          <label for="serviceFee" class="col-sm-4 control-label">手续费</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="serviceFee" placeholder="手续费" [(ngModel)]="loan.educational_background" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+        <div class="row">
+          <label for="serviceFee" class="col-sm-4 control-label">还款来源</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="serviceFee" placeholder="手续费" [(ngModel)]="loan.educational_background" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</seer-collapse-card>
