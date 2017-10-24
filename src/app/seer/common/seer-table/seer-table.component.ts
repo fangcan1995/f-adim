@@ -11,7 +11,7 @@ import { IMultiSelectOption } from 'angular-2-dropdown-multiselect/src/multisele
 import * as _ from 'lodash';
 
 import { CREATE, DELETE_MULTIPLE } from './seer-table.actions';
-import { BaseService } from "../../base.service";
+import { UserService } from "../../../theme/services/user.service";
 
 export interface TableTitleModel {
   key: string | number,
@@ -26,7 +26,7 @@ export interface TableTitleModel {
   selector: 'seer-table',
   templateUrl: './seer-table.component.html',
   styleUrls: ['./seer-table.component.scss'],
-  providers: [BaseService]
+  providers: [UserService]
 })
 export class SeerTableComponent implements OnInit {
   @Input() data: Array<any>  = [];   //数据数组
@@ -70,7 +70,7 @@ export class SeerTableComponent implements OnInit {
     buttonClasses: 'btn btn-outline-dark btn-block',
   }
   constructor(
-    private service: BaseService<any>,
+    private service: UserService,
   ) { 
     if( !this.rowsOnPage ) this.rowsOnPage = this.rowsOnPageSet[0];
   }
@@ -100,19 +100,18 @@ export class SeerTableComponent implements OnInit {
 
     /** 增加的部分 */
     if ( !this.translate ) {
-      let transFields: {field: string | number,dictKeyId?: string}[] = [];
+      let transFields: {fieldName: string, category?: string}[] = [];
       _.each(this.titles, title => {
         if ( title.isDict ) {
           transFields.push({
-            field: title.key,
-            dictKeyId: title.dictKeyId
+            fieldName: title.key,
+            category: title.dictKeyId
           });
         }
       });
       this.service.getDictTranslate(transFields)
       .then(res => {
-        console.log(res);
-        if ( res.success ) this.translate = res.data;
+        if ( res.code == 0 ) this.translate = res.data;
       });
     }
   }
@@ -219,10 +218,10 @@ export class SeerTableComponent implements OnInit {
       "data": this.getData(),
       "titles": this.titles
     };
-    this.service.exportExcel(param)
+    /*this.service.exportExcel(param)
     .then(result => {
       this.download(result.json().data);
-    });
+    });*/
   }
 
   download(data) {
@@ -237,7 +236,7 @@ export class SeerTableComponent implements OnInit {
   renderValue(title, value) {
     if ( this.translate && this.translate[title.key] && this.translate[title.key].length ) {
       _.each(this.translate[title.key], o => {
-        if ( o.dictValueId == value ) value = o.dictValueName;
+        if ( o.itemId == value ) value = o.itemName;
       })
     }
     return value;

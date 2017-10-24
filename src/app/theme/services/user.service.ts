@@ -16,14 +16,13 @@ export class UserService extends BaseService<any> {
     return Observable.forkJoin(
       Observable.fromPromise(this.getUserFromServer()),
       Observable.fromPromise(this.getResourcesFromServer({pageSize: 10000})),
-      Observable.fromPromise(this.getDictsFromServer({pageSize: 10000}))
       )
   }
   public setResourcesToLocal(resources) {
     setStorage({
       key: 'resources',
       value: resources,
-    })
+    }, false);
   }
 
 }

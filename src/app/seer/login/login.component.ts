@@ -86,7 +86,6 @@ export class LoginComponent {
     .subscribe(res => {
       let user = res[0].data || {};
       let resources = res[1].data ? res[1].data.list || [] : [];
-      let dicts = res[2].data ? res[2].data.list || [] : [];
       setStorage({
         key: 'user',
         value: user,
@@ -94,10 +93,6 @@ export class LoginComponent {
       setStorage({
         key: 'resources',
         value: resources,
-      }, false)
-      setStorage({
-        key: 'dicts',
-        value: dicts,
       }, false)
       if ( this._authService.isLoggedIn ) {
         let redirectUrl = this._authService.redirectUrl ? this._authService.redirectUrl : '/home';

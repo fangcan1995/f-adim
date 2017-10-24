@@ -14,7 +14,7 @@ export class ProjectService extends BaseService<any> {
       "loanAmount": "100000.00",
       "lifeOfLoan": "3个月",
       "fullTime": "2017-08-15 12:12:11",
-      "projectStatus": "还款中"
+      "projectStatus": "0011"
     },
     {
       "projectId": "BBH1234567890223657867",
@@ -24,7 +24,7 @@ export class ProjectService extends BaseService<any> {
       "loanAmount": "100000.00",
       "lifeOfLoan": "6个月",
       "fullTime": "2017-08-15 12:12:11",
-      "projectStatus": "待提前还款审核"
+      "projectStatus": "0022"
     },
     {
       "projectId": "BBH1234567890223657867",
@@ -34,7 +34,7 @@ export class ProjectService extends BaseService<any> {
       "loanAmount": "100000.00",
       "lifeOfLoan": "12个月",
       "fullTime": "2017-08-15 12:12:11",
-      "projectStatus": "已结清"
+      "projectStatus": "0044"
     }
   ];
   //项目

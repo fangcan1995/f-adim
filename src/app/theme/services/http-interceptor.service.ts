@@ -6,6 +6,7 @@ import { parseJson2URL, getStorage } from '../libs/utils';
 export class ResModel {
   code: number;
   msg?: string;
+  message?: string;
   data?: any;
   extras?: any;
 }
