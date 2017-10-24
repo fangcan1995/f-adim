@@ -2,6 +2,7 @@ import { Routes, RouterModule }  from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 import { MessageComponent } from './message.component';
 import { MessageEditComponent } from './components/message-edit/message-edit.component';
+import {MessageDetailComponent} from './components/message-detail/message-detail.component';
 const routes: Routes = [
   {
     path: '',
@@ -18,6 +19,10 @@ const routes: Routes = [
     		path: 'edit/:id',
     		component: MessageEditComponent,
     	},
+      {
+        path: 'detail/:id',
+        component: MessageDetailComponent,
+      },
     ]
   }
 ];

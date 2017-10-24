@@ -12,68 +12,11 @@ import {errorObject} from "rxjs/util/errorObject";
 
 @Component({
   selector: 'message-edit',
-  templateUrl: './message-edit.component.html',
-  styleUrls: ['./message-edit.component.css'],
+  templateUrl: './message-detail.component.html',
+  styleUrls: ['./message-detail.component.css'],
 })
-export class MessageEditComponent {
-  /*hasGlobalFilter = true;
-  filters = [
-    {
-      key: 'bbb',
-      label: '用户身份',
-      type: 'select',
-      options:[{value:'', content: '全部'},{value:'1', content: '前台用户'},{value:'2', content: '后台员工'}]
-    },
-    {
-      key: 'bbb',
-      label: '年龄',
-      type: 'input.text',
-    },
-    {
-      key: 'bbb',
-      label: '-',
-      type: 'input.text',
-    },
-    {
-      key: 'ddd',
-      label: '消息类型',
-      type: 'select',
-      options:[{value:'', content: '全部'}]
-    },
-    {
-      key: 'sendNotify',
-      label: '消息中心',
-      type: 'select',
-      options:[{value:'', content: '全部'}]
-    },
-    {
-      key: 'sendMessage',
-      label: '短信通知',
-      type: 'select',
-      options:[{value:'', content: '全部'}]
-    },
-    {
-      key:'ggg',
-      label:'推送通知',
-      type: 'select',
-      options:[{value:'', content: '全部'}]
-    },
-    {
-      key:'TimeStart',
-      label:'下发时间',
-      type: 'datepicker',
-    },
-    {
-      key:'TimeEnd',
-      label:'至',
-      type: 'datepicker',
-    },
-    {
-      key:'ggg',
-      label:'消息简介',
-      type: 'input.text',
-    },
-  ];*/
+export class MessageDetailComponent {
+
   private message:any={};
   title : string;
   isAdd: boolean;
@@ -155,7 +98,6 @@ export class MessageEditComponent {
     if(!this.isAdd) {
       //this.getResourceById(this.editId);
       this._editType='edit';
-      this.isPickUsersAble=false;
       this.service.getMessageById(this.editId).then((data) => {
         console.log(data);
         this.message = data.data;
@@ -165,7 +107,6 @@ export class MessageEditComponent {
       });
     }else {
       //this.forbidSaveBtn = false;
-      this.isPickUsersAble=false;
 
     };
   }
@@ -174,12 +115,12 @@ export class MessageEditComponent {
     //1、要判断是否选择，并判断选中了前台用户还是后台用户
     //2
     console.log(userTypeId);
-    if(userTypeId=='frontend'){
+    if(userTypeId=='1'){
       //this.isPickUsersAble=false;
       this.disabled.sendMail=false;
       this.disabled.sendNotify=false;
       this.usersType="members"
-    }else if(userTypeId=='backend'){
+    }else if(userTypeId=='2'){
       //this.isPickUsersAble=false;
       this.disabled.sendMail=true;
       this.disabled.sendNotify=true;
