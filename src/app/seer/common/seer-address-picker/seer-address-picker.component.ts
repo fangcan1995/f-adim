@@ -9,6 +9,7 @@ export class AddressModel {
     ) {}
 }
 
+
 export interface AddressPickerClassNamesModel {
   containerClass?: string,
   provinceContainerClass?: string,
