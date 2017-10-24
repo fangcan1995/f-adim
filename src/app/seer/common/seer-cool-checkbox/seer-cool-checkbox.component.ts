@@ -6,6 +6,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: [ './seer-cool-checkbox.component.scss' ],
 })
 export class SeerCoolCheckboxComponent {
+  @Input() id;
+  @Input() name;
   @Input() checkedValue: boolean;
   @Input() disabled: boolean;
   @Output() checkedChange = new EventEmitter();

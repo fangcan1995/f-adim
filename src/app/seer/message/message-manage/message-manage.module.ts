@@ -4,7 +4,7 @@ import { NgaModule } from '../../../theme/nga.module';
 import { routing } from './message.routing';
 import { MessageComponent } from './message.component';
 import { MessageEditComponent } from './components/message-edit/message-edit.component';
-// import { MessageAddedDialogComponent } from './components/message-added-dialog/message-added-dialog.component';
+import {MessageDetailComponent} from './components/message-detail/message-detail.component';
 import { SharedModule } from "../../common/shared.module";
 import { MessageService } from "./message.service";
 @NgModule({
@@ -17,6 +17,7 @@ import { MessageService } from "./message.service";
   declarations: [
     MessageComponent,
     MessageEditComponent,
+    MessageDetailComponent
   ],
   entryComponents:[
 

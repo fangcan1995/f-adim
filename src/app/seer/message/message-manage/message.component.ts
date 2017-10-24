@@ -98,6 +98,7 @@ export class MessageComponent {
     {key:'updateTime',label:'最后修改时间'},
     {key:'updateUser',label:'最后修改人'},
   ];
+
   ngOnInit() {
     // 数据字典
     /*this.service.getDictTranslate().then((result)=>{
@@ -150,7 +151,7 @@ export class MessageComponent {
           this._router.navigate([`edit`], {relativeTo: this._route});
           break;
         case 'preview':
-          this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
+          this._router.navigate([`detail/${data.id}`], {relativeTo: this._route});
           //this._router.navigate(['/basic-info/message/edit',message.data.Id]);
           break;
         case 'update':
@@ -161,14 +162,7 @@ export class MessageComponent {
           this._dialogService.confirm('确定删除吗？')
             .subscribe(action => {
               if (action === 1) {
-                if(message.data.isPushed=='0'){
-                  //修改为不可见状态
-                  let thisMessage=message.data;
-                  thisMessage.isShow='0';
-                  this.service.putOne((thisMessage)).then(data => {
-                    this.getList();
-                  })
-                }else if(message.data.isPushed=='1'){
+                if(message.data.timingStatus =='2'){
                   //删除
                   this.service.deleteMessage(message.data.id)
                     .then((data:any) => {
@@ -179,8 +173,21 @@ export class MessageComponent {
                         alert("删除失败");
                       }
                     }).catch(err => {
-                    alert("删除失败");
+                    alert(err.json().message);
                   });
+                }else{
+                  //修改为不可见状态
+                  let thisMessage=message.data;
+                  thisMessage.delFlag=1;
+                  this.service.putOne(thisMessage).then((data:any)  => {
+                    if(data.code=='0') {
+                      alert('ok');
+                    }
+                  }).catch(err=>{
+                    alert(err.json().message);
+                    }
+                  );
+                  this.getList();
                 };
 
               }
@@ -199,7 +206,7 @@ export class MessageComponent {
   //全局搜索
   handleFiltersChanged($event) {
     let params=$event;
-    console.log(params);
+    //console.log(params);
     this.pageInfo.query = params;
     this.getList();
   }

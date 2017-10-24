@@ -3,7 +3,7 @@ import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import {
   HttpInterceptorService,
-
+  
 } from './http-interceptor.service';
 import { parseJson2URL } from '../libs/utils';
 import {

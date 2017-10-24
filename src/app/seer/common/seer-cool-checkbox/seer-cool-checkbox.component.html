@@ -1,4 +1,4 @@
 <label class="cool-checkbox" (click)="onClicked($event)">
-  <input type="checkbox" class="cool-checkbox-input" [(ngModel)]="checked" (change)="onChange($event)" [disabled]="disabled" />
+  <input [id]="id" [name]="name" type="checkbox" class="cool-checkbox-input" [(ngModel)]="checked" (change)="onChange($event)" [disabled]="disabled" />
   <span class="cool-checkbox-indicator fa fa-check"></span>
 </label>
