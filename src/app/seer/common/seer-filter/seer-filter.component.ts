@@ -12,7 +12,7 @@ import 'rxjs/add/operator/switchMap';
 import * as _ from 'lodash';
 import { trim } from '../../../theme/libs/utils'
 import { Animations } from '../../../theme/animations/animations';
-import { BaseService } from "../../base.service";
+import { UserService } from "../../../theme/services/user.service";
 
 export interface FilterModel {
   key: string | number,
@@ -21,7 +21,7 @@ export interface FilterModel {
   type?: string,
   options?: Array<any>,
   isDict?: boolean,
-  dictKeyId?: string | number,
+  category?: string | number,
   dateFormatingRules?: string,
   disabled?: boolean,
 }
@@ -31,7 +31,7 @@ export interface FilterModel {
   templateUrl: './seer-filter.component.html',
   styleUrls: [ './seer-filter.component.scss' ],
   animations: [ Animations.slideInOut ],
-  providers: [BaseService]
+  providers: [UserService]
 })
 export class SeerFilterComponent implements OnInit {
   @Input() hasGlobalFilter: boolean; // 是否有全局搜索输入框
@@ -47,7 +47,7 @@ export class SeerFilterComponent implements OnInit {
   filters$ = new Subject();
   @ViewChild('searchBtn') searchBtn;
   constructor(
-    private service: BaseService<any>,
+    private service: UserService,
   ) { }
   ngOnInit() {
     this.onInit.emit({
@@ -61,14 +61,14 @@ export class SeerFilterComponent implements OnInit {
       _.each(this.filters, filter => {
         if ( filter.isDict ) {
           transFields.push({
-            field: filter.key,
-            dictKeyId: filter.dictKeyId,
+            fieldName: filter.key,
+            category: filter.category,
           });
         }
       });
       this.service.getDictTranslate(transFields)
       .then(res => {
-        if ( res.success ) this.translate = res.data;
+        if ( res.code == 0 ) this.translate = res.data;
         _.each(this.filters, filter => {
           if ( filter.isDict && this.translate && _.isArray(this.translate[filter.key]) ) {
             filter.options = [
@@ -77,8 +77,8 @@ export class SeerFilterComponent implements OnInit {
               },
               ..._.map(this.translate[filter.key], x => {
                 return {
-                  value: x['dictValueId'],
-                  content: x['dictValueName'],
+                  value: x['itemId'],
+                  content: x['itemName'],
                 }
               })
             ]
@@ -94,8 +94,8 @@ export class SeerFilterComponent implements OnInit {
             },
             ..._.map(this.translate[filter.key], x => {
               return {
-                value: x['dictValueId'],
-                content: x['dictValueName'],
+                value: x['itemId'],
+                content: x['itemName'],
               }
             })
           ]
