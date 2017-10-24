@@ -10,7 +10,7 @@ export class AddressModel {
 }
 
 export interface AddressPickerOptionsModel {
-  containerClass: string,
+  
 }
 
 @Component({
