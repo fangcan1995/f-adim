@@ -28,7 +28,7 @@ export class AuthService {
     let params = {
       username: account,
       password: password,
-      client_id: 'member',
+      client_id: 'system',
       client_secret: 'secret',
       grant_type: 'password',
     }

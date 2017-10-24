@@ -55,8 +55,8 @@ export class LoginComponent {
     private _messageService: SeerMessageService,
     ) {
     this.form = fb.group({
-      'account': ['user', Validators.compose([Validators.required, Validators.minLength(4)])],
-      'password': ['654321', Validators.compose([Validators.required, Validators.minLength(4)])]
+      'account': ['admin', Validators.compose([Validators.required, Validators.minLength(4)])],
+      'password': ['123456', Validators.compose([Validators.required, Validators.minLength(4)])]
     });
 
     this.account = this.form.controls['account'];
