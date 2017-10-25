@@ -33,7 +33,16 @@ export class MemberInfoComponent implements OnInit {
   private dimicilePlace = {};
   domicilePlaceChanged($event) {
     console.log($event);
-    this.dimicilePlace = $event;
+    /*this.dimicilePlace = $event;
+    this.member.domicileProvince = $event.
+
+    domicileCity
+      domicileDistrict
+      domicileAddress
+      liveProvince
+      liveCity
+      liveDistrict
+      liveAddress*/
   }
 
   //目前居住地

@@ -52,11 +52,11 @@ export class IntentionCompletionComponent implements OnInit {
       if("0" == res.code) {
         this.loan = res.data.loanInfo;
         this.member = res.data.memberInfo;
-        this.houses = res.data.member.houses;
-        this.vehicles = res.data.member.vehicles;
+        this.houses = res.data.memberInfo.houses;
+        this.vehicles = res.data.memberInfo.vehicles;
         this.attachment = res.data.attachment;
-        this.credits = res.data.member.credits;
-        this.pawn = res.data.member.pawnInfo;
+        this.credits = res.data.memberInfo.credits;
+        this.pawn = res.data.memberInfo.pawnInfo;
       }else {
         console.log("fail");
       }
