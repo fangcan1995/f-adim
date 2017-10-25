@@ -12,6 +12,8 @@ const routes: Routes = [
       { path: 'intention', loadChildren:'./intention/intention.module#IntentionModule' },
       { path: 'target', loadChildren:'./target/target.module#TargetModule' },
       { path: 'project', loadChildren:'./project/project.module#ProjectModule' },
+      { path: 'transfer', loadChildren:'./transfer/transfer.module#TransferModule'},
+      { path: 'parameter', loadChildren:'./parameter/parameter.module#ParameterModule'}
     ]
   }
 ];
