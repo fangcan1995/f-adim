@@ -6,19 +6,22 @@ import { routing } from './intention.routing';
 import { IntentionComponent } from './intention.component';
 import { IntentionService } from "./intention.service";
 
-import { IntentionEditComponent } from './components/intention-edit/intention-edit.component';
 import {IntentionCompletionComponent} from "./components/intention-completion/intention-completion.component";
+import {LoanBasicModule} from "../loan-basic/loan-basic.module";
+
+
 
 @NgModule({
   imports: [
     NgaModule,
     SharedModule,
     routing,
+    LoanBasicModule
   ],
   declarations: [
     IntentionComponent,
-    IntentionEditComponent,
     IntentionCompletionComponent,
+
   ],
   providers: [
     IntentionService,

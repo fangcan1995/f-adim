@@ -1,0 +1,46 @@
+<seer-collapse-card title="信用信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+  <form class="form-horizontal">
+    <div class="row">
+      <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+        <div class="row">
+          <div class="card" style="width: 20rem;">
+            <div class="card-body">
+              <h4 class="card-title">个人风险汇总信息</h4>
+              <h6 class="card-subtitle mb-2 text-muted"> </h6>
+              <p class="card-text">查询时间：2012-09-12 12:00:12</p>
+              <a href="#" class="card-link">预览</a>
+              <a href="#" class="card-link">下载</a>
+              <a *ngIf="!disabled" href="#" class="card-link">重新查询</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+        <div class="row">
+          <div class="card" style="width: 20rem;">
+            <div class="card-body">
+              <h4 class="card-title"> 个人信用报告</h4>
+              <h6 class="card-subtitle mb-2 text-muted"> </h6>
+              <p class="card-text">查询时间：2012-09-12 12:00:12</p>
+              <a href="#" class="card-link">预览</a>
+              <a href="#" class="card-link">下载</a>
+              <a *ngIf="!disabled" href="#" class="card-link">重新查询</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+        <div class="row">
+          <div class="card" style="width: 20rem;">
+            <div class="card-body">
+              <h4 class="card-title">个人反欺诈分析报告</h4>
+              <h6 class="card-subtitle mb-2 text-muted"> </h6>
+              <p class="card-text">未查询</p>
+              <a *ngIf="!disabled" href="#" class="card-link">查询</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</seer-collapse-card>

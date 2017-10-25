@@ -1,0 +1,41 @@
+<seer-collapse-card title="审批信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true (notify)="handleLoanCardNotify($event)">
+  <form class="form-horizontal">
+    <div class="row">
+      <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+        <div class="row">
+          <label for="loanType" class="col-sm-4 control-label">审批意见</label>
+          <div class="col-sm-8">
+            <select class="form-control" class="form-control" id="loanType" placeholder="">
+              <option value="0">通过</option>
+              <option value="1">拒绝</option>
+              <option value="2">退回</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+        <div class="row">
+          <div class="col-sm-12">
+            <select class="form-control" id="repaymentMethod" placeholder="">
+              <option>请选择</option>
+              <option value="0">基本信息问题</option>
+              <option value="1">借款信息问题</option>
+              <option value="2">费用问题</option>
+              <option value="2">抵押物问题</option>
+              <option value="2">审批资料问题</option>
+              <option value="2">其他</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+        <div class="row">
+          <label for="AssetsIntro" class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 ">备注</label>
+          <div class="col-sm-11 col-md-10 col-lg-10 col-xlg-11">
+            <textarea class="form-control" id="AssetsIntro" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 84px;"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</seer-collapse-card>

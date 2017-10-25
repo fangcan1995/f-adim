@@ -27,17 +27,17 @@ export interface AddressPickerClassNamesModel {
   template: `
     <div class="{{ classNames.containerClass }}">
       <div class="{{ classNames.provinceContainerClass }}">
-        <select class="{{ classNames.provinceClass }}" (change)="handleProvinceChange($event)" [disabled]="disabled">
+        <select class="{{ classNames.provinceClass }}" [value]="curProvince.item_code" (change)="handleProvinceChange($event)" [disabled]="disabled">
           <option *ngFor="let p of getProvinces()" value="{{ p['item_code'] }}">{{ p.item_name }}</option>
         </select>
       </div>
       <div class="{{ classNames.cityContainerClass }}">
-          <select class="{{ classNames.cityClass }}" (change)="handleCityChange($event)" [disabled]="disabled">
+          <select class="{{ classNames.cityClass }}" [value]="curCity.item_code" (change)="handleCityChange($event)" [disabled]="disabled">
             <option *ngFor="let c of getCitys()" value="{{ c['item_code'] }}">{{ c.item_name }}</option>
           </select>
       </div>
       <div class="{{ classNames.districtContainerClass }}">
-          <select class="{{ classNames.districtClass }}" (change)="handleDistrictChange($event)" [disabled]="disabled">
+          <select class="{{ classNames.districtClass }}" [value]="curDistrict.item_code" (change)="handleDistrictChange($event)" [disabled]="disabled">
             <option *ngFor="let d of getDistricts()" value="{{ d['item_code'] }}">{{ d.item_name }}</option>
           </select>
       </div>
@@ -50,17 +50,17 @@ export interface AddressPickerClassNamesModel {
 })
 export class SeerAddressPickerComponent implements OnInit, OnChanges {
   defaultProvince: AddressModel = {
-    item_code: null,
+    item_code: '0',
     item_name: '请选择省份',
   }
 
   defaultCity: AddressModel = {
-    item_code: null,
+    item_code: '0',
     item_name: '请选择城市',
   }
 
   defaultDistrict: AddressModel = {
-    item_code: null,
+    item_code: '0',
     item_name: '请选择区/县',
   }
 
@@ -70,7 +70,7 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
   address: string = '';
   cityJson: AddressModel[] = _.cloneDeep(cityJson);
   cityMap = new Map;
-
+  @Input() defaultItemCode: string;
   @Input() classNames: AddressPickerClassNamesModel = {};
   @Input() disabled: boolean;
   private _defaultClassNames: AddressPickerClassNamesModel = {
@@ -106,13 +106,45 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.classNames = overlayOpt(this.classNames, this._defaultClassNames);
 
-    this.curProvince = this.getProvinces()[0];
-    this.curCity = this.getCitys()[0];
-    this.curDistrict = this.getDistricts()[0];
+    this.curProvince = this.getCurProvince(this.getProvinces(), this.defaultItemCode);
+    this.curCity = this.getCurCity(this.getCitys(), this.defaultItemCode);
+    this.curDistrict = this.getCurDistrict(this.getDistricts(), this.defaultItemCode);
 
   }
   ngOnChanges() {
     this.classNames = overlayOpt(this.classNames, this._defaultClassNames);
+
+    this.curProvince = this.getCurProvince(this.getProvinces(), this.defaultItemCode);
+    this.curCity = this.getCurCity(this.getCitys(), this.defaultItemCode);
+    this.curDistrict = this.getCurDistrict(this.getDistricts(), this.defaultItemCode);
+  }
+  private getCurProvince(provinces, itemCode?) {
+    let curProvince;
+    if ( !itemCode ) {
+      curProvince = provinces[0];
+    } else {
+      curProvince = _.find(_.slice(provinces, 1, provinces.length), t => t['item_code'].substr(0, 2) === itemCode.substr(0, 2)) || provinces[0]
+    }
+    return curProvince;
+  }
+
+  private getCurCity(citys, itemCode?) {
+    let curCity;
+    if ( !itemCode ) {
+      curCity = citys[0];
+    } else {
+      curCity = _.find(_.slice(citys, 1, citys.length), t => t['item_code'].substr(2, 2) === itemCode.substr(2, 2)) || citys[0]
+    }
+    return curCity;
+  }
+  private getCurDistrict(districts, itemCode?) {
+    let curDistrict;
+    if ( !itemCode ) {
+      curDistrict = districts[0];
+    } else {
+      curDistrict = _.find(_.slice(districts, 1, districts.length), t => t['item_code'].substr(4, 2) === itemCode.substr(4, 2)) || districts[0]
+    }
+    return curDistrict;
   }
   private getProvinces() {
     let list = [];
@@ -163,8 +195,8 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
       item_code: $event.target.value,
       item_name: this.cityMap.get($event.target.value),
     }
-    this.curCity = this.getCitys()[0];
-    this.curDistrict = this.getDistricts()[0];
+    this.curCity = this.getCurCity(this.getCitys());
+    this.curDistrict = this.getCurDistrict(this.getDistricts());
     this.notifyChange();
   }
 
@@ -174,7 +206,7 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
       item_name: this.cityMap.get($event.target.value),
     }
 
-    this.curDistrict = this.getDistricts()[0];
+    this.curDistrict = this.getCurDistrict(this.getDistricts());
     this.notifyChange();
   }
 
