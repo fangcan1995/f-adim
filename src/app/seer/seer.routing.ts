@@ -26,6 +26,7 @@ const routes: Routes = [
       { path: 'security', loadChildren: './security/security.module#SecurityModule' },
       { path: 'content', loadChildren: './content/content.module#ContentModule' },
       { path: 'message', loadChildren: './message/message.module#MessageModule' },
+      { path: 'adver-manage', loadChildren: './adver-manage/adver-manage.module#AdverManageModule' },
     ]
   },
   { path: '**', component: PageNotFoundComponent }
