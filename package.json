@@ -60,7 +60,7 @@
     "leaflet": "0.7.7",
     "leaflet-map": "0.2.1",
     "lodash": "4.12.0",
-    "mydatepicker": "^2.0.26",
+    "mydatepicker": "^2.0.32",
     "ng2-bootstrap": "1.1.16",
     "ng2-charts": "1.5.0",
     "ng2-ckeditor": "1.1.6",
@@ -71,11 +71,11 @@
     "ng2-validation": "^4.2.0",
     "ngx-bootstrap": "^1.9.3",
     "normalize.css": "6.0.0",
-    "popper.js": "^1.11.1",
+    "popper.js": "^1.12.5",
     "roboto-fontface": "0.8.0",
     "rxjs": "5.4.2",
     "tether": "1.2.4",
-    "tinymce": "^4.6.7",
+    "tinymce": "^4.7.1",
     "zone.js": "0.8.11"
   },
   "devDependencies": {
