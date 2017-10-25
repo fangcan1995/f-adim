@@ -42,7 +42,7 @@ export class BaseService<T> {
     return this._httpInterceptorService.request('GET', `${BASE_URL}/${this._api}/${id}`).toPromise();
   }
   // 新增一条记录
-  public PostOne(params: any): Promise<ResModel> {
+  public postOne(params: any): Promise<ResModel> {
     return this._httpInterceptorService.request('POST', `${BASE_URL}/${this._api}`, params).toPromise();
   }
   // 修改一条记录，提供全部字段

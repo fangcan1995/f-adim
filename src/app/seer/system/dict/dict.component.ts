@@ -102,7 +102,15 @@ export class DictComponent implements OnInit {
         this._router.navigate(['/system/dict/add']);
         break;
       case COPY_CREATE.type:
-        this._router.navigate(['/system/dict/add']);
+        let queryParams = {
+          category: data.category,
+          categoryName: data.categoryName,
+          itemId: data.itemId,
+          itemName: data.itemName,
+          itemSort: data.itemSort,
+          delFlag: data.delFlag
+        }
+        this._router.navigate(['/system/dict/add'], {queryParams});
         break;
       case UPDATE.type:
         this._router.navigate([`/system/dict/edit/${data.id}`]);

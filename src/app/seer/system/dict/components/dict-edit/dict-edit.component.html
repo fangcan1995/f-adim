@@ -1,6 +1,6 @@
 <seer-content-top>
   <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
-  <button class="btn btn-primary left-button" [disabled]="!myForm.form.valid || forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
+  <button class="btn btn-primary left-button" [disabled]="!myForm.form.dirty || !myForm.form.valid || forbidSaveBtn" (click)="handleSaveBtnClick(myForm.form.value)">保存</button>
 </seer-content-top>
 
 <div class="widgets">
