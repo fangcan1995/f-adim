@@ -19,7 +19,7 @@ export interface TableTitleModel {
   isDict?: boolean,
   textAlign?: string, // 默认left 可传 center right
   hidden?: boolean,
-  dictKeyId?: string,
+  category?: string,
 }
 
 @Component({
@@ -71,7 +71,7 @@ export class SeerTableComponent implements OnInit {
   }
   constructor(
     private service: UserService,
-  ) { 
+  ) {
     if( !this.rowsOnPage ) this.rowsOnPage = this.rowsOnPageSet[0];
   }
 
@@ -105,7 +105,7 @@ export class SeerTableComponent implements OnInit {
         if ( title.isDict ) {
           transFields.push({
             fieldName: title.key,
-            category: title.dictKeyId
+            category: title.category
           });
         }
       });
