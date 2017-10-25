@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Ng2SmartTableModule } from "ng2-smart-table";
+import { CustomFormsModule } from 'ng2-validation';
 import {
     DropdownModule,
     ModalModule,
@@ -79,6 +80,7 @@ import { seerTableComponent } from "./seer_table/seer.table";
     PaginationModule,
     MyDatePickerModule,
     Ng2DatetimePickerModule,
+    CustomFormsModule,
     NgaModule,
     CKEditorModule,
     ChartsModule,

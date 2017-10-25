@@ -99,7 +99,7 @@ export class BaseService<T> {
     return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['DICTS']}`, params, true).toPromise();
   }
   // 拉取字典数据
-  public getDicts(): Promise<ResModel> {
+  public getDicts(forceFromServer?): Promise<ResModel> {
     const dictsCacheTime: string = 'DICTS_CACHE_TIME';
     const isDictsInResponse: string = 'IS_DICTS_IN_RESPONSE';
     const cachedDicts: string = 'dicts';
@@ -107,22 +107,36 @@ export class BaseService<T> {
     const dicts = getStorage({ key: cachedDicts }, false);
     const now = new Date().getTime();
     if ( getStorage({ key: isDictsInResponse }, false) ) {
-      return new Promise(resolve => {
+      return new Promise((resolve, reject) => {
         let timer = null;
+        let interval = 0;
         timer = setInterval(() => {
+          interval += 10;
           if ( !getStorage({ key: isDictsInResponse }, false) ) {
             clearInterval(timer);
             timer = null;
             const dicts = getStorage({ key: cachedDicts }, false);
+
             resolve({
               code: 0,
               msg: 'get dicts from cache success',
               data: dicts,
             })
+          } else if ( interval === 3000 ) {
+            clearInterval(timer);
+            timer = null;
+            setStorage({
+              key: isDictsInResponse,
+              value: false,
+            }, false)
+            return {
+              code: -1,
+              msg: '获取字典失败',
+            }
           }
         }, 10);
       })
-    } else if ( dicts && ( now - lastDictsCacheTime ) < 30000 ) {
+    } else if ( !forceFromServer && dicts && ( now - lastDictsCacheTime ) < 30000 ) {
       return new Promise((resolve, reject) => {
         resolve({
           code: 0,
@@ -137,7 +151,6 @@ export class BaseService<T> {
       }, false)
       return this.getDictsFromServer({ pageSize: 10000 })
       .then(res => {
-
         setStorage({
           key: isDictsInResponse,
           value: false,
@@ -168,7 +181,7 @@ export class BaseService<T> {
         }, false)
         return {
           code: -1,
-          msg: 'get dicts failed',
+          msg: '获取字典失败',
         }
       })
 

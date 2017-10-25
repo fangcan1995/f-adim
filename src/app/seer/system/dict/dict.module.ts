@@ -18,7 +18,7 @@ import { DictEditComponent } from './components/dict-edit/dict-edit.component';
     DictEditComponent,
   ],
   providers: [
-    DictService
+    DictService,
   ]
 })
 export class DictModule {
