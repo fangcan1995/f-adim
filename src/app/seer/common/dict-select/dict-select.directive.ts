@@ -13,7 +13,7 @@ import { UserService } from "../../../theme/services/user.service";
 export class DictSelectDirective implements OnInit {
 
   @Input() selected: string = '';
-  @Input() topOption: {dictValueId,dictValueName};
+  @Input() topOption: { itemId, itemName };
   @Input() key: string;
   @Input() ngModel;
 
@@ -29,8 +29,8 @@ export class DictSelectDirective implements OnInit {
     //添加提示选项
     if (this.topOption) {
       let wrapper = document.createElement('option');
-      wrapper.value = this.topOption.dictValueId;
-      wrapper.text = this.topOption.dictValueName;
+      wrapper.value = this.topOption.itemId;
+      wrapper.text = this.topOption.itemName;
       if (!this.selected) {
         wrapper.selected = true;
       }
@@ -45,14 +45,14 @@ export class DictSelectDirective implements OnInit {
         let isFirstOption = true;
         res.data[this.key].sort((a,b) => +a.dictSort-+b.dictSort).forEach(dict=>{
           let wrapper = document.createElement('option');
-          wrapper.value = dict.dictValueId;
-          wrapper.text = dict.dictValueName;
-          if (this.selected == dict.dictValueId) {
+          wrapper.value = dict.itemId;
+          wrapper.text = dict.itemName;
+          if (this.selected == dict.itemId) {
             wrapper.selected = true;
           }
           if(!this.topOption && !this.selected && isFirstOption){
             wrapper.selected = true;
-            this.ngModel = dict.dictValueId;
+            this.ngModel = dict.itemId;
             isFirstOption = false;
           }
           this.el.appendChild(wrapper);
