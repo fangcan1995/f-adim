@@ -1,14 +1,14 @@
 import {
   Directive, Input, OnInit, ViewContainerRef, HostBinding, OnChanges, SimpleChanges,
 } from '@angular/core';
-import {BaseService} from "../../base.service";
+import { UserService } from "../../../theme/services/user.service";
 
 /**
  * If the given string is not a valid date, it defaults back to today
  */
 @Directive({
   selector: '[dict-select]',
-  providers: [BaseService],
+  providers: [UserService],
 })
 export class DictSelectDirective implements OnInit {
 
@@ -19,7 +19,7 @@ export class DictSelectDirective implements OnInit {
 
   private el: HTMLInputElement;
 
-  constructor(private baseService: BaseService<any>,
+  constructor(private service: UserService,
               private viewContainerRef: ViewContainerRef,) {
     this.el = this.viewContainerRef.element.nativeElement;
   }
@@ -36,13 +36,14 @@ export class DictSelectDirective implements OnInit {
       }
       this.el.appendChild(wrapper);
     }
-    let translateFields: {field: string,dictKeyId?: string}[] = [];
-    translateFields.push({field:this.key, dictKeyId: this.key.toUpperCase()});
+    let translateFields: {fieldName: string,category?: string}[] = [];
+    translateFields.push({fieldName:this.key, category: this.key});
     //从服务器获取并加载
-    this.baseService.getDictTranslate(translateFields).then(result => {
-      if (result.success) {
+    this.service.getDictTranslate(translateFields)
+    .then(res => {
+      if ( res.code == 0 ) {
         let isFirstOption = true;
-        result.data[this.key].sort((a,b)=>+a.dictSort-+b.dictSort).forEach(dict=>{
+        res.data[this.key].sort((a,b) => +a.dictSort-+b.dictSort).forEach(dict=>{
           let wrapper = document.createElement('option');
           wrapper.value = dict.dictValueId;
           wrapper.text = dict.dictValueName;
