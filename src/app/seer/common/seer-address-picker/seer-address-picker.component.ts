@@ -152,9 +152,9 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
   }
   notifyChange() {
     this.notify.emit({
-      province: this.curProvince['item_code'] ? this.curProvince['item_name'] : null,
-      city: this.curCity['item_code'] ? this.curCity['item_name'] : null,
-      district: this.curDistrict['item_code'] ? this.curDistrict['item_name'] : null,
+      province: this.curProvince,
+      city: this.curCity,
+      district: this.curDistrict,
       address: this.address,
     })
   }
