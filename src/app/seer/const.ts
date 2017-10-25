@@ -1,4 +1,4 @@
-export const SERVER = 'http://42.202.130.200:8080';
+export const SERVER = 'http://172.16.7.4:8020';
 export const CACHE_DURATION = 6000;
 export const REQUEST_TIMEOUT = 3000;
 

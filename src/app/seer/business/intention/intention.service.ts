@@ -1,58 +1,61 @@
 import { Injectable } from '@angular/core';
-import {BaseService} from "../../base.service";
-import {SERVER} from "../../const";
+import {HttpInterceptorService} from "../../../theme/services/http-interceptor.service";
+import {BaseService, BASE_URL} from "../../../theme/services/base.service";
 
 @Injectable()
 export class IntentionService extends BaseService<any>{
 
   //意向
-  private intentionUrl = SERVER + 'subject/intentions';
+  private intention_url = '/subject/intentions';
 
   //会员
-  private memberUrl = SERVER + '/members';
+  private member_url = BASE_URL + '/members';
 
-  public getIntentions(): Promise<any> {
-    return this.getAll(this.intentionUrl);
+  constructor(protected _httpInterceptorService: HttpInterceptorService,) {
+    super(_httpInterceptorService);
+    this.setApi(this.intention_url);
   }
 
-
-
-
-  //根据意向ID查询意向信息
-  public getIntentionById(intentionId): Promise<any> {
-    const url = `${this.intentionUrl}/${intentionId}`;
-    return this.getById(url);
+  // get list
+  public getIntentions(params: any): Promise<any> {
+    return this.getList(params);
   }
 
-  //补填借款信息
-  public updateLoanInfo(params?): Promise<any> {
-    const url = `${this.intentionUrl}/loan`;
-    return this.update(url, params);
+  //get one
+  public getIntentionById(id): Promise<any> {
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/${this.intention_url}/fill/${id}`,).toPromise();
   }
 
-  //新增抵押物
-  public createPawn(params?): Promise<any> {
-    const url = `${this.intentionUrl}/${params.intentionId}/pawn`;
-    return this.update(url, params);
-  }
+  /*
+    //补填借款信息
+    public updateLoanInfo(params?): Promise<any> {
+      const url = `${this.intentionUrl}/loan`;
+      return this.update(url, params);
+    }
 
-  //移除抵押物
-  public removePawn(intentionId?): Promise<any> {
-    const url = `${this.intentionUrl}/${intentionId}/pawn`;
-    return this.delete(url);
-  }
+    //新增抵押物
+    public createPawn(params?): Promise<any> {
+      const url = `${this.intentionUrl}/${params.intentionId}/pawn`;
+      return this.update(url, params);
+    }
 
-  //提交审核
-  public submitAudit(params?): Promise<any> {
+    //移除抵押物
+    public removePawn(intentionId?): Promise<any> {
+      const url = `${this.intentionUrl}/${intentionId}/pawn`;
+      return this.delete(url);
+    }
 
-    return this.create(this.intentionUrl, params);
-  }
+    //提交审核
+    public submitAudit(params?): Promise<any> {
 
-  //补填会员信息
-  public updateMember(params?): Promise<any> {
-    const url = `${this.memberUrl}`;
-    return this.create(url, params);
-  }
+      return this.create(this.intentionUrl, params);
+    }
+
+    //补填会员信息
+    public updateMember(params?): Promise<any> {
+      const url = `${this.memberUrl}`;
+      return this.create(url, params);
+    }*/
 
 
 

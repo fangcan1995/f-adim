@@ -89,53 +89,15 @@
         <div class="row">
           <label for="domicilePlace" class="col-sm-4 col-md-2 col-xlg-1 control-label">户口所在地</label>
           <div class="col-sm-8 col-md-10 col-xlg-10" id="domicilePlace">
-            <div class="row">
-              <div class="form-group col-sm-12 col-md-4 col-xlg-2">
-                <select class="form-control"  placeholder="">
-
-                </select>
-              </div>
-              <div class="form-group col-sm-12 col-md-4 col-xlg-2">
-                <select class="form-control"  placeholder="" >
-
-                </select>
-              </div>
-              <div class="form-group col-sm-12 col-md-4 col-xlg-2">
-                <select class="form-control"  placeholder="" >
-
-                </select>
-              </div>
-              <div class="form-group col-sm-12 col-md-12 col-xlg-6">
-                <input class="form-control" id="fullAddress" placeholder="详细地址" [(ngModel)]="member.fullAddress" [ngModelOptions]="{standalone: true}" >
-              </div>
-            </div>
+            <seer-address-picker (notify)="domicilePlaceChanged($event)"></seer-address-picker>
           </div>
         </div>
       </div>
       <div class="col-sm-12 col-md-12 col-lg-12 col-xlg-12">
         <div class="row">
-          <label for="domicilePlace" class="col-sm-4 col-md-2 col-xlg-1 control-label">现居住地</label>
-          <div class="col-sm-8 col-md-10 col-xlg-10" id="domicilePlace">
-            <div class="row">
-              <div class="form-group col-sm-12 col-md-4 col-xlg-2">
-                <select class="form-control"  placeholder="">
-
-                </select>
-              </div>
-              <div class="form-group col-sm-12 col-md-4 col-xlg-2">
-                <select class="form-control"  placeholder="" >
-
-                </select>
-              </div>
-              <div class="form-group col-sm-12 col-md-4 col-xlg-2">
-                <select class="form-control"  placeholder="">
-
-                </select>
-              </div>
-              <div class="form-group col-sm-12 col-md-12 col-xlg-6">
-                <input class="form-control" id="fullAddress" placeholder="详细地址" [(ngModel)]="member.fullAddress" [ngModelOptions]="{standalone: true}" >
-              </div>
-            </div>
+          <label for="currentResidence" class="col-sm-4 col-md-2 col-xlg-1 control-label">现居住地</label>
+          <div class="col-sm-8 col-md-10 col-xlg-10" id="currentResidence">
+            <seer-address-picker (notify)="currentResidenceChanged($event)"></seer-address-picker>
           </div>
         </div>
       </div>

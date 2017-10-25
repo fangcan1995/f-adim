@@ -9,39 +9,25 @@ import {DELETE, SAVE, UPDATE} from "../../../../common/seer-table/seer-table.act
 })
 export class IntentionCompletionComponent implements OnInit {
 
-  hasGlobalFilter = true;
-  filters = [
-    /*{ key: 'name', label: '用户名', type: 'input.text' },
-    { key: 'gender', label: '性别', type: 'select', options:
-      [ { content: '请选择' },
-        { value: '0', content: '男' },
-        { value: '1', content: '女', }
-      ]
-    },
-    { key: 'mobile', label: '手机号', type: 'input.text' },*/
-  ];
+  private member: any = {}; //会员信息
 
-  public memberActions = [ UPDATE ];
+  private loan: any = {}; //借款信息
 
-  public loanActions = [ UPDATE ];
+  private vehicles: any = []; //车辆信息
 
-  public member: any = {};
+  private houses: any = []; //房屋信息
 
-  public loan: any = {};
+  private credits: any = []; //信用信息
 
-  public vehicles: any = [];
+  private attachment: any = []; //审核资料（附件）
 
-  public houses: any = [];
+  private pawn: any = {}; //抵押物信息
 
-  public credits: any = [];
+  private id: string;
 
-  public attachment: any = [];
+  private datas = [];
 
-  public intentionId: string;
-
-  public datas = [];
-
-  public titles = [
+  private titles = [
     {key:'number',label:'编号'},
     {key:'process',label:'审批流程'},
     {key:'time',label:'审批时间'},
@@ -52,15 +38,32 @@ export class IntentionCompletionComponent implements OnInit {
   constructor(private service: IntentionService, private route: ActivatedRoute,){}
 
   ngOnInit() {
-
     this.route.params.subscribe((params: Params) => {
-      params['id']? this.intentionId = params['id']:"";
-      //this.getIntentionById(this.intentionId);
+      params['id']? this.id = params['id']:"";
+      this.getIntentionById(this.id);
     });
 
   }
 
-  //补填会员基本资料
+  //通过id获取意向信息
+  protected getIntentionById(id :string) {
+    this.service.getIntentionById(id).then((res) => {
+      console.log(res)
+      if("0" == res.code) {
+        this.loan = res.data.loanInfo;
+        this.member = res.data.memberInfo;
+        this.houses = res.data.member.houses;
+        this.vehicles = res.data.member.vehicles;
+        this.attachment = res.data.attachment;
+        this.credits = res.data.member.credits;
+        this.pawn = res.data.member.pawnInfo;
+      }else {
+        console.log("fail");
+      }
+    });
+  }
+
+  /*//补填会员基本资料
   protected updateMember() {
     this.service.updateMember(this.member).then((result) => {
       if(result.code == 0) {
@@ -82,21 +85,7 @@ export class IntentionCompletionComponent implements OnInit {
     });
   }
 
-  //通过id获取意向信息
-  protected getIntentionById(intentionId :string) {
-    this.service.getIntentionById(intentionId).then((result) => {
-      if("0" == result.code) {
-        this.loan = result.data.loan;
-        this.member = result.data.member;
-        this.houses = result.data.member.houses;
-        this.attachment = result.data.attachment;
-        this.credits = result.data.member.credits;
-        this.vehicles = result.data.member.vehicles;
-      }else {
-        console.log("fail");
-      }
-    });
-  }
+
 
   //新增抵押物
   protected createPawn() {
@@ -117,5 +106,5 @@ export class IntentionCompletionComponent implements OnInit {
   protected handleLoanCardNotify($event){
     console.log($event)
   }
-
+*/
 }

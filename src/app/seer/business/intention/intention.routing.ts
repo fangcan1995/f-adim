@@ -7,6 +7,7 @@ const routes: Routes = [
   {
     path: '',
     children: [
+      {path: '', redirectTo: 'list'},
     	{path: 'list', component: IntentionComponent},
       {path: 'completion/:id',component: IntentionCompletionComponent,},
     ]

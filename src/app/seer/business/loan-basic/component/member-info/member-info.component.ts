@@ -2,7 +2,7 @@
 import {Component, Input, OnInit} from "@angular/core";
 
 import {LoanBasicService} from "../../loan-basic.service";
-import {UPDATE} from "../../../../common/seer-table/seer-table.actions";
+import {SAVE, UPDATE} from "../../../../common/seer-table/seer-table.actions";
 
 @Component({
   selector: 'loan-member-info',
@@ -19,17 +19,30 @@ export class MemberInfoComponent implements OnInit {
 
   private actions = [];
 
-  private genderOptions = [{"code": "0","value":"男"}, {"code": "1","value":"女"}, {"code": "2","value":"其他"}];
-
   constructor(private service: LoanBasicService){}
 
   ngOnInit(): void {
     if(!this.disabled) {
-      this.actions = [ UPDATE ] ;
+      this.actions = [ SAVE ] ;
     }else {
       this.actions = [];
     }
   }
+
+  //户籍所在地
+  private dimicilePlace = {};
+  domicilePlaceChanged($event) {
+    console.log($event);
+    this.dimicilePlace = $event;
+  }
+
+  //目前居住地
+  private currentResidence = {};
+  currentResidenceChanged($event) {
+    console.log($event);
+    this.currentResidence = $event;
+  }
+
 
 
 
