@@ -10,7 +10,7 @@ import {
   SeerMessageService,
 } from '../../../theme/services';
 import { UPDATE, DELETE, COPY_CREATE, DOWNLOAD, DETAIL, PREVIEW } from '../../common/seer-table/seer-table.actions';
-import { hasGlobalFilter, tableTitles } from './role.config';
+import { hasGlobalFilter, tableTitles, filters } from './role.config';
 import { RoleService } from './role.service';
 @Component({
   templateUrl: './role.component.html',
@@ -18,6 +18,7 @@ import { RoleService } from './role.service';
 })
 export class RoleComponent implements OnInit {
   hasGlobalFilter = hasGlobalFilter;
+  filters = filters;
   titles = tableTitles;
   offset = 0;
   limit = 10;

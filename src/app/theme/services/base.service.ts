@@ -6,7 +6,7 @@ import {
   HttpInterceptorService,
 } from './http-interceptor.service';
 
-import { getStorage, castDict2Translate } from '../libs';
+import { getStorage, setStorage, castDict2Translate } from '../libs';
 
 const BASE_DOMAIN = '172.16.7.4';
 const BASE_PORT = 8020;
@@ -99,8 +99,97 @@ export class BaseService<T> {
     return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['DICTS']}`, params, true).toPromise();
   }
   // 拉取字典数据
-  public getDicts(category, itemId?) {
-    const dictsCacheTime = 'DICTS_CACHE_TIME';
+  public getDicts(): Promise<ResModel> {
+    const dictsCacheTime: string = 'DICTS_CACHE_TIME';
+    const isDictsInResponse: string = 'IS_DICTS_IN_RESPONSE';
+    const cachedDicts: string = 'dicts';
+    const lastDictsCacheTime: number = +getStorage({ key: dictsCacheTime }, false);
+    const dicts = getStorage({ key: cachedDicts }, false);
+    const now = new Date().getTime();
+    if ( getStorage({ key: isDictsInResponse }, false) ) {
+      return new Promise(resolve => {
+        let timer = null;
+        timer = setInterval(() => {
+          if ( !getStorage({ key: isDictsInResponse }, false) ) {
+            clearInterval(timer);
+            timer = null;
+            const dicts = getStorage({ key: cachedDicts }, false);
+            resolve({
+              code: 0,
+              msg: 'get dicts from cache success',
+              data: dicts,
+            })
+          }
+        }, 10);
+      })
+    } else if ( dicts && ( now - lastDictsCacheTime ) < 30000 ) {
+      return new Promise((resolve, reject) => {
+        resolve({
+          code: 0,
+          msg: 'get dicts from cache success',
+          data: dicts,
+        });
+      });
+    } else {
+      setStorage({
+        key: isDictsInResponse,
+        value: true,
+      }, false)
+      return this.getDictsFromServer({ pageSize: 10000 })
+      .then(res => {
+
+        setStorage({
+          key: isDictsInResponse,
+          value: false,
+        }, false)
+
+        let { code, message, data } = res;
+        data = data ? data.list || [] : [];
+
+        setStorage({
+          key: cachedDicts,
+          value: data,
+        }, false);
+        setStorage({
+          key: dictsCacheTime,
+          value: new Date().getTime(),
+        }, false);
+
+        return {
+          code: 0,
+          msg: message,
+          data,
+        }
+      })
+      .catch(err => {
+        setStorage({
+          key: isDictsInResponse,
+          value: false,
+        }, false)
+        return {
+          code: -1,
+          msg: 'get dicts failed',
+        }
+      })
+
+
+    }
   }
 
+  public getDictTranslate(translateFields: {fieldName: string, category?: string}[]): Promise<ResModel> {
+    return this.getDicts()
+    .then(res => {
+      if ( res.code == 0 ) {
+        let data = res.data;
+        let translate = castDict2Translate(data, translateFields);
+        return {
+          code: 0,
+          msg: 'dict translate success',
+          data: translate,
+        }
+      } else {
+        return res;
+      }
+    })
+  }
 }

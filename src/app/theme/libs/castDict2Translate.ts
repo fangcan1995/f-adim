@@ -1,11 +1,15 @@
-export const castDict2Translate = (dicts: any[] = [], map: Map<string, string>) => {
+export const castDict2Translate = (dicts: any[] = [], translateFields: {fieldName: string, category?: string}[]) => {
+  let map = new Map();
+  translateFields.forEach(field => {
+    map.set(field.fieldName, field.category ? field.category : field.fieldName);
+  });
   let translate = {};
-  map.forEach((dictKeyId, field) => {
+  map.forEach((category, fieldName) => {
     for (let i = 0; i < dicts.length; i++ ) {
       let dict = dicts[i];
-      if (dict.dictKeyId == dictKeyId ) {
-        if ( !translate[field] ) translate[field] = [];
-        translate[field].push(dict);
+      if (dict.category == category ) {
+        if ( !translate[fieldName] ) translate[fieldName] = [];
+        translate[fieldName].push(dict);
       }
     }
   });

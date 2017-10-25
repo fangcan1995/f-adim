@@ -123,7 +123,7 @@ export class ProjectComponent {
     { key:'loanAmount', label:'借款金额（元）' },
     { key:'lifeOfLoan', label:'借款期限' },
     { key:'fullTime', label:'满标审核时间' },
-    { key:'projectStatus', label:'项目状态' },
+    { key:'projectStatus', label:'项目状态', isDict: true, dictKeyId: '1' },
   ];
   actionSet = {
     'CHECK': {

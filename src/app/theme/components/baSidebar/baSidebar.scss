@@ -120,7 +120,7 @@ a.al-sidebar-list-link {
 a.al-sidebar-list-all {
   display: block;
   height: $sidebar-item-height - 2px;
-  padding-left: ($sidebar-item-width - $sidebar-icon-size) / 2;
+  padding-left: ($sidebar-item-width - 2px - $sidebar-icon-size) / 2;
   text-shadow: none;
   font-size: 12px;
   text-decoration: none;
@@ -144,7 +144,7 @@ a.al-sidebar-list-all {
     text-shadow: none;
     font-size: $sidebar-icon-size;
     position: absolute;
-    right: ($sidebar-item-width - $sidebar-icon-size) / 2;
+    right: ($sidebar-item-width - 2px - $sidebar-icon-size) / 2;
     top: ($sidebar-item-height - $sidebar-icon-size) / 2;
     padding: 0;
     text-align: center;

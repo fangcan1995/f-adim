@@ -1,6 +1,7 @@
 <seer-content-top>
   <seer-filter
     [hasGlobalFilter]="hasGlobalFilter"
+    [filters]="filters"
     (onFiltersChanged)=handleFiltersChanged($event)
     (onSearchBtnClicked)=handleSearchBtnClicked($event)
   ></seer-filter>  
