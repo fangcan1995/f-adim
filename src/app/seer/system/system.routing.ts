@@ -12,7 +12,7 @@ const routes: Routes = [
       { path: 'user-manage', loadChildren:'./user-manage/user-manage.module#UserManageModule' },
       { path: 'role', loadChildren:'./role/role.module#RoleModule' },
       { path: 'resource-manage', loadChildren: './resource-manage/resource-manage.module' },
-      { path: 'dict-manage', loadChildren: './dict-manage/dict-manage.module' },
+      { path: 'dict', loadChildren: './dict/dict.module#DictModule' },
     ]
   }
 ];

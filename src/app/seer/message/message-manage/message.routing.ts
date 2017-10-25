@@ -12,7 +12,7 @@ const routes: Routes = [
     		component: MessageComponent,
     	},
     	{
-    		path: 'edit',
+    		path: 'add',
     		component: MessageEditComponent,
     	},
     	{

@@ -1,32 +1,19 @@
-/*
-import { Component, OnInit } from '@angular/core';
-import { DictManageService } from "../dict-manage.service";
-import { DICT_TRANSLATE } from "./dict.translate";
+import {
+  Component,
+  ViewEncapsulation,
+  OnInit
+} from "@angular/core";
+import { Router } from "@angular/router";
+import { DictService } from "./dict.service";
 import * as _ from 'lodash';
-import {SeerDialogService} from "../../../../theme/services/seer-dialog.service"
-import {COPY_CREATE,UPDATE, DELETE} from "../../../common/seer-table/seer-table.actions"
-*/
-
-
-import {Component, ViewEncapsulation, OnInit} from "@angular/core";
-import {LocalDataSource} from "ng2-smart-table";
-import { DictManageService } from "../dict-manage.service";
-import {Router} from "@angular/router";
-//import {GlobalState} from "../../../../../global.state";
-import * as _ from 'lodash';
-import { Location } from '@angular/common';
-import {SeerDialogService} from "../../../../theme/services/seer-dialog.service"
-import {COPY_CREATE,UPDATE, DELETE} from "../../../common/seer-table/seer-table.actions"
-import { SeerMessageService } from '../../../../theme/services/seer-message.service';
-
+import { COPY_CREATE, UPDATE, DELETE } from "../../common/seer-table/seer-table.actions";
+import { SeerDialogService } from '../../../theme/services/seer-dialog.service';
+import { SeerMessageService } from '../../../theme/services/seer-message.service';
 @Component({
-  selector: 'DictComponent',
-  styleUrls: ['./dict.component.scss'],
-  templateUrl: './dictComponent.html',
-  providers: [],
+  templateUrl: './dict.component.html',
+  styleUrls: [ './dict.component.scss' ],
 })
-export class DictComponent implements OnInit{
-  title = '字典管理';
+export class DictComponent implements OnInit {
   hasGlobalFilter = true;
   filters = [
     {
@@ -40,20 +27,7 @@ export class DictComponent implements OnInit{
       type: 'input.text',
     }
   ];
-  pageInfo={
-    "pageNum":1,
-    "pageSize":10,
-    "sort":"id,itemSort",
-    "total":"",
-    "query":{
-      "globalSearch":"",
-      "category":"",
-      "categoryName":"",
-    },
-  }; //分页、排序、检索
-  addTitle: string;
-  data = [];
-  currentDict;
+
   titles = [
     {
       key:'category',
@@ -81,33 +55,46 @@ export class DictComponent implements OnInit{
       isDict: true,
     },
   ];
-  //translate = DICT_TRANSLATE;
+  pageInfo = {
+    pageNum: 1,
+    pageSize: 10,
+    sort: "-id,-itemSort",
+    total: "",
+    globalSearch: "",
+    category: "",
+    categoryName: "",
+  };
+  dicts = [];
   errorMessage;
   checkAllinput = false;
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = false;
-  IsEdit=false;
+  IsEdit = false;
 
 
-  constructor(private dictManageService:DictManageService,private _dialogService: SeerDialogService,private _location: Location,
-              private _messageService: SeerMessageService,){}
+  constructor(
+    private _dictService: DictService,
+    private _dialogService: SeerDialogService,
+    private _messageService: SeerMessageService,
+    private _router: Router,
+    ){}
 
   ngOnInit() {
-
-    this.getDicts();
+    this.getList();
   }
-  /*获取列表*/
-  getDicts(): void {
-    this.dictManageService.getDicts(this.pageInfo).then(
-        data => {
-          this.pageInfo.pageNum=data.data.pageNum;  //当前页
-          this.pageInfo.pageSize=data.data.pageSize; //每页记录数
-          this.pageInfo.total=data.data.total; //记录总数
-          this.data = data.data.list;
 
-          this.data = _.map(this.data, r => _.set(r, 'actions', [ COPY_CREATE,UPDATE, DELETE ]));
-        },
-        error =>  this.errorMessage = <any>error);
+  /*获取列表*/
+  getList(params?): void {
+    this._dictService.getList(this.pageInfo)
+    .then( res => {
+      this.pageInfo.pageNum = res.data.pageNum;  //当前页
+      this.pageInfo.pageSize = res.data.pageSize; //每页记录数
+      this.pageInfo.total = res.data.total; //记录总数
+      this.dicts = res.data.list;
+
+      this.dicts = _.map(this.dicts, r => _.set(r, 'actions', [ COPY_CREATE,UPDATE, DELETE ]));
+    },
+    error =>  this.errorMessage = <any>error);
   }
   /*更新*/
   onChange(message):void {
@@ -115,37 +102,38 @@ export class DictComponent implements OnInit{
     let data = message.data;
     switch ( type ) {
       case 'create':
-        //this._router.navigate(['/system/resource-manage/edit']);
+        this._router.navigate(['/system/dicts/add']);
 
-        this.addTitle = "新建字典";
+        /*this.addTitle = "新建字典";
         this.currentDict = {};
-        this.checkAllinput = false;
+        this.checkAllinput = false;*/
         break;
       case 'copy_create':
-        this.addTitle = "新建字典";
+        this._router.navigate(['/system/dicts/add']);
+        /*this.addTitle = "新建字典";
         this.currentDict = {
           category:message.data.category,
           categoryName : message.data.categoryName,
           delFlag:message.data.delFlag
         };
-        this.checkAllinput = false;
+        this.checkAllinput = false;*/
         break;
       case 'update':
-        this.addTitle = "修改字典";
+        console.log(data)
+        this._router.navigate([`/system/dicts/edit/${321}`]);
+        /*this.addTitle = "修改字典";
         this.currentDict = message.data;
         this.IsEdit=true;
-        this.checkAllinput = false;
+        this.checkAllinput = false;*/
         break;
       case 'delete':
         this._dialogService.confirm('确定删除吗？')
           .subscribe(action => {
             if ( action === 1 ) {
-              this.dictManageService.deleteDict(message.data.id).then((data) => {
-                if ( data.code=='0' ){
-                  this.getDicts();
-                }else {
-                  alert("删除失败");
-                }
+              this._dictService
+              .deleteOne(message.data.id)
+              .then((data) => {
+                this.getList();
               });
             }
           })
@@ -158,8 +146,8 @@ export class DictComponent implements OnInit{
 
   //保存
   saveDict(): void{
-    if(this.currentDict){
-      this.dictManageService.putOne(this.currentDict).then(
+    /*if(this.currentDict){
+      this._dictService.putOne(this.currentDict).then(
           res => {
             this.currentDict = false;
             this.checkAllinput = false;
@@ -167,22 +155,22 @@ export class DictComponent implements OnInit{
           },
           error =>  this.errorMessage = <any>error);
     }else{
-      this.dictManageService.postOne(this.currentDict).then(
+      this._dictService.postOne(this.currentDict).then(
           res => {
             this.currentDict = false;
             this.checkAllinput = false;
             this.getDicts();
           },
           error =>  this.errorMessage = <any>error);
-    }
+    }*/
   }
   handleSaveBtnClick() {
-    if ( this.forbidSaveBtn ) return;
+    /*if ( this.forbidSaveBtn ) return;
     this.forbidSaveBtn = true;
 
     let requestStream$;
     if(!this.currentDict.id){
-      this.dictManageService.postOne(this.currentDict).then((data) => {
+      this._dictService.postOne(this.currentDict).then((data) => {
         if(data.code=='0') {
           this.alertSuccess("添加成功");
         }else{
@@ -190,24 +178,27 @@ export class DictComponent implements OnInit{
         }
       });
     } else{
-      this.dictManageService.putOne(this.currentDict).then((data) => {
+      this._dictService.putOne(this.currentDict).then((data) => {
         if(data.code=='0') {
           this.alertSuccess("更新成功");
         }else{
           this.alertError("更新失败");
         }
       });
-    }
-    this.getDicts();
+    }*/
+    this.getList();
   }//保存按钮处理函数
   handleBackBtnClick() {
-    this.getDicts();
+    this.getList();
   } //返回按钮处理函数
   handleFiltersChanged($event) {
     let params=$event;
-    this.pageInfo.query = params;
+    this.pageInfo = {
+       ...this.pageInfo,
+       ...params,
+    };
     console.log(params);
-    this.getDicts();
+    this.getList();
   }
 
   handleSearchBtnClicked($event) {
@@ -225,7 +216,7 @@ export class DictComponent implements OnInit{
   handlePageChange($event) {
     this.pageInfo.pageSize = $event.pageSize;
     this.pageInfo.pageNum=$event.pageNum;
-    this.getDicts();
+    this.getList();
   }//分页
   alertSuccess(info:string){
     this._messageService.open({
