@@ -10,10 +10,10 @@
   >
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header" [innerHTML]="header" *ngIf="header"></div>
-      <div class="modal-body" [innerHTML]="content" *ngIf="content"></div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" *ngFor="let action of actions" data-dismiss="modal" (click)="handleActionsClick(action)">{{ action.text }}</button>
+      <div class="modal-header dialog-header" [innerHTML]="header" *ngIf="header"></div>
+      <div class="modal-body dialog-body" [innerHTML]="content" *ngIf="content"></div>
+      <div class="modal-footer dialog-footer">
+        <button type="button" class="btn btn-primary btn-dialog" *ngFor="let action of actions" data-dismiss="modal" (click)="handleActionsClick(action)">{{ action.text }}</button>
       </div>
     </div>
   </div>
