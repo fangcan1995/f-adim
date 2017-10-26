@@ -81,7 +81,7 @@ export class MessageEditComponent {
   isPickUsersAble:boolean=true;  //选择用户按钮无效
   usersType: string; //用户类型
   IsChecked={"sendMail":false,"sendNotify":false,"sendMessage":false,"now":false}
-  disabled={"sendMail":false,"sendNotify":false,"sendMessage":false,"now":false}
+  disabled={"sendMail":true,"sendNotify":true,"sendMessage":true,"now":false}; checkbox是否可用
   allowChange:boolean=false;//date-picker是否可用
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
@@ -157,8 +157,12 @@ export class MessageEditComponent {
       this._editType='edit';
       this.isPickUsersAble=false;
       this.service.getMessageById(this.editId).then((data) => {
-        console.log(data);
+        //console.log(data);
+        //console.log('1111111111111');
         this.message = data.data;
+/*        this.message.sendMail=this.Cint(this.message.sendMail);
+        this.message.sendNotify=this.Cint(this.message.sendNotify);
+        this.message.sendMessage=this.Cint(this.message.sendMessage);*/
         if(this.message.adaptationUser=="backend"){
           this.disabled={"sendMail":true,"sendNotify":true,"sendMessage":false,"now":false}
         }
@@ -171,29 +175,33 @@ export class MessageEditComponent {
   }
   //激活选择用户按钮
   selectUsersType(userTypeId){
-    //1、要判断是否选择，并判断选中了前台用户还是后台用户
-    //2
-    console.log(userTypeId);
-    if(userTypeId=='frontend'){
-      //this.isPickUsersAble=false;
+    //要判断是否选择，并判断选中了前台用户还是后台用户
+    if(userTypeId=='0'){
       this.disabled.sendMail=false;
       this.disabled.sendNotify=false;
+      this.disabled.sendMessage=false;
       this.usersType="members"
-    }else if(userTypeId=='backend'){
-      //this.isPickUsersAble=false;
+    }else if(userTypeId=='1'){
       this.disabled.sendMail=true;
       this.disabled.sendNotify=true;
+      this.disabled.sendMessage=false;
       this.usersType="users"
+    }else{
+      this.disabled.sendMail=true;
+      this.disabled.sendNotify=true;
+      this.disabled.sendMessage=true;
     }
   }
-  //checkbox点击事件
+  //即刻下发事件处理方法
   ckboxToggle(messageType:any){
-    //console.log();
-    if(!this.disabled[messageType] ){
-      this.IsChecked[messageType]=!this.IsChecked[messageType];
-      if(messageType=='now'){
-        this.allowChange=true;
-
+    if(messageType=='now'){
+      this.IsChecked[messageType]=!this.IsChecked[messageType]; //切换对勾状态
+      if(this.disabled[messageType]==false){
+          this.disabled.now=true;
+          this.allowChange=true;
+      }else{
+        this.disabled.now=false;
+        this.allowChange=false;
       }
     }
   }
@@ -226,8 +234,10 @@ export class MessageEditComponent {
   handleSaveBtnClick(){
     if ( this.forbidSaveBtn ) return;
     this.forbidSaveBtn = true;
-    //let requestStream$;
     if ( this._editType === 'edit' ) {
+      this.message.sendMail=this.Cint(this.message.sendMail);
+      this.message.sendNotify=this.Cint(this.message.sendNotify);
+      this.message.sendMessage=this.Cint(this.message.sendMessage);
       this.service.putOne(this.message).then((data:any) => {
         if(data.code=="0") {
           this.alertSuccess(data.message);
@@ -235,10 +245,12 @@ export class MessageEditComponent {
           this.alertError(data.message);
         }
       }).catch(err => {
-        console.log(err);
         this.alertError(err.message);
       });
     } else if ( this._editType === 'add' ) {
+      this.message.sendMail=this.Cint(this.message.sendMail);
+      this.message.sendNotify=this.Cint(this.message.sendNotify);
+      this.message.sendMessage=this.Cint(this.message.sendMessage);
       this.service.postOne(this.message).then((data:any) => {
         if(data.code=='0') {
           this.alertSuccess(data.message);
@@ -246,13 +258,16 @@ export class MessageEditComponent {
           this.alertError(data.message);
         }
       }).catch(err => {
-         //咨询李哲
-        this.alertError('406错误');
+        this.alertError(err.message);
       });
     } else {
       return;
     }
 
+  }
+  //将true false转成1 0
+  Cint(parm:Boolean){
+    return parm === true ? 1 : 0;
   }
   //模态框
   public modalRef: BsModalRef;

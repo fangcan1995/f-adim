@@ -3,33 +3,45 @@ import {SERVER} from "../../const";
 import {BaseService} from "../../base.service";
 import {Result} from "../../model/result.class";
 import {Template} from "../../model/auth/message-template";
-
+import {parseQueryString, getStorage} from "../../../theme/libs/utils"
 @Injectable()
 export class messageTplManageService extends BaseService<any>{
-  private templateManageUrl = SERVER+'/sys/role';  // 接口，请修改
+  accessToken = getStorage({ key: 'token' }).access_token;
+  templateManageUrl=`http://172.16.1.234:8080/templates`;  // URL to web api
+  getTpls(pageInfo:any): Promise<Result>{
+    const page=`&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
+    const sort=`&sortBy=${pageInfo.sort}`;
+    const jsonQueryObj = pageInfo.query;
+    let query:string="";
+    for (var prop in jsonQueryObj) {
+      if(jsonQueryObj[prop]){
+        query+=`&${prop}=${jsonQueryObj[prop]}`;
+      }
+    }
+    const url = `${this.templateManageUrl}?access_token=${this.accessToken}${page}${sort}${query}`;
+    console.log(url);
+    return this.getAll(url);
 
-  /*返回列表*/
-  getTpls(): Promise<Result>{
-    return this.getAll(this.templateManageUrl);
   }
   /*根据id返回一条数据*/
   getTemplateById(id: string): Promise<Result> {
-    const url = `${this.templateManageUrl}/${id}`;
-    return this.getAll(url);
+    const url = `${this.templateManageUrl}/${id}?access_token=${this.accessToken}`;
+    return this.getById(url);
   }
   /*新增*/
   createTemplate(template:Template): Promise<Result> {
-    const url = `${this.templateManageUrl}/`;
+    const url = `${this.templateManageUrl}?access_token=${this.accessToken}`;
     return this.create(url,template);
   }
   /*修改*/
   updateTemplate(template:Template): Promise<Result> {
-    const url = `${this.templateManageUrl}/`;
+    const url = `${this.templateManageUrl}?access_token=${this.accessToken}`;
+
     return this.update(url,template);
   }
   /*删除*/
   deleteTemplate(id: string): Promise<Result> {
-    const url = `${this.templateManageUrl}/${id}`;
+    const url = `${this.templateManageUrl}/${id}?access_token=${this.accessToken}`;
     return this.delete(url);
   }
 }

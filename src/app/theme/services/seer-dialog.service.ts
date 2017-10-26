@@ -38,6 +38,7 @@ export class SeerDialogService {
 
   public alert(msg) {
     this.show({
+      header: '提示',
       content: msg,
       actions: [
         {
@@ -60,20 +61,22 @@ export class SeerDialogService {
 
     })
     return _action$;
-    
+
   }
   public confirm(msg) {
     this.show({
+      header: '提示',
       content: msg,
       actions: [
+        {
+          type: 0,
+          text: '取消',
+        },
         {
           type: 1,
           text: '确定',
         },
-        {
-          type: 0,
-          text: '取消',
-        }
+
       ]
     })
     let _action$ = new Subject();

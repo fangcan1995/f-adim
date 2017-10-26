@@ -88,7 +88,7 @@ export class MessageComponent {
   source = [];
   titles = [
     {key:'msgTitle',label:'消息名称'},
-    {key:'adaptationUser',label:'适配用户'},
+    {key:'adaptationUser', label:'适配用户',isDict:true,category:"ADAPTATION_USER"},
     {key:'businessType',label:'消息类型'},
     {key:'sendMail',label:'消息中心'},
     {key:'sendNotify',label:'推送通知'},
@@ -148,7 +148,7 @@ export class MessageComponent {
       //console.log(type);
       switch (type) {
         case 'create':
-          this._router.navigate([`edit`], {relativeTo: this._route});
+          this._router.navigate([`add`], {relativeTo: this._route});
           break;
         case 'preview':
           this._router.navigate([`detail/${data.id}`], {relativeTo: this._route});

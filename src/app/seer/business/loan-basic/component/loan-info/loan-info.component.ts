@@ -2,7 +2,7 @@
 import {Component, Input, OnInit} from "@angular/core";
 
 import {LoanBasicService} from "../../loan-basic.service";
-import {UPDATE} from "../../../../common/seer-table/seer-table.actions";
+import {SAVE, UPDATE} from "../../../../common/seer-table/seer-table.actions";
 
 @Component({
   selector: 'loan-info',
@@ -16,18 +16,18 @@ export class LoanInfoComponent implements OnInit {
 
   @Input() loan = {};
 
-  public actions = [ UPDATE ];
+  private actions = [];
 
   constructor(private service: LoanBasicService){}
 
-  ngOnInit() {
-    if(!this.disabled) {
-      this.actions = [ UPDATE ] ;
-    }else {
-      this.actions = [];
-    }
-  }
+  ngOnInit(): void { if(!this.disabled) { this.actions = [ SAVE ] } else { this.actions = [] } }
 
+  private save(): void {
+    this.service.updateLoan(this.loan).then((res => {
+      console.log(res);
+      alert(res.message);
+    }));
+  }
 
 
 }

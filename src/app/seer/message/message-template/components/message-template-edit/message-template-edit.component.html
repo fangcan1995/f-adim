@@ -1,42 +1,115 @@
-<form (submit)="save()">
-  <div class="form-page-header">
-    <button type="button" class="btn btn-default" (click)="goBack()">返回列表</button>
-    <button type="submit" class="btn btn-primary">保存</button>
-  </div>
-  <seer-card [title]="title" >
-    <div class="form-group" style="margin-top:20px;">
-        <div class="row">
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+
+<seer-content-top>
+  <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
+  <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
+</seer-content-top>
+<div class="widgets">
+  <form >
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <seer-collapse-card title="模板基本信息" >
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
               <div class="row">
-                <label for="name" class="col-sm-4 control-label" style="height:35px; line-height:35px;">模板名称</label>
+                <label for="tempName" class="col-sm-4 control-label" style="height:35px; line-height:35px;">模板名称</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="模板名称">
+                  <input type="hidden" name="message.id" [(ngModel)]="template.id">
+                  <input type="text" class="form-control" name="adaptationUser" id="tempName"  [(ngModel)]="template.tempName">
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
               <div class="row">
-                <label for="name" class="col-sm-4 control-label" style="height:35px; line-height:35px;">业务类型</label>
+                <label for="tempName" class="col-sm-4 control-label" style="height:35px; line-height:35px;">KEY</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="name" placeholder="业务类型">
+                  <input type="text" class="form-control" name="tempCode" id="tempCode"  [(ngModel)]="template.tempCode">
                 </div>
               </div>
             </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
+              <div class="row">
+                <label for="tempName" class="col-sm-4 control-label" style="height:35px; line-height:35px;">适配用户</label>
+                <div class="col-sm-8 ">
+                  <select type="email" class="form-control" name="adaptationUser" id="adaptationUser" dict-select
+                          [(ngModel)]="template.adaptationUser"
+                          [key]="'ADAPTATION_USER'"
+                          [topOption]="{itemId:'',itemName:'请选择'}"
+                          (change)="selectUsersType($event.target.value)"
+                          [selected]="template.adaptationUser"
+                          [disabled]="!isAdd"
+                          required>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
+              <div class="row">
+                <label for="tempName" class="col-sm-4 control-label" style="height:35px; line-height:35px;">消息类型</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" name="businessType" id="businessType"  [(ngModel)]="template.businessType" >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
             <div class="form-group col-sm-12">
-                <div class="row">
-                    <label for="debtIntroduction" class="col-sm-4 col-md-2 col-xlg-1 control-label">模板内容</label>
-                    <div class="col-sm-8 col-md-10 col-xlg-11">
-                        <textarea class="form-control" id="debtIntroduction" placeholder="模板内容"></textarea>
-                    </div>
+              <div class="row">
+                <label class="col-sm-2 control-label">显示范围</label>
+                <div class="col-sm-10">
+                  <div class="col-sm-10">
+                    <seer-cool-checkbox
+                      [name]="sendMail"
+                      [(checked)]="template.sendMail"
+                      [disabled]="disabled.sendMail"
+                    ></seer-cool-checkbox> 消息中心
+                    <seer-cool-checkbox
+                      [name]="sendNotify"
+                      [(checked)]="template.sendNotify"
+                      [disabled]="disabled.sendNotify"
+                    ></seer-cool-checkbox> 推送通知
+                    <seer-cool-checkbox
+                      [name]="sendMessage"
+                      [(checked)]="template.sendMessage"
+                      [disabled]="disabled.sendMessage"
+                    ></seer-cool-checkbox> 短信通知
+                  </div>
                 </div>
-            </div> 
-              <!-- <div>
-          根据后端传来的字段，已{{}}方式输出（用ngif判断 是从修改来还是新增来，来确定是否显示这个盒子）
-        </div> -->
-        </div>
-    </div> 
-  </seer-card>
-</form>
+              </div>
+            </div>
+          </div>
+
+        </seer-collapse-card>
+        <seer-collapse-card title="消息内容" >
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <div class="row">
+                <label for="tempContent" class="col-sm-2 control-label">模板简介</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" name="tempProfile" id="tempProfile"  [(ngModel)]="template.tempProfile">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <div class="row">
+                <label for="tempContent" class="col-sm-2 control-label">模板内容</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" name="tempContent " id="tempContent"  [(ngModel)]="template.tempContent"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </seer-collapse-card>
+      </div>
+    </div>
+  </form>
+</div>
 
 
- 
+
+
+
+
+
+

@@ -1,0 +1,29 @@
+
+.modal-content {
+  overflow: hidden;
+}
+
+.dialog-header {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  padding: 20px 30px;
+  background-color: #fafafa;
+}
+
+.dialog-body {
+  padding: 24px 30px;
+}
+
+.dialog-footer {
+  border-top: 0;
+  padding-bottom: 20px;
+}
+
+button.btn.btn-dialog {
+  width: auto;
+  height: auto;
+  line-height: 12px;
+  padding: 8px 20px;
+  margin-right: 20px;
+}

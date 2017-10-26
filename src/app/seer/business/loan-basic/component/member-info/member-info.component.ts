@@ -21,35 +21,30 @@ export class MemberInfoComponent implements OnInit {
 
   constructor(private service: LoanBasicService){}
 
-  ngOnInit(): void {
-    if(!this.disabled) {
-      this.actions = [ SAVE ] ;
-    }else {
-      this.actions = [];
-    }
-  }
+  ngOnInit(): void { if(!this.disabled) { this.actions = [ SAVE ] } else { this.actions = [] } }
 
   //户籍所在地
   private dimicilePlace = {};
   domicilePlaceChanged($event) {
     console.log($event);
-    /*this.dimicilePlace = $event;
-    this.member.domicileProvince = $event.
-
-    domicileCity
-      domicileDistrict
-      domicileAddress
-      liveProvince
-      liveCity
-      liveDistrict
-      liveAddress*/
+    /*this.member.domicileProvince = $event.province.item_code;
+    this.member.domicileDistrict = $event.district.item_code;
+    this.member.domicileAddress = $event.city.item_code;
+    this.member.domicileAddress = $event.address;*/
   }
 
   //目前居住地
   private currentResidence = {};
   currentResidenceChanged($event) {
-    console.log($event);
-    this.currentResidence = $event;
+    /*console.log($event);
+    this.currentResidence = $event;*/
+  }
+
+  private save(): void {
+    this.service.updateMember(this.member).then((res => {
+      console.log(res.code);
+      alert(res.message);
+    }));
   }
 
 

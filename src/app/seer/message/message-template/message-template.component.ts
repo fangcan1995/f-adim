@@ -1,6 +1,6 @@
 import {Component, ViewEncapsulation} from "@angular/core";
 import {messageTplManageService} from "./message-template.service";
-import {Router} from "@angular/router";
+import {Router,ActivatedRoute} from "@angular/router";
 import {Location} from '@angular/common';
 import {Template} from "../../model/auth/message-template";
 import { SeerDialogService } from '../../../theme/services/seer-dialog.service'
@@ -14,16 +14,87 @@ import * as _ from 'lodash';
 })
 export class MessageTemplateComponent {
   hasGlobalFilter = true;
-  // optionType=[{value:'', content: '请选择'}];
-  // optionisSystem=[{value:'', content: '请选择'}];
-  
+  filters = [
+    {
+      key: 'tempName',
+      label: '模版名称',
+      type: 'input.text',
+    },
+    {
+      key: 'tempCode',
+      label: 'KEY',
+      type: 'select',
+      options:[{value:'', content: '全部'},{value:'1', content: '前台用户'},{value:'2', content: '后台员工'}]
+    },
+    {
+      key: 'adaptationUser',
+      label: '适配用户',
+      type: 'select',
+      options:[{value:'', content: '全部'}]
+    },
+    {
+      key: 'businessType',
+      label: '消息类型',
+      type: 'select',
+      options:[{value:'', content: '全部'}]
+    },
+    {
+      key: 'sendMessage',
+      label: '短信通知',
+      type: 'select',
+      options:[{value:'', content: '全部'}]
+    },
+    {
+      key:'sendNotify',
+      label:'推送通知',
+      type: 'select',
+      options:[{value:'', content: '全部'}]
+    },
+    {
+      key:'sendMail',
+      label:'消息中心',
+      type: 'select',
+      options:[{value:'', content: '全部'}]
+    },
+    {
+      key:'tempTitle',
+      label:'模版标题',
+      type: 'input.text',
+    },
+  ];
+  pageInfo={
+    "pageNum":1,
+    "pageSize":10,
+    "sort":"-createTime",
+    "total":"",
+    "query":{
+      "globalSearch":"",
+      "tempName":"",
+      "tempCode":"",
+      "adaptationUser":"",
+      "businessType":"",
+      "sendMessage":"",
+      "sendNotify":"",
+      "sendMail":"",
+      "tempTitle":""
+    },
+
+  }; //分页、排序、检索
+
   title = '消息模板';
   source = [];
   data=[];
   titles = [
-    {key:'tplName', label:'模板名称'},
-    {key:'tplType', label:'业务类型'},
-    {key:'tplContent', label:'模板内容'},
+    {key:'tempName', label:'模板名称'},
+    {key:'tempCode', label:'KEY'},
+    {key:'adaptationUser', label:'适配用户',isDict:true,category:"ADAPTATION_USER"},
+    {key:'businessType', label:'消息类型'},
+    {key:'tempTitle', label:'模板标题'},
+    {key:'sendMail', label:'消息中心'},
+    {key:'sendMessage', label:'短信通知'},
+    {key:'sendNotify', label:'推送通知'},
+    {key:'updateTime', label:'最后修改时间'},
+    {key:'updateUser', label:'最后修改人'},
   ];
   //tplTypeOptions={};
 
@@ -46,44 +117,48 @@ export class MessageTemplateComponent {
 
     this.allTplsList();
   }
-  constructor(protected service: messageTplManageService, private _router: Router, private _dialogService: SeerDialogService,) {}
+  constructor(
+    protected service: messageTplManageService,
+    private _router: Router,
+    private _route: ActivatedRoute,
+    private _dialogService: SeerDialogService,) {}
   /*获取列表*/
   allTplsList():void{
-    this.service.getTpls().then((data) => {
-      /*假数据*/
-      data={
-        "data":[
-          {"tplId":1,"tplName":"xxx","tplContent":"【巴巴汇】客官，您的借款申请已提交成功，请耐心等待审核呦~客服电话：400-024-0909","tplType":"贷款"},
-          {"tplId":2,"tplName":"xxx","tplContent":"【巴巴汇】客官，您的借款申请已提交成功，请耐心等待审核呦~客服电话：400-024-0909","tplType":"投资"},
-          {"tplId":3,"tplName":"xxx","tplContent":"【巴巴汇】客官，您的借款申请已提交成功，请耐心等待审核呦~客服电话：400-024-0909","tplType":"活动"},
-          {"tplId":4,"tplName":"xxx","tplContent":"【巴巴汇】客官，您的借款申请已提交成功，请耐心等待审核呦~客服电话：400-024-0909","tplType":"贷款"},
-        ],"success":"true","message": "成功"};
-      /*假数据*/
-      this.data = data.data;
-      this.source = data.data;
-     this.source = _.map(this.source, r => _.set(r, 'actions', [ UPDATE, CREATE,DELETE ]));
+    this.service.getTpls(this.pageInfo).then((res) => {
+      console.log(res);
+      this.pageInfo.pageNum=res.data.pageNum;  //当前页
+      this.pageInfo.pageSize=res.data.pageSize; //每页记录数
+      this.pageInfo.total=res.data.total; //记录总数
+      this.source = res.data.list;
+
+      this.source = _.map(this.source, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
     });
   }
   onChange(message):void {
     const type = message.type;
-    console.log(type);
-    
     let data = message.data;
     switch ( type ) {
       case 'create':
-        this._router.navigate(['/basic-info/message-template/add']);
+        this._router.navigate([`add`], {relativeTo: this._route});
         break;
-      case 'update': 
-        this._router.navigate(['/basic-info/message-template/edit',message.data.tplId])
+      case 'update':
+        this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
         break;
       case 'delete':
         this._dialogService.confirm('确定删除吗？')
           .subscribe(action => {
             if ( action === 1 ) {
-              // this.service.deleteOne(message.data.id)
-              //   .subscribe(data => {
-              //     this.getList();
-              // });
+              this.service.deleteTemplate(message.data.id)
+                .then((data:any) => {
+                  if(data.code=='0') {
+                    alert("删除成功");
+                    this.allTplsList();
+                  }else{
+                    alert("删除失败");
+                  }
+                }).catch(err => {
+                alert(err.json().message);
+              });
             }
           })
 
@@ -92,5 +167,18 @@ export class MessageTemplateComponent {
         let ids = _(data).map(t => t.id).value();
         break;
     }
+  }
+  //分页
+  handlePageChange($event) {
+    this.pageInfo.pageSize = $event.pageSize;
+    this.pageInfo.pageNum=$event.pageNum;
+    this.allTplsList();
+  }
+  //全局搜索
+  handleFiltersChanged($event) {
+    let params=$event;
+    //console.log(params);
+    this.pageInfo.query = params;
+    this.allTplsList();
   }
 }

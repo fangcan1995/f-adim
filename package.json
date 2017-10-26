@@ -71,7 +71,7 @@
     "ng2-validation": "^4.2.0",
     "ngx-bootstrap": "^1.9.3",
     "normalize.css": "6.0.0",
-    "popper.js": "^1.12.5",
+    "popper.js": "^1.12.6",
     "roboto-fontface": "0.8.0",
     "rxjs": "5.4.2",
     "tether": "1.2.4",
