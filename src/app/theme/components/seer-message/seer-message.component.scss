@@ -3,7 +3,7 @@
 	.message {
 		position: fixed;
 		z-index: 1001;
-		top: 24px;
+		top: 3rem;
 		right: 24px;
 		left: 24px;
 		pointer-events: none;
@@ -14,7 +14,8 @@
 		display: inline-block;
 		text-align: center;
 		background-color: #fff;
-		box-shadow: 0 2px 8px rgba(0,0,0,.2);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
+    padding: 30px 120px;
 		pointer-events: auto;
 		i {
 			margin-right: 8px;
