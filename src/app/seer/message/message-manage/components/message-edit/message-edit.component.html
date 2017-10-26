@@ -26,19 +26,15 @@
                 <div class="form-group">
                   <label class="col-sm-4 control-label">适配用户</label>
                   <div class="col-sm-8 ">
-                    <select class="form-control"  disabled *ngIf="isAdd==false">
-                      <option value="message.adaptationUser">{{message.adaptationUser}}</option>
+                    <select type="email" class="form-control" name="adaptationUser" id="adaptationUser" dict-select
+                            [(ngModel)]="message.adaptationUser"
+                            [key]="'ADAPTATION_USER'"
+                            [topOption]="{itemId:'',itemName:'请选择'}"
+                            (change)="selectUsersType($event.target.value)"
+                            [selected]="message.adaptationUser"
+                            [disabled]="!isAdd"
+                            required>
                     </select>
-                    <select class="form-control" id="adaptationUser" name="adaptationUser"  *ngIf="isAdd==true" (change)="selectUsersType($event.target.value)" >
-                      <option>请选择</option>
-                      <option value="frontend">前台用户</option>
-                      <option value="backend">后台用户</option>
-                    </select>
-                    <!--<select type="email" class="form-control" name="contractType" id="staffState" (change)="selectUsersType($event.target.value)"  [(ngModel)]="staff.staffState" dict-select required
-                            [key]="'STAFF_STATE'"
-                            [topOption]="{dictValueId:'',dictValueName:'请选择'}"
-                            [selected]="staff.staffState" >
-                    </select>-->
                   </div>
                 </div>
               </div>

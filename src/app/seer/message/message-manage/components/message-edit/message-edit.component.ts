@@ -176,16 +176,20 @@ export class MessageEditComponent {
   //激活选择用户按钮
   selectUsersType(userTypeId){
     //要判断是否选择，并判断选中了前台用户还是后台用户
-    if(userTypeId=='frontend'){
+    if(userTypeId=='0'){
       this.disabled.sendMail=false;
       this.disabled.sendNotify=false;
       this.disabled.sendMessage=false;
       this.usersType="members"
-    }else if(userTypeId=='backend'){
+    }else if(userTypeId=='1'){
       this.disabled.sendMail=true;
       this.disabled.sendNotify=true;
       this.disabled.sendMessage=false;
       this.usersType="users"
+    }else{
+      this.disabled.sendMail=true;
+      this.disabled.sendNotify=true;
+      this.disabled.sendMessage=true;
     }
   }
   //即刻下发事件处理方法
@@ -263,11 +267,6 @@ export class MessageEditComponent {
   }
   //将true false转成1 0
   Cint(parm:Boolean){
-/*    if(parm==true){
-      return 1;
-    }else{
-      return 0;
-    }*/
     return parm === true ? 1 : 0;
   }
   //模态框

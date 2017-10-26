@@ -88,7 +88,7 @@ export class MessageComponent {
   source = [];
   titles = [
     {key:'msgTitle',label:'消息名称'},
-    {key:'adaptationUser',label:'适配用户'},
+    {key:'adaptationUser', label:'适配用户',isDict:true,category:"ADAPTATION_USER"},
     {key:'businessType',label:'消息类型'},
     {key:'sendMail',label:'消息中心'},
     {key:'sendNotify',label:'推送通知'},
