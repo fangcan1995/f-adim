@@ -11,6 +11,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'message'},
       { path: 'message', loadChildren:'./message-manage/message-manage.module#MessageManageModule' },
       { path: 'message-template', loadChildren:'./message-template/message-template.module#MessageTemplateModule' },
+      { path: 'message-record', loadChildren:'./message-record/message-record.module#MessageRecordModule' },
     ]
   }
 ];
