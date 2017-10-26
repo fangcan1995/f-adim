@@ -22,7 +22,15 @@
                 <div class="form-group">
                   <label class="col-sm-4 control-label">适配用户</label>
                   <div class="col-sm-8 ">
-                    {{message.adaptationUser}}
+                    <select type="email" class="form-control" name="adaptationUser" id="adaptationUser" dict-select
+                            [(ngModel)]="message.adaptationUser"
+                            [key]="'ADAPTATION_USER'"
+                            [topOption]="{itemId:'',itemName:'请选择'}"
+                            (change)="selectUsersType($event.target.value)"
+                            [selected]="message.adaptationUser"
+                            [disabled]="true"
+                           >
+                    </select>
                   </div>
                 </div>
               </div>
@@ -30,7 +38,7 @@
                 <div class="form-group">
                   <label class="col-sm-4 control-label">消息类型</label>
                   <div class="col-sm-8 ">
-
+                    {{message.businessType}}
                   </div>
                 </div>
               </div>
@@ -40,9 +48,18 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">显示范围</label>
                   <div class="col-sm-8 ">
-                    <seer-checkbox (click)="ckboxToggle('sendMail')" [isChecked]="IsChecked.sendMail" [label]="'消息中心'" [disabled]="disabled.sendMail"></seer-checkbox>
-                    <seer-checkbox (click)="ckboxToggle('sendNotify')" [isChecked]="IsChecked.sendNotify" [label]="'推送通知'" [disabled]="disabled.sendNotify"></seer-checkbox>
-                    <seer-checkbox (click)="ckboxToggle('sendMessage')" [isChecked]="IsChecked.sendMessage" [label]="'短信通知'" [disabled]="disabled.sendMessage"></seer-checkbox>
+                    <seer-cool-checkbox
+                      [(checked)]="message.sendMail"
+                      [disabled]="true"
+                    ></seer-cool-checkbox> 消息中心
+                    <seer-cool-checkbox
+                      [(checked)]="message.sendNotify"
+                      [disabled]="true"
+                    ></seer-cool-checkbox> 推送通知
+                    <seer-cool-checkbox
+                      [(checked)]="message.sendMessage"
+                      [disabled]="true"
+                    ></seer-cool-checkbox> 短信通知
                   </div>
                 </div>
               </div>
@@ -52,7 +69,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">下发时间</label>
                   <div class="col-sm-4">
-                    {{message.expectSendTime}}
+                    {{message.expectSendTime | date:'yyyy-MM-dd HH:mm:ss'}}
                   </div>
                   <div class="col-sm-4">
 

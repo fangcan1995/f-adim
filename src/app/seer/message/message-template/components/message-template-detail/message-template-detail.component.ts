@@ -8,12 +8,12 @@ import { SeerMessageService } from '../../../../../theme/services/seer-message.s
 
 @Component({
   selector: 'message-template-edit',
-  templateUrl: './message-template-edit.component.html',
-  styleUrls: ['./message-template-edit.component.css'],
+  templateUrl: './message-template-detail.component.html',
+  styleUrls: ['./message-template-detail.component.css'],
   providers: [messageTplManageService],
   encapsulation: ViewEncapsulation.None
 })
-export class MessageTemplateEditComponent implements OnInit {
+export class MessageTemplateDetailComponent implements OnInit {
   //template: Template = new Template();
   private template:any={};
   title="";
@@ -61,12 +61,12 @@ export class MessageTemplateEditComponent implements OnInit {
     if (this.template.id) {
       /*修改*/
       this.service.updateTemplate(this.template).then((data: any) => {
-          if(data.code=='0') {
-            this.alertSuccess(data.message);
-          }else{
-            this.alertError(data.message);
-          }
-        }).catch(err=>{
+        if(data.code=='0') {
+          this.alertSuccess(data.message);
+        }else{
+          this.alertError(data.message);
+        }
+      }).catch(err=>{
         this.alertError(err.message);
       })
       /**/

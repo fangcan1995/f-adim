@@ -3,14 +3,16 @@ import { CommonModule }  from '@angular/common';
 import { FormsModule as AngularFormsModule } from '@angular/forms';
 import { RatingModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { NgaModule } from '../../../theme/nga.module';
-import { routing }       from './message-template.routing';
-import { MessageTemplateComponent } from './message-template.component';
-import { MessageTemplateEditComponent } from './components/message-template-edit/message-template-edit.component';
+import { routing }       from './message-record.routing';
+
+
+
+import { MessageRecordComponent } from './message-record.component';
+
 
 import {BaseService} from "../../base.service";
 import {SharedModule} from "../../common/shared.module";
-import {messageTplManageService} from "./message-template.service";
-import { MessageTemplateDetailComponent} from "./components/message-template-detail/message-template-detail.component"
+
 
 @NgModule({
   imports: [
@@ -22,16 +24,14 @@ import { MessageTemplateDetailComponent} from "./components/message-template-det
     SharedModule
   ],
   declarations: [
-    MessageTemplateComponent,
-    MessageTemplateEditComponent,
-    MessageTemplateDetailComponent
+    MessageRecordComponent
   ],
   providers: [
     BaseService,
-    messageTplManageService
+    /*messageTplManageService*/
   ],
   exports: [
   ]
 })
-export class MessageTemplateModule {
+export class MessageRecordModule {
 }
