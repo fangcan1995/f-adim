@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { NgaModule } from '../../../theme/nga.module';
 import { SharedModule } from "../../common/shared.module";
 
-import { routing } from './loan-basic.routing';
 import {LoanBasicService} from "./loan-basic.service";
 import {LoanBasicComponent} from "./loan-basic.component";
 import {MemberInfoComponent} from "./component/member-info/member-info.component";
