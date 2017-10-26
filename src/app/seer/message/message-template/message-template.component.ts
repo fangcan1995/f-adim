@@ -4,7 +4,7 @@ import {Router,ActivatedRoute} from "@angular/router";
 import {Location} from '@angular/common';
 import {Template} from "../../model/auth/message-template";
 import { SeerDialogService } from '../../../theme/services/seer-dialog.service'
-import {UPDATE, DELETE,CREATE} from "../../common/seer-table/seer-table.actions"
+import {UPDATE, DELETE,PREVIEW} from "../../common/seer-table/seer-table.actions"
 import * as _ from 'lodash';
 @Component({
   selector: 'message-template',
@@ -131,7 +131,7 @@ export class MessageTemplateComponent {
       this.pageInfo.total=res.data.total; //记录总数
       this.source = res.data.list;
 
-      this.source = _.map(this.source, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
+      this.source = _.map(this.source, r => _.set(r, 'actions', [ PREVIEW,UPDATE, DELETE ]));
     });
   }
   onChange(message):void {
@@ -140,6 +140,9 @@ export class MessageTemplateComponent {
     switch ( type ) {
       case 'create':
         this._router.navigate([`add`], {relativeTo: this._route});
+        break;
+      case 'preview':
+        this._router.navigate([`detail/${data.id}`], {relativeTo: this._route});
         break;
       case 'update':
         this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});

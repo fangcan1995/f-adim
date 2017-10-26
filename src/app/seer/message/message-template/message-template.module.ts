@@ -10,6 +10,7 @@ import { MessageTemplateEditComponent } from './components/message-template-edit
 import {BaseService} from "../../base.service";
 import {SharedModule} from "../../common/shared.module";
 import {messageTplManageService} from "./message-template.service";
+import { MessageTemplateDetailComponent} from "./components/message-template-detail/message-template-detail.component"
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import {messageTplManageService} from "./message-template.service";
   declarations: [
     MessageTemplateComponent,
     MessageTemplateEditComponent,
+    MessageTemplateDetailComponent
   ],
   providers: [
     BaseService,
