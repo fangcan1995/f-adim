@@ -58,9 +58,28 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">显示范围</label>
                   <div class="col-sm-8 ">
-                    <seer-checkbox (click)="ckboxToggle('sendMail')" [isChecked]="IsChecked.sendMail" [label]="'消息中心'" [disabled]="disabled.sendMail"></seer-checkbox>
+                    <seer-cool-checkbox
+                      name="sendMail"
+                      [(checked)]="message.sendMail"
+                      (change)="ckboxToggle('sendMail')"
+                      [disabled]="disabled.sendMail"
+                    ></seer-cool-checkbox> 消息中心
+                    <seer-cool-checkbox
+                      name="sendNotify"
+                      [(checked)]="message.sendNotify"
+                      (change)="ckboxToggle('sendNotify')"
+                      [disabled]="disabled.sendNotify"
+                    ></seer-cool-checkbox> 推送通知
+                    <seer-cool-checkbox
+                      name="sendMessage"
+                      [(checked)]="message.sendMessage"
+                      (change)="ckboxToggle('sendMessage')"
+                      [disabled]="disabled.sendMessage"
+                    ></seer-cool-checkbox> 短信通知
+
+                    <!--<seer-checkbox (click)="ckboxToggle('sendMail')" [isChecked]="IsChecked.sendMail" [label]="'消息中心'" [disabled]="disabled.sendMail"></seer-checkbox>
                     <seer-checkbox (click)="ckboxToggle('sendNotify')" [isChecked]="IsChecked.sendNotify" [label]="'推送通知'" [disabled]="disabled.sendNotify"></seer-checkbox>
-                    <seer-checkbox (click)="ckboxToggle('sendMessage')" [isChecked]="IsChecked.sendMessage" [label]="'短信通知'" [disabled]="disabled.sendMessage"></seer-checkbox>
+                    <seer-checkbox (click)="ckboxToggle('sendMessage')" [isChecked]="IsChecked.sendMessage" [label]="'短信通知'" [disabled]="disabled.sendMessage"></seer-checkbox>-->
                   </div>
                 </div>
               </div>
@@ -72,7 +91,7 @@
                   <div class="col-sm-4">
                     <seer-datepicker
                       [(date)]="message.expectSendTime"
-                      name="expectSendTime"
+                      [name]="expectSendTime"
                       [dateFormatingRules]="dateFormatingRules || 'yyyy年MM月dd日 hh:mm:ss'"
                       [disabled]="allowChange"
                     >

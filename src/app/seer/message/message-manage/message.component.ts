@@ -148,7 +148,7 @@ export class MessageComponent {
       //console.log(type);
       switch (type) {
         case 'create':
-          this._router.navigate([`edit`], {relativeTo: this._route});
+          this._router.navigate([`add`], {relativeTo: this._route});
           break;
         case 'preview':
           this._router.navigate([`detail/${data.id}`], {relativeTo: this._route});
