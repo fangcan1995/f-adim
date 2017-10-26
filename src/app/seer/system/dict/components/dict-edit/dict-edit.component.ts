@@ -19,7 +19,7 @@ import { SeerMessageService } from '../../../../../theme/services/seer-message.s
 })
 export class DictEditComponent implements OnInit {
   dict = {};
-  private _editType: string = 'add';
+  private editType: string = 'add';
   private forbidSaveBtn: boolean = true;
   @ViewChild('myForm') myForm;
   constructor(
@@ -32,14 +32,14 @@ export class DictEditComponent implements OnInit {
   }
   ngOnInit() {
     console.log(this._route.snapshot.url[0].path)
-    this._editType = this._route.snapshot.url[0].path;
-    if ( this._editType === 'edit' ) {
+    this.editType = this._route.snapshot.url[0].path;
+    if ( this.editType === 'edit' ) {
       this._dictService.getOne(this._route.snapshot.params.id)
       .then(res => {
         this.dict = res.data || {};
         this.forbidSaveBtn = false;
       });
-    } else if ( this._editType === 'add' ) {
+    } else if ( this.editType === 'add' ) {
       this.dict = this._route.snapshot.queryParams || {};
       this.forbidSaveBtn = false;
     }

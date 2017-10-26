@@ -71,6 +71,7 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
   cityJson: AddressModel[] = _.cloneDeep(cityJson);
   cityMap = new Map;
   @Input() defaultItemCode: string;
+  @Input() defaultAddress: string;
   @Input() classNames: AddressPickerClassNamesModel = {};
   @Input() disabled: boolean;
   private _defaultClassNames: AddressPickerClassNamesModel = {
@@ -109,7 +110,7 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
     this.curProvince = this.getCurProvince(this.getProvinces(), this.defaultItemCode);
     this.curCity = this.getCurCity(this.getCitys(), this.defaultItemCode);
     this.curDistrict = this.getCurDistrict(this.getDistricts(), this.defaultItemCode);
-
+    this.address = this.defaultAddress;
   }
   ngOnChanges() {
     this.classNames = overlayOpt(this.classNames, this._defaultClassNames);
@@ -117,6 +118,7 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
     this.curProvince = this.getCurProvince(this.getProvinces(), this.defaultItemCode);
     this.curCity = this.getCurCity(this.getCitys(), this.defaultItemCode);
     this.curDistrict = this.getCurDistrict(this.getDistricts(), this.defaultItemCode);
+    this.address = this.defaultAddress;
   }
   private getCurProvince(provinces, itemCode?) {
     let curProvince;

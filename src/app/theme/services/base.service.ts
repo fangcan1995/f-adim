@@ -83,7 +83,7 @@ export class BaseService<T> {
   }
   // 从服务器获取资源（菜单）
   public getResourcesFromServer(params?): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['RESOURCES']}`, params, true).toPromise();
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['RESOURCES']}`, params).toPromise();
   }
   // 从本地获取字典
   public getDictsFromLocal(): Promise<ResModel> {
@@ -96,7 +96,7 @@ export class BaseService<T> {
     })
   }
   public getDictsFromServer(params?): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['DICTS']}`, params, true).toPromise();
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['DICTS']}`, params).toPromise();
   }
   // 拉取字典数据
   public getDicts(forceFromServer?): Promise<ResModel> {
