@@ -43,6 +43,7 @@ export class SeerTableComponent implements OnInit {
   @Input() customActions: Array<any>;
   @Input() rowsOnPageSet: Array<number> = [10, 15, 30]; // 每页可显示条数的枚举
   @Input() rowsOnPage:number = 10;
+  @Input() filters: any;
   @Input() showSeq:boolean;
   @Input() hideCheckbox: boolean;
   @Input() hidePagination: boolean;
@@ -116,7 +117,7 @@ export class SeerTableComponent implements OnInit {
     }
   }
   selectAll(): void {
-    let data = !this.paginationRules ? this.hidePagination ? this.data :  this._sliceData(this.data, 1, this.pageSize) : this._sliceData(this.data, this.pageNum, this.rowsOnPage)
+    let data = this.getData();
     _.each(data, item => {
       item.selected = this.selectedAll;
     })
@@ -125,7 +126,7 @@ export class SeerTableComponent implements OnInit {
 
   selectOne(event): void {
     let selectedAll = true;
-    _.each(this.data, item => {
+    _.each(this.getData(), item => {
       if ( !item.selected ) return selectedAll = false;
     })
     this.selectedAll = selectedAll;
@@ -163,10 +164,31 @@ export class SeerTableComponent implements OnInit {
     return data.slice((pn-1)*rop, pn*rop)
   }
   getRowCount() {
-    return !this.paginationRules ? this.total : this.data.length;
+    return !this.paginationRules ? this.total : this.getCurData().length;
+  }
+  getCurData() {
+    let data = this.data;
+    if ( this.paginationRules && this.filters ) {
+      let { globalSearch, ...filters } = this.filters;
+      data = _.filter(data, t => {
+        for ( let key in filters ) {
+          let curTit = _.find(this.titles, t => t.key === key);
+          if ( curTit && curTit.isDict ) {
+            if ( filters[key] && t[key] != filters[key] ) return false;
+          } else {
+            if ( !t[key] ) return false;
+            if ( t[key].toString().toLowerCase().indexOf(_.trim(filters[key] ? filters[key].toString().toLowerCase() : '')) === -1 ) return false;
+          }
+          
+        }
+        return true;
+      })
+    }
+    return data;
   }
   getData() {
-    let data = !this.paginationRules ? this._sliceData(this.data, 1, this.pageSize) : this._sliceData(this.data, this.pageNum, this.rowsOnPage)
+    let data = !this.paginationRules ? this._sliceData(this.data, 1, this.pageSize) : this._sliceData(this.getCurData(), this.pageNum, this.rowsOnPage)
+    
     if ( this.translate ) {
       _.each(data, item => {
         this.transferKeyWithDict(item, this.translate, 1);
@@ -193,7 +215,7 @@ export class SeerTableComponent implements OnInit {
       _.each(obj, (v, k) => {
         if (translate_copy[k]) {
          _.each(translate_copy[k], (cv, ck) => {
-            if ( v == cv.dictValueId ) v = cv.dictValueName;
+            if ( v == cv.itemId ) v = cv.itemName;
          })
         }
       })
@@ -201,7 +223,7 @@ export class SeerTableComponent implements OnInit {
       _.each(obj, (v, k) => {
         if (translate_copy[k]) {
          _.each(translate_copy[k], (cv, ck) => {
-            if ( v == cv.dictValueName ) v = cv.dictValueId;
+            if ( v == cv.itemName ) v = cv.itemId;
          })
         }
       })

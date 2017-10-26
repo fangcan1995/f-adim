@@ -184,13 +184,26 @@ export class BaseService<T> {
           msg: '获取字典失败',
         }
       })
-
-
     }
   }
-
-  public getDictTranslate(translateFields: {fieldName: string, category?: string}[]): Promise<ResModel> {
+  public getDictsPro(): Promise<ResModel> {
     return this.getDicts()
+    .then(res => {
+      if ( res.code == 0 ) {
+        return res
+      } else if ( getStorage({ key: 'dicts' }, false) ) {
+        return {
+          code: 0,
+          msg: 'old dicts',
+          data: getStorage({ key: 'dicts' }, false)
+        }
+      } else {
+        return res;
+      }
+    })
+  }
+  public getDictTranslate(translateFields: {fieldName: string, category?: string}[]): Promise<ResModel> {
+    return this.getDictsPro()
     .then(res => {
       if ( res.code == 0 ) {
         let data = res.data;

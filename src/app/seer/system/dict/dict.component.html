@@ -2,6 +2,7 @@
   <seer-filter
     [hasGlobalFilter]="hasGlobalFilter"
     [filters]="filters"
+    (onInit)="handleFiltersChanged($event)"
     (onFiltersChanged)=handleFiltersChanged($event)
     (onSearchBtnClicked)=handleSearchBtnClicked($event)
   ></seer-filter>
@@ -16,5 +17,6 @@
     [hidePrint]="true"
     [hideRemoveAll]="true"
     [hideColumns]="true"
+    [filters]="tableFilters"
   ></seer-table>
 </seer-collapse-card>

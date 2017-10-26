@@ -25,6 +25,13 @@ export class DictComponent implements OnInit {
       key: 'categoryName',
       label: '字典名称',
       type: 'input.text',
+    },
+    {
+      key: 'delFlag',
+      lable: '有效状态',
+      isDict: true,
+      type: 'select',
+      category: 'ADAPTATION_USER',
     }
   ];
 
@@ -53,7 +60,7 @@ export class DictComponent implements OnInit {
       key:'delFlag',
       label:'有效状态',
       isDict: true,
-      category: 'DICT_DEL_FLAG'
+      category: 'ADAPTATION_USER'
     },
   ];
   pageInfo = {
@@ -70,7 +77,7 @@ export class DictComponent implements OnInit {
 
   dicts = [];
 
-
+  tableFilters = {};
   constructor(
     private _dictService: DictService,
     private _dialogService: SeerDialogService,
@@ -152,6 +159,7 @@ export class DictComponent implements OnInit {
     })
   }
   handleFiltersChanged($event) {
+    this.tableFilters = $event;
     /*let params=$event;
     this.pageInfo = {
        ...this.pageInfo,
@@ -162,7 +170,7 @@ export class DictComponent implements OnInit {
 
   handleSearchBtnClicked($event) {
 
-
+    this.tableFilters = $event;
     /*this.queryParams = $event;
     let params = {
       ...this.queryParams,
