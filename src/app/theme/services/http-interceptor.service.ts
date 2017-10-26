@@ -60,7 +60,7 @@ export class HttpInterceptorService {
         method: _method,
         url: url,
         search: parseJson2URL(params),
-
+        withCredentials: true,
       });
     } else {
       options = new RequestOptions({
@@ -68,7 +68,8 @@ export class HttpInterceptorService {
         method: _method,
         url: url,
         body: '?' + parseJson2URL(params),
-        search: parseJson2URL(params)
+        search: parseJson2URL(params),
+        withCredentials: true,
       });
     }
     let req = new Request(options)

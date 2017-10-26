@@ -25,8 +25,8 @@ export class LoanBasicService extends BaseService<any>{
 
   //更新借款信息
   public updateLoan(params?): Promise<any> {
-    let intentions_loan_url = SERVER + '/intentions/loan';
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${intentions_loan_url}`, params, false).toPromise();
+    let intentions_loan_url = 'intentions/loan';
+    return this._httpInterceptorService.request('PUT', `http://172.16.7.4:8080/${intentions_loan_url}`, params, false).toPromise();
   }
 
 

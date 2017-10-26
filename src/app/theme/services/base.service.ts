@@ -17,7 +17,7 @@ export const API = {
   'LOGOUT': 'logout',
   'SIGNUP': 'signup',
   'MEMBERS': 'members',
-  'USER': 'users/getByToken',
+  'USER': 'permission/users/getByToken',
   'RESOURCES': 'permission/resources',
   'DICTS': 'system/dicts',
 }
@@ -69,7 +69,7 @@ export class BaseService<T> {
   }
   // 从服务器端获取用户信息
   public getUserFromServer(): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `http://172.16.1.249:8090/${API['USER']}`).toPromise();
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['USER']}`).toPromise();
   }
   // 从本地获取资源（菜单）
   public getResourcesFromLocal(): Promise<ResModel> {
@@ -83,7 +83,7 @@ export class BaseService<T> {
   }
   // 从服务器获取资源（菜单）
   public getResourcesFromServer(params?): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['RESOURCES']}`, params).toPromise();
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['RESOURCES']}`, params).toPromise()
   }
   // 从本地获取字典
   public getDictsFromLocal(): Promise<ResModel> {

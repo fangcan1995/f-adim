@@ -121,8 +121,12 @@ export class DictComponent implements OnInit {
             if ( action === 1 ) {
               this._dictService
               .deleteOne(message.data.id)
-              .then((data) => {
+              .then((res) => {
+                this.showSuccess(res.msg || '删除字典成功')
                 this.getList();
+              })
+              .catch(err => {
+                this.showError(err.msg || '删除字典失败')
               });
             }
           })
@@ -131,6 +135,21 @@ export class DictComponent implements OnInit {
         let ids = _(data).map(t => t.id).value();
         break;
     }
+  }
+
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
   }
   handleFiltersChanged($event) {
     /*let params=$event;
@@ -151,31 +170,6 @@ export class DictComponent implements OnInit {
       PageNum: this.pageNum,
     };
     this.getList(params)*/
-  }
-  showError(message: string) {
-    return this._messageService.open({
-      message,
-      icon: 'fa fa-times-circle',
-      autoHideDuration: 3000,
-    })
-  }
-  //分页
-  alertSuccess(msg:string) {
-    this._messageService.open({
-      icon: 'fa fa-times-circle',
-      message: msg,
-      autoHideDuration: 3000,
-    }).onClose().subscribe(() => {
-      //this._router.navigate(['/system/resource-manage/'])
-    });
-  }
-  alertError(errMsg:string){
-    // 错误处理的正确打开方式
-    this._messageService.open({
-      icon: 'fa fa-times-circle',
-      message: errMsg,
-      autoHideDuration: 3000,
-    })
   }
 }
 

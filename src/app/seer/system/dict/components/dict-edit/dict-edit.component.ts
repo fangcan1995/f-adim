@@ -21,23 +21,30 @@ export class DictEditComponent implements OnInit {
   dict = {};
   private editType: string = 'add';
   private forbidSaveBtn: boolean = true;
+  private id: string;
   @ViewChild('myForm') myForm;
   constructor(
     private _dictService: DictService,
     private _location: Location,
     private _route: ActivatedRoute,
     private _router: Router,
-    ) {
-      
-  }
+    private _messageService: SeerMessageService,
+    ) { }
   ngOnInit() {
-    console.log(this._route.snapshot.url[0].path)
     this.editType = this._route.snapshot.url[0].path;
+    this.id = this._route.snapshot.params.id;
     if ( this.editType === 'edit' ) {
-      this._dictService.getOne(this._route.snapshot.params.id)
+      this._dictService.getOne(this.id)
       .then(res => {
         this.dict = res.data || {};
         this.forbidSaveBtn = false;
+      })
+      .catch(err => {
+        this.showError(err.msg || '获取字典信息失败')
+        .onClose()
+        .subscribe(() => {
+          this._router.navigate(['/system/dict']);
+        });
       });
     } else if ( this.editType === 'add' ) {
       this.dict = this._route.snapshot.queryParams || {};
@@ -46,13 +53,52 @@ export class DictEditComponent implements OnInit {
   }
   handleSaveBtnClick(values: Object) {
     if ( this.myForm.form.valid ) {
-      this._dictService.postOne(values)
-      .then(res => {
-        console.log(res)
-      })
+      this.forbidSaveBtn = true;
+      if ( this.editType === 'edit' ) {
+        this._dictService.putOne(this.id, this.dict)
+        .then(res => {
+          this.forbidSaveBtn = false;
+          this._dictService.getDicts(true)
+          this.showSuccess(res.msg || '更新成功')
+          .onClose()
+          .subscribe(() => {
+            this._router.navigate(['/system/dict']);
+          });
+        })
+        .catch(err => {
+          this.forbidSaveBtn = false;
+          this.showError(err.msg || '更新失败')
+        })
+      } else {
+        this._dictService.postOne(this.dict)
+        .then(res => {
+          this.forbidSaveBtn = false;
+          this._dictService.getDicts(true)
+          this.showSuccess(res.msg || '保存成功')
+        })
+        .catch(err => {
+          this.forbidSaveBtn = false;
+          this.showError(err.msg || '保存失败')
+        })
+      }
+      
     }
   }
   handleBackBtnClick() {
     this._location.back();
+  }
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
   }
 }
