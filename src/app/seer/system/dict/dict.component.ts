@@ -31,7 +31,7 @@ export class DictComponent implements OnInit {
       lable: '有效状态',
       isDict: true,
       type: 'select',
-      category: 'ADAPTATION_USER',
+      category: 'DICT_DEL_FLAG',
     }
   ];
 
@@ -60,7 +60,7 @@ export class DictComponent implements OnInit {
       key:'delFlag',
       label:'有效状态',
       isDict: true,
-      category: 'ADAPTATION_USER'
+      category: 'DICT_DEL_FLAG'
     },
   ];
   pageInfo = {
