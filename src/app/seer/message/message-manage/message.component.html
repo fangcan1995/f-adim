@@ -53,11 +53,13 @@
     [pageSize]="pageInfo.pageSize"
     [total]="pageInfo.total"
     [paginationRules]="0"
-    (notify)="onChange($event)"
-    (changePage)="handlePageChange($event)"
+    [showSeq]="true"
     [hideExport]="true"
     [hidePrint]="true"
     [hideRemoveAll]="true"
     [hideColumns]="true"
+    [hideCheckbox]="true"
+    (notify)="onChange($event)"
+    (changePage)="handlePageChange($event)"
   ></seer-table>
 </seer-collapse-card>
