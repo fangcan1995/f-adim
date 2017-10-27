@@ -1,11 +1,15 @@
-<div class="auth-main">
-  <div class="auth-block">
-    <!-- <img class="logo" src="../../../assets/img/theme/loginLogo.png" /> -->
-    <h1 style="font-size: 64px; color: #000; text-align: center">纯·演示版</h1>
-    <form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
-      <div class="form-group row">
-        <div class="col-sm-12">
-            <input 
+<div class="auth-body-block">
+
+  <div class="auth-main">
+    <h1>巴巴汇后台管理系统</h1>
+    <h4>www.baba88.com</h4>
+    <div class="auth-block">
+      <!-- <img class="logo" src="../../../assets/img/theme/loginLogo.png" /> -->
+      <!--<h1 style="font-size: 64px; color: #000; text-align: center">纯·演示版</h1>-->
+      <form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+        <div class="form-group row">
+          <div class="col-sm-12 account-input">
+            <input
               type="text"
               class="form-control"
               placeholder="账号"
@@ -13,45 +17,52 @@
               required
               [formControl]="account"
             />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-12 pass-input">
+            <input
+              type="password"
+              class="form-control"
+              placeholder="密码"
+              name="password"
+              required
+              [formControl]="password"
+            />
+          </div>
+        </div>
+
+        <!--<div class="col-sm-12">
+          <div class="pull-right">
+            <div class="seer_a_font">忘记密码</div>
+          </div>
+        </div>-->
+
+        <div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary">登 录</button>
+          </div>
+        </div>
+
+      </form>
+      <!--<div class="col-sm-12">
+        <div class="text-center">
+          <div class="seer_a_font">巴巴汇WEB管理系统基础框架</div>
         </div>
       </div>
-
-      <div class="form-group row">
-        <div class="col-sm-12">
-          <input 
-            type="password"
-            class="form-control"
-            placeholder="密码"
-            name="password"
-            required
-            [formControl]="password"
-          />
-        </div>
-      </div>
-
-      <div class="col-sm-12">
-        <div class="pull-right">
-          <div class="seer_a_font">忘记密码</div>
-        </div>
-      </div>
-
       <div class="col-sm-12">
         <div class="text-center">
-          <button type="submit" class="btn btn-primary">登 录</button>
+          <div class="seer_a_font" (click)="versionShow()">版本更新</div>
         </div>
-      </div>
-
-    </form>
-    <div class="col-sm-12">
-      <div class="text-center">
-        <div class="seer_a_font">巴巴汇WEB管理系统基础框架</div>
-      </div>
+      </div>-->
     </div>
-    <div class="col-sm-12">
-      <div class="text-center">
-        <div class="seer_a_font" (click)="versionShow()">版本更新</div>
-      </div>
+    <div class="Copyright">
+      国汇巴巴爸爸网络科技（大连）有限公司<br/>
+      客服电话：0411-84609588    客服邮箱：http://www.baba88.com/     公司网址：http://www.baba88.com/
     </div>
   </div>
+
+  <div dynamic-component></div>
 </div>
-<div dynamic-component></div>
+
