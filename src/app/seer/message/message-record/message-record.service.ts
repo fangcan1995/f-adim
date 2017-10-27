@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {BaseService} from "../../base.service";
 import {Result} from "../../model/result.class";
+import {parseQueryString, getStorage} from "../../../theme/libs/utils"
 @Injectable()
 export class messageRecordService extends BaseService<any>{
-  //accessToken = getStorage({ key: 'token' }).access_token;
-  accessToken ="9d35934c-c07b-41ff-b537-76e0b5b4b67e";
+  accessToken = getStorage({ key: 'token' }).access_token;
   templateManageUrl=`http://172.16.1.234:8080/records`;  // URL to web api
   getList(pageInfo:any): Promise<Result>{
     const page=`&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
