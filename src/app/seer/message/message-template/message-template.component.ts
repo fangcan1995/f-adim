@@ -97,7 +97,7 @@ export class MessageTemplateComponent {
     {key:'sendMail', label:'消息中心',isDict:true,category:"SEND_MAIL"},
     {key:'sendMessage', label:'短信通知',isDict:true,category:"SEND_MESSAGE"},
     {key:'sendNotify', label:'推送通知',isDict:true,category:"SEND_NOTIFY"},
-    {key:'updateTime', label:'最后修改时间'},
+    {key:'updateTime', label:'最后修改时间',type:'date-time'},
     {key:'updateUser', label:'最后修改人'},
   ];
   //tplTypeOptions={};
