@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import {
   Router,
@@ -20,41 +21,57 @@ import {error} from "util";
   styleUrls: [ './resource-edit.component.scss' ]
 })
 export class ResourceEditComponent implements OnInit {
-
-  title : string;
-  isAdd: boolean;
-  editId: string;
-  private _editType: string = 'add';
-  public forbidSaveBtn: boolean = true;
-  public : boolean = true;
-  resource:ResourceModel = new ResourceModel();
-
+  resource: ResourceModel = new ResourceModel();
+  private editType: string = 'add';
+  private forbidSaveBtn: boolean = true;
+  private id: string;
+  @ViewChild('myForm') myForm;
   constructor(
     private _router: Router,
-    private service:ResourceService,
+    private _route: ActivatedRoute,
+    private _resourceService: ResourceService,
     private _messageService: SeerMessageService,
-    private _activatedRoute:ActivatedRoute,
     private _location: Location,
     private _userService: UserService,
     private _state: GlobalState,
   ) { }
 
   ngOnInit() {
-    /*this._activatedRoute.params.subscribe(params => {
-      this.editId = params['id'];
-      this.isAdd = !this.editId;
-    })
-    this.title = this.isAdd ? '新建资源' : '修改资源';
-    this.forbidSaveBtn = false;
-    if(!this.isAdd) {
-      this._editType='edit';
-      this.service.getOne(this.editId).then((data) => {
-        this.resource = data.data;
-        console.log(this.resource)
+    this.editType = this._route.snapshot.url[0].path;
+    this.id = this._route.snapshot.params.id;
+    if ( this.editType === 'edit' ) {
+      this._resourceService.getOne(this.id)
+      .then(res => {
+        this.resource = res.data || {};
+        this.forbidSaveBtn = false;
+      })
+      .catch(err => {
+        this.showError(err.msg || '获取资源信息失败')
+        .onClose()
+        .subscribe(() => {
+          this._router.navigate(['/system/resource']);
+        });
       });
-    }else {
-      //this.forbidSaveBtn = false;
-    };*/
+    } else if ( this.editType === 'add' ) {
+      this.forbidSaveBtn = false;
+    }
+  }
+  handleBackBtnClick() {
+    this._location.back();
+  }
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
   }
 
   /*// 更新左侧导航菜单

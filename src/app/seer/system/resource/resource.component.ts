@@ -68,7 +68,7 @@ export class ResourceComponent implements OnInit {
 		    this._router.navigate(['/system/resource/add']);
 		    break;
 		  case UPDATE.type:
-		    this._router.navigate([`/system/resource/edit/${data.id}`]);
+		    this._router.navigate([`/system/resource/edit/${data.menuId}`]);
 		    break;
 		  case DELETE.type:
 		    this._dialogService.confirm('确定删除吗？')

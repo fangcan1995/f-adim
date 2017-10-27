@@ -69,7 +69,7 @@ export class BaseService<T> {
   }
   // 从服务器端获取用户信息
   public getUserFromServer(): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `http://172.16.7.4:8090/users/getByToken`).toPromise();
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['USER']}`).toPromise();
   }
   // 从本地获取资源（菜单）
   public getResourcesFromLocal(): Promise<ResModel> {
