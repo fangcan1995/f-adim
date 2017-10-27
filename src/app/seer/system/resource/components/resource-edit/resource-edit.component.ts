@@ -9,15 +9,15 @@ import {
 import { Location } from '@angular/common';
 import { UserService } from '../../../../../theme/services/user.service';
 import { GlobalState } from '../../../../../global.state';
-import { ResourceManageService } from "../../resource-manage.service";
+import { ResourceService } from "../../resource.service";
 import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
-import { ResourceModel } from "../../resource-model.class";
+import { ResourceModel } from "../../resource.model";
 import {error} from "util";
 
 @Component({
   selector: 'app-resource-edit',
   templateUrl: './resource-edit.component.html',
-  styleUrls: ['./resource-edit.component.css']
+  styleUrls: [ './resource-edit.component.scss' ]
 })
 export class ResourceEditComponent implements OnInit {
 
@@ -31,7 +31,7 @@ export class ResourceEditComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private service:ResourceManageService,
+    private service:ResourceService,
     private _messageService: SeerMessageService,
     private _activatedRoute:ActivatedRoute,
     private _location: Location,
@@ -40,7 +40,7 @@ export class ResourceEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this._activatedRoute.params.subscribe(params => {
+    /*this._activatedRoute.params.subscribe(params => {
       this.editId = params['id'];
       this.isAdd = !this.editId;
     })
@@ -54,39 +54,10 @@ export class ResourceEditComponent implements OnInit {
       });
     }else {
       //this.forbidSaveBtn = false;
-    };
+    };*/
   }
-  handleSaveBtnClick() {
-    if ( this.forbidSaveBtn ) return;
-    this.forbidSaveBtn = true;
-    let requestStream$;
-    if ( this._editType === 'edit' ) {
-      this.service.putOne(this.resource).then((data) => {
-        if(data.code=='0') {
-          this.alertSuccess("更新成功");
-          this.refreshMenu();
-        }else{
-          this.alertError("更新失败");
-        }
-      }).catch(err => {
-        this.alertError("更新失败");
-      });
-    } else if ( this._editType === 'add' ) {
-      this.service.postOne(this.resource).then((data) => {
-        if(data.code=='0') {
-          this.alertSuccess("添加成功");
-          this.refreshMenu();
-        }else{
-          this.alertError("添加失败");
-        }
-      }).catch(err => {
-        this.alertError("添加失败");
-      });;
-    } else {
-      return;
-    }
-  }
-  // 更新左侧导航菜单
+
+  /*// 更新左侧导航菜单
   refreshMenu() {
     this._userService.getResourcesFromServer({ pageSize: 10000 })
     .then(res => {
@@ -116,5 +87,5 @@ export class ResourceEditComponent implements OnInit {
       message: errMsg,
       autoHideDuration: 3000,
     })
-  }
+  }*/
 }
