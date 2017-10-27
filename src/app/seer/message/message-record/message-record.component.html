@@ -1,1 +1,29 @@
-<h2>123456</h2>
+<seer-collapse-card
+>
+  <seer-filter
+    [hasGlobalFilter]="hasGlobalFilter"
+    [filters]="filters"
+    (onFiltersChanged)=handleFiltersChanged($event)
+    (onSearchBtnClicked)=handleFiltersChanged($event)
+  ></seer-filter>
+</seer-collapse-card>
+<seer-collapse-card
+>
+  <seer-table
+    [data]="source"
+    [titles]="titles"
+    [paginationRules]="0"
+    [hideExport]="true"
+    [hidePrint]="true"
+    [hideColumns]="true"
+    [hideAddButton]="true"
+    [hideRemoveAll]="true"
+    [hideActions]="true"
+    [pageNum]="pageInfo.pageNum"
+    [pageSize]="pageInfo.pageSize"
+    [total]="pageInfo.total"
+    [showSeq]="true"
+    [hideCheckbox]="true"
+    (changePage)="handlePageChange($event)"
+  ></seer-table>
+</seer-collapse-card>

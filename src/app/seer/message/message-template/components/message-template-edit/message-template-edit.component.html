@@ -46,7 +46,13 @@
               <div class="row">
                 <label for="tempName" class="col-sm-4 control-label" style="height:35px; line-height:35px;">消息类型</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="businessType" id="businessType"  [(ngModel)]="template.businessType" >
+                  <select type="email" class="form-control" name="businessType" id="businessType" dict-select
+                          [(ngModel)]="template.businessType"
+                          [key]="'BUSINESS_TYPE'"
+                          [topOption]="{itemId:'',itemName:'请选择'}"
+                          [selected]="template.businessType"
+                          required>
+                  </select>
                 </div>
               </div>
             </div>

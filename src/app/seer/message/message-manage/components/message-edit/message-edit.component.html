@@ -42,8 +42,13 @@
                 <div class="form-group">
                   <label class="col-sm-4 control-label">消息类型</label>
                   <div class="col-sm-8 ">
-                    <select class="form-control" id="businessType"   >
-                      <option>请选择</option>
+                    <select type="email" class="form-control" name="businessType" id="businessType" dict-select
+                            [(ngModel)]="message.businessType"
+                            [key]="'BUSINESS_TYPE'"
+                            [topOption]="{itemId:'',itemName:'请选择'}"
+                            [selected]="message.businessType"
+
+                    >
                     </select>
                   </div>
                 </div>

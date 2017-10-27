@@ -23,38 +23,42 @@ export class MessageTemplateComponent {
     {
       key: 'tempCode',
       label: 'KEY',
-      type: 'select',
-      options:[{value:'', content: '全部'},{value:'1', content: '前台用户'},{value:'2', content: '后台员工'}]
+      type: 'input.text',
     },
     {
       key: 'adaptationUser',
       label: '适配用户',
       type: 'select',
-      options:[{value:'', content: '全部'}]
+      isDict: true,
+      category: 'ADAPTATION_USER'
     },
     {
       key: 'businessType',
       label: '消息类型',
       type: 'select',
-      options:[{value:'', content: '全部'}]
+      isDict: true,
+      category: 'BUSINESS_TYPE'
     },
     {
       key: 'sendMessage',
       label: '短信通知',
       type: 'select',
-      options:[{value:'', content: '全部'}]
+      isDict: true,
+      category: 'SEND_MESSAGE'
     },
     {
       key:'sendNotify',
       label:'推送通知',
       type: 'select',
-      options:[{value:'', content: '全部'}]
+      isDict: true,
+      category: 'SEND_NOTIFY'
     },
     {
       key:'sendMail',
       label:'消息中心',
       type: 'select',
-      options:[{value:'', content: '全部'}]
+      isDict: true,
+      category: 'SEND_MAIL'
     },
     {
       key:'tempTitle',
@@ -88,11 +92,11 @@ export class MessageTemplateComponent {
     {key:'tempName', label:'模板名称'},
     {key:'tempCode', label:'KEY'},
     {key:'adaptationUser', label:'适配用户',isDict:true,category:"ADAPTATION_USER"},
-    {key:'businessType', label:'消息类型'},
+    {key:'businessType', label:'消息类型',isDict:true,category:"BUSINESS_TYPE"},
     {key:'tempTitle', label:'模板标题'},
-    {key:'sendMail', label:'消息中心'},
-    {key:'sendMessage', label:'短信通知'},
-    {key:'sendNotify', label:'推送通知'},
+    {key:'sendMail', label:'消息中心',isDict:true,category:"SEND_MAIL"},
+    {key:'sendMessage', label:'短信通知',isDict:true,category:"SEND_MESSAGE"},
+    {key:'sendNotify', label:'推送通知',isDict:true,category:"SEND_NOTIFY"},
     {key:'updateTime', label:'最后修改时间'},
     {key:'updateUser', label:'最后修改人'},
   ];
