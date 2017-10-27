@@ -25,31 +25,36 @@ export class MessageComponent {
       key: 'adaptationUser',
       label: '适配用户',
       type: 'select',
-      options:[{value:'', content: '全部'},{value:'1', content: '前台用户'},{value:'2', content: '后台员工'}]
+      isDict: true,
+      category: 'ADAPTATION_USER'
     },
     {
       key: 'businessType',
       label: '消息类型',
       type: 'select',
-      options:[{value:'', content: '全部'}]
+      isDict: true,
+      category: 'BUSINESS_TYPE'
     },
     {
       key: 'sendMail',
       label: '消息中心',
       type: 'select',
-      options:[{value:'', content: '全部'}]
+      isDict: true,
+      category: 'SEND_MAIL'
     },
     {
       key: 'sendMessage',
       label: '短信通知',
       type: 'select',
-      options:[{value:'', content: '全部'}]
+      isDict: true,
+      category: 'SEND_MESSAGE'
     },
     {
       key:'sendNotify',
       label:'推送通知',
       type: 'select',
-      options:[{value:'', content: '全部'}]
+      isDict: true,
+      category: 'SEND_NOTIFY'
     },
     {
       key:'beginTime',
@@ -89,10 +94,10 @@ export class MessageComponent {
   titles = [
     {key:'msgTitle',label:'消息名称'},
     {key:'adaptationUser', label:'适配用户',isDict:true,category:"ADAPTATION_USER"},
-    {key:'businessType',label:'消息类型'},
-    {key:'sendMail',label:'消息中心'},
-    {key:'sendNotify',label:'推送通知'},
-    {key:'sendMessage',label:'短信通知'},
+    {key:'businessType',label:'消息类型',isDict:true,category:"BUSINESS_TYPE"},
+    {key:'sendMail',label:'消息中心',isDict:true,category:"SEND_MAIL"},
+    {key:'sendNotify',label:'推送通知',isDict:true,category:"SEND_NOTIFY"},
+    {key:'sendMessage',label:'短信通知',isDict:true,category:"SEND_MESSAGE"},
     {key:'msgProfile',label:'消息简介'},
     {key:'expectSendTime',label:'下发时间'},
     {key:'updateTime',label:'最后修改时间'},
@@ -119,7 +124,6 @@ export class MessageComponent {
         this.pageInfo.pageSize=res.data.pageSize; //每页记录数
         this.pageInfo.total=res.data.total; //记录总数
         this.source = res.data.list;
-        console.log(this.pageInfo.total);
         this.source = _.map(this.source, r => {
           let timingStatus = r.timingStatus;
           let actions;
