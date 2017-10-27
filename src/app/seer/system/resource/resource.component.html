@@ -1,0 +1,19 @@
+<seer-content-top [fixedTop]=true>
+    <seer-filter
+      [hasGlobalFilter]="hasGlobalFilter"
+      (onFiltersChanged)=handleFiltersChanged($event)
+    ></seer-filter>
+</seer-content-top>
+<seer-collapse-card>
+    <seer-table
+      [data]="resources"
+      [titles]="titles"
+      [showSeq]="true"
+      [paginationRules]="1"
+      (notify)="handleNotify($event)"
+      [hideExport]="true"
+      [hidePrint]="true"
+      [hideRemoveAll]="true"
+      [hideColumns]="true"
+></seer-table>
+</seer-collapse-card>

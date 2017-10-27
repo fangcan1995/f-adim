@@ -160,24 +160,10 @@ export class DictComponent implements OnInit {
   }
   handleFiltersChanged($event) {
     this.tableFilters = $event;
-    /*let params=$event;
-    this.pageInfo = {
-       ...this.pageInfo,
-       ...params,
-    };
-    this.getList();*/
   }
 
   handleSearchBtnClicked($event) {
-
     this.tableFilters = $event;
-    /*this.queryParams = $event;
-    let params = {
-      ...this.queryParams,
-      pageSize: this.pageSize,
-      PageNum: this.pageNum,
-    };
-    this.getList(params)*/
   }
 }
 
