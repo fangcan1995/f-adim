@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 export const resources2Menu = (resources: any[]) => {
   let menu = [];
-  _.sortBy(resources, 'sortNum');
+  resources = _.sortBy(resources, 'sortNum');
   _.each(resources, v => {
     let parent = _.find(resources, t => v.menuPid == t.menuId);
     v.data = v.data || {};
@@ -9,13 +9,15 @@ export const resources2Menu = (resources: any[]) => {
     v.data.menu.title = v.menuName;
     v.data.menu.icon = v.icon;
     v.path = v.hrefUrl;
-
-    if ( parent && parent.menuId != v.menuId ) {
-      !parent.children && (parent.children = []);
-      parent.children.push(v);
-    } else {
-      menu.push(v)
+    if ( typeof v.menuStatus === 'undefined' || v.menuStatus == '' || v.menuStatus == '0' ) {
+     if ( parent && parent.menuId != v.menuId ) {
+       !parent.children && (parent.children = []);
+       parent.children.push(v);
+     } else {
+       menu.push(v)
+     }
     }
+    
   })
   return menu;
 }
