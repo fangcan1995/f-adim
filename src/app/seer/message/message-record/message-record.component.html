@@ -4,7 +4,7 @@
     [hasGlobalFilter]="hasGlobalFilter"
     [filters]="filters"
     (onFiltersChanged)=handleFiltersChanged($event)
-    (onSearchBtnClicked)=handleSearchBtnClicked($event)
+    (onSearchBtnClicked)=handleFiltersChanged($event)
   ></seer-filter>
 </seer-collapse-card>
 <seer-collapse-card
@@ -23,6 +23,7 @@
     [pageSize]="pageInfo.pageSize"
     [total]="pageInfo.total"
     [showSeq]="true"
+    [hideCheckbox]="true"
     (changePage)="handlePageChange($event)"
   ></seer-table>
 </seer-collapse-card>

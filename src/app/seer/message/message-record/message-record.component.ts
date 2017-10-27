@@ -1,10 +1,6 @@
 import {Component, ViewEncapsulation} from "@angular/core";
 import {messageRecordService} from "./message-record.service"
 import {Router,ActivatedRoute} from "@angular/router";
-import {Location} from '@angular/common';
-import {Template} from "../../model/auth/message-template";
-import * as _ from 'lodash';
-
 
 @Component({
   selector: 'message-record',
@@ -90,7 +86,6 @@ export class MessageRecordComponent {
 
   }; //分页、排序、检索
   title = '消息发送记录';
-  source = [];
   titles = [
     {key:'trueName', label:'会员姓名'},
     {key:'userName', label:'会员账户'},
@@ -98,14 +93,12 @@ export class MessageRecordComponent {
     {key:'msgType', label:'推送方式',isDict:true,category: 'MSG_TYPE'},
     {key:'businessType', label:'消息类型',isDict:true,category: 'BUSINESS_TYPE'},
     {key:'msgContent ', label:'消息内容'},
-    {key:'sendMessage', label:'推送时间'},
+    {key:'sendTime', label:'推送时间',type:'time'},
     {key:'msgStatus', label:'推送结果',isDict:true,category: 'MSG_STATUS'},
   ];
+  source = [];
   constructor(
     protected service: messageRecordService,
-    private _router: Router,
-    private _route: ActivatedRoute,
-
   ) {}
   ngOnInit() {
     this.getRecord();
@@ -128,8 +121,8 @@ export class MessageRecordComponent {
   //全局搜索
   handleFiltersChanged($event) {
     let params=$event;
-    //console.log(params);
     this.pageInfo.query = params;
     this.getRecord();
   }
+
 }
