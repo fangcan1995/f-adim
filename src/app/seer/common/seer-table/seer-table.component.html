@@ -44,7 +44,7 @@
           >
         </ss-multiselect-dropdown>
       </div>
-      
+
       <button
         class="pull-right btnGroup__item {{action.className}}"
         type="button"
@@ -53,7 +53,7 @@
         >
         {{ action.name }}
       </button>
-      
+
     </div>
   </div>
 </div>
@@ -96,13 +96,19 @@
           <div *ngIf="title.type=='input_number'">
             <input  type="number" class="form-control" [(ngModel)]="item[title.key]"/>
           </div>
-          <div *ngIf="title.type!='input_number' && title.type!='link' && title.type != 'html' && !displayOriginalData">
+          <div *ngIf="title.type!='input_number' && title.type!='link' && title.type != 'html' && title.type != 'date' && title.type != 'date-time' && !displayOriginalData">
             <span class="seer_font">{{renderValue(title,item[title.key])}}</span>
           </div>
-          <div *ngIf="title.type!='input_number' && title.type!='link' && title.type != 'html' && displayOriginalData">
+          <div *ngIf="title.type!='input_number' && title.type!='link' && title.type != 'html' && title.type != 'date' && title.type != 'date-time' && displayOriginalData">
             <span class="seer_font">{{item[title.key]}}</span>
           </div>
           <div *ngIf="title.type === 'html'" [innerHTML]="item[title.key]"></div>
+          <div *ngIf="title.type=='date'" >
+            <span class="seer_font">{{item[title.key]| date:'yyyy-MM-dd'}}</span>
+          </div>
+          <div *ngIf="title.type=='date-time'" >
+            <span class="seer_font">{{item[title.key]|date:'yyyy-MM-dd HH:mm:ss'}}</span>
+          </div>
         </td>
         <td class="table-actions" *ngIf="!hideActions">
           <div *ngIf="item.actions">
