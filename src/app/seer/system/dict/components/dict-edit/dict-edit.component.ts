@@ -13,12 +13,22 @@ import { DictService } from "../../dict.service";
 import * as _ from 'lodash';
 import { SeerDialogService } from '../../../../../theme/services/seer-dialog.service';
 import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
+class DictModel {
+  constructor(
+    category: string,
+    categoryName: string,
+    itemId: string,
+    itemName: string,
+    itemSort: string,
+    delFlag: string,
+    ) {}
+}
 @Component({
   templateUrl: './dict-edit.component.html',
   styleUrls: [ './dict-edit.component.scss' ],
 })
 export class DictEditComponent implements OnInit {
-  dict = {};
+  dict: DictModel = {};
   private editType: string = 'add';
   private forbidSaveBtn: boolean = true;
   private id: string;
@@ -47,15 +57,19 @@ export class DictEditComponent implements OnInit {
         });
       });
     } else if ( this.editType === 'add' ) {
-      this.dict = this._route.snapshot.queryParams || {};
+      this._route.queryParams
+      .subscribe(res => {
+        this.dict = res || {}
+      });
       this.forbidSaveBtn = false;
     }
   }
   handleSaveBtnClick(values: Object) {
     if ( this.myForm.form.valid ) {
       this.forbidSaveBtn = true;
+      console.log(this.dict)
       if ( this.editType === 'edit' ) {
-        this._dictService.putOne(this.id, this.dict)
+        this._dictService.putOne('', this.dict)
         .then(res => {
           this.forbidSaveBtn = false;
           this._dictService.getDicts(true)
@@ -70,7 +84,7 @@ export class DictEditComponent implements OnInit {
           this.showError(err.msg || '更新失败')
         })
       } else {
-        this._dictService.postOne(this.dict)
+        this._dictService.postOne(values)
         .then(res => {
           this.forbidSaveBtn = false;
           this._dictService.getDicts(true)

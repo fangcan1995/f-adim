@@ -93,7 +93,7 @@ export class MessageRecordComponent {
     {key:'msgType', label:'推送方式',isDict:true,category: 'MSG_TYPE'},
     {key:'businessType', label:'消息类型',isDict:true,category: 'BUSINESS_TYPE'},
     {key:'msgContent ', label:'消息内容'},
-    {key:'sendTime', label:'推送时间',type:'time'},
+    {key:'sendTime', label:'推送时间',type:'date-time'},
     {key:'msgStatus', label:'推送结果',isDict:true,category: 'MSG_STATUS'},
   ];
   source = [];

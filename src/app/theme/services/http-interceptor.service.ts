@@ -36,16 +36,10 @@ export class HttpInterceptorService {
         return Observable.throw('请求方法已被禁用');
     }
 
-    console.log('__request__: ', params);
-    /*let _search = new URLSearchParams();
-    _(params).each((t, i) => {
-      if ( t instanceof Object ) {
-        t = JSON.stringify(t)
-      }
-      _search.set(i, t);
-    })*/
     let headers = new Headers();
-    // headers.set('Content-Type', 'application/json')
+
+    console.log('__request__: ', params);
+    let queryParams = parseJson2URL(params);
     if ( !ignoreAuth ) {
       const token = getStorage({ key: 'token' })
       const tokenType = token.token_type;
@@ -59,16 +53,17 @@ export class HttpInterceptorService {
         headers,
         method: _method,
         url: url,
-        search: parseJson2URL(params),
+        search: queryParams,
         withCredentials: true,
       });
     } else {
+      headers.set('Content-Type', 'application/json');
       options = new RequestOptions({
         headers,
         method: _method,
         url: url,
-        body: '?' + parseJson2URL(params),
-        search: parseJson2URL(params),
+        body: params,
+        // search: queryParams,
         withCredentials: true,
       });
     }

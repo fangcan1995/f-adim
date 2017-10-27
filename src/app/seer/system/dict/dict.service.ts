@@ -5,7 +5,7 @@ import {
   BaseService,
   API
 } from '../../../theme/services/base.service';
-import { HttpInterceptorService } from '../../../theme/services/http-interceptor.service';
+import { HttpInterceptorService, ResModel } from '../../../theme/services/http-interceptor.service';
 import { DictModel } from './DictModel';
 
 @Injectable()

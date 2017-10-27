@@ -31,7 +31,7 @@ export class DictComponent implements OnInit {
       lable: '有效状态',
       isDict: true,
       type: 'select',
-      category: 'ADAPTATION_USER',
+      category: 'DICT_DEL_FLAG',
     }
   ];
 
@@ -60,7 +60,7 @@ export class DictComponent implements OnInit {
       key:'delFlag',
       label:'有效状态',
       isDict: true,
-      category: 'ADAPTATION_USER'
+      category: 'DICT_DEL_FLAG'
     },
   ];
   pageInfo = {
@@ -160,24 +160,10 @@ export class DictComponent implements OnInit {
   }
   handleFiltersChanged($event) {
     this.tableFilters = $event;
-    /*let params=$event;
-    this.pageInfo = {
-       ...this.pageInfo,
-       ...params,
-    };
-    this.getList();*/
   }
 
   handleSearchBtnClicked($event) {
-
     this.tableFilters = $event;
-    /*this.queryParams = $event;
-    let params = {
-      ...this.queryParams,
-      pageSize: this.pageSize,
-      PageNum: this.pageNum,
-    };
-    this.getList(params)*/
   }
 }
 

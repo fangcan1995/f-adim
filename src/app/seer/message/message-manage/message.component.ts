@@ -99,8 +99,8 @@ export class MessageComponent {
     {key:'sendNotify',label:'推送通知',isDict:true,category:"SEND_NOTIFY"},
     {key:'sendMessage',label:'短信通知',isDict:true,category:"SEND_MESSAGE"},
     {key:'msgProfile',label:'消息简介'},
-    {key:'expectSendTime',label:'下发时间'},
-    {key:'updateTime',label:'最后修改时间'},
+    {key:'expectSendTime',label:'下发时间',type:'date-time'},
+    {key:'updateTime',label:'最后修改时间',type:'date-time'},
     {key:'updateUser',label:'最后修改人'},
   ];
 
