@@ -48,6 +48,7 @@ export class ResourceComponent implements OnInit {
       }
     ];
     resources = [];
+    tableFilters = {};
     constructor(
       private _resourceService: ResourceService,
       private _dialogService: SeerDialogService,
@@ -120,5 +121,8 @@ export class ResourceComponent implements OnInit {
         icon: 'fa fa-times-circle',
         autoHideDuration: 3000,
       })
+    }
+    handleFiltersChanged($event) {
+      this.tableFilters = $event;
     }
 }

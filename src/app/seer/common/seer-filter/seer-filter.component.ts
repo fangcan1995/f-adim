@@ -24,6 +24,7 @@ export interface FilterModel {
   category?: string | number,
   dateFormatingRules?: string,
   disabled?: boolean,
+  groups?: Array<any>,
 }
 
 @Component({
@@ -169,9 +170,16 @@ export class SeerFilterComponent implements OnInit {
   getFilterParams(filters: Array<FilterModel>) {
     let filterParams = {};
     _.each(filters, x => {
-      filterParams[x.key] = x.value;
+      if ( _.isArray(x.groups) ) {
+        filterParams[x.key] = _.map(x.groups, y => y.value);
+      } else {
+        filterParams[x.key] = x.value;
+      }
     })
     return filterParams;
+  }
+  getGroupCol(groupsLength, groupSpacesLength) {
+    return Math.floor((12 - groupSpacesLength * 2) / groupsLength);
   }
 
 }

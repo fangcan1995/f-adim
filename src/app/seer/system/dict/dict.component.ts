@@ -28,11 +28,12 @@ export class DictComponent implements OnInit {
     },
     {
       key: 'delFlag',
-      lable: '有效状态',
+      label: '有效状态',
       isDict: true,
       type: 'select',
       category: 'DICT_DEL_FLAG',
-    }
+    },
+    
   ];
 
   titles = [
@@ -63,20 +64,8 @@ export class DictComponent implements OnInit {
       category: 'DICT_DEL_FLAG'
     },
   ];
-  pageInfo = {
-    pageNum: 1,
-    pageSize: 10,
-    sort: "-id,-itemSort",
-    total: "",
-    globalSearch: "",
-    category: "",
-    categoryName: "",
-  };
-
   pageSize: number = 10000;
-
   dicts = [];
-
   tableFilters = {};
   constructor(
     private _dictService: DictService,

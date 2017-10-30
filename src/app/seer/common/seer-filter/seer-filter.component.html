@@ -20,20 +20,54 @@
 
 <div [@slideInOut]="isFilterShown()" style="overflow: hidden;" *ngIf="filters">
   <div class="row filter__container form-horizontal">
-    <div class="col-sm-12 col-md-6 col-lg-4 col-xlg-3 form-group" *ngFor="let filter of filters">
+    <div class="col-sm-12 col-md-6 col-lg-6 col-xlg-4 form-group" *ngFor="let filter of filters">
       <div class="row">
         <label class="label-control col-sm-4 ">{{ filter.label }}</label>
         <div class="col-sm-8">
+          <ng-container *ngIf="filter.groups">
+            <div class="row">
+              <ng-container *ngFor="let group of filter.groups; let i = index">
+                <label *ngIf="i > 0 && filter.groupSpaces[i - 1]" class="col-sm-2 label-control" style="padding-right: 0; padding-left: 0; text-align: center">{{ filter.groupSpaces[i - 1] }}</label>
+                <div class="{{'col-sm-' + getGroupCol(filter.groups.length, filter.groupSpaces.length)}}">
+                  <select
+                    class="form-control"
+                    *ngIf="group.type === 'select'"
+                    [(ngModel)]="group.value"
+                    (change)="handleFilterChange()"
+                    [disabled]="group.disabled">
+                    <option *ngFor="let option of group.options" [ngValue]="option.value" >{{ option.content }}</option>
+                  </select>
+                  <seer-datepicker
+                    *ngIf="group.type === 'datepicker'"
+                    [dateFormatingRules]="dateFormatingRules || 'yyyy/MM/dd'"
+                    [(date)]="group.value"
+                    (dateChange)="handleFilterChange()"
+                    [disabled]="group.disabled"
+                    ></seer-datepicker>
+                  <input
+                    class="form-control"
+                    *ngIf="group.type && group.type.indexOf('input') != -1"
+                    [type]="group.type.split('.')[1] || 'text'"
+                    [(ngModel)]="group.value"
+                    (keyup)="handleFilterChange()"
+                    [disabled]="group.disabled"
+                    />
+                </div>
+                
+              </ng-container>
+              
+            </div>
+          </ng-container>
           <select
             class="form-control"
-            *ngIf="filter.type === 'select'"
+            *ngIf="filter.type === 'select' && !filter.groups"
             [(ngModel)]="filter.value"
             (change)="handleFilterChange()"
             [disabled]="filter.disabled">
             <option *ngFor="let option of filter.options" [ngValue]="option.value" >{{ option.content }}</option>
           </select>
           <seer-datepicker
-            *ngIf="filter.type === 'datepicker'"
+            *ngIf="filter.type === 'datepicker' && !filter.groups"
             [dateFormatingRules]="dateFormatingRules || 'yyyy年MM月dd日'"
             [(date)]="filter.value"
             (dateChange)="handleFilterChange()"
@@ -41,7 +75,7 @@
             ></seer-datepicker>
           <input
             class="form-control"
-            *ngIf="filter.type.indexOf('input') != -1"
+            *ngIf="filter.type && filter.type.indexOf('input') != -1 && !filter.groups"
             [type]="filter.type.split('.')[1] || 'text'"
             [(ngModel)]="filter.value"
             (keyup)="handleFilterChange()"
