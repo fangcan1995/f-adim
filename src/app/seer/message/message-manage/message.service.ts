@@ -10,7 +10,8 @@ export class MessageService extends BaseService<any>{
 
   accessToken = getStorage({ key: 'token' }).access_token;
   //accessToken='c516230a-4d45-4834-93a7-de24d700a5be';
-  private MessageUrl = `http://172.16.1.234:8080/messages`;  // URL to web api
+  private MessageUrl = `http://172.16.1.234:8080/messages`;  // 消息
+  private RecordUrl = `http://172.16.1.234:8080/records`;  // 发送记录
 
 
 
@@ -117,6 +118,19 @@ export class MessageService extends BaseService<any>{
     const url = `${this.MessageUrl}/${id}?access_token=${this.accessToken}`;
     return this.delete(url);
   }
-
+  /*获取一条已经发送的消息对应的发送记录*/
+  getRecords(id:string,pageInfo:any): Promise<Result> {
+    const page=`&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
+    const sort=`&sortBy=${pageInfo.sort}`;
+    const jsonQueryObj = pageInfo.query;
+    let query:string="";
+    for (var prop in jsonQueryObj) {
+      if(jsonQueryObj[prop]){
+        query+=`&${prop}=${jsonQueryObj[prop]}`;
+      }
+    }
+    const url = `${this.RecordUrl}/${id}/message?access_token=${this.accessToken}${page}${sort}${query}`;
+    return this.getAll(url);
+  }
 
 }
