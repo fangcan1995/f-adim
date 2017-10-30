@@ -59,15 +59,15 @@ export class DictEditComponent implements OnInit {
     } else if ( this.editType === 'add' ) {
       this._route.queryParams
       .subscribe(res => {
-        this.dict = res || {}
+        this.dict = _.clone(res || {})
       });
       this.forbidSaveBtn = false;
     }
   }
-  handleSaveBtnClick(values: Object) {
+  handleSaveBtnClick() {
+    console.log(this.dict)
     if ( this.myForm.form.valid ) {
       this.forbidSaveBtn = true;
-      console.log(this.dict)
       if ( this.editType === 'edit' ) {
         this._dictService.putOne('', this.dict)
         .then(res => {
@@ -84,7 +84,7 @@ export class DictEditComponent implements OnInit {
           this.showError(err.msg || '更新失败')
         })
       } else {
-        this._dictService.postOne(values)
+        this._dictService.postOne(this.dict)
         .then(res => {
           this.forbidSaveBtn = false;
           this._dictService.getDicts(true)

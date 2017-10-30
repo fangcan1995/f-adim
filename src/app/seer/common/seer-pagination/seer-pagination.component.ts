@@ -12,13 +12,20 @@ import {
   templateUrl: './seer-pagination.component.html',
   styleUrls: ['./seer-pagination.component.scss'],
 })
-export class SeerPaginationComponent {
+export class SeerPaginationComponent implements OnChanges {
 	@Input() rowsOnPageSet = [10, 15, 30];
 	@Input() rowsOnPage = 10;
 	@Input() rowCount = 0;
 	@Input() pageNumber = 1;
 	@Output() notify = new EventEmitter();
 	constructor() { }
+	ngOnChanges(changes) {
+		if ( changes.rowCount ) {
+			setTimeout(() => {
+				this.setPageNumber(this.pageNumber)
+			})
+		}
+	}
 	getPageCount() {
 		return Math.ceil(this.rowCount / this.rowsOnPage);
 	}
