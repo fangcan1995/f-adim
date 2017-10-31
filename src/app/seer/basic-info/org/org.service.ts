@@ -28,6 +28,7 @@ export class OrgService {
   getOrganizations(): Promise<Result> {
     let url = `${this.orgManageUrl}/organizations`;
     return this.baseService.getAll(url);
+
   }
   // 表格假数据
  getData(): Promise<any>{
@@ -40,7 +41,7 @@ export class OrgService {
               {"name":"xxxx","place":"王大崔","tel":"1333333333"},
               {"name":"xxxx","place":"王大崔","tel":"1333333333"},
             ]
-        } 
+        }
       )
     })
  }
@@ -56,7 +57,7 @@ export class OrgService {
   operationRecord(data) {
     let url = `${this.orgManageUrl}/organization/operation`;
     return this.baseService.update(url,data);
-  }
+  }z
 
   updateStaffOrgId(data) {
     let url = `${this.orgManageUrl}/organization/staff`;

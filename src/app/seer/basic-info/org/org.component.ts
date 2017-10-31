@@ -46,6 +46,7 @@ export class OrgComponent implements OnDestroy{
   staf;
   flag: string;
 
+
   //员工列表
   tableTitle: string = "机构员工列表";
   tableSource = [];
@@ -58,6 +59,28 @@ export class OrgComponent implements OnDestroy{
     { key:'place', label:'联系方式' },
     { key:'tel', label:'职位' },
   ];
+  rows = [
+    {id:'1',name:'root1'},
+    {id:'2',name:'root2'},
+    {id:'3',name:'child 1.1',parentId:'1'},
+    {id:'4',name:'child 1.2',parentId:'1'},
+    {id:'notAllow2Drag',name:'禁止拖拽的节点',parentId:'1',forbidDrag:true},
+    {id:'5',name:'child 2.1',parentId:'2'},
+    {id:'21',name:'child 2.2',parentId:'2'},
+    {id:'22',name:'child 2.3',parentId:'2'},
+    {id:'23',name:'child 2.4',parentId:'2'},
+    {id:'24',name:'child 2.5',parentId:'2'},
+    {id:'7',name:'child 1.2.1',parentId:'4'},
+    {id:'8',name:'child 1.2.1.1',parentId:'7'},
+    {id:'9',name:'2.1.1',parentId:'5'},
+    {id:'11',name:'2.2.1',parentId:'6'},
+    {id:'12',name:'2.2.1',parentId:'11'},
+    {id:'13',name:'2.2.1',parentId:'12'},
+    {id:'14',name:'2.2.1',parentId:'13'},
+    {id:'15',name:'2.2.1',parentId:'14'},
+    {id:'10',name:'async root',hasChildren:true},
+  ];
+  permissionsOptions = [];
   // filters = [
   //   {
   //     key: 'name',
@@ -110,24 +133,29 @@ export class OrgComponent implements OnDestroy{
    * 获取全部组织机构
    * */
   getOrganizations() {
-    this.service.getOrganizations().then((result) => {
+    /*this.service.getOrganizations().then((result) => {
       result.data.map(org=>org['children']=[]);
-      let nodes = jsonTree(result.data,{parentId:'orgParentId',children:'children'},[{origin:'orgName',replace:'name'}]);
+      //let nodes = jsonTree(result.data, {parentId:'orgParentId',children:'children'},[{origin:'orgName',replace:'name'}]);
+
       //nodes.map(rootNode=>rootNode['expanded']=true);
-      this.treeNode = nodes;
-    });
+      //this.treeNode = nodes;
+
+    });*/
+    this.rows.map(org => org['children'] = []);
+    let nodes = jsonTree(this.rows);
+    this.treeNode = nodes;
   }
- 
+
 
   // 表的数据的获取
   getlist(){
      this.service.getData()
       .then(res => {
         this.datas = res.data;
-       
+
         this.datas = _.map(this.datas, r => _.set(r, 'actions', [ DELETE ]));
       })
-  
+
   }
    // 表格动作
    onChange(message):void {
@@ -161,12 +189,12 @@ export class OrgComponent implements OnDestroy{
   /*
    * 组织树通知
    * */
-  onNotify($event){   
+  onNotify($event){
     console.log($event);
     console.log("=============================");
-    
+
     // debugger;
-    // if($event.eventName == "onSelectCompleted"){ 
+    // if($event.eventName == "onSelectCompleted"){
     //   if($event.data.length > 0) {
     //     this.sysUser.staffId = $event.data[0].id;
     //     this.staffName = $event.data[0].data.name;
@@ -174,15 +202,15 @@ export class OrgComponent implements OnDestroy{
     //     this.sysUser.staffId = undefined;
     //     this.staffName = undefined;
     //   }
-    // }  
-    
+    // }
+
     if($event.eventName == "onFocus"){
       if($event.node.children.length > 0){
         for(let i = 0 ; i < $event.node.data.children.length; i++){
-          console.log($event.node.data.children);  
+          console.log($event.node.data.children);
           console.log("-------------------------------------");
           this.staf = $event.node.data.name
-          this.staffName = $event.node.data.children[i].name    
+          this.staffName = $event.node.data.children[i].name
         }
       }else{
        this.staf = $event.node.data.name
@@ -191,7 +219,7 @@ export class OrgComponent implements OnDestroy{
     }else{
       this.staffName = undefined;
     }
-    
+
 
 
 
