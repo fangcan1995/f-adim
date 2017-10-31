@@ -9,7 +9,7 @@ const routes: Routes = [
     path: '',
     children: [
       { path: '', redirectTo: 'user-manage'},
-      { path: 'user-manage', loadChildren:'./user-manage/user-manage.module#UserManageModule' },
+      { path: 'user', loadChildren:'./user/user.module#UserModule' },
       { path: 'role', loadChildren:'./role/role.module#RoleModule' },
       { path: 'resource', loadChildren: './resource/resource.module#ResourceModule' },
       { path: 'dict', loadChildren: './dict/dict.module#DictModule' },

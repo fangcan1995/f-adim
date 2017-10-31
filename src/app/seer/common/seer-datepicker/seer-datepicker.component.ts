@@ -23,7 +23,7 @@ export class SeerDatepickerComponent implements OnInit {
 	@Input() minDate;
 	@Input() maxDate;
   @Input() disabled;
-	@Input() dateFormatingRules:string = 'yyyy年MM月dd日';
+	@Input() dateFormatingRules:string = 'yyyy/MM/dd';
 	bsConfig: Partial<BsDatepickerConfig> = {
 	  locale: 'zh-cn',
 	  showWeekNumbers: false,
