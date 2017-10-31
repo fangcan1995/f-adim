@@ -1,12 +1,11 @@
+<seer-content-top>
+  <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
+  <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
+</seer-content-top>
 <div class="widgets">
-  <div style="margin-bottom: 24px;">
-    <button class="btn btn-primary" (click)="handleBackBtnClick()">返回</button>
-    <button class="btn btn-primary" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
-  </div>
   <div class="row justify-content-center">
     <form class="form-horizontal">
-    <seer-collapse-card title="风险题目设置" cardClass="with-scroll" [canCollapse]=true>
-
+    <seer-collapse-card title="风险题目设置" cardClass="with-scroll" [canCollapse]=false>
         <div class="col-sm-12">
           <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
             <div class="row">
@@ -22,102 +21,32 @@
             <div class="row">
               <label for="examType" class="col-sm-2 control-label">类型:</label>
               <div class="col-sm-4">
-                <select class="form-control person_space" name="examType" id="examType"
-                        dict-select
-                        [key]="'RISK_EVAL_QUESTION_TYPE'"
+                <select type="email" class="form-control" name="examType" id="examType" dict-select
+                        [(ngModel)]="riskEval.examType"
+                        [key]="'BUSINESS_TYPE'"
+                        [topOption]="{itemId:'',itemName:'请选择'}"
                         [selected]="riskEval.examType"
-                        [topOption]="{dictValueId:'',dictValueName:'请选择'}"
-                        [(ngModel)]="riskEval.examType">
+                >
                 </select>
               </div>
             </div>
           </div>
         </div>
       <div class="col-sm-6">
-        <seer-table
+        <seer-simple-table
+          #simpleTable
           [data]="answers"
           [titles]="titlesAnswers"
-          [translate]="translate"
-          [hideExport]="true"
-          [hidePrint]="true"
-          [hideRemoveAll]="true"
-          [hideColumns]="true"
-        ></seer-table>
+          [hidePagination]="true"
+          [actions]="simpleTableActions"
+          [showSeq]="true"
+          (notify)="answerModifyNotify($event)"
+        >
+        </seer-simple-table>
       </div>
     </seer-collapse-card>
     </form>
-        <!--<div class="col-sm-12">
-          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-            <div class="row">
-              <label for="examAResult" class="col-sm-4 control-label">答案A:</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" id="examAResult"  [(ngModel)]="riskEval.examAResult" [ngModelOptions]="{standalone: true}">
-              </div>
-            </div>
-          </div>
-          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-            <div class="row">
-              <label for="examAScores" class="col-sm-4 control-label" style="text-align: right">分值:</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" id="examAScores"  [(ngModel)]="riskEval.examAScores" [ngModelOptions]="{standalone: true}">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-12">
-          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-            <div class="row">
-              <label for="examBResult" class="col-sm-4 control-label">答案B:</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" id="examBResult"  [(ngModel)]="riskEval.examBResult" [ngModelOptions]="{standalone: true}">
-              </div>
-            </div>
-          </div>
-          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-            <div class="row">
-              <label for="examBScores" class="col-sm-4 control-label" style="text-align: right">分值:</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" id="examBScores"  [(ngModel)]="riskEval.examBScores" [ngModelOptions]="{standalone: true}">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-12">
-          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-            <div class="row">
-              <label for="examCResult" class="col-sm-4 control-label">答案C:</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" id="examCResult"  [(ngModel)]="riskEval.examCResult" [ngModelOptions]="{standalone: true}">
-              </div>
-            </div>
-          </div>
-          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-            <div class="row">
-              <label for="examCScores" class="col-sm-4 control-label" style="text-align: right">分值:</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" id="examCScores"  [(ngModel)]="riskEval.examCScores" [ngModelOptions]="{standalone: true}">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-12">
-          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-            <div class="row">
-              <label for="examDResult" class="col-sm-4 control-label">答案D:</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" id="examDResult"  [(ngModel)]="riskEval.examDResult" [ngModelOptions]="{standalone: true}">
-              </div>
-            </div>
-          </div>
-          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-            <div class="row">
-              <label for="examDScores" class="col-sm-4 control-label" style="text-align: right">分值:</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" id="examDScores"  [(ngModel)]="riskEval.examDScores" [ngModelOptions]="{standalone: true}">
-              </div>
-            </div>
-          </div>
-        </div>-->
+
 
   </div>
 </div>

@@ -31,60 +31,66 @@ export class RiskRatingEditComponent implements OnInit {
     })
       .subscribe(params => {
         if ( this._editType === 'edit' ) {
-          console.log(params.id)
           this._riskRatingService.getOne(params.id)
-            .subscribe(res => {
+            .then(res => {
               this.riskRating = res.data || {};
-
               this.forbidSaveBtn = false;
-            }, errMsg => {
-              // 错误处理的正确打开方式
-              this._messageService.open({
-                icon: 'fa fa-times-circle',
-                message: errMsg,
-                autoHideDuration: 3000,
-              }).onClose().subscribe(() => {
-                this._location.back()
-              })
-            })
+            }).catch(err=>{
+            this.alertError(err.json().message);
+            this._location.back();
+          });
         } else if ( this._editType === 'add' ) {
           this.forbidSaveBtn = false;
         }
       })
   }
-  handleBackBtnClick() {
-    this._location.back()
-  }
   handleSaveBtnClick() {
     if ( this.forbidSaveBtn ) return;
     this.forbidSaveBtn = true;
-    let requestStream$;
+    //console.log(this.riskRating);
     if ( this._editType === 'edit' ) {
-      requestStream$ = this._riskRatingService.putOne(this.riskRating.id, this.riskRating)
+      this._riskRatingService.putOne(this.riskRating).then(res => {
+        if(res.code=='0'){
+          this.alertSuccess(res.message);
+        }else{
+          this.alertError(res.message);
+        }
+      }).catch(err=>{
+        this.alertError(err.json().message);
+      });
     } else if ( this._editType === 'add' ) {
-      requestStream$ = this._riskRatingService.postOne(this.riskRating)
+        this._riskRatingService.postOne(this.riskRating).then(res => {
+          if(res.code=='0'){
+            this.alertSuccess(res.message);
+          }else{
+            this.alertError(res.message);
+          }
+      }).catch(err=>{
+          this.alertError(err.json().message);
+        });
     } else {
       return;
     }
-    requestStream$
-      .subscribe(res => {
-        this._messageService.open({
-          icon: 'fa fa-times-circle',
-          message: res.msg,
-          autoHideDuration: 3000,
-        }).onClose().subscribe(() => {
-          this._router.navigate(['/seer/security/risk-rating'])
-        });
-      }, errMsg => {
-        this.forbidSaveBtn = false;
-        // 错误处理的正确打开方式
-        this._messageService.open({
-          icon: 'fa fa-times-circle',
-          message: errMsg,
-          autoHideDuration: 3000,
-        })
-      })
-
   }
-
+  handleBackBtnClick() {
+    this._location.back()
+  }
+  alertSuccess(info:string){
+    this._messageService.open({
+      icon: 'fa fa-times-circle',
+      message: info,
+      autoHideDuration: 3000,
+    }).onClose().subscribe(() => {
+      this._router.navigate(['/security/risk-rating/'])
+    });
+  }
+  alertError(errMsg:string){
+    this.forbidSaveBtn = false;
+    // 错误处理的正确打开方式
+    this._messageService.open({
+      icon: 'fa fa-times-circle',
+      message: errMsg,
+      autoHideDuration: 3000,
+    })
+  }
 }

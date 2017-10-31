@@ -1,10 +1,10 @@
+<seer-content-top>
+  <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
+  <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
+</seer-content-top>
 <div class="widgets">
-  <div style="margin-bottom: 24px;">
-    <button class="btn btn-primary" (click)="handleBackBtnClick()">返回</button>
-    <button class="btn btn-primary" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
-  </div>
   <div class="row justify-content-center">
-    <seer-collapse-card title="风险等级设置" cardClass="with-scroll" [canCollapse]=true>
+    <seer-collapse-card title="风险等级设置" cardClass="with-scroll" [canCollapse]=false>
       <form class="form-horizontal">
 
         <div class="col-sm-12">
@@ -12,12 +12,12 @@
             <div class="row">
               <label for="s2id_riskLevel" class="col-sm-2 control-label">风险级别:</label>
               <div class="col-sm-4">
-                <select class="form-control person_space" name="s2id_riskLevel" id="s2id_riskLevel"
-                        dict-select
-                        [key]="'LOAN_RISK_LEVEL'"
+                <select type="email" class="form-control" name="s2id_riskLevel" id="s2id_riskLevel" dict-select
+                        [(ngModel)]="riskRating.s2id_riskLevel"
+                        [key]="'BUSINESS_TYPE'"
+                        [topOption]="{itemId:'',itemName:'请选择'}"
                         [selected]="riskRating.s2id_riskLevel"
-                        [topOption]="{dictValueId:'',dictValueName:'请选择'}"
-                        [(ngModel)]="riskRating.s2id_riskLevel">
+                >
                 </select>
               </div>
             </div>
@@ -41,20 +41,17 @@
             </div>
           </div>
         </div>
-
-
         <div class="col-sm-12">
           <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
             <div class="row">
               <label for="investGrade1" class="col-sm-4 control-label">推荐投资等级:</label>
               <div class="col-sm-8">
-
-                <select class="form-control person_space" name="investGrade1" id="investGrade1"
-                        dict-select
-                        [key]="'LOAN_ASSESS_LEVEL'"
+                <select type="email" class="form-control" name="investGrade1" id="investGrade1" dict-select
+                        [(ngModel)]="riskRating.investGrade1"
+                        [key]="'BUSINESS_TYPE'"
+                        [topOption]="{itemId:'',itemName:'请选择'}"
                         [selected]="riskRating.investGrade1"
-                        [topOption]="{dictValueId:'',dictValueName:'请选择'}"
-                        [(ngModel)]="riskRating.investGrade1">
+                >
                 </select>
               </div>
             </div>
