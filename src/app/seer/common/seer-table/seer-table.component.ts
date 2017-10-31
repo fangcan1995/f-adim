@@ -62,8 +62,8 @@ export class SeerTableComponent implements OnInit {
 
   public sortBy: string | number = '';
   public selectedAll = false;
-  private multiColumnArray: IMultiSelectOption[] = [];
-  private multiColumnOptions = [];
+  private multiColumnArray = [];
+  private multiColumnOptions: IMultiSelectOption[] = [];
   public multiSelectTexts = {
     checked: '显示',
     checkedPlural: '显示',
