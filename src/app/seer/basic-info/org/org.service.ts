@@ -26,7 +26,8 @@ export class OrgService {
    * 查询全部库房
    * */
   getOrganizations(): Promise<Result> {
-    let url = `${this.orgManageUrl}/organizations`;
+    //let url = `${this.orgManageUrl}/organizations`;
+    let url = 'http://172.16.4.62:8090/organizations/all';   //测试用地址
     return this.baseService.getAll(url);
 
   }
@@ -50,32 +51,38 @@ export class OrgService {
    * 根据组织id获取员工
    * */
   getStaffsByOrgId(orgId): Promise<Result> {
-    let url = `${this.orgManageUrl}/organization/staffs/${orgId}`;
+    //let url = `${this.orgManageUrl}/organization/staffs/${orgId}`;
+    let url = `http://172.16.4.62:8090/organizations/staffs/${orgId}`;   //测试用地址
     return this.baseService.getAll(url);
   }
 
   operationRecord(data) {
-    let url = `${this.orgManageUrl}/organization/operation`;
+    //let url = `${this.orgManageUrl}/organization/operation`;
+    let url = `http://172.16.4.62:8090/organizations/operation`;   //测试用地址
     return this.baseService.update(url,data);
   }z
 
   updateStaffOrgId(data) {
-    let url = `${this.orgManageUrl}/organization/staff`;
+    //let url = `${this.orgManageUrl}/organization/staff`;
+    let url = `http://172.16.4.62:8090/organizations/staff`;   //测试用地址
     return this.baseService.update(url,data);
   }
 
   addOrganization(data) {
-    let url = `${this.orgManageUrl}/organization`;
+    //let url = `${this.orgManageUrl}/organization`;
+    let url = `http://172.16.4.62:8090/organizations`;   //测试用地址
     return this.baseService.create(url,data);
   }
 
   editOrganization(data) {
-    let url = `${this.orgManageUrl}/organization`;
+    //let url = `${this.orgManageUrl}/organization`;
+    let url = `http://172.16.4.62:8090/organizations`;   //测试用地址
     return this.baseService.update(url, data);
   }
 
   delOrganization(orgId) {
-    let url = `${this.orgManageUrl}/organization/${orgId}`;
+    //let url = `${this.orgManageUrl}/organization/${orgId}`;
+    let url = `http://172.16.4.62:8090/organizations${orgId}`;   //测试用地址
     return this.baseService.delete(url);
   }
 
