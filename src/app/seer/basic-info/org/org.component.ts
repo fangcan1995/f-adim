@@ -133,17 +133,19 @@ export class OrgComponent implements OnDestroy{
    * 获取全部组织机构
    * */
   getOrganizations() {
-    /*this.service.getOrganizations().then((result) => {
+    this.service.getOrganizations().then((result) => {
+      //alert(JSON.stringify(result));
+      console.log(result.data);
       result.data.map(org=>org['children']=[]);
-      //let nodes = jsonTree(result.data, {parentId:'orgParentId',children:'children'},[{origin:'orgName',replace:'name'}]);
+      let nodes = jsonTree(result.data, {parentId:'pid',children:'children', id: 'departmentId'},[{origin:'departmentName',replace:'name'}]);
 
-      //nodes.map(rootNode=>rootNode['expanded']=true);
-      //this.treeNode = nodes;
+      nodes.map(rootNode=>rootNode['expanded']=true);
+      this.treeNode = nodes;
 
-    });*/
-    this.rows.map(org => org['children'] = []);
+    });
+    /*this.rows.map(org => org['children'] = []);
     let nodes = jsonTree(this.rows);
-    this.treeNode = nodes;
+    this.treeNode = nodes;*/
   }
 
 
@@ -205,20 +207,33 @@ export class OrgComponent implements OnDestroy{
     // }
 
     if($event.eventName == "onFocus"){
-      if($event.node.children.length > 0){
+      /*console.log($event);
+      if($event.node.children) {
+        alert(1);
+      }
+      else {
+        alert(0)
+      }*/
+
+      /*if($event.node.children.length > 0){
         for(let i = 0 ; i < $event.node.data.children.length; i++){
           console.log($event.node.data.children);
           console.log("-------------------------------------");
           this.staf = $event.node.data.name
           this.staffName = $event.node.data.children[i].name
+          console.log(this.staf);
         }
       }else{
        this.staf = $event.node.data.name
        this.staffName =""
-      }
+      }*/
+      this.staf = $event.node.data.id;
+      this.staffName = $event.node.data.name;
+      console.log($event.node.data);
     }else{
       this.staffName = undefined;
     }
+
 
 
 

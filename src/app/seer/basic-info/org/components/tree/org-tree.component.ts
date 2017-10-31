@@ -64,7 +64,7 @@ export class OrgTreeDialogComponent extends BaseModalComponent implements OnInit
    * */
   getOrganizations() {
     this.service.getOrganizations().then((result) => {
-      this.nodes = jsonTree(result.data,{parentId:'orgParentId',children:'children'},[{origin:'orgName',replace:'name'}]);
+      this.nodes = jsonTree(result.data,{parentId:'pid',children:'children', id: 'departmentId'},[{origin:'departmentName',replace:'name'}]);
     });
   }
 
@@ -74,7 +74,7 @@ export class OrgTreeDialogComponent extends BaseModalComponent implements OnInit
       $event.node.setIsExpanded(true)
     }
   }
-  
+
 
 
 }
