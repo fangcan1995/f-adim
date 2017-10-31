@@ -138,4 +138,22 @@ export class AnnouncementService {
     };
     return Observable.of(res);
   }
+
+  // 更改一条数据的 禁用/启用 状态
+
+  changeOne(id): Observable<any>{
+    // return this._httpInterceptorService.request('DELETE', `${baseUrl}/${apis['MEMBERS']}/${id}`)
+    let data = _.find(this.mockData, x => x.id === id);
+
+    console.log(data.someStatus);
+    let res = {
+      code: 0,
+      msg: '',
+      data,
+      extras: {}
+    };
+    return Observable.of(res);
+  }
+
+
 }
