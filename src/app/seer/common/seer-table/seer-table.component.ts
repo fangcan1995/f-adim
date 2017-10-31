@@ -179,7 +179,7 @@ export class SeerTableComponent implements OnInit {
         let { globalSearch, ...filters } = this.filters;
         dataChain = dataChain
         .filter(t => {
-          // 全局搜索 字典日期都不好用
+          // 全局搜索 日期不好用
           if ( !globalSearch || !globalSearch.length ) return true; 
           globalSearch = _.trim(globalSearch);
           let item:any = {};
