@@ -111,23 +111,23 @@
         </seer-collapse-card>
         <seer-collapse-card title="接收用户" >
           <div class="row">
-            <input type="text" name="message.receivers" [(ngModel)]="message.receivers">
+
             <seer-table
               [data]="modalUsers"
               [titles]="modelTitles"
               [pageNum]="modalPageInfo.pageNum"
               [pageSize]="modalPageInfo.pageSize"
               [total]="modalPageInfo.total"
+              [showSeq]="true"
               [paginationRules]="0"
               [translate]="translate"
-              (changePage)="modalPageChange($event)"
               [hideExport]="true"
               [hidePrint]="true"
               [hideRemoveAll]="true"
               [hideColumns]="true"
               [hideAddButton]="true"
               [hideActions]="true"
-              (notify)="onChange($event)"
+              (changePage)="modalPageChange($event)"
             ></seer-table>
           </div>
         </seer-collapse-card>

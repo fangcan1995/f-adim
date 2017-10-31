@@ -5,7 +5,9 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnChanges
+  OnChanges,
+  ViewChild,
+  ElementRef
 } from '@angular/core';
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import * as _ from 'lodash';
@@ -70,6 +72,7 @@ export class SeerTableComponent implements OnInit {
   public multiSelectSettings = {
     buttonClasses: 'btn btn-outline-dark btn-block',
   }
+  @ViewChild('tr') tr:ElementRef
   constructor(
     private service: UserService,
   ) {
@@ -77,6 +80,7 @@ export class SeerTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     this.titles = _.clone(this.titles);
     this.data = _.clone(this.data);
     if ( _.isArray(this.titles) && this.titles.length ) {
@@ -117,6 +121,7 @@ export class SeerTableComponent implements OnInit {
     }
   }
   selectAll(): void {
+    console.log(this.tr)
     let data = this.getData();
     _.each(data, item => {
       item.selected = this.selectedAll;
@@ -168,23 +173,30 @@ export class SeerTableComponent implements OnInit {
   }
   getCurData() {
     let data = this.data;
-    if ( this.paginationRules && this.filters ) {
-      let { globalSearch, ...filters } = this.filters;
-      data = _.filter(data, t => {
-        for ( let key in filters ) {
-          let curTit = _.find(this.titles, t => t.key === key);
-          if ( curTit && curTit.isDict ) {
-            if ( filters[key] && t[key] != filters[key] ) return false;
-          } else {
-            if ( !t[key] ) return false;
-            if ( t[key].toString().toLowerCase().indexOf(_.trim(filters[key] ? filters[key].toString().toLowerCase() : '')) === -1 ) return false;
+    let dataChain = _(data);
+    if ( this.paginationRules ) {
+      if ( this.filters ) {
+        let { globalSearch, ...filters } = this.filters;
+        dataChain = dataChain.filter(t => {
+          for ( let key in filters ) {
+            let curTit = _.find(this.titles, t => t.key === key);
+            if ( curTit && curTit.isDict ) {
+              if ( filters[key] && t[key] != filters[key] ) return false;
+            } else {
+              if ( !t[key] ) return false;
+              if ( t[key].toString().toLowerCase().indexOf(_.trim(filters[key] ? filters[key].toString().toLowerCase() : '')) === -1 ) return false;
+            }
+            
           }
-          
-        }
-        return true;
-      })
+          return true;
+        })
+        
+      }
+      dataChain = dataChain.map((t, i) => _.set(t, 'SEQ', i + 1))
+    } else {
+      dataChain = dataChain.map((t, i) => _.set(t, 'SEQ', this.pageSize * this.pageNum + i + 1));
     }
-    return data;
+    return data = dataChain.value();
   }
   getData() {
     let data = !this.paginationRules ? this._sliceData(this.data, 1, this.pageSize) : this._sliceData(this.getCurData(), this.pageNum, this.rowsOnPage)

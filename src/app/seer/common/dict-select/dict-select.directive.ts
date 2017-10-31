@@ -43,7 +43,7 @@ export class DictSelectDirective implements OnInit {
     .then(res => {
       if ( res.code == 0 ) {
         let isFirstOption = true;
-        res.data[this.key].sort((a,b) => +a.dictSort-+b.dictSort).forEach(dict=>{
+        (res.data[this.key] || []).sort((a,b) => +a.itemSort-+b.itemSort).forEach(dict=>{
           let wrapper = document.createElement('option');
           wrapper.value = dict.itemId;
           wrapper.text = dict.itemName;

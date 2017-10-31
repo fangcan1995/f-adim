@@ -61,7 +61,7 @@
     <table
       class="table table-hover">
       <thead>
-        <tr>
+        <tr #tr>
           <th *ngIf="!hideCheckbox" class="table-checkbox">
             <!-- 此处不能用 checkedChange -->
             <seer-cool-checkbox
@@ -85,7 +85,7 @@
             (change)="selectOne(item)"
           ></seer-cool-checkbox>
         </td>
-        <td *ngIf="showSeq" class="table-seq">{{ i + 1 }}</td>
+        <td *ngIf="showSeq" class="table-seq"><span class="seer_font">{{ item.SEQ }}</span></td>
         <td *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
 
           <div *ngIf="title.type=='link'">
@@ -125,7 +125,7 @@
       </tbody>
       <tfoot *ngIf="!hidePagination">
         <tr>
-          <td [attr.colspan]="titles.length + 2">
+          <td [attr.colspan]="tr.children.length">
             <seer-pagination
               [rowCount]="getRowCount()"
               [rowsOnPageSet]="rowsOnPageSet"

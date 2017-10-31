@@ -2,13 +2,10 @@ import {Component,OnInit,TemplateRef} from '@angular/core';
 import {Location} from '@angular/common';
 import {ActivatedRoute, Params,Router} from "@angular/router";
 import {MessageService} from "../../message.service";
-import {Message} from "../../../../model/auth/message-edit";
-import {Result} from "../../../../model/result.class";
 import {GlobalState} from "../../../../../global.state";
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { ModalDirective ,BsModalService} from 'ngx-bootstrap/modal';
 import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
-import {errorObject} from "rxjs/util/errorObject";
 
 @Component({
   selector: 'message-edit',
@@ -23,15 +20,17 @@ export class MessageDetailComponent {
   usersType: string; //用户类型
   modalUsers=[];
   modelTitles= [
-    {key: 'aaa', label: '用户名', hidden: false},
-    {key: 'bbb', label: '真实姓名', hidden: false},
-    {key: 'ccc', label: '手机号', hidden: false},
-    {key: 'ddd', label: '身份证号', hidden: false},
+    {key: 'name', label: '会员姓名', hidden: false},
+    {key: 'loginName', label: '会员账号', hidden: false},
+    {key: 'phone', label: '联系方式', hidden: false},
+    {key: 'mailResult', label: '消息中心',isDict:true,category:"MSG_STATUS"},
+    {key: 'notifyResult', label: '推送',isDict:true,category:"MSG_STATUS"},
+    {key: 'messageResult', label: '短信',isDict:true,category:"MSG_STATUS"},
   ];
   modalPageInfo={
     "pageNum":1,
     "pageSize":10,
-    "sort":"-entryTime",
+    "sort":"",
     "total":"",
     "query":{
     },
@@ -56,23 +55,27 @@ export class MessageDetailComponent {
     this.service.getMessageById(this.editId).then((data) => {
       this.message = data.data;
     });
+    this.getRecordList();
   }
 
+  getRecordList(){
+    this.service.getRecords(this.editId,this.modalPageInfo).then((data)=>{
+      this.modalPageInfo.pageNum=data.data.pageNum;  //当前页
+      this.modalPageInfo.pageSize=data.data.pageSize; //每页记录数
+      this.modalPageInfo.total=data.data.total; //记录总数
+      this.modalUsers=data.data.list;
+    })
+  }
   //模态框分页事件
-  modalPageChange(){
-    alert('换页数');
+  modalPageChange($event){
+    this.modalPageInfo.pageSize = $event.pageSize;
+    this.modalPageInfo.pageNum=$event.pageNum;
+    this.getRecordList();
   }
   //返回
   handleBackBtnClick() {
     this.location.back()
   }
-  //模态框
-  public modalRef: BsModalRef;
-  public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-    this.service.getUsers(this.usersType).then(res => {
-      this.modalUsers = res.data.list;
-    });
-  }
+
 
 }
