@@ -1,14 +1,14 @@
 import {
   Directive, Input, OnInit, ViewContainerRef, HostBinding, OnChanges, SimpleChanges,
 } from '@angular/core';
-import { UserService } from "../../../theme/services/user.service";
+import { ManageService } from "../../../theme/services";
 
 /**
  * If the given string is not a valid date, it defaults back to today
  */
 @Directive({
   selector: '[dict-select]',
-  providers: [UserService],
+  providers: [ManageService],
 })
 export class DictSelectDirective implements OnInit {
 
@@ -19,7 +19,7 @@ export class DictSelectDirective implements OnInit {
 
   private el: HTMLInputElement;
 
-  constructor(private service: UserService,
+  constructor(private service: ManageService,
               private viewContainerRef: ViewContainerRef,) {
     this.el = this.viewContainerRef.element.nativeElement;
   }

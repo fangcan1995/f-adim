@@ -67,7 +67,7 @@ import {
   AuthGuard,
   SeerMessageService,
   SeerDialogService,
-  UserService,
+  ManageService,
   LoggerService,
   HttpInterceptorService,
   PreloadImageService,
@@ -197,7 +197,7 @@ export class NgaModule {
         AuthGuard,
         SeerMessageService,
         SeerDialogService,
-        UserService,
+        ManageService,
         LoggerService,
 
       ],

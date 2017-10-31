@@ -10,7 +10,7 @@ import {
 import { GlobalState } from '../../../global.state';
 import { Router } from "@angular/router";
 import { DynamicComponentLoader } from "../../directives/dynamicComponent/dynamic-component.directive";
-import { UserService } from '../../services/user.service';
+import { ManageService } from '../../services/manage.service';
 import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'ba-page-top',
@@ -36,7 +36,7 @@ export class BaPageTop implements OnInit {
   constructor(
     private router: Router,
     private _state: GlobalState,
-    private _userService: UserService,
+    private _manageService: ManageService,
     private _authService: AuthService,
     ) {
     this._state.subscribe('menu.activeLink', (activeLink) => {
@@ -51,7 +51,7 @@ export class BaPageTop implements OnInit {
     });
   }
   ngOnInit(): void {
-    this._userService.getUserFromLocal()
+    this._manageService.getUserFromLocal()
     .then(res => {
       this.user = res.data || {};
     })

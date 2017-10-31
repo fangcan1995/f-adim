@@ -13,10 +13,7 @@ import { Router, NavigationExtras } from '@angular/router';
 import { GlobalState } from '../../global.state';
 import { parseQueryString, setStorage } from '../../theme/libs/utils';
 
-import { AuthService } from '../../theme/services/auth.service';
-import { UserService } from '../../theme/services/user.service';
-import { SeerMessageService } from '../../theme/services/seer-message.service';
-
+import { AuthService, ManageService, SeerMessageService } from '../../theme/services';
 
 import { DynamicComponentLoader } from '../../theme/directives/dynamicComponent/dynamic-component.directive';
 import { VersionInfoComponent } from './component/version-info.component';
@@ -51,7 +48,7 @@ export class LoginComponent {
     private _router: Router,
     private _state: GlobalState,
     private _authService: AuthService,
-    private _userService: UserService,
+    private _manageService: ManageService,
     private _messageService: SeerMessageService,
     ) {
     this.form = fb.group({
@@ -81,7 +78,7 @@ export class LoginComponent {
           value: res,
         }, false)
       }
-      return this._userService.getDataFromServer()
+      return this._manageService.getDataFromServer()
     })
     .subscribe(res => {
       let user = res[0].data || {};

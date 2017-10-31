@@ -13,7 +13,7 @@ import { IMultiSelectOption } from 'angular-2-dropdown-multiselect/src/multisele
 import * as _ from 'lodash';
 
 import { CREATE, DELETE_MULTIPLE } from './seer-table.actions';
-import { UserService } from "../../../theme/services/user.service";
+import { ManageService } from "../../../theme/services";
 
 export interface TableTitleModel {
   key: string | number,
@@ -28,7 +28,7 @@ export interface TableTitleModel {
   selector: 'seer-table',
   templateUrl: './seer-table.component.html',
   styleUrls: ['./seer-table.component.scss'],
-  providers: [UserService]
+  providers: [ManageService]
 })
 export class SeerTableComponent implements OnInit {
   @Input() data: Array<any>  = [];   //数据数组
@@ -74,7 +74,7 @@ export class SeerTableComponent implements OnInit {
   }
   @ViewChild('tr') tr:ElementRef
   constructor(
-    private service: UserService,
+    private service: ManageService,
   ) {
     if( !this.rowsOnPage ) this.rowsOnPage = this.rowsOnPageSet[0];
   }

@@ -11,6 +11,10 @@ import * as _ from 'lodash';
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import { RoleService } from '../../role.service';
 import { SeerDialogService, SeerMessageService } from '../../../../../theme/services';
+import { json2Tree } from '../../../../../theme/libs';
+
+import { TREE_PERMISSIONS } from "../../../../../theme/modules/seer-tree/constants/permissions";
+
 @Component({
   templateUrl: './role-edit.component.html',
   styleUrls: [ './role-edit.component.scss' ],
@@ -23,6 +27,8 @@ export class RoleEditComponent implements OnInit {
   private forbidResetPasswordBtn:boolean = true;
   private id:string;
   @ViewChild('myForm') myForm;
+  resourceTreeNodes;
+  resourcePermission = TREE_PERMISSIONS.MULTI_SELECT | TREE_PERMISSIONS.SELECT_PARENT_CASCADE;
   constructor(
     private _roleService: RoleService,
     private _location: Location,
@@ -52,7 +58,34 @@ export class RoleEditComponent implements OnInit {
         this.role = _.clone(res || {})
       });
       this.forbidSaveBtn = false;
+      this.getResources();
     }
+  }
+
+  getResources() {
+    this._roleService.getResourcesFromServer({pageSize: 10000})
+    .then(res => {
+      console.log(res);
+      let resources = res.data ? res.data.list || [] : [];
+      this.resourceTreeNodes = json2Tree(
+        resources, 
+        {
+          id: 'menuId',
+          parentId: 'menuPid'
+        }, 
+        [
+          {
+            origin: 'menuName',
+            replace: 'name'
+          },
+          {
+            origin: 'menuId',
+            replace: 'id'
+          }
+        ]
+      );
+      console.log(this.resourceTreeNodes)
+    })
   }
 
   handleSaveBtnClick() {

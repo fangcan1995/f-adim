@@ -12,7 +12,7 @@ import 'rxjs/add/operator/switchMap';
 import * as _ from 'lodash';
 import { trim } from '../../../theme/libs/utils'
 import { Animations } from '../../../theme/animations/animations';
-import { UserService } from "../../../theme/services/user.service";
+import { ManageService } from "../../../theme/services";
 
 export interface FilterModel {
   key: string | number,
@@ -32,7 +32,7 @@ export interface FilterModel {
   templateUrl: './seer-filter.component.html',
   styleUrls: [ './seer-filter.component.scss' ],
   animations: [ Animations.slideInOut ],
-  providers: [UserService]
+  providers: [ManageService]
 })
 export class SeerFilterComponent implements OnInit {
   @Input() hasGlobalFilter: boolean; // 是否有全局搜索输入框
@@ -48,7 +48,7 @@ export class SeerFilterComponent implements OnInit {
   filters$ = new Subject();
   @ViewChild('searchBtn') searchBtn;
   constructor(
-    private service: UserService,
+    private service: ManageService,
   ) { }
   ngOnInit() {
     this.onInit.emit({

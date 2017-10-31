@@ -20,7 +20,7 @@ export class SeerPaginationComponent implements OnChanges {
 	@Output() notify = new EventEmitter();
 	constructor() { }
 	ngOnChanges(changes) {
-		if ( changes.rowCount ) {
+		if ( changes.rowCount && !changes.rowCount.firstChange ) {
 			setTimeout(() => {
 				this.setPageNumber(this.pageNumber)
 			})
