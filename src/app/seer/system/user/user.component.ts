@@ -115,6 +115,9 @@ export class UserComponent {
   ];
   total = 0;
   users = [];
+  pageSize: 10;
+  pageNum: 1;
+  sortBy: '';
   params:any = {
     pageSize: 10,
     pageNum: 1,
@@ -127,6 +130,9 @@ export class UserComponent {
       this.users = data.list || [];
       this.users = _.map(this.users, t => _.set(t, 'actions', [UPDATE, DELETE]))
       this.total = data.total || 0;
+
+      this.pageSize = data.pageSize || this.params.pageSize;
+      this.pageNum = data.pageNum || this.params.pageNum;
     })
     .catch(err => {
       this.showError( err.msg || '获取用户失败' );
@@ -147,7 +153,9 @@ export class UserComponent {
       updateTimeEnd = updateTime[1] ? updateTime[1].getTime() : null;
     }
     this.params = {
-      ...this.params,
+      pageSize: this.pageSize,
+      pageNum: this.pageNum,
+      sortBy: this.sortBy,
       ...otherParams,
       loginDateStart,
       loginDateEnd,
