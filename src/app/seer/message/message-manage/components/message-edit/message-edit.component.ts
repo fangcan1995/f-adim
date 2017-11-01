@@ -287,7 +287,7 @@ export class MessageEditComponent {
     }).onClose().subscribe(() => {
       this._router.navigate(['/message/message/'])
     });
-  }
+  };
   alertError(errMsg:string){
     this.forbidSaveBtn = false;
     // 错误处理的正确打开方式
@@ -296,5 +296,5 @@ export class MessageEditComponent {
       message: errMsg,
       autoHideDuration: 3000,
     })
-  }
+  };
 }
