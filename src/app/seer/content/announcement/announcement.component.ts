@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {AnnouncementService} from "./announcement.service";
 import {SeerDialogService} from "../../../theme/services/seer-dialog.service";
+import {UPDATE,DELETE,ENABLE,DISABLE} from "../../common/seer-table/seer-table.actions";
 import {ActivatedRoute, Router} from "@angular/router";
 import * as _ from 'lodash';
 
@@ -31,7 +32,7 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
     {key: 'state', label: '状态'}
   ];
 
-  actionSet = {
+  /*actionSet = {
     'update': {
       'type': 'update',
       'name': '编辑',
@@ -60,7 +61,7 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
       'icon': 'icon-checkmark',
       'action': 'disable'
     }
-  };
+  };*/
 
   constructor(private _announcementService: AnnouncementService, private _dialogService: SeerDialogService,
               private _router: Router, private _activatedRoute: ActivatedRoute) {
@@ -80,10 +81,10 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
           let actions;
           switch (status) {
             case "1":
-              actions = [this.actionSet.disable, this.actionSet.update, this.actionSet.delete];
+              actions = [DISABLE, UPDATE, DELETE];
               break;
             case "2":
-              actions = [this.actionSet.startUsing, this.actionSet.update, this.actionSet.delete];
+              actions = [ENABLE, UPDATE, DELETE];
               break;
             default:
               break;
