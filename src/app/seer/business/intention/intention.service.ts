@@ -6,10 +6,10 @@ import {BaseService, BASE_URL} from "../../../theme/services/base.service";
 export class IntentionService extends BaseService<any>{
 
   //意向
-  private intention_url = '/subject/intentions';
+  private intention_url = 'subject/intentions';
 
   //会员
-  private member_url = BASE_URL + '/members';
+  private member_url =   + '/members';
 
   constructor(protected _httpInterceptorService: HttpInterceptorService,) {
     super(_httpInterceptorService);

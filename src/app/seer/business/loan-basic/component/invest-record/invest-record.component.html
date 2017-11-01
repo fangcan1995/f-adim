@@ -1,13 +1,9 @@
 <seer-collapse-card title="投资记录" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
-  <seer-table
-    [data]="datas2"
-    [titles]="titles2"
-    [translate]="dict"
-    [hideExport]="true"
-    [hidePrint]="true"
-    [hideRemoveAll]="true"
-    [hideColumns]="true"
+  <seer-simple-table
+    [data]="investRecords"
+    [titles]="title"
+    [hidePagination]="true"
+    [hideActions]="true"
     [hideAddButton]="true"
-    (notify)="onChange($event)"
-  ></seer-table>
+  ></seer-simple-table>
 </seer-collapse-card>

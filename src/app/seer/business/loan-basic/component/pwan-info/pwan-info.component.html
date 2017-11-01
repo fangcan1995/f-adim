@@ -1,99 +1,47 @@
-<seer-collapse-card title="选择抵押物" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+<seer-collapse-card title="抵押信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
 
   <div class="row">
     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
       <div class="row">
-        <button *ngIf="!disabled" class="btn btn-primary" type="button" (click)="openModal(vehicleTemplate)">新增车辆</button>
+        <button *ngIf="!disabled" class="btn btn-primary" type="button" (click)="vehicleModal(vehicleTemplate, false)">新增车辆</button>
       </div>
     </div>
   </div>
   <form class="form-horizontal">
     <div class="row">
-      <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
-        <div class="row">
-          <div class="card" style="width: 20rem;">
-            <div class="card-body">
-              <h4 class="card-title">车牌号：辽B·12345</h4>
-              <h6 class="card-subtitle mb-2 text-muted"> </h6>
-              <p class="card-text">简介：摩根 Plus 4，200公里，3年车龄，评估价格为70万。</p>
-              <a *ngIf="!disabled" href="#" class="card-link">设为抵押物</a>
-              <a *ngIf="!disabled" href="#" class="card-link">查看详情</a>
+      <ng-container *ngFor="let vehicle of vehicles">
+        <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+          <div class="row">
+            <div [ngClass] = "{'active' : pawn.pawnType == '1' && pawn.id == vehicle.id}" class="card checkable-card" style="max-width: 20rem;">
+              <div class="card-header">{{vehicle.carBrand}} {{vehicle.carModel}}</div>
+              <div class="card-body text-secondary">
+                <p class="card-text">{{vehicle.carNumber}}、行驶{{vehicle.mileage}}公里、{{vehicle.carAge}}年车龄、评估价格为{{vehicle.pricePotential}}元</p>
+                <a href="javascript:void(0)" class="card-link" (click)="setVehicle($event, vehicle)">设为抵押物</a>
+                <a href="javascript:void(0)" class="card-link" (click)="vehicleModal(vehicleTemplate, true, vehicle)">查看详情</a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
-        <div class="row">
-          <div class="card" style="width: 20rem;">
-            <div class="card-body">
-              <h4 class="card-title">车牌号：辽B·12345</h4>
-              <h6 class="card-subtitle mb-2 text-muted"> </h6>
-              <p class="card-text">简介：摩根 Plus 4，200公里，3年车龄，评估价格为70万。</p>
-              <a *ngIf="!disabled" href="#" class="card-link">设为抵押物</a>
-              <a *ngIf="!disabled" href="#" class="card-link">查看详情</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
-        <div class="row">
-          <div class="card" style="width: 20rem;">
-            <div class="card-body">
-              <h4 class="card-title">车牌号：辽B·12345</h4>
-              <h6 class="card-subtitle mb-2 text-muted"> </h6>
-              <p class="card-text">简介：摩根 Plus 4，200公里，3年车龄，评估价格为70万。</p>
-              <a *ngIf="!disabled" href="#" class="card-link">设为抵押物</a>
-              <a *ngIf="!disabled" href="#" class="card-link">查看详情</a>
-            </div>
-          </div>
-        </div>
-      </div>
+      </ng-container>
     </div>
   </form>
   <div class="row">
     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
       <div class="row">
-        <button *ngIf="!disabled" class="btn btn-primary" type="button" (click)="openModal(houseTemplate)">新增房产</button>
+        <button *ngIf="!disabled" class="btn btn-primary" type="button" (click)="houseModal(houseTemplate, false)">新增房产</button>
       </div>
     </div>
   </div>
   <form class="form-horizontal">
     <div class="row">
-      <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+      <div *ngFor="let house of houses" class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
         <div class="row">
-          <div class="card" style="width: 20rem;">
-            <div class="card-body">
-              <h4 class="card-title">产权证号：12345678</h4>
-              <h6 class="card-subtitle mb-2 text-muted"> </h6>
-              <p class="card-text">简介：甘井子区，建筑面积100平米，商品房，2012年承建，评估价格为200万。</p>
-              <a *ngIf="!disabled" href="#" class="card-link">设为抵押物</a>
-              <a *ngIf="!disabled" href="#" class="card-link">查看详情</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
-        <div class="row">
-          <div class="card" style="width: 20rem;">
-            <div class="card-body">
-              <h4 class="card-title">产权证号：12345678</h4>
-              <h6 class="card-subtitle mb-2 text-muted"> </h6>
-              <p class="card-text">简介：甘井子区，建筑面积100平米，商品房，2012年承建，评估价格为200万。</p>
-              <a *ngIf="!disabled" href="#" class="card-link">设为抵押物</a>
-              <a *ngIf="!disabled" href="#" class="card-link">查看详情</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
-        <div class="row">
-          <div class="card" style="width: 20rem;">
-            <div class="card-body">
-              <h4 class="card-title">产权证号：12345678</h4>
-              <h6 class="card-subtitle mb-2 text-muted"> </h6>
-              <p class="card-text">简介：甘井子区，建筑面积100平米，商品房，2012年承建，评估价格为200万。</p>
-              <a *ngIf="!disabled" href="#" class="card-link">设为抵押物</a>
-              <a *ngIf="!disabled" href="#" class="card-link">查看详情</a>
+          <div [ngClass] = "{'active' : pawn.pawnType == '2' && pawn.id == house.id}"  class="card checkable-card" style="max-width: 20rem;">
+            <div class="card-header">产权证号：12345678</div>
+            <div class="card-body text-secondary">
+              <p class="card-text">房产地址：{{house.houseAdress}} 评估价格{{house.pricePotential}} </p>
+              <a href="javascript:void(0)" class="card-link" (click)="setHouse($event, house)">设为抵押物</a>
+              <a href="javascript:void(0)" class="card-link" (click)="houseModal(houseTemplate, true, house)">查看详情</a>
             </div>
           </div>
         </div>
@@ -105,7 +53,9 @@
 <!-- create vehicle modal -->
 <template #vehicleTemplate>
   <div class="modal-header">
-    <h5 class="modal-title pull-left">新增车辆</h5>
+    <h5 class="modal-title pull-left">
+      <ng-container *ngIf="!vehicleReadOnly">新增车辆</ng-container>
+      <ng-container *ngIf="vehicleReadOnly">查看详情</ng-container></h5>
     <!--<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>-->
@@ -117,7 +67,7 @@
           <div class="row">
             <label for="brand" class="col-sm-4 control-label text-right">车辆品牌</label>
             <div class="col-sm-8">
-              <input class="form-control" id="brand" placeholder="车辆品牌" [(ngModel)]="vehicle.brand" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="brand" placeholder="车辆品牌" [(ngModel)]="vehicle.carBrand" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
@@ -125,7 +75,7 @@
           <div class="row">
             <label for="model" class="col-sm-4 control-label text-right">车辆型号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="model" placeholder="车辆型号" [(ngModel)]="vehicle.model" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="model" placeholder="车辆型号" [(ngModel)]="vehicle.carModel" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
@@ -133,7 +83,7 @@
           <div class="row">
             <label for="vin" class="col-sm-4 control-label text-right">车架号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="vin" placeholder="车架号" [(ngModel)]="vehicle.vin" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="vin" placeholder="车架号" [(ngModel)]="vehicle.viNumber" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
@@ -141,7 +91,7 @@
           <div class="row">
             <label for="lpn" class="col-sm-4 control-label text-right">车牌号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="lpn" placeholder="车牌号" [(ngModel)]="vehicle.lpn" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="lpn" placeholder="车牌号" [(ngModel)]="vehicle.carNumber" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
@@ -149,7 +99,7 @@
           <div class="row">
             <label for="certificateNumber" class="col-sm-4 control-label text-right">登记证号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="certificateNumber" placeholder="登记证号" [(ngModel)]="vehicle.certificateNumber" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="certificateNumber" placeholder="登记证号" [(ngModel)]="vehicle.carRegNumber" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
@@ -157,7 +107,7 @@
           <div class="row">
             <label for="autoAge" class="col-sm-4 control-label text-right">车龄</label>
             <div class="col-sm-8">
-              <input class="form-control" id="autoAge" placeholder="车龄" [(ngModel)]="vehicle.autoAge" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="autoAge" placeholder="车龄" [(ngModel)]="vehicle.carAge" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
@@ -165,7 +115,7 @@
           <div class="row">
             <label for="range" class="col-sm-4 control-label text-right">行驶里程</label>
             <div class="col-sm-8">
-              <input class="form-control" id="range" placeholder="行驶里程" [(ngModel)]="vehicle.range" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="range" placeholder="行驶里程" [(ngModel)]="vehicle.mileage" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
@@ -173,7 +123,7 @@
           <div class="row">
             <label for="evaluatedPrice" class="col-sm-4 control-label text-right">评估价格</label>
             <div class="col-sm-8">
-              <input class="form-control" id="evaluatedPrice" placeholder="评估价格" [(ngModel)]="vehicle.evaluatedPrice" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="evaluatedPrice" placeholder="评估价格" [(ngModel)]="vehicle.pricePotential" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
@@ -181,15 +131,20 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-sx btn-info" (click)="modalRef.hide()">确定</button>
-    <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
+    <ng-container *ngIf="!vehicleReadOnly">
+      <button type="button" class="btn btn-sx btn-info" (click)="saveVehicle(vehicle)">确定</button>
+    </ng-container>
+    <button type="button"  class="btn btn-default" (click)="modalRef.hide()">关闭</button>
   </div>
 </template>
 
 <!-- create house modal -->
 <template #houseTemplate>
   <div class="modal-header">
-    <h5 class="modal-title pull-left">新增房屋</h5>
+    <h5 class="modal-title pull-left">
+      <ng-container *ngIf="!houseReadOnly">新增房屋</ng-container>
+      <ng-container *ngIf="houseReadOnly" >查看详情</ng-container>
+    </h5>
     <!--<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>-->
@@ -201,7 +156,7 @@
           <div class="row">
             <label for="brand" class="col-sm-4 control-label text-right">房产地址</label>
             <div class="col-sm-8">
-              <input class="form-control" id="brand" placeholder="房产地址" [(ngModel)]="house.address" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="brand" placeholder="房产地址" [(ngModel)]="house.houseAdress" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
@@ -209,7 +164,12 @@
           <div class="row">
             <label for="houseType" class="col-sm-4 control-label text-right">房屋类型</label>
             <div class="col-sm-8">
-              <input class="form-control" id="houseType" placeholder="房屋类型" [(ngModel)]="house.houseType" [ngModelOptions]="{standalone: true}">
+              <select class="form-control" id="houseType" placeholder="" [(ngModel)]="house.houseType" [ngModelOptions]="{standalone: true}"
+                      dict-select
+                      [key]="'HOUSE_TYPE'"
+                      [selected]="house.houseType"
+                      [topOption]="{itemid:'',itemName:'请选择'}">
+              </select>
             </div>
           </div>
         </div>
@@ -217,7 +177,7 @@
           <div class="row">
             <label for="floorage" class="col-sm-4 control-label text-right">建筑面积</label>
             <div class="col-sm-8">
-              <input class="form-control" id="floorage" placeholder="建筑面积" [(ngModel)]="house.floorage" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="floorage" placeholder="建筑面积" [(ngModel)]="house.area" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
@@ -233,7 +193,7 @@
           <div class="row">
             <label for="debt" class="col-sm-4 control-label text-right">尚欠贷余额</label>
             <div class="col-sm-8">
-              <input class="form-control" id="debt" placeholder="尚欠贷余额" [(ngModel)]="house.debt" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="debt" placeholder="尚欠贷余额" [(ngModel)]="house.debtMoney" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
@@ -241,7 +201,7 @@
           <div class="row">
             <label for="landCertificate" class="col-sm-4 control-label text-right">土地所有证号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="landCertificate" placeholder="土地所有证号" [(ngModel)]="house.landCertificate" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="landCertificate" placeholder="土地所有证号" [(ngModel)]="house.landNo" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
@@ -249,7 +209,7 @@
           <div class="row">
             <label for="houseCertificate" class="col-sm-4 control-label text-right">房屋产权所有证号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="houseCertificate" placeholder="房屋产权所有证号" [(ngModel)]="house.houseCertificate" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="houseCertificate" placeholder="房屋产权所有证号" [(ngModel)]="house.houseBelongNo" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
@@ -257,7 +217,7 @@
           <div class="row">
             <label for="evaluatedPrice" class="col-sm-4 control-label text-right">评估价格</label>
             <div class="col-sm-8">
-              <input class="form-control" id="evaluatedPrice" placeholder="评估价格" [(ngModel)]="house.evaluatedPrice" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="evaluatedPrice" placeholder="评估价格" [(ngModel)]="house.pricePotential" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
@@ -265,7 +225,9 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-sx btn-info" (click)="modalRef.hide()">确定</button>
-    <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
+    <ng-container *ngIf="!houseReadOnly">
+      <button type="button" class="btn btn-sx btn-info" (click)="saveHouse(house)">确定</button>
+    </ng-container>
+    <button type="button"  class="btn btn-default" (click)="modalRef.hide()">关闭</button>
   </div>
 </template>
