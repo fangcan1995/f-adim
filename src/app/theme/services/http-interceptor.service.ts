@@ -69,7 +69,8 @@ export class HttpInterceptorService {
     }
     let req = new Request(options)
     return this._http.request(req)
-    .timeout(timeout || 3000)
+    .timeout(timeout || 10000)
+    //.retry(3)
     .map(this.extractData)
     .do(res => {
       console.log('__response__: ', res);
@@ -93,6 +94,7 @@ export class HttpInterceptorService {
       return body || { };
   }
   private handleError (error: Response | any) {
+    console.log(error)
     let errMsg: string;
     if (error instanceof Response) {
       const body = error.json() || '';
@@ -101,6 +103,7 @@ export class HttpInterceptorService {
     } else {
       errMsg = error.message ? error.message : error.toString();
     }
+    console.log(errMsg)
     return Observable.throw({
       code: -1,
       msg: errMsg,

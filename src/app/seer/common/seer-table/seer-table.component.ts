@@ -121,7 +121,6 @@ export class SeerTableComponent implements OnInit {
     }
   }
   selectAll(): void {
-    console.log(this.tr)
     let data = this.getData();
     _.each(data, item => {
       item.selected = this.selectedAll;
