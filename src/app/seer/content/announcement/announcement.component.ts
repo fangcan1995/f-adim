@@ -81,10 +81,10 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
           let actions;
           switch (status) {
             case "1":
-              actions = [DISABLE, UPDATE, DELETE];
+              actions = [ENABLE, UPDATE, DELETE];
               break;
             case "2":
-              actions = [ENABLE, UPDATE, DELETE];
+              actions = [DISABLE, UPDATE, DELETE];
               break;
             default:
               break;
