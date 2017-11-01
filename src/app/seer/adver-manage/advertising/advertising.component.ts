@@ -86,7 +86,7 @@ export class AdvertisingComponent implements OnInit {
         this.ads = _.map(this.ads, t => {
            if(t.state=="1"){
              return _.set(t, 'actions', [DISABLE, UPDATE, DELETE]);
-          }else{
+          }else if(t.state=="0"){
              return _.set(t, 'actions', [ENABLE, UPDATE, DELETE]);
            }
         })
