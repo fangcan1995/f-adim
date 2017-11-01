@@ -30,7 +30,7 @@ export class AdverEditComponent implements OnInit {
         if (this._editType === 'edit') {
           console.log(params.id);
           this._advertisingService.getOne(params.id)
-            .subscribe(res => {
+            .then(res => {
               this.advertising = res.data || {};
               this.forbidSaveBtn = false;
             }, errMsg => {
