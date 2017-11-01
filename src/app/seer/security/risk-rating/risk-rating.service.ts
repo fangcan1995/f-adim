@@ -10,7 +10,7 @@ import {
 } from '../../../theme/services';
 @Injectable()
 export class RiskRatingService{
-  //private riskRatingUrl = SERVER+'/sys/role';  // 接口，请修改
+  private riskRatingUrl = '/riskRatings';  // 接口，请修改
   listData=[
     {
       "id":"1","s2id_riskLevel":"1","s2id_riskLevelName":"保守型","scoreStart":"0","scoreEnd":"10","score":"0-10","investGrade1":"C", "investTotal":"100000.00",
@@ -26,69 +26,92 @@ export class RiskRatingService{
     }
   ];  //假数据
   constructor(private _httpInterceptorService: HttpInterceptorService) {}
-  // 获取数据列表
-  getLists(): Observable<any> {
-    let res = {
-      code: 0,
-      msg: '',
-      data: this.listData,
-      extras: {}
+  // 1 获取数据列表
+  getLists():  Promise<any> {
+    /*const page=`&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
+    const sort=`&sortBy=${pageInfo.sort}`;
+    const jsonQueryObj = pageInfo.query;
+    let query:string="";
+    for (var prop in jsonQueryObj) {
+      if(jsonQueryObj[prop]){
+        query+=`&${prop}=${jsonQueryObj[prop]}`;
+      }
     }
-    return Observable.of(res)
+    const url = `${this.riskRatingUrl}?access_token=${this.accessToken}${page}${sort}${query}`;
+    console.log(url);
+    return this.getAll(url);*/
+    return new Promise((resolve, reject) => {
+      resolve(
+        {
+          "code": "0",
+          "message": "SUCCESS",
+          'data':{
+            "pageNum": 1,
+            "pageSize": 10,
+            "total": 13,
+            "list":this.listData,
+          }
+        }
+      )
+    });
   }
-  // 删除一条数据
-  deleteOne(id): Observable<any> {
-    // return this._httpInterceptorService.request('DELETE', `${baseUrl}/${apis['MEMBERS']}/${id}`)
-    let data = _.remove(this.listData, x => x.id === id);
-    let res = {
-      code: 0,
-      msg: '',
-      data,
-      extras: {}
-    }
-    return Observable.of(res);
-  }
-  // 获取一条数据
-  getOne(id): Observable<any> {
-    // return this._httpInterceptorService.request('GET', `${baseUrl}/${apis['MEMBERS']}/${id}`);
-    let data = _.find(this.listData, x => x.id === id);
-    console.log(data)
-    let res = {
-      code: 0,
-      msg: '',
-      data,
-      extras: {}
-    }
-    return Observable.of(res);
-  }
-  // 添加一条数据
-  postOne(params): Observable<any> {
-    // return this._httpInterceptorService.request('POST', `${baseUrl}/${apis['MEMBERS']}`, params)
-    let id = _.reduce(this.listData, (max, n) => Number(n.id) > max ? Number(n.id) : max, 0) + 1;
-    params.id = id;
-    this.listData.push(params)
-    let res = {
-      code: 0,
-      msg: '',
-      data: params,
-      extras: {}
-    }
-    return Observable.of(res);
-  }
-  // 修改一条数据，提供所有字段
-  putOne(id, params): Observable<any> {
-    // return this._httpInterceptorService.request('PUT', `${baseUrl}/${apis['MEMBERS']}/${id}`, params)
-    let index = _.findIndex(this.listData, t => t.id === id);
-    if ( index != -1 ) {
-      this.listData[index] = params;
-    }
-    let res = {
-      code: 0,
-      msg: '',
-      data: params,
-      extras: {}
-    }
-    return Observable.of(res);
+  //2 获取一条数据
+  getOne(id: string):  Promise<any> {
+    /*const url = `${this.riskRatingUrl}/${id}?access_token=${this.accessToken}`;
+    console.log(url);
+    return this.getById(url);*/
+    return new Promise((resolve, reject) => {
+      resolve(
+        {
+          "code": "0",
+          "message": "SUCCESS",
+          'data':_.find(this.listData, x => x.id === id)
+        }
+      )
+    });
+
   }
 
+  // 3 添加一
+  postOne(params):  Promise<any> {
+    /*const url = `${this.riskRatingUrl}?access_token=${this.accessToken}`;
+    return this.create(url,params);*/
+    return new Promise((resolve, reject) => {
+      resolve(
+        {
+          "code": "0",
+          "message": "SUCCESS",
+          'id':'10'
+        }
+      )
+    });
+  }
+
+  // 4 修改一
+  putOne(params):  Promise<any> {
+    /*const url = `${this.riskRatingUrl}?access_token=${this.accessToken}`;
+    return this.update(url,params);*/
+    return new Promise((resolve, reject) => {
+      resolve(
+        {
+          "code": "0",
+          "message": "SUCCESS",
+        }
+      )
+    });
+  }
+
+  // 5 删除一
+  deleteOne(id):  Promise<any> {
+    /*const url = `${this.riskRatingUrl}/${id}?access_token=${this.accessToken}`;
+    return this.delete(url);*/
+    return new Promise((resolve, reject) => {
+      resolve(
+        {
+          "code": "0",
+          "message": "SUCCESS",
+        }
+      )
+    });
+  }
 }

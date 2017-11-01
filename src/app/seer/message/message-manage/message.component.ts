@@ -7,6 +7,7 @@ import {PREVIEW,UPDATE, DELETE} from "../../common/seer-table/seer-table.actions
 import {SeerDialogService} from "../../../theme/services/seer-dialog.service"
 import {_if} from "rxjs/observable/if";
 import {tokenKey} from "@angular/core/src/view/util";
+import {formatDate} from "ngx-bootstrap/bs-moment/format";
 
 @Component({
   selector: 'message-rule',
@@ -56,7 +57,7 @@ export class MessageComponent {
       isDict: true,
       category: 'SEND_NOTIFY'
     },
-    {
+/*    {
       key:'beginTime',
       label:'下发时间',
       type: 'datepicker',
@@ -65,6 +66,19 @@ export class MessageComponent {
       key:'endTime',
       label:'至',
       type: 'datepicker',
+    },*/
+    {
+      key: 'postTime',
+      label: '下发时间',
+      groups: [
+        {
+          type: 'datepicker',
+        },
+        {
+          type: 'datepicker',
+        },
+      ],
+      groupSpaces: ['至']
     },
     {
       key:'msgProfile',
@@ -210,6 +224,18 @@ export class MessageComponent {
   //全局搜索
   handleFiltersChanged($event) {
     let params=$event;
+    let { postTime, ...otherParams } = params;
+    let beginTime,
+        endTime;
+    if ( _.isArray(postTime)) {
+      beginTime = postTime[0] ? (formatDate(postTime[0],'YYYY-MM-DD 00:00:00')) : null;
+      endTime = postTime[1] ? (formatDate(postTime[1],'YYYY-MM-DD 23:59:59')) : null;
+    }
+    params = {
+      ...otherParams,
+      beginTime,
+      endTime,
+    }
     //console.log(params);
     this.pageInfo.query = params;
     this.getList();

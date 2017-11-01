@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, OnDestroy } from "@angular/core";
+import { Component, ViewChild, OnInit } from "@angular/core";
 import {Router,ActivatedRoute} from "@angular/router";
 import * as _ from 'lodash';
 import { RiskRatingService } from "./risk-rating.service";
@@ -9,17 +9,26 @@ import { UPDATE, DELETE } from '../../common/seer-table/seer-table.actions';
   styleUrls: ['./risk-rating.component.scss'],
   providers: [RiskRatingService],
 })
-export class RiskRatingComponent implements OnInit, OnDestroy {
+export class RiskRatingComponent implements OnInit {
   hasGlobalFilter = false;
   title = '风险等级设置';
   source = [];
-  data = [];
+
   titles = [
     {key:'s2id_riskLevel', label:'风险等级'},
     {key:'score', label:'对应分值'},
     {key:'investGrade1', label:'推荐投资等级'},
     {key:'investTotal', label:'投资总额上线'}
   ];
+  pageInfo={
+    "pageNum":1,
+    "pageSize":10,
+    "sort":"",
+    "total":"",
+    "query":{
+    },
+
+  }; //分页、排序、检索
 
   constructor(
     protected service: RiskRatingService,
@@ -30,15 +39,15 @@ export class RiskRatingComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getList();
   }
-  ngOnDestroy(): void {
-    console.log('riskRating component destroied')
-  }
-  /*获取列表*/
+
+  /* 获取列表*/
   getList():void{
-    //this.actions = [this.actionSet.update, this.actionSet.delete];
-    this.service.getLists().subscribe(res => {
-      this.source = res.data;
-      this.source = _.map(res.data, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
+    this.service.getLists().then(res => {
+      this.pageInfo.pageNum=res.data.pageNum;  //当前页
+      this.pageInfo.pageSize=res.data.pageSize; //每页记录数
+      this.pageInfo.total=res.data.total; //记录总数
+      this.source = res.data.list;
+      this.source = _.map(this.source, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
     });
   }
   /*更新*/
@@ -57,9 +66,11 @@ export class RiskRatingComponent implements OnInit, OnDestroy {
           .subscribe(action => {
             if ( action === 1 ) {
               this.service.deleteOne(message.data.id)
-                .subscribe(data => {
+                .then(data => {
                   this.getList();
-                });
+                }).catch(err=>{
+                this._dialogService.alert('删除失败');
+              });
             }
           })
 

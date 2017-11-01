@@ -157,18 +157,12 @@ export class MessageEditComponent {
       this._editType='edit';
       this.isPickUsersAble=false;
       this.service.getMessageById(this.editId).then((data) => {
-        //console.log(data);
-        //console.log('1111111111111');
         this.message = data.data;
-/*        this.message.sendMail=this.Cint(this.message.sendMail);
-        this.message.sendNotify=this.Cint(this.message.sendNotify);
-        this.message.sendMessage=this.Cint(this.message.sendMessage);*/
         if(this.message.adaptationUser=="backend"){
           this.disabled={"sendMail":true,"sendNotify":true,"sendMessage":false,"now":false}
         }
       });
     }else {
-      //this.forbidSaveBtn = false;
       this.isPickUsersAble=false;
 
     };
@@ -177,16 +171,19 @@ export class MessageEditComponent {
   selectUsersType(userTypeId){
     //要判断是否选择，并判断选中了前台用户还是后台用户
     if(userTypeId=='0'){
+      this.isPickUsersAble=false;
       this.disabled.sendMail=false;
       this.disabled.sendNotify=false;
       this.disabled.sendMessage=false;
       this.usersType="members"
     }else if(userTypeId=='1'){
+      this.isPickUsersAble=false;
       this.disabled.sendMail=true;
       this.disabled.sendNotify=true;
       this.disabled.sendMessage=false;
       this.usersType="users"
     }else{
+      this.isPickUsersAble=true;
       this.disabled.sendMail=true;
       this.disabled.sendNotify=true;
       this.disabled.sendMessage=true;
@@ -245,12 +242,13 @@ export class MessageEditComponent {
           this.alertError(data.message);
         }
       }).catch(err => {
-        this.alertError(err.message);
+        this.alertError(err.json().message);
       });
     } else if ( this._editType === 'add' ) {
       this.message.sendMail=this.Cint(this.message.sendMail);
       this.message.sendNotify=this.Cint(this.message.sendNotify);
       this.message.sendMessage=this.Cint(this.message.sendMessage);
+      //console.log(this.message);
       this.service.postOne(this.message).then((data:any) => {
         if(data.code=='0') {
           this.alertSuccess(data.message);
@@ -260,6 +258,7 @@ export class MessageEditComponent {
       }).catch(err => {
         this.alertError(err.message);
       });
+
     } else {
       return;
     }
@@ -285,7 +284,7 @@ export class MessageEditComponent {
     }).onClose().subscribe(() => {
       this._router.navigate(['/message/message/'])
     });
-  }
+  };
   alertError(errMsg:string){
     this.forbidSaveBtn = false;
     // 错误处理的正确打开方式
@@ -294,5 +293,5 @@ export class MessageEditComponent {
       message: errMsg,
       autoHideDuration: 3000,
     })
-  }
+  };
 }

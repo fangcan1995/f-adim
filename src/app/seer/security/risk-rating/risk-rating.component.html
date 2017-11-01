@@ -5,11 +5,16 @@
     [data]="source"
     [titles]="titles"
     [translate]="dict"
+    [pageNum]="pageInfo.pageNum"
+    [pageSize]="pageInfo.pageSize"
+    [total]="pageInfo.total"
+    [paginationRules]="0"
     (notify)="onChange($event)"
     [hideExport]="true"
     [hidePrint]="true"
     [hideRemoveAll]="true"
     [hideColumns]="true"
+    [hideCheckbox]="true"
   ></seer-table>
 </seer-collapse-card>
 
