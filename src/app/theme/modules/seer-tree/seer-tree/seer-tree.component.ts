@@ -45,7 +45,6 @@ import * as _ from 'lodash';
       <span *ngIf="!node.isInEditing" title="{{node.data.name}}"><i class="virtual-checkbox icon-padding" [class.ion-android-folder-open]="node.canExpand && !node.customIconField" [class.ion-document]="!node.canExpand && !node.customIconField" [ngClass]="node.customIconField"></i>{{ node.data.name }}</span>
       <input *ngIf="node.isInEditing" [(ngModel)]="node.data.name" (click)="stopPropagation($event)" (dblclick)="stopPropagation($event)" />
       <span>
-        
         <button *ngIf="node.isInEditing && !node.hasChildren && !node.forbidChangeTypeField" (click)="changeType($event, node)" class="options-button"><i [class]="node.canExpand ? 'ion-android-folder-open':'ion-document'" [style.margin-left]="node.canExpand ? '-3px':'-1px'"></i></button>
         <button *ngIf="node.isInEditing" (click)="saveEditing($event, node)" class="options-button"><i class="ion-checkmark-round" style="margin-left:-3px"></i></button>
         <button *ngIf="node.isInEditing" (click)="cancelEditing($event, node)" class="options-button"><i class="ion-close-round" style="margin-left:-2px"></i></button>

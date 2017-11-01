@@ -18,21 +18,12 @@ import { SeerDialogService, SeerMessageService } from '../../../../../theme/serv
 })
 export class UserEditComponent implements OnInit {
   user: any = {};
+  roles: any = [];
   private editType:string = 'add';
   private forbidSaveBtn:boolean = true;
   private forbidResetPasswordBtn:boolean = true;
   private id:string;
-  private multiColumnArray = [];
-  private multiColumnOptions:IMultiSelectOption[] = [];
-  public multiSelectTexts = {
-    checked: '显示',
-    checkedPlural: '显示',
-    defaultTitle: '请选择',
-  }
-  public multiSelectSettings = {
-    buttonClasses: 'btn btn-outline-dark btn-block',
-  }
-
+  private isDepartmentDropdownOpen:boolean = false;
   @ViewChild('myForm') myForm;
   constructor(
     private _userService: UserService,
@@ -49,6 +40,7 @@ export class UserEditComponent implements OnInit {
       .then(res => {
         this.user = res.data || {};
         this.forbidSaveBtn = false;
+        this.forbidResetPasswordBtn = false;
       })
       .catch(err => {
         this.showError(err.msg || '获取用户信息失败')
@@ -63,9 +55,19 @@ export class UserEditComponent implements OnInit {
         this.user = _.clone(res || {})
       });
       this.forbidSaveBtn = false;
+
+      this.getRoles()
+      .then(res => {
+        let data = res.data || {};
+        this.roles = data.list || [];
+      })
     }
   }
-
+  toggleDepartmentDropdown($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    this.isDepartmentDropdownOpen = !this.isDepartmentDropdownOpen
+  }
   handleSaveBtnClick() {
     if ( this.myForm.form.valid ) {
       this.forbidSaveBtn = true;
@@ -99,6 +101,9 @@ export class UserEditComponent implements OnInit {
   }
   handleBackBtnClick() {
     this._location.back();
+  }
+  getRoles() {
+    return this._userService.getRoles()
   }
   showSuccess(message: string) {
     return this._messageService.open({
