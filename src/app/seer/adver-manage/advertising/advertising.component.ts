@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import {SeerDialogService} from "../../../theme/services/seer-dialog.service";
 import {AdvertisingService} from "./advertising.service";
 import {UPDATE,DELETE,ENABLE,DISABLE} from "../../common/seer-table/seer-table.actions";
-
+import {formatDate} from "ngx-bootstrap/bs-moment/format";
 @Component({
   templateUrl: './advertising.component.html',
   styleUrls: ['./advertising.component.scss'],
@@ -59,8 +59,10 @@ export class AdvertisingComponent implements OnInit {
     "total": "",
     "query": {
       "globalSearch": "",
-      "category": "",
-      "categoryName": "",
+      "adType": "",
+      "putEnv": "",
+      "effectTimeStart": "",
+      "effectTimeEnd": "",
     },
   };
 
@@ -135,18 +137,24 @@ export class AdvertisingComponent implements OnInit {
     let effectTimeStart,
       effectTimeEnd;
     if ( _.isArray(effectTime) ) {
-      effectTimeStart = effectTime[0] ? effectTime[0].getTime() : null;
-      effectTimeEnd = effectTime[1] ? effectTime[1].getTime() : null;
+      effectTimeStart = effectTime[0] ? (formatDate(effectTime[0],'YYYY-MM-DD 00:00:00')) : null;
+      effectTimeEnd = effectTime[1] ? (formatDate(effectTime[0],'YYYY-MM-DD 23:59:59')) : null;
     }
     params = {
       ...otherParams,
       effectTimeStart,
       effectTimeEnd,
     }
+    //console.log(params);
     this.pageInfo.query = params;
     this.getList();
   }
-
+  //分页
+  handlePageChange($event) {
+    this.pageInfo.pageSize = $event.pageSize;
+    this.pageInfo.pageNum=$event.pageNum;
+    this.getList();
+  }
   /*handleSearchBtnClicked($event) {
   }*/
 
