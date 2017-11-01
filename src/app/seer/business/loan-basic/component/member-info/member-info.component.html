@@ -85,15 +85,20 @@
         <div class="row">
           <label for="domicilePlace" class="col-sm-4 col-md-2 col-xlg-1 control-label">户口所在地</label>
           <div class="col-sm-8 col-md-10 col-xlg-10" id="domicilePlace">
-            <seer-address-picker (notify)="domicilePlaceChanged($event)" [defaultItemCode]="member.domicileDistrict"></seer-address-picker>
+            <seer-address-picker (notify)="domicilePlaceChanged($event)" [defaultItemCode]="member.domicileDistrict" [defaultAddress]="member.domicileAddress"></seer-address-picker>
           </div>
         </div>
       </div>
       <div class="col-sm-12 col-md-12 col-lg-12 col-xlg-12">
         <div class="row">
-          <label for="currentResidence" class="col-sm-4 col-md-2 col-xlg-1 control-label">现居住地</label>
+          <label for="currentResidence" class="col-sm-3 col-md-1 col-xlg-1 control-label">现居住地</label>
           <div class="col-sm-8 col-md-10 col-xlg-10" id="currentResidence">
-            <seer-address-picker (notify)="currentResidenceChanged($event)" [defaultItemCode]="member.liveDistrict"></seer-address-picker>
+            <seer-address-picker (notify)="currentResidenceChanged($event)" [defaultItemCode]="member.liveDistrict" [defaultAddress]="member.liveAddress"></seer-address-picker>
+          </div>
+          <div class="col-sm-1 col-md-1 col-xlg-1" >
+            <div class="checkbox">
+              <label><input type="checkbox" (click)="shortcut($event)"><span class="text">同户籍地址</span></label>
+            </div>
           </div>
         </div>
       </div>
