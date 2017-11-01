@@ -10,7 +10,7 @@ import {
   SeerMessageService,
 } from '../../../theme/services';
 import { UPDATE, DELETE, COPY_CREATE, DOWNLOAD, DETAIL, PREVIEW } from '../../common/seer-table/seer-table.actions';
-import { hasGlobalFilter, tableTitles, filters } from './role.config';
+import { hasGlobalFilter, tableTitles } from './role.config';
 import { RoleService } from './role.service';
 @Component({
   templateUrl: './role.component.html',
@@ -18,41 +18,43 @@ import { RoleService } from './role.service';
 })
 export class RoleComponent implements OnInit {
   hasGlobalFilter = hasGlobalFilter;
-  filters = filters;
   titles = tableTitles;
-  offset = 0;
-  limit = 10;
+  
+  total = 0;
   roles = [];
-  simpleTableActions = [ DOWNLOAD, PREVIEW ]
-
-  classNames = {};
-  @ViewChild('simpleTable') simpleTable
+  params:any = {
+    pageSize: 10,
+    pageNum: 1,
+    sortBy: '',
+  };
+  constructor(
+    private _router: Router,
+    private _dialogService: SeerDialogService,
+    private _messageService: SeerMessageService,
+    private _roleService: RoleService,
+    ) { }
   ngOnInit() {
     this.getList();
-
-    setTimeout(() => {
-
-      this.classNames = {
-        containerClass: '122'
-      }
-
-    }, 3000)
   }
-  getList(params?) {
-    this._roleService.getList(params)
+  getList() {
+    this._roleService.getList(this.params)
     .then(res => {
       this.roles = _.map(res.data, r => _.set(r, 'actions', [ COPY_CREATE, UPDATE, DELETE ]));
+    })
+    .catch(err => {
+      console.log(err)
     });
   }
   handleFiltersChanged($event) {
-    let params = {
-      offset: this.offset,
-      limit: this.limit,
-      ...$event,
-    }
-    this.getList(params)
   }
 
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
   showError(message: string) {
     return this._messageService.open({
       message,
@@ -60,14 +62,6 @@ export class RoleComponent implements OnInit {
       autoHideDuration: 3000,
     })
   }
-  
-  constructor(
-    private _router: Router,
-    private _dialogService: SeerDialogService,
-    private _messageService: SeerMessageService,
-    private _roleService: RoleService,
-    ) { }
-
   handleNotify($event): void {
     let { type, data } = $event;
     switch ( type ) {
@@ -79,59 +73,22 @@ export class RoleComponent implements OnInit {
         break;
       case 'delete':
         this._dialogService.confirm('确定删除吗？')
-        .subscribe(action => {
-          if ( action === 1 ) {
-            this._roleService.deleteOne(data.roleId)
-            .then(res => {
-              if ( res.success ) {
+          .subscribe(action => {
+            if ( action === 1 ) {
+              this._roleService
+              .deleteOne(data.roleId)
+              .then((res) => {
+                this.showSuccess(res.msg || '删除用户成功')
                 this.getList();
-              } else {
-                this.showError('删除失败')
-              }
-            });
-          }
-        })
+              })
+              .catch(err => {
+                this.showError(err.msg || '删除用户失败')
+              });
+            }
+          })
         break;
       case 'delete_multiple':
-        this._dialogService.confirm('确定删除吗？')
-        .subscribe(action => {
-          if ( action === 1 ) {
-            this._roleService.deleteMultiple(_.map(data, t => t['roleId']).toString())
-            .then(res => {
-              if ( res.success ) {
-                this.getList();
-              } else {
-                this.showError('删除失败');
-              }
-            });
-          }
-        })
         break;
     }
-  }
-  handleSimpleTableNotify($event) {
-    let { type, key } = $event;
-    switch ( type ) {
-      case 'save':
-        console.log(this.simpleTable.getFormatDataByKey(key))
-        setTimeout(() => {
-          this.simpleTable.save(key);
-          // data只请求一次，不要更新data，以下是错误的用例，因为请求data会改变table里的key，所以如果多次改变data我当刷新处理；
-          // this.getList();
-        }, 3000)
-        break;
-      case 'delete':
-        console.log(this.simpleTable.getFormatDataByKey(key))
-        setTimeout(() => {
-          this.simpleTable.delete(key);
-        }, 3000)
-        break;
-    }
-  }
-  handleSimpleTableCardNotify($event) {
-    console.log($event)
-  }
-  demodemo($event) {
-    console.log($event);
   }
 }

@@ -1,9 +1,8 @@
 <seer-content-top>
   <seer-filter
-    [hasGlobalFilter]="hasGlobalFilter"
-    [filters]="filters"
+    [hasGlobalFilter]=hasGlobalFilter
     (onFiltersChanged)=handleFiltersChanged($event)
-    (onSearchBtnClicked)=handleSearchBtnClicked($event)
+    (onSearchBtnClicked)=handleFiltersChanged($event)
   ></seer-filter>  
 </seer-content-top>
 <seer-collapse-card>
@@ -17,24 +16,3 @@
     [hidePagination]="true"
   ></seer-table>
 </seer-collapse-card>
-
-<seer-collapse-card
-  [title]="'simple'"
-  [canCollapse]="true"
-  [headerActions]="simpleTableActions"
-  (notify)="handleSimpleTableCardNotify($event)"
-  >
-  <seer-simple-table
-    #simpleTable
-    [data]="roles"
-    [titles]="titles"
-    [translate]="dict"
-    [rowsOnPageSet]="[5, 10, 15]"
-    [rowsOnPage]="5"
-    (notify)="handleSimpleTableNotify($event)"
-    [hidePagination]="true"
-    [actions]="simpleTableActions"
-  ></seer-simple-table>
-</seer-collapse-card>
-<seer-address-picker [classNames]="classNames" (notify)="demodemo($event)" [defaultItemCode]="'210322'"></seer-address-picker>
-<seer-cool-checkbox [id]="123"></seer-cool-checkbox>

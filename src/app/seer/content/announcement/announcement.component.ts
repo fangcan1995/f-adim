@@ -36,23 +36,29 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
       'type': 'update',
       'name': '编辑',
       'className': 'btn btn-xs btn-info',
+      'icon': 'icon-edit',
+      'action': 'update'
     },
     'delete': {
       'type': 'delete',
       'name': '删除',
       'className': 'btn btn-xs btn-danger',
-      'icon': 'ion-close-round',
+      'icon': 'icon-delete',
       'action': 'remove'
     },
     'startUsing': {
       'type': 'startUsing',
       'name': '启用',
       'className': 'btn btn-xs btn-info',
+      'icon': 'icon-blocked',
+      'action': 'startUsing'
     },
     'disable': {
       'type': 'disable',
       'name': '禁用',
       'className': 'btn btn-xs btn-info',
+      'icon': 'icon-checkmark',
+      'action': 'disable'
     }
   };
 
@@ -88,10 +94,13 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
   }
 
   onChange(message) {
-    console.log(message)
+    console.log(message);
     const type = message.type;
     let data = message.data;
     switch (type) {
+      case 'disable':
+        this._announcementService.changeOne(message.data.id);
+        break;
       case 'create':
         this._router.navigate(['add'], {relativeTo: this._activatedRoute});
         break;
@@ -107,7 +116,7 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
                   this.getList();
                 });
             }
-          })
+          });
 
         break;
       case 'delete_all':

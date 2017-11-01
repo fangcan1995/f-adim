@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 import { CREATE, COPY_CREATE, UPDATE, DELETE, DELETE_MULTIPLE } from "../../common/seer-table/seer-table.actions";
 import { SeerDialogService } from '../../../theme/services/seer-dialog.service';
 import { SeerMessageService } from '../../../theme/services/seer-message.service';
-import { UserService } from '../../../theme/services';
+import { ManageService } from '../../../theme/services';
 import { GlobalState } from '../../../global.state';
 @Component({
   templateUrl: './resource.component.html',
@@ -53,7 +53,7 @@ export class ResourceComponent implements OnInit {
       private _resourceService: ResourceService,
       private _dialogService: SeerDialogService,
       private _messageService: SeerMessageService,
-      private _userService: UserService,
+      private _manageService: ManageService,
       private _state: GlobalState,
       private _router: Router,
       ){}
@@ -101,10 +101,10 @@ export class ResourceComponent implements OnInit {
     }
     // 更新左侧导航菜单
     refreshMenu() {
-      this._userService.getResourcesFromServer({ pageSize: 10000 })
+      this._manageService.getResourcesFromServer({ pageSize: 10000 })
       .then(res => {
         const resources = res.data ? res.data.list || [] : [];
-        this._userService.setResourcesToLocal(resources);
+        this._manageService.setResourcesToLocal(resources);
         this._state.notify('menu.changed', resources);
       })
     }
