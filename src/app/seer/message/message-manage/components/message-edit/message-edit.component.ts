@@ -245,12 +245,13 @@ export class MessageEditComponent {
           this.alertError(data.message);
         }
       }).catch(err => {
-        this.alertError(err.message);
+        this.alertError(err.json().message);
       });
     } else if ( this._editType === 'add' ) {
       this.message.sendMail=this.Cint(this.message.sendMail);
       this.message.sendNotify=this.Cint(this.message.sendNotify);
       this.message.sendMessage=this.Cint(this.message.sendMessage);
+      //console.log(this.message);
       this.service.postOne(this.message).then((data:any) => {
         if(data.code=='0') {
           this.alertSuccess(data.message);
@@ -260,6 +261,7 @@ export class MessageEditComponent {
       }).catch(err => {
         this.alertError(err.message);
       });
+
     } else {
       return;
     }
