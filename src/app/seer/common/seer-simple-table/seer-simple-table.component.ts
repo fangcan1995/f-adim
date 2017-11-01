@@ -16,7 +16,6 @@ import { BaseService } from "../../base.service";
   selector: 'seer-simple-table',
   templateUrl: './seer-simple-table.component.html',
   styleUrls: ['./seer-simple-table.component.scss'],
-  providers: [BaseService]
 })
 export class SeerSimpleTableComponent implements OnInit {
   @Input() data: Array<any> = [];   //数据数组
@@ -49,7 +48,6 @@ export class SeerSimpleTableComponent implements OnInit {
     buttonClasses: 'btn btn-outline-dark btn-block',
   }
   constructor(
-    private service: BaseService<any>,
   ) { 
     if( !this.rowsOnPage ) this.rowsOnPage = this.rowsOnPageSet[0];
   }
@@ -62,7 +60,7 @@ export class SeerSimpleTableComponent implements OnInit {
     }
     
     /** 增加的部分 */
-    if ( !this.translate ) {
+    /*if ( !this.translate ) {
       let transFields: {field: string,dictKeyId?: string}[] = [];
       _.each(this.titles, title => {
         if ( title.isDict ) {
@@ -76,7 +74,7 @@ export class SeerSimpleTableComponent implements OnInit {
       .then(res => {
         if ( res.success ) this.translate = res.data;
       });
-    }
+    }*/
   }
   ngOnChanges(): void {
     this.data = _(this.data)

@@ -182,7 +182,7 @@ export class BaseService<T> {
         }, false)
         return {
           code: -1,
-          msg: '获取字典失败',
+          msg: err.msg || '获取字典失败',
         }
       })
     }

@@ -121,7 +121,6 @@ export class SeerTableComponent implements OnInit {
     }
   }
   selectAll(): void {
-    console.log(this.tr)
     let data = this.getData();
     _.each(data, item => {
       item.selected = this.selectedAll;
@@ -221,12 +220,12 @@ export class SeerTableComponent implements OnInit {
       }
       dataChain = dataChain.map((t, i) => _.set(t, 'SEQ', i + 1))
     } else {
-      dataChain = dataChain.map((t, i) => _.set(t, 'SEQ', this.pageSize * this.pageNum + i + 1));
+      dataChain = dataChain.map((t, i) => _.set(t, 'SEQ', this.pageSize * (this.pageNum - 1) + i + 1));
     }
     return data = dataChain.value();
   }
   getData() {
-    let data = !this.paginationRules ? this._sliceData(this.data, 1, this.pageSize) : this._sliceData(this.getCurData(), this.pageNum, this.rowsOnPage)
+    let data = !this.paginationRules ? this._sliceData(_.map(this.data, (t, i) => _.set(t, 'SEQ', this.pageSize * (this.pageNum - 1) + i + 1)), 1, this.pageSize) : this._sliceData(this.getCurData(), this.pageNum, this.rowsOnPage)
     
     /*if ( this.translate ) {
       _.each(data, item => {
