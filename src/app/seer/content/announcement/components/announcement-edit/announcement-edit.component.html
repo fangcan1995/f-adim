@@ -17,7 +17,7 @@
                 <label for="announcementName" class="col-sm-4 control-label">公告名称</label>
                 <div class="col-sm-8">
                   <input type="text" class="form-control" id="announcementName" placeholder="公告名称"
-                         [(ngModel)]="announcement.announcementName"
+                         [(ngModel)]="announcement.noticeName"
                          [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
@@ -28,7 +28,7 @@
                 <div class="col-sm-8">
                   <seer-datepicker
                     id="effectTime"
-                    [(date)]="announcement.effectDate"
+                    [(date)]="announcement.effectTime"
                     [dateFormatingRules]="dateFormatingRules || 'yyyy/MM/dd'"
                   ></seer-datepicker>
                 </div>
@@ -64,7 +64,7 @@
                 </div>-->
                 <div class="col-sm-8">
                   <input type="text" class="form-control" id="announcementTitle" placeholder="公告标题"
-                         [(ngModel)]="announcement.announcementTitle"
+                         [(ngModel)]="announcement.title"
                          [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
@@ -76,7 +76,7 @@
                 <div class="col-sm-8 col-md-10 col-xlg-11">
                   <!--<textarea class="form-control" id="mainBody" [(ngModel)]="announcement.mainBody"-->
                             <!--[ngModelOptions]="{standalone: true}"></textarea>-->
-                  <seer-editor [data]="announcement.mainBody" id="mainBody"></seer-editor>
+                  <seer-editor [data]="announcement.content" id="mainBody" ></seer-editor>
                 </div>
               </div>
             </div>

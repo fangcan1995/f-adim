@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 
 import {OrgService} from "./org.service";
 import {GlobalState} from "../../../global.state";
-import {jsonTree} from "../../..//theme/utils/json-tree";
+import {json2Tree} from "../../..//theme/libs/json2Tree";
 import {TREE_PERMISSIONS} from "../../../theme/modules/seer-tree/constants/permissions";
 import {TREE_EVENTS} from "../../../theme/modules/seer-tree/constants/events";
 import {SeerTree} from "../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
@@ -135,9 +135,8 @@ export class OrgComponent implements OnDestroy{
   getOrganizations() {
     this.service.getOrganizations().then((result) => {
       //alert(JSON.stringify(result));
-      console.log(result.data);
       result.data.map(org=>org['children']=[]);
-      let nodes = jsonTree(result.data, {parentId:'pid',children:'children', id: 'departmentId'},[{origin:'departmentName',replace:'name'}]);
+      let nodes = json2Tree(result.data, {parentId:'pid',children:'children', id: 'departmentId'},[{origin:'departmentName',replace:'name'}, {origin: 'code', replace: 'id'}]);
 
       nodes.map(rootNode=>rootNode['expanded']=true);
       this.treeNode = nodes;

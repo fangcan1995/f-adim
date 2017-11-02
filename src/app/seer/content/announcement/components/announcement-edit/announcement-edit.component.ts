@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {AnnouncementService} from "../../announcement.service";
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
+import {formatDate} from "ngx-bootstrap/bs-moment/format";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from '@angular/common';
 
@@ -28,7 +29,6 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
     })
       .subscribe(params => {
         if (this._editType === 'edit') {
-          console.log(params.id);
           this._announcementService.getOne(params.id)
             .then(res => {
               this.announcement = res.data;
@@ -57,9 +57,9 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
     if (this.forbidSaveBtn) return;
     this.forbidSaveBtn = true;
     let requestStream$;
-    if (this._editType === 'edit') {
+    /*if (this._editType === 'edit') {
       //requestStream$ = this._announcementService.putOne(this.announcement.id, this.announcement);
-      requestStream$ = this._announcementService.putOne({"id":this.announcement.id,  data: this.announcement})
+      requestStream$ = this._announcementService.putOne(this.announcement)
         .then(data => {
           if(data.code === '0') {
             this.alertSuccess(data.message);
@@ -71,7 +71,7 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
           this.alertError(err.json().message);
         });
     } else if (this._editType === 'add') {
-      requestStream$ = this._announcementService.postOne(this.announcement)
+      requestStream$ = this._announcementService.putOne(this.announcement)
         .then( data => {
           if(data.code === '0') {
             this.alertSuccess(data.message);
@@ -84,8 +84,24 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
         });
     } else {
       return;
+    }*/
+    if (this._editType === 'add') {
+      let { effectTime } = this.announcement;
+      this.announcement.effectTime = effectTime ? (formatDate(effectTime,'YYYY-MM-DD 00:00:00')) : null;
     }
-    requestStream$
+    requestStream$ = this._announcementService.putOne(this.announcement)
+      .then(data => {
+        if(data.code === '0') {
+          this.alertSuccess(data.message);
+        }
+        else {
+          this.alertError(data.message);
+        }
+      }).catch(err => {
+        this.alertError(err.json().message);
+      });
+
+    /*requestStream$
       .subscribe(res => {
         this._messageService.open({
           icon: 'fa fa-times-circle',
@@ -102,7 +118,7 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
           message: errMsg,
           autoHideDuration: 3000,
         })
-      })
+      })*/
 
   }
 

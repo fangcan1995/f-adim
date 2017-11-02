@@ -42,12 +42,12 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
 
   announcements = [];
   titles = [
-    {key: 'announcementName', label: '公告名称'},
-    {key: 'announcementTitle', label: '公告标题'},
+    {key: 'noticeName', label: '公告名称'},
+    {key: 'title', label: '公告标题'},
     /*{key: 'announcementType', label: '公告类型'},*/
-    {key: 'effectDate', label: '生效时间',type:'date'},
-    {key: 'lastEditDate', label: '最后修改时间', type:'date'},
-    {key: 'lastEditPerson', label: '最后修改人'},
+    {key: 'effectTime', label: '生效时间',type:'date'},
+    {key: 'updateTime', label: '最后修改时间', type:'date'},
+    {key: 'updateUser', label: '最后修改人'},
   ];
 
 
@@ -112,13 +112,10 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
         this.pageInfo.total = res.data.total;
         this.announcements = res.data.list;
         this.announcements = _.map(this.announcements, t => {
-          let status = t.status;
+          let status = t.delFlag;
           let actions;
           switch (status) {
-            case "1":
-              actions = [UPDATE, DELETE];
-              break;
-            case "2":
+            case 0:
               actions = [UPDATE, DELETE];
               break;
           }
@@ -131,8 +128,6 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
     console.log(message);
     const type = message.type;
     let data = message.data;
-    let state = message.data.state;
-    let status;
     switch (type) {
       case 'create':
         this._router.navigate(['add'], {relativeTo: this._activatedRoute});
@@ -144,7 +139,7 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
         this._dialogService.confirm('确定删除吗？')
           .subscribe(action => {
             if (action === 1) {
-              this._announcementService.deleteOne(message.data.id)
+              this._announcementService.deleteOne(data.id)
                 .then(data => {
                   this.getList();
                 });
