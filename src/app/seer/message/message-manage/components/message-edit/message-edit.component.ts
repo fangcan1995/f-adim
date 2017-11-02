@@ -2,13 +2,11 @@ import {Component,OnInit,TemplateRef} from '@angular/core';
 import {Location} from '@angular/common';
 import {ActivatedRoute, Params,Router} from "@angular/router";
 import {MessageService} from "../../message.service";
-import {Message} from "../../../../model/auth/message-edit";
-import {Result} from "../../../../model/result.class";
 import {GlobalState} from "../../../../../global.state";
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
-import { ModalDirective ,BsModalService} from 'ngx-bootstrap/modal';
+import { BsModalService} from 'ngx-bootstrap/modal';
 import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
-import {errorObject} from "rxjs/util/errorObject";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'message-edit',
@@ -16,64 +14,7 @@ import {errorObject} from "rxjs/util/errorObject";
   styleUrls: ['./message-edit.component.css'],
 })
 export class MessageEditComponent {
-  /*hasGlobalFilter = true;
-  filters = [
-    {
-      key: 'bbb',
-      label: '用户身份',
-      type: 'select',
-      options:[{value:'', content: '全部'},{value:'1', content: '前台用户'},{value:'2', content: '后台员工'}]
-    },
-    {
-      key: 'bbb',
-      label: '年龄',
-      type: 'input.text',
-    },
-    {
-      key: 'bbb',
-      label: '-',
-      type: 'input.text',
-    },
-    {
-      key: 'ddd',
-      label: '消息类型',
-      type: 'select',
-      options:[{value:'', content: '全部'}]
-    },
-    {
-      key: 'sendNotify',
-      label: '消息中心',
-      type: 'select',
-      options:[{value:'', content: '全部'}]
-    },
-    {
-      key: 'sendMessage',
-      label: '短信通知',
-      type: 'select',
-      options:[{value:'', content: '全部'}]
-    },
-    {
-      key:'ggg',
-      label:'推送通知',
-      type: 'select',
-      options:[{value:'', content: '全部'}]
-    },
-    {
-      key:'TimeStart',
-      label:'下发时间',
-      type: 'datepicker',
-    },
-    {
-      key:'TimeEnd',
-      label:'至',
-      type: 'datepicker',
-    },
-    {
-      key:'ggg',
-      label:'消息简介',
-      type: 'input.text',
-    },
-  ];*/
+
   private message:any={};
   title : string;
   isAdd: boolean;
@@ -107,30 +48,21 @@ export class MessageEditComponent {
       icon: 'fa fa-check'
     }
   };
-  modelTitles= [
-    {key: 'aaa', label: '用户名', hidden: false},
-    {key: 'bbb', label: '真实姓名', hidden: false},
-    {key: 'ccc', label: '手机号', hidden: false},
-    {key: 'ddd', label: '身份证号', hidden: false},
-  ];
+  modalhasGlobalFilter = false;
+  modalfilters =[];
+  modalTitles=[];
   modalPageInfo={
     "pageNum":1,
     "pageSize":10,
-    "sort":"-entryTime",
+    "sort":"",
     "total":"",
     "query":{
-      "aaa":"",
-      "bbb":"",
-      "sendMail":"",
-      "sendNotify":"",
-      "sendMessage":"",
-      "TimeStart":"",
-      "TimeEnd":"",
-      "ggg":""
+      "aaa":""
     },
-
   }; //分页、排序、检索
-  cardActions1 = [this.modalActionSet.SEARCH];
+  selectedUserId=[]; //选中的用户id
+  ids='';//选中的用户id
+  public modalRef: BsModalRef;
   cardActions2 = [this.modalActionSet.All,this.modalActionSet.OK];
 
   constructor(
@@ -156,6 +88,7 @@ export class MessageEditComponent {
       //this.getResourceById(this.editId);
       this._editType='edit';
       this.isPickUsersAble=false;
+
       this.service.getMessageById(this.editId).then((data) => {
         this.message = data.data;
         if(this.message.adaptationUser=="backend"){
@@ -163,7 +96,7 @@ export class MessageEditComponent {
         }
       });
     }else {
-      this.isPickUsersAble=false;
+      this.isPickUsersAble=true;
 
     };
   }
@@ -202,27 +135,7 @@ export class MessageEditComponent {
       }
     }
   }
-  //模态框用户事件绑定
-  modalChange(message){
-    switch ( message.type ) {
-      case 'search':
-        alert('查询');
-        break;
-      case 'ok':
-        alert('确定');
-        this.modalService.hide(1);
-        break;
-      case 'all':
-        alert('全选');
-        break;
-      default:
-        break;
-    }
-  }
-  //模态框分页事件
-  modalPageChange(){
-    alert('换页数');
-  }
+
   //返回
   handleBackBtnClick() {
     this.location.back()
@@ -269,12 +182,276 @@ export class MessageEditComponent {
     return parm === true ? 1 : 0;
   }
   //模态框
-  public modalRef: BsModalRef;
-  public openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>) {
+    switch(this.usersType){
+      case 'members':
+        this.modalfilters=[
+          {
+            key: 'aaa',
+            label: '用户身份',
+            type: 'select',
+            options:[{value:'', content: '全部'},{value:'1', content: '注册理财师'},{value:'2', content: '财富合伙人'}]
+          },
+          {
+            key: 'bbb',
+            label: '区域',
+            type: 'select',
+            options:[{value:'', content: '全部'},{value:'1', content: '龙区'},{value:'2', content: '辽区'}]
+          },
+          {
+            key: 'ccc',
+            label: '年龄',
+            type: 'select',
+            options:[{value:'', content: '全部'},{value:'1', content: '小于25'},{value:'2', content: '25-30'},{value:'2', content: '31-40'},{value:'2', content: '41-50'},{value:'2', content: '50以上'}]
+          },
+          {
+            key: 'ddd',
+            label: '性别',
+            type: 'select',
+            options:[{value:'', content: '全部'},{value:'1', content: '男'},{value:'2', content: '女'}]
+          },
+          {
+            key: 'eee',
+            label: '用户投资状态',
+            type: 'select',
+            options:[{value:'', content: '全部'},{value:'', content: '未投资'},{value:'', content: '已投资'}]
+          },
+          {
+            key: 'investTime',
+            label: '投资时间',
+            groups: [
+              {
+                type: 'datepicker',
+              },
+              {
+                type: 'datepicker',
+              },
+            ],
+            groupSpaces: ['至']
+          },
+          {
+            key: 'totalMoney',
+            label: '累计投资金额',
+            groups: [
+              {
+                type: 'input.text',
+              },
+              {
+                type: 'input.text',
+              },
+            ],
+            groupSpaces: ['至']
+          },
+          {
+            key: 'singleMoney',
+            label: '单笔投资金额',
+            groups: [
+              {
+                type: 'input.text',
+              },
+              {
+                type: 'input.text',
+              },
+            ],
+            groupSpaces: ['至']
+          },
+          {
+            key: 'investNum',
+            label: '邀请人数',
+            groups: [
+              {
+                type: 'input.text',
+              },
+              {
+                type: 'input.text',
+              },
+            ],
+            groupSpaces: ['至']
+          }
+        ];
+        this.modalTitles=[
+          {key: 'userName', label: '用户名', hidden: false},
+          {key: 'trueName', label: '真实姓名', hidden: false},
+          {key: 'phoneNumber', label: '手机号', hidden: false},
+          {key: 'idNumber', label: '身份证号', hidden: false},
+        ];
+        break;
+      case 'users':
+        this.modalTitles= [
+          {key: 'emCode', label: '用户名', hidden: false},
+          {key: 'empName', label: '真实姓名', hidden: false},
+          {key: 'phone', label: '手机号', hidden: false},
+          {key: 'idNum', label: '身份证号', hidden: false},
+        ];
+        break;
+      default:
+        break;
+    }
+    /*modelfilters = [
+      {
+        key: 'aaa',
+        label: '用户身份',
+        type: 'select',
+        options:[{value:'', content: '全部'},{value:'1', content: '注册理财师'},{value:'2', content: '财富合伙人'}]
+      },
+      {
+        key: 'bbb',
+        label: '区域',
+        type: 'select',
+        options:[{value:'', content: '全部'},{value:'1', content: '龙区'},{value:'2', content: '辽区'}]
+      },
+      {
+        key: 'ccc',
+        label: '年龄',
+        type: 'select',
+        options:[{value:'', content: '全部'},{value:'1', content: '小于25'},{value:'2', content: '25-30'},{value:'2', content: '31-40'},{value:'2', content: '41-50'},{value:'2', content: '50以上'}]
+      },
+      {
+        key: 'ddd',
+        label: '性别',
+        type: 'select',
+        options:[{value:'', content: '全部'},{value:'1', content: '男'},{value:'2', content: '女'}]
+      },
+      {
+        key: 'eee',
+        label: '用户投资状态',
+        type: 'select',
+        options:[{value:'', content: '全部'},{value:'', content: '未投资'},{value:'', content: '已投资'}]
+      },
+      {
+        key: 'investTime',
+        label: '投资时间',
+        groups: [
+          {
+            type: 'datepicker',
+          },
+          {
+            type: 'datepicker',
+          },
+        ],
+        groupSpaces: ['至']
+      },
+      {
+        key: 'totalMoney',
+        label: '累计投资金额',
+        groups: [
+          {
+            type: 'input.text',
+          },
+          {
+            type: 'input.text',
+          },
+        ],
+        groupSpaces: ['至']
+      },
+      {
+        key: 'singleMoney',
+        label: '单笔投资金额',
+        groups: [
+          {
+            type: 'input.text',
+          },
+          {
+            type: 'input.text',
+          },
+        ],
+        groupSpaces: ['至']
+      },
+      {
+        key: 'investNum',
+        label: '邀请人数',
+        groups: [
+          {
+            type: 'input.text',
+          },
+          {
+            type: 'input.text',
+          },
+        ],
+        groupSpaces: ['至']
+      }
+    ];
+    modelMemberTitles= [
+      {key: 'userName', label: '用户名', hidden: false},
+      {key: 'trueName', label: '真实姓名', hidden: false},
+      {key: 'phoneNumber', label: '手机号', hidden: false},
+      {key: 'idNumber', label: '身份证号', hidden: false},
+    ];
+    modelStaffsTitles= [
+      {key: 'emCode', label: '用户名', hidden: false},
+      {key: 'empName', label: '真实姓名', hidden: false},
+      {key: 'phone', label: '手机号', hidden: false},
+      {key: 'idNum', label: '身份证号', hidden: false},
+    ];*/
+
     this.modalRef = this.modalService.show(template);
-    this.service.getUsers(this.usersType).then(res => {
+    this.getUsersList();
+    this.selectedUserId=[];   //清空已选择id数组
+  }
+  //获取列表
+  getUsersList():void{
+    this.service.getUsers(this.usersType,this.modalPageInfo).then(res => {
+      this.modalPageInfo.pageNum=res.data.pageNum;  //当前页
+      this.modalPageInfo.pageSize=res.data.pageSize; //每页记录数
+      this.modalPageInfo.total=res.data.total; //记录总数
       this.modalUsers = res.data.list;
+      this.modalUsers = _.map(this.modalUsers, r =>{
+        let idIndex=this.selectedUserId.findIndex(x => x == r.id);
+        if(idIndex!=-1){
+          return _.set(r, 'selected', 1)
+        }else{
+          return _.set(r, 'selected', 0)
+        }
+      }
+      );
+      console.log(this.modalUsers);
     });
+  }
+  //模态框分页事件
+  modalPageChange($event){
+    this.modalPageInfo.pageSize = $event.pageSize;
+    this.modalPageInfo.pageNum=$event.pageNum;
+    //this.selectedUserId=[];
+
+    this.getUsersList();
+  }
+  //模态框用户事件绑定
+  modalChangeCard(message){
+    switch ( message.type ) {
+      case 'search':
+        break;
+      case 'ok':
+        this.ids='';
+        this.ids=this.selectedUserId.join(",");
+        this.modalService.hide(1);
+        break;
+      case 'all':
+        this.ids='';
+        this.service.getIds(this.usersType,this.modalPageInfo.query).then(data=>{
+          data.code=='0'?this.ids=data.data.ids:null;
+        });
+        this.modalService.hide(1);
+        break;
+      default:
+        break;
+    }
+  }
+  //模态框选择用户id
+  modalChangeTable(message){
+    const type = message.type;
+    let data = message.data;
+    switch (type) {
+      case 'select_one':
+        if(data.selected){
+          this.selectedUserId.push(data.id);
+        }else{
+          let idIndex=this.selectedUserId.findIndex(x => x == data.id);
+          this.selectedUserId.splice(idIndex,1);
+        }
+        break;
+      default:
+        break;
+    }
   }
   alertSuccess(info:string){
     this._messageService.open({

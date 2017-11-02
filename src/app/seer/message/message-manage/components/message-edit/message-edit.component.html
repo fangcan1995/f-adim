@@ -130,15 +130,16 @@
 
         </seer-collapse-card>
         <seer-collapse-card title="接收用户" >
-          <div class="row">
-            <input type="text" name="message.receivers" [(ngModel)]="message.receivers">
+          <div class="row">{{ids}}
+            <input type="hidden" name="message.receivers" [(ngModel)]="ids" >
+
             <button type="button"  class="btn btn-primary" (click)="openModal(members)" [disabled]="isPickUsersAble">选择用户</button>
             <template #members>
               <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
                 <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">选择人员</h4>
               </div>
               <div class="modal-body">
-                <seer-collapse-card
+                <!--<seer-collapse-card
                   title="查询条件"
                   [headerActions]="cardActions1"
                   (notify)="modalChange($event)"
@@ -254,34 +255,40 @@
                       </div>
                     </div>
                   </div>
-                </seer-collapse-card>
+                </seer-collapse-card>-->
                 <seer-collapse-card
                   title="人员列表"
                   [headerActions]="cardActions2"
-                  (notify)="modalChange($event)"
+                  (notify)="modalChangeCard($event)"
                 >
+                  <seer-filter
+                  [hasGlobalFilter]="modalhasGlobalFilter"
+                  [filters]="modalfilters"
+                  (onSearchBtnClicked)=handleFiltersChanged($event)
+                  *ngIf="usersType=='members'"
+                ></seer-filter>
                   <seer-table
                     [data]="modalUsers"
-                    [titles]="modelTitles"
+                    [titles]="modalTitles"
                     [pageNum]="modalPageInfo.pageNum"
                     [pageSize]="modalPageInfo.pageSize"
                     [total]="modalPageInfo.total"
                     [paginationRules]="0"
                     [translate]="translate"
-                    (changePage)="modalPageChange($event)"
                     [hideExport]="true"
                     [hidePrint]="true"
                     [hideRemoveAll]="true"
                     [hideColumns]="true"
                     [hideAddButton]="true"
                     [hideActions]="true"
-                    (notify)="onChange($event)"
+                    (notify)="modalChangeTable($event)"
+                    (changePage)="modalPageChange($event)"
                   ></seer-table>
                 </seer-collapse-card>
               </div>
             </template>
           </div>
-          <button (click)="putInUsers('')" class="btn btn-outline-dark left-button" disabled>导入用户</button>
+          <!--<button (click)="putInUsers('')" class="btn btn-outline-dark left-button" disabled>导入用户</button>-->
 
         </seer-collapse-card>
       </div>
