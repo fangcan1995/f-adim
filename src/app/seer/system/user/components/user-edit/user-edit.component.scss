@@ -1,0 +1,14 @@
+.control-label {
+	text-align: right;
+}
+.user-role-list {
+	height: auto;
+	min-height: 30px;
+	label {
+		display: block;
+		cursor: pointer;
+	}
+}
+.departMentDropdown.show {
+	display: block;
+}

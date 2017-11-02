@@ -1,89 +1,36 @@
 import { Injectable } from '@angular/core';
-import { SERVER } from "../../const";
-import { BaseService } from "../../base.service";
-import { Result } from "../../model/result.class";
-import { RoleWithSysUserIdsVO } from "./components/role-edit/RoleWithSysUserIdsVO";
+import {
+  BaseService,
+  HttpInterceptorService,
+  API,
+  BASE_URL,
+  ResModel,
+} from "../../../theme/services";
 
 @Injectable()
 export class RoleService extends BaseService<any> {
-
-  private roleManageUrl = SERVER+'/sys/role';  // URL to web api
-
-  getList(params?): Promise<Result> {
-    return this.getAll(this.roleManageUrl);
+  constructor(
+    protected _httpInterceptorService:HttpInterceptorService
+    ) {
+    super(_httpInterceptorService);
+    this.setApi(API['ROLES']);
   }
-  getOne(id): Promise<Result> {
-    const url = `${this.roleManageUrl}/${id}`;
-    return this.getAll(url);
+  getList(params?): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET', 'http://172.16.1.234:8090/roles', params).toPromise();
   }
-
-  deleteOne(id: string): Promise<Result> {
-    const url = `${this.roleManageUrl}/${id}`;
-    return this.delete(url);
+  getOne(id: string | number): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET', `http://172.16.1.234:8090/roles/${id}`).toPromise();
   }
-  deleteMultiple(idList: string): Promise<Result> {
-    const url = `${this.roleManageUrl}/${idList}`;
-    return this.delete(url);
+  postOne(params: any): Promise<ResModel> {
+    return this._httpInterceptorService.request('POST', `http://172.16.1.234:8090/roles`, params).toPromise();
   }
-
-  getRoleById(id: string): Promise<Result> {
-    const url = `${this.roleManageUrl}/${id}`;
-    return this.getAll(url);
-    
+  putOne(id: string | number, params: any): Promise<ResModel> {
+    return this._httpInterceptorService.request('PUT', `http://172.16.1.234:8090/roles/${id}`, params).toPromise();
   }
-
-  updateRole(roleWithSysUserIdsVO: RoleWithSysUserIdsVO): Promise<Result> {
-    const url = `${this.roleManageUrl}/`;
-    return this.update(url,roleWithSysUserIdsVO);
+  patchOne(id: string | number, params: any): Promise<ResModel> {
+    return this._httpInterceptorService.request('PATCH', `http://172.16.1.234:8090/roles/${id}`, params).toPromise();
   }
-
-  createRole(roleWithSysUserIdsVO: RoleWithSysUserIdsVO): Promise<Result> {
-    const url = `${this.roleManageUrl}/`;
-    return this.create(url, roleWithSysUserIdsVO);
-  }
-
-  deleteRole(id: string): Promise<Result> {
-    const url = `${this.roleManageUrl}/${id}`;
-    return this.delete(url);
-  }
-
-  searchRoles(param:any): Promise<Result> {
-    const url = `${this.roleManageUrl}/search`;
-    return this.search(url, param);
-  }
-
-  getResources(): Promise<Result>{
-    const url = `${SERVER}/sys/resource`;
-    return this.getAll(url);
-  }
-
-  getAllOrgs(): Promise<Result>{
-    const url = `${SERVER}/basicinfo/organizations`;
-    return this.getAll(url);
-  }
-
-  getStaffsByOrgId(orgId:string): Promise<Result>{
-    const url = `${SERVER}/basic/staff/org/${orgId}`;
-    return this.getAll(url);
-  }
-
-  getSysUsersByStaffId(staffId:string): Promise<Result>{
-    const url = `${SERVER}/sys/user/staff/${staffId}`;
-    return this.getAll(url);
-  }
-
-  getUsersByRoleId(roleId:string): Promise<Result>{
-    const url = `${SERVER}/sys/user/role/${roleId}`;
-    return this.getAll(url);
-  }
-
-  updateUserRole(roleId:string, userIds:string[]):Promise<Result>{
-    const url = `${SERVER}/sys/user/role/${roleId}`;
-    return this.update(url, userIds);
-  }
-
-  getSysUsersWithOrgs():Promise<Result>{
-    const url = `${SERVER}/sys/role/accountsWithOrg`;
-    return this.getAll(url);
+  deleteOne(id: string | number): Promise<ResModel> {
+    return this._httpInterceptorService.request('DELETE', `http://172.16.1.234:8090/roles/${id}`).toPromise();
   }
 }

@@ -3,7 +3,7 @@ import { GlobalState } from '../../../global.state';
 import * as _ from 'lodash';
 import { layoutSizes } from "../../theme.constants";
 import { resources2Menu } from '../../libs/resources2Menu';
-import { UserService } from '../../services/user.service';
+import { ManageService } from '../../services';
 import { getStorage } from '../../libs/utils'
 @Component({
   selector: 'ba-sidebar',
@@ -25,14 +25,14 @@ export class BaSidebar {
   constructor(
     private _elementRef:ElementRef,
     private _state:GlobalState,
-    private _userService: UserService
+    private _manageService: ManageService
   ) {
 
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
     });
     this._state.subscribe('menu.changed',() => {
-      this._userService.getResourcesFromLocal()
+      this._manageService.getResourcesFromLocal()
       .then(res => {
         if ( res.code == 0 ) {
           this.routes = resources2Menu(res.data);
@@ -42,7 +42,7 @@ export class BaSidebar {
   }
 
   public ngOnInit():void {
-    this._userService.getResourcesFromLocal()
+    this._manageService.getResourcesFromLocal()
     .then(res => {
       if ( res.code == 0 ) {
         this.routes = resources2Menu(res.data);

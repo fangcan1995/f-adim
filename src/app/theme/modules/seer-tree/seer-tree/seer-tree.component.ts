@@ -32,12 +32,19 @@ import * as _ from 'lodash';
   >
   <ng-template #treeNodeTemplate let-node>
     <div>
-      <i *ngIf="!node.isLeaf && checkPermissions(treePermissions.MULTI_SELECT)" (dblclick)="stopPropagation($event)" (click)="onToggleChildren($event,node)" class="virtual-checkbox" [class.ion-android-checkbox-outline-blank]="!node.isActive" [class.ion-android-checkbox-outline]="node.isActive && !node.isAllChildrenActive" [class.ion-android-checkbox]="node.isActive && node.isAllChildrenActive"></i>
+      <i
+        *ngIf="!node.isLeaf && checkPermissions(treePermissions.MULTI_SELECT)"
+        (dblclick)="stopPropagation($event)"
+        (click)="onToggleChildren($event,node)"
+        class="virtual-checkbox"
+        [class.ion-android-checkbox-outline-blank]="!node.isActive"
+        [class.ion-android-checkbox-outline]="node.isActive && !node.isAllChildrenActive"
+        [class.ion-android-checkbox]="node.isActive && node.isAllChildrenActive"
+        ></i>
       <i *ngIf="node.isLeaf && checkPermissions(treePermissions.MULTI_SELECT)" (dblclick)="stopPropagation($event)" (click)="onToggleLeaf($event,node)" class="virtual-checkbox" [class.ion-android-checkbox-outline-blank]="!node.isActive" [class.ion-android-checkbox-outline]="node.isActive"></i>
       <span *ngIf="!node.isInEditing" title="{{node.data.name}}"><i class="virtual-checkbox icon-padding" [class.ion-android-folder-open]="node.canExpand && !node.customIconField" [class.ion-document]="!node.canExpand && !node.customIconField" [ngClass]="node.customIconField"></i>{{ node.data.name }}</span>
       <input *ngIf="node.isInEditing" [(ngModel)]="node.data.name" (click)="stopPropagation($event)" (dblclick)="stopPropagation($event)" />
       <span>
-        
         <button *ngIf="node.isInEditing && !node.hasChildren && !node.forbidChangeTypeField" (click)="changeType($event, node)" class="options-button"><i [class]="node.canExpand ? 'ion-android-folder-open':'ion-document'" [style.margin-left]="node.canExpand ? '-3px':'-1px'"></i></button>
         <button *ngIf="node.isInEditing" (click)="saveEditing($event, node)" class="options-button"><i class="ion-checkmark-round" style="margin-left:-3px"></i></button>
         <button *ngIf="node.isInEditing" (click)="cancelEditing($event, node)" class="options-button"><i class="ion-close-round" style="margin-left:-2px"></i></button>
@@ -375,14 +382,14 @@ export class SeerTree implements OnInit {
 
   private onToggleLeaf($event, node) {
     $event.stopPropagation();
-    if (this.onEditing) {
+    if ( this.onEditing ) {
       alert('请先处理当前节点');
       return;
     }
-    if(this.checkPermissions(TREE_PERMISSIONS.SELECT_PARENT_CASCADE,TREE_PERMISSIONS.MULTI_SELECT)){
+    if ( this.checkPermissions(TREE_PERMISSIONS.SELECT_PARENT_CASCADE, TREE_PERMISSIONS.MULTI_SELECT) ) {
       this.checkParentsCascade(node);
     }
-    if (!node.isActive) {
+    if ( !node.isActive ) {
       this.setNodeCheckedMultiIgnoreAlreadyChecked(node);
     } else {
       this.setNodeMultiUnchecked(node);
@@ -391,23 +398,23 @@ export class SeerTree implements OnInit {
 
   private onToggleChildren($event, node) {
     $event.stopPropagation();
-    if (this.onEditing) {
+    if ( this.onEditing ) {
       alert('请先处理当前节点');
       return;
     }
-    if(this.checkPermissions(TREE_PERMISSIONS.SELECT_PARENT_CASCADE,TREE_PERMISSIONS.MULTI_SELECT)){
+    if ( this.checkPermissions(TREE_PERMISSIONS.SELECT_PARENT_CASCADE, TREE_PERMISSIONS.MULTI_SELECT) ) {
       this.checkParentsCascade(node);
     }
-    if (node.isAllChildrenActive) {
+    if ( node.isAllChildrenActive ) {
       this.setChildrenNodesAllUnchecked(node)
     } else {
       this.setChildrenNodesAllChecked(node);
     }
   }
 
-  private checkParentsCascade(node){
-    if(node.realParent){
-      if(!node.realParent.isActive){
+  private checkParentsCascade(node) {
+    if ( node.realParent) {
+      if ( !node.realParent.isActive ) {
         node.realParent.toggleActivated(true);
       }
       this.checkParentsCascade(node.realParent);

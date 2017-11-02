@@ -9,7 +9,7 @@ const routes: Routes = [
     children: [
       { path: '', component: RoleComponent },
       { path: 'add', component: RoleEditComponent },
-      { path: 'edit/:roleId', component: RoleEditComponent },
+      { path: 'edit/:id', component: RoleEditComponent },
     ]
   }
 ];

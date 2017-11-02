@@ -12,7 +12,7 @@ import 'rxjs/add/operator/switchMap';
 import * as _ from 'lodash';
 import { trim } from '../../../theme/libs/utils'
 import { Animations } from '../../../theme/animations/animations';
-import { UserService } from "../../../theme/services/user.service";
+import { ManageService } from "../../../theme/services";
 
 export interface FilterModel {
   key: string | number,
@@ -24,6 +24,7 @@ export interface FilterModel {
   category?: string | number,
   dateFormatingRules?: string,
   disabled?: boolean,
+  groups?: Array<any>,
 }
 
 @Component({
@@ -31,7 +32,7 @@ export interface FilterModel {
   templateUrl: './seer-filter.component.html',
   styleUrls: [ './seer-filter.component.scss' ],
   animations: [ Animations.slideInOut ],
-  providers: [UserService]
+  providers: [ManageService]
 })
 export class SeerFilterComponent implements OnInit {
   @Input() hasGlobalFilter: boolean; // 是否有全局搜索输入框
@@ -47,7 +48,7 @@ export class SeerFilterComponent implements OnInit {
   filters$ = new Subject();
   @ViewChild('searchBtn') searchBtn;
   constructor(
-    private service: UserService,
+    private service: ManageService,
   ) { }
   ngOnInit() {
     this.onInit.emit({
@@ -158,7 +159,13 @@ export class SeerFilterComponent implements OnInit {
   }
   handleResetBtnClick() {
     _.each(this.filters, x => {
-      x.value = undefined;
+      if ( _.isArray(x.groups) ) {
+        _.each(x.groups, y => {
+          y.value = undefined;
+        })
+      } else {
+        x.value = undefined;
+      }
     })
     this.filters$.next({
       ...this.getFilterParams(this.filters),
@@ -169,9 +176,16 @@ export class SeerFilterComponent implements OnInit {
   getFilterParams(filters: Array<FilterModel>) {
     let filterParams = {};
     _.each(filters, x => {
-      filterParams[x.key] = x.value;
+      if ( _.isArray(x.groups) ) {
+        filterParams[x.key] = _.map(x.groups, y => y.value);
+      } else {
+        filterParams[x.key] = x.value;
+      }
     })
     return filterParams;
+  }
+  getGroupCol(groupsLength, groupSpacesLength) {
+    return Math.floor((12 - groupSpacesLength * 2) / groupsLength);
   }
 
 }

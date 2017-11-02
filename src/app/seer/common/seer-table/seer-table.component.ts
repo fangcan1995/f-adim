@@ -13,7 +13,7 @@ import { IMultiSelectOption } from 'angular-2-dropdown-multiselect/src/multisele
 import * as _ from 'lodash';
 
 import { CREATE, DELETE_MULTIPLE } from './seer-table.actions';
-import { UserService } from "../../../theme/services/user.service";
+import { ManageService } from "../../../theme/services";
 
 export interface TableTitleModel {
   key: string | number,
@@ -28,7 +28,7 @@ export interface TableTitleModel {
   selector: 'seer-table',
   templateUrl: './seer-table.component.html',
   styleUrls: ['./seer-table.component.scss'],
-  providers: [UserService]
+  providers: [ManageService]
 })
 export class SeerTableComponent implements OnInit {
   @Input() data: Array<any>  = [];   //数据数组
@@ -62,8 +62,8 @@ export class SeerTableComponent implements OnInit {
 
   public sortBy: string | number = '';
   public selectedAll = false;
-  private multiColumnArray: IMultiSelectOption[] = [];
-  private multiColumnOptions = [];
+  private multiColumnArray = [];
+  private multiColumnOptions: IMultiSelectOption[] = [];
   public multiSelectTexts = {
     checked: '显示',
     checkedPlural: '显示',
@@ -74,7 +74,7 @@ export class SeerTableComponent implements OnInit {
   }
   @ViewChild('tr') tr:ElementRef
   constructor(
-    private service: UserService,
+    private service: ManageService,
   ) {
     if( !this.rowsOnPage ) this.rowsOnPage = this.rowsOnPageSet[0];
   }
@@ -121,7 +121,6 @@ export class SeerTableComponent implements OnInit {
     }
   }
   selectAll(): void {
-    console.log(this.tr)
     let data = this.getData();
     _.each(data, item => {
       item.selected = this.selectedAll;
@@ -177,14 +176,41 @@ export class SeerTableComponent implements OnInit {
     if ( this.paginationRules ) {
       if ( this.filters ) {
         let { globalSearch, ...filters } = this.filters;
-        dataChain = dataChain.filter(t => {
+        dataChain = dataChain
+        .filter(t => {
+          // 全局搜索 日期不好用
+          if ( !globalSearch || !globalSearch.length ) return true; 
+          globalSearch = _.trim(globalSearch);
+          let item:any = {};
+          _.each(this.titles, y => {
+            item[y.key] = t[y.key]
+          })
+          if ( this.translate ) {
+            this.transferKeyWithDict(item, this.translate, 1);
+          }
+          for ( let key in item ) {
+            if ( typeof item[key] != 'undefined' && item[key].toString().toLowerCase().indexOf(globalSearch.toString().toLowerCase()) != -1 ) return true
+          }
+          return false;
+        })
+        .filter(t => {
+          // 高级搜索
           for ( let key in filters ) {
+            let filter = filters[key];
             let curTit = _.find(this.titles, t => t.key === key);
             if ( curTit && curTit.isDict ) {
-              if ( filters[key] && t[key] != filters[key] ) return false;
+              if ( filter && t[key] != filter ) return false;
+            } else if ( _.isArray(filter) ) {
+              if ( !t[key] ) return false;
+              if ( curTit && curTit.type === 'date' ) {
+                if ( filter[0] instanceof Date && filter[1] instanceof Date && t[key] < filter[0].getTime() && t[key] > filter[1].getTime() ) {
+                  return false;
+                }
+              }
+              if ( t[key] < filter[0] || t[key] > filter[1] ) return false;
             } else {
               if ( !t[key] ) return false;
-              if ( t[key].toString().toLowerCase().indexOf(_.trim(filters[key] ? filters[key].toString().toLowerCase() : '')) === -1 ) return false;
+              if ( t[key].toString().toLowerCase().indexOf(_.trim(filter ? filter.toString().toLowerCase() : '')) === -1 ) return false;
             }
             
           }
@@ -194,18 +220,18 @@ export class SeerTableComponent implements OnInit {
       }
       dataChain = dataChain.map((t, i) => _.set(t, 'SEQ', i + 1))
     } else {
-      dataChain = dataChain.map((t, i) => _.set(t, 'SEQ', this.pageSize * this.pageNum + i + 1));
+      dataChain = dataChain.map((t, i) => _.set(t, 'SEQ', this.pageSize * (this.pageNum - 1) + i + 1));
     }
     return data = dataChain.value();
   }
   getData() {
-    let data = !this.paginationRules ? this._sliceData(this.data, 1, this.pageSize) : this._sliceData(this.getCurData(), this.pageNum, this.rowsOnPage)
+    let data = !this.paginationRules ? this._sliceData(_.map(this.data, (t, i) => _.set(t, 'SEQ', this.pageSize * (this.pageNum - 1) + i + 1)), 1, this.pageSize) : this._sliceData(this.getCurData(), this.pageNum, this.rowsOnPage)
     
-    if ( this.translate ) {
+    /*if ( this.translate ) {
       _.each(data, item => {
         this.transferKeyWithDict(item, this.translate, 1);
       });
-    }
+    }*/
     return data;
   }
   filterShownTitles() {
@@ -226,17 +252,18 @@ export class SeerTableComponent implements OnInit {
     if ( direction ) {
       _.each(obj, (v, k) => {
         if (translate_copy[k]) {
-         _.each(translate_copy[k], (cv, ck) => {
-            if ( v == cv.itemId ) v = cv.itemName;
-         })
+          _.each(translate_copy[k], (cv, ck) => {
+            if ( v == cv.itemId ) obj[v] = cv.itemName;
+
+          })
         }
       })
     } else {
       _.each(obj, (v, k) => {
         if (translate_copy[k]) {
-         _.each(translate_copy[k], (cv, ck) => {
-            if ( v == cv.itemName ) v = cv.itemId;
-         })
+          _.each(translate_copy[k], (cv, ck) => {
+            if ( v == cv.itemName ) obj[v] = cv.itemId;
+          })
         }
       })
     }

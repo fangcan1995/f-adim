@@ -30,7 +30,7 @@ export class AdverEditComponent implements OnInit {
         if (this._editType === 'edit') {
           console.log(params.id);
           this._advertisingService.getOne(params.id)
-            .subscribe(res => {
+            .then(res => {
               this.advertising = res.data || {};
               this.forbidSaveBtn = false;
             }, errMsg => {
@@ -56,15 +56,31 @@ export class AdverEditComponent implements OnInit {
   handleSaveBtnClick() {
     if (this.forbidSaveBtn) return;
     this.forbidSaveBtn = true;
-    let requestStream$;
+    //let requestStream$;
     if (this._editType === 'edit') {
-      requestStream$ = this._advertisingService.putOne(this.advertising.id, this.advertising)
+      this._advertisingService.putOne(this.advertising.id, this.advertising).then(data=>{
+        if(data.code=="0") {
+          this.alertSuccess(data.message);
+        }else{
+          this.alertError(data.message);
+        }
+      }).catch(err => {
+        this.alertError(err.json().message);
+      });
     } else if (this._editType === 'add') {
-      requestStream$ = this._advertisingService.postOne(this.advertising)
+      this._advertisingService.postOne(this.advertising).then((data:any) => {
+        if(data.code=='0') {
+          this.alertSuccess(data.message);
+        }else{
+          this.alertError(data.message);
+        }
+      }).catch(err => {
+        this.alertError(err.message);
+      });
     } else {
       return;
     }
-    requestStream$
+    /*requestStream$
       .subscribe(res => {
         this._messageService.open({
           icon: 'fa fa-times-circle',
@@ -81,8 +97,25 @@ export class AdverEditComponent implements OnInit {
           message: errMsg,
           autoHideDuration: 3000,
         })
-      })
+      })*/
 
   }
-
+  alertSuccess(info:string){
+    this._messageService.open({
+      icon: 'fa fa-times-circle',
+      message: info,
+      autoHideDuration: 3000,
+    }).onClose().subscribe(() => {
+      this._router.navigate(['/adver-manage/advertising/'])
+    });
+  };
+  alertError(errMsg:string){
+    this.forbidSaveBtn = false;
+    // 错误处理的正确打开方式
+    this._messageService.open({
+      icon: 'fa fa-times-circle',
+      message: errMsg,
+      autoHideDuration: 3000,
+    })
+  };
 }

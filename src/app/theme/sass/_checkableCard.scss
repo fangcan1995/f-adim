@@ -1,11 +1,12 @@
 @import 'conf/conf';
 .checkable-card {
+  height: 128px;
 	.card-header {
 		border-bottom: 1px solid $border;
 	}
-	&:hover {
-		border: 1px solid $primary;
-	}
+	/*&:hover {
+     border: 1px solid $primary;
+   }*/
 	&.active {
 		border: 1px solid $primary;
 		&:before {

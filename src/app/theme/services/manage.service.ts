@@ -11,7 +11,7 @@ import {
   BaseService,
 } from './base.service';
 @Injectable()
-export class UserService extends BaseService<any> {
+export class ManageService extends BaseService<any> {
   public getDataFromServer() {
     return Observable.forkJoin(
       Observable.fromPromise(this.getUserFromServer()),

@@ -1,10 +1,84 @@
-<form (submit)="save()">
 <seer-content-top>
-  <button type="button" class="btn btn-outline-dark" (click)="goBack()">返回</button>
-  <button type="submit" class="btn btn-primary">保存</button>
+  <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
+  <button class="btn btn-primary left-button" [disabled]="(editType === 'edit' && !myForm.form.dirty) || !myForm.form.valid || forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
 </seer-content-top>
-<seer-collapse-card [title]="title">
-  <div class="row">
+
+<div class="widgets">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <seer-collapse-card title="角色管理" cardClass="with-scroll" [canCollapse]=false>
+        <form class="form-horizontal" #myForm="ngForm">
+          <div class="row">
+            <div class="col-sm-12 col-md-6 form-group">
+              <div class="row">
+                <label for="roleName" class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">角色名称</label>
+                <div class="col-sm-8 col-md-7 col-lg-6">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="roleName"
+                    name="roleName"
+                    placeholder="角色名称"
+                    [required]=true
+                    [(ngModel)]="role.roleName"
+                    />
+                </div>
+              </div>
+            </div>
+                        
+            <div class="col-sm-12 col-md-6 form-group">
+              <div class="row">
+                <label for="roleStatus" class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">状态</label>
+                <div class="col-sm-8 col-md-7 col-lg-6">
+                  <select
+                    class="form-control"
+                    id="roleStatus"
+                    [(ngModel)]="role.roleStatus"
+                    name="roleStatus"
+                    dict-select
+                    [key]="'ROLE_STATUS'"
+                    >
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-sm-12 col-md-6 form-group">
+              <div class="row">
+                <label for="resource" class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">设置权限</label>
+                <div class="col-sm-8 col-md-7 col-lg-6">
+                  <seer-tree
+                    #resourceTree
+                    [permissions]="resourcePermission"
+                    [nodes]="resourceTreeNodes"
+                    ></seer-tree>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-sm-12 col-md-6 form-group">
+              <div class="row">
+                <label for="account" class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">设置账号</label>
+                <div class="col-sm-8 col-md-7 col-lg-6">
+                  <seer-tree
+                    #accountTree
+                    [permissions]="accountPermission"
+                    [nodes]="account"
+                    ></seer-tree>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </seer-collapse-card>
+    </div>
+  </div>
+</div>
+
+
+
+  <!-- <div class="row">
     <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
       <div class="form-group">
         <label for="inputRoleName">角色</label>
@@ -20,9 +94,9 @@
     </div>
   </div>
   
-</seer-collapse-card>
-
-<div class="row">
+  </seer-collapse-card>
+  
+  <div class="row">
   <div class="col-lg-6">
     <seer-collapse-card [title]="'设置账号'">
       <seer-tree #accountTree
@@ -35,5 +109,4 @@
                  [permissions]="resourcePermission" [nodes]="resources"></seer-tree>
     </seer-collapse-card>
   </div>
-</div>
-</form>
+  </div> -->

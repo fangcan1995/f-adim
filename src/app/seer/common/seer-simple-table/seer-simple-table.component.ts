@@ -16,7 +16,6 @@ import { BaseService } from "../../base.service";
   selector: 'seer-simple-table',
   templateUrl: './seer-simple-table.component.html',
   styleUrls: ['./seer-simple-table.component.scss'],
-  providers: [BaseService]
 })
 export class SeerSimpleTableComponent implements OnInit {
   @Input() data: Array<any> = [];   //数据数组
@@ -49,7 +48,6 @@ export class SeerSimpleTableComponent implements OnInit {
     buttonClasses: 'btn btn-outline-dark btn-block',
   }
   constructor(
-    private service: BaseService<any>,
   ) { 
     if( !this.rowsOnPage ) this.rowsOnPage = this.rowsOnPageSet[0];
   }
@@ -62,7 +60,7 @@ export class SeerSimpleTableComponent implements OnInit {
     }
     
     /** 增加的部分 */
-    if ( !this.translate ) {
+    /*if ( !this.translate ) {
       let transFields: {field: string,dictKeyId?: string}[] = [];
       _.each(this.titles, title => {
         if ( title.isDict ) {
@@ -76,7 +74,7 @@ export class SeerSimpleTableComponent implements OnInit {
       .then(res => {
         if ( res.success ) this.translate = res.data;
       });
-    }
+    }*/
   }
   ngOnChanges(): void {
     this.data = _(this.data)
@@ -139,21 +137,21 @@ export class SeerSimpleTableComponent implements OnInit {
     item.actions = [ UPDATE, DELETE ];
   }
   public create() {
-    let key = _.reduce(this.data, (x, y) => {
-      return x['key'] > y['key'] ? x['key'] : y['key'];
-    }, 0) + 1;
+    let keys = _.map(this.data, t => t['key']);
+    let maxKey = isNaN(_.max(keys)) ? 0 : _.max(keys);
     let data = {};
      _.each(this.titles, t => {
       data[t.key] = null;
     })
     this.data.unshift({
-      key,
+      key: maxKey + 1,
       copy: data,
       editData: data,
       data: data,
       actions: [ SAVE, CANCEL ],
       editState: 'CREATE',
     })
+    console.log(this.data)
   }
   public cancel(key) {
     let item = _.find(this.data, t => t.key === key);

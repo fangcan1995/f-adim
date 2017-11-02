@@ -13,22 +13,12 @@ import { DictService } from "../../dict.service";
 import * as _ from 'lodash';
 import { SeerDialogService } from '../../../../../theme/services/seer-dialog.service';
 import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
-class DictModel {
-  constructor(
-    category: string,
-    categoryName: string,
-    itemId: string,
-    itemName: string,
-    itemSort: string,
-    delFlag: string,
-    ) {}
-}
 @Component({
   templateUrl: './dict-edit.component.html',
   styleUrls: [ './dict-edit.component.scss' ],
 })
 export class DictEditComponent implements OnInit {
-  dict: DictModel = {};
+  dict: any = {};
   private editType: string = 'add';
   private forbidSaveBtn: boolean = true;
   private id: string;
