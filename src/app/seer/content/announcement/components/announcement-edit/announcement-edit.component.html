@@ -1,8 +1,12 @@
-<div class="widgets">
+<div class="widgets"><!--
   <div style="margin-bottom: 24px;">
     <button class="btn btn-primary" (click)="handleBackBtnClick()">返回</button>
     <button class="btn btn-primary" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
-  </div>
+  </div>-->
+  <seer-content-top>
+    <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
+    <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
+  </seer-content-top>
   <div class="row justify-content-center">
     <div class="col-md-12">
       <seer-collapse-card title="公告基本信息" cardClass="with-scroll" [canCollapse]=true>
@@ -10,26 +14,36 @@
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="announcementTitle" class="col-sm-4 control-label">公告标题</label>
+                <label for="announcementName" class="col-sm-4 control-label">公告名称</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="announcementTitle" placeholder="公告标题"
-                         [(ngModel)]="announcement.announcementTitle"
+                  <input type="text" class="form-control" id="announcementName" placeholder="公告名称"
+                         [(ngModel)]="announcement.announcementName"
                          [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="superpositionRedPacket" class="col-sm-4 control-label">公告类型</label>
+                <label for="effectTime" class="col-sm-4 control-label">生效时间</label>
+                <div class="col-sm-8">
+                  <seer-datepicker
+                    id="effectTime"
+                    [(date)]="announcement.effectDate"
+                    [dateFormatingRules]="dateFormatingRules || 'yyyy/MM/dd'"
+                  ></seer-datepicker>
+                </div>
+
+                <!--<label for="superpositionRedPacket" class="col-sm-4 control-label">公告类型</label>
                 <div class="col-sm-8">
                   <select class="form-control" id="superpositionRedPacket"
                           [(ngModel)]="announcement.announcementType"
                           [ngModelOptions]="{standalone: true}">
                   </select>
-                </div>
+                </div>-->
               </div>
             </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+
+            <!--<div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
                 <label for="superpositionCoupon" class="col-sm-4 control-label">投放端</label>
                 <div class="col-sm-8">
@@ -39,14 +53,30 @@
                   </select>
                 </div>
               </div>
+            </div>-->
+            <div class="form-group col-sm-12">
+              <div class="row">
+                <label for="announcementTitle" class="col-sm-4 col-md-2 col-xlg-1 control-label">公告标题</label>
+                <!--<div class="col-sm-8 col-md-10 col-xlg-11">
+                  &lt;!&ndash;<textarea class="form-control" id="mainBody" [(ngModel)]="announcement.mainBody"&ndash;&gt;
+                  &lt;!&ndash;[ngModelOptions]="{standalone: true}"></textarea>&ndash;&gt;
+                  &lt;!&ndash;<seer-editor [data]="announcement.mainBody"></seer-editor>&ndash;&gt;
+                </div>-->
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="announcementTitle" placeholder="公告标题"
+                         [(ngModel)]="announcement.announcementTitle"
+                         [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
             </div>
             <div class="form-group col-sm-12">
+
               <div class="row">
                 <label for="mainBody" class="col-sm-4 col-md-2 col-xlg-1 control-label">公告正文</label>
                 <div class="col-sm-8 col-md-10 col-xlg-11">
                   <!--<textarea class="form-control" id="mainBody" [(ngModel)]="announcement.mainBody"-->
                             <!--[ngModelOptions]="{standalone: true}"></textarea>-->
-                  <seer-editor [data]="announcement.mainBody"></seer-editor>
+                  <seer-editor [data]="announcement.mainBody" id="mainBody"></seer-editor>
                 </div>
               </div>
             </div>

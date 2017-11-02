@@ -14,11 +14,10 @@ export class AuditProcessComponent implements OnInit {
   @Input() data = [];
 
   title = [
-    {key:'number',label:'编号'},
-    {key:'process',label:'审批流程'},
-    {key:'time',label:'审批时间'},
+    {key:'activityName',label:'审批流程'},
+    {key:'auditTime',label:'审批时间'},
     {key:'operator',label:'操作人员'},
-    {key:'result',label:'审批结果'},
+    {key:'auditResult',label:'审批结果'},
   ];
 
   public actions = [ UPDATE ];

@@ -1,13 +1,12 @@
 <seer-collapse-card title="审批流程" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
-  <seer-table
+  <seer-simple-table
     [data]="data"
     [titles]="title"
-    [translate]="dict"
-    [hideExport]="true"
-    [hidePrint]="true"
-    [hideRemoveAll]="true"
-    [hideColumns]="true"
+    [hidePagination]="true"
+    [hideActions]="true"
     [hideAddButton]="true"
-    (notify)="onChange($event)"
-  ></seer-table>
+  ></seer-simple-table>
 </seer-collapse-card>
+
+
+

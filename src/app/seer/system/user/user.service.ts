@@ -11,7 +11,7 @@ import {
 export class UserService extends BaseService<any> {
   constructor(
   	protected _httpInterceptorService:HttpInterceptorService,
-    private roleService:RoleService,
+    private _roleService:RoleService,
     ) {
   	super(_httpInterceptorService);
   }
@@ -32,5 +32,8 @@ export class UserService extends BaseService<any> {
   }
   deleteOne(id: string | number): Promise<ResModel> {
     return this._httpInterceptorService.request('DELETE', `http://172.16.1.234:8090/users/${id}`).toPromise();
+  }
+  getRoles() {
+    return this._roleService.getList({ pageSize: 10000 })
   }
 }

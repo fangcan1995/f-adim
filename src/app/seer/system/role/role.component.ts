@@ -1,6 +1,6 @@
 import {
-	Component,
-	OnInit,
+  Component,
+  OnInit,
   ViewChild
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -22,32 +22,51 @@ export class RoleComponent implements OnInit {
   
   total = 0;
   roles = [];
-  params:any = {
-    pageSize: 10,
-    pageNum: 1,
-    sortBy: '',
-  };
+  pageSize: 10;
+  pageNum: 1;
+  sortBy: '';
+  params:any = {};
   constructor(
     private _router: Router,
     private _dialogService: SeerDialogService,
     private _messageService: SeerMessageService,
     private _roleService: RoleService,
-    ) { }
+    ) {
+
+  }
   ngOnInit() {
+    this.params = {
+      pageSize: this.pageSize,
+      pageNum: this.pageNum,
+      sortBy: this.sortBy
+    }
     this.getList();
   }
   getList() {
     this._roleService.getList(this.params)
     .then(res => {
-      this.roles = _.map(res.data, r => _.set(r, 'actions', [ COPY_CREATE, UPDATE, DELETE ]));
+      let data = res.data || {};
+      this.roles = _.map(data.list, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
+      this.total = data.total || 0;
+      this.pageSize = data.pageSize || this.params.pageSize;
+      this.pageNum = data.pageNum || this.params.pageNum;
     })
     .catch(err => {
       console.log(err)
     });
   }
   handleFiltersChanged($event) {
+    this.params = {
+      ...this.params,
+      ...$event,
+    }
+    this.getList();
   }
-
+  handleChangePage($event) {
+    this.params.pageNum = $event.pageNum;
+    this.params.pageSize = $event.pageSize;
+    this.getList();
+  }
   showSuccess(message: string) {
     return this._messageService.open({
       message,

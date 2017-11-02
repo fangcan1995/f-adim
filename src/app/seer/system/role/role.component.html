@@ -10,9 +10,12 @@
     [data]="roles"
     [titles]="titles"
     [translate]="dict"
+    [paginationRules]=0
+    [pageSize]=pageSize
+    [pageNum]=pageNum
+    [total]=total
     (notify)="handleNotify($event)"
-    [hideCheckbox]="true"
-    [showSeq]="true"
-    [hidePagination]="true"
+    (changePage)=handleChangePage($event)
+    [hideRemoveAll]=true
   ></seer-table>
 </seer-collapse-card>

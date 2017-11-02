@@ -10,7 +10,7 @@
       <button class="pull-right btnGroup__item {{action.className}}" *ngFor="let action of headerActions" (click)="handleHeaderActionsClick($event, action)">{{ action.name }}</button>
     </div>
   </div>
-  <div class="card-body" [@slideInOut]="isExpanded()">
+  <div class="card-body" [style.overflow]="canCollapse ? 'hidden': 'visible'" [@slideInOut]="isExpanded()">
     <div class="card-content">
       <ng-content></ng-content>
     </div>

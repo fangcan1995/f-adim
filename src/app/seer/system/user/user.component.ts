@@ -1,4 +1,5 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { DatePipe } from "@angular/common"; 
 import { Router } from "@angular/router";
 import * as _ from 'lodash';
 import { UserService } from './user.service';
@@ -7,13 +8,15 @@ import { UPDATE, DELETE, CREATE } from '../../common/seer-table';
 @Component({
   templateUrl: './user.component.html',
   styleUrls: [ './user.component.scss' ],
+  providers: [DatePipe],
 })
-export class UserComponent {
+export class UserComponent implements OnInit {
   constructor(
     private _router:Router,
     private _userService:UserService,
     private _dialogService:SeerDialogService,
     private _messageService:SeerMessageService,
+    private _datePipe:DatePipe
     ) {}
   hasGlobalFilter:boolean = true;
   filters:any = [
@@ -115,18 +118,26 @@ export class UserComponent {
   ];
   total = 0;
   users = [];
-  params:any = {
-    pageSize: 10,
-    pageNum: 1,
-    sortBy: ''
-  };
+  pageSize: 10;
+  pageNum: 1;
+  sortBy: '';
+  params:any = { };
+  ngOnInit() {
+    this.params = {
+      pageSize: this.pageSize,
+      pageNum: this.pageNum,
+      sortBy: this.sortBy
+    }
+  }
   getList():void {
     this._userService.getList(this.params)
     .then(res => {
       let data = res.data || {};
-      this.users = data.list || [];
-      this.users = _.map(this.users, t => _.set(t, 'actions', [UPDATE, DELETE]))
+      this.users = _.map(data.list, t => _.set(t, 'actions', [UPDATE, DELETE]))
       this.total = data.total || 0;
+
+      this.pageSize = data.pageSize || this.params.pageSize;
+      this.pageNum = data.pageNum || this.params.pageNum;
     })
     .catch(err => {
       this.showError( err.msg || '获取用户失败' );
@@ -139,12 +150,12 @@ export class UserComponent {
         updateTimeStart,
         updateTimeEnd;
     if ( _.isArray(loginDate) ) {
-      loginDateStart = loginDate[0] ? loginDate[0].getTime() : null;
-      loginDateEnd = loginDate[1] ? loginDate[1].getTime() : null;
+      loginDateStart = loginDate[0] ? this._datePipe.transform(loginDate[0],"yyyy-MM-dd HH:mm:ss") : null;
+      loginDateEnd = loginDate[1] ? this._datePipe.transform(new Date(loginDate[1].getTime() + 86400000),"yyyy-MM-dd HH:mm:ss") : null;
     }
     if ( _.isArray(updateTime) ) {
-      updateTimeStart = updateTime[0] ? updateTime[0].getTime() : null;
-      updateTimeEnd = updateTime[1] ? updateTime[1].getTime() : null;
+      updateTimeStart = updateTime[0] ? this._datePipe.transform(updateTime[0],"yyyy-MM-dd HH:mm:ss") : null;
+      updateTimeEnd = updateTime[1] ? this._datePipe.transform(new Date(updateTime[1].getTime() + 86400000),"yyyy-MM-dd HH:mm:ss") : null;
     }
     this.params = {
       ...this.params,

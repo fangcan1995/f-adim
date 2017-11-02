@@ -1,100 +1,121 @@
 import {Injectable} from "@angular/core";
-import {HttpInterceptorService} from "../../../theme/services/http-interceptor.service";
+import {BaseService} from "../../base.service";
 import {Observable} from "rxjs/Observable";
+
 import * as _ from 'lodash';
 
 @Injectable()
-export class AnnouncementService {
+export class AnnouncementService extends BaseService<any>{
 
-  constructor(private _httpInterceptorService: HttpInterceptorService) {
-  }
+  apiUrl = '';
+  accessToken = '';
 
   mockData = [
     {
-      "id": "1",
-      "announcementTitle": "XXXXXXX",
-      "announcementType": "前端",
-      "addDate": "2017-09-04 10:21:12",
-      "state": "启用中",
-      "someStatus": "2"
+      'id': '1',
+      'announcementName': 'xxxx',
+      'announcementTitle':'xxxxx',
+      'effectDate': '2017/10/27',
+      'lastEditDate': '2017-10-27 11:11:11',
+      'lastEditPerson': 'llxxs',
+      'status': '1'
     },
     {
-      "id": "2",
-      "announcementTitle": "XXXXXXX",
-      "announcementType": "后端",
-      "addDate": "2017-09-04 10:21:12",
-      "state": "启用中",
-      "someStatus": "2"
+      'id': '2',
+      'announcementName': 'xxxx',
+      'announcementTitle':'xxxxx',
+      'effectDate': '2017/10/27',
+      'lastEditDate': '2017-10-27 11:11:11',
+      'lastEditPerson': 'llxxs',
+      'status': '1'
     },
     {
-      "id": "3",
-      "announcementTitle": "XXXXXXX",
-      "announcementType": "后端",
-      "addDate": "2017-09-04 10:21:12",
-      "state": "启用中",
-      "someStatus": "2"
+      'id': '3',
+      'announcementName': 'xxxx',
+      'announcementTitle':'xxxxx',
+      'effectDate': '2017/10/27',
+      'lastEditDate': '2017-10-27 11:11:11',
+      'lastEditPerson': 'llxxs',
+      'status': '1'
     },
     {
-      "id": "4",
-      "announcementTitle": "XXXXXXX",
-      "announcementType": "后端",
-      "addDate": "2017-09-04 10:21:12",
-      "state": "已禁用",
-      "someStatus": "1"
+      'id': '4',
+      'announcementName': 'xxxx',
+      'announcementTitle':'xxxxx',
+      'effectDate': '2017/10/27',
+      'lastEditDate': '2017-10-27 11:11:11',
+      'lastEditPerson': 'llxxs',
+      'status': '1'
     },
     {
-      "id": "5",
-      "announcementTitle": "XXXXXXX",
-      "announcementType": "前端",
-      "addDate": "2017-09-04 10:21:12",
-      "state": "已禁用",
-      "someStatus": "1"
+      'id': '5',
+      'announcementName': 'xxxx',
+      'announcementTitle':'xxxxx',
+      'effectDate': '2017/10/27',
+      'lastEditDate': '2017-10-27 11:11:11',
+      'lastEditPerson': 'llxxs',
+      'status': '1'
     },
     {
-      "id": "6",
-      "announcementTitle": "XXXXXXX",
-      "announcementType": "前端",
-      "addDate": "2017-09-04 10:21:12",
-      "state": "已禁用",
-      "someStatus": "1"
+      'id': '6',
+      'announcementName': 'xxxx',
+      'announcementTitle':'xxxxx',
+      'effectDate': '2017/10/27',
+      'lastEditDate': '2017-10-27 11:11:11',
+      'lastEditPerson': 'llxxs',
+      'status': '1'
     },
     {
-      "id": "7",
-      "announcementTitle": "XXXXXXX",
-      "announcementType": "后端",
-      "addDate": "2017-09-04 10:21:12",
-      "state": "已禁用",
-      "someStatus": "1"
-    }
+      'id': '7',
+      'announcementName': 'xxxx',
+      'announcementTitle':'xxxxx',
+      'effectDate': '2017/10/27',
+      'lastEditDate': '2017-10-27 11:11:11',
+      'lastEditPerson': 'llxxs',
+      'status': '1'
+    },
+
   ];
 
   // 获取数据列表
-  getList(params?): Observable<any> {
+  getList(params?): Promise<any> {
     // return this._httpInterceptorService.request('GET', `${baseUrl}/${apis['MEMBERS']}`, params);
-    let res = {
+    /*let res = {
       code: 0,
       msg: '',
       data: this.mockData,
       extras: {}
     };
-    return Observable.of(res)
+    return Observable.of(res)*/
+    return new Promise( resolve => {
+      resolve ({
+        "code": "0",
+        "message": "SUCCESS",
+        'data':{
+          "pageNum": 1,
+          "pageSize": 10,
+          "total": 13,
+          "list":this.mockData,
+        }
+      });
+    });
   }
 
   // 删除一条数据
-  deleteOne(id): Observable<any> {
-    // return this._httpInterceptorService.request('DELETE', `${baseUrl}/${apis['MEMBERS']}/${id}`)
+  deleteOne (id): Promise<any> {
+    /*const url = `${this.apiUrl}?access_token=${this.accessToken}`;
+    return this.delete(url,params);*/
     let data = _.remove(this.mockData, x => x.id === id);
-    let res = {
-      code: 0,
-      msg: '',
-      data,
-      extras: {}
-    };
-    return Observable.of(res);
+    return new Promise((resolve, reject) => {
+      resolve({
+        "code": "0",
+        "message": "SUCCESS",
+      });
+    });
   }
 
   // 获取一条数据
-  getOne(id): Observable<any> {
+  /*getOne(id): Observable<any> {
     // return this._httpInterceptorService.request('GET', `${baseUrl}/${apis['MEMBERS']}/${id}`);
     let data = _.find(this.mockData, x => x.id === id);
     console.log(data);
@@ -105,11 +126,22 @@ export class AnnouncementService {
       extras: {}
     };
     return Observable.of(res);
+  }*/
 
+  getOne (id): Promise<any> {
+    /*const url = `${this.apiUrl}?access_token=${this.accessToken}`;
+    return this.getById(url,params);*/
+    return  new Promise ( (resolve) => {
+      resolve({
+        "code":"0",
+        "message":"SUCCESS",
+        "data": _.find(this.mockData, x => x.id === id)
+      });
+    })
   }
 
   // 添加一条数据
-  postOne(params): Observable<any> {
+  /*postOne(params): Observable<any> {
     // return this._httpInterceptorService.request('POST', `${baseUrl}/${apis['MEMBERS']}`, params)
     let id = _.reduce(this.mockData, (max, n) => Number(n.id) > max ? Number(n.id) : max, 0) + 1;
     params.id = id;
@@ -121,39 +153,37 @@ export class AnnouncementService {
       extras: {}
     };
     return Observable.of(res);
+  }*/
+
+  postOne(params): Promise<any> {
+    /*const url = `${this.apiUrl}?access_token=${this.accessToken}`;
+    return this.create(url,params);*/
+    let id = _.reduce(this.mockData, (max, n) => Number(n.id) > max ? Number(n.id) : max, 0) + 1;
+    params.id = id;
+    this.mockData.push(params);
+    return new Promise ( (resolve) => {
+      resolve ({
+        "code": "0",
+        "message": "SUCCESS",
+        "data": this.mockData
+      })
+    })
   }
 
   // 修改一条数据，提供所有字段
-  putOne(id, params): Observable<any> {
-    // return this._httpInterceptorService.request('PUT', `${baseUrl}/${apis['MEMBERS']}/${id}`, params)
-    let index = _.findIndex(this.mockData, t => t.id === id);
-    if (index != -1) {
-      this.mockData[index] = params;
-    }
-    let res = {
-      code: 0,
-      msg: '',
-      data: params,
-      extras: {}
-    };
-    return Observable.of(res);
+  putOne(params): Promise<any> {
+    /*const url = `${this.apiUrl}?access_token=${this.accessToken}`;
+    return this.update(url,params);*/
+    let index = _.findIndex(this.mockData, x => x.id === params.id);
+    this.mockData[index] = params.data;
+    return new Promise((resolve, reject) => {
+      resolve({
+        "code": "0",
+        "message": "SUCCESS"
+      });
+    });
   }
 
-  // 更改一条数据的 禁用/启用 状态
-
-  changeOne(id): Observable<any>{
-    // return this._httpInterceptorService.request('DELETE', `${baseUrl}/${apis['MEMBERS']}/${id}`)
-    let data = _.find(this.mockData, x => x.id === id);
-
-    console.log(data.someStatus);
-    let res = {
-      code: 0,
-      msg: '',
-      data,
-      extras: {}
-    };
-    return Observable.of(res);
-  }
 
 
 }

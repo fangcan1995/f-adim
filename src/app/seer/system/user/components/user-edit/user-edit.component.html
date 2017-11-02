@@ -47,22 +47,29 @@
               <div class="row">
                 <label for="departmentName" class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">所属机构</label>
                 <div class="col-sm-8 col-md-7 col-lg-6">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="departmentName"
-                    name="departmentName"
-                    placeholder="所属机构"
-                    [required]=true
-                    [(ngModel)]="user.departmentName"
-                    />
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="departmentName"
+                      name="departmentName"
+                      placeholder="所属机构"
+                      [required]=true
+                      [(ngModel)]="user.departmentName"
+                      (click)=toggleDepartmentDropdown($event)
+                      />
+                      <div style="position: relative;">
+                        <div class="dropdown-menu departMentDropdown" [class.show]="isDepartmentDropdownOpen" role="menu">
+                          123213123123
+                        </div>
+                      </div>
+                    
                 </div>
               </div>
             </div>
             
             <div class="col-sm-12 col-md-6 form-group" *ngIf="editType === 'edit'">
               <div class="row">
-                <label for="departmentName" class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">用户密码</label>
+                <label class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">用户密码</label>
                 <div class="col-sm-8 col-md-7 col-lg-6">
                   <button type="button" class="btn btn-primary" [disabled]="forbidResetPasswordBtn">密码重置</button>
                 </div>
@@ -71,15 +78,15 @@
             
             <div class="col-sm-12 col-md-6 form-group">
               <div class="row">
-                <label for="departmentName" class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">用户角色</label>
+                <label class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">用户角色</label>
                 <div class="col-sm-8 col-md-7 col-lg-6">
-                  <ss-multiselect-dropdown
-                    [options]="multiColumnOptions"
-                    (ngModelChange)="onChangeColumn($event)"
-                    [texts]="multiSelectTexts"
-                    [settings]="multiSelectSettings"
-                    >
-                  </ss-multiselect-dropdown>
+                  <div class="form-control user-role-list">
+                    <label *ngFor="let role of roles">
+                      <seer-cool-checkbox
+                        [(checked)]=role.checked
+                      ></seer-cool-checkbox> {{ role.roleName }}
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>

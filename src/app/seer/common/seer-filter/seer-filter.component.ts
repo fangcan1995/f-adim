@@ -159,7 +159,13 @@ export class SeerFilterComponent implements OnInit {
   }
   handleResetBtnClick() {
     _.each(this.filters, x => {
-      x.value = undefined;
+      if ( _.isArray(x.groups) ) {
+        _.each(x.groups, y => {
+          y.value = undefined;
+        })
+      } else {
+        x.value = undefined;
+      }
     })
     this.filters$.next({
       ...this.getFilterParams(this.filters),

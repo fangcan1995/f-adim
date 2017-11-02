@@ -66,13 +66,13 @@ export const ENABLE= {
   type: 'enable',
   name: '启用',
   className: 'btn btn-xs btn-info',
-  icon: 'icon-blocked',
+  icon: 'icon-checkmark',
 
 }
 export const DISABLE= {
   type: 'disable',
   name: '禁用',
   className: 'btn btn-xs btn-info',
-  icon: 'icon-checkmark',
+  icon: 'icon-blocked',
 
 }
