@@ -13,7 +13,6 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
   public announcement: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
-
   constructor(private _announcementService: AnnouncementService,
               private _messageService: SeerMessageService,
               private _activatedRoute: ActivatedRoute,
@@ -31,8 +30,8 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
         if (this._editType === 'edit') {
           console.log(params.id);
           this._announcementService.getOne(params.id)
-            .subscribe(res => {
-              this.announcement = res.data || {};
+            .then(res => {
+              this.announcement = res.data;
               this.forbidSaveBtn = false;
             }, errMsg => {
               // 错误处理的正确打开方式
@@ -59,9 +58,30 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
     this.forbidSaveBtn = true;
     let requestStream$;
     if (this._editType === 'edit') {
-      requestStream$ = this._announcementService.putOne(this.announcement.id, this.announcement)
+      //requestStream$ = this._announcementService.putOne(this.announcement.id, this.announcement);
+      requestStream$ = this._announcementService.putOne({"id":this.announcement.id,  data: this.announcement})
+        .then(data => {
+          if(data.code === '0') {
+            this.alertSuccess(data.message);
+          }
+          else {
+            this.alertError(data.message);
+          }
+        }).catch(err => {
+          this.alertError(err.json().message);
+        });
     } else if (this._editType === 'add') {
       requestStream$ = this._announcementService.postOne(this.announcement)
+        .then( data => {
+          if(data.code === '0') {
+            this.alertSuccess(data.message);
+          }
+          else {
+            this.alertError(data.message);
+          }
+        }).catch(err => {
+          this.alertError(err.json().message);
+        });
     } else {
       return;
     }
@@ -85,6 +105,25 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
       })
 
   }
+
+  alertSuccess(info:string){
+    this._messageService.open({
+      icon: 'fa fa-times-circle',
+      message: info,
+      autoHideDuration: 3000,
+    }).onClose().subscribe(() => {
+      this._router.navigate(['/content/announcement/'])
+    });
+  };
+  alertError(errMsg:string){
+    this.forbidSaveBtn = false;
+    // 错误处理的正确打开方式
+    this._messageService.open({
+      icon: 'fa fa-times-circle',
+      message: errMsg,
+      autoHideDuration: 3000,
+    })
+  };
 
   ngOnDestroy(): void {
     // throw new Error("Method not implemented.");
