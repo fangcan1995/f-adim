@@ -82,7 +82,7 @@ export class OrgService {
 
   delOrganization(orgId) {
     //let url = `${this.orgManageUrl}/organization/${orgId}`;
-    let url = `http://172.16.4.62:8090/organizations${orgId}`;   //测试用地址
+    let url = `http://172.16.4.62:8090/organizations/${orgId}`;   //测试用地址
     return this.baseService.delete(url);
   }
 

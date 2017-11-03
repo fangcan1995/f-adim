@@ -191,8 +191,8 @@ export class OrgComponent implements OnDestroy{
    * 组织树通知
    * */
   onNotify($event){
-    console.log($event);
-    console.log("=============================");
+    //console.log($event);
+    //console.log("=============================");
 
     // debugger;
     // if($event.eventName == "onSelectCompleted"){
@@ -206,15 +206,9 @@ export class OrgComponent implements OnDestroy{
     // }
 
     if($event.eventName == "onFocus"){
-      /*console.log($event);
-      if($event.node.children) {
-        alert(1);
-      }
-      else {
-        alert(0)
-      }*/
 
-      /*if($event.node.children.length > 0){
+
+      if($event.node.children.length > 0){
         for(let i = 0 ; i < $event.node.data.children.length; i++){
           console.log($event.node.data.children);
           console.log("-------------------------------------");
@@ -225,7 +219,7 @@ export class OrgComponent implements OnDestroy{
       }else{
        this.staf = $event.node.data.name
        this.staffName =""
-      }*/
+      }
       this.staf = $event.node.data.id;
       this.staffName = $event.node.data.name;
       console.log($event.node.data);

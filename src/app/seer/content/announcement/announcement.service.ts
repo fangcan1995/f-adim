@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {BaseService} from "../../base.service";
+import {BaseService} from "../../../theme/services/base.service";
 import {Observable} from "rxjs/Observable";
 import {getStorage} from "../../../theme/libs/utils"
 
