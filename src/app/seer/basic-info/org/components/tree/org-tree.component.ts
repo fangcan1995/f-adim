@@ -47,16 +47,17 @@ export class OrgTreeDialogComponent extends BaseModalComponent implements OnInit
 
   save(){
     let node = this.seerTree.getSelectedNodes(false);//这里注意一下：参数默认为true，如果为false，不会排除掉文件夹节点
-
-    if(node.length == 1) {
-      let staff = {id: this.data.id, staffOrgId: node[0].id};
+    console.log(123);
+    console.log(node);
+    /*if(node.length == 1) {
+      let department = {id: this.data.id, staffOrgId: node[0].id};
       this.service.updateStaffOrgId(staff).then((result) => {
-        if(result.success) {
+        if(result) {
           this.gs.notify("orgStaffState",null);
           this.closeModal();
         }
       });
-    }
+    }*/
   }
 
   /*
