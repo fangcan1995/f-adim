@@ -48,7 +48,7 @@ export class StaffService extends BaseService<StaffModule> {
 
   // 3、添加一个员工
   postOne(params: StaffModule): Promise<any> {
-    return this.postOne(params);
+    return super.postOne(params);
     // const url = `${this.staffsAPI}`;
     // return this.http.post(url, params, {
     //   withCredentials: true
@@ -57,12 +57,13 @@ export class StaffService extends BaseService<StaffModule> {
 
   // 4、删除一个员工
   deleteOne(id): Promise<any> {
-    return this.deleteOne(id);
+    return super.deleteOne(id);
   }
 
   // 5、修改员工信息
   putOne(id, params): Promise<any> {
-    return this.putOne(id, params);
+    // return super.putOne(id, params);
+    return this._httpInterceptorService.request('PUT', `${this.staffsAPI}`, params).toPromise();
   }
 
   // 6、新增教育经历

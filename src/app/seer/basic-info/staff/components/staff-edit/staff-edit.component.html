@@ -91,7 +91,7 @@
                 <div class="col-sm-8 ">
                   <seer-datepicker
                     [(date)]="staff.sysEmployer.exitTime"
-                    [disabled]="isDimission"
+                    [disabled]="!isDimission"
                     [name]="exitTime">
                   </seer-datepicker>
                 </div>
@@ -152,7 +152,7 @@
               <div class="row">
                 <label for="empName" class="col-sm-4 control-label">姓名</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="empName" placeholder="姓名"
+                  <input type="text" class="form-control" id="empName"
                          [(ngModel)]="staff.sysEmployer.empName" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
@@ -213,8 +213,13 @@
               <div class="row">
                 <label for="maritaStatus" class="col-sm-4 control-label">婚否</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="maritaStatus" [(ngModel)]="staff.sysEmployer.maritaStatus"
-                         [ngModelOptions]="{standalone: true}">
+                  <select type="email" class="form-control" name="maritaStatus" id="maritaStatus"
+                          [(ngModel)]="staff.sysEmployer.maritaStatus"
+                          dict-select required
+                          [key]="'MARRAGE_STATUS'"
+                          [topOption]="{itemId:'',itemName:'请选择'}"
+                          [selected]="staff.sysEmployer.maritaStatus">
+                  </select>
                 </div>
               </div>
             </div>

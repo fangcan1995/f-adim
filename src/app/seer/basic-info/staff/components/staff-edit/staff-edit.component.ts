@@ -93,11 +93,8 @@ export class StaffEditComponent implements OnInit {
           // console.log(res.data.sysEmployer);
           this.staff = res.data || {};
 
-          this.staff.sysEmployer.entryTime = new Date(this.staff.sysEmployer.entryTime);
-          this.staff.sysEmployer.exitTime = new Date(this.staff.sysEmployer.exitTime);
-          this.staff.sysEmployer.contractStartDate = new Date(this.staff.sysEmployer.contractStartDate);
-          this.staff.sysEmployer.contractEndDate = new Date(this.staff.sysEmployer.contractEndDate);
-          this.staff.sysEmployer.empBirth = new Date(this.staff.sysEmployer.empBirth);
+          this.dateFormat();
+          this.staffStateChange(this.staff.sysEmployer.empStatus);
 
           this.educationsData = this.staff.sysEduExperList;
           this.educationsData = _.map(this.educationsData, r => _.set(r, 'actions', [UPDATE, DELETE]));
@@ -129,40 +126,9 @@ export class StaffEditComponent implements OnInit {
     this._location.back()
   }
 
-  // handleSaveBtnClick() {
-  //   if (this.forbidSaveBtn) return;
-  //   this.forbidSaveBtn = true;
-  //   let requestStream$;
-  //   if (this._editType === 'edit') {
-  //     //console.log(this.staff);
-  //     requestStream$ = this._staffService.putOne(this.staff);
-  //   } else {
-  //     return;
-  //   }
-  //   requestStream$
-  //     .subscribe(res => {
-  //       this._messageService.open({
-  //         icon: 'fa fa-times-circle',
-  //         message: res.msg,
-  //         autoHideDuration: 3000,
-  //       }).onClose().subscribe(() => {
-  //         this._router.navigate(['/basic-info/staff-manage'])
-  //       });
-  //     }, errMsg => {
-  //       this.forbidSaveBtn = false;
-  //       // 错误处理的正确打开方式
-  //       this._messageService.open({
-  //         icon: 'fa fa-times-circle',
-  //         message: errMsg,
-  //         autoHideDuration: 3000,
-  //       })
-  //     })
-  //
-  // }
-
   /*离职处理,员工状态选中离职后，激活离职时间按钮*/
   staffStateChange(staffStateId: any) {
-    if (staffStateId == '02') {
+    if (staffStateId == '2') {
       this.isDimission = true;
     } else {
       this.isDimission = false;
@@ -184,18 +150,7 @@ export class StaffEditComponent implements OnInit {
   //职位保存基本信息
   jobInfoNotify() {
     console.log(this.staff.sysEmployer);
-    // this._staffService.putOne(this.staff.sysEmployer.id, this.staff.sysEmployer).then((result) => {
-    //   console.log(this.staff.sysEmployer);
-    //   if (result.code == 0) {
-    //     alert("添加成功");
-    //   } else {
-    //     alert("添加失败");
-    //   }
-    // });
-  }
-
-  //职位个人基本信息
-  staffInfoNotify() {
+    this.timestampFormat();
     this._staffService.putOne(this.staff.sysEmployer.id, this.staff.sysEmployer).then((result) => {
       console.log(this.staff.sysEmployer);
       if (result.code == 0) {
@@ -204,6 +159,57 @@ export class StaffEditComponent implements OnInit {
         alert("添加失败");
       }
     });
+  }
+
+  //职位个人基本信息
+  staffInfoNotify() {
+    this.timestampFormat();
+    this._staffService.putOne(this.staff.sysEmployer.id, this.staff.sysEmployer).then((result) => {
+      console.log(this.staff.sysEmployer);
+      if (result.code == 0) {
+        alert("添加成功");
+      } else {
+        alert("添加失败");
+      }
+    });
+  }
+
+  /*Date类型转化为时间戳*/
+  timestampFormat() {
+    if (this.staff.sysEmployer.entryTime != null && this.staff.sysEmployer.entryTime != "") {
+      this.staff.sysEmployer.entryTime = this.staff.sysEmployer.entryTime.getTime();
+    }
+    if (this.staff.sysEmployer.exitTime != null && this.staff.sysEmployer.exitTime != "") {
+      this.staff.sysEmployer.exitTime = this.staff.sysEmployer.exitTime.getTime();
+    }
+    if (this.staff.sysEmployer.contractStartDate != null && this.staff.sysEmployer.contractStartDate != "") {
+      this.staff.sysEmployer.contractStartDate = this.staff.sysEmployer.contractStartDate.getTime();
+    }
+    if (this.staff.sysEmployer.contractEndDate != null && this.staff.sysEmployer.contractEndDate != "") {
+      this.staff.sysEmployer.contractEndDate = this.staff.sysEmployer.contractEndDate.getTime();
+    }
+    if (this.staff.sysEmployer.empBirth != null && this.staff.sysEmployer.empBirth != "") {
+      this.staff.sysEmployer.empBirth = this.staff.sysEmployer.empBirth.getTime();
+    }
+  }
+
+  /*时间戳转化为Date*/
+  dateFormat() {
+    if (this.staff.sysEmployer.entryTime != null && this.staff.sysEmployer.entryTime != "") {
+      this.staff.sysEmployer.entryTime = new Date(this.staff.sysEmployer.entryTime);
+    }
+    if (this.staff.sysEmployer.exitTime != null && this.staff.sysEmployer.exitTime != "") {
+      this.staff.sysEmployer.exitTime = new Date(this.staff.sysEmployer.exitTime);
+    }
+    if (this.staff.sysEmployer.contractStartDate != null && this.staff.sysEmployer.contractStartDate != "") {
+      this.staff.sysEmployer.contractStartDate = new Date(this.staff.sysEmployer.contractStartDate);
+    }
+    if (this.staff.sysEmployer.contractEndDate != null && this.staff.sysEmployer.contractEndDate != "") {
+      this.staff.sysEmployer.contractEndDate = new Date(this.staff.sysEmployer.contractEndDate);
+    }
+    if (this.staff.sysEmployer.empBirth != null && this.staff.sysEmployer.empBirth != "") {
+      this.staff.sysEmployer.empBirth = new Date(this.staff.sysEmployer.empBirth);
+    }
   }
 
   //教育背景
