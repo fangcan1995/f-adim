@@ -3,25 +3,26 @@
     [hasGlobalFilter]="hasGlobalFilter"
     [filters]="filters"
     (onFiltersChanged)=handleFiltersChanged($event)
-    (onSearchBtnClicked)=handleSearchBtnClicked($event)
+    (onSearchBtnClicked)=handleFiltersChanged($event)
   ></seer-filter>
 </seer-content-top>
 <seer-collapse-card>
   <seer-table
-    [paginationRules]="paginationRules"
-    [rowsOnPageSet]="rowsOnPageSet"
-    [rowsOnPage]="rowsOnPage"
-    [pageSize]="pageSize"
-    [customActions]="customActions"
-    [hideAddButton]=true
-    [hideRemoveAll]=true
-    [hidePrint]="true"
     [data]="members"
     [titles]="titles"
     [translate]="dict"
+    [paginationRules]="0"
+    [pageNum]="pageInfo.pageNum"
+    [pageSize]="pageInfo.pageSize"
+    [total]="pageInfo.total"
+    [showSeq]="true"
+    [hideExport]="true"
+    [hideAddButton]=true
+    [hideRemoveAll]=true
+    [hideCheckbox]="true"
+    [hidePrint]="true"
     [hideColumns]="true"
     (notify)="onChange($event)"
-    (changePage)="onPageChange($event)"
-    [total]="total"
+    (changePage)="handlePageChange($event)"
   ></seer-table>
 </seer-collapse-card>

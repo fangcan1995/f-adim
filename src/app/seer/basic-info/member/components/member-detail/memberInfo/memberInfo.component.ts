@@ -90,19 +90,19 @@ export class MemberInfoComponent implements OnInit {
         console.log(this._editType);
         if ( this._editType === 'detail' ) {
           this._memberService.getOne(params.id)
-            .subscribe(res => {
-              console.log(res.data);
+            .then(res => {
+              console.log('*********************');
+              console.log(res);
               this.member = res.data || {};
-              this.emergencyContact=res.data.emergencyContact;
-              this.vehicleInfo=res.data.vehicleInfo;
-              //this.vehicleInfo = _.map(this.vehicleInfo, r => _.set(r, 'actions', [UPDATE, DELETE]));
-              this.houseInfo=res.data.houseInfo;
-              this.creditInfo=res.data.creditInfo;
-              //this.creditInfo=_.map(this.creditInfo, r => _.set(r, 'actions', [DOWNLOAD, PREVIEW]))
+              this.baseInfo=this.member.baseInfo|| {};
+              this.emergencyContact=this.member.contactList|| [];
+              this.workInfo=this.member.workInfo|| {};
+              this.accountInfo=this.member.AcBank|| {};
+              this.financialInfo=this.member.financialInfo|| {};
+              this.vehicleInfo=this.member.carMessageList|| [];
+              this.houseInfo=this.member.houseMessageList|| [];
+              this.creditInfo=this.member.creditInfo|| [];
               this.forbidSaveBtn = false;
-            }, errMsg => {
-              // 错误处理的正确打开方式
-
             })
         }
       })
