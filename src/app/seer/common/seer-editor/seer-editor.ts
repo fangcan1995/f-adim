@@ -18,21 +18,22 @@ import 'ckeditor';
   templateUrl: './seer-editor.html',
   styleUrls: ['./seer-editor.scss'],
 })
-export class SeerEditorComponent implements OnInit {
-  @Input() data;
+export class SeerEditorComponent {
+  private dataValue;
   public config = {
     uiColor: '#F0F3F4',
     height: '200'
   };
-  @Output() notify: EventEmitter<any> = new EventEmitter<any>();
-  constructor() {
-  }
-  ngOnInit(): void {
 
+  @Input()
+  set data(val) {
+    this.dataValue = val;
+    this.dataChange.emit(this.dataValue);
   }
-  onChange(event){
-    this.notify.emit({type: 'changed', data: event});
+  get data() {
+    return this.dataValue;
   }
+  @Output() dataChange: EventEmitter<any> = new EventEmitter();
 }
 
 
