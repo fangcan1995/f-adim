@@ -96,7 +96,7 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
     console.log(this.announcement);
     requestStream$ = this._announcementService.putOne(this.announcement)
       .then(data => {
-        if(data.code === '0') {
+        if(data.code == 0) {
           this.alertSuccess(data.message);
         }
         else {
