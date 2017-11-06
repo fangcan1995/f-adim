@@ -1,21 +1,29 @@
 import {
-  Directive, Input, OnInit, ViewContainerRef, OnChanges, SimpleChanges,
+  Directive,
+  Input,
+  OnInit,
+  ViewContainerRef,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
-import {BaseService} from "../../base.service";
+import * as _ from 'lodash';
+import { ManageService, ResModel } from '../../../theme/services';
 
 /**
  * If the given string is not a valid date, it defaults back to today
  */
 @Directive({
   selector: '[dict-trans]',
-  providers: [BaseService],
+  providers: [ ManageService ],
 })
 export class DictTranslateDirective implements OnInit,OnChanges {
+  ngOnInit(): void {
+    if (null == this.key) throw new Error("Attribute 'key' is required");
+    //先从缓存查找，若没有则从服务器获取并加载
+    this.getValueName();
+  }
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes['value']){
-      this.value = changes['value']['currentValue'];
-      this.getValueName();
-    }
+    if( changes.value )  this.getValueName();
   }
 
   @Input() key: string;
@@ -23,27 +31,25 @@ export class DictTranslateDirective implements OnInit,OnChanges {
 
   private el: HTMLInputElement;
 
-  constructor(private baseService: BaseService<any>,
-              private viewContainerRef: ViewContainerRef,) {
+  constructor(
+    private manageService: ManageService,
+    private viewContainerRef: ViewContainerRef,
+    ) {
     this.el = this.viewContainerRef.element.nativeElement;
   }
 
   getValueName() {
-    this.baseService.getDictByKey(this.key.toUpperCase()).then(result => {
-      if (result.success) {
-        for (let dict of result.data) {
-          if (dict.dictValueId == this.value) {
-            this.el.innerText = dict.dictValueName;
-          }
+    this.manageService.getDictsByCategory(this.key)
+    .then((res:ResModel) => {
+      if ( res.code == 0 ) {
+        let dict = _.find(res.data, t => t['itemId'] == this.value)
+        if ( dict ) {
+          this.el.innerText = dict['itemName'];
         }
       }
     });
   }
 
-  ngOnInit(): void {
-    if (null == this.key) throw new Error("Attribute 'key' is required");
-    //先从缓存查找，若没有则从服务器获取并加载
-    this.getValueName();
-  }
+  
 
 }

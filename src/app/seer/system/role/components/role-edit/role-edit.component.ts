@@ -49,42 +49,21 @@ export class RoleEditComponent implements OnInit {
         this.role = res.data || {};
         let data = res.data || {};
         this.role = data.roleInfo || {};
-        this.activeResources = [{menuId: 1, menuPid: 0, menuName: "首页", menuType: 1, menuDesc: ""}] //data.resourceInfo || [];
+        this.activeResources = data.resourceInfo || [];
         this.activeAccounts = data.accountInfo || [];
         this.forbidSaveBtn = false;
-        return this.getResources();
+        this.getResources();
+
+        this.getUsersWithStaffsWithOrgs();
+
       })
-      .then(res => {
-        let resources = res.data ? res.data.list || [] : [];
-        this.resourceTreeNodes = json2Tree(
-          resources, 
-          {
-            id: 'menuId',
-            parentId: 'menuPid'
-          }, 
-          [
-            {
-              origin: 'menuName',
-              replace: 'name'
-            },
-            {
-              origin: 'menuId',
-              replace: 'id'
-            }
-          ]
-        );
-        setTimeout(() => {
-          this.resourceTree.setActiveNodes(_.map(this.activeResources, t => t['menuId']))
-        })
-        
-      })
+      
       .catch(err => {
-        console.log(err)
-        /*this.showError(err.msg || '获取角色信息失败')
+        this.showError(err.msg || '获取角色信息失败')
         .onClose()
         .subscribe(() => {
           this._router.navigate(['/system/role']);
-        });*/
+        });
       });
     } else if ( this.editType === 'add' ) {
       this._route.queryParams
@@ -93,12 +72,47 @@ export class RoleEditComponent implements OnInit {
       });
       this.forbidSaveBtn = false;
       this.getResources();
+      this.getUsersWithStaffsWithOrgs();
     }
+  }
+  getUsersWithStaffsWithOrgs() {
+    return Promise.all([
+      this._roleService.getOrgs(),
+      this._roleService.getStaffs(),
+      this._roleService.getUsers(),
+      ])
+      .then(res => {
+      });
   }
 
   getResources() {
     return this._roleService.getResourcesFromServer({pageSize: 10000})
-    
+    .then(res => {
+      let resources = res.data ? res.data.list || [] : [];
+      this.resourceTreeNodes = json2Tree(
+        resources, 
+        {
+          id: 'menuId',
+          parentId: 'menuPid'
+        }, 
+        [
+          {
+            origin: 'menuName',
+            replace: 'name'
+          },
+          {
+            origin: 'menuId',
+            replace: 'id'
+          }
+        ]
+      );
+
+      // 要等tree渲染完才能执行，只要异步就行
+      setTimeout(() => {
+        this.resourceTree.setActiveNodes(_.map(this.activeResources, t => t['menuId']))
+      })
+      
+    })
   }
 
   handleSaveBtnClick() {
