@@ -69,7 +69,7 @@ export class MessageTemplateComponent {
   pageInfo={
     "pageNum":1,
     "pageSize":10,
-    "sort":"-createTime",
+    "sort":"",
     "total":"",
     "query":{
       "globalSearch":"",
@@ -134,8 +134,9 @@ export class MessageTemplateComponent {
       this.pageInfo.pageSize=res.data.pageSize; //每页记录数
       this.pageInfo.total=res.data.total; //记录总数
       this.source = res.data.list;
-
       this.source = _.map(this.source, r => _.set(r, 'actions', [ PREVIEW,UPDATE, DELETE ]));
+    }).catch(err => {
+      this._dialogService.alert(err.json().message);
     });
   }
   onChange(message):void {
@@ -158,21 +159,20 @@ export class MessageTemplateComponent {
               this.service.deleteTemplate(message.data.id)
                 .then((data:any) => {
                   if(data.code=='0') {
-                    alert("删除成功");
+                    this._dialogService.alert(data.message);
                     this.allTplsList();
                   }else{
-                    alert("删除失败");
+                    this._dialogService.alert(data.message);
                   }
                 }).catch(err => {
-                alert(err.json().message);
+                this._dialogService.alert(err.json().message);
               });
             }
           })
 
         break;
       case 'delete_all':
-        let ids = _(data).map(t => t.id).value();
-        break;
+
     }
   }
   //分页
@@ -184,7 +184,6 @@ export class MessageTemplateComponent {
   //全局搜索
   handleFiltersChanged($event) {
     let params=$event;
-    //console.log(params);
     this.pageInfo.query = params;
     this.allTplsList();
   }

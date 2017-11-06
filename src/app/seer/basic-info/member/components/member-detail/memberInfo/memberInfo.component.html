@@ -5,53 +5,53 @@
         <seer-collapse-card title="基本信息" cardClass="with-scroll" [canCollapse]=true>
             <div class="row">
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                用户名:{{member.baseInfo.userName}}
+                用户名:{{baseInfo.userName}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                真实姓名:{{member.baseInfo.realName}}
+                真实姓名:{{baseInfo.trueName}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                  身份证号:
+                  身份证号:{{baseInfo.idNumber}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                性别:
+                性别:{{baseInfo.mSex}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                年龄:
+                年龄:{{baseInfo.mAge
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                学历:
+                学历:{{baseInfo.education}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                婚姻状况:
+                婚姻状况:{{baseInfo.maritaStatus}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                年收入:
+                年收入:{{baseInfo.yearIncome}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                社保:
+                社保:{{baseInfo.socialNo}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                手机号:{{member.baseInfo.mobilePhone}}
+                手机号:{{baseInfo.phoneNumber}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                电子邮件:
+                电子邮件:{{baseInfo.eMail}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                住房情况:
+                住房情况:{{baseInfo.houseAbout}}
               </div>
               <div class="form-group col-sm-12">
-                户籍地址:
+                户籍地址:<seer-address-picker (notify)="domicilePlaceChanged($event)" [defaultItemCode]="baseInfo.domicileDistrict" [defaultAddress]="baseInfo.domicileAddress"></seer-address-picker>
               </div>
               <div class="form-group col-sm-12">
-                现居住地
+                现居住地:<seer-address-picker (notify)="currentResidenceChanged($event)" [defaultItemCode]="baseInfo.liveDistrict" [defaultAddress]="baseInfo.liveAddress"></seer-address-picker>
               </div>
 
               <div class="form-group col-sm-12">
-                资产介绍:
+                资产介绍:{{baseInfo.assetDesc}}
               </div>
               <div class="form-group col-sm-12">
-                债务介绍:
+                债务介绍:{{baseInfo.debtDesc}}
               </div>
             </div>
         </seer-collapse-card>
@@ -165,7 +165,6 @@
             [hideColumns]="true"
             [hideRemoveAll]="true"
             [showSeq]="true"
-            (notify)="handleCreditInfo($event)"
             [hideActions]="true"
           >
           </seer-table>

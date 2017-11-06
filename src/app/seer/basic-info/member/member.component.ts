@@ -121,12 +121,14 @@ export class MemberComponent implements OnInit {
               actions = [PREVIEW,UPDATE];
               break;
             default:
-              actions = [PREVIEW];
+              actions = [PREVIEW,UPDATE];
               break;
           }
           return _.set(t, 'actions', actions)
         });
-      });
+      }).catch(err=>{
+      err.json().message
+    });
   }
 
   //
@@ -135,10 +137,10 @@ export class MemberComponent implements OnInit {
     let data = message.data;
     switch (type) {
       case 'preview':
-        this._router.navigate([`detail/${data.memberId}`], {relativeTo: this._route});
+        this._router.navigate([`detail/${data.id}`], {relativeTo: this._route});
         break;
       case 'update':
-        this._router.navigate([`edit/${data.memberId}`], {relativeTo: this._route});
+        this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
         break;
 
     }

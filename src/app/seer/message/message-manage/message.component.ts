@@ -57,16 +57,6 @@ export class MessageComponent {
       isDict: true,
       category: 'SEND_NOTIFY'
     },
-/*    {
-      key:'beginTime',
-      label:'下发时间',
-      type: 'datepicker',
-    },
-    {
-      key:'endTime',
-      label:'至',
-      type: 'datepicker',
-    },*/
     {
       key: 'postTime',
       label: '下发时间',
@@ -120,9 +110,6 @@ export class MessageComponent {
 
   ngOnInit() {
     // 数据字典
-    /*this.service.getDictTranslate().then((result)=>{
-      console.log(result)
-    })*/
     this.getList();
   }
   constructor(
@@ -157,24 +144,23 @@ export class MessageComponent {
           }
           return _.set(r, 'actions', actions)
         })
+      }).catch(err => {
+        this._dialogService.alert(err.json().message);
       });
   }
   //
   onChange(message):void {
       const type = message.type;
       let data = message.data;
-      //console.log(type);
       switch (type) {
         case 'create':
           this._router.navigate([`add`], {relativeTo: this._route});
           break;
         case 'preview':
           this._router.navigate([`detail/${data.id}`], {relativeTo: this._route});
-          //this._router.navigate(['/basic-info/message/edit',message.data.Id]);
           break;
         case 'update':
           this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
-          //this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
           break;
         case 'delete':
           this._dialogService.confirm('确定删除吗？')
@@ -185,13 +171,13 @@ export class MessageComponent {
                   this.service.deleteMessage(message.data.id)
                     .then((data:any) => {
                       if(data.code=='0') {
-                        alert("删除成功");
+                        this._dialogService.alert(data.message);
                         this.getList();
                       }else{
-                        alert("删除失败");
+                        this._dialogService.alert(data.message);
                       }
                     }).catch(err => {
-                    alert(err.json().message);
+                    this._dialogService.alert(err.json().message);
                   });
                 }else{
                   //修改为不可见状态
