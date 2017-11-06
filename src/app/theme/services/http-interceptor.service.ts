@@ -38,7 +38,7 @@ export class HttpInterceptorService {
 
     let headers = new Headers();
 
-    console.log('__request__: ', params);
+    console.log('__request__: ', url, params);
     let queryParams = parseJson2URL(params);
     if ( !ignoreAuth ) {
       const token = getStorage({ key: 'token' })
@@ -54,7 +54,7 @@ export class HttpInterceptorService {
         method: _method,
         url: url,
         search: queryParams,
-        withCredentials: true,
+        // withCredentials: true,
       });
     } else {
       headers.set('Content-Type', 'application/json');
@@ -64,7 +64,7 @@ export class HttpInterceptorService {
         url: url,
         body: params,
         // search: queryParams,
-        withCredentials: true,
+        // withCredentials: true,
       });
     }
     let req = new Request(options)
@@ -73,7 +73,7 @@ export class HttpInterceptorService {
     //.retry(3)
     .map(this.extractData)
     .do(res => {
-      console.log('__response__: ', res);
+      console.log('__response__: ', url, res);
     })
     .mergeMap(res => {
       if ( res.code == 0 ) {
@@ -93,7 +93,7 @@ export class HttpInterceptorService {
       let body = res.json();
       return body || { };
   }
-  private handleError (error: Response | any) {
+  private handleError(error: Response | any) {
     console.log(error)
     let errMsg: string;
     if (error instanceof Response) {

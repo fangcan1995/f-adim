@@ -19,11 +19,13 @@ import { SeerDialogService, SeerMessageService } from '../../../../../theme/serv
 export class UserEditComponent implements OnInit {
   user: any = {};
   roles: any = [];
+  orgs: any =[];
   private editType:string = 'add';
   private forbidSaveBtn:boolean = true;
   private forbidResetPasswordBtn:boolean = true;
   private id:string;
   private isDepartmentDropdownOpen:boolean = false;
+
   @ViewChild('myForm') myForm;
   constructor(
     private _userService: UserService,
@@ -60,6 +62,14 @@ export class UserEditComponent implements OnInit {
       .then(res => {
         let data = res.data || {};
         this.roles = data.list || [];
+      });
+      this.getOrgs()
+      .then(res => {
+        let data = res.data || {};
+        this.orgs = data.list || [];
+      })
+      .catch(err => {
+        console.log(err)
       })
     }
   }
@@ -104,6 +114,9 @@ export class UserEditComponent implements OnInit {
   }
   getRoles() {
     return this._userService.getRoles()
+  }
+  getOrgs() {
+    return this._userService.getOrgs();
   }
   showSuccess(message: string) {
     return this._messageService.open({

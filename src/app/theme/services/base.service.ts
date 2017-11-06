@@ -21,6 +21,7 @@ export const API = {
   'RESOURCES': 'permission/resources',
   'DICTS': 'system/dicts',
   'ROLES': 'system/roles',
+  'ORGS': 'organizations'
 }
 
 // 此服务用于继承，请不要注入使用；如果想用更灵活的http服务请使用HttpInterceptorService，最灵活的是angular2自带的Http服务；
@@ -197,6 +198,22 @@ export class BaseService<T> {
           code: 0,
           msg: 'old dicts',
           data: getStorage({ key: 'dicts' }, false)
+        }
+      } else {
+        return res;
+      }
+    })
+  }
+  public getDictsByCategory(category): Promise<ResModel> {
+    return this.getDictsPro()
+    .then(res => {
+      if ( res.code == 0 ) {
+        let data = res.data;
+        let dicts = _.filter(data, t => t['category'] == category) || [];
+        return {
+          code: 0,
+          msg: 'get dicts by category success',
+          data: dicts,
         }
       } else {
         return res;
