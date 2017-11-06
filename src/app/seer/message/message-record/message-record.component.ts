@@ -1,6 +1,7 @@
 import {Component, ViewEncapsulation} from "@angular/core";
 import {messageRecordService} from "./message-record.service"
 import {Router,ActivatedRoute} from "@angular/router";
+import { SeerDialogService } from '../../../theme/services/seer-dialog.service'
 import * as _ from 'lodash'
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
 @Component({
@@ -9,8 +10,6 @@ import {formatDate} from "ngx-bootstrap/bs-moment/format";
   providers: [messageRecordService],
   encapsulation: ViewEncapsulation.None
 })
-
-
 export class MessageRecordComponent {
   hasGlobalFilter = true;
   filters = [
@@ -102,6 +101,7 @@ export class MessageRecordComponent {
   source = [];
   constructor(
     protected service: messageRecordService,
+    private _dialogService: SeerDialogService,
   ) {}
   ngOnInit() {
     this.getRecord();
@@ -113,7 +113,9 @@ export class MessageRecordComponent {
       this.pageInfo.pageSize=res.data.pageSize; //每页记录数
       this.pageInfo.total=res.data.total; //记录总数
       this.source = res.data.list;
-    });
+    }).catch(err => {
+      this._dialogService.alert(err.json().message);
+    });;
   }
   //分页
   handlePageChange($event) {
