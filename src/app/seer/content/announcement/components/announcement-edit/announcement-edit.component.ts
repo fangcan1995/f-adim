@@ -22,6 +22,9 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
 
   }
 
+
+
+
   ngOnInit() {
     this._activatedRoute.url.mergeMap(url => {
       this._editType = url[0].path;
@@ -89,9 +92,11 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
       let { effectTime } = this.announcement;
       this.announcement.effectTime = effectTime ? (formatDate(effectTime,'YYYY-MM-DD 00:00:00')) : null;
     }
+
+    console.log(this.announcement);
     requestStream$ = this._announcementService.putOne(this.announcement)
       .then(data => {
-        if(data.code === '0') {
+        if(data.code == 0) {
           this.alertSuccess(data.message);
         }
         else {
@@ -140,6 +145,8 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
       autoHideDuration: 3000,
     })
   };
+
+
 
   ngOnDestroy(): void {
     // throw new Error("Method not implemented.");

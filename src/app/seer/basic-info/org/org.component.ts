@@ -19,11 +19,15 @@ import {
 } from "../../../theme/directives/dynamicComponent/dynamic-component.directive";
 import { OrgTreeDialogComponent } from "./components/tree/org-tree.component";
 import { OrgModel } from "./OrgModel";
-import { SeerDialogService } from '../../../theme/services/seer-dialog.service';
+import {
+  SeerDialogService,
+  SeerMessageService,
+} from '../../../theme/services';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { ModalDirective, BsModalService } from 'ngx-bootstrap/modal';
 import { User } from "../../model/auth/user";
 import { DELETE } from "../../common/seer-table/seer-table.actions";
+import {isNullOrUndefined} from "util";
 @Component({
   templateUrl: './org.component.html',
   styleUrls: ['./org.component.scss'],
@@ -42,8 +46,10 @@ export class OrgComponent implements OnDestroy{
   treeNode = [];
   sysUser: User = new User();
   staffs = [];
-  staffName;
-  staf;
+  info = {
+    departmentName: '',
+    departmentLeader: ''
+  };
   flag: string;
 
 
@@ -53,33 +59,13 @@ export class OrgComponent implements OnDestroy{
   datas = [];
   record = [];
   staffId: string;
-  hasGlobalFilter = "true"
+  hasGlobalFilter = "true";
   titles = [
     { key:'name', label:'姓名' },
     { key:'place', label:'联系方式' },
     { key:'tel', label:'职位' },
   ];
-  rows = [
-    {id:'1',name:'root1'},
-    {id:'2',name:'root2'},
-    {id:'3',name:'child 1.1',parentId:'1'},
-    {id:'4',name:'child 1.2',parentId:'1'},
-    {id:'notAllow2Drag',name:'禁止拖拽的节点',parentId:'1',forbidDrag:true},
-    {id:'5',name:'child 2.1',parentId:'2'},
-    {id:'21',name:'child 2.2',parentId:'2'},
-    {id:'22',name:'child 2.3',parentId:'2'},
-    {id:'23',name:'child 2.4',parentId:'2'},
-    {id:'24',name:'child 2.5',parentId:'2'},
-    {id:'7',name:'child 1.2.1',parentId:'4'},
-    {id:'8',name:'child 1.2.1.1',parentId:'7'},
-    {id:'9',name:'2.1.1',parentId:'5'},
-    {id:'11',name:'2.2.1',parentId:'6'},
-    {id:'12',name:'2.2.1',parentId:'11'},
-    {id:'13',name:'2.2.1',parentId:'12'},
-    {id:'14',name:'2.2.1',parentId:'13'},
-    {id:'15',name:'2.2.1',parentId:'14'},
-    {id:'10',name:'async root',hasChildren:true},
-  ];
+
   permissionsOptions = [];
   // filters = [
   //   {
@@ -106,9 +92,9 @@ export class OrgComponent implements OnDestroy{
     private _dialogService: SeerDialogService,
     private modalService: BsModalService
     ) {
-    this._state.subscribe("orgStaffState", a => {
-      this.getStaffsByOrgId(this.staffId);
-    })
+      this._state.subscribe("orgStaffState", a => {
+        this.getStaffsByOrgId(this.staffId);
+      })
   }
 
   ngOnInit() {
@@ -133,14 +119,14 @@ export class OrgComponent implements OnDestroy{
    * 获取全部组织机构
    * */
   getOrganizations() {
-    this.service.getOrganizations().then((result) => {
-      //alert(JSON.stringify(result));
-      result.data.map(org=>org['children']=[]);
-      let nodes = json2Tree(result.data, {parentId:'pid',children:'children', id: 'departmentId'},[{origin:'departmentName',replace:'name'}, {origin: 'code', replace: 'id'}]);
-
-      nodes.map(rootNode=>rootNode['expanded']=true);
-      this.treeNode = nodes;
-
+    this.service.getOrganizations()
+      .then((result) => {
+        result.data.map(org=>org['children']=[]);
+        let nodes = json2Tree(result.data, {parentId:'pid',children:'children', id: 'departmentId'},[{origin:'departmentName',replace:'name'}, {origin: 'departmentId', replace: 'id'}]);
+        nodes.map(rootNode=>rootNode['expanded']=true);
+        this.treeNode = nodes;
+      }).catch(err => {
+        console.log(err);
     });
     /*this.rows.map(org => org['children'] = []);
     let nodes = jsonTree(this.rows);
@@ -187,12 +173,21 @@ export class OrgComponent implements OnDestroy{
     this.service.getStaffsByOrgId(orgId).then((result) => {this.tableSource = result.data});
   }
 
+
+  handleChange () {
+    alert(1);
+  }
+
   /*
    * 组织树通知
    * */
   onNotify($event){
     console.log($event);
     console.log("=============================");
+
+    this.info = $event.node.data;
+    console.log(this.info);
+
 
     // debugger;
     // if($event.eventName == "onSelectCompleted"){
@@ -205,33 +200,22 @@ export class OrgComponent implements OnDestroy{
     //   }
     // }
 
-    if($event.eventName == "onFocus"){
-      /*console.log($event);
-      if($event.node.children) {
-        alert(1);
-      }
-      else {
-        alert(0)
-      }*/
-
-      /*if($event.node.children.length > 0){
+    /*if($event.eventName == "onFocus"){
+      /!*if($event.node.children.length > 0){
         for(let i = 0 ; i < $event.node.data.children.length; i++){
-          console.log($event.node.data.children);
-          console.log("-------------------------------------");
-          this.staf = $event.node.data.name
-          this.staffName = $event.node.data.children[i].name
-          console.log(this.staf);
+          this.departmentName = $event.node.data.departmentName;
+          this.departmentLeader = $event.node.data.children[i].name;
         }
       }else{
-       this.staf = $event.node.data.name
-       this.staffName =""
-      }*/
-      this.staf = $event.node.data.id;
-      this.staffName = $event.node.data.name;
-      console.log($event.node.data);
+        this.departmentName = $event.node.data.departmentName;
+        this.departmentLeader ="123";
+      }*!/
+      //this.info.departmentName = $event.node.data.departmentName;
+      //this.info.departmentLeader = $event.node.data.departmentLeader;
+      //console.log($event.node.data);
     }else{
-      this.staffName = undefined;
-    }
+      //this.info.departmentLeader = undefined;
+    }*/
 
 
 
@@ -284,8 +268,8 @@ export class OrgComponent implements OnDestroy{
       orgModel.orgParentId = $event.node.parentId;
       orgModel.orgSort = $event.to.index;
         this.service.editOrganization(orgModel).then((result) => {
-        if(!result.success) {
-          if(!result.success) {
+        if(!result) {
+          if(!result) {
             alert("操作失败，请重试！");
           }
         }

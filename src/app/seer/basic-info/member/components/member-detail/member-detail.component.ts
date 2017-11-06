@@ -15,8 +15,8 @@ import {UPDATE, DELETE,DOWNLOAD, PREVIEW} from "../../../../common/seer-table/se
   templateUrl: './member-detail.component.html',
   styleUrls: ['./member-detail.component.scss']
 })
-export class MemberDetailComponent implements OnInit {
-  public member: any = {};
+export class MemberDetailComponent {
+  /*public member: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
   baseInfo: any = {};  // 基本信息
@@ -91,16 +91,15 @@ export class MemberDetailComponent implements OnInit {
     .subscribe(params => {
       if ( this._editType === 'edit' ) {
         this._memberService.getOne(params.id)
-        .subscribe(res => {
-          console.log(res.data);
-          this.member = res.data || {};
-          this.emergencyContact=res.data.emergencyContact;
-          this.vehicleInfo=res.data.vehicleInfo;
+        .then(res => {
+          /!*this.member = res.data || {};
+          this.emergencyContact=this.member.contactList|| [];
+          this.vehicleInfo=this.member.carMessageList|| [];
           this.vehicleInfo = _.map(this.vehicleInfo, r => _.set(r, 'actions', [UPDATE, DELETE]));
-          this.houseInfo=res.data.houseInfo;
-          this.creditInfo=res.data.creditInfo;
+          this.houseInfo=this.member.houseMessageList|| [];
+          this.creditInfo=this.member.creditInfo|| [];
           this.creditInfo=_.map(this.creditInfo, r => _.set(r, 'actions', [DOWNLOAD, PREVIEW]))
-          this.forbidSaveBtn = false;
+          this.forbidSaveBtn = false;*!/
         }, errMsg => {
           // 错误处理的正确打开方式
           this._messageService.open({
@@ -149,6 +148,6 @@ export class MemberDetailComponent implements OnInit {
       })
     })
 
-  }
+  }*/
 
 }

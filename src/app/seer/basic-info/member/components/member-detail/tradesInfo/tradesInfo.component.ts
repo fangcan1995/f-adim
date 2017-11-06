@@ -87,7 +87,7 @@ export class TradesInfoComponent implements OnInit {
         //console.log(this._editType);
         if ( this._editType === 'detail' ) {
           this._memberService.getTrades(params.id)
-            .subscribe(res => {
+            .then(res => {
               this.member = res.data || {};
               this.tradesRecord=res.data.tradesRecord;
               this.forbidSaveBtn = false;

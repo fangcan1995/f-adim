@@ -54,7 +54,7 @@ export class LoansInfoComponent implements OnInit {
         //console.log(this._editType);
         if ( this._editType === 'detail' ) {
           this._memberService.getLoans(params.id)
-            .subscribe(res => {
+            .then(res => {
               this.member = res.data || {};
               this.loansRecord=res.data.loansRecord;
               this.forbidSaveBtn = false;
