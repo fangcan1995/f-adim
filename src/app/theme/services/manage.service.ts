@@ -10,8 +10,15 @@ import {
   API,
   BaseService,
 } from './base.service';
+import { AuthService } from './auth.service'
 @Injectable()
 export class ManageService extends BaseService<any> {
+  constructor(
+    protected _httpInterceptorService:HttpInterceptorService,
+    private _authService:AuthService
+    ) {
+    super(_httpInterceptorService)
+  }
   public getDataFromServer() {
     return Observable.forkJoin(
       Observable.fromPromise(this.getUserFromServer()),

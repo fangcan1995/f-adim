@@ -6,15 +6,53 @@ import {
   RouterStateSnapshot,
   CanActivateChild,
   NavigationExtras,
-  CanLoad, Route
+  CanLoad, Route,
+  ActivatedRoute
 } from '@angular/router';
+import { Observable, Subject } from 'rxjs/Rx';
 import { AuthService } from './auth.service';
-
+import { GlobalState } from '../../global.state';
+import { SeerMessageService } from './seer-message.service'
 import { parseQueryString, getStorage } from '../libs/utils';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
-  constructor(private authService: AuthService, private router: Router, private location: Location) {}
+  loginTimeout$ = new Subject;
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private location: Location,
+    private _messageService: SeerMessageService,
+    private _state: GlobalState,
+    private _route:ActivatedRoute
+    ) {
+     
+    this._state.subscribe('auth.loginTimeout', res => {
+      this.loginTimeout$.next();
+    })
+    this.loginTimeout$.debounceTime(300)
+    .subscribe(res => {
+      this._messageService.open({
+        message: '登录超时，请重新登录',
+        icon: '',
+        autoHideDuration: 3000,
+      })
+      .onClose()
+      .subscribe(res => {
+        this.authService.isLoggedIn = false;
+        this.authService.logout()
+        .subscribe(this.redirectToLogin.bind(this));
+      })
+    })
+  }
+  redirectToLogin() {
+    let url = location.pathname;
+    this.authService.redirectUrl = url;
+    let oldQueryString = location.search;
+    let oldQueryParams = parseQueryString(oldQueryString);
+    this.authService.redirectSearch = oldQueryParams;
+    this.router.navigate(['/login']);
+  }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     let url: string = `${location.pathname}`;

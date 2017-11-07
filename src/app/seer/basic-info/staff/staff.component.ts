@@ -13,53 +13,22 @@ import {titles} from './staff.config';
 export class StaffComponent {
 
   hasGlobalFilter = true;
+  OPEN_USER = [
+    {type: 'open', name: '开通用户', className: 'btn btn-info'}
+  ];
   filters = [
+    {key: 'empName', label: '姓名', type: 'input.text'},
+    {key: 'emCode', label: '员工编号', type: 'input.text'},
+    {key: 'departmentName', label: '公司团队', type: 'select'},
+    {key: 'inviteNumStart', label: '邀请人数', type: 'input.text'},
+    {key: 'inviteNumEnd', label: '-', type: 'input.text'},
+    {key: 'position', label: '职位', type: 'input.text'},
     {
-      key: 'empName',
-      label: '姓名',
-      type: 'input.text',
-    },
-    {
-      key: 'emCode',
-      label: '员工编号',
-      type: 'input.text',
-    },
-    {
-      key: 'departmentName',
-      label: '公司团队',
-      type: 'select',
-    },
-    {
-      key: 'inviteNumStart',
-      label: '邀请人数',
-      type: 'input.text',
-    },
-    {
-      key: 'inviteNumEnd',
-      label: '-',
-      type: 'input.text',
-    },
-    {
-      key: 'position',
-      label: '职位',
-      type: 'input.text',
-    },
-    {
-      key: 'empState',
-      label: '员工状态',
-      type: 'select',
+      key: 'empState', label: '员工状态', type: 'select',
       options: [{value: '', content: '请选择'}]
     },
-    {
-      key: 'entryTimeStart',
-      label: '入职时间',
-      type: 'input.date',
-    },
-    {
-      key: 'entryTimeEnd',
-      label: '至',
-      type: 'input.date',
-    },
+    {key: 'entryTimeStart', label: '入职时间', type: 'input.date'},
+    {key: 'entryTimeEnd', label: '至', type: 'input.date'},
   ];
   public titles = titles;
   pageInfo = {
@@ -130,13 +99,15 @@ export class StaffComponent {
                 }
               });
             }
-          })
+          });
         break;
       case 'delete_all':
         let ids = [];
         message.data.forEach(function (item) {
           ids.push(item.id)
         });
+      case 'open':
+        this.openUsers(data);
       default:
         break;
     }
@@ -154,6 +125,15 @@ export class StaffComponent {
     let params = $event;
     this.pageInfo.query = params;
     this.getStaffs();
+  }
+
+  openUsers(data) {
+    let staffs = [];
+    data.forEach(function (item) {
+      let staff = {id: item.id, name: item.phone};
+      staffs.push(staff);
+    });
+    console.log(staffs);
   }
 
 }

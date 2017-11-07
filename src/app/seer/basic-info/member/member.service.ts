@@ -1,12 +1,12 @@
 import {Injectable} from "@angular/core";
 import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel} from "../../../theme/services"
-
-import {Observable} from 'rxjs/Observable';
-import * as _ from 'lodash';
 import {getStorage} from "../../../theme/libs/utils"
 @Injectable()
 export class MemberService extends BaseService<ResModel>{
-  MembersUrl="http://172.16.7.4:9080/members";
+  MembersUrl="http://172.16.7.4:9080/members"; //会员接口
+  emergencyContactUrl=`emergencyContact`;//联系人
+  VehicleContactUrl=`vehicleInfo`;//车辆
+  HouseContactUrl=`houseInfo`;//车辆
   accessToken = getStorage({ key: 'token' }).access_token;
   mockData = [
     {
@@ -61,28 +61,12 @@ export class MemberService extends BaseService<ResModel>{
     super(_httpInterceptorService);
     this.setApi(API['ROLES']);
   }
-  // 1 获取数据列表
- /* getList(params?): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${this.MembersUrl}`, params).toPromise();
-  }*/
+  // 1 获取数据列表,缺少会员状态
   getList(params?): Promise<ResModel> {
-    return new Promise((resolve) => {
-      resolve(
-        {
-          "code": "0",
-          "message": "SUCCESS",
-          'data':{
-            'pageNum':1,
-            'pageSize':10,
-            'total':15,
-            'list':this.mockData
-          }
-        }
-      )
-    })
+    console.log(this.accessToken);
+    return this._httpInterceptorService.request('GET', `${this.MembersUrl}/`, params).toPromise();
   }
-
-  // 2 获取一条数据
+  // 2 获取一条数据（年龄、征信记录、账户归属、联系人没有过滤delflag,financialInfo{}没有获取到值，houseAbout，yourIncome不保存）
   getOne(id: string | number): Promise<ResModel> {
     return this._httpInterceptorService.request('GET', `${this.MembersUrl}/${id}`,{}, true).toPromise();
     /*return new Promise((resolve) => {
@@ -160,9 +144,65 @@ export class MemberService extends BaseService<ResModel>{
       )
     });*/
   }
-
-    // 获取一个会员的借款记录
-    getLoans(id): Promise<ResModel> {
+  //3 修改基本信息,OK
+  putBasicInfo(id, params): Promise<ResModel> {
+    return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/baseInfo`, params).toPromise();
+  }
+  //4-1 增加联系人,OK
+  postContact(id, params): Promise<ResModel> {
+    return this._httpInterceptorService.request('POST', `${this.MembersUrl}/${id}/${this.emergencyContactUrl}`, params).toPromise();
+  }
+  //4-2 修改联系人,OK
+  putContact(id, params): Promise<ResModel> {
+    return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/${this.emergencyContactUrl}`, params).toPromise();
+  }
+  //4-3 删除联系人,需要再次测试
+  deleteContact(id): Promise<ResModel> {
+    return this._httpInterceptorService.request('DELETE', `${this.MembersUrl}/${this.emergencyContactUrl}/${id}`).toPromise();
+  }
+  //5 修改工作信息，OK
+  putWorkInfo(id, params): Promise<ResModel> {
+    return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/workInfo`, params).toPromise();
+  }
+  //6修改账户信息，因不可修改，暂无
+  //7 修改财务状况信息，需要再次测试
+  putFinancialInfo(id, params): Promise<ResModel> {
+    return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/financialInfo`, params).toPromise();
+  }
+  //8-1 增加车辆，OK
+  postVehicle(id, params): Promise<ResModel> {
+    return this._httpInterceptorService.request('POST', `${this.MembersUrl}/${id}/${this.VehicleContactUrl}`, params).toPromise();
+  }
+  //8-2 修改车辆，OK
+  putVehicle(id, params): Promise<ResModel> {
+    return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/${this.VehicleContactUrl}`, params).toPromise();
+  }
+  //8-3 删除车辆,ERROR
+  deleteVehicle(id): Promise<ResModel> {
+    return this._httpInterceptorService.request('DELETE', `${this.MembersUrl}/${this.VehicleContactUrl}/${id}`).toPromise();
+  }
+  //9-1 增加房屋，OK
+  postHouse(id, params): Promise<ResModel> {
+    return this._httpInterceptorService.request('POST', `${this.MembersUrl}/${id}/${this.HouseContactUrl}`, params).toPromise();
+  }
+  //9-2 修改房屋，OK
+  putHouse(id, params): Promise<ResModel> {
+    return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/${this.HouseContactUrl}`, params).toPromise();
+  }
+  //9-3 删除房屋,Error
+  deleteHouse(id): Promise<ResModel> {
+    return this._httpInterceptorService.request('DELETE', `${this.MembersUrl}/${this.HouseContactUrl}/${id}`).toPromise();
+  }
+  //10 修改会员登录密码,error,000000
+  putPasswords(id, params?): Promise<ResModel> {
+    return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/passwords`, params).toPromise();
+  }
+  //11 修改会员交易密码,未提供,改为身份证后六位
+  putTradePasswords(id, params?): Promise<ResModel> {
+    return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/passwords`, params).toPromise();
+  }
+  // 15 根据会员ID查询贷款信息
+  getLoans(id): Promise<ResModel> {
       return new Promise((resolve) => {
         resolve(
           {
@@ -186,7 +226,7 @@ export class MemberService extends BaseService<ResModel>{
         )
       })
   }
-  // 获取一个会员的投资记录
+  //16 根据会员ID查询投资信息
   getInvests(id): Promise<ResModel> {
     return new Promise((resolve) => {
       resolve(
@@ -211,7 +251,7 @@ export class MemberService extends BaseService<ResModel>{
         })
     })
   }
-  // 获取一个会员的交易记录
+  //17 根据会员ID查询交易记录
   getTrades(id): Promise<ResModel> {
     return new Promise((resolve) => {
       resolve(
@@ -244,31 +284,7 @@ export class MemberService extends BaseService<ResModel>{
     })
   }
 
-  // 添加一条数据
-  postOne(params): Promise<ResModel> {
-    return new Promise((resolve) => {
-      resolve(
-        {
-          "code": "0",
-          "message": "SUCCESS",
-        }
-      )
-    })
-  };
-
-  // 修改一条数据，提供所有字段
-  putOne(id, params): Promise<ResModel> {
-    return new Promise((resolve) => {
-      resolve(
-        {
-          "code": "0",
-          "message": "SUCCESS",
-        }
-      )
-    })
-  }
-
-  // 修改一条数据，提供部分字段
+  //21 修改一条数据，提供部分字段
   patchOne(id, params): Promise<ResModel> {
     return new Promise((resolve) => {
       resolve(
@@ -278,5 +294,6 @@ export class MemberService extends BaseService<ResModel>{
         }
       )
     })
+    //return this._httpInterceptorService.request('PATCH', `http://172.16.1.234:8090/roles/${id}`, params).toPromise();
   }
 }

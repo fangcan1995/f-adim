@@ -1,21 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  Router,
-  ActivatedRoute,
-} from '@angular/router';
-import { Location } from '@angular/common';
-
-import * as _ from 'lodash';
-import { Observable } from 'rxjs/Observable';
-import { MemberService } from '../../member.service';
-import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
-import {UPDATE, DELETE,DOWNLOAD, PREVIEW} from "../../../../common/seer-table/seer-table.actions"
-
+import { Component } from '@angular/core';
 @Component({
   templateUrl: './member-detail.component.html',
   styleUrls: ['./member-detail.component.scss']
 })
 export class MemberDetailComponent {
+
+  constructor(
+  ) {}
+
   /*public member: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
@@ -149,5 +141,7 @@ export class MemberDetailComponent {
     })
 
   }*/
-
+  handleBackBtnClick() {
+    location.reload();
+  }
 }

@@ -25,17 +25,17 @@
 
   <div class="col-sm-8">
     <ba-card [title]="tableTitle" baCardClass="with-scroll">
-       <button type="button" class="btn btn-sx btn-info" style="margin-bottom:10px;" (click)="handleChange()">保存</button>
+       <button type="button" class="btn btn-sx btn-info" style="margin-bottom:10px;" (click)="handleChangeLeader()">保存</button>
        <div class="form-group ">
         <div class="row">
           <label for="idNumber" class="col-sm-2 control-label" style="text-align:center; height:35px; line-height:35px;">机构名称</label>
           <!-- <label for="idNumber" class="col-sm-3 control-label" style="text-align:left; height:35px; line-height:35px;">互联网金融部</label> -->
           <div class="col-sm-3">
-            <input type="text" class="form-control" id="department" placeholder="部门"  [(ngModel)]="departmentName">
+            <input type="text" class="form-control" id="department" placeholder="部门"  [(ngModel)]="info.departmentName">
           </div>
           <label for="idNumber" class="col-sm-2  col-md-2 control-label" style="text-align:center; height:35px; line-height:35px;">机构负责人</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="departmentLeader" placeholder="机构负责人" [(ngModel)]="departmentLeader">
+            <input type="text" class="form-control" id="departmentLeader" placeholder="机构负责人" [(ngModel)]="info.departmentLeader">
           </div>
         </div>
       </div>
@@ -67,21 +67,23 @@
         </div>
       </div>-->
        <seer-collapse-card>
-        <!-- <seer-filter
-          [hasGlobalFilter]="hasGlobalFilter"
-          [filters]="filters"
-          (onFiltersChanged)=handleFiltersChanged($event)
-          (onSearchBtnClicked)=handleSearchBtnClicked($event)
-        ></seer-filter>   -->
+
         <div class="row">
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="idNumber" placeholder="全局过滤" >
+            <!--<input type="text" class="form-control" id="idNumber" placeholder="全局过滤" >-->
+            <seer-filter
+              [hasGlobalFilter]="hasGlobalFilter"
+              [filters]="filters"
+              (onFiltersChanged)=handleFiltersChanged($event)
+              (onSearchBtnClicked)=handleSearchBtnClicked($event)
+              class="fullWidth"
+            ></seer-filter>
           </div>
           <div class="col-sm-2">
-          <button type="button" class="btn btn-sx btn-info">检索</button>
+            <button type="button" class="btn btn-sx btn-info">检索</button>
           </div>
           <div class="col-sm-2">
-            <button type="button" class="btn btn-sx btn-info" (click)="openModal(template)">调换部门</button>
+            <!--<button type="button" class="btn btn-sx btn-info" (click)="openModal(template)">调换部门</button>-->
             <template #template>
               <!-- <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
                   <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">用户列表</h4> -->
@@ -91,10 +93,11 @@
                   </button> -->
               <!-- </div> -->
               <div class="modal-body">
-
+                  
                   <seer-tree
-                    (notify)="onNotify($event) "
+                    (notify)="onNotice($event) "
                     [nodes]="treeNode"
+                    [permissions]="treePermissions"
                     [defaultNodeName]="'新建部门'"
                     [loadingText]="''">
                   </seer-tree>
@@ -104,6 +107,7 @@
                  <button type="button" class="btn btn-sx btn-info" (click)="modalRef.hide()">确定</button>
                  <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
               </div>
+              <!--<org-tree></org-tree>-->
             </template>
           </div>
         </div>
@@ -118,6 +122,7 @@
         [hideRemoveAll]="true"
         [hideColumns]="true"
         [hideAddButton]="true"
+        [hideCheckbox]="true"
         (notify)="onChange($event)"
       ></seer-table>
       </seer-collapse-card>

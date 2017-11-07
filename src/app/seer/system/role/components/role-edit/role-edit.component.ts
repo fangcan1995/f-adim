@@ -82,6 +82,7 @@ export class RoleEditComponent implements OnInit {
       this._roleService.getUsers(),
       ])
       .then(res => {
+        console.log(res)
       });
   }
 

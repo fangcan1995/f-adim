@@ -1,13 +1,10 @@
 import {Injectable} from '@angular/core';
-import {SERVER} from "../../const";
 import {BaseService} from "../../base.service";
 import {Result} from "../../model/result.class";
-// import {RoleWithSysUserIdsVO} from "./components/role-edit/RoleWithSysUserIdsVO";
 import {Message} from "../../model/auth/message-edit";
 import {getStorage} from "../../../theme/libs/utils"
 @Injectable()
 export class MessageService extends BaseService<any>{
-
   accessToken = getStorage({ key: 'token' }).access_token;
   private MessageUrl = `http://172.16.1.234:8080/messages`;  // 消息
   private RecordUrl = `http://172.16.1.234:8080/records`;  // 发送记录
@@ -15,8 +12,6 @@ export class MessageService extends BaseService<any>{
   private UsersUrl =`http://172.16.1.27:8090/staffs`; //获取员工列表
   private MembersIdsUrl =`http://172.16.1.234:8090/users/ids?access_token=${this.accessToken}`; //获取全部会员id字符串
   private UsersIdsUrl =`http://172.16.1.27:8090/staffs/ids?pageNum=1&pageSize=10000`; //获取全部员工id字符串
-  //http://172.16.1.234:8090/users/ids?access_token=aa247596-5067-44cb-99d8-f768e7f915fa
-  //http://172.16.1.234:8090/users?access_token=aa247596-5067-44cb-99d8-f768e7f915fa&pageNum=1&pageSize=10
   // 获取消息列表
   getDatas(pageInfo:any): Promise<any> {
     const page=`&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
@@ -101,15 +96,5 @@ export class MessageService extends BaseService<any>{
     }
     const url = `${this.UsersIdsUrl}&${query}`;
     return this.getAll(url);
-
-    /*return new Promise((resolve) => {
-      resolve(
-        {
-          "code": "0",
-          "message": "SUCCESS",
-          'data':'1,2,3'
-        }
-      )
-    })*/
   }
 }

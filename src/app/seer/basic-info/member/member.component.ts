@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {Router, ActivatedRoute} from "@angular/router";
 import * as _ from 'lodash';
-import {SeerDialogService} from '../../../theme/services/seer-dialog.service';
+import {SeerDialogService, SeerMessageService,} from '../../../theme/services';
 import {MemberService} from './member.service';
 import { UPDATE, PREVIEW } from '../../common/seer-table/seer-table.actions';
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
@@ -59,7 +59,7 @@ export class MemberComponent implements OnInit {
     {key: 'trueName', label: '真实姓名'},
     {key: 'phoneNumber', label: '手机号'},
     {key: 'idNumber', label: '身份证号'},
-    {key: 'sex', label: '性别'},
+    {key: 'sex', label: '性别',isDict: true, category: 'M_SEX'},
     {key: 'registTime', label: '注册时间'},
     {key: 'classify', label: '会员状态'},
     {key: 'lastLoginTime', label: '最后登录时间'},
@@ -94,16 +94,16 @@ export class MemberComponent implements OnInit {
       className: 'btn btn-xs btn-default',
     }
   ];
-
   constructor(private _memberService: MemberService,
               private _router: Router,
               private _route: ActivatedRoute,
-              private _dialogService: SeerDialogService,) {}
+              private _dialogService: SeerDialogService,
+              private _messageService: SeerMessageService
+  ) {}
 
   ngOnInit(): void {
     this.getList();
   }
-  //获取列表
   getList() {
     this._memberService.getList(this.pageInfo).then(res => {
         this.pageInfo.pageNum=res.data.pageNum;  //当前页
@@ -121,36 +121,34 @@ export class MemberComponent implements OnInit {
               actions = [PREVIEW,UPDATE];
               break;
             default:
-              actions = [PREVIEW];
+              actions = [PREVIEW,UPDATE];
               break;
           }
           return _.set(t, 'actions', actions)
         });
-      });
-  }
-
-  //
+      }).catch(err => {
+        this._dialogService.alert(err.json().message);
+        this.showError(err.json().message || "连接失败");
+    });
+  }//获取列表
   onChange(message) {
     const type = message.type;
     let data = message.data;
     switch (type) {
       case 'preview':
-        this._router.navigate([`detail/${data.memberId}`], {relativeTo: this._route});
+        this._router.navigate([`detail/${data.id}`], {relativeTo: this._route});
         break;
       case 'update':
-        this._router.navigate([`edit/${data.memberId}`], {relativeTo: this._route});
+        this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
         break;
 
     }
-  }
-
-  //分页
+  }//增删改
   handlePageChange($event) {
     this.pageInfo.pageSize = $event.pageSize;
     this.pageInfo.pageNum=$event.pageNum;
     this.getList();
-  }
-  //全局搜索
+  }//分页
   handleFiltersChanged($event) {
     let params=$event;
     let { registTime,age, ...otherParams } = params;
@@ -176,5 +174,19 @@ export class MemberComponent implements OnInit {
     //console.log(params);
     this.pageInfo.query = params;
     this.getList();
-  }
+  }//全局搜索
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }//成功提示
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
+  }//失败提示
 }

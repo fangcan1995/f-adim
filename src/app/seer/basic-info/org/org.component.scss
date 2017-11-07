@@ -169,3 +169,23 @@ i {
   }
 }
 }
+
+
+:host /deep/ .tree-node-actions {
+   min-width: 70px;
+   text-align: center;
+   top: 0;
+   right: 0;
+
+  span {
+    display: inline-block;
+    width: 40px;
+    height: auto;
+  }
+}
+
+:host /deep/ .tree-node-actions .tree-node-action-list {
+  top: 0 !important;
+  right: -40px !important;
+}
+

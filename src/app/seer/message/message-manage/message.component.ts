@@ -1,12 +1,9 @@
 import {Component} from '@angular/core';
 import {MessageService} from "./message.service";
 import {Router,ActivatedRoute} from "@angular/router";
-import {Message} from "../../model/auth/message-edit";
 import * as _ from 'lodash'
 import {PREVIEW,UPDATE, DELETE} from "../../common/seer-table/seer-table.actions"
-import {SeerDialogService} from "../../../theme/services/seer-dialog.service"
-import {_if} from "rxjs/observable/if";
-import {tokenKey} from "@angular/core/src/view/util";
+import {SeerDialogService, SeerMessageService,} from '../../../theme/services';
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
 
 @Component({
@@ -57,16 +54,6 @@ export class MessageComponent {
       isDict: true,
       category: 'SEND_NOTIFY'
     },
-/*    {
-      key:'beginTime',
-      label:'下发时间',
-      type: 'datepicker',
-    },
-    {
-      key:'endTime',
-      label:'至',
-      type: 'datepicker',
-    },*/
     {
       key: 'postTime',
       label: '下发时间',
@@ -119,17 +106,14 @@ export class MessageComponent {
   ];
 
   ngOnInit() {
-    // 数据字典
-    /*this.service.getDictTranslate().then((result)=>{
-      console.log(result)
-    })*/
     this.getList();
   }
   constructor(
     protected service: MessageService,
     private _router: Router,
     private _route: ActivatedRoute,
-    private _dialogService: SeerDialogService
+    private _dialogService: SeerDialogService,
+    private _messageService: SeerMessageService
   ) {}
   //获取列表
   getList():void{
@@ -157,24 +141,23 @@ export class MessageComponent {
           }
           return _.set(r, 'actions', actions)
         })
+      }).catch(err => {
+        this.showError(err.json().message || '连接失败');
       });
   }
   //
   onChange(message):void {
       const type = message.type;
       let data = message.data;
-      //console.log(type);
       switch (type) {
         case 'create':
           this._router.navigate([`add`], {relativeTo: this._route});
           break;
         case 'preview':
           this._router.navigate([`detail/${data.id}`], {relativeTo: this._route});
-          //this._router.navigate(['/basic-info/message/edit',message.data.Id]);
           break;
         case 'update':
           this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
-          //this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
           break;
         case 'delete':
           this._dialogService.confirm('确定删除吗？')
@@ -184,25 +167,19 @@ export class MessageComponent {
                   //删除
                   this.service.deleteMessage(message.data.id)
                     .then((data:any) => {
-                      if(data.code=='0') {
-                        alert("删除成功");
-                        this.getList();
-                      }else{
-                        alert("删除失败");
-                      }
+                      this.showSuccess(data.message || '删除成功');
+                      this.getList();
                     }).catch(err => {
-                    alert(err.json().message);
+                    this.showError(err.json().message || '删除失败');
                   });
                 }else{
                   //修改为不可见状态
                   let thisMessage=message.data;
                   thisMessage.delFlag=1;
                   this.service.putOne(thisMessage).then((data:any)  => {
-                    if(data.code=='0') {
-                      alert('ok');
-                    }
+                    this.showSuccess(data.message || '删除成功');
                   }).catch(err=>{
-                    alert(err.json().message);
+                    this.showError(err.json().message || '删除失败');
                     }
                   );
                   this.getList();
@@ -253,6 +230,19 @@ export class MessageComponent {
     };*!/
     this.getList();
   }*/
-
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
+  }
 }
 
