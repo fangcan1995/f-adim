@@ -1,13 +1,12 @@
-import {Injectable} from '@angular/core';
-import {BaseService} from "../../base.service";
-import {Result} from "../../model/result.class";
-import {parseQueryString, getStorage} from "../../../theme/libs/utils"
+import {Injectable} from "@angular/core";
+import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel} from "../../../theme/services"
+import {getStorage} from "../../../theme/libs/utils"
 @Injectable()
-export class messageRecordService extends BaseService<any>{
+export class messageRecordService extends BaseService<ResModel>{
   accessToken = getStorage({ key: 'token' }).access_token;
-  templateManageUrl=`http://172.16.1.234:8080/records`;  // URL to web api
-  getList(pageInfo:any): Promise<Result>{
-    const page=`&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
+  templateManageUrl=`http://172.16.7.3:9010/records`;  // URL to web api
+  getList(pageInfo:any): Promise<ResModel>{
+    const page=`?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
     const sort=`&sortBy=${pageInfo.sort}`;
     const jsonQueryObj = pageInfo.query;
     let query:string="";
@@ -16,8 +15,7 @@ export class messageRecordService extends BaseService<any>{
         query+=`&${prop}=${jsonQueryObj[prop]}`;
       }
     }
-    const url = `${this.templateManageUrl}?access_token=${this.accessToken}${page}${sort}${query}`;
-    return this.getAll(url);
+    return this._httpInterceptorService.request('GET', `${this.templateManageUrl}${page}${sort}${query}`,{}, true).toPromise();
   }
 
 }

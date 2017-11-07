@@ -30,12 +30,12 @@ export class MemberComponent implements OnInit {
       groupSpaces: ['至']
     },
     {
-      key: 'classify', label: '会员状态', type: 'select',
+      key: 'status', label: '会员状态', type: 'select',
       options: [
         {content: '请选择'},
+        {value: '0', content: '启用'},
         {value: '1', content: '登录帐号锁定'},
-        {value: '2', content: '启用'},
-        {value: '3', content: '停用'}
+        {value: '2', content: '停用'}
       ]
     },
     {
@@ -61,7 +61,7 @@ export class MemberComponent implements OnInit {
     {key: 'idNumber', label: '身份证号'},
     {key: 'sex', label: '性别',isDict: true, category: 'M_SEX'},
     {key: 'registTime', label: '注册时间'},
-    {key: 'classify', label: '会员状态'},
+    {key: 'status', label: '会员状态',isDict: true, category: 'MEMBER_STATUS'},
     {key: 'lastLoginTime', label: '最后登录时间'},
     {key: 'loginIp', label: '最后登录IP'},
     {key: 'invitedMember', label: '邀请人'},
@@ -111,17 +111,19 @@ export class MemberComponent implements OnInit {
         this.pageInfo.total=res.data.total; //记录总数
         this.members = res.data.list;
         this.members = _.map(this.members, t => {
-          let status = t.classify;
+          let status = t.status;
           let actions;
           switch (status) {
-            case "1":
+            case "0"://启用
               actions = [PREVIEW,UPDATE];
               break;
-            case "3":
-              actions = [PREVIEW,UPDATE];
+            case "1"://锁定
+              actions = [PREVIEW];
+              break;
+            case "2"://停用
+              actions = [PREVIEW];
               break;
             default:
-              actions = [PREVIEW,UPDATE];
               break;
           }
           return _.set(t, 'actions', actions)

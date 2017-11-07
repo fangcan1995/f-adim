@@ -174,15 +174,14 @@ export class MessageComponent {
                   });
                 }else{
                   //修改为不可见状态
-                  let thisMessage=message.data;
-                  thisMessage.delFlag=1;
-                  this.service.putOne(thisMessage).then((data:any)  => {
+                  this.service.deleteLogicalMessage(message.data.id).then((data:any)  => {
                     this.showSuccess(data.message || '删除成功');
+                    this.getList();
                   }).catch(err=>{
                     this.showError(err.json().message || '删除失败');
                     }
                   );
-                  this.getList();
+
                 };
 
               }
