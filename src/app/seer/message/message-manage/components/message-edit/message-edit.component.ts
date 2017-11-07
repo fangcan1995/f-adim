@@ -148,6 +148,7 @@ export class MessageEditComponent {
       this.message.sendMail=this.Cint(this.message.sendMail);
       this.message.sendNotify=this.Cint(this.message.sendNotify);
       this.message.sendMessage=this.Cint(this.message.sendMessage);
+      this.message.receivers=this.ids;
       this.service.putOne(this.message).then((data:any) => {
         this.forbidSaveBtn = false;
         this.showSuccess(data.msg || '更新成功')
@@ -163,6 +164,8 @@ export class MessageEditComponent {
       this.message.sendMail=this.Cint(this.message.sendMail);
       this.message.sendNotify=this.Cint(this.message.sendNotify);
       this.message.sendMessage=this.Cint(this.message.sendMessage);
+      this.message.receivers=this.ids;
+      console.log(this.message);
       this.service.postOne(this.message).then((data:any) => {
         this.forbidSaveBtn = false;
         this.showSuccess(data.msg || '保存成功')
@@ -430,7 +433,9 @@ export class MessageEditComponent {
       case 'all':
         this.ids='';
         this.service.getIds(this.usersType,this.modalPageInfo.query).then(data=>{
-          data.code=='0'?this.ids=data.data.ids:null;
+          this.ids=data.data.ids || null;
+        }).catch(err=>{
+          this.showError(err.json().message || '连接错误');
         });
         this.modalService.hide(1);
         break;
