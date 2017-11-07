@@ -60,9 +60,10 @@
                       <div style="position: relative;">
                         <div class="dropdown-menu departMentDropdown" [class.show]="isDepartmentDropdownOpen" role="menu">
                           <seer-tree
-                            #userTree
+                            #staffTree
                             [permissions]="staffPermission"
                             [nodes]="staffTreeNodes"
+                            (notify)="onNotice($event)"
                             ></seer-tree>
                         </div>
                       </div>

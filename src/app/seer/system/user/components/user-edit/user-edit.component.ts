@@ -30,7 +30,7 @@ export class UserEditComponent implements OnInit {
   private id:string;
   private isDepartmentDropdownOpen:boolean = false;
   staffTreeNodes;
-  staffPermission = TREE_PERMISSIONS.MULTI_SELECT | TREE_PERMISSIONS.SELECT_PARENT_CASCADE;
+  staffPermission = TREE_PERMISSIONS.MULTI_SELECT | TREE_PERMISSIONS.SELECT_PARENT_CASCADE | TREE_PERMISSIONS.NOTIFY;
   @ViewChild('myForm') myForm;
   constructor(
     private _userService: UserService,
@@ -158,5 +158,13 @@ export class UserEditComponent implements OnInit {
       icon: 'fa fa-times-circle',
       autoHideDuration: 3000,
     })
+  }
+
+  onNotice ($event) {
+    console.log($event);
+
+    if($event.eventName == "onFocus") {
+
+    }
   }
 }
