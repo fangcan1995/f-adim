@@ -11,6 +11,10 @@ import * as _ from 'lodash';
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import { UserService } from '../../user.service';
 import { SeerDialogService, SeerMessageService } from '../../../../../theme/services';
+
+import { json2Tree } from '../../../../../theme/libs';
+import { SeerTree } from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
+import { TREE_PERMISSIONS } from "../../../../../theme/modules/seer-tree/constants/permissions";
 @Component({
   templateUrl: './user-edit.component.html',
   styleUrls: [ './user-edit.component.scss' ],
@@ -25,7 +29,8 @@ export class UserEditComponent implements OnInit {
   private forbidResetPasswordBtn:boolean = true;
   private id:string;
   private isDepartmentDropdownOpen:boolean = false;
-
+  staffTreeNodes;
+  staffPermission = TREE_PERMISSIONS.MULTI_SELECT | TREE_PERMISSIONS.SELECT_PARENT_CASCADE;
   @ViewChild('myForm') myForm;
   constructor(
     private _userService: UserService,
@@ -63,14 +68,7 @@ export class UserEditComponent implements OnInit {
         let data = res.data || {};
         this.roles = data.list || [];
       });
-      this.getOrgs()
-      .then(res => {
-        let data = res.data || {};
-        this.orgs = data.list || [];
-      })
-      .catch(err => {
-        console.log(err)
-      })
+      this.getUsersWithStaffsWithOrgs()
     }
   }
   toggleDepartmentDropdown($event) {
@@ -115,8 +113,37 @@ export class UserEditComponent implements OnInit {
   getRoles() {
     return this._userService.getRoles()
   }
-  getOrgs() {
-    return this._userService.getOrgs();
+  getUsersWithStaffsWithOrgs() {
+    return this._userService.getUsersWithStaffsWithOrgs()
+      .then(res => {
+        let data = res.data || {};
+        let departments = data.departmentList || [];
+        let staffs = data.employeeList || [];
+        let users = data.userList || [];
+        departments = _(departments).map(t => {
+          t = _.set(t, 'originId', t['id']);
+          t = _.set(t, 'type', 'D');
+          t = _.set(t, 'id', `D__${t['id']}`);
+          t = _.set(t, 'originPid', t['pid'] || '0');
+          t = _.set(t, 'parentId', t['pid'] ? `D__${t['pid']}` : '0' );
+          t = _.set(t, 'customIcon', 'ion-ios-people');
+          return t;
+        }).value();
+        staffs = _(staffs).map(t => {
+          t = _.set(t, 'originId', t['id']);
+          t = _.set(t, 'type', 'S');
+          t = _.set(t, 'id', `S__${t['id']}`);
+          t = _.set(t, 'originPid', t['pid'] || '0');
+          t = _.set(t, 'parentId', t['pid'] ? `D__${t['pid']}` : '0' );
+          t = _.set(t, 'customIcon', 'ion-person');
+          return t;
+        }).value();
+
+        this.staffTreeNodes = json2Tree(departments.concat(staffs));
+      })
+      .catch(err => {
+        console.error(err)
+      });
   }
   showSuccess(message: string) {
     return this._messageService.open({

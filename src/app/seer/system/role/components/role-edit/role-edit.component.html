@@ -63,7 +63,7 @@
                   <seer-tree
                     #accountTree
                     [permissions]="accountPermission"
-                    [nodes]="account"
+                    [nodes]="accountTreeNodes"
                     ></seer-tree>
                 </div>
               </div>
@@ -76,37 +76,3 @@
   </div>
 </div>
 
-
-
-  <!-- <div class="row">
-    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
-      <div class="form-group">
-        <label for="inputRoleName">角色</label>
-        <input type="text" class="form-control" name="inputRoleName" id="inputRoleName" [(ngModel)]="role.roleName" placeholder="角色" required maxlength="18">
-      </div>
-    </div>
-    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
-      <div class="form-group">
-        <label for="inputValidState">状态</label>
-        <select type="email" class="form-control" name="inputValidState" id="inputValidState" [(ngModel)]="role.validState" dict-select [key]="'VALID_STATE'" [topOption]="{dictValueId:'',dictValueName:'请选择'}" [selected]="role.validState" required>
-        </select>
-      </div>
-    </div>
-  </div>
-  
-  </seer-collapse-card>
-  
-  <div class="row">
-  <div class="col-lg-6">
-    <seer-collapse-card [title]="'设置账号'">
-      <seer-tree #accountTree
-                 [permissions]="accountPermission" [nodes]="accounts"></seer-tree>
-    </seer-collapse-card>
-  </div>
-  <div class="col-lg-6">
-    <seer-collapse-card [title]="'设置权限'">
-      <seer-tree #resourceTree
-                 [permissions]="resourcePermission" [nodes]="resources"></seer-tree>
-    </seer-collapse-card>
-  </div>
-  </div> -->

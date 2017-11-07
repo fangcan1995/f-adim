@@ -52,14 +52,18 @@
                       class="form-control"
                       id="departmentName"
                       name="departmentName"
-                      placeholder="所属机构"
+                      placeholder="所属员工"
                       [required]=true
                       [(ngModel)]="user.departmentName"
                       (click)=toggleDepartmentDropdown($event)
                       />
                       <div style="position: relative;">
                         <div class="dropdown-menu departMentDropdown" [class.show]="isDepartmentDropdownOpen" role="menu">
-                          123213123123
+                          <seer-tree
+                            #userTree
+                            [permissions]="staffPermission"
+                            [nodes]="staffTreeNodes"
+                            ></seer-tree>
                         </div>
                       </div>
                     

@@ -33,6 +33,9 @@ export class RoleEditComponent implements OnInit {
   @ViewChild('resourceTree') resourceTree: SeerTree;
   resourceTreeNodes;
   resourcePermission = TREE_PERMISSIONS.MULTI_SELECT | TREE_PERMISSIONS.SELECT_PARENT_CASCADE;
+
+  accountTreeNodes;
+  accountPermission = TREE_PERMISSIONS.MULTI_SELECT | TREE_PERMISSIONS.SELECT_PARENT_CASCADE;
   constructor(
     private _roleService: RoleService,
     private _location: Location,
@@ -78,9 +81,47 @@ export class RoleEditComponent implements OnInit {
   getUsersWithStaffsWithOrgs() {
     return this._roleService.getUsersWithStaffsWithOrgs()
       .then(res => {
-        console.log(res)
         let data = res.data || {};
-        // let users = data.
+        let departments = data.departmentList || [];
+        let staffs = data.employeeList || [];
+        let users = data.userList || [];
+
+
+        departments = _(departments).map(t => {
+          t = _.set(t, 'originId', t['id']);
+          t = _.set(t, 'type', 'D');
+          t = _.set(t, 'id', `D__${t['id']}`);
+          t = _.set(t, 'originPid', t['pid'] || '0');
+          t = _.set(t, 'parentId', t['pid'] ? `D__${t['pid']}` : '0' );
+          t = _.set(t, 'customIcon', 'ion-ios-people');
+          return t;
+        }).value();
+
+        staffs = _(staffs).map(t => {
+          t = _.set(t, 'originId', t['id']);
+          t = _.set(t, 'type', 'S');
+          t = _.set(t, 'id', `S__${t['id']}`);
+          t = _.set(t, 'originPid', t['pid'] || '0');
+          t = _.set(t, 'parentId', t['pid'] ? `D__${t['pid']}` : '0' );
+          t = _.set(t, 'customIcon', 'ion-person');
+          return t;
+        }).value();
+
+        users = _(users).map(t => {
+          t = _.set(t, 'originId', t['id']);
+          t = _.set(t, 'type', 'U');
+          t = _.set(t, 'id', `U__${t['id']}`);
+          t = _.set(t, 'originPid', t['pid'] || '0');
+          t = _.set(t, 'parentId', t['pid'] ? `S__${t['pid']}` : '0' );
+          t = _.set(t, 'customIcon', 'ion-card');
+          return t;
+        }).value();
+
+        let accounts = departments.concat(staffs, users);
+        this.accountTreeNodes = json2Tree(accounts);
+      })
+      .catch(err => {
+        console.error(err)
       });
   }
 
