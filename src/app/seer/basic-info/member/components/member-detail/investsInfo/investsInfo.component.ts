@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute,} from '@angular/router';
 import { Location } from '@angular/common';
 import { MemberService } from '../../../member.service';
+import { SeerMessageService } from '../../../../../../theme/services/seer-message.service';
 
 @Component({
   selector: 'investsInfo',
@@ -43,11 +44,13 @@ export class InvestsInfoComponent implements OnInit {
       label:'已收利息',
     }
   ];
+  memberId:any='';
   constructor(
     private _memberService: MemberService,
     private _route: ActivatedRoute,
     private _router: Router,
     private _location: Location,
+    private _messageService: SeerMessageService,
   ) {}
   ngOnInit() {
     this._route.url.mergeMap(url => {
@@ -55,22 +58,46 @@ export class InvestsInfoComponent implements OnInit {
       return this._route.params
     })
       .subscribe(params => {
-        //console.log(this._editType);
-        if ( this._editType === 'detail' ) {
+        if ( this._editType === 'invests' ) {
+          this.memberId=params.id;
           this._memberService.getInvests(params.id)
           .then(res => {
               this.member = res.data || {};
               this.investsRecord=res.data.investsRecord;
               this.forbidSaveBtn = false;
-            }, errMsg => {
-              // 错误处理的正确打开方式
-
-            })
+            }).catch(err=>{
+            this.showError(err.msg || '连接失败');
+          });
         }
       })
   }
   handleBackBtnClick() {
-    this._location.back()
+    this._router.navigate([`../../`], {relativeTo: this._route});
   }
-
+  memberInfoClick(){
+    this._router.navigate([`../../detail/${this.memberId}`], {relativeTo: this._route});
+  }
+  investInfoClick(){
+    this._router.navigate([`../../invests/${this.memberId}`], {relativeTo: this._route});
+  }
+  loanInfoClick(){
+    this._router.navigate([`../../loans/${this.memberId}`], {relativeTo: this._route});
+  }
+  tradeInfoClick(){
+    this._router.navigate([`../../trades/${this.memberId}`], {relativeTo: this._route});
+  }
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
+  }
 }

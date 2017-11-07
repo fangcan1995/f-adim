@@ -12,11 +12,13 @@ import {CreditInfoComponent} from "./component/credit-info/credit-info.component
 import {InvestRecordComponent} from "./component/invest-record/invest-record.component";
 import {LoanInfoComponent} from "./component/loan-info/loan-info.component";
 import {PwanInfoComponent} from "./component/pwan-info/pwan-info.component";
+import {FileUploadModule} from "ng2-file-upload";
 
 @NgModule({
   imports: [
     NgaModule,
     SharedModule,
+    FileUploadModule
   ],
   declarations: [
     LoanBasicComponent,

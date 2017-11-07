@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute,} from '@angular/router';
 import { Location } from '@angular/common';
 import { MemberService } from '../../../member.service';
+import { SeerMessageService } from '../../../../../../theme/services/seer-message.service';
 
 @Component({
   selector: 'tradesInfo',
@@ -31,6 +32,7 @@ export class TradesInfoComponent implements OnInit {
       label:'状态',
     }
   ];
+  memberId:any='';
 
   isChecked={
     "all":true,
@@ -77,6 +79,7 @@ export class TradesInfoComponent implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private _location: Location,
+    private _messageService: SeerMessageService,
   ) {}
   ngOnInit() {
     this._route.url.mergeMap(url => {
@@ -84,25 +87,20 @@ export class TradesInfoComponent implements OnInit {
       return this._route.params
     })
       .subscribe(params => {
-        //console.log(this._editType);
-        if ( this._editType === 'detail' ) {
+        if ( this._editType === 'trades' ) {
+          this.memberId=params.id;
           this._memberService.getTrades(params.id)
             .then(res => {
               this.member = res.data || {};
               this.tradesRecord=res.data.tradesRecord;
               this.forbidSaveBtn = false;
-            }, errMsg => {
-              // 错误处理的正确打开方式
-
-            })
+            }).catch(err=>{
+            this.showError(err.msg || '连接失败');
+          });
         }
       })
   }
-  handleBackBtnClick() {
-    this._location.back()
-  }
   ckboxToggle(category:any){
-    alert(category);
     if(this.currentType!=category){
       for ( var i in this.isChecked) {
         this.isChecked[i]=false;
@@ -116,8 +114,35 @@ export class TradesInfoComponent implements OnInit {
         this.isChecked[category]=true;
         this.pageInfo.query.category=category;
       }
-      //this._memberService.getTrades(params.id);
     }
   }//选框点击
-
+  handleBackBtnClick() {
+    this._router.navigate([`../../`], {relativeTo: this._route});
+  }
+  memberInfoClick(){
+    this._router.navigate([`../../detail/${this.memberId}`], {relativeTo: this._route});
+  }
+  investInfoClick(){
+    this._router.navigate([`../../invests/${this.memberId}`], {relativeTo: this._route});
+  }
+  loanInfoClick(){
+    this._router.navigate([`../../loans/${this.memberId}`], {relativeTo: this._route});
+  }
+  tradeInfoClick(){
+    this._router.navigate([`../../trades/${this.memberId}`], {relativeTo: this._route});
+  }
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
+  }
 }

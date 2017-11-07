@@ -1,53 +1,58 @@
 <seer-collapse-card title="抵押信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
 
-  <div class="row">
-    <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
-      <div class="row">
-        <button *ngIf="!disabled" class="btn btn-primary" type="button" (click)="vehicleModal(vehicleTemplate, false)">新增车辆</button>
+  <ng-container *ngIf="vehicles.length > 0">
+    <div class="row">
+      <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+        <div class="row">
+          <button *ngIf="!disabled" class="btn btn-primary" type="button" (click)="vehicleModal(vehicleTemplate, false)">新增车辆</button>
+        </div>
       </div>
     </div>
-  </div>
-  <form class="form-horizontal">
+    <form class="form-horizontal">
+      <div class="row">
+        <ng-container *ngFor="let vehicle of vehicles">
+          <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+            <div class="row">
+              <div [ngClass] = "{'active' : pawn.pawnType == '1' && pawn.id == vehicle.id}" class="card checkable-card" style="max-width: 20rem;">
+                <div class="card-header">{{vehicle.carBrand}} {{vehicle.carModel}}</div>
+                <div class="card-body text-secondary">
+                  <p class="card-text">{{vehicle.carNumber}}、行驶{{vehicle.mileage}}公里、{{vehicle.carAge}}年车龄、评估价格为{{vehicle.pricePotential}}元</p>
+                  <a
+                    href="javascript:void(0)" class="card-link" (click)="setVehicle($event, vehicle)">设为抵押物</a>
+                  <a href="javascript:void(0)" class="card-link" (click)="vehicleModal(vehicleTemplate, true, vehicle)">查看详情</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container *ngIf="houses.length > 0">
     <div class="row">
-      <ng-container *ngFor="let vehicle of vehicles">
-        <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+      <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+        <div class="row">
+          <button *ngIf="!disabled" class="btn btn-primary" type="button" (click)="houseModal(houseTemplate, false)">新增房产</button>
+        </div>
+      </div>
+    </div>
+    <form class="form-horizontal">
+      <div class="row">
+        <div *ngFor="let house of houses" class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
           <div class="row">
-            <div [ngClass] = "{'active' : pawn.pawnType == '1' && pawn.id == vehicle.id}" class="card checkable-card" style="max-width: 20rem;">
-              <div class="card-header">{{vehicle.carBrand}} {{vehicle.carModel}}</div>
+            <div [ngClass] = "{'active' : pawn.pawnType == '2' && pawn.id == house.id}"  class="card checkable-card" style="max-width: 20rem;">
+              <div class="card-header">产权证号：12345678</div>
               <div class="card-body text-secondary">
-                <p class="card-text">{{vehicle.carNumber}}、行驶{{vehicle.mileage}}公里、{{vehicle.carAge}}年车龄、评估价格为{{vehicle.pricePotential}}元</p>
-                <a href="javascript:void(0)" class="card-link" (click)="setVehicle($event, vehicle)">设为抵押物</a>
-                <a href="javascript:void(0)" class="card-link" (click)="vehicleModal(vehicleTemplate, true, vehicle)">查看详情</a>
+                <p class="card-text">房产地址：{{house.houseAdress}} 评估价格{{house.pricePotential}} </p>
+                <a href="javascript:void(0)" class="card-link" (click)="setHouse($event, house)">设为抵押物</a>
+                <a href="javascript:void(0)" class="card-link" (click)="houseModal(houseTemplate, true, house)">查看详情</a>
               </div>
             </div>
           </div>
         </div>
-      </ng-container>
-    </div>
-  </form>
-  <div class="row">
-    <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
-      <div class="row">
-        <button *ngIf="!disabled" class="btn btn-primary" type="button" (click)="houseModal(houseTemplate, false)">新增房产</button>
       </div>
-    </div>
-  </div>
-  <form class="form-horizontal">
-    <div class="row">
-      <div *ngFor="let house of houses" class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
-        <div class="row">
-          <div [ngClass] = "{'active' : pawn.pawnType == '2' && pawn.id == house.id}"  class="card checkable-card" style="max-width: 20rem;">
-            <div class="card-header">产权证号：12345678</div>
-            <div class="card-body text-secondary">
-              <p class="card-text">房产地址：{{house.houseAdress}} 评估价格{{house.pricePotential}} </p>
-              <a href="javascript:void(0)" class="card-link" (click)="setHouse($event, house)">设为抵押物</a>
-              <a href="javascript:void(0)" class="card-link" (click)="houseModal(houseTemplate, true, house)">查看详情</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
+    </form>
+  </ng-container>
 </seer-collapse-card>
 
 <!-- create vehicle modal -->

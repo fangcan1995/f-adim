@@ -1,4 +1,3 @@
-
 <seer-collapse-card title="借款信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true [headerActions]="actions" (notify)="save($event)">
   <form class="form-horizontal">
     <div class="row">
@@ -6,7 +5,7 @@
         <div class="row">
           <label for="loanApplyType" class="col-sm-4 control-label">借款类型</label>
           <div class="col-sm-8">
-            <select class="form-control" id="loanApplyType" placeholder="" [(ngModel)]="loan.loanApplyType" [ngModelOptions]="{standalone: true}"
+            <select class="form-control" id="loanApplyType" placeholder="" [(ngModel)]="loan.loanApplyType" (change)="loanTypeChange()" [ngModelOptions]="{standalone: true}"
                     dict-select
                     [key]="'LOAN_APPLY_TYPE'"
                     [selected]="loan.loanApplyType"

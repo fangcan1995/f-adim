@@ -1,3 +1,10 @@
+<seer-content-top>
+  <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
+  <button class="btn btn-primary right-button"  (click)="memberInfoClick()">基本信息</button>
+  <button class="btn btn-primary right-button"  (click)="investInfoClick()">投资信息</button>
+  <button class="btn btn-primary right-button" [disabled]="true"  (click)="loanInfoClick()">贷款信息</button>
+  <button class="btn btn-primary right-button"  (click)="tradeInfoClick()">交易记录</button>
+</seer-content-top>
 <div style="margin:10px 30px; background: #c12e2a">
   <seer-card>
     <div class="row justify-content-center">
@@ -5,10 +12,10 @@
         <seer-collapse-card title="借款统计" cardClass="with-scroll" [canCollapse]=true>
           <div class="row" style="border-bottom:1px solid #ededed;margin-bottom: 10px">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              借款申请笔数:{{member.countInfo.aaa}}
+              借款申请笔数:2
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              成功借款笔数:{{member.countInfo.bbb}}
+              成功借款笔数:1
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               失败借款笔数:

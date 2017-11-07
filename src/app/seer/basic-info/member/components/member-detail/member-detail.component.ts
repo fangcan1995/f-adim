@@ -1,28 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  Router,
-  ActivatedRoute,
-} from '@angular/router';
-import { Location } from '@angular/common';
-
-import * as _ from 'lodash';
-import { Observable } from 'rxjs/Observable';
-import { MemberService } from '../../member.service';
-import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
-import {UPDATE, DELETE,DOWNLOAD, PREVIEW} from "../../../../common/seer-table/seer-table.actions"
-
+import { Component } from '@angular/core';
 @Component({
   templateUrl: './member-detail.component.html',
   styleUrls: ['./member-detail.component.scss']
 })
 export class MemberDetailComponent {
-  private _editType: string = 'add';
+
   constructor(
-    private _memberService: MemberService,
-    private _messageService: SeerMessageService,
-    private _route: ActivatedRoute,
-    private _router: Router,
-    private _location: Location,
   ) {}
 
   /*public member: any = {};
@@ -159,7 +142,6 @@ export class MemberDetailComponent {
 
   }*/
   handleBackBtnClick() {
-    //this._router.navigate(['/basic-info/member'])
-    this._location.go('/basic-info/member');
+    location.reload();
   }
 }

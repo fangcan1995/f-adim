@@ -1,7 +1,5 @@
 import {Injectable} from "@angular/core";
 import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel} from "../../../theme/services"
-import {Observable} from 'rxjs/Observable';
-import * as _ from 'lodash';
 import {getStorage} from "../../../theme/libs/utils"
 @Injectable()
 export class MemberService extends BaseService<ResModel>{
