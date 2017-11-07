@@ -7,20 +7,32 @@
             <div class="card-header">个人风险报告</div>
             <div class="card-body text-secondary">
               <p class="card-text">{{riskReport.updateTime || '未查询'}}</p>
-              <a href="javascript:void(0)" class="card-link" (click)="query(creditReport)">重新查询</a>
+              <ng-container *ngIf="!riskReport.updateTime">
+                <a href="javascript:void(0)" class="card-link" (click)="query(creditReport, 1)">获取信用报告</a>
+              </ng-container>
+              <ng-container *ngIf="riskReport.updateTime">
+                <a href="javascript:void(0)" class="card-link" (click)="preview(creditReport)">预览</a>
+                <a href="javascript:void(0)" class="card-link" (click)="download(creditReport)">下载</a>
+                <a href="javascript:void(0)" class="card-link" (click)="requery(creditReport, 1)">重新获取</a>
+              </ng-container>
             </div>
           </div>
         </div>
       </div>
       <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
         <div class="row">
-          <div class="card checkable-card active" style="max-width: 20rem;">
+          <div ngClass="{}" class="card checkable-card" style="max-width: 20rem;">
             <div class="card-header">个人信用报告</div>
             <div class="card-body text-secondary">
               <p class="card-text">{{creditReport.updateTime || '未查询'}}</p>
-              <a href="javascript:void(0)" class="card-link" (click)="preview(creditReport)">预览</a>
-              <a href="javascript:void(0)" class="card-link" (click)="download(creditReport)">下载</a>
-              <a href="javascript:void(0)" class="card-link" (click)="requery(creditReport)">重新查询</a>
+              <ng-container *ngIf="!creditReport.updateTime">
+                <a href="javascript:void(0)" class="card-link" (click)="query(creditReport, 2)">获取信用报告</a>
+              </ng-container>
+              <ng-container *ngIf="creditReport.updateTime">
+                <a href="javascript:void(0)" class="card-link" (click)="preview(creditReport)">预览</a>
+                <a href="javascript:void(0)" class="card-link" (click)="download(creditReport)">下载</a>
+                <a href="javascript:void(0)" class="card-link" (click)="requery(creditReport, 2)">重新获取</a>
+              </ng-container>
             </div>
           </div>
         </div>
@@ -31,9 +43,14 @@
             <div class="card-header">个人反欺诈报告</div>
             <div class="card-body text-secondary">
               <p class="card-text">{{antiFraudReport.updateTime || '未查询'}}</p>
-              <a href="javascript:void(0)" class="card-link" (click)="preview(creditReport)">预览</a>
-              <a href="javascript:void(0)" class="card-link" (click)="download(creditReport)">下载</a>
-              <a href="javascript:void(0)" class="card-link" (click)="requery(creditReport)">重新查询</a>
+              <ng-container *ngIf="!antiFraudReport.updateTime">
+                <a href="javascript:void(0)" class="card-link" (click)="query(creditReport, 3)">获取信用报告</a>
+              </ng-container>
+              <ng-container *ngIf="antiFraudReport.updateTime">
+                <a href="javascript:void(0)" class="card-link" (click)="preview(creditReport)">预览</a>
+                <a href="javascript:void(0)" class="card-link" (click)="download(creditReport)">下载</a>
+                <a href="javascript:void(0)" class="card-link" (click)="requery(creditReport, 3)">重新获取</a>
+              </ng-container>
             </div>
           </div>
         </div>
