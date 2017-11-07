@@ -1,12 +1,9 @@
 import {Component} from '@angular/core';
 import {MessageService} from "./message.service";
 import {Router,ActivatedRoute} from "@angular/router";
-import {Message} from "../../model/auth/message-edit";
 import * as _ from 'lodash'
 import {PREVIEW,UPDATE, DELETE} from "../../common/seer-table/seer-table.actions"
-import {SeerDialogService} from "../../../theme/services/seer-dialog.service"
-import {_if} from "rxjs/observable/if";
-import {tokenKey} from "@angular/core/src/view/util";
+import {SeerDialogService, SeerMessageService,} from '../../../theme/services';
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
 
 @Component({
@@ -109,14 +106,14 @@ export class MessageComponent {
   ];
 
   ngOnInit() {
-    // 数据字典
     this.getList();
   }
   constructor(
     protected service: MessageService,
     private _router: Router,
     private _route: ActivatedRoute,
-    private _dialogService: SeerDialogService
+    private _dialogService: SeerDialogService,
+    private _messageService: SeerMessageService
   ) {}
   //获取列表
   getList():void{
@@ -145,7 +142,7 @@ export class MessageComponent {
           return _.set(r, 'actions', actions)
         })
       }).catch(err => {
-        this._dialogService.alert(err.json().message);
+        this.showError(err.json().message || '连接失败');
       });
   }
   //
@@ -170,25 +167,19 @@ export class MessageComponent {
                   //删除
                   this.service.deleteMessage(message.data.id)
                     .then((data:any) => {
-                      if(data.code=='0') {
-                        this._dialogService.alert(data.message);
-                        this.getList();
-                      }else{
-                        this._dialogService.alert(data.message);
-                      }
+                      this.showSuccess(data.message || '删除成功');
+                      this.getList();
                     }).catch(err => {
-                    this._dialogService.alert(err.json().message);
+                    this.showError(err.json().message || '删除失败');
                   });
                 }else{
                   //修改为不可见状态
                   let thisMessage=message.data;
                   thisMessage.delFlag=1;
                   this.service.putOne(thisMessage).then((data:any)  => {
-                    if(data.code=='0') {
-                      alert('ok');
-                    }
+                    this.showSuccess(data.message || '删除成功');
                   }).catch(err=>{
-                    alert(err.json().message);
+                    this.showError(err.json().message || '删除失败');
                     }
                   );
                   this.getList();
@@ -239,6 +230,19 @@ export class MessageComponent {
     };*!/
     this.getList();
   }*/
-
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
+  }
 }
 

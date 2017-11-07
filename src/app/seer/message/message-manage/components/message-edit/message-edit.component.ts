@@ -149,29 +149,31 @@ export class MessageEditComponent {
       this.message.sendNotify=this.Cint(this.message.sendNotify);
       this.message.sendMessage=this.Cint(this.message.sendMessage);
       this.service.putOne(this.message).then((data:any) => {
-        if(data.code=="0") {
-          this.alertSuccess(data.message);
-        }else{
-          this.alertError(data.message);
-        }
+        this.forbidSaveBtn = false;
+        this.showSuccess(data.msg || '更新成功')
+          .onClose()
+          .subscribe(() => {
+            this._router.navigate(['/message/message']);
+          });
       }).catch(err => {
-        this.alertError(err.json().message);
+        this.forbidSaveBtn = false;
+        this.showError(err.msg || '更新失败')
       });
     } else if ( this._editType === 'add' ) {
       this.message.sendMail=this.Cint(this.message.sendMail);
       this.message.sendNotify=this.Cint(this.message.sendNotify);
       this.message.sendMessage=this.Cint(this.message.sendMessage);
-      //console.log(this.message);
       this.service.postOne(this.message).then((data:any) => {
-        if(data.code=='0') {
-          this.alertSuccess(data.message);
-        }else{
-          this.alertError(data.message);
-        }
+        this.forbidSaveBtn = false;
+        this.showSuccess(data.msg || '保存成功')
+          .onClose()
+          .subscribe(() => {
+            this._router.navigate(['/message/message']);
+          });
       }).catch(err => {
-        this.alertError(err.message);
+        this.forbidSaveBtn = false;
+        this.showError(err.msg || '保存失败')
       });
-
     } else {
       return;
     }
@@ -453,22 +455,18 @@ export class MessageEditComponent {
         break;
     }
   }
-  alertSuccess(info:string){
-    this._messageService.open({
-      icon: 'fa fa-times-circle',
-      message: info,
-      autoHideDuration: 3000,
-    }).onClose().subscribe(() => {
-      this._router.navigate(['/message/message/'])
-    });
-  };
-  alertError(errMsg:string){
-    this.forbidSaveBtn = false;
-    // 错误处理的正确打开方式
-    this._messageService.open({
-      icon: 'fa fa-times-circle',
-      message: errMsg,
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
       autoHideDuration: 3000,
     })
-  };
+  }
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
+  }
 }

@@ -1,7 +1,7 @@
 import {Component, ViewEncapsulation} from "@angular/core";
 import {messageRecordService} from "./message-record.service"
 import {Router,ActivatedRoute} from "@angular/router";
-import { SeerDialogService } from '../../../theme/services/seer-dialog.service'
+import {SeerDialogService, SeerMessageService,} from '../../../theme/services';
 import * as _ from 'lodash'
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
 @Component({
@@ -102,6 +102,7 @@ export class MessageRecordComponent {
   constructor(
     protected service: messageRecordService,
     private _dialogService: SeerDialogService,
+    private _messageService: SeerMessageService
   ) {}
   ngOnInit() {
     this.getRecord();
@@ -114,8 +115,8 @@ export class MessageRecordComponent {
       this.pageInfo.total=res.data.total; //记录总数
       this.source = res.data.list;
     }).catch(err => {
-      this._dialogService.alert(err.json().message);
-    });;
+      this.showError(err.json().message || '连接失败');
+    });
   }
   //分页
   handlePageChange($event) {
@@ -142,5 +143,18 @@ export class MessageRecordComponent {
     this.pageInfo.query = params;
     this.getRecord();
   }
-
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
+  }
 }

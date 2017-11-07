@@ -5,7 +5,6 @@ import {Message} from "../../model/auth/message-edit";
 import {getStorage} from "../../../theme/libs/utils"
 @Injectable()
 export class MessageService extends BaseService<any>{
-
   accessToken = getStorage({ key: 'token' }).access_token;
   private MessageUrl = `http://172.16.1.234:8080/messages`;  // 消息
   private RecordUrl = `http://172.16.1.234:8080/records`;  // 发送记录
