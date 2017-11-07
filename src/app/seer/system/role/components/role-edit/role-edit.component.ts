@@ -76,13 +76,11 @@ export class RoleEditComponent implements OnInit {
     }
   }
   getUsersWithStaffsWithOrgs() {
-    return Promise.all([
-      this._roleService.getOrgs(),
-      this._roleService.getStaffs(),
-      this._roleService.getUsers(),
-      ])
+    return this._roleService.getUsersWithStaffsWithOrgs()
       .then(res => {
         console.log(res)
+        let data = res.data || {};
+        // let users = data.
       });
   }
 

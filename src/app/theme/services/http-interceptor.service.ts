@@ -120,7 +120,6 @@ export class HttpInterceptorService {
       });
       
     } else {
-      console.log(error)
       errMsg = error.message ? error.message : error.toString();
       return Observable.throw({
         code: -1,
