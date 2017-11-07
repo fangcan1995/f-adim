@@ -40,7 +40,7 @@ export class OrgService extends BaseService<any>{
 
 
   deleteOne (id): Promise<ResModel> {
-    return this._httpInterceptorService.request('DELETE', `http://172.16.7.4:8020/permission/organizations/?employerId=${id}`, {}, true).toPromise();
+    return this._httpInterceptorService.request('DELETE', `http://172.16.7.4:8020/permission/organizations/${id}`, {}, true).toPromise();
   }
 
   // 表格假数据

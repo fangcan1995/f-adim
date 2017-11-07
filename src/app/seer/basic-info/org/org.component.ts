@@ -4,7 +4,7 @@ import {
   OnDestroy,
   TemplateRef,
 } from "@angular/core";
-import {Router} from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
 import * as _ from 'lodash';
 
 import {OrgService} from "./org.service";
@@ -26,7 +26,7 @@ import {
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { ModalDirective, BsModalService } from 'ngx-bootstrap/modal';
 import { User } from "../../model/auth/user";
-import { DELETE } from "../../common/seer-table/seer-table.actions";
+import {DELETE, UPDATE} from "../../common/seer-table/seer-table.actions";
 import {isNullOrUndefined} from "util";
 @Component({
   templateUrl: './org.component.html',
@@ -111,6 +111,8 @@ export class OrgComponent implements OnDestroy{
     private _dialogService: SeerDialogService,
     private modalService: BsModalService,
     private _messageService: SeerMessageService,
+    private _router: Router,
+    private _activatedRoute: ActivatedRoute,
     ) {
       this._state.subscribe("orgStaffState", a => {
         this.getStaffsByOrgId(this.staffId);
@@ -163,7 +165,7 @@ export class OrgComponent implements OnDestroy{
 
        this.datas = result.data.list;
        console.log(this.datas);
-       this.datas = _.map(this.datas, r => _.set(r, 'actions', [DELETE]));
+       this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE]));
      });
 
   }
@@ -173,6 +175,9 @@ export class OrgComponent implements OnDestroy{
     const type = message.type;
     let data = message.data;
     switch ( type ) {
+      case 'update':
+        this._router.navigate([`../../staff-manage/edit/${data.id}`], {relativeTo: this._activatedRoute});
+        break;
       case 'delete':
         this._dialogService.confirm('确定删除吗？')
           .subscribe(action => {
@@ -180,11 +185,6 @@ export class OrgComponent implements OnDestroy{
               this.service.deleteOne(message.data.id).then( result => {
                 console.log(result);
               });
-               /*this.service.deleteOne(message.data.id)
-                 .subscribe(data => {
-                   this.getList();
-               });*/
-               console.log(message.data);
             }
           })
 
@@ -461,6 +461,14 @@ export class OrgComponent implements OnDestroy{
   public modalRef: BsModalRef;
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
+  }
+
+  onNotice ($event) {
+    console.log($event);
+
+    if($event.eventName == "onFocus") {
+
+    }
   }
 
 }
