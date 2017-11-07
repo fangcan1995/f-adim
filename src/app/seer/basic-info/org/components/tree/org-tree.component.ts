@@ -2,6 +2,7 @@ import {
   Component,
   OnInit,
   ViewChild,
+  TemplateRef
 } from '@angular/core';
 import { BaseModalComponent } from "../../../../../theme/directives/dynamicComponent/dynamic-component.directive";
 import { ModalComponent } from "../../../../../theme/components/ng2-bs4-modal/modal";
@@ -11,9 +12,10 @@ import {json2Tree} from "../../../../../theme/libs/json2Tree";
 import { GlobalState } from "../../../../../global.state";
 import { TREE_EVENTS } from "../../../../../theme/modules/seer-tree/constants/events";
 
+
 @Component({
   selector: 'org-tree',
-  templateUrl: './org-tree.component.html',
+  templateUrl: './org-tree.component1.html',
   styleUrls: ['./org-tree.component.scss'],
   providers: [],
 })
@@ -41,8 +43,11 @@ export class OrgTreeDialogComponent extends BaseModalComponent implements OnInit
 
   }
 
-  title = '选择组织机构';
 
+
+
+  title = '选择组织机构';
+  treeNode =[];
   nodes = [];
 
   save(){
@@ -60,17 +65,32 @@ export class OrgTreeDialogComponent extends BaseModalComponent implements OnInit
     }*/
   }
 
+
+
   /*
    * 获取全部组织机构
    * */
-  getOrganizations() {
+  /*getOrganizations() {
     this.service.getOrganizations().then((result) => {
       this.nodes = json2Tree(result.data, {parentId:'pid',children:'children', id: 'departmentId'},[{origin:'departmentName',replace:'name'}, {origin: 'code', replace: 'id'}]);
+    });
+  }*/
+
+  getOrganizations() {
+    this.service.getOrganizations()
+      .then((result) => {
+        result.data.map(org=>org['children']=[]);
+        let nodes = json2Tree(result.data, {parentId:'pid',children:'children', id: 'departmentId'},[{origin:'departmentName',replace:'name'}, {origin: 'departmentId', replace: 'id'}]);
+        nodes.map(rootNode=>rootNode['expanded']=true);
+        this.treeNode = nodes;
+        console.log(this.treeNode);
+      }).catch(err => {
+      console.log(err);
     });
   }
 
   onNotify($event) {
-
+    console.log($event);
     if ($event.eventName == TREE_EVENTS.onActivate) {
       $event.node.setIsExpanded(true)
     }
