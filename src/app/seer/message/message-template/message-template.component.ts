@@ -3,7 +3,7 @@ import {messageTplManageService} from "./message-template.service";
 import {Router,ActivatedRoute} from "@angular/router";
 import {Location} from '@angular/common';
 import {Template} from "../../model/auth/message-template";
-import { SeerDialogService } from '../../../theme/services/seer-dialog.service'
+import {SeerDialogService, SeerMessageService,} from '../../../theme/services';
 import {UPDATE, DELETE,PREVIEW} from "../../common/seer-table/seer-table.actions"
 import * as _ from 'lodash';
 @Component({
@@ -69,7 +69,7 @@ export class MessageTemplateComponent {
   pageInfo={
     "pageNum":1,
     "pageSize":10,
-    "sort":"-createTime",
+    "sort":"",
     "total":"",
     "query":{
       "globalSearch":"",
@@ -84,7 +84,6 @@ export class MessageTemplateComponent {
     },
 
   }; //分页、排序、检索
-
   title = '消息模板';
   source = [];
   data=[];
@@ -125,17 +124,20 @@ export class MessageTemplateComponent {
     protected service: messageTplManageService,
     private _router: Router,
     private _route: ActivatedRoute,
-    private _dialogService: SeerDialogService,) {}
+    private _dialogService: SeerDialogService,
+    private _messageService: SeerMessageService
+  ) {}
   /*获取列表*/
   allTplsList():void{
     this.service.getTpls(this.pageInfo).then((res) => {
-      console.log(res);
+      //console.log(res);
       this.pageInfo.pageNum=res.data.pageNum;  //当前页
       this.pageInfo.pageSize=res.data.pageSize; //每页记录数
       this.pageInfo.total=res.data.total; //记录总数
       this.source = res.data.list;
-
       this.source = _.map(this.source, r => _.set(r, 'actions', [ PREVIEW,UPDATE, DELETE ]));
+    }).catch(err => {
+      this.showError(err.json().message || '连接失败');
     });
   }
   onChange(message):void {
@@ -157,22 +159,17 @@ export class MessageTemplateComponent {
             if ( action === 1 ) {
               this.service.deleteTemplate(message.data.id)
                 .then((data:any) => {
-                  if(data.code=='0') {
-                    alert("删除成功");
-                    this.allTplsList();
-                  }else{
-                    alert("删除失败");
-                  }
+                  this.showSuccess(data.message || '删除成功');
+                  this.allTplsList();
                 }).catch(err => {
-                alert(err.json().message);
+                this.showError(err.json().message || '删除失败');
               });
             }
           })
 
         break;
       case 'delete_all':
-        let ids = _(data).map(t => t.id).value();
-        break;
+
     }
   }
   //分页
@@ -184,8 +181,21 @@ export class MessageTemplateComponent {
   //全局搜索
   handleFiltersChanged($event) {
     let params=$event;
-    //console.log(params);
     this.pageInfo.query = params;
     this.allTplsList();
+  }
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
   }
 }

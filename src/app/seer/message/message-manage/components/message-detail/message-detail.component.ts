@@ -3,9 +3,8 @@ import {Location} from '@angular/common';
 import {ActivatedRoute, Params,Router} from "@angular/router";
 import {MessageService} from "../../message.service";
 import {GlobalState} from "../../../../../global.state";
-import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { ModalDirective ,BsModalService} from 'ngx-bootstrap/modal';
-import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
+import {SeerDialogService, SeerMessageService,} from '../../../../../theme/services';
 
 @Component({
   selector: 'message-edit',
@@ -64,7 +63,9 @@ export class MessageDetailComponent {
       this.modalPageInfo.pageSize=data.data.pageSize; //每页记录数
       this.modalPageInfo.total=data.data.total; //记录总数
       this.modalUsers=data.data.list;
-    })
+    }).catch(err => {
+      this.showError(err.json().message || '连接失败');
+    });
   }
   //模态框分页事件
   modalPageChange($event){
@@ -76,6 +77,18 @@ export class MessageDetailComponent {
   handleBackBtnClick() {
     this.location.back()
   }
-
-
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
+  }
 }

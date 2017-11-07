@@ -16,6 +16,15 @@ import {UPDATE, DELETE,DOWNLOAD, PREVIEW} from "../../../../common/seer-table/se
   styleUrls: ['./member-detail.component.scss']
 })
 export class MemberDetailComponent {
+  private _editType: string = 'add';
+  constructor(
+    private _memberService: MemberService,
+    private _messageService: SeerMessageService,
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private _location: Location,
+  ) {}
+
   /*public member: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
@@ -149,5 +158,8 @@ export class MemberDetailComponent {
     })
 
   }*/
-
+  handleBackBtnClick() {
+    //this._router.navigate(['/basic-info/member'])
+    this._location.go('/basic-info/member');
+  }
 }

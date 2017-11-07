@@ -35,35 +35,33 @@ export class OrgService extends BaseService<any>{
    * 查询全部库房
    * */
   getOrganizations(): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET','http://172.16.4.62:8090/organizations/all',{}, true).toPromise();
+    return this._httpInterceptorService.request('GET','http://172.16.7.4:8020/permission/organizations/all',{}, true).toPromise();
   }
 
 
+  deleteOne (id): Promise<ResModel> {
+    return this._httpInterceptorService.request('DELETE', `http://172.16.7.4:8020/permission/organizations/${id}`, {}, true).toPromise();
+  }
+
   // 表格假数据
- getData(): Promise<any>{
-   return new Promise((resolve, reject) => {
-      resolve(
-        {
-          'success': true,
-          'data':[
-              {"name":"xxxx","place":"王大崔","tel":"1333333333"},
-              {"name":"xxxx","place":"王大崔","tel":"1333333333"},
-              {"name":"xxxx","place":"王大崔","tel":"1333333333"},
-            ]
-        }
-      )
-    })
+ getData(params): Promise<any>{
+   return this._httpInterceptorService.request('GET', `http://172.16.7.4:8020/permission/organizations`, params, true).toPromise();
  }
 
 
    /* 根据组织id获取员工
    * */
+
+  getOrganizationsById (orgId): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET', `http://172.16.7.4:8020/permission/organizations/${orgId}`, {}, true).toPromise();
+  }
+
   getStaffsByOrgId(orgId): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET',`http://172.16.4.62:8090/organizations/staffs/${orgId}`).toPromise();
+    return this._httpInterceptorService.request('GET',`http://172.16.7.4:8020/permission/organizations/staffs/${orgId}`,{}, true).toPromise();
   }
 
   operationRecord(data): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET',`http://172.16.4.62:8090/organizations/operation`, data).toPromise();
+    return this._httpInterceptorService.request('GET',`http://172.16.7.4:8020/permission/organizations/operation`, data).toPromise();
   }
 
   /*updateStaffOrgId(data) {
@@ -73,7 +71,7 @@ export class OrgService extends BaseService<any>{
   }*/
 
   updateStaffOrgId(data): Promise<ResModel> {
-    return this._httpInterceptorService.request('PUT',`http://172.16.4.62:8090/organizations/staff`, data).toPromise();
+    return this._httpInterceptorService.request('PUT',`http://172.16.7.4:8020/permission/organizations/staff`, data).toPromise();
   }
 
   /*addOrganization(data) {
@@ -83,20 +81,19 @@ export class OrgService extends BaseService<any>{
   }*/
 
   addOrganization(data): Promise<ResModel> {
-    //let url = `${this.orgManageUrl}/organization`;
-    let url = `http://172.16.4.62:8090/organizations`;   //测试用地址
-    return this._httpInterceptorService.request('POST', url, data).toPromise();
+    let url = `http://172.16.7.4:8020/permission/organizations`;   //测试用地址
+    console.log(data);
+    return this._httpInterceptorService.request('POST', url, data, true).toPromise();
   }
 
   /*editOrganization(data) {
-    //let url = `${this.orgManageUrl}/organization`;
-    let url = `http://172.16.4.62:8090/organizations`;   //测试用地址
+    let url = `http://172.16.7.4:8020/permission/organizations/`;   //测试用地址
     return this.baseService.update(url, data);
   }*/
 
   editOrganization(data): Promise<ResModel> {
-    let url = `http://172.16.4.62:8090/organizations`;   //测试用地址
-    return this._httpInterceptorService.request('PUT', url, data).toPromise();
+    let url = `http://172.16.7.4:8020/permission/organizations/`;   //测试用地址
+    return this._httpInterceptorService.request('PUT', url, data, true).toPromise();
   }
 
   /*delOrganization(orgId) {
@@ -106,9 +103,8 @@ export class OrgService extends BaseService<any>{
   }*/
 
   delOrganization(orgId): Promise<ResModel> {
-    //let url = `${this.orgManageUrl}/organization/${orgId}`;
-    let url = `http://172.16.4.62:8090/organizations/${orgId}`;   //测试用地址
-    return this._httpInterceptorService.request('DELETE', url).toPromise();
+    let url = `http://172.16.7.4:8020/permission/organizations/${orgId}`;   //测试用地址
+    return this._httpInterceptorService.request('DELETE', url,{}, true).toPromise();
   }
 
 

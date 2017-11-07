@@ -4,7 +4,7 @@ import {
   OnDestroy,
   TemplateRef,
 } from "@angular/core";
-import {Router} from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
 import * as _ from 'lodash';
 
 import {OrgService} from "./org.service";
@@ -26,7 +26,7 @@ import {
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { ModalDirective, BsModalService } from 'ngx-bootstrap/modal';
 import { User } from "../../model/auth/user";
-import { DELETE } from "../../common/seer-table/seer-table.actions";
+import {DELETE, UPDATE} from "../../common/seer-table/seer-table.actions";
 import {isNullOrUndefined} from "util";
 @Component({
   templateUrl: './org.component.html',
@@ -47,9 +47,13 @@ export class OrgComponent implements OnDestroy{
   sysUser: User = new User();
   staffs = [];
   info = {
+    departmentId: '',
     departmentName: '',
-    departmentLeader: ''
+    departmentLeader: '',
+    pid: '',
+    pids: ''
   };
+  cacheMemory;
   flag: string;
 
 
@@ -61,10 +65,25 @@ export class OrgComponent implements OnDestroy{
   staffId: string;
   hasGlobalFilter = "true";
   titles = [
-    { key:'name', label:'姓名' },
-    { key:'place', label:'联系方式' },
-    { key:'tel', label:'职位' },
+    { key:'empName', label:'姓名' },
+    { key:'phone', label:'联系方式' },
+    { key:'position', label:'职位' },
   ];
+  pageInfo = {
+    "pageNum": 1,
+    "pageSize": 10,
+    "sortBy": "id",
+    "total": "",
+    "query": {
+      "globalSearch": "",
+      "category": "",
+      "categoryName": "",
+    },
+    data: {
+      departmentId: 1
+    }
+  };
+
 
   permissionsOptions = [];
   // filters = [
@@ -90,7 +109,10 @@ export class OrgComponent implements OnDestroy{
     private router: Router,
     private _state: GlobalState,
     private _dialogService: SeerDialogService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private _messageService: SeerMessageService,
+    private _router: Router,
+    private _activatedRoute: ActivatedRoute,
     ) {
       this._state.subscribe("orgStaffState", a => {
         this.getStaffsByOrgId(this.staffId);
@@ -101,7 +123,7 @@ export class OrgComponent implements OnDestroy{
     // 初始化树结构
     this.getOrganizations();
     // 初始化表
-    this.getlist();
+    this.getlist({pageNum: 1, pageSize: 10, departmentId: 1});
     // this.title = this.data.title;
     // this.flag = this.data.flag;
     // if (this.flag == '1') {
@@ -125,38 +147,44 @@ export class OrgComponent implements OnDestroy{
         let nodes = json2Tree(result.data, {parentId:'pid',children:'children', id: 'departmentId'},[{origin:'departmentName',replace:'name'}, {origin: 'departmentId', replace: 'id'}]);
         nodes.map(rootNode=>rootNode['expanded']=true);
         this.treeNode = nodes;
-      }).catch(err => {
+    }).catch(err => {
         console.log(err);
     });
-    /*this.rows.map(org => org['children'] = []);
-    let nodes = jsonTree(this.rows);
-    this.treeNode = nodes;*/
   }
 
 
   // 表的数据的获取
-  getlist(){
-     this.service.getData()
+  getlist(params){
+     /*this.service.getData(params)
       .then(res => {
         this.datas = res.data;
 
         this.datas = _.map(this.datas, r => _.set(r, 'actions', [ DELETE ]));
-      })
+      })*/
+     this.service.getData(params).then( result => {
+
+       this.datas = result.data.list;
+       console.log(this.datas);
+       this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE]));
+     });
 
   }
    // 表格动作
    onChange(message):void {
+    console.log(message);
     const type = message.type;
     let data = message.data;
     switch ( type ) {
+      case 'update':
+        this._router.navigate([`../../staff-manage/edit/${data.id}`], {relativeTo: this._activatedRoute});
+        break;
       case 'delete':
         this._dialogService.confirm('确定删除吗？')
           .subscribe(action => {
             if ( action === 1 ) {
-              // this.service.deleteOne(message.data.id)
-              //   .subscribe(data => {
-              //     this.getList();
-              // });
+              this.service.deleteOne(message.data.id).then( result => {
+                console.log(result);
+              });
             }
           })
 
@@ -166,6 +194,26 @@ export class OrgComponent implements OnDestroy{
         break;
     }
    }
+
+   /* 提交组织机构负责人 */
+   handleChangeLeader () {
+     if(this.cacheMemory) {
+       this.cacheMemory.departmentName = this.info.departmentName;
+       this.cacheMemory.departmentLeader = this.info.departmentLeader;
+     }
+     console.log(this.cacheMemory);
+     this.service.editOrganization(this.cacheMemory).then( result => {
+       if(result.code == 0) {
+         this.alertSuccess(result.message);
+       }
+       else {
+         this.alertError(result.message);
+       }
+     })
+   }
+
+
+
   /*
    * 通过组织机构id获取所属员工
    * */
@@ -174,19 +222,12 @@ export class OrgComponent implements OnDestroy{
   }
 
 
-  handleChange () {
-    alert(1);
-  }
-
   /*
    * 组织树通知
    * */
   onNotify($event){
     console.log($event);
     console.log("=============================");
-
-    this.info = $event.node.data;
-    console.log(this.info);
 
 
     // debugger;
@@ -200,22 +241,32 @@ export class OrgComponent implements OnDestroy{
     //   }
     // }
 
-    /*if($event.eventName == "onFocus"){
-      /!*if($event.node.children.length > 0){
-        for(let i = 0 ; i < $event.node.data.children.length; i++){
-          this.departmentName = $event.node.data.departmentName;
-          this.departmentLeader = $event.node.data.children[i].name;
-        }
-      }else{
-        this.departmentName = $event.node.data.departmentName;
-        this.departmentLeader ="123";
-      }*!/
-      //this.info.departmentName = $event.node.data.departmentName;
-      //this.info.departmentLeader = $event.node.data.departmentLeader;
-      //console.log($event.node.data);
-    }else{
-      //this.info.departmentLeader = undefined;
-    }*/
+    if($event.eventName == "onFocus"){
+
+      /* 获取组织的名称及其领导 */
+      if($event.node.data.departmentId) {
+        this.service.getOrganizationsById($event.node.data.departmentId).then( result => {
+          console.log(result.data);
+          this.cacheMemory = result.data;
+          this.info.departmentName = result.data.departmentName;
+          if(result.data.departmentLeader) {
+            this.info.departmentLeader = result.data.departmentLeader;
+          }
+          else {
+            this.info.departmentLeader = undefined;
+          }
+        }).catch( err => {
+          console.log(err);
+        });
+      }
+
+
+      /* 获取组织的员工细节 */
+      /*this.service.getStaffsByOrgId($event.node.data.departmentId).then( result => {
+        console.log(result);
+      })*/
+
+    }
 
 
 
@@ -230,10 +281,19 @@ export class OrgComponent implements OnDestroy{
     //   this.getStaffsByOrgId($event.node.id);
     // }
 
-    /* 删除组织机构*/
-    // if ($event.eventName==TREE_EVENTS.onDeleteNode){
-    //   this.service.delOrganization($event.node.id);
-    // }
+
+    /*  删除组织结构 */
+    if($event.eventName == TREE_EVENTS.onDeleteNode) {
+      this.service.delOrganization($event.node.data.departmentId).then( result => {
+        if(result.code == 0) {
+          this.alertSuccess(result.message);
+        }
+        else {
+          this.alertError(result.message);
+        }
+      });
+      this.getOrganizations();
+    }
 
     /* 新增组织机构*/
     // if ($event.eventName==TREE_EVENTS.onAddNewNode){
@@ -255,6 +315,26 @@ export class OrgComponent implements OnDestroy{
     //   });
     // }
 
+    /* 新增组织结构 */
+    if($event.eventName == TREE_EVENTS.onAddNewNode) {
+      console.log($event.node);
+      let orgModel = {
+        departmentName: $event.node.data.name,
+        name: $event.node.data.name,
+        pid: $event.node.parent.data.departmentId,
+        pids: $event.node.parent.data.pids + ',' + $event.node.parent.data.departmentId,
+      };
+      this.service.addOrganization(orgModel).then( result => {
+        if(result.code == 0) {
+          this.alertSuccess(result.message);
+        }
+        else {
+          this.alertError(result.message);
+        }
+        this.getOrganizations();
+      })
+    }
+
 
     // if ($event.eventName==TREE_EVENTS.onDoubleClick){
 
@@ -262,33 +342,44 @@ export class OrgComponent implements OnDestroy{
 
     /* 移动组织机构*/
     if ( $event.eventName == TREE_EVENTS.onMoveNode ) {
-      console.log($event.node);
-      let orgModel = new OrgModel();
-      orgModel.id = $event.node.id;
-      orgModel.orgParentId = $event.node.parentId;
-      orgModel.orgSort = $event.to.index;
-        this.service.editOrganization(orgModel).then((result) => {
-        if(!result) {
-          if(!result) {
-            alert("操作失败，请重试！");
-          }
+
+      console.log($event.to.parent.data.pid);
+      console.log($event.to.parent.data.pids);
+      this.info.departmentName = $event.node.data.name;
+      this.info.departmentId = $event.node.data.departmentId;
+      this.info.departmentLeader = $event.node.data.departmentLeader;
+      this.info.pid = $event.to.parent.data.departmentId;
+      this.info.pids = $event.to.parent.data.pids + ',' + $event.to.parent.data.departmentId;
+      console.log(this.info);
+      this.service.editOrganization(this.info).then((result) => {
+        if(result.code == 0) {
+          this.alertSuccess(result.message);
         }
+        else {
+          this.alertError(result.message);
+        }
+        this.getOrganizations();
       });
     }
 
-    /* 组织机构重命名*/
-    // if ($event.eventName==TREE_EVENTS.onRenameNode){
-    //   let orgModel = new OrgModel();
-    //   orgModel.id = $event.node.id;
-    //   orgModel.orgName = $event.node.data.name;
-    //   this.service.editOrganization(orgModel).then((result) => {
-    //     if(!result.success) {
-    //       alert("操作失败，请重试！");
-    //     }
-    //   });
-    // }
-
-  }
+    /*组织机构重命名*/
+    if($event.eventName == TREE_EVENTS.onRenameNode) {
+      this.info.departmentName = $event.node.data.name;
+      this.info.departmentId = $event.node.data.departmentId;
+      this.info.departmentLeader = $event.node.data.departmentLeader;
+      this.info.pid = $event.node.data.pid;
+      this.info.pids = $event.node.data.pids;
+      this.service.editOrganization(this.info).then( result => {
+        if(result.code == 0) {
+          this.alertSuccess(result.message);
+        }
+        else {
+          this.alertError(result.message);
+        }
+      });
+      this.getOrganizations();
+    }
+}
 
   /*
    * 获取树的操作记录
@@ -343,11 +434,41 @@ export class OrgComponent implements OnDestroy{
   //     }
   //   });
   // }
+
+
+
+  alertSuccess(info:string){
+    this._messageService.open({
+      icon: 'fa fa-check',
+      message: info,
+      autoHideDuration: 3000,
+    }).onClose();
+  };
+
+  alertError(errMsg:string){
+    // 错误处理的正确打开方式
+    this._messageService.open({
+      icon: 'fa fa-times-circle',
+      message: errMsg,
+      autoHideDuration: 3000,
+    })
+  };
+
+
+
   //========模态层=======
    // =====================模态层==============================
   public modalRef: BsModalRef;
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
+  }
+
+  onNotice ($event) {
+    console.log($event);
+
+    if($event.eventName == "onFocus") {
+
+    }
   }
 
 }
