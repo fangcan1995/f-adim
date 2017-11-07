@@ -49,7 +49,7 @@ export class AdvertisingComponent implements OnInit {
     {key: 'adType', label: '广告类型'},
     {key: 'putEnv', label: '投放端'},
     {key: 'imgLink', label: '广告图片',type:'html'},
-    {key: 'url', label: '广告链接',type:'html'},
+    {key: 'url', label: '广告链接',type:'link'},
     {key: 'createTime', label: '添加时间',type:'date-time'}
   ];
   pageInfo = {

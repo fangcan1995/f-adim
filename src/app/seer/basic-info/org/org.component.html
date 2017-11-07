@@ -67,21 +67,23 @@
         </div>
       </div>-->
        <seer-collapse-card>
-        <!-- <seer-filter
-          [hasGlobalFilter]="hasGlobalFilter"
-          [filters]="filters"
-          (onFiltersChanged)=handleFiltersChanged($event)
-          (onSearchBtnClicked)=handleSearchBtnClicked($event)
-        ></seer-filter>   -->
+
         <div class="row">
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="idNumber" placeholder="全局过滤" >
+            <!--<input type="text" class="form-control" id="idNumber" placeholder="全局过滤" >-->
+            <seer-filter
+              [hasGlobalFilter]="hasGlobalFilter"
+              [filters]="filters"
+              (onFiltersChanged)=handleFiltersChanged($event)
+              (onSearchBtnClicked)=handleSearchBtnClicked($event)
+              class="fullWidth"
+            ></seer-filter>
           </div>
           <div class="col-sm-2">
-          <button type="button" class="btn btn-sx btn-info">检索</button>
+            <button type="button" class="btn btn-sx btn-info">检索</button>
           </div>
           <div class="col-sm-2">
-            <button type="button" class="btn btn-sx btn-info" (click)="openModal(template)">调换部门</button>
+            <!--<button type="button" class="btn btn-sx btn-info" (click)="openModal(template)">调换部门</button>-->
             <template #template>
               <!-- <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
                   <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">用户列表</h4> -->
@@ -90,21 +92,22 @@
                   <span aria-hidden="true" >&times;</span>
                   </button> -->
               <!-- </div> -->
-              <!--<div class="modal-body">
-
+              <div class="modal-body">
+                  
                   <seer-tree
-                    (notify)="onNotify($event) "
+                    (notify)="onNotice($event) "
                     [nodes]="treeNode"
+                    [permissions]="treePermissions"
                     [defaultNodeName]="'新建部门'"
                     [loadingText]="''">
                   </seer-tree>
-               &lt;!&ndash; [permissions]="treePermissions"   是否可更改&ndash;&gt;
+               <!-- [permissions]="treePermissions"   是否可更改-->
               </div>
               <div class="modal-footer">
                  <button type="button" class="btn btn-sx btn-info" (click)="modalRef.hide()">确定</button>
                  <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
-              </div>-->
-              <org-tree></org-tree>
+              </div>
+              <!--<org-tree></org-tree>-->
             </template>
           </div>
         </div>

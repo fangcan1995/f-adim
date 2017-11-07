@@ -179,9 +179,8 @@ const NGA_SUB_MODULES = [
     CheckboxPickerComponent
   ],
   providers: [
+    PreloadImageService,
     HttpInterceptorService,
-    PreloadImageService
-
   ]
 })
 export class NgaModule {
@@ -199,7 +198,6 @@ export class NgaModule {
         SeerDialogService,
         ManageService,
         LoggerService,
-
       ],
     };
   }

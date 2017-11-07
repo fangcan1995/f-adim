@@ -27,7 +27,8 @@ export class SeerPaginationComponent implements OnChanges {
 		}
 	}
 	getPageCount() {
-		return Math.ceil(this.rowCount / this.rowsOnPage);
+		let pageCount = Math.ceil(this.rowCount / this.rowsOnPage);
+		return isNaN(pageCount) ? 0 : pageCount;
 	}
 	getPageNumber() {
 		return this._getCurrentPageNumber(this.pageNumber);

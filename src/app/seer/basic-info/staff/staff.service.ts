@@ -19,8 +19,7 @@ export class StaffService extends BaseService<StaffModule> {
   private relationsAPI = "relations";
   private businessAPI = "experiences";
 
-  private getStaffByIdUrl = SERVER + '/basic/staff/';
-  private getOrgListUrl = SERVER + '/basicinfo/organizations'; //获取机构列表
+  private organizationsAPI = SERVER + '/basicinfo/organizations'; //获取机构列表
 
 
   // 1、获取数据列表
@@ -139,86 +138,14 @@ export class StaffService extends BaseService<StaffModule> {
     return Observable.throw(errMsg);
   }
 
-  /*createStaff(params): Observable<any> {
-    //假数据处理
-    let id = _.reduce(this.listData, (max, n) => Number(n.id) > max ? Number(n.id) : max, 0) + 1;
-    params.id = id;
-    this.listData.push(params)
-    let res = {
-      code: 0,
-      msg: '',
-      data: params,
-      extras: {}
-    }
-    return Observable.of(res);
-  }*/
-  /*getCurrentRoles(): Observable<any> {
-  let headers = new Headers({ 'Content-Type': 'application/json' });
-  let options = new RequestOptions({ headers: headers });
-
-  return this.http.get(this.getAllRolesUrl,options)
-    .map(this.extractData)
-    .catch(this.handleError);
-}*/
-  /*getOrgById(staffOrgId:string):Observable<any> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    return this.http.get(this.getOrgByIdUrl+"/"+staffOrgId,options)
-      .map(this.extractData)
-      .catch(this.handleError);
-  }*/
-  /* putOneEdu(id,params): Observable<any> {
-     //return this._httpInterceptorService.request('PUT', `{this.updateStaffUrl}/${id}`, params)
-     //
-     /!*let index2 = _.findIndex(this.listData., t => t.id === id);
-     if ( index2 != -1 ) {
-       this.listData[index2] = params;
-     }
-     let res = {
-       code: 0,
-       msg: '',
-       data: params,
-       extras: {}
-     }
-     return Observable.of(res);*!/
-     //
-   }*/
-
-  // 删除一条数据
-  /*removeStaff(id): Observable<any> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    return this.http.delete(this.deleteByIdUrl+"/"+id, options)
-      .map(this.extractData)
-      .catch(this.handleError);
-  }*/
-  /*createStaff(params): Promise<Result> {
-  const url = `${this.getOrgListUrl}/`;
-  return this.create(url,params);
-}*/
-
-  // 修改一条数据，提供所有字段
-  /*updateStaff (staff:Object): Observable<any> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    return this.http.post(this.updateStaffUrl,staff,options)
-      .map(this.extractData)
-      .catch(this.handleError);
-  }*/
-
-
   getStaffById(id): Observable<any> {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
 
-    return this.http.get(this.getStaffByIdUrl + "/" + id, options)
+    return this.http.get(this.organizationsAPI + "/" + id, options)
       .map(this.extractData)
       .catch(this.handleError);
   }
-
 
   /* 查询全部库房 */
   // getOrganizations(): Promise<Result> {

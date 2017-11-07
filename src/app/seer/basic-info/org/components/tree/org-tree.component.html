@@ -1,4 +1,4 @@
-<div class="modal-body">
+
 
   <seer-tree
     (notify)="onNotify($event) "
@@ -6,9 +6,4 @@
     [defaultNodeName]="'新建部门'"
     [loadingText]="''">
   </seer-tree>
-<!-- [permissions]="treePermissions"   是否可更改-->
-</div>
-<div class="modal-footer">
- <button type="button" class="btn btn-sx btn-info" (click)="modalRef.hide()">确定</button>
- <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
-</div>
+
