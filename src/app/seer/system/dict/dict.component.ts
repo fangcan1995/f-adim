@@ -80,10 +80,6 @@ export class DictComponent implements OnInit {
 
   /*获取列表*/
   getList(): void {
-    this._dictService.getDictsByCategory('ROLE_STATUS')
-    .then(res => {
-      console.log(res)
-    })
     this._dictService.getDicts(true)
     .then(res => {
       if ( res.code == 0 ) {

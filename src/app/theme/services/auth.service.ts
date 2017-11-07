@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-import {
-  HttpInterceptorService,
-  
-} from './http-interceptor.service';
+import { Observable, Subject } from 'rxjs/Rx';
+
 import { parseJson2URL } from '../libs/utils';
 import {
   BASE_URL,
   API,
 } from './base.service';
 import { setStorage, delStorage } from '../libs/utils';
+
 @Injectable()
 export class AuthService {
   isLoggedIn: boolean = false;
@@ -19,10 +17,9 @@ export class AuthService {
   public redirectUrl: string;
   public redirectSearch: any;
   public redirectFragment: string;
-
   constructor(
-    private _http: Http
-    ) {}
+    private _http: Http,
+    ) { }
   
   login(account: any, password: any): Observable<any> {
     let params = {
