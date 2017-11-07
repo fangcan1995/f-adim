@@ -3,6 +3,7 @@ import {Component, Input, OnInit} from "@angular/core";
 
 import {LoanBasicService} from "../../loan-basic.service";
 import {SAVE, UPDATE} from "../../../../common/seer-table/seer-table.actions";
+import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 
 @Component({
   selector: 'loan-member-info',
@@ -19,7 +20,7 @@ export class MemberInfoComponent implements OnInit {
 
   private actions = [];
 
-  constructor(private service: LoanBasicService){}
+  constructor(private service: LoanBasicService , private _messageService: SeerMessageService,){}
 
   ngOnInit(): void { if(!this.disabled) { this.actions = [ SAVE ] } else { this.actions = [] } }
 
@@ -75,9 +76,28 @@ export class MemberInfoComponent implements OnInit {
     };
 
     this.service.updateMember(params).then(res => {
-      console.log(res.code);
-      alert(res.message);
+      if(0 == res.code) {
+        this.showSuccess(res.msg || '保存成功');
+      } else {
+        this.showError(res.msg || '保存失败');
+      }
     });
+  }
+
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
   }
 
 

@@ -4,6 +4,7 @@ import {Component, Input, OnChanges, OnInit} from "@angular/core";
 import {LoanBasicService} from "../../loan-basic.service";
 import {SAVE, UPDATE} from "../../../../common/seer-table/seer-table.actions";
 import * as _ from 'lodash';
+import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 @Component({
   selector: 'credit-info',
   templateUrl: './credit-info.component.html',
@@ -27,7 +28,7 @@ export class CreditInfoComponent implements OnInit, OnChanges {
 
   private creditReportType = [];
 
-  constructor(private service: LoanBasicService){}
+  constructor(private service: LoanBasicService , private _messageService: SeerMessageService,){}
 
   ngOnInit() {
     if(!this.disabled) { this.actions = [ SAVE ]; } else {this.actions = []; }
@@ -56,19 +57,41 @@ export class CreditInfoComponent implements OnInit, OnChanges {
   }
 
   private preview(param):void {
-      console.log(param + ",TODO");
+
   }
 
   private download(param):void {
     console.log(param + ",TODO");
   }
 
-  private query(param):void {
-    console.log(param + ",TODO");
+  private query(param, creditType):void {
+    this.service.getMemberCredit(param.memberId, creditType).then(res => {
+      if(0 == res.code) {
+        this.showSuccess(res.msg || '保存成功');
+      } else {
+        this.showError(res.msg || '保存失败');
+      }
+    });
   }
 
   private requery(param):void {
     console.log(param + ",TODO");
+  }
+
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
   }
 
 }

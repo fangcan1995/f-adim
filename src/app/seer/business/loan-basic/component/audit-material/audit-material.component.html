@@ -1,48 +1,40 @@
 <seer-collapse-card title="审核资料" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
-  <button *ngIf="!disabled" class="btn btn-primary" (click)="handleBackBtnClick()">上传附件</button>
-  <button class="btn btn-primary" (click)="handleBackBtnClick()">全部下载</button>
+  <input type="file" ng2FileSelect [uploader]="uploader" multiple (change)="selectedFileOnChanged($event)"/>
+  <!--<button class="btn btn-primary" (click)="handleBackBtnClick()">全部下载</button>-->
   <p></p>
   <form class="form-horizontal">
-    <div class="row">
-      <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
-        <div class="row">
-          <div class="card" style="width: 20rem;">
-            <div class="card-body">
-              <h4 class="card-title">附件名称：房屋图片1</h4>
-              <h6 class="card-subtitle mb-2 text-muted"> </h6>
-              <p class="card-text">文件类型：图片，上传时间：2017-09-27，上传人：XXX。</p>
-              <a href="#" class="card-link">下载</a>
-              <a *ngIf="!disabled" href="#" class="card-link">删除</a>
+    <div class="row" style="margin-left: 10px">
+      <ng-container *ngFor="let item of attachments; let i = index">
+        <ng-container *ngIf="imageType.indexOf(item.fileSuff.toLowerCase()) != -1">
+          <div class="form-group col-sm-6 col-md-4 col-lg-2 col-xlg-2">
+            <div class="row">
+              <img src="{{item.uploadPath}}" height="108px"><p></p>
+              <a href="javascript:void(0)" class="card-link" (click)="downloadFile(item)">下载</a>
+              <a *ngIf="!disabled" href="javascript:void(0)" class="card-link" (click)="deleteFile(item, i)">删除</a>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
-        <div class="row">
-          <div class="card" style="width: 20rem;">
-            <div class="card-body">
-              <h4 class="card-title">附件名称：房屋图片2</h4>
-              <h6 class="card-subtitle mb-2 text-muted"> </h6>
-              <p class="card-text">文件类型：图片，上传时间：2017-09-27，上传人：XXX。</p>
-              <a href="#" class="card-link">下载</a>
-              <a *ngIf="!disabled" href="#" class="card-link">删除</a>
+        </ng-container>
+      </ng-container>
+    </div>
+    <div class="row" style="margin-left: 10px">
+      <ng-container *ngFor="let item of attachments; let i = index">
+        <ng-container *ngIf="imageType.indexOf(item.fileSuff.toLowerCase()) == -1">
+          <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+            <div class="row">
+              <div class="card" style="width: 20rem;">
+                <div class="card-body">
+                  <h4 class="card-title"></h4>
+                  <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                  <p class="card-text">{{item.fileName}}</p>
+                  <p class="card-text">{{item.createTime}}</p>
+                  <a href="javascript:void(0)" class="card-link" (click)="downloadFile(item)">下载</a>
+                  <a *ngIf="!disabled" href="javascript:void(0)" class="card-link" (click)="deleteFile(item, i)">删除</a>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
-        <div class="row">
-          <div class="card" style="width: 20rem;">
-            <div class="card-body">
-              <h4 class="card-title">附件名称：房屋图片3</h4>
-              <h6 class="card-subtitle mb-2 text-muted"> </h6>
-              <p class="card-text">文件类型：图片，上传时间：2017-09-27，上传人：XXX。</p>
-              <a href="#" class="card-link">下载</a>
-              <a *ngIf="!disabled" href="#" class="card-link">删除</a>
-            </div>
-          </div>
-        </div>
-      </div>
+        </ng-container>
+      </ng-container>
     </div>
   </form>
 </seer-collapse-card>
