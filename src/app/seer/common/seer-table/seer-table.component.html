@@ -94,13 +94,21 @@
           <div *ngIf="title.type=='input_number'">
             <input  type="number" class="form-control" [(ngModel)]="item[title.key]"/>
           </div>
-          <div *ngIf="title.type!='input_number' && title.type!='link' && title.type != 'html' && title.type != 'date' && title.type != 'date-time' && !displayOriginalData">
+          <div *ngIf="title.type!='input_number' && title.type!='link' && title.type != 'html' && title.type!='image' && title.type != 'date' && title.type != 'date-time' && !displayOriginalData">
             <span class="seer_font">{{renderValue(title,item[title.key])}}</span>
           </div>
-          <div *ngIf="title.type!='input_number' && title.type!='link' && title.type != 'html' && title.type != 'date' && title.type != 'date-time' && displayOriginalData">
+          <div *ngIf="title.type!='input_number' && title.type!='link' && title.type != 'html'  && title.type!='image' && title.type != 'date' && title.type != 'date-time' && displayOriginalData">
             <span class="seer_font">{{item[title.key]}}</span>
           </div>
           <div *ngIf="title.type === 'html'" [innerHTML]="item[title.key]"></div>
+          <div *ngIf="title.type=='image'" >
+            <span class="seer_font"><img src="{{item[title.key]}}" style="width: 50px; height: 40px" (click)="openModal(image)" ></span>
+            <template #image>
+              <div class="modal-body">
+                <img src="{{item[title.key]}}" style="width:100%">
+              </div>
+            </template>
+          </div>
           <div *ngIf="title.type=='date'" >
             <span class="seer_font">{{item[title.key]| date:'yyyy-MM-dd'}}</span>
           </div>
