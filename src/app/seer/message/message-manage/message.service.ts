@@ -8,7 +8,7 @@ export class MessageService extends BaseService<ResModel>{
   private RecordUrl = `http://172.16.7.3:9010/records`;  // 发送记录
   private MembersUrl =`http://172.16.7.4:9080/members/`; //获取会员列表
   private UsersUrl =`http://172.16.1.27:8090/staffs`; //获取员工列表
-  private MembersIdsUrl =`http://172.16.1.234:8090/users/ids?access_token=${this.accessToken}`; //获取全部会员id字符串
+  private MembersIdsUrl =`http://172.16.7.4:9080/members/members/ids?pageNum=1&pageSize=10000`; //获取全部会员id字符串
   private UsersIdsUrl =`http://172.16.1.27:8090/staffs/ids?pageNum=1&pageSize=10000`; //获取全部员工id字符串
   // 1获取消息列表
   getDatas(pageInfo:any): Promise<ResModel> {
@@ -88,10 +88,12 @@ export class MessageService extends BaseService<ResModel>{
     }
     let url="";
     if(usersType=='members'){
-      url = `${this.MembersIdsUrl}?${query}`;
+      url = `${this.MembersIdsUrl}&${query}`;
+      return this._httpInterceptorService.request('POST', url,{}, true).toPromise();
     }else if(usersType=='users'){
-      url = `${this.UsersIdsUrl}?${query}`;
+      url = `${this.UsersIdsUrl}&${query}`;
+      return this._httpInterceptorService.request('GET', url,{}, true).toPromise();
     }
-    return this._httpInterceptorService.request('GET', url,{}, true).toPromise();
+
   }
 }

@@ -1,5 +1,5 @@
 <div class="row">
-  <seer-collapse-card>
+  <!--<seer-collapse-card>
       <seer-filter
       [hasGlobalFilter]="hasGlobalFilter"
       [filters]="filters"
@@ -7,7 +7,7 @@
       (onSearchBtnClicked)=handleSearchBtnClicked($event)
       disabled
       ></seer-filter>
-  </seer-collapse-card>
+  </seer-collapse-card>-->
   <div class="col-sm-4">
     <ba-card [title]="treeTitle" baCardClass="with-scroll">
       <div class="col-sm-12">
@@ -25,17 +25,17 @@
 
   <div class="col-sm-8">
     <ba-card [title]="tableTitle" baCardClass="with-scroll">
-       <button type="button" class="btn btn-sx btn-info" style="margin-bottom:10px;" (click)="handleChangeLeader()">保存</button>
+       <!--<button type="button" class="btn btn-sx btn-info" style="margin-bottom:10px;" (click)="handleChangeLeader()">保存</button>-->
        <div class="form-group ">
         <div class="row">
           <label for="idNumber" class="col-sm-2 control-label" style="text-align:center; height:35px; line-height:35px;">机构名称</label>
           <!-- <label for="idNumber" class="col-sm-3 control-label" style="text-align:left; height:35px; line-height:35px;">互联网金融部</label> -->
           <div class="col-sm-3">
-            <input type="text" class="form-control" id="department" placeholder="部门"  [(ngModel)]="info.departmentName">
+            <input type="text" class="form-control" id="department" placeholder="部门"  [(ngModel)]="info.departmentName" disabled>
           </div>
           <label for="idNumber" class="col-sm-2  col-md-2 control-label" style="text-align:center; height:35px; line-height:35px;">机构负责人</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="departmentLeader" placeholder="机构负责人" [(ngModel)]="info.departmentLeader">
+            <input type="text" class="form-control" id="departmentLeader" placeholder="机构负责人" [(ngModel)]="info.departmentLeader" disabled>
           </div>
         </div>
       </div>
@@ -86,7 +86,7 @@
                   </button> -->
               <!-- </div> -->
               <div class="modal-body">
-                  
+
                   <seer-tree
                     (notify)="onNotice($event) "
                     [nodes]="treeNode"

@@ -26,7 +26,7 @@ import {
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { ModalDirective, BsModalService } from 'ngx-bootstrap/modal';
 import { User } from "../../model/auth/user";
-import {DELETE, UPDATE} from "../../common/seer-table/seer-table.actions";
+import {DELETE, UPDATE, CONFIG_LEADER} from "../../common/seer-table/seer-table.actions";
 import {isNullOrUndefined} from "util";
 @Component({
   templateUrl: './org.component.html',
@@ -177,7 +177,7 @@ export class OrgComponent implements OnDestroy{
        this.pageInfo.total = result.data.total; //记录总数
        this.datas = result.data.list;
        console.log(this.datas);
-       this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE]));
+       this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE,CONFIG_LEADER]));
      });
 
   }
@@ -190,7 +190,7 @@ export class OrgComponent implements OnDestroy{
       this.pageInfo.pageSize = result.data.pageSize; //每页记录数
       this.pageInfo.total = result.data.total; //记录总数
       this.datas = result.data.list;
-      this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE]));
+      this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE,CONFIG_LEADER]));
     });
   }
 
@@ -205,6 +205,9 @@ export class OrgComponent implements OnDestroy{
     switch ( type ) {
       case 'update':
         this._router.navigate([`../../staff-manage/edit/${data.id}`], {relativeTo: this._activatedRoute});
+        break;
+      case 'config_leader':
+        alert(1);
         break;
       case 'delete':
         this._dialogService.confirm('确定删除吗？')
@@ -234,16 +237,17 @@ export class OrgComponent implements OnDestroy{
      if(this.cacheMemory) {
        this.cacheMemory.departmentName = this.info.departmentName;
        this.cacheMemory.departmentLeader = this.info.departmentLeader;
+       console.log('1234');
        console.log(this.cacheMemory);
        this.service.editOrganization(this.cacheMemory).then( result => {
          if(result.code == 0) {
            this.alertSuccess(result.message);
+           this.getOrganizations();
          }
          else {
            this.alertError(result.message);
          }
        })
-       this.getOrganizations();
      }
 
    }
@@ -299,6 +303,9 @@ export class OrgComponent implements OnDestroy{
         /* 获取右侧表格信息 */
         this.pageInfo.departmentId = $event.node.data.departmentId;
         this.service.getData(this.pageInfo).then( result => {
+          this.tableSource = result.data;
+          console.log('1234567890-');
+          console.log(this.tableSource);
           this.pageInfo.pageNum = result.data.pageNum;  //当前页
           this.pageInfo.pageSize = result.data.pageSize; //每页记录数
           this.pageInfo.total = result.data.total; //记录总数
@@ -331,12 +338,12 @@ export class OrgComponent implements OnDestroy{
       this.service.delOrganization($event.node.data.departmentId).then( result => {
         if(result.code == 0) {
           this.alertSuccess(result.message);
+          this.getOrganizations();
         }
         else {
           this.alertError(result.message);
         }
       });
-      this.getOrganizations();
     }
 
     /* 新增组织机构*/
@@ -371,11 +378,11 @@ export class OrgComponent implements OnDestroy{
       this.service.addOrganization(orgModel).then( result => {
         if(result.code == 0) {
           this.alertSuccess(result.message);
+          this.getOrganizations();
         }
         else {
           this.alertError(result.message);
         }
-        this.getOrganizations();
       })
     }
 
@@ -398,11 +405,11 @@ export class OrgComponent implements OnDestroy{
       this.service.editOrganization(this.info).then((result) => {
         if(result.code == 0) {
           this.alertSuccess(result.message);
+          this.getOrganizations();
         }
         else {
           this.alertError(result.message);
         }
-        this.getOrganizations();
       });
     }
 
@@ -416,12 +423,12 @@ export class OrgComponent implements OnDestroy{
       this.service.editOrganization(this.info).then( result => {
         if(result.code == 0) {
           this.alertSuccess(result.message);
+          this.getOrganizations();
         }
         else {
           this.alertError(result.message);
         }
       });
-      this.getOrganizations();
     }
 }
 
