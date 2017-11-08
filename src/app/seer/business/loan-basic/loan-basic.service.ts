@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import {BASE_URL, BaseService} from "../../../theme/services/base.service";
 import {HttpInterceptorService} from "../../../theme/services/http-interceptor.service";
-import {Http} from "@angular/http";
+import {Http, RequestOptions, ResponseContentType} from "@angular/http";
 
 @Injectable()
 export class LoanBasicService extends BaseService<any>{
@@ -63,9 +63,10 @@ export class LoanBasicService extends BaseService<any>{
 
   //下载
   public downloadFile(param: any): Promise<any> {
-    console.log(param);
     let url = BASE_URL + `/tool/files/download?id=${param.id}`
-    return this._http.get(url).toPromise();
+    return this._http.get(url, new RequestOptions({
+      responseType: ResponseContentType.Blob
+    })).toPromise();
   }
 
   //删除

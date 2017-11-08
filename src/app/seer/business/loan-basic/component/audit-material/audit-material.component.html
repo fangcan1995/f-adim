@@ -1,7 +1,20 @@
 <seer-collapse-card title="审核资料" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
-  <input type="file" ng2FileSelect [uploader]="uploader" multiple (change)="selectedFileOnChanged($event)"/>
-  <!--<button class="btn btn-primary" (click)="handleBackBtnClick()">全部下载</button>-->
-  <p></p>
+  <div class="row" style="margin-left: 10px">
+    <div class="form-group col-sm-6 col-md-2 col-lg-2 col-xlg-2">
+      <div class="row">
+        <input type="file" ng2FileSelect [uploader]="uploader" multiple (change)="uploadFile()"/>
+      </div>
+    </div>
+    <ng-container *ngIf="progress != 0 && progress <= 100">
+      <div class="form-group col-sm-6 col-md-2 col-lg-2 col-xlg-9">
+        <div class="row">
+          <div class="progress" style="">
+            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': progress + '%' }">{{progress >= 100 ? progress + '% 已完成' : '正在上传 ' + progress + '%'}}</div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
   <form class="form-horizontal">
     <div class="row" style="margin-left: 10px">
       <ng-container *ngFor="let item of attachments; let i = index">

@@ -7,6 +7,7 @@ import {FileUploader, ParsedResponseHeaders, FileItem} from "ng2-file-upload";
 import {getStorage} from "../../../../../theme/libs/utils";
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 import * as _ from 'lodash';
+import {BASE_URL} from "../../../../../theme/services/base.service";
 @Component({
   selector: 'audit-material',
   templateUrl: './audit-material.component.html',
@@ -20,68 +21,60 @@ export class AuditMaterialComponent implements OnInit, OnChanges{
   @Input()
   private projectId : string;
 
-  @Input() attachments = [];
+  @Input()
+  private attachments = [];
 
-  public actions = [ UPDATE ]
+  private uploader:FileUploader; //上传对象
 
-  public uploader:FileUploader;
+  private progress: number = 0; //上传进度
 
   private imageType = ['jpg', 'jpeg', 'bmp', 'gif', 'png', 'svg'];
 
   constructor(private service: LoanBasicService, private _messageService: SeerMessageService){}
 
   ngOnInit() {
+
+    // 初始化定义uploader变量,用来配置input中的uploader属性
     const token = getStorage({ key: 'token' });
     const tokenType = token.token_type;
     const accessToken = token.access_token;
     let headers = [{name: 'Authorization', value: `${tokenType} ${accessToken}`}];
-
-    // B: 初始化定义uploader变量,用来配置input中的uploader属性
     this.uploader = new FileUploader({
-      url: "http://172.16.7.4:8020/subject/intentions/file/" + this.projectId,
+      url: BASE_URL + "/subject/intentions/file/" + this.projectId,
       method: "POST",
       headers:headers,
     });
 
     this.uploader.onSuccessItem = this.successItem.bind(this);
+    this.uploader.onCompleteAll = this.onCompleteAll.bind(this);
   }
 
   ngOnChanges() {
+
+    // 初始化定义uploader变量,用来配置input中的uploader属性
     const token = getStorage({ key: 'token' });
     const tokenType = token.token_type;
     const accessToken = token.access_token;
     let headers = [{name: 'Authorization', value: `${tokenType} ${accessToken}`}];
-
-    // B: 初始化定义uploader变量,用来配置input中的uploader属性
     this.uploader = new FileUploader({
-      url: "http://172.16.7.4:8020/subject/intentions/file/" + this.projectId,
+      url: BASE_URL + "/subject/intentions/file/" + this.projectId,
       method: "POST",
       headers:headers,
-      removeAfterUpload:true
-      //maxFileSize:
     });
 
     this.uploader.onSuccessItem = this.successItem.bind(this);
+    this.uploader.onCompleteAll = this.onCompleteAll.bind(this);
   }
 
-  // C: 定义事件，选择文件
-  selectedFileOnChanged(event:any) {
-    this.uploadFile();
-  }
-
-  uploadFile() {
-    // 上传
-    _.forEach(this.uploader.queue, (t, i) => {
-      this.uploader.queue[i].upload(); // 开始上传
-    });
-  }
-
+  //上传成功回调
   successItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders):any{
-    // 上传文件成功
+
     if (status == 200) {
       // 上传文件后获取服务器返回的数据
       let tempRes = JSON.parse(response);
       this.attachments.push(tempRes.data);
+      let fileLength = this.uploader.queue.length;
+      this.progress += Math.round(100/fileLength);
       //this.showSuccess("上传成功！")
     }else {
       // 上传文件后获取服务器返回的数据错误
@@ -90,11 +83,25 @@ export class AuditMaterialComponent implements OnInit, OnChanges{
     }
   }
 
-  private downloadFile(item) {
-    let param = {"id": item.id};
+  //全部上传完成回调
+  onCompleteAll(): any {
+    this.uploader.clearQueue();
+    this.progress = 0;
+  }
 
+  // 上传
+  uploadFile() {
+    _.forEach(this.uploader.queue, (t, i) => {
+      this.uploader.queue[i].upload(); // 开始上传
+    });
+  }
+
+  //下载
+  private downloadFile(item) {
+
+    let param = {"id": item.id};
     this.service.downloadFile(param).then(res => {
-      var blob = new Blob([res.arrayBuffer()]);
+      var blob = res.blob();
       var a = document.createElement('a');
       var url = window.URL.createObjectURL(blob);
       a.href = url;
@@ -104,6 +111,7 @@ export class AuditMaterialComponent implements OnInit, OnChanges{
     });
   }
 
+  //删除
   private deleteFile(item, i) {
     this.service.deleteFile(item.id).then( res =>{
       if(0 == res.code) {
