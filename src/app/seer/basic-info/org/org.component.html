@@ -1,5 +1,5 @@
 <div class="row">
-  <seer-collapse-card>
+  <!--<seer-collapse-card>
       <seer-filter
       [hasGlobalFilter]="hasGlobalFilter"
       [filters]="filters"
@@ -7,7 +7,7 @@
       (onSearchBtnClicked)=handleSearchBtnClicked($event)
       disabled
       ></seer-filter>
-  </seer-collapse-card>
+  </seer-collapse-card>-->
   <div class="col-sm-4">
     <ba-card [title]="treeTitle" baCardClass="with-scroll">
       <div class="col-sm-12">
@@ -86,7 +86,7 @@
                   </button> -->
               <!-- </div> -->
               <div class="modal-body">
-                  
+
                   <seer-tree
                     (notify)="onNotice($event) "
                     [nodes]="treeNode"
