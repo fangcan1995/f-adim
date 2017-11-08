@@ -7,13 +7,16 @@ import {
   EventEmitter,
   OnChanges,
   ViewChild,
-  ElementRef
+  ElementRef,
+  TemplateRef
 } from '@angular/core';
+
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import * as _ from 'lodash';
 
 import { CREATE, DELETE_MULTIPLE } from './seer-table.actions';
 import { ManageService } from "../../../theme/services";
+import {BsModalRef, BsModalService} from "ngx-bootstrap";//edit by lily
 
 export interface TableTitleModel {
   key: string | number,
@@ -75,12 +78,13 @@ export class SeerTableComponent implements OnInit {
   @ViewChild('tr') tr:ElementRef
   constructor(
     private service: ManageService,
+    private modalService: BsModalService //edit by lily
   ) {
     if( !this.rowsOnPage ) this.rowsOnPage = this.rowsOnPageSet[0];
   }
 
   ngOnInit(): void {
-    
+
     this.titles = _.clone(this.titles);
     this.data = _.clone(this.data);
     if ( _.isArray(this.titles) && this.titles.length ) {
@@ -179,7 +183,7 @@ export class SeerTableComponent implements OnInit {
         dataChain = dataChain
         .filter(t => {
           // 全局搜索 日期不好用
-          if ( !globalSearch || !globalSearch.length ) return true; 
+          if ( !globalSearch || !globalSearch.length ) return true;
           globalSearch = _.trim(globalSearch);
           let item:any = {};
           _.each(this.titles, y => {
@@ -212,11 +216,11 @@ export class SeerTableComponent implements OnInit {
               if ( !t[key] ) return false;
               if ( t[key].toString().toLowerCase().indexOf(_.trim(filter ? filter.toString().toLowerCase() : '')) === -1 ) return false;
             }
-            
+
           }
           return true;
         })
-        
+
       }
       dataChain = dataChain.map((t, i) => _.set(t, 'SEQ', i + 1))
     } else {
@@ -226,7 +230,7 @@ export class SeerTableComponent implements OnInit {
   }
   getData() {
     let data = !this.paginationRules ? this._sliceData(_.map(this.data, (t, i) => _.set(t, 'SEQ', this.pageSize * (this.pageNum - 1) + i + 1)), 1, this.pageSize) : this._sliceData(this.getCurData(), this.pageNum, this.rowsOnPage)
-    
+
     /*if ( this.translate ) {
       _.each(data, item => {
         this.transferKeyWithDict(item, this.translate, 1);
@@ -313,6 +317,11 @@ export class SeerTableComponent implements OnInit {
   onCustomAction({type}) {
     let data = _.filter(this.data, t => t['selected'])
     this.notify.emit({type: type, data});
+  }
+//edit by lily 2017-11-8
+  public modalRef: BsModalRef;
+  public openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 }
 
