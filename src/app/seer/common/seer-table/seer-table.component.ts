@@ -318,7 +318,7 @@ export class SeerTableComponent implements OnInit {
     let data = _.filter(this.data, t => t['selected'])
     this.notify.emit({type: type, data});
   }
-//edit by lily 2017-11-8
+  //edit by lily 2017-11-8
   public modalRef: BsModalRef;
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
