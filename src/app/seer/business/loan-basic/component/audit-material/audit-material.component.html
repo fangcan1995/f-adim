@@ -19,7 +19,7 @@
     <div class="row" style="margin-left: 10px">
       <ng-container *ngFor="let item of attachments; let i = index">
         <ng-container *ngIf="imageType.indexOf(item.fileSuff.toLowerCase()) != -1">
-          <div class="form-group col-sm-6 col-md-4 col-lg-2 col-xlg-2">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3 col-xlg-2">
             <div class="row">
               <img src="{{item.uploadPath}}" height="108px"><p></p>
               <a href="javascript:void(0)" class="card-link" (click)="downloadFile(item)">下载</a>
