@@ -7,10 +7,10 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 
 @Component({
-  selector: 'pwan-info',
-  templateUrl: './pwan-info.component.html',
+  selector: 'pawn-info',
+  templateUrl: './pawn-info.component.html',
 })
-export class PwanInfoComponent implements OnInit{
+export class PawnInfoComponent implements OnInit{
 
   @Input()
   private disabled: boolean = false;
