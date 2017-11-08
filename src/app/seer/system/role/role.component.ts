@@ -62,9 +62,9 @@ export class RoleComponent implements OnInit {
     }
     this.getList();
   }
-  handleChangePage($event) {
-    this.params.pageNum = $event.pageNum;
-    this.params.pageSize = $event.pageSize;
+  handleChangePage({ pageNum, pageSize }) {
+    this.params.pageNum = pageNum;
+    this.params.pageSize = pageSize;
     this.getList();
   }
   showSuccess(message: string) {
@@ -81,8 +81,7 @@ export class RoleComponent implements OnInit {
       autoHideDuration: 3000,
     })
   }
-  handleNotify($event): void {
-    let { type, data } = $event;
+  handleNotify({ type, data }): void {
     switch ( type ) {
       case 'create':
         this._router.navigate(['/system/role/add']);

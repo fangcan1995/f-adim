@@ -60,8 +60,8 @@ export class MemberEditComponent implements OnInit {
   titlesHouseInfo= [
     { key:'houseAdress', label:'房产地址' },
     { key:'area', label:'建筑面积' },
-    { key:'houseType', label:'房屋类型',isDict: true, category: 'HOUSE_TYPE'},
-    { key:'houseAge', label:'房龄'},
+    { key:'houseType', label:'房屋类型', isDict: true, category: 'HOUSE_TYPE' },
+    { key:'houseAge', label:'房龄' },
     { key:'debtMoney', label:'尚欠贷余额' },
     { key:'landNo', label:'土地所有证号' },
     { key:'houseBelongNo', label:'房屋产权所有证号' },

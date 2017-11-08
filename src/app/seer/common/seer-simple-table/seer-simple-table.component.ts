@@ -11,11 +11,12 @@ import { IMultiSelectOption } from 'angular-2-dropdown-multiselect/src/multisele
 import * as _ from 'lodash';
 
 import { CREATE, UPDATE, DELETE, SAVE, CANCEL, DOWNLOAD, PREVIEW } from '../seer-table/seer-table.actions';
-import { BaseService } from "../../base.service";
+import { ManageService } from '../../../theme/services';
 @Component({
   selector: 'seer-simple-table',
   templateUrl: './seer-simple-table.component.html',
-  styleUrls: ['./seer-simple-table.component.scss'],
+  styleUrls: [ './seer-simple-table.component.scss' ],
+  providers: [ ManageService ],
 })
 export class SeerSimpleTableComponent implements OnInit {
   @Input() data: Array<any> = [];   //数据数组
@@ -48,6 +49,7 @@ export class SeerSimpleTableComponent implements OnInit {
     buttonClasses: 'btn btn-outline-dark btn-block',
   }
   constructor(
+    private _service:ManageService,
   ) { 
     if( !this.rowsOnPage ) this.rowsOnPage = this.rowsOnPageSet[0];
   }
@@ -60,21 +62,21 @@ export class SeerSimpleTableComponent implements OnInit {
     }
     
     /** 增加的部分 */
-    /*if ( !this.translate ) {
-      let transFields: {field: string,dictKeyId?: string}[] = [];
+    if ( !this.translate ) {
+      let transFields: {fieldName: string,category?: string}[] = [];
       _.each(this.titles, title => {
         if ( title.isDict ) {
           transFields.push({
-            field: title.key,
-            dictKeyId: title.dictKeyId
+            fieldName: title.key,
+            category: title.category
           });
         }
       });
-      this.service.getDictTranslate(transFields)
+      this._service.getDictTranslate(transFields)
       .then(res => {
-        if ( res.success ) this.translate = res.data;
+        if ( res.code == 0 ) this.translate = res.data;
       });
-    }*/
+    }
   }
   ngOnChanges(): void {
     this.data = _(this.data)
@@ -193,21 +195,22 @@ export class SeerSimpleTableComponent implements OnInit {
     if ( direction ) {
       _.each(obj, (v, k) => {
         if (translate_copy[k]) {
-         _.each(translate_copy[k], (cv, ck) => {
-            if ( v == cv.dictValueId ) v = cv.dictValueName;
-         })
+          _.each(translate_copy[k], (cv, ck) => {
+            if ( v == cv.itemId ) obj[v] = cv.itemName;
+
+          })
         }
       })
     } else {
       _.each(obj, (v, k) => {
         if (translate_copy[k]) {
-         _.each(translate_copy[k], (cv, ck) => {
-            if ( v == cv.dictValueName ) v = cv.dictValueId;
-         })
+          _.each(translate_copy[k], (cv, ck) => {
+            if ( v == cv.itemName ) obj[v] = cv.itemId;
+          })
         }
       })
     }
-    
+
   }
   openLink(event) {
     event.selected = false;
@@ -218,7 +221,7 @@ export class SeerSimpleTableComponent implements OnInit {
   renderValue(title, value) {
     if ( this.translate && this.translate[title.key] && this.translate[title.key].length ) {
       _.each(this.translate[title.key], o => {
-        if ( o.dictValueId == value ) value = o.dictValueName;
+        if ( o.itemId == value ) value = o.itemName;
       })
     }
     return value;

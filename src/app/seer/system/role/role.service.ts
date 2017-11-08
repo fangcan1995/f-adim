@@ -33,13 +33,7 @@ export class RoleService extends BaseService<any> {
   deleteOne(id: string | number): Promise<ResModel> {
     return this._httpInterceptorService.request('DELETE', `http://172.16.1.234:8090/roles/${id}`).toPromise();
   }
-  getOrgs() {
-    return this._httpInterceptorService.request('GET', `http://172.16.4.62:8090/organizations/all`, {}, true).toPromise();
-  }
-  getStaffs() {
-    return this._httpInterceptorService.request('GET', `http://172.16.1.27:8090/staffs`, { pageSize: 10000 }, true).toPromise();
-  }
-  getUsers() {
-    return this._httpInterceptorService.request('GET', `http://172.16.1.234:8090/users`, { pageSize: 10000 }).toPromise();
+  getUsersWithStaffsWithOrgs(): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET', `http://172.16.1.234:8090/roles/userTree`).toPromise();
   }
 }
