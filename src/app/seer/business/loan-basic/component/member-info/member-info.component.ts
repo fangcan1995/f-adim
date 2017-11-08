@@ -18,6 +18,8 @@ export class MemberInfoComponent implements OnInit {
   @Input()
   private member : any = {};
 
+  private classNames: any = {"addressContainerClass": "form-group col-xs-12 col-md-12 col-lg-5 col-xlg-5"};
+
   private actions = [];
 
   constructor(private service: LoanBasicService , private _messageService: SeerMessageService,){}

@@ -40,7 +40,7 @@ export class OrgService extends BaseService<any>{
 
 
   deleteOne (id): Promise<ResModel> {
-    return this._httpInterceptorService.request('DELETE', `http://172.16.7.4:8020/permission/organizations/${id}`, {}, true).toPromise();
+    return this._httpInterceptorService.request('DELETE', `http://172.16.7.4:8020/permission/organizations/staffs/staffid?employerId=${id}`, {}, true).toPromise();
   }
 
   // 表格假数据
@@ -53,7 +53,7 @@ export class OrgService extends BaseService<any>{
    * */
 
   getOrganizationsById (orgId): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `http://172.16.7.4:8020/permission/organizations/${orgId}`, {}, true).toPromise();
+    return this._httpInterceptorService.request('GET', `http://172.16.7.4:8020/permission/organizations/${orgId}?departmentId=${orgId}`, {}, true).toPromise();
   }
 
   getStaffsByOrgId(orgId): Promise<ResModel> {

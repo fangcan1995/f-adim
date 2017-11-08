@@ -73,9 +73,9 @@ export class IntentionComponent {
         let projectStatus = i.projectStatus;
         let actions;
         switch (projectStatus) {
-          case "1": actions = [this.actionSet.completion]; break; //补填资料
-          case "2": actions = [this.actionSet.firstAudit]; break; //初审
-          case "3": actions = [this.actionSet.secondAudit]; break; //复审
+          case "10": actions = [this.actionSet.completion]; break; //补填资料
+          case "20": actions = [this.actionSet.firstAudit]; break; //初审
+          case "30": actions = [this.actionSet.secondAudit]; break; //复审
           default: actions = []; break; //补填资料
         }
         return _.set(i, 'actions', actions);

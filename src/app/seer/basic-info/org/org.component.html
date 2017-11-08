@@ -1,5 +1,5 @@
 <div class="row">
-  <seer-collapse-card>
+  <!--<seer-collapse-card>
       <seer-filter
       [hasGlobalFilter]="hasGlobalFilter"
       [filters]="filters"
@@ -7,7 +7,7 @@
       (onSearchBtnClicked)=handleSearchBtnClicked($event)
       disabled
       ></seer-filter>
-  </seer-collapse-card>
+  </seer-collapse-card>-->
   <div class="col-sm-4">
     <ba-card [title]="treeTitle" baCardClass="with-scroll">
       <div class="col-sm-12">
@@ -70,17 +70,10 @@
 
         <div class="row">
           <div class="col-sm-4">
-            <!--<input type="text" class="form-control" id="idNumber" placeholder="全局过滤" >-->
-            <seer-filter
-              [hasGlobalFilter]="hasGlobalFilter"
-              [filters]="filters"
-              (onFiltersChanged)=handleFiltersChanged($event)
-              (onSearchBtnClicked)=handleSearchBtnClicked($event)
-              class="fullWidth"
-            ></seer-filter>
+            <input type="text" class="form-control" id="idNumber" placeholder="全局过滤" [(ngModel)]="pageInfo.globalSearch">
           </div>
           <div class="col-sm-2">
-            <button type="button" class="btn btn-sx btn-info">检索</button>
+            <button type="button" class="btn btn-sx btn-info" (click)="seachFilter()">检索</button>
           </div>
           <div class="col-sm-2">
             <!--<button type="button" class="btn btn-sx btn-info" (click)="openModal(template)">调换部门</button>-->
@@ -93,7 +86,7 @@
                   </button> -->
               <!-- </div> -->
               <div class="modal-body">
-                  
+
                   <seer-tree
                     (notify)="onNotice($event) "
                     [nodes]="treeNode"
