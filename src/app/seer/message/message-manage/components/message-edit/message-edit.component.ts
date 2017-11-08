@@ -292,102 +292,6 @@ export class MessageEditComponent {
       default:
         break;
     }
-    /*modelfilters = [
-      {
-        key: 'aaa',
-        label: '用户身份',
-        type: 'select',
-        options:[{value:'', content: '全部'},{value:'1', content: '注册理财师'},{value:'2', content: '财富合伙人'}]
-      },
-      {
-        key: 'bbb',
-        label: '区域',
-        type: 'select',
-        options:[{value:'', content: '全部'},{value:'1', content: '龙区'},{value:'2', content: '辽区'}]
-      },
-      {
-        key: 'ccc',
-        label: '年龄',
-        type: 'select',
-        options:[{value:'', content: '全部'},{value:'1', content: '小于25'},{value:'2', content: '25-30'},{value:'2', content: '31-40'},{value:'2', content: '41-50'},{value:'2', content: '50以上'}]
-      },
-      {
-        key: 'ddd',
-        label: '性别',
-        type: 'select',
-        options:[{value:'', content: '全部'},{value:'1', content: '男'},{value:'2', content: '女'}]
-      },
-      {
-        key: 'eee',
-        label: '用户投资状态',
-        type: 'select',
-        options:[{value:'', content: '全部'},{value:'', content: '未投资'},{value:'', content: '已投资'}]
-      },
-      {
-        key: 'investTime',
-        label: '投资时间',
-        groups: [
-          {
-            type: 'datepicker',
-          },
-          {
-            type: 'datepicker',
-          },
-        ],
-        groupSpaces: ['至']
-      },
-      {
-        key: 'totalMoney',
-        label: '累计投资金额',
-        groups: [
-          {
-            type: 'input.text',
-          },
-          {
-            type: 'input.text',
-          },
-        ],
-        groupSpaces: ['至']
-      },
-      {
-        key: 'singleMoney',
-        label: '单笔投资金额',
-        groups: [
-          {
-            type: 'input.text',
-          },
-          {
-            type: 'input.text',
-          },
-        ],
-        groupSpaces: ['至']
-      },
-      {
-        key: 'investNum',
-        label: '邀请人数',
-        groups: [
-          {
-            type: 'input.text',
-          },
-          {
-            type: 'input.text',
-          },
-        ],
-        groupSpaces: ['至']
-      }
-    ];
-    modelMemberTitles= [
-      {key: 'userName', label: '用户名', hidden: false},
-      {key: 'trueName', label: '真实姓名', hidden: false},
-      {key: 'phoneNumber', label: '手机号', hidden: false},
-      {key: 'idNumber', label: '身份证号', hidden: false},
-    ];
-    modelStaffsTitles= [
-      {key: 'emCode', label: '用户名', hidden: false},
-      {key: 'empName', label: '真实姓名', hidden: false},
-      {key: 'phone', label: '手机号', hidden: false},
-      {key: 'idNum', label: '身份证号', hidden: false},
-    ];*/
 
     this.modalRef = this.modalService.show(template);
     this.getUsersList();
@@ -433,7 +337,13 @@ export class MessageEditComponent {
       case 'all':
         this.ids='';
         this.service.getIds(this.usersType,this.modalPageInfo.query).then(data=>{
-          this.ids=data.data.ids || null;
+          console.log(data);
+          if(this.usersType=='members'){
+            this.ids=data.message || null;
+          }else if(this.usersType=='users'){
+            this.ids=data.data.ids || null;message
+          }
+
         }).catch(err=>{
           this.showError(err.json().message || '连接错误');
         });
