@@ -45,7 +45,7 @@ export class OrgService extends BaseService<any>{
 
   // 表格假数据
  getData(params): Promise<any>{
-   return this._httpInterceptorService.request('GET', `http://172.16.4.62:8090/organizations`, params, true).toPromise();
+   return this._httpInterceptorService.request('GET', `http://172.16.7.4:8020/permission/organizations`, params, true).toPromise();
  }
 
 
