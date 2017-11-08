@@ -107,6 +107,11 @@ export class OrgService extends BaseService<any>{
     return this._httpInterceptorService.request('DELETE', url,{}, true).toPromise();
   }
 
+  /*设置员工为组织机构的负责人*/
+  configDepartLeader(params): Promise<ResModel> {
+    let url = `http://172.16.7.4:8020/permission/organizations/${params.departmentId}/staffs/${params.id}`;
+    return this._httpInterceptorService.request('PUT', url, {}, true).toPromise();//测试用地址
+  }
 
 
 }

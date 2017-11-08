@@ -75,4 +75,11 @@ export const DISABLE= {
   className: 'btn btn-xs btn-info',
   icon: 'icon-blocked',
 
+};
+
+export const CONFIG_LEADER = {
+  type: 'config_leader',
+  name: '设为负责人',
+  class: '',
+  icon: 'icon-checkmark',
 }

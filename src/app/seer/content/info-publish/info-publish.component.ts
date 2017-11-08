@@ -45,8 +45,8 @@ export class InfoPublishComponent {
       label: '标题',
       type: 'input.text',
     },
-    
-  ]
+
+  ];
    //组织树
   treePermissions = TREE_PERMISSIONS.NOTIFY|TREE_PERMISSIONS.ADD|TREE_PERMISSIONS.EDIT|TREE_PERMISSIONS.DELETE|TREE_PERMISSIONS.DRAG|TREE_PERMISSIONS.SHOW_FILTER|TREE_PERMISSIONS.SHOW_ADD_ROOT;
   treeNode = [];
@@ -86,13 +86,13 @@ export class InfoPublishComponent {
   onChange(message):void {
     const type = message.type;
     console.log(type);
-    
+
     let data = message.data;
     switch ( type ) {
       case 'create':
         this._router.navigate(['/content/info-publish/add']);
         break;
-      case 'update': 
+      case 'update':
         this._router.navigate(['/content/info-publish/edit',message.data.msgId])
         break;
       case 'delete':
