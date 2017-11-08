@@ -168,15 +168,14 @@ export class UserComponent implements OnInit {
     this.getList();
   }
   
-  handleChangePage($event) {
-    this.params.pageNum = $event.pageNum;
-    this.params.pageSize = $event.pageSize;
+  handleChangePage({ pageNum, pageSize }) {
+    this.params.pageNum = pageNum;
+    this.params.pageSize = pageSize;
     this.getList();
   }
 
   /*更新*/
-  handleNotify(message): void {
-    const { type, data } = message;
+  handleNotify({ type, data }): void {
     switch ( type ) {
       case CREATE.type:
         this._router.navigate(['/system/user/add']);
@@ -189,7 +188,7 @@ export class UserComponent implements OnInit {
           .subscribe(action => {
             if ( action === 1 ) {
               this._userService
-              .deleteOne(message.data.userId)
+              .deleteOne(data.userId)
               .then((res) => {
                 this.showSuccess(res.msg || '删除用户成功')
                 this.getList();

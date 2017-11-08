@@ -8,6 +8,8 @@ import { IntentionService } from "./intention.service";
 
 import {IntentionCompletionComponent} from "./components/intention-completion/intention-completion.component";
 import {LoanBasicModule} from "../loan-basic/loan-basic.module";
+import {FirstAuditComponent} from "./components/first-audit/first-audit.component";
+import {SecondAuditComponent} from "./components/second-audit/second-audit.component";
 
 
 
@@ -21,7 +23,8 @@ import {LoanBasicModule} from "../loan-basic/loan-basic.module";
   declarations: [
     IntentionComponent,
     IntentionCompletionComponent,
-
+    FirstAuditComponent,
+    SecondAuditComponent
   ],
   providers: [
     IntentionService,

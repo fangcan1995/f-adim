@@ -89,9 +89,7 @@
         <td *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
 
           <div *ngIf="title.type=='link'">
-            <a (click)="openLink(item)">
-              <span class="seer_font seer_a_font">{{item[title.key]}}</span>
-            </a>
+            <a class="seer_font seer_a_font" href="{{item[title.key]}}">{{item[title.key]}}</a>
           </div>
           <div *ngIf="title.type=='input_number'">
             <input  type="number" class="form-control" [(ngModel)]="item[title.key]"/>

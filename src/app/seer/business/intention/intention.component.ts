@@ -58,10 +58,12 @@ export class IntentionComponent {
 
   constructor(private intentionService: IntentionService, private _router: Router, private route: ActivatedRoute) {}
 
-  ngOnInit() { this.getIntentions({}); }
+  ngOnInit() {
+    this.getIntentions();
+  }
 
   //初始化数据
-  getIntentions(param: any): void{
+  getIntentions(): void{
     this.intentionService.getIntentions(this.pageInfo).then((res: any) => {
       this.pageInfo.pageNum=res.data.pageNum;  //当前页
       this.pageInfo.pageSize=res.data.pageSize; //每页记录数
@@ -71,9 +73,9 @@ export class IntentionComponent {
         let projectStatus = i.projectStatus;
         let actions;
         switch (projectStatus) {
-          case "1": actions = [this.actionSet.completion]; break; //补填资料
-          case "2": actions = [this.actionSet.firstAudit]; break; //初审
-          case "3": actions = [this.actionSet.secondAudit]; break; //复审
+          case "10": actions = [this.actionSet.completion]; break; //补填资料
+          case "20": actions = [this.actionSet.firstAudit]; break; //初审
+          case "30": actions = [this.actionSet.secondAudit]; break; //复审
           default: actions = []; break; //补填资料
         }
         return _.set(i, 'actions', actions);
@@ -85,14 +87,14 @@ export class IntentionComponent {
   handlePageChange($event) {
     this.pageInfo.pageSize = $event.pageSize;
     this.pageInfo.pageNum = $event.pageNum;
-    this.getIntentions(this.pageInfo);
+    this.getIntentions();
   }
 
   //全局检索
   handleFiltersChanged($event) {
     let params = $event;
     this.pageInfo = Object.assign({}, this.pageInfo, params);
-    this.getIntentions(this.pageInfo);
+    this.getIntentions();
   }
 
   //操作

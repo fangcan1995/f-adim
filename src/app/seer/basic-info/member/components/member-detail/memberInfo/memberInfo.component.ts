@@ -1,17 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  Router,
-  ActivatedRoute,
-} from '@angular/router';
+import {Router, ActivatedRoute,} from '@angular/router';
 import { Location } from '@angular/common';
-
-import * as _ from 'lodash';
-import { Observable } from 'rxjs/Observable';
 import { MemberService } from '../../../member.service';
-
+import { SeerMessageService } from '../../../../../../theme/services/seer-message.service';
 @Component({
   selector: 'memberInfo',
   templateUrl: './memberInfo.component.html',
+  styleUrls: ['./memberInfo.component.scss']
 
 })
 export class MemberInfoComponent implements OnInit {
@@ -26,7 +21,6 @@ export class MemberInfoComponent implements OnInit {
   vehicleInfo: any = []; //车辆信息
   houseInfo: any = [];  //房屋信息
   creditInfo: any = [];//个人征信信息
-  simpleTableActions;
   titlesEmergencyContact=[
     {
       key:'contName',
@@ -76,12 +70,13 @@ export class MemberInfoComponent implements OnInit {
     { key:'creditLevel', label:'综合信用等级' },
     { key:'creditExpire', label:'有效日期' },
   ];//征信
+  memberId:any='';
   constructor(
     private _memberService: MemberService,
-    //private _messageService: SeerMessageService,
     private _route: ActivatedRoute,
     private _router: Router,
     private _location: Location,
+    private _messageService: SeerMessageService,
   ) {}
   ngOnInit() {
     this._route.url.mergeMap(url => {
@@ -90,11 +85,9 @@ export class MemberInfoComponent implements OnInit {
 
     })
       .subscribe(params => {
-        console.log('--');
         if ( this._editType === 'detail' ) {
+          this.memberId=params.id;
           this._memberService.getOne(params.id).then(res => {
-            console.log('*********************');
-            console.log(res);
             this.member = res.data || {};
             this.baseInfo=this.member.baseInfo|| {};
             this.emergencyContact=this.member.contactList|| [];
@@ -104,16 +97,39 @@ export class MemberInfoComponent implements OnInit {
             this.vehicleInfo=this.member.carMessageList|| [];
             this.houseInfo=this.member.houseMessageList|| [];
             this.creditInfo=this.member.creditInfo|| [];
-            //this.simpleTableActions=[UPDATE, DELETE];
-            //this.creditInfo=_.map(this.creditInfo, r => _.set(r, 'actions', [DOWNLOAD, PREVIEW]))
-            //this.forbidSaveBtn = false;
-          })
+          }).catch(err=>{
+            this.showError(err.msg || '连接失败');
+          });
         }
       })
   }
   handleBackBtnClick() {
-    alert('1111');
-    this._router.navigate(['/basic-info/member'])
+    this._router.navigate([`../../`], {relativeTo: this._route});
   }
-
+  memberInfoClick(){
+    this._router.navigate([`../../detail/${this.memberId}`], {relativeTo: this._route});
+  }
+  investInfoClick(){
+    this._router.navigate([`../../invests/${this.memberId}`], {relativeTo: this._route});
+  }
+  loanInfoClick(){
+    this._router.navigate([`../../loans/${this.memberId}`], {relativeTo: this._route});
+  }
+  tradeInfoClick(){
+    this._router.navigate([`../../trades/${this.memberId}`], {relativeTo: this._route});
+  }
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
+  }
 }

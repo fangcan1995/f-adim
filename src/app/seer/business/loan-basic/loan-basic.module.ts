@@ -11,12 +11,14 @@ import {AuditProcessComponent} from "./component/audit-process/audit-process.com
 import {CreditInfoComponent} from "./component/credit-info/credit-info.component";
 import {InvestRecordComponent} from "./component/invest-record/invest-record.component";
 import {LoanInfoComponent} from "./component/loan-info/loan-info.component";
-import {PwanInfoComponent} from "./component/pwan-info/pwan-info.component";
+import {PawnInfoComponent} from "./component/pawn-info/pawn-info.component";
+import {FileUploadModule} from "ng2-file-upload";
 
 @NgModule({
   imports: [
     NgaModule,
     SharedModule,
+    FileUploadModule
   ],
   declarations: [
     LoanBasicComponent,
@@ -27,7 +29,7 @@ import {PwanInfoComponent} from "./component/pwan-info/pwan-info.component";
     InvestRecordComponent,
     LoanInfoComponent,
     MemberInfoComponent,
-    PwanInfoComponent,
+    PawnInfoComponent,
   ],
   providers: [
     LoanBasicService,
@@ -40,7 +42,7 @@ import {PwanInfoComponent} from "./component/pwan-info/pwan-info.component";
     InvestRecordComponent,
     LoanInfoComponent,
     MemberInfoComponent,
-    PwanInfoComponent,
+    PawnInfoComponent,
   ]
 })
 export class LoanBasicModule {

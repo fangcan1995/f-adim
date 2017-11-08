@@ -1,6 +1,6 @@
 <seer-content-top>
   <button class="btn btn-outline-dark" (click)="handleBackBtnClick()">返回</button>
-  <button class="btn btn-primary" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">提交</button>
+  <button class="btn btn-primary" [disabled]="forbidSaveBtn" (click)="auditOperation.submit()">提交</button>
 </seer-content-top>
 <div class="widgets">
   <div class="row justify-content-center">
@@ -12,7 +12,7 @@
 
     <!-- 贷款信息 -->
     <div class="col-md-12">
-      <loan-info [disabled]="false" [loan]="loan"></loan-info>
+      <loan-info [disabled]="false" [loan]="loan" (notify)="loanTypeChange($event)"></loan-info>
     </div>
 
     <!-- 个人征信信息 -->
@@ -25,6 +25,11 @@
       <pwan-info [disabled]="false" [projectId]="loan.projectId" [memberId]="member.memberId" [vehicles]="vehicles" [houses]="houses" [pawn]="pawn"></pwan-info>
     </div>
 
+    <!-- 抵押资料（附件） -->
+    <div class="col-md-12">
+      <audit-material [disabled]="false" [projectId]="loan.projectId" [attachments]="attachment"></audit-material>
+    </div>
+
     <!-- 审批流程 -->
     <div class="col-md-12">
       <audit-process [data]="auditHistory"></audit-process>
@@ -32,22 +37,12 @@
 
     <!-- 投资流程 -->
     <div class="col-md-12">
-      <invest-record [investRecords]="investRecords"></invest-record>
+      <!--<invest-record [investRecords]="investRecords"></invest-record>
     </div>
-
-    <!-- 抵押资料（附件） -->
-   <!-- <div class="col-md-12">
-      <audit-material [disabled]="false" [attachments]="attachments"></audit-material>
-    </div>-->
-
-
-
 
     <!-- 审批意见 -->
     <div class="col-md-12">
-       <audit-operation></audit-operation>
+       <audit-operation [projectId]="loan.projectId" #auditOperation></audit-operation>
     </div>
-
-
   </div>
 </div>

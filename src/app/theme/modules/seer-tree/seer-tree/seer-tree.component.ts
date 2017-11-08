@@ -41,7 +41,14 @@ import * as _ from 'lodash';
         [class.ion-android-checkbox-outline]="node.isActive && !node.isAllChildrenActive"
         [class.ion-android-checkbox]="node.isActive && node.isAllChildrenActive"
         ></i>
-      <i *ngIf="node.isLeaf && checkPermissions(treePermissions.MULTI_SELECT)" (dblclick)="stopPropagation($event)" (click)="onToggleLeaf($event,node)" class="virtual-checkbox" [class.ion-android-checkbox-outline-blank]="!node.isActive" [class.ion-android-checkbox-outline]="node.isActive"></i>
+      <i
+        *ngIf="node.isLeaf && checkPermissions(treePermissions.MULTI_SELECT)"
+        (dblclick)="stopPropagation($event)"
+        (click)="onToggleLeaf($event,node)"
+        class="virtual-checkbox"
+        [class.ion-android-checkbox-outline-blank]="!node.isActive"
+        [class.ion-android-checkbox-outline]="node.isActive"
+        ></i>
       <span *ngIf="!node.isInEditing" title="{{node.data.name}}"><i class="virtual-checkbox icon-padding" [class.ion-android-folder-open]="node.canExpand && !node.customIconField" [class.ion-document]="!node.canExpand && !node.customIconField" [ngClass]="node.customIconField"></i>{{ node.data.name }}</span>
       <input *ngIf="node.isInEditing" [(ngModel)]="node.data.name" (click)="stopPropagation($event)" (dblclick)="stopPropagation($event)" />
       <span>
@@ -68,6 +75,8 @@ import * as _ from 'lodash';
   `
 })
 export class SeerTree implements OnInit {
+
+
   @Input() private permissions: number = 0;
   @Input() private nodes: SeerTreeNode[] = [];
   @Input() private defaultNodeName = '新节点';
@@ -394,6 +403,9 @@ export class SeerTree implements OnInit {
     } else {
       this.setNodeMultiUnchecked(node);
     }
+    if(this.checkPermissions(TREE_PERMISSIONS.NOTIFY)) {
+      this.notify.emit({ eventName: 'onCheckedChange', node });
+    }
   }
 
   private onToggleChildren($event, node) {
@@ -409,6 +421,9 @@ export class SeerTree implements OnInit {
       this.setChildrenNodesAllUnchecked(node)
     } else {
       this.setChildrenNodesAllChecked(node);
+    }
+    if(this.checkPermissions(TREE_PERMISSIONS.NOTIFY)) {
+      this.notify.emit({ eventName: 'onCheckedChange', node });
     }
   }
 

@@ -1,8 +1,10 @@
 
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 
 import {LoanBasicService} from "../../loan-basic.service";
-import {UPDATE} from "../../../../common/seer-table/seer-table.actions";
+
+import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'audit-operation',
@@ -11,14 +13,52 @@ import {UPDATE} from "../../../../common/seer-table/seer-table.actions";
 })
 export class AuditOperationComponent implements OnInit {
 
+  @Input()
+  private projectId: string;
 
+  private actionType : string = "103" ;
 
-  constructor(private service: LoanBasicService){}
+  private comments: string;
+
+  private reason: string = "";
+
+  constructor(private service: LoanBasicService, private _messageService: SeerMessageService, private _router: Router,){}
 
   ngOnInit() {
 
   }
 
+  private submit(): void {
 
+    let param = {
+      "actionType": this.actionType,
+      "comments": this.comments,
+      "id": this.projectId,
+      "reason": this.reason
+    };
+    this.service.completion(param).then(res => {
+      if(0 == res.code) {
+        this.showSuccess(res.msg || '已提交');
+        this._router.navigate(['business/intention']);
+      } else {
+        this.showError(res.msg || '提交失败');
+      }
+    });
+  }
 
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
+  }
 }

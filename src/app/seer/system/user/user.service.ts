@@ -36,7 +36,7 @@ export class UserService extends BaseService<any> {
   getRoles() {
     return this._roleService.getList({ pageSize: 10000 })
   }
-  getOrgs() {
-    return this._httpInterceptorService.request('GET',`http://172.16.4.62:8090/organizations`, { pageSize: 10000, pageNum: 1 }, true).toPromise();
+  getUsersWithStaffsWithOrgs(): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET', `http://172.16.1.234:8090/roles/userTree`).toPromise();
   }
 }
