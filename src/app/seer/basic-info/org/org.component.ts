@@ -70,18 +70,12 @@ export class OrgComponent implements OnDestroy{
     { key:'position', label:'职位' },
   ];
   pageInfo = {
-    "pageNum": 1,
-    "pageSize": 10,
-    "sortBy": "id",
-    "total": "",
-    "query": {
-      "globalSearch": "",
-      "category": "",
-      "categoryName": "",
-    },
-    data: {
-      departmentId: 1
-    }
+    pageNum: 1,
+    pageSize: 100000,
+    total: 1000,
+    departmentId: 1,
+    globalSearch: '',
+    sortBy: ''
   };
 
 
@@ -123,7 +117,7 @@ export class OrgComponent implements OnDestroy{
     // 初始化树结构
     this.getOrganizations();
     // 初始化表
-    this.getlist({pageNum: 1, pageSize: 10, departmentId: 1});
+    this.getlist(this.pageInfo);
     // this.title = this.data.title;
     // this.flag = this.data.flag;
     // if (this.flag == '1') {
@@ -143,14 +137,30 @@ export class OrgComponent implements OnDestroy{
   getOrganizations() {
     this.service.getOrganizations()
       .then((result) => {
-        result.data.map(org=>org['children']=[]);
+        console.log(result);
         let nodes = json2Tree(result.data, {parentId:'pid',children:'children', id: 'departmentId'},[{origin:'departmentName',replace:'name'}, {origin: 'departmentId', replace: 'id'}]);
+        function addIcon (param) {
+          param.map( org => {
+            if(org.children) {
+              org.customIcon = 'ion-ios-people';
+              addIcon(org.children);
+            }
+            else {
+              org.customIcon = 'ion-android-people';
+              org.children = [];
+            }
+          })
+        }
+        addIcon(nodes);
         nodes.map(rootNode=>rootNode['expanded']=true);
         this.treeNode = nodes;
+        console.log(this.treeNode);
     }).catch(err => {
         console.log(err);
     });
   }
+
+
 
 
   // 表的数据的获取
@@ -162,13 +172,31 @@ export class OrgComponent implements OnDestroy{
         this.datas = _.map(this.datas, r => _.set(r, 'actions', [ DELETE ]));
       })*/
      this.service.getData(params).then( result => {
-
+       this.pageInfo.pageNum = result.data.pageNum;  //当前页
+       this.pageInfo.pageSize = result.data.pageSize; //每页记录数
+       this.pageInfo.total = result.data.total; //记录总数
        this.datas = result.data.list;
        console.log(this.datas);
        this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE]));
      });
 
   }
+
+  /* 全局搜索 */
+
+  seachFilter () {
+    this.service.getData(this.pageInfo).then( result => {
+      this.pageInfo.pageNum = result.data.pageNum;  //当前页
+      this.pageInfo.pageSize = result.data.pageSize; //每页记录数
+      this.pageInfo.total = result.data.total; //记录总数
+      this.datas = result.data.list;
+      this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE]));
+    });
+  }
+
+
+
+
    // 表格动作
    onChange(message):void {
     console.log(message);
@@ -183,7 +211,13 @@ export class OrgComponent implements OnDestroy{
           .subscribe(action => {
             if ( action === 1 ) {
               this.service.deleteOne(message.data.id).then( result => {
-                console.log(result);
+                if(result.code == 0) {
+                  this.alertSuccess(result.message);
+                }
+                else {
+                  this.alertError(result.message);
+                }
+                this.getlist({pageNum: 1, pageSize: 10, departmentId: 1});
               });
             }
           })
@@ -200,16 +234,18 @@ export class OrgComponent implements OnDestroy{
      if(this.cacheMemory) {
        this.cacheMemory.departmentName = this.info.departmentName;
        this.cacheMemory.departmentLeader = this.info.departmentLeader;
+       console.log(this.cacheMemory);
+       this.service.editOrganization(this.cacheMemory).then( result => {
+         if(result.code == 0) {
+           this.alertSuccess(result.message);
+         }
+         else {
+           this.alertError(result.message);
+         }
+       })
+       this.getOrganizations();
      }
-     console.log(this.cacheMemory);
-     this.service.editOrganization(this.cacheMemory).then( result => {
-       if(result.code == 0) {
-         this.alertSuccess(result.message);
-       }
-       else {
-         this.alertError(result.message);
-       }
-     })
+
    }
 
 
@@ -258,13 +294,21 @@ export class OrgComponent implements OnDestroy{
         }).catch( err => {
           console.log(err);
         });
+
+
+        /* 获取右侧表格信息 */
+        this.pageInfo.departmentId = $event.node.data.departmentId;
+        this.service.getData(this.pageInfo).then( result => {
+          this.pageInfo.pageNum = result.data.pageNum;  //当前页
+          this.pageInfo.pageSize = result.data.pageSize; //每页记录数
+          this.pageInfo.total = result.data.total; //记录总数
+          this.datas = result.data.list;
+          this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE]));
+        })
       }
 
 
-      /* 获取组织的员工细节 */
-      /*this.service.getStaffsByOrgId($event.node.data.departmentId).then( result => {
-        console.log(result);
-      })*/
+
 
     }
 
