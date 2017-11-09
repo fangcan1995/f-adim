@@ -47,8 +47,7 @@ export class StaffComponent {
       "empState": "",
       "entryTimeStart": "",
       "entryTimeEnd": ""
-    },
-
+    }
   }; //分页、排序、检索
   staffs = [];// 数据
   errorMessage;
