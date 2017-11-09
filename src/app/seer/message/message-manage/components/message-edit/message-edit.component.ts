@@ -7,6 +7,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { BsModalService} from 'ngx-bootstrap/modal';
 import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
 import * as _ from 'lodash';
+import {formatDate} from "ngx-bootstrap/bs-moment/format";
 
 @Component({
   selector: 'message-edit',
@@ -24,8 +25,10 @@ export class MessageEditComponent {
   IsChecked={"sendMail":false,"sendNotify":false,"sendMessage":false,"now":false}
   disabled={"sendMail":true,"sendNotify":true,"sendMessage":true,"now":false}; checkbox是否可用
   allowChange:boolean=false;//date-picker是否可用
-  private _editType: string = 'add';
-  public forbidSaveBtn: boolean = true;
+  readonly:boolean=false;//date-picker是否只读
+  _editType: string = 'add';
+  forbidSaveBtn: boolean = true;
+  modalClass={"class":"modal-lg"};  //模态框样式
 
   modalUsers=[];
   modalActionSet = {
@@ -57,7 +60,20 @@ export class MessageEditComponent {
     "sort":"",
     "total":"",
     "query":{
-      "aaa":""
+      "memberType":"",
+      "department":"",
+      "mageMix":"",
+      "mageMax":"",
+      "sex":"",
+      "investOrNot":"",
+      "investDateBefore":"",
+      "investDateAfter":"",
+      "investAllMix":"",
+      "investAllMax":"",
+      "investOneMix":"",
+      "investOneMax":"",
+      "inviteMembersMix":"",
+      "inviteMembersMax":"",
     },
   }; //分页、排序、检索
   selectedUserId=[]; //选中的用户id
@@ -88,7 +104,6 @@ export class MessageEditComponent {
       //this.getResourceById(this.editId);
       this._editType='edit';
       this.isPickUsersAble=false;
-
       this.service.getMessageById(this.editId).then((data) => {
         this.message = data.data;
         if(this.message.adaptationUser=="backend"){
@@ -129,16 +144,13 @@ export class MessageEditComponent {
       if(this.disabled[messageType]==false){
           this.disabled.now=true;
           this.allowChange=true;
+          this.readonly=true;
       }else{
         this.disabled.now=false;
         this.allowChange=false;
+        this.readonly=false;
       }
     }
-  }
-
-  //返回
-  handleBackBtnClick() {
-    this.location.back()
   }
   //保存
   handleSaveBtnClick(){
@@ -192,37 +204,44 @@ export class MessageEditComponent {
       case 'members':
         this.modalfilters=[
           {
-            key: 'aaa',
+            key: 'memberType',
             label: '用户身份',
             type: 'select',
             options:[{value:'', content: '全部'},{value:'1', content: '注册理财师'},{value:'2', content: '财富合伙人'}]
           },
           {
-            key: 'bbb',
+            key: 'department',
             label: '区域',
             type: 'select',
             options:[{value:'', content: '全部'},{value:'1', content: '龙区'},{value:'2', content: '辽区'}]
           },
           {
-            key: 'ccc',
+            key: 'mage',
             label: '年龄',
-            type: 'select',
-            options:[{value:'', content: '全部'},{value:'1', content: '小于25'},{value:'2', content: '25-30'},{value:'2', content: '31-40'},{value:'2', content: '41-50'},{value:'2', content: '50以上'}]
+            groups: [
+              {
+                type: 'input.text',
+              },
+              {
+                type: 'input.text',
+              },
+            ],
+            groupSpaces: ['至']
           },
           {
-            key: 'ddd',
+            key: 'sex',
             label: '性别',
             type: 'select',
             options:[{value:'', content: '全部'},{value:'1', content: '男'},{value:'2', content: '女'}]
           },
           {
-            key: 'eee',
-            label: '用户投资状态',
+            key: 'investOrNot',
+            label: '投资状态',
             type: 'select',
-            options:[{value:'', content: '全部'},{value:'', content: '未投资'},{value:'', content: '已投资'}]
+            options:[{value:'', content: '全部'},{value:'0', content: '未投资'},{value:'1', content: '已投资'}]
           },
           {
-            key: 'investTime',
+            key: 'investDate',
             label: '投资时间',
             groups: [
               {
@@ -235,8 +254,8 @@ export class MessageEditComponent {
             groupSpaces: ['至']
           },
           {
-            key: 'totalMoney',
-            label: '累计投资金额',
+            key: 'investAll',
+            label: '累计投资',
             groups: [
               {
                 type: 'input.text',
@@ -248,8 +267,8 @@ export class MessageEditComponent {
             groupSpaces: ['至']
           },
           {
-            key: 'singleMoney',
-            label: '单笔投资金额',
+            key: 'investOne',
+            label: '单笔投资',
             groups: [
               {
                 type: 'input.text',
@@ -261,7 +280,7 @@ export class MessageEditComponent {
             groupSpaces: ['至']
           },
           {
-            key: 'investNum',
+            key: 'inviteMembers',
             label: '邀请人数',
             groups: [
               {
@@ -293,13 +312,14 @@ export class MessageEditComponent {
         break;
     }
 
-    this.modalRef = this.modalService.show(template);
+    this.modalRef = this.modalService.show(template,this.modalClass);
     this.getUsersList();
     this.selectedUserId=[];   //清空已选择id数组
   }
   //获取列表
   getUsersList():void{
     this.service.getUsers(this.usersType,this.modalPageInfo).then(res => {
+      console.log('--------------------------');
       console.log(res);
       this.modalPageInfo.pageNum=res.data.pageNum;  //当前页
       this.modalPageInfo.pageSize=res.data.pageSize; //每页记录数
@@ -370,6 +390,55 @@ export class MessageEditComponent {
       default:
         break;
     }
+  }
+  modalFiltersChanged($event){
+    let params=$event;
+    let { mage,investDate,investAll,investOne,inviteMembers,...otherParams } = params;
+    let mageMix,mageMax,
+      investDateBefore, investDateAfter,
+      investAllMix,investAllMax,
+      investOneMix,investOneMax,
+      inviteMembersMix,inviteMembersMax;
+    if ( _.isArray(mage)) {
+      mageMix = mage[0] || null;
+      mageMax = mage[1] || null;
+    }
+    if ( _.isArray(investDate)) {
+      investDateBefore = investDate[0] ? (formatDate(investDate[0],'YYYY-MM-DD 00:00:00')) : null;
+      investDateAfter = investDate[1] ? (formatDate(investDate[1],'YYYY-MM-DD 23:59:59')) : null;
+    }
+    if ( _.isArray(investAll)) {
+      investAllMix = investAll[0] || null;
+      investAllMax = investAll[1] || null;
+    }
+    if ( _.isArray(investOne)) {
+      investOneMix = investOne[0] || null;
+      investOneMax = investOne[1] || null;
+    }
+    if ( _.isArray(inviteMembers)) {
+      inviteMembersMix = inviteMembers[0] || null;
+      inviteMembersMax = inviteMembers[1] || null;
+    }
+    params = {
+      ...otherParams,
+      mageMix,
+      mageMax,
+      investDateBefore,
+      investDateAfter,
+      investAllMix,
+      investAllMax,
+      investOneMix,
+      investOneMax,
+      inviteMembersMix,
+      inviteMembersMax,
+    }
+    console.log(params);
+    this.modalPageInfo.query = params;
+    this.getUsersList();
+  }
+  //返回
+  handleBackBtnClick() {
+    this.location.back()
   }
   showSuccess(message: string) {
     return this._messageService.open({

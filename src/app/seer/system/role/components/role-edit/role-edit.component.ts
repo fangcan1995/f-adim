@@ -56,13 +56,12 @@ export class RoleEditComponent implements OnInit {
         this.role = data.roleInfo || { roleName: '', roleStatus: '0' };
         this.activeResources = data.resourceInfo || [];
         this.activeAccounts = data.accountInfo || [];
-        this.forbidSaveBtn = false;
-        this.getResources();
-
-        this.getUsersWithStaffsWithOrgs();
-
+        
+        return Promise.all([ this.getResources(), this.getUsersWithStaffsWithOrgs() ])
       })
-      
+      .then(res => {
+        this.forbidSaveBtn = false;
+      })
       .catch(err => {
         this.showError(err.msg || '获取角色信息失败')
         .onClose()
@@ -71,9 +70,17 @@ export class RoleEditComponent implements OnInit {
         });
       });
     } else if ( this.editType === 'add' ) {
-      this.forbidSaveBtn = false;
-      this.getResources();
-      this.getUsersWithStaffsWithOrgs();
+      Promise.all([ this.getResources(), this.getUsersWithStaffsWithOrgs() ])
+      .then(res => {
+        this.forbidSaveBtn = false;
+      })
+      .catch(err => {
+        this.showError(err.msg || '获取角色信息失败')
+        .onClose()
+        .subscribe(() => {
+          this._router.navigate(['/system/role']);
+        });
+      });
     }
   }
   getUsersWithStaffsWithOrgs() {
@@ -123,9 +130,7 @@ export class RoleEditComponent implements OnInit {
           this.accountTree.setActiveNodes(_.map(this.activeAccounts, t => 'U__' + t['userId']))
         })
       })
-      .catch(err => {
-        console.error(err)
-      });
+
   }
 
   getResources() {
@@ -157,7 +162,7 @@ export class RoleEditComponent implements OnInit {
       
     })
   }
-  
+
 
   handleSaveBtnClick() {
     if ( this.myForm.form.valid ) {
@@ -182,8 +187,9 @@ export class RoleEditComponent implements OnInit {
 
       accountIds = _.sortBy(accountIds)
       resourceIds = _.sortBy(resourceIds)
-      let { roleName, roleStatus } = this.role;
+      let { roleName, roleStatus, roleId } = this.role;
       let params = {
+        roleId,
         roleName,
         roleStatus,
         userIds: accountIds,
@@ -210,6 +216,10 @@ export class RoleEditComponent implements OnInit {
         .then(res => {
           this.forbidSaveBtn = false;
           this.showSuccess(res.msg || '保存成功')
+          .onClose()
+          .subscribe(() => {
+            this._router.navigate(['/system/role']);
+          });
         })
         .catch(err => {
           this.forbidSaveBtn = false;
