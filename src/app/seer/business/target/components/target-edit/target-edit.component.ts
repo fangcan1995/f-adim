@@ -15,6 +15,9 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./target-edit.component.scss']
 })
 export class TargetEditComponent implements OnInit {
+  memberActions;
+  loanActions;
+  forbidSaveBtn: boolean = true;
   constructor(
   ) {}
   ngOnInit() {

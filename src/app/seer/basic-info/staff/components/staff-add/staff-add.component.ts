@@ -6,7 +6,7 @@ import {StaffService} from '../../staff.service';
 import {titlesEducation, titlesRelation, titlesExperience} from '../../staff.config';
 import {BsModalRef} from 'ngx-bootstrap/modal/modal-options.class';
 import {BsModalService} from 'ngx-bootstrap/modal';
-import {jsonTree} from "../../../../../theme/utils/json-tree";
+import {json2Tree} from "../../../../../theme/libs";
 import {UPDATE, DELETE, SAVE} from '../../../../common/seer-table/seer-table.actions';
 
 @Component({
@@ -124,7 +124,7 @@ export class StaffAddComponent implements OnInit {
   // getOrganizations() {
   //   this._staffService.getOrganizations().then((result) => {
   //     result.data.map(org => org['children'] = []);
-  //     let nodes = jsonTree(result.data, {parentId: 'orgParentId', children: 'children'}, [{
+  //     let nodes = json2Tree(result.data, {parentId: 'orgParentId', children: 'children'}, [{
   //       origin: 'orgName',
   //       replace: 'name'
   //     }]);

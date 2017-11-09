@@ -14,16 +14,16 @@ import {Router} from "@angular/router";
 export class AuditOperationComponent implements OnInit {
 
   @Input()
-  private projectId: string;
+  public projectId: string;
 
   @Input()
-  private loan: any = {};
+  public loan: any = {};
 
-  private actionType : string = "103" ;
+  public actionType : string = "103" ;
 
-  private comments: string;
+  public comments: string;
 
-  private reason: string = "";
+  public reason: string = "";
 
   constructor(private service: CommonService, private _messageService: SeerMessageService, private _router: Router,){}
 
@@ -31,7 +31,7 @@ export class AuditOperationComponent implements OnInit {
 
   }
 
-  private submit(): void {
+  public submit(): void {
 
     let param = {
       "actionType": this.actionType,

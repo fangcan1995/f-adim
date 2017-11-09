@@ -42,7 +42,7 @@ export class BaContentTop {
     }
   }
 
-  private launchFullScreen(document) {
+  public launchFullScreen(document) {
     let element = document.documentElement;
     if (element.requestFullscreen) {
       element.requestFullscreen();
@@ -55,7 +55,7 @@ export class BaContentTop {
     }
   }
 
-  private exitFullScreen(document) {
+  public exitFullScreen(document) {
     if (document.exitFullscreen) {
       document.exitFullscreen();
     } else if (document.mozCancelFullScreen) {
@@ -65,7 +65,7 @@ export class BaContentTop {
     }
   }
 
-  private refreshPage() {
+  public refreshPage() {
     window.location.reload();
   }
 }

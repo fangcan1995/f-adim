@@ -13,7 +13,7 @@ import {SeerMessageService} from "../../../../../theme/services/seer-message.ser
 export class PawnInfoComponent implements OnInit{
 
   @Input()
-  private disabled: boolean = false;
+  public disabled: boolean = false;
 
   @Input() projectId : string;
 
@@ -27,9 +27,9 @@ export class PawnInfoComponent implements OnInit{
 
   public actions = [ UPDATE ];
 
-  private vehicle ={};
+  public vehicle:any = {};
 
-  private house = {};
+  public house:any = {};
 
   constructor( private service: CommonService, private modalService: BsModalService, private _messageService: SeerMessageService,){}
 

@@ -24,6 +24,9 @@ export class MessageTemplateEditComponent implements OnInit {
   isPickUsersAble:boolean=true;  //选择用户按钮无效
   IsChecked={"sendMail":false,"sendNotify":false,"sendMessage":false,"now":false}
   disabled={"sendMail":true,"sendNotify":true,"sendMessage":true,"now":false}; checkbox是否可用
+  sendMail;
+  sendNotify;
+  sendMessage;
   constructor(
     private route: ActivatedRoute,
     private _router: Router,
@@ -129,4 +132,5 @@ export class MessageTemplateEditComponent implements OnInit {
       autoHideDuration: 3000,
     })
   }
+
 }

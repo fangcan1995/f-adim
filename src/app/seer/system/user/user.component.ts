@@ -10,7 +10,7 @@ import { UPDATE, DELETE, CREATE } from '../../common/seer-table';
   styleUrls: [ './user.component.scss' ],
   providers: [DatePipe],
 })
-export class UserComponent {
+export class UserComponent implements OnInit {
   constructor(
     private _router:Router,
     private _userService:UserService,
@@ -126,6 +126,9 @@ export class UserComponent {
     pageNum: 1,
     sortBy: '',
   };
+  ngOnInit() {
+    this.getList();
+  }
   getList():void {
     this._userService.getList(this.params)
     .then(res => {
@@ -147,12 +150,12 @@ export class UserComponent {
         updateTimeStart,
         updateTimeEnd;
     if ( _.isArray(loginDate) ) {
-      loginDateStart = loginDate[0] ? this._datePipe.transform(loginDate[0],"yyyy-MM-dd HH:mm:ss") : null;
-      loginDateEnd = loginDate[1] ? this._datePipe.transform(new Date(loginDate[1].getTime() + 86400000),"yyyy-MM-dd HH:mm:ss") : null;
+      loginDateStart = loginDate[0] ? this._datePipe.transform(loginDate[0],"yyyy-MM-dd HH:mm:ss") : undefined;
+      loginDateEnd = loginDate[1] ? this._datePipe.transform(new Date(loginDate[1].getTime() + 86400000),"yyyy-MM-dd HH:mm:ss") : undefined;
     }
     if ( _.isArray(updateTime) ) {
-      updateTimeStart = updateTime[0] ? this._datePipe.transform(updateTime[0],"yyyy-MM-dd HH:mm:ss") : null;
-      updateTimeEnd = updateTime[1] ? this._datePipe.transform(new Date(updateTime[1].getTime() + 86400000),"yyyy-MM-dd HH:mm:ss") : null;
+      updateTimeStart = updateTime[0] ? this._datePipe.transform(updateTime[0],"yyyy-MM-dd HH:mm:ss") : undefined;
+      updateTimeEnd = updateTime[1] ? this._datePipe.transform(new Date(updateTime[1].getTime() + 86400000),"yyyy-MM-dd HH:mm:ss") : undefined;
     }
     this.params = {
       ...this.params,

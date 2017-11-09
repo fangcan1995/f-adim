@@ -77,27 +77,27 @@ import * as _ from 'lodash';
 export class SeerTree implements OnInit {
 
 
-  @Input() private permissions: number = 0;
-  @Input() private nodes: SeerTreeNode[] = [];
-  @Input() private defaultNodeName = '新节点';
-  @Input() private newNodeData = {};
-  @Input() private loadingText = '加载中...';
-  @Input() private filterText = '筛选节点';
-  @Output() private notify: EventEmitter<any> = new EventEmitter<any>();
-  @Input() private customAllowDrop:{(element, to):boolean};
+  @Input() permissions: number = 0;
+  @Input() nodes: SeerTreeNode[] = [];
+  @Input() defaultNodeName = '新节点';
+  @Input() newNodeData = {};
+  @Input() loadingText = '加载中...';
+  @Input() filterText = '筛选节点';
+  @Output() notify: EventEmitter<any> = new EventEmitter<any>();
+  @Input() customAllowDrop:{(element, to):boolean};
 
-  private onEditing = false;
-  private cachedNodeName: string;
-  private operationRecords: JsonTreeOperationRecords = new JsonTreeOperationRecords();
+  public onEditing = false;
+  public cachedNodeName: string;
+  public operationRecords: JsonTreeOperationRecords = new JsonTreeOperationRecords();
 
-  @ViewChild('tree') private tree: TreeComponent;
-  private treePermissions = TREE_PERMISSIONS;
+  @ViewChild('tree') public tree: TreeComponent;
+  public treePermissions = TREE_PERMISSIONS;
 
-  private currentHoveringNode;
-  private lastHoveringNode;
+  public currentHoveringNode;
+  public lastHoveringNode;
 
   //操作配置,这个要在options上面
-  private actionMapping = {
+  public actionMapping = {
     mouse: {
       dblClick: (tree, node, $event) => {
         // if (node.hasChildren) TREE_ACTIONS.TOGGLE_EXPANDED(tree, node, $event);
@@ -126,7 +126,7 @@ export class SeerTree implements OnInit {
     }
   };
   //树的配置
-  private seerTreeOptions = {
+  public seerTreeOptions = {
     // levelPadding: 33,
     isExpandedField: 'expanded',
     isSelectedField: 'selected',
@@ -183,7 +183,7 @@ export class SeerTree implements OnInit {
     this.seerTreeOptions.allowDrag = this.checkPermissions(TREE_PERMISSIONS.DRAG);
   }
 
-  private stopPropagation($event) {
+  public stopPropagation($event) {
     $event.stopPropagation();
   }
 
@@ -192,7 +192,7 @@ export class SeerTree implements OnInit {
    * @param $event
    * @param node
    */
-  private addRootNode($event) {
+  public addRootNode($event) {
     $event.stopPropagation();
     if (this.onEditing) {
       alert('请先处理当前节点');
@@ -214,7 +214,7 @@ export class SeerTree implements OnInit {
    * @param $event
    * @param node
    */
-  private addNode($event, node) {
+  public addNode($event, node) {
     $event.stopPropagation();
     if (this.onEditing) {
       alert('请先处理当前节点');
@@ -239,7 +239,7 @@ export class SeerTree implements OnInit {
    * @param $event
    * @param node
    */
-  private edit($event, node) {
+  public edit($event, node) {
     $event.stopPropagation();
     if (this.onEditing) {
       alert('请先处理当前节点');
@@ -257,7 +257,7 @@ export class SeerTree implements OnInit {
    * @param $event
    * @param node
    */
-  private editNew(node) {
+  public editNew(node) {
     this.cachedNodeName = undefined;
     node.isInEditing = true;
     this.onEditing = true;
@@ -269,7 +269,7 @@ export class SeerTree implements OnInit {
    * @param $event
    * @param node
    */
-  private saveEditing($event, node) {
+  public saveEditing($event, node) {
     $event.stopPropagation();
     node.isInEditing = false;
     this.onEditing = false;
@@ -288,7 +288,7 @@ export class SeerTree implements OnInit {
    * @param $event
    * @param node
    */
-  private cancelEditing($event, node) {
+  public cancelEditing($event, node) {
     $event.stopPropagation();
     if (!this.cachedNodeName) {
       _.remove(node.parent.children, node);
@@ -300,7 +300,7 @@ export class SeerTree implements OnInit {
     this.seerTreeOptions.allowDrag = true;
   }
 
-  private changeType($event, node: TreeNode) {
+  public changeType($event, node: TreeNode) {
     $event.stopPropagation();
     if (node.children && node.children.length > 0) {
       alert('还有子节点未删除');
@@ -317,7 +317,7 @@ export class SeerTree implements OnInit {
    * @param $event
    * @param node
    */
-  private deleteNode($event, node: TreeNode) {
+  public deleteNode($event, node: TreeNode) {
     $event.stopPropagation();
     if (this.onEditing) {
       alert('请先处理当前节点');
@@ -345,7 +345,7 @@ export class SeerTree implements OnInit {
    * @param node
    * @returns {string}
    */
-  private childrenCount(node: TreeNode): string {
+  public childrenCount(node: TreeNode): string {
     if(node && node.children){
       if(this.checkPermissions(TREE_PERMISSIONS.MULTI_SELECT)){
         let activatedChildrenCount = 0;
@@ -367,7 +367,7 @@ export class SeerTree implements OnInit {
    * @param text
    * @param tree
    */
-  private filterNodes(text, tree) {
+  public filterNodes(text, tree) {
     tree.treeModel.filterNodes(text, true);
   }
 
@@ -375,7 +375,7 @@ export class SeerTree implements OnInit {
     this.tree.treeModel.filterNodes(text, autoShow);
   }
 
-  private onEvent($event) {
+  public onEvent($event) {
     switch ($event.eventName) {
       case TREE_EVENTS.onAddNewNode:
       case TREE_EVENTS.onRenameNode:
@@ -389,7 +389,7 @@ export class SeerTree implements OnInit {
     }
   }
 
-  private onToggleLeaf($event, node) {
+  public onToggleLeaf($event, node) {
     $event.stopPropagation();
     if ( this.onEditing ) {
       alert('请先处理当前节点');
@@ -408,7 +408,7 @@ export class SeerTree implements OnInit {
     }
   }
 
-  private onToggleChildren($event, node) {
+  public onToggleChildren($event, node) {
     $event.stopPropagation();
     if ( this.onEditing ) {
       alert('请先处理当前节点');
@@ -427,7 +427,7 @@ export class SeerTree implements OnInit {
     }
   }
 
-  private checkParentsCascade(node) {
+  public checkParentsCascade(node) {
     if ( node.realParent) {
       if ( !node.realParent.isActive ) {
         node.realParent.toggleActivated(true);
@@ -436,7 +436,7 @@ export class SeerTree implements OnInit {
     }
   }
 
-  private setChildrenNodesAllChecked(node) {
+  public setChildrenNodesAllChecked(node) {
     this.setNodeCheckedMultiIgnoreAlreadyChecked(node);
     if (node.children && node.children.length > 0) {
       if (!node.isExpanded) {
@@ -448,7 +448,7 @@ export class SeerTree implements OnInit {
     }
   }
 
-  private setChildrenNodesAllUnchecked(node) {
+  public setChildrenNodesAllUnchecked(node) {
     this.setNodeMultiUnchecked(node);
     if (node.children && node.children.length > 0) {
       if (!node.isExpanded) {
@@ -464,7 +464,7 @@ export class SeerTree implements OnInit {
    * 用于点击树节点，知道选择其子节点
    * @param node
    */
-  private setNodeCheckedMultiIgnoreAlreadyChecked(node) {
+  public setNodeCheckedMultiIgnoreAlreadyChecked(node) {
     this.tree.treeModel.activeNodeIds[node.id] = true;
     if (!_.includes(this.tree.treeModel.activeNodes, node)) {
       this.tree.treeModel.activeNodes.push(node);
@@ -474,7 +474,7 @@ export class SeerTree implements OnInit {
     }
   }
 
-  private setNodeMultiUnchecked(node) {
+  public setNodeMultiUnchecked(node) {
     this.tree.treeModel.activeNodeIds[node.id] = false;
     if (_.includes(this.tree.treeModel.activeNodes, node)) {
       _.remove(this.tree.treeModel.activeNodes, node);
@@ -515,7 +515,7 @@ export class SeerTree implements OnInit {
     this.tree.treeModel.update();
   }
 
-  private checkPermissions(...permissions: number[]): boolean {
+  public checkPermissions(...permissions: number[]): boolean {
     let result = false;
     for (let p of permissions) {
       if (p != (this.permissions & p)) {

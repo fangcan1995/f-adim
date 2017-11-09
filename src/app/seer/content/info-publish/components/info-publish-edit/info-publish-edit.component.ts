@@ -7,7 +7,7 @@ import { InfoPublishService } from "../../info-publish.service";
 import {GlobalState} from "../../../../../global.state";
 import { SeerTree } from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
 import { TREE_EVENTS } from "../../../../../theme/modules/seer-tree/constants/events";
-import { jsonTree } from "../../../../../theme/utils/json-tree";
+import { json2Tree } from "../../../../../theme/libs";
 import { User } from "../../../../model/auth/user";
 import { ModalComponent } from "../../../../../theme/components/ng2-bs4-modal/modal";
 import { ModalDirective ,BsModalService} from 'ngx-bootstrap/modal';
@@ -35,6 +35,7 @@ export class InfoPublishEditComponent implements OnInit {
   };
   public uploadInProgress:boolean = false;
   public picture = '';
+  defaultPicture;
   imageError;
   currentStaff;
   treePermissions = TREE_PERMISSIONS.NOTIFY|TREE_PERMISSIONS.ADD|TREE_PERMISSIONS.EDIT|TREE_PERMISSIONS.DELETE|TREE_PERMISSIONS.DRAG|TREE_PERMISSIONS.SHOW_FILTER|TREE_PERMISSIONS.SHOW_ADD_ROOT;
@@ -158,7 +159,7 @@ export class InfoPublishEditComponent implements OnInit {
       console.log("111111111111111111111111111111");
       
       result.data.map(org=>org['children']=[]);
-      let nodes = jsonTree(result.data,{parentId:'orgParentId',children:'children'},[{origin:'orgName',replace:'name'}]);
+      let nodes = json2Tree(result.data,{parentId:'orgParentId',children:'children'},[{origin:'orgName',replace:'name'}]);
       //nodes.map(rootNode=>rootNode['expanded']=true);
       this.treeNode = nodes;
     });
@@ -171,6 +172,10 @@ export class InfoPublishEditComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+  save() {
+
+  }
+
    onSave(): void {
     // let rolesTemp: string[] = [];
     // for (let data of this.roles) {

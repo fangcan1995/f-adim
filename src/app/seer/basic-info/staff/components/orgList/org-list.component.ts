@@ -1,7 +1,7 @@
 import {Component, ViewChild, OnInit, EventEmitter, Output} from '@angular/core';
 import {ModalComponent} from "../../../../../theme/components/ng2-bs4-modal/modal";
 import {SeerTree} from "../../../../..//theme/modules/seer-tree/seer-tree/seer-tree.component";
-import {jsonTree} from "../../../../../theme/utils/json-tree";
+import {json2Tree} from "../../../../../theme/libs";
 import {TreeNode} from "../../../../../theme/modules/seer-tree/models/tree-node.model";
 import {TREE_PERMISSIONS} from "../../../../../theme/modules/seer-tree/constants/permissions";
 import {BaseModalComponent} from "../../../../../theme/directives/dynamicComponent/dynamic-component.directive";

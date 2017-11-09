@@ -8,7 +8,7 @@ import {StaffService} from '../../staff.service';
 import {titlesEducation, titlesRelation, titlesExperience} from '../../staff.config';
 import {BsModalRef} from 'ngx-bootstrap/modal/modal-options.class';
 import {BsModalService} from 'ngx-bootstrap/modal';
-import {jsonTree} from "../../../../../theme/utils/json-tree";
+import {json2Tree} from "../../../../../theme/libs";
 import {TREE_PERMISSIONS} from "../../../../../theme/modules/seer-tree/constants/permissions";
 import {TREE_EVENTS} from "../../../../../theme/modules/seer-tree/constants/events";
 import {SeerTree} from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
@@ -139,7 +139,7 @@ export class StaffEditComponent implements OnInit {
   // getOrganizations() {
   //   // this._staffService.getOrganizations().then((result) => {
   //   //   result.data.map(org => org['children'] = []);
-  //   //   let nodes = jsonTree(result.data, {parentId: 'orgParentId', children: 'children'}, [{
+  //   //   let nodes = json2Tree(result.data, {parentId: 'orgParentId', children: 'children'}, [{
   //   //     origin: 'orgName',
   //   //     replace: 'name'
   //   //   }]);

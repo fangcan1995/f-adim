@@ -15,8 +15,8 @@ import { GlobalState } from '../../../global.state';
 export class SeerContentTopComponent {
   @ViewChild('contentTop') contentTop:ElementRef;
   @Input() fixedTop:boolean = true;
-  private _offsetTop:number;
-  private _defaultTop:number;
+  public _offsetTop:number;
+  public _defaultTop:number;
   constructor(
     private _state: GlobalState) {}
 

@@ -18,6 +18,7 @@ import {formatDate} from "ngx-bootstrap/bs-moment/format";
 export class MessageEditComponent {
 
   message:any = {};
+  expectSendTime;
   title : string;
   isAdd: boolean;
   editId: string;

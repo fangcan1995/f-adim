@@ -91,4 +91,7 @@ export class MessageDetailComponent {
       autoHideDuration: 3000,
     })
   }
+  selectUsersType() {
+    
+  }
 }

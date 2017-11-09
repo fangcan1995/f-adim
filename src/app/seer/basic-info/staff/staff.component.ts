@@ -125,6 +125,11 @@ export class StaffComponent {
     this.pageInfo.query = params;
     this.getStaffs();
   }
+  handleSearchBtnClicked($event) {
+    let params = $event;
+    this.pageInfo.query = params;
+    this.getStaffs();
+  }
 
   openUsers(data) {
     let staffs = [];

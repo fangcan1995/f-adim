@@ -13,23 +13,23 @@ import * as _ from 'lodash';
 })
 export class AdverEditComponent implements OnInit, OnChanges{
   @Input()
-  private disabled: boolean = false;
+  public disabled: boolean = false;
 
   @Input()
-  private projectId : string;
+  public projectId : string;
 
   @Input()
-  private attachments = [];
+  public attachments = [];
 
 
   public advertising: any = {};
-  private _editType: string = 'add';
-  private uploadDisabled:boolean=false;
+  public _editType: string = 'add';
+  public uploadDisabled:boolean=false;
   public forbidSaveBtn: boolean = true;
 
   public uploader:FileUploader; //上传对象
-  private progress: number = 0; //上传进度
-  private imageType = ['jpg', 'jpeg', 'bmp', 'gif', 'png', 'svg'];  //图片类型
+  public progress: number = 0; //上传进度
+  public imageType = ['jpg', 'jpeg', 'bmp', 'gif', 'png', 'svg'];  //图片类型
 
 
   constructor(private _advertisingService: AdvertisingService,

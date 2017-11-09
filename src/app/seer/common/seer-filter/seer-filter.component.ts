@@ -137,7 +137,7 @@ export class SeerFilterComponent implements OnInit {
     _.each(this.filters, x => {
       if ( !(typeof x.value === 'undefined' || x.value === null || trim(x.value.toString(), false) === '') ) {
         return forbidSearchBtn = false;
-      }else{
+      } else if ( x.groups ) {
         /*edit by lily*/
         _.each(x.groups,y=>{
           if ( !(typeof y.value === 'undefined' || y.value === null || trim(y.value.toString(), false) === '') ) {

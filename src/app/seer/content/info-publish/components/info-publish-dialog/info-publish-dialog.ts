@@ -9,10 +9,8 @@ import { BaseModalComponent } from "../../../../../theme/directives/dynamicCompo
 import { User } from "../../../../model/auth/user";
 import { GlobalState } from "../../../../../global.state";
 import { ModalComponent } from "../../../../../theme/components/ng2-bs4-modal/modal";
-import { jsonTree } from "../../../../../theme/utils/json-tree";
-/**
- * Created by Administrator on 2016/12/21.
- */
+import { json2Tree } from "../../../../../theme/libs";
+
 @Component({
   selector: 'info-publish-dialog',
   styleUrls: ['./info-publish-dialog.css'],
@@ -64,7 +62,7 @@ export class InfoPublishDialogComponent extends BaseModalComponent implements On
     //         res['customIcon'] = 'ion-person';
     //       }
     //     });
-    //     this.staffs = jsonTree(result.data);
+    //     this.staffs = json2Tree(result.data);
     //   }else {
     //     alert(result.message);
     //   }

@@ -40,7 +40,7 @@ export class ProjectEditComponent implements OnInit {
 
 
   public project: any = {};
-  private _editType: string = 'edit';
+  public _editType: string = 'edit';
   public forbidSaveBtn: boolean = true;
   titlesPawnVehicle= [
     { key:'clpp', label:'车辆品牌' },

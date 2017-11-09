@@ -3,10 +3,8 @@ import { cityJson, overlayOpt } from '../../../theme/libs';
 import * as _ from 'lodash';
 
 export class AddressModel {
-  constructor(
-    item_code?: string,
-    item_name?: string,
-    ) {}
+  public item_code?: string;
+  public item_name?: string;
 }
 
 
@@ -74,7 +72,7 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
   @Input() defaultAddress: string;
   @Input() classNames: AddressPickerClassNamesModel = {};
   @Input() disabled: boolean;
-  private _defaultClassNames: AddressPickerClassNamesModel = {
+  public _defaultClassNames: AddressPickerClassNamesModel = {
     containerClass: 'row',
     provinceContainerClass: 'form-group col-xs-12 col-md-4 col-lg-2',
     provinceClass: 'form-control',
@@ -120,7 +118,7 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
     this.curDistrict = this.getCurDistrict(this.getDistricts(), this.defaultItemCode);
     this.address = this.defaultAddress;
   }
-  private getCurProvince(provinces, itemCode?) {
+  public getCurProvince(provinces, itemCode?) {
     let curProvince;
     if ( !itemCode ) {
       curProvince = provinces[0];
@@ -130,7 +128,7 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
     return curProvince;
   }
 
-  private getCurCity(citys, itemCode?) {
+  public getCurCity(citys, itemCode?) {
     let curCity;
     if ( !itemCode ) {
       curCity = citys[0];
@@ -139,7 +137,7 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
     }
     return curCity;
   }
-  private getCurDistrict(districts, itemCode?) {
+  public getCurDistrict(districts, itemCode?) {
     let curDistrict;
     if ( !itemCode ) {
       curDistrict = districts[0];
@@ -148,7 +146,7 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
     }
     return curDistrict;
   }
-  private getProvinces() {
+  public getProvinces() {
     let list = [];
     list.push(this.defaultProvince);
     let provinces = _(this.cityJson)
@@ -157,7 +155,7 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
     list = list.concat(provinces)
     return list;
   }
-  private getCitys() {
+  public getCitys() {
     let list = [];
     list.push(this.defaultCity)
     if ( this.curProvince['item_code'] ) {
@@ -171,7 +169,7 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
 
     return list;
   }
-  private getDistricts() {
+  public getDistricts() {
     let list = [];
     list.push(this.defaultDistrict)
     if ( this.curCity['item_code'] ) {

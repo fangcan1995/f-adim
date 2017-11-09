@@ -252,7 +252,9 @@ export class MemberEditComponent implements OnInit {
       }
     }
 
-  }//房屋增删改
+  }
+  creditInfoInfoModifyNotify() {}
+  //房屋增删改
   /*creditInfoInfoModifyNotify($event){
     let { type, key } = $event;
     let editData=this.creditTable.getFormatDataByKey(key).editData;
