@@ -5,7 +5,7 @@ import {HttpInterceptorService} from "../../../theme/services/http-interceptor.s
 import {Http, RequestOptions, ResponseContentType} from "@angular/http";
 
 @Injectable()
-export class LoanBasicService extends BaseService<any>{
+export class CommonService extends BaseService<any>{
 
   constructor(protected _httpInterceptorService: HttpInterceptorService, private _http: Http) {
     super(_httpInterceptorService);

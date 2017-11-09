@@ -1,8 +1,8 @@
 
 import {Component, Input, OnChanges, OnInit} from "@angular/core";
 
-import {LoanBasicService} from "../../loan-basic.service";
-import {UPDATE} from "../../../../common/seer-table/seer-table.actions";
+import {CommonService} from "../../common.service";
+
 import {FileUploader, ParsedResponseHeaders, FileItem} from "ng2-file-upload";
 import {getStorage} from "../../../../../theme/libs/utils";
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
@@ -30,7 +30,7 @@ export class AuditMaterialComponent implements OnInit, OnChanges{
 
   private imageType = ['jpg', 'jpeg', 'bmp', 'gif', 'png', 'svg'];
 
-  constructor(private service: LoanBasicService, private _messageService: SeerMessageService){}
+  constructor(private service: CommonService, private _messageService: SeerMessageService){}
 
   ngOnInit() {
 

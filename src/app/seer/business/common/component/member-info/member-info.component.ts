@@ -1,7 +1,7 @@
 
 import {Component, Input, OnInit} from "@angular/core";
 
-import {LoanBasicService} from "../../loan-basic.service";
+import {CommonService} from "../../common.service";
 import {SAVE, UPDATE} from "../../../../common/seer-table/seer-table.actions";
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 
@@ -22,7 +22,7 @@ export class MemberInfoComponent implements OnInit {
 
   private actions = [];
 
-  constructor(private service: LoanBasicService , private _messageService: SeerMessageService,){}
+  constructor(private service: CommonService , private _messageService: SeerMessageService,){}
 
   ngOnInit(): void {
     if(!this.disabled) {
