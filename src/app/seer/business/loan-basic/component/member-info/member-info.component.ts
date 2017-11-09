@@ -18,13 +18,20 @@ export class MemberInfoComponent implements OnInit {
   @Input()
   private member : any = {};
 
-  private classNames: any = {"addressContainerClass": "form-group col-xs-12 col-md-12 col-lg-5 col-xlg-5"};
+  private classNames: any = {"addressContainerClass": "form-group col-xs-12 col-md-12 col-lg-5 col-xlg-4"};
 
   private actions = [];
 
   constructor(private service: LoanBasicService , private _messageService: SeerMessageService,){}
 
-  ngOnInit(): void { if(!this.disabled) { this.actions = [ SAVE ] } else { this.actions = [] } }
+  ngOnInit(): void {
+    if(!this.disabled) {
+      this.actions = [ SAVE ]
+    } else {
+      this.actions = []
+      this.classNames = {"addressContainerClass": "form-group col-xs-12 col-md-12 col-lg-6 col-xlg-6"};
+    }
+  }
 
   //地址快捷方式
   private shortcut($event): void {

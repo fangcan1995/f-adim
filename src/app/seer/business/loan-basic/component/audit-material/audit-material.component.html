@@ -2,7 +2,7 @@
   <div class="row" style="margin-left: 10px">
     <div class="form-group col-sm-6 col-md-2 col-lg-2 col-xlg-2">
       <div class="row">
-        <input type="file" ng2FileSelect [uploader]="uploader" multiple (change)="uploadFile()"/>
+        <input *ngIf="!disabled" type="file" ng2FileSelect [uploader]="uploader" multiple (change)="uploadFile()"/>
       </div>
     </div>
     <ng-container *ngIf="progress != 0 && progress <= 100">

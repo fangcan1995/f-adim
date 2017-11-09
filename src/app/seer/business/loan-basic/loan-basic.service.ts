@@ -54,13 +54,6 @@ export class LoanBasicService extends BaseService<any>{
     return this._httpInterceptorService.request('POST', url, param, false).toPromise();
   }
 
-  //补填资料
-  public completion(param: any): Promise<any> {
-    let url = BASE_URL + `/subject/intentions/${param.id}`
-    console.log(url);
-    return this._httpInterceptorService.request('POST', url, param, false).toPromise();
-  }
-
   //下载
   public downloadFile(param: any): Promise<any> {
     let url = BASE_URL + `/tool/files/download?id=${param.id}`
@@ -74,4 +67,17 @@ export class LoanBasicService extends BaseService<any>{
     let url = BASE_URL + `/tool/files/${id}`
     return this._httpInterceptorService.request('DELETE', url, false).toPromise();
   }
+
+  //补填资料
+  public completion(param: any): Promise<any> {
+    let url = BASE_URL + `/subject/intentions/${param.id}`
+    return this._httpInterceptorService.request('POST', url, param, false).toPromise();
+  }
+
+  //审核
+  public audit(param: any): Promise<any> {
+    let url = BASE_URL + `/subject/projects/audit`
+    return this._httpInterceptorService.request('POST', url, param, false).toPromise();
+  }
+
 }
