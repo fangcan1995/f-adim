@@ -1,7 +1,7 @@
 
 import {Component, Input, OnChanges, OnInit} from "@angular/core";
 
-import {LoanBasicService} from "../../loan-basic.service";
+import {CommonService} from "../../common.service";
 import {SAVE, UPDATE} from "../../../../common/seer-table/seer-table.actions";
 import * as _ from 'lodash';
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
@@ -28,7 +28,7 @@ export class CreditInfoComponent implements OnInit, OnChanges {
 
   private creditReportType = [];
 
-  constructor(private service: LoanBasicService , private _messageService: SeerMessageService,){}
+  constructor(private service: CommonService , private _messageService: SeerMessageService,){}
 
   ngOnInit() {
     if(!this.disabled) { this.actions = [ SAVE ]; } else {this.actions = []; }

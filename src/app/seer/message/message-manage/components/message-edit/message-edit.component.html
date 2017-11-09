@@ -93,8 +93,9 @@
                     <seer-datepicker
                       [(date)]="message.expectSendTime"
                       [name]="expectSendTime"
-                      [dateFormatingRules]="dateFormatingRules || 'yyyy年MM月dd日 hh:mm:ss'"
+                      [dateFormatingRules]="dateFormatingRules || 'yyyy-MM-dd hh:mm:ss'"
                       [disabled]="allowChange"
+                      [readonly]="readonly"
                     >
                     </seer-datepicker>
                   </div>
@@ -132,7 +133,7 @@
         <seer-collapse-card title="接收用户" >
           <div class="row">{{ids}}
             <button type="button"  class="btn btn-primary" (click)="openModal(members)" [disabled]="isPickUsersAble">选择用户</button>
-            <template #members>
+            <template #members >
               <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
                 <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">选择人员</h4>
               </div>
@@ -262,7 +263,7 @@
                   <seer-filter
                   [hasGlobalFilter]="modalhasGlobalFilter"
                   [filters]="modalfilters"
-                  (onSearchBtnClicked)=handleFiltersChanged($event)
+                  (onSearchBtnClicked)=modalFiltersChanged($event)
                   *ngIf="usersType=='members'"
                 ></seer-filter>
                   <seer-table

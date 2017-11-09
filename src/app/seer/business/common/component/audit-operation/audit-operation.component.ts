@@ -1,7 +1,7 @@
 
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 
-import {LoanBasicService} from "../../loan-basic.service";
+import {CommonService} from "../../common.service";
 
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 import {Router} from "@angular/router";
@@ -16,13 +16,16 @@ export class AuditOperationComponent implements OnInit {
   @Input()
   private projectId: string;
 
+  @Input()
+  private loan: any = {};
+
   private actionType : string = "103" ;
 
   private comments: string;
 
   private reason: string = "";
 
-  constructor(private service: LoanBasicService, private _messageService: SeerMessageService, private _router: Router,){}
+  constructor(private service: CommonService, private _messageService: SeerMessageService, private _router: Router,){}
 
   ngOnInit() {
 
@@ -33,17 +36,30 @@ export class AuditOperationComponent implements OnInit {
     let param = {
       "actionType": this.actionType,
       "comments": this.comments,
-      "id": this.projectId,
+      "id": this.loan.projectId,
       "reason": this.reason
     };
-    this.service.completion(param).then(res => {
-      if(0 == res.code) {
-        this.showSuccess(res.msg || '已提交');
-        this._router.navigate(['business/intention']);
-      } else {
-        this.showError(res.msg || '提交失败');
-      }
-    });
+
+    if(this.loan.projectStatus == 10) {
+      this.service.completion(param).then(res => {
+        console.log(res);
+        if(0 == res.code) {
+          this.showSuccess(res.msg || '已提交');
+          this._router.navigate(['business/intention']);
+        } else {
+          this.showError(res.msg || '提交失败');
+        }
+      });
+    }else {
+      this.service.audit(param).then(res => {
+        if(0 == res.code) {
+          this.showSuccess(res.msg || '已提交');
+          this._router.navigate(['business/intention']);
+        } else {
+          this.showError(res.msg || '提交失败');
+        }
+      });
+    }
   }
 
   showSuccess(message: string) {

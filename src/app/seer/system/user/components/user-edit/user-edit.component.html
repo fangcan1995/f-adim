@@ -1,6 +1,6 @@
 <seer-content-top>
   <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
-  <button class="btn btn-primary left-button" [disabled]="(editType === 'edit' && !myForm.form.dirty) || !myForm.form.valid || forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
+  <button class="btn btn-primary left-button" [disabled]="!myForm.form.valid || forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
 </seer-content-top>
 <div class="widgets">
   <div class="row justify-content-center">
@@ -9,7 +9,7 @@
         <form class="form-horizontal" #myForm="ngForm">
           <div class="row">
 
-            <div class="col-sm-12 col-md-6 form-group">
+            <!-- <div class="col-sm-12 col-md-6 form-group">
               <div class="row">
                 <label for="userId" class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">用户账号</label>
                 <div class="col-sm-8 col-md-7 col-lg-6">
@@ -24,7 +24,7 @@
                     />
                 </div>
               </div>
-            </div>
+            </div> -->
                         
             <div class="col-sm-12 col-md-6 form-group">
               <div class="row">
@@ -45,28 +45,19 @@
             
             <div class="col-sm-12 col-md-6 form-group" *ngIf="editType === 'add'">
               <div class="row">
-                <label for="departmentName" class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">所属员工</label>
+                <label for="staffs" class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">所属员工</label>
                 <div class="col-sm-8 col-md-7 col-lg-6">
                     <input
                       type="text"
                       class="form-control"
-                      id="departmentName"
-                      name="departmentName"
+                      id="staffs"
+                      name="staffs"
                       placeholder="所属员工"
+                      readonly
                       [required]=true
-                      [(ngModel)]="user.departmentName"
-                      (click)=toggleDepartmentDropdown($event)
+                      [value]="activeStaff.name"
+                      (click)=showModal()
                       />
-                      <div style="position: relative;">
-                        <div class="dropdown-menu departMentDropdown" [class.show]="isDepartmentDropdownOpen" role="menu">
-                          <seer-tree
-                            #staffTree
-                            [permissions]="staffPermission"
-                            [nodes]="staffTreeNodes"
-                            (notify)="onNotice($event)"
-                            ></seer-tree>
-                        </div>
-                      </div>
                     
                 </div>
               </div>
@@ -76,7 +67,7 @@
               <div class="row">
                 <label class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">用户密码</label>
                 <div class="col-sm-8 col-md-7 col-lg-6">
-                  <button type="button" class="btn btn-primary" [disabled]="forbidResetPasswordBtn">密码重置</button>
+                  <button type="button" class="btn btn-primary" [disabled]="forbidResetPasswordBtn" (click)="handleResetPasswordBtn()">密码重置</button>
                 </div>
               </div>
             </div>
@@ -102,3 +93,24 @@
     </div>
   </div>
 </div>
+<div class="modal fade" bsModal #modal="bs-modal"
+     (onShown)="handleModalShown()"
+     (onHide)="handleModalHide()"
+     >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <seer-tree
+          #staffTree
+          [permissions]="staffPermission"
+          [nodes]="staffTreeNodes"
+          (notify)="onNotice($event)"
+          ></seer-tree>
+      </div>
+      <div class="modal-footer">
+         <button type="button"  class="btn btn-default" (click)="modal.hide()">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+

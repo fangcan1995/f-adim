@@ -4,25 +4,25 @@
 </seer-content-top>
 <div class="widgets">
   <div class="row justify-content-center">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <seer-collapse-card title="广告基本信息" cardClass="with-scroll" [canCollapse]=false>
         <form class="form-horizontal">
           <div class="row">
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="form-group col-sm-12">
               <div class="row">
-                <label for="title" class="col-sm-4 control-label">广告标题</label>
-                <div class="col-sm-8">
+                <label for="title" class="col-sm-2 col-lg-1 control-label">广告标题</label>
+                <div class="col-sm-6 col-lg-3">
                   <input type="text" class="form-control" name="title" id="title" [(ngModel)]="advertising.title" required>
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="form-group col-sm-12">
               <div class="row">
-                <label for="adType" class="col-sm-4 control-label">广告类型</label>
-                <div class="col-sm-8">
+                <label for="adType" class="col-sm-2 col-lg-1 control-label">广告类型</label>
+                <div class="col-sm-6 col-lg-3">
                   <select type="email" class="form-control" name="adType" id="adType" dict-select
                           [(ngModel)]="advertising.adType"
-                          [key]="'ADAPTATION_USER'"
+                          [key]="'ADVERTISING_ADTYPE'"
                           [topOption]="{itemId:'',itemName:'请选择'}"
                           [selected]="advertising.adType"
                           required>
@@ -30,13 +30,13 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="form-group col-sm-12">
               <div class="row">
-                <label for="putEnv" class="col-sm-4 control-label">投放端</label>
-                <div class="col-sm-8">
+                <label for="putEnv" class="col-sm-2 col-lg-1 control-label">投放端</label>
+                <div class="col-sm-6 col-lg-3">
                   <select type="email" class="form-control" name="putEnv" id="putEnv" dict-select
                           [(ngModel)]="advertising.putEnv"
-                          [key]="'ADAPTATION_USER'"
+                          [key]="'ADVERTISING_PUTENV'"
                           [topOption]="{itemId:'',itemName:'请选择'}"
                           [selected]="advertising.putEnv"
                           required>
@@ -44,21 +44,33 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+            <div class="form-group col-sm-12">
               <div class="row">
-                <label for="url" class="col-sm-4 control-label">广告链接</label>
-                <div class="col-sm-8 ">
+                <label for="url" class="col-sm-2 col-lg-1 control-label">广告链接</label>
+                <div class="col-sm-6 col-lg-3">
                   <input type="text" class="form-control" name="url" id="url" [(ngModel)]="advertising.url" required>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12">
               <div class="row">
-                <label for="imgLink" class="col-sm-4 col-md-2 col-xlg-1 control-label">广告图片</label>
-                <div class="col-sm-8 col-md-10 col-xlg-11">
-                  <textarea class="form-control" name="imgLink" id="imgLink"  [(ngModel)]="advertising.imgLink" required></textarea>
+                <label  class="col-sm-2 col-lg-1 control-label">广告图片</label>
+                <div class="col-sm-6 col-lg-3">
+                  <img src="{{advertising.icon}}" style="display:block;width:200px;margin-bottom: 10px" *ngIf="advertising.icon">
+                  <input type="file" ng2FileSelect [uploader]="uploader"  (change)="uploadFile($event)" [disabled]="uploadDisabled">
+                  <!--<textarea class="form-control" name="imgLink" id="imgLink"  [(ngModel)]="advertising.imgLink" required></textarea>-->
                 </div>
               </div>
+              <ng-container *ngFor="let item of attachments; let i = index">
+                <ng-container *ngIf="imageType.indexOf(item.fileSuff.toLowerCase()) != -1">
+                  <div class="form-group col-sm-6 col-md-4 col-lg-3 col-xlg-2">
+                    <div class="row">
+                      <img src="{{item.uploadPath}}" height="108px"><p></p>
+                      <a *ngIf="!disabled" href="javascript:void(0)" class="card-link" (click)="deleteFile(item, i)">删除</a>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
             </div>
           </div>
         </form>

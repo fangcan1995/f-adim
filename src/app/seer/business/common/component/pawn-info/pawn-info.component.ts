@@ -1,7 +1,7 @@
 
 import {Component, Input, OnChanges, OnInit, TemplateRef} from "@angular/core";
 
-import {LoanBasicService} from "../../loan-basic.service";
+import {CommonService} from "../../common.service";
 import {UPDATE} from "../../../../common/seer-table/seer-table.actions";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
@@ -31,7 +31,7 @@ export class PawnInfoComponent implements OnInit{
 
   private house = {};
 
-  constructor( private service: LoanBasicService, private modalService: BsModalService, private _messageService: SeerMessageService,){}
+  constructor( private service: CommonService, private modalService: BsModalService, private _messageService: SeerMessageService,){}
 
   ngOnInit() { if(!this.disabled) { this.actions = [ UPDATE ]; } else {this.actions = []; } }
 

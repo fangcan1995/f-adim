@@ -3,50 +3,103 @@
   <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
 </seer-content-top>
 <div class="widgets">
-  <div class="row justify-content-center">
-    <form class="form-horizontal">
-    <seer-collapse-card title="风险题目设置" cardClass="with-scroll" [canCollapse]=false>
-        <div class="col-sm-12">
-          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
-            <div class="row">
-              <label for="examName" class="col-sm-2 control-label">题目:</label>
-              <div class="col-sm-10">
-                <textarea class="form-control" id="examName"  [(ngModel)]="riskEval.examName" [ngModelOptions]="{standalone: true}"></textarea>
+  <div class="row">
+    <div class="col-md-12">
+      <form class="form-horizontal">
+        <seer-collapse-card title="风险题目设置" [canCollapse]=false>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
+              <div class="row">
+                <label for="examName" class="col-sm-2 control-label">题目:</label>
+                <div class="col-sm-10">
+                <textarea class="form-control" id="examName" [(ngModel)]="riskEval.examName"
+                          [ngModelOptions]="{standalone: true}"></textarea>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-sm-12">
-          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
-            <div class="row">
-              <label for="examType" class="col-sm-2 control-label">类型:</label>
-              <div class="col-sm-4">
-                <select type="email" class="form-control" name="examType" id="examType" dict-select
-                        [(ngModel)]="riskEval.examType"
-                        [key]="'BUSINESS_TYPE'"
-                        [topOption]="{itemId:'',itemName:'请选择'}"
-                        [selected]="riskEval.examType"
-                >
-                </select>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
+              <div class="row">
+                <label for="examType" class="col-sm-2 control-label">类型:</label>
+                <div class="col-sm-4">
+                  <select type="email" class="form-control" name="examType" id="examType" dict-select
+                          [(ngModel)]="riskEval.examType"
+                          [key]="'EXAM_TYPE'"
+                          [topOption]="{itemId:'',itemName:'请选择'}"
+                          [selected]="riskEval.examType"
+                  >
+                  </select>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      <div class="col-sm-6">
-        <seer-simple-table
-          #simpleTable
-          [data]="answers"
-          [titles]="titlesAnswers"
-          [hidePagination]="true"
-          [actions]="simpleTableActions"
-          [showSeq]="true"
-          (notify)="answerModifyNotify($event)"
-        >
-        </seer-simple-table>
-      </div>
-    </seer-collapse-card>
-    </form>
-
-
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
+              <div class="row">
+                <label for="examType" class="col-sm-2 control-label">题目答案A:</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="examA" [(ngModel)]="riskEval.examA"
+                         [ngModelOptions]="{standalone: true}">
+                </div>
+                <label for="examType" class="col-sm-2 control-label">分数:</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="examAScores" [(ngModel)]="riskEval.examAScores"
+                         [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
+              <div class="row">
+                <label for="examType" class="col-sm-2 control-label">题目答案B:</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="examB" [(ngModel)]="riskEval.examB"
+                         [ngModelOptions]="{standalone: true}">
+                </div>
+                <label for="examType" class="col-sm-2 control-label">分数:</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="examBScores" [(ngModel)]="riskEval.examBScores"
+                         [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
+              <div class="row">
+                <label for="examType" class="col-sm-2 control-label">题目答案C:</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="examC" [(ngModel)]="riskEval.examC"
+                         [ngModelOptions]="{standalone: true}">
+                </div>
+                <label for="examType" class="col-sm-2 control-label">分数:</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="examCScores" [(ngModel)]="riskEval.examCScores"
+                         [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
+              <div class="row">
+                <label for="examType" class="col-sm-2 control-label">题目答案D:</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="examD" [(ngModel)]="riskEval.examD"
+                         [ngModelOptions]="{standalone: true}">
+                </div>
+                <label for="examType" class="col-sm-2 control-label">分数:</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="examDScores" [(ngModel)]="riskEval.examDScores"
+                         [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+          </div>
+        </seer-collapse-card>
+      </form>
+    </div>
   </div>
 </div>

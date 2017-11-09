@@ -11,6 +11,9 @@ export class ResModel {
   data?: any;
   extras?: any;
 }
+let errorCode = new Map()
+errorCode.set('TimeoutError', '请求超时');
+
 @Injectable()
 export class HttpInterceptorService {
   constructor(
@@ -120,12 +123,15 @@ export class HttpInterceptorService {
       });
       
     } else {
-      errMsg = error.message ? error.message : error.toString();
+      let code = error.name ? error.name : error.toString();
+      code = errorCode.has(code) ? code : -1;
+      let msg = errorCode.has(code) ? errorCode.get(code) : error.message ? error.message : error.toString();
       return Observable.throw({
-        code: -1,
-        msg: errMsg,
+        code,
+        msg
       });
     }
     
   }
 }
+

@@ -2,7 +2,8 @@ import {
   Component,
   ViewEncapsulation,
   ViewChild,
-  OnInit
+  OnInit,
+  TemplateRef,
 } from "@angular/core";
 import { Location } from '@angular/common';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -15,6 +16,9 @@ import { SeerDialogService, SeerMessageService } from '../../../../../theme/serv
 import { json2Tree } from '../../../../../theme/libs';
 import { SeerTree } from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
 import { TREE_PERMISSIONS } from "../../../../../theme/modules/seer-tree/constants/permissions";
+
+import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
+import { ModalDirective, BsModalService } from 'ngx-bootstrap/modal';
 @Component({
   templateUrl: './user-edit.component.html',
   styleUrls: [ './user-edit.component.scss' ],
@@ -23,21 +27,27 @@ import { TREE_PERMISSIONS } from "../../../../../theme/modules/seer-tree/constan
 export class UserEditComponent implements OnInit {
   user: any = {};
   roles: any = [];
-  orgs: any =[];
+  activeStaff: any = {
+    originId: '',
+    name: '',
+  };
   private editType:string = 'add';
   private forbidSaveBtn:boolean = true;
   private forbidResetPasswordBtn:boolean = true;
   private id:string;
   private isDepartmentDropdownOpen:boolean = false;
   staffTreeNodes;
-  staffPermission = TREE_PERMISSIONS.MULTI_SELECT | TREE_PERMISSIONS.SELECT_PARENT_CASCADE | TREE_PERMISSIONS.NOTIFY;
+  staffPermission = TREE_PERMISSIONS.NOTIFY;
   @ViewChild('myForm') myForm;
+  @ViewChild('staffTree') staffTree: SeerTree;
+  @ViewChild('modal') modal: ModalDirective;
   constructor(
     private _userService: UserService,
     private _location: Location,
     private _route: ActivatedRoute,
     private _router: Router,
     private _messageService: SeerMessageService,
+    private _modalService: BsModalService,
     ) { }
   ngOnInit() {
     this.editType = this._route.snapshot.url[0].path;
@@ -46,6 +56,9 @@ export class UserEditComponent implements OnInit {
       this._userService.getOne(this.id)
       .then(res => {
         this.user = res.data || {};
+        return this.getRoles()
+      })
+      .then(res => {
         this.forbidSaveBtn = false;
         this.forbidResetPasswordBtn = false;
       })
@@ -57,30 +70,30 @@ export class UserEditComponent implements OnInit {
         });
       });
     } else if ( this.editType === 'add' ) {
-      this._route.queryParams
-      .subscribe(res => {
-        this.user = _.clone(res || {})
-      });
-      this.forbidSaveBtn = false;
-
-      this.getRoles()
-      .then(res => {
-        let data = res.data || {};
-        this.roles = data.list || [];
-      });
-      this.getUsersWithStaffsWithOrgs()
+      Promise.all([ this.getRoles(), this.getUsersWithStaffsWithOrgs() ])
+      .then( res => {
+        this.forbidSaveBtn = false;
+      })
+      .catch(err => {
+        this.showError(err.msg || '获取用户信息失败')
+        .onClose()
+        .subscribe(() => {
+          this._router.navigate(['/system/user']);
+        });
+      })
     }
-  }
-  toggleDepartmentDropdown($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    this.isDepartmentDropdownOpen = !this.isDepartmentDropdownOpen
   }
   handleSaveBtnClick() {
     if ( this.myForm.form.valid ) {
       this.forbidSaveBtn = true;
+      let roleIds = _(this.roles).filter(t => t.checked).map(t => t['roleId']).value()
       if ( this.editType === 'edit' ) {
-        this._userService.putOne('', this.user)
+        let params = {
+          userId: this.user.userId,
+          loginName: this.user.loginName,
+          roleIds,
+        }
+        this._userService.putOne('', params)
         .then(res => {
           this.forbidSaveBtn = false;
           this.showSuccess(res.msg || '更新成功')
@@ -94,7 +107,12 @@ export class UserEditComponent implements OnInit {
           this.showError(err.msg || '更新失败')
         })
       } else {
-        this._userService.postOne(this.user)
+        let params = {
+          ...this.user,
+          roleIds,
+          employeeId: this.activeStaff.originId,
+        }
+        this._userService.postOne(params)
         .then(res => {
           this.forbidSaveBtn = false;
           this.showSuccess(res.msg || '保存成功')
@@ -110,8 +128,23 @@ export class UserEditComponent implements OnInit {
   handleBackBtnClick() {
     this._location.back();
   }
+  handleResetPasswordBtn() {
+    this._userService.resetPassword()
+  }
   getRoles() {
     return this._userService.getRoles()
+    .then(res => {
+      let data = res.data || {};
+      this.roles = data.list || [];
+      let activeRoles = this.user.roles || [];
+      activeRoles.forEach((t, i) => {
+        this.roles.forEach((rt, ri) => {
+          if ( rt.roleId == t.roleId ) {
+            rt.checked = true;
+          }
+        })
+      })
+    })
   }
   getUsersWithStaffsWithOrgs() {
     return this._userService.getUsersWithStaffsWithOrgs()
@@ -141,9 +174,6 @@ export class UserEditComponent implements OnInit {
 
         this.staffTreeNodes = json2Tree(departments.concat(staffs));
       })
-      .catch(err => {
-        console.error(err)
-      });
   }
   showSuccess(message: string) {
     return this._messageService.open({
@@ -159,12 +189,22 @@ export class UserEditComponent implements OnInit {
       autoHideDuration: 3000,
     })
   }
-
-  onNotice ($event) {
-    console.log($event);
-
-    if($event.eventName == "onFocus") {
-
+  showModal() {
+    this.modal.show();
+  }
+  onNotice ({ eventName, node }) {
+    if( eventName == 'onActivate' ) {
+      if ( node.data.type == 'S' ) {
+        this.activeStaff = node.data;
+      } else {
+        this.showError('请选择所属员工');
+      }
     }
+  }
+  handleModalHide() {
+    this.staffTree.clearHistory()
+  }
+  handleModalShown() {
+    this.staffTree.setActiveNodes([this.activeStaff.id])
   }
 }

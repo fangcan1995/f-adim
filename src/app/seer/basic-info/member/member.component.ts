@@ -114,16 +114,17 @@ export class MemberComponent implements OnInit {
           let status = t.status;
           let actions;
           switch (status) {
-            case "0"://启用
+            case 0://启用
               actions = [PREVIEW,UPDATE];
               break;
-            case "1"://锁定
+            case 1://锁定
               actions = [PREVIEW];
               break;
-            case "2"://停用
+            case 2://停用
               actions = [PREVIEW];
               break;
             default:
+              //actions = [PREVIEW,UPDATE];//临时
               break;
           }
           return _.set(t, 'actions', actions)
