@@ -10,15 +10,14 @@
 <seer-collapse-card
 >
   <seer-table
-    [data]="source"
+    [data]="riskEvals"
     [titles]="titles"
-    [translate]="dict"
     [pageNum]="pageInfo.pageNum"
     [pageSize]="pageInfo.pageSize"
     [total]="pageInfo.total"
     [paginationRules]="0"
     (notify)="onChange($event)"
-    [showSeq]="true"
+    (changePage)="handlePageChange($event)"
     [hideCheckbox]="true"
     [hideExport]="true"
     [hidePrint]="true"

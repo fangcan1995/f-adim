@@ -26,7 +26,7 @@
         <div class="row">
           <label for="loanApplyExpiry" class="col-sm-4 control-label">借款期限</label>
           <div class="col-sm-8 ">
-            <select class="form-control" id="loanApplyExpiry" placeholder="" [(ngModel)]="loan.loanApplyExpiry" [ngModelOptions]="{standalone: true}"
+            <select class="form-control" id="loanApplyExpiry" placeholder="" [(ngModel)]="loan.loanApplyExpiry" [ngModelOptions]="{standalone: true}" [disabled]="disabled"
                     dict-select
                     [key]="'LOAN_APPLY_EXPIRY'"
                     [selected]="loan.loanApplyExpiry"
@@ -55,7 +55,7 @@
         <div class="row">
           <label for="repayType" class="col-sm-4 control-label">还款方式</label>
           <div class="col-sm-8">
-            <select class="form-control" id="repayType" placeholder="" [(ngModel)]="loan.repayType" [ngModelOptions]="{standalone: true}"
+            <select class="form-control" id="repayType" placeholder="" [(ngModel)]="loan.repayType" [ngModelOptions]="{standalone: true}" [disabled]="disabled"
                     dict-select
                     [key]="'REPAY_TYPE'"
                     [selected]="loan.repayType"
@@ -76,7 +76,7 @@
         <div class="row">
           <label for="repayFrom" class="col-sm-4 control-label">还款来源</label>
           <div class="col-sm-8">
-            <select class="form-control" id="repayFrom" placeholder="" [(ngModel)]="loan.repayFrom" [ngModelOptions]="{standalone: true}"
+            <select class="form-control" id="repayFrom" placeholder="" [(ngModel)]="loan.repayFrom" [ngModelOptions]="{standalone: true}" [disabled]="disabled"
                     dict-select
                     [key]="'PAYMENTING_SOURCE'"
                     [selected]="loan.repayFrom"

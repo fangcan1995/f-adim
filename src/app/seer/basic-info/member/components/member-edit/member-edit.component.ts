@@ -151,14 +151,16 @@ export class MemberEditComponent implements OnInit {
             });//修改
           }else{
             this._memberService.postContact(this.memberId,editData).then((result) => {
-              console.log(result);
             });//新增
           }
           this.contactTable.save(key);
           break;
         case 'delete':
           this._memberService.deleteContact(editData.id).then((result) => {
-            this.contactTable.save(key);
+            this.contactTable.delete(key);
+            this.showSuccess(result.message || '删除成功');
+          }).catch(err=>{
+            this.showSuccess(err.json().message || '删除失败');
           });
           break;
       }
@@ -187,15 +189,16 @@ export class MemberEditComponent implements OnInit {
             });//修改
           }else{
             this._memberService.postVehicle(this.memberId,editData).then((result) => {
-
             });//新增
           }
           this.vehicleTable.save(key);
           break;
         case 'delete':
           this._memberService.deleteVehicle(editData.id).then((result) => {
-            //console.log(editData.id);
-            this.vehicleTable.save(key);
+            this.vehicleTable.delete(key);
+            this.showSuccess(result.message || '删除成功');
+          }).catch(err=>{
+            this.showSuccess(err.json().message || '删除失败');
           });
           break;
       }
@@ -224,7 +227,6 @@ export class MemberEditComponent implements OnInit {
             });//修改
           }else{
             this._memberService.postHouse(this.memberId,editData).then((result) => {
-              console.log(result);
             });//新增
           }
           this.houseTable.save(key);
@@ -232,8 +234,10 @@ export class MemberEditComponent implements OnInit {
 
         case 'delete':
           this._memberService.deleteHouse(editData.id).then((result) => {
-            //this.houseInfo.save(key);
-            this.houseInfo.delete(key);
+            this.houseTable.delete(key);
+            this.showSuccess(result.message || '删除成功');
+          }).catch(err=>{
+            this.showSuccess(err.json().message || '删除失败');
           });
           break;
       }
@@ -244,7 +248,6 @@ export class MemberEditComponent implements OnInit {
           this.houseTable.save(key);
           break;
         case 'cancel':
-          //this.simpleTable.delete(key);
           break;
       }
     }
@@ -300,7 +303,11 @@ export class MemberEditComponent implements OnInit {
     });
   }//重置交易密码
   lock(){
-    alert();
+    this._memberService.patchOne(this.memberId,{"id":this.memberId,"status":0}).then((data:any)=>{
+      this.showSuccess(data.msg || '该会员已经启用');
+    }).catch(err => {
+      this.showError(err.msg || '启用失败');
+    });
   }//解锁/锁定
   domicilePlaceChanged($event) {
     this.baseInfo.domicileProvince = $event.province.item_code;

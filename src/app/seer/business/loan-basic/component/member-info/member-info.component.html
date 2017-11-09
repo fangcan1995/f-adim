@@ -1,7 +1,7 @@
 
 <seer-collapse-card title="基本信息" cardClass="with-scroll" [canCollapse]="true" [headerActions]="actions" (notify)="save()">
   <form class="form-horizontal">
-    <div class="row">
+    <div class="row" style="margin-left: 10px">
       <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
         <div class="row">
           <label for="account" class="col-sm-4 control-label">用户名</label>
@@ -38,7 +38,7 @@
         <div class="row">
           <label for="m_sex" class="col-sm-4 control-label">性别</label>
           <div class="col-sm-8">
-            <select class="form-control" id="m_sex" placeholder="" [(ngModel)]="member.msex" [ngModelOptions]="{standalone: true}"
+            <select class="form-control" id="m_sex" placeholder="" [(ngModel)]="member.msex" [ngModelOptions]="{standalone: true}" [disabled]="disabled"
                     dict-select
                     [key]="'M_SEX'"
                     [selected]="member.msex"
@@ -59,7 +59,7 @@
         <div class="row">
           <label for="education" class="col-sm-4 control-label">学历</label>
           <div class="col-sm-8">
-            <select class="form-control" id="education" placeholder="" [(ngModel)]="member.education" [ngModelOptions]="{standalone: true}"
+            <select class="form-control" id="education" placeholder="" [(ngModel)]="member.education" [ngModelOptions]="{standalone: true}" [disabled]="disabled"
               dict-select
               [key]="'EDUCATION'"
               [selected]="member.education"
@@ -72,7 +72,7 @@
         <div class="row">
           <label for="maritaStatus" class="col-sm-4 control-label" >婚姻状况</label>
           <div class="col-sm-8">
-            <select class="form-control" id="maritaStatus" placeholder="" [(ngModel)]="member.maritaStatus" [ngModelOptions]="{standalone: true}"
+            <select class="form-control" id="maritaStatus" placeholder="" [(ngModel)]="member.maritaStatus" [ngModelOptions]="{standalone: true}" [disabled]="disabled"
               dict-select
               [key]="'MARRAGE_STATUS'"
               [selected]="member.maritaStatus"
@@ -85,7 +85,7 @@
         <div class="row">
           <label for="domicilePlace" class="col-sm-4 col-md-2 col-lg-2 col-xlg-1 control-label">户口所在地</label>
           <div class="col-sm-8 col-md-10 col-lg-10 col-xlg-10" id="domicilePlace">
-            <seer-address-picker (notify)="domicilePlaceChanged($event)" [defaultItemCode]="member.domicileDistrict" [defaultAddress]="member.domicileAddress" ></seer-address-picker>
+            <seer-address-picker (notify)="domicilePlaceChanged($event)" [defaultItemCode]="member.domicileDistrict" [defaultAddress]="member.domicileAddress" [disabled]="disabled"></seer-address-picker>
           </div>
         </div>
       </div>
@@ -93,8 +93,8 @@
         <div class="row">
           <label for="currentResidence" class="col-sm-4 col-md-2 col-lg-2 col-xlg-1 control-label">现居住地</label>
           <div class="col-sm-8 col-md-10 col-lg-10 col-xlg-10" id="currentResidence">
-            <seer-address-picker (notify)="currentResidenceChanged($event)" [defaultItemCode]="member.liveDistrict" [defaultAddress]="member.liveAddress" [classNames]="classNames">
-              <div class="col-sm-1 col-md-1 col-lg-12 col-xlg-1" >
+            <seer-address-picker (notify)="currentResidenceChanged($event)" [defaultItemCode]="member.liveDistrict" [defaultAddress]="member.liveAddress" [classNames]="classNames" [disabled]="disabled">
+              <div *ngIf="!disabled" class="col-sm-1 col-md-1 col-lg-12 col-xlg-2" >
                 <div class="checkbox">
                   <label><input type="checkbox" (click)="shortcut($event)"><span class="text">同户籍地址</span></label>
                 </div>

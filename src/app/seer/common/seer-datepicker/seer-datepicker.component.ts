@@ -24,6 +24,7 @@ export class SeerDatepickerComponent implements OnInit {
 	@Input() maxDate;
   @Input() disabled;
 	@Input() dateFormatingRules:string = 'yyyy/MM/dd';
+	@Input() readonly:boolean=true; //edit by lily
 	bsConfig: Partial<BsDatepickerConfig> = {
 	  locale: 'zh-cn',
 	  showWeekNumbers: false,
@@ -40,4 +41,8 @@ export class SeerDatepickerComponent implements OnInit {
   	this.dateValue = val;
     this.dateChange.emit(this.dateValue);
   }
+/*
+2017-11-9 lily 修改
+1、添加可以设置组件是否自读的入参 readonly
+*/
 }

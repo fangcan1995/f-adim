@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import * as _ from 'lodash';
-import {SeerDialogService} from "../../../theme/services/seer-dialog.service";
+import {SeerDialogService, SeerMessageService,} from '../../../theme/services';
 import {AdvertisingService} from "./advertising.service";
 import {UPDATE,DELETE,ENABLE,DISABLE} from "../../common/seer-table/seer-table.actions";
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
@@ -30,7 +30,7 @@ export class AdvertisingComponent implements OnInit {
       ]
     },
     {
-      key: 'effectTime',
+      key: 'createTime',
       label: '添加时间',
       groups: [
         {
@@ -46,23 +46,23 @@ export class AdvertisingComponent implements OnInit {
   ads = [];
   titles = [
     {key: 'title', label: '广告标题'},
-    {key: 'adType', label: '广告类型'},
-    {key: 'putEnv', label: '投放端'},
-    {key: 'imgLink', label: '广告图片',type:'html'},
+    {key: 'adType', label: '广告类型',isDict:true,category:"ADVERTISING_ADTYPE"},
+    {key: 'putEnv', label: '投放端',isDict:true,category:"ADVERTISING_PUTENV"},
+    {key: 'icon', label: '广告图片',type:'image'},
     {key: 'url', label: '广告链接',type:'link'},
     {key: 'createTime', label: '添加时间',type:'date-time'}
   ];
   pageInfo = {
     "pageNum": 1,
     "pageSize": 10,
-    "sort": "id",
+    "sort": "",
     "total": "",
     "query": {
       "globalSearch": "",
       "adType": "",
       "putEnv": "",
-      "effectTimeStart": "",
-      "effectTimeEnd": "",
+      "createTimeStart": "",
+      "createTimeEnd": "",
     },
   };
 
@@ -70,7 +70,9 @@ export class AdvertisingComponent implements OnInit {
     private _advertisingService: AdvertisingService,
     private _dialogService: SeerDialogService,
     private _router: Router,
-    private _activatedRoute: ActivatedRoute,) {
+    private _activatedRoute: ActivatedRoute,
+    private _messageService: SeerMessageService
+    ) {
   }
 
   ngOnInit(): void {
@@ -84,15 +86,19 @@ export class AdvertisingComponent implements OnInit {
         this.pageInfo.pageSize = res.data.pageSize; //每页记录数
         this.pageInfo.total = res.data.total; //记录总数
         this.ads = res.data.list;
-
+        //this.ads=_.map(this.ads,t =>_.set(t, 'actions', [DISABLE, UPDATE, DELETE]));
         this.ads = _.map(this.ads, t => {
-           if(t.state=="1"){
+           if(t.status==0){
              return _.set(t, 'actions', [DISABLE, UPDATE, DELETE]);
-          }else if(t.state=="0"){
+          }else if(t.status ==1){
              return _.set(t, 'actions', [ENABLE, UPDATE, DELETE]);
+           }else{
+             return _.set(t, 'actions', [UPDATE, DELETE]);
            }
         })
-      })
+      }).catch(err=>{
+      this.showError(err.json().message || '连接失败');
+    })
 
 
   }
@@ -113,19 +119,28 @@ export class AdvertisingComponent implements OnInit {
           .subscribe(action => {
             if (action === 1) {
               this._advertisingService.deleteOne(message.data.id).then(res => {
+                this.showSuccess(data.message || '删除成功');
                   this.getList();
-                });
+                }).catch(err => {
+                this.showError(err.json().message || '删除失败');
+              });
             }
           });
         break;
       case 'enable':
-        this._advertisingService.putOne(message.data.id,{"id":message.data.id,"state":"1"}).then(res=>{
+        this._advertisingService.patchOne(message.data.id,{"id":message.data.id,"status":0}).then(res=>{
+          this.showSuccess(data.message || '设置成功');
           this.getList();
+        }).catch(err => {
+          this.showError(err.json().message || '设置失败');
         });
         break;
       case 'disable':
-        this._advertisingService.putOne(message.data.id,{"id":message.data.id,"state":"0"}).then(res=>{
+        this._advertisingService.patchOne(message.data.id,{"id":message.data.id,"status":1}).then(res=>{
+          this.showSuccess(data.message || '设置成功');
           this.getList();
+        }).catch(err => {
+          this.showError(err.json().message || '设置失败');
         });
         break;
     }
@@ -133,17 +148,17 @@ export class AdvertisingComponent implements OnInit {
   //高级检索
   handleFiltersChanged($event) {
     let params=$event;
-    let { effectTime, ...otherParams } = params;
-    let effectTimeStart,
-      effectTimeEnd;
-    if ( _.isArray(effectTime) ) {
-      effectTimeStart = effectTime[0] ? (formatDate(effectTime[0],'YYYY-MM-DD 00:00:00')) : null;
-      effectTimeEnd = effectTime[1] ? (formatDate(effectTime[0],'YYYY-MM-DD 23:59:59')) : null;
+    let { createTime, ...otherParams } = params;
+    let createTimeStart,
+      createTimeEnd;
+    if ( _.isArray(createTime) ) {
+      createTimeStart = createTime[0] ? (formatDate(createTime[0],'YYYY-MM-DD 00:00:00')) : null;
+      createTimeEnd = createTime[1] ? (formatDate(createTime[1],'YYYY-MM-DD 23:59:59')) : null;
     }
     params = {
       ...otherParams,
-      effectTimeStart,
-      effectTimeEnd,
+      createTimeStart,
+      createTimeEnd,
     }
     //console.log(params);
     this.pageInfo.query = params;
@@ -157,6 +172,19 @@ export class AdvertisingComponent implements OnInit {
   }
   /*handleSearchBtnClicked($event) {
   }*/
-
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
+  }
 }
 
