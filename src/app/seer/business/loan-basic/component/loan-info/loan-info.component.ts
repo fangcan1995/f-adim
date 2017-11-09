@@ -1,5 +1,5 @@
 
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output} from "@angular/core";
 
 import {LoanBasicService} from "../../loan-basic.service";
 import {SAVE, UPDATE} from "../../../../common/seer-table/seer-table.actions";
@@ -10,7 +10,7 @@ import {SeerMessageService} from "../../../../../theme/services/seer-message.ser
   templateUrl: './loan-info.component.html',
   styleUrls: ['./loan-info.component.scss']
 })
-export class LoanInfoComponent implements OnInit {
+export class LoanInfoComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input()
   private disabled: boolean = false;
@@ -23,8 +23,32 @@ export class LoanInfoComponent implements OnInit {
 
   constructor(private service: LoanBasicService, private _messageService: SeerMessageService,){}
 
-  ngOnInit(): void { if(!this.disabled) { this.actions = [ SAVE ] } else { this.actions = [] } }
+  ngOnInit(): void {
+    if(!this.disabled) { this.actions = [ SAVE ] } else { this.actions = [] }
 
+  }
+
+  ngOnChanges() {
+
+    //初审、复审时
+    if( undefined != this.loan['projectStatus'] && this.loan['projectStatus'] != 10) {
+      //设置借款类型禁用
+      document.getElementById("loanApplyType").setAttribute("disabled", "disabled");
+      //设置项目名称禁用
+      document.getElementById("projectName").setAttribute("disabled", "disabled");
+      //设置还款方式禁用
+      document.getElementById("repayType").setAttribute("disabled", "disabled");
+      //设置手续费禁用
+      document.getElementById("serviceRate").setAttribute("disabled", "disabled");
+      //设置还款来源禁用
+      document.getElementById("repayFrom").setAttribute("disabled", "disabled");
+    }
+
+  }
+
+  ngAfterViewInit() {
+
+  }
 
   //保存借款信息
   private save(): void {
@@ -40,7 +64,6 @@ export class LoanInfoComponent implements OnInit {
   //借款类型改变通知
   private loanTypeChange() {
     this.notify.emit(this.loan['loanApplyType']);
-
   }
 
   showSuccess(message: string) {

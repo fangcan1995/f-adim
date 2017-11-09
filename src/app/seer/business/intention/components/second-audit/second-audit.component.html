@@ -7,7 +7,7 @@
 
     <!-- 会员信息 -->
     <div class="col-md-12">
-      <loan-member-info [disabled]="false" [member]="member"></loan-member-info>
+      <loan-member-info [disabled]="true" [member]="member"></loan-member-info>
     </div>
 
     <!-- 贷款信息 -->
@@ -17,17 +17,17 @@
 
     <!-- 个人征信信息 -->
     <div class="col-md-12">
-      <credit-info [disabled]="false" [credits]="credits"></credit-info>
+      <credit-info [disabled]="true" [credits]="credits"></credit-info>
     </div>
 
     <!-- 抵押信息 -->
     <div class="col-md-12">
-      <pawn-info [disabled]="false" [projectId]="loan.projectId" [memberId]="member.memberId" [vehicles]="vehicles" [houses]="houses" [pawn]="pawn"></pawn-info>
+      <pawn-info [disabled]="true" [projectId]="loan.projectId" [memberId]="member.memberId" [vehicles]="vehicles" [houses]="houses" [pawn]="pawn"></pawn-info>
     </div>
 
     <!-- 抵押资料（附件） -->
     <div class="col-md-12">
-      <audit-material [disabled]="false" [projectId]="loan.projectId" [attachments]="attachment"></audit-material>
+      <audit-material [disabled]="true" [projectId]="loan.projectId" [attachments]="attachment"></audit-material>
     </div>
 
     <!-- 审批流程 -->
@@ -37,12 +37,12 @@
 
     <!-- 投资流程 -->
     <div class="col-md-12">
-      <!--<invest-record [investRecords]="investRecords"></invest-record>
+      <!--<invest-record [investRecords]="investRecords"></invest-record>-->
     </div>
 
     <!-- 审批意见 -->
-      <div class="col-md-12">
-        <audit-operation [projectId]="loan.projectId" #auditOperation></audit-operation>
-      </div>
+    <div class="col-md-12">
+      <audit-operation [loan]="loan" #auditOperation></audit-operation>
     </div>
   </div>
+</div>
