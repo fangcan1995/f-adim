@@ -9,10 +9,9 @@
 <div class="widgets">
   <div class="row justify-content-center">
     <div class="col-md-12">
-        <seer-collapse-card title="基本信息" cardClass="with-scroll" [canCollapse]=true
+        <seer-collapse-card title="基本信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true
                             [headerActions]="collapseCardActions"
                             (notify)="basicInfoNotify($event)"
-                            [defaultExpand]=false
         >
           <form class="form-horizontal">
             <div class="row">
@@ -162,7 +161,7 @@
             </div>
           </form>
         </seer-collapse-card>
-        <seer-collapse-card title="紧急联系人" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
+        <seer-collapse-card title="紧急联系人" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
           <seer-simple-table
             #contactTable
             [data]="emergencyContact"
@@ -173,7 +172,7 @@
           >
           </seer-simple-table>
         </seer-collapse-card>
-        <seer-collapse-card title="工作信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false
+        <seer-collapse-card title="工作信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true
                             [headerActions]="collapseCardActions"
                             (notify)="workInfoNotify($event)">
           <div class="row">
@@ -246,7 +245,7 @@
             </div>
           </div>
       </seer-collapse-card>
-        <seer-collapse-card title="账户信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
+        <seer-collapse-card title="账户信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
@@ -293,7 +292,7 @@
             </div>
           </div>
         </seer-collapse-card>
-        <seer-collapse-card title="财务状况" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false
+        <seer-collapse-card title="财务状况" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true
                             [headerActions]="collapseCardActions"
                             (notify)="financialInfoNotify($event)"
         >
@@ -349,7 +348,7 @@
             </div>
           </div>
       </seer-collapse-card>
-        <seer-collapse-card title="车辆信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
+        <seer-collapse-card title="车辆信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
           <seer-simple-table
             #vehicleTable
             [data]="vehicleInfo"
@@ -360,7 +359,7 @@
           >
           </seer-simple-table>
         </seer-collapse-card>
-        <seer-collapse-card title="房屋信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
+        <seer-collapse-card title="房屋信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
           <seer-simple-table
             #houseTable
             [data]="houseInfo"
@@ -371,7 +370,7 @@
           >
           </seer-simple-table>
         </seer-collapse-card>
-        <seer-collapse-card title="个人征信信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
+        <seer-collapse-card title="个人征信信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
           <seer-table
             #creditTable
             [data]="creditInfo"
