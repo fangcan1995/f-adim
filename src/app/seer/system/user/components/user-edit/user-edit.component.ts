@@ -128,6 +128,9 @@ export class UserEditComponent implements OnInit {
   handleBackBtnClick() {
     this._location.back();
   }
+  handleResetPasswordBtn() {
+    this._userService.resetPassword()
+  }
   getRoles() {
     return this._userService.getRoles()
     .then(res => {

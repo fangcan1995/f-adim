@@ -67,7 +67,7 @@
               <div class="row">
                 <label class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">用户密码</label>
                 <div class="col-sm-8 col-md-7 col-lg-6">
-                  <button type="button" class="btn btn-primary" [disabled]="forbidResetPasswordBtn">密码重置</button>
+                  <button type="button" class="btn btn-primary" [disabled]="forbidResetPasswordBtn" (click)="handleResetPasswordBtn()">密码重置</button>
                 </div>
               </div>
             </div>
