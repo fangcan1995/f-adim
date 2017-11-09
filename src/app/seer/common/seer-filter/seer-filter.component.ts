@@ -36,10 +36,11 @@ export interface FilterModel {
 })
 export class SeerFilterComponent implements OnInit {
   @Input() hasGlobalFilter: boolean; // 是否有全局搜索输入框
-  @Input() globalFilterValue: string; 
+  @Input() globalFilterValue: string;
   @Input() filters: Array<FilterModel>;
   @Input() translate;
-  
+  @Input() formGroupColNum:string='col-sm-12 col-md-6 col-lg-6 col-lg-4' //查询向一行显示的列数，edit by lily
+
   @Output() onInit: EventEmitter<any> = new EventEmitter<any>();
   @Output() onFiltersChanged: EventEmitter<any> = new EventEmitter<any>();
   @Output() onSearchBtnClicked: EventEmitter<any> = new EventEmitter<any>();
@@ -103,7 +104,7 @@ export class SeerFilterComponent implements OnInit {
         }
       });
     }
-    
+
   }
 
   ngAfterViewInit() {
@@ -129,11 +130,21 @@ export class SeerFilterComponent implements OnInit {
       })
     })
   }
+  /*edit by lily 修复了不响应group里控件有值时查询按钮不激活的情况
+  * */
   renderSearchBtn() {
     let forbidSearchBtn = true;
     _.each(this.filters, x => {
       if ( !(typeof x.value === 'undefined' || x.value === null || trim(x.value.toString(), false) === '') ) {
         return forbidSearchBtn = false;
+      }else{
+        /*edit by lily*/
+        _.each(x.groups,y=>{
+          if ( !(typeof y.value === 'undefined' || y.value === null || trim(y.value.toString(), false) === '') ) {
+            return forbidSearchBtn = false;
+          }
+        })
+        /*end*/
       }
     })
     return forbidSearchBtn;
