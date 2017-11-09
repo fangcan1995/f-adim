@@ -10,7 +10,7 @@ import { UPDATE, DELETE, CREATE } from '../../common/seer-table';
   styleUrls: [ './user.component.scss' ],
   providers: [DatePipe],
 })
-export class UserComponent implements OnInit {
+export class UserComponent {
   constructor(
     private _router:Router,
     private _userService:UserService,
@@ -61,7 +61,7 @@ export class UserComponent implements OnInit {
   ];
   titles = [
     {
-      key: 'userId',
+      key: 'loginName',
       label: '用户账号',
     },
     {
@@ -121,19 +121,16 @@ export class UserComponent implements OnInit {
   pageSize: 10;
   pageNum: 1;
   sortBy: '';
-  params:any = { };
-  ngOnInit() {
-    this.params = {
-      pageSize: this.pageSize,
-      pageNum: this.pageNum,
-      sortBy: this.sortBy
-    }
-  }
+  params:any = {
+    pageSize: 10,
+    pageNum: 1,
+    sortBy: '',
+  };
   getList():void {
     this._userService.getList(this.params)
     .then(res => {
       let data = res.data || {};
-      this.users = _.map(data.list, t => _.set(t, 'actions', [UPDATE, DELETE]))
+      this.users = _.map(data.list, t => _.set(t, 'actions', [ UPDATE, DELETE ]))
       this.total = data.total || 0;
 
       this.pageSize = data.pageSize || this.params.pageSize;

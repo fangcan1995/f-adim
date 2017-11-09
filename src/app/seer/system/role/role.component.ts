@@ -16,7 +16,7 @@ import { RoleService } from './role.service';
   templateUrl: './role.component.html',
   styleUrls: [ './role.component.scss' ],
 })
-export class RoleComponent implements OnInit {
+export class RoleComponent {
   hasGlobalFilter = hasGlobalFilter;
   titles = tableTitles;
   
@@ -25,7 +25,11 @@ export class RoleComponent implements OnInit {
   pageSize: 10;
   pageNum: 1;
   sortBy: '';
-  params:any = {};
+  params:any = {
+    pageSize: 10,
+    pageNum: 1,
+    sortBy: '',
+  };
   constructor(
     private _router: Router,
     private _dialogService: SeerDialogService,
@@ -35,11 +39,6 @@ export class RoleComponent implements OnInit {
 
   }
   ngOnInit() {
-    this.params = {
-      pageSize: this.pageSize,
-      pageNum: this.pageNum,
-      sortBy: this.sortBy
-    }
     this.getList();
   }
   getList() {
@@ -52,7 +51,7 @@ export class RoleComponent implements OnInit {
       this.pageNum = data.pageNum || this.params.pageNum;
     })
     .catch(err => {
-      console.log(err)
+      this.showError( err.msg || '获取角色失败' );
     });
   }
   handleFiltersChanged($event) {

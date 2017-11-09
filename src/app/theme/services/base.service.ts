@@ -18,9 +18,11 @@ export const API = {
   'SIGNUP': 'signup',
   'MEMBERS': 'members',
   'USER': 'permission/users/getByToken',
+  'USERS': 'permission/users',
   'RESOURCES': 'permission/resources',
   'DICTS': 'system/dicts',
   'ROLES': 'system/roles',
+
   'ORGS': 'organizations'
 }
 
