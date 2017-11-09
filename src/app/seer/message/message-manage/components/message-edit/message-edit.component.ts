@@ -1,4 +1,4 @@
-import {Component,OnInit,TemplateRef} from '@angular/core';
+import {Component,OnInit,TemplateRef, ViewEncapsulation} from '@angular/core';
 import {Location} from '@angular/common';
 import {ActivatedRoute, Params,Router} from "@angular/router";
 import {MessageService} from "../../message.service";
@@ -12,7 +12,8 @@ import {formatDate} from "ngx-bootstrap/bs-moment/format";
 @Component({
   selector: 'message-edit',
   templateUrl: './message-edit.component.html',
-  styleUrls: ['./message-edit.component.css'],
+  styleUrls: ['./message-edit.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MessageEditComponent {
 
