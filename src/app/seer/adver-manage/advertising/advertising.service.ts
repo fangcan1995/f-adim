@@ -14,6 +14,8 @@ export class AdvertisingService extends BaseService<ResModel>{
 
   // 1 获取数据列表
   getList(pageInfo):Promise<ResModel> {
+
+    console.log(this.accessToken);
     const page=`?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
     const sort=`&sortBy=${pageInfo.sort}`;
     const jsonQueryObj = pageInfo.query;
@@ -37,10 +39,14 @@ export class AdvertisingService extends BaseService<ResModel>{
 
   // 4 修改一条数据，提供所有字段
   putOne(id, params):Promise<any> {
-    return this._httpInterceptorService.request('PUT', `${this.advertisingManageUrl}`, params,true).toPromise();
+    return this._httpInterceptorService.request('PUT', `${this.advertisingManageUrl}`, params).toPromise();
   }
 // 5 删除一条数据
   deleteOne(id):Promise<any> {
     return this._httpInterceptorService.request('DELETE', `${this.advertisingManageUrl}/${id}`).toPromise();
+  }
+  //6 修改状态
+  patchOne(id, params): Promise<ResModel> {
+    return this._httpInterceptorService.request('PATCH', `${this.advertisingManageUrl}`, params).toPromise();
   }
 }

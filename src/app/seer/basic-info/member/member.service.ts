@@ -8,53 +8,7 @@ export class MemberService extends BaseService<ResModel>{
   VehicleContactUrl=`vehicleInfo`;//车辆
   HouseContactUrl=`houseInfo`;//车辆
   accessToken = getStorage({ key: 'token' }).access_token;
-  mockData = [
-    {
-      "memberId": "1",
-      "userName":"abc",
-      "trueName": "张三",
-      "phoneNumber": "15942476543",
-      "idNumber": "21142119843224242",
-      "sex": "男",
-      "registTime": "2017-08-18 09:21:12",
-      "classify": "1",
-      "lastLoginTime": "2017-08-18 09:21:12",
-      "loginIp": "192.168.1.1",
-      "invitedMember": "张三三",
-      "loginTimes":"10",
-      "age":"36", //年龄
-    },
-    {
-      "memberId": "1",
-      "userName":"lisi",
-      "trueName": "李四",
-      "phoneNumber": "15942476543",
-      "idNumber": "21142119843224242",
-      "sex": "男",
-      "registTime": "2017-08-18 09:21:12",
-      "classify": "2",
-      "lastLoginTime": "2017-08-18 09:21:12",
-      "loginIp": "192.168.1.1",
-      "invitedMember": "张三三",
-      "loginTimes":"10",
-      "age":"36", //年龄
-    },
-    {
-      "memberId": "1",
-      "userName":"wangwang",
-      "trueName": "王武",
-      "phoneNumber": "15942476543",
-      "idNumber": "21142119843224242",
-      "sex": "男",
-      "registTime": "2017-08-18 09:21:12",
-      "classify": "3",
-      "lastLoginTime": "2017-08-18 09:21:12",
-      "loginIp": "192.168.1.1",
-      "invitedMember": "张三三",
-      "loginTimes":"10",
-      "age":"36", //年龄
-    },
-  ];
+
   constructor(
     protected _httpInterceptorService:HttpInterceptorService
   ) {
@@ -219,14 +173,6 @@ export class MemberService extends BaseService<ResModel>{
   }
   //21 修改一条数据，提供部分字段
   patchOne(id, params): Promise<ResModel> {
-    return new Promise((resolve) => {
-      resolve(
-        {
-          "code": "0",
-          "message": "SUCCESS",
-        }
-      )
-    })
-    //return this._httpInterceptorService.request('PATCH', `http://172.16.1.234:8090/roles/${id}`, params).toPromise();
+    return this._httpInterceptorService.request('PATCH', `${this.MembersUrl}/${id}/status`, params).toPromise();
   }
 }

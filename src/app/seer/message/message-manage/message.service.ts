@@ -6,7 +6,7 @@ export class MessageService extends BaseService<ResModel>{
   accessToken = getStorage({ key: 'token' }).access_token;
   private MessageUrl = `http://172.16.7.3:9010/messages`;  // 消息
   private RecordUrl = `http://172.16.7.3:9010/records`;  // 发送记录
-  private MembersUrl =`http://172.16.7.4:9080/members/`; //获取会员列表
+  private MembersUrl =`http://172.16.7.4:9080/members/members/messages`; //获取会员列表
   private UsersUrl =`http://172.16.1.27:8090/staffs`; //获取员工列表
   private MembersIdsUrl =`http://172.16.7.4:9080/members/members/ids?pageNum=1&pageSize=10000`; //获取全部会员id字符串
   private UsersIdsUrl =`http://172.16.1.27:8090/staffs/ids?pageNum=1&pageSize=10000`; //获取全部员工id字符串
