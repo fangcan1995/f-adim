@@ -13,7 +13,7 @@ import {SeerDialogService, SeerMessageService,} from '../../../../../theme/servi
 })
 export class MessageDetailComponent {
 
-  private message:any={};
+  message:any = {};
   title : string;
   editId: string;
   usersType: string; //用户类型

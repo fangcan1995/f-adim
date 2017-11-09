@@ -15,9 +15,9 @@ import {SeerDialogService, SeerMessageService,} from '../../../../../theme/servi
 })
 export class MessageTemplateEditComponent implements OnInit {
   //template: Template = new Template();
-  private template:any={};
+  template:any={};
   title="";
-  private _editType: string = 'add';
+  _editType: string = 'add';
   isAdd: boolean;
   editId: string;
   public forbidSaveBtn: boolean = true;

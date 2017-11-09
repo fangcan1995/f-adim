@@ -29,7 +29,7 @@
                   <input type="text" class="form-control" id="departmentId"
                          [(ngModel)]="staff.sysEmployer.departmentName"
                          [ngModelOptions]="{standalone: true}" (click)="openModal(template)">
-                  <template #template>
+                  <ng-template #template>
                     <div class="modal-body">
                       <seer-tree
                         (notify)="onNotify($event) "
@@ -38,7 +38,7 @@
                         [loadingText]="''">
                       </seer-tree>
                     </div>
-                  </template>
+                  </ng-template>
                 </div>
               </div>
             </div>

@@ -133,7 +133,7 @@
         <seer-collapse-card title="接收用户" >
           <div class="row">{{ids}}
             <button type="button"  class="btn btn-primary" (click)="openModal(members)" [disabled]="isPickUsersAble">选择用户</button>
-            <template #members >
+            <ng-template #members >
               <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
                 <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">选择人员</h4>
               </div>
@@ -285,7 +285,7 @@
                   ></seer-table>
                 </seer-collapse-card>
               </div>
-            </template>
+            </ng-template>
           </div>
           <!--<button (click)="putInUsers('')" class="btn btn-outline-dark left-button" disabled>导入用户</button>-->
         </seer-collapse-card>

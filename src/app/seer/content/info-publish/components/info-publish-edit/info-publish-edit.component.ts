@@ -4,7 +4,6 @@ import { Location } from '@angular/common';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs/Observable';
 import { InfoPublishService } from "../../info-publish.service";
-import {Ng2Uploader} from "ng2-uploader";
 import {GlobalState} from "../../../../../global.state";
 import { SeerTree } from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
 import { TREE_EVENTS } from "../../../../../theme/modules/seer-tree/constants/events";
@@ -19,7 +18,6 @@ import {TREE_PERMISSIONS} from "../../../../../theme/modules/seer-tree/constants
 @Component({
   templateUrl: './info-publish-edit.component.html',
   styleUrls: ['./info-publish-edit.component.scss'],
-  providers: [Ng2Uploader],
 })
 // export class OrgTreeDialogComponent extends BaseModalComponent implements OnInit
 export class InfoPublishEditComponent implements OnInit {
@@ -51,7 +49,7 @@ export class InfoPublishEditComponent implements OnInit {
   @ViewChild('fileUpload') protected _fileUpload:ElementRef;
   onUpload:EventEmitter<any> = new EventEmitter();
   onUploadCompleted:EventEmitter<any> = new EventEmitter();
-  constructor(private location: Location,private InfoPublishService:InfoPublishService,private renderer:Renderer, protected _uploader:Ng2Uploader,private gs:GlobalState,private modalService: BsModalService) {
+  constructor(private location: Location,private InfoPublishService:InfoPublishService,private renderer:Renderer,private gs:GlobalState,private modalService: BsModalService) {
     // 模态层
      this.gs.subscribe(this.EVENT, (param) => {
       this.openModal(param); 
@@ -105,7 +103,7 @@ export class InfoPublishEditComponent implements OnInit {
               };
               if (this._canUploadOnServer()) {
                 this.uploadInProgress = true;
-                this._uploader.addFilesToQueue(files);
+                // this._uploader.addFilesToQueue(files);
               }
             }
       }else {

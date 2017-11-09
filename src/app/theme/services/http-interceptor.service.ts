@@ -91,6 +91,7 @@ export class HttpInterceptorService {
     })
     .mergeMap((res:ResModel | any) => {
       if ( res.code == 0 ) {
+        res.msg = res.msg || res.message;
         return Observable.of(res);
       } else {
         // 将错误放到错误回调中统一处理

@@ -16,9 +16,11 @@ import {ActivityService} from "../../activity.service";
 })
 export class ActivityAddComponent implements OnInit {
   constructor(private ActivityService: ActivityService,private _location: Location) {}
-newTitle = "选择人员"
-source = []
-titles = [
+  hasGlobalFilter = true;
+  forbidSaveBtn = true;
+  newTitle = "选择人员"
+  source = []
+  titles = [
     {key:'roleName',label:'用户名'},
     {key:'realName',label:'真实姓名'},
     {key:'tel',label:'手机号'},
@@ -26,24 +28,23 @@ titles = [
     {key:'sex',label:'性别'},
   ];
 // ====================假数据=======================
-    getList(params?):void{
-      this.ActivityService.getDatas()
-      .then(res => {
-          console.log(res.data);
-          
-        this.source = res.data;
+  getList(params?):void{
+    this.ActivityService.getDatas()
+    .then(res => {
+      console.log(res.data);
+      this.source = res.data;
     });
   }
- handleBackBtnClick() {
+  handleBackBtnClick() {
     this._location.back()
   }
-  ngOnInit() {
- 
-      
+  handleSearchBtnClicked() {
+
   }
+  onChange() {
 
-
-  
-  
+  }
+  ngOnInit() {
+  }
 
 }

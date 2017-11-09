@@ -1,5 +1,4 @@
 import {Component, ViewChild, OnInit, EventEmitter, Output} from '@angular/core';
-import {Ng2Uploader} from "ng2-uploader";
 import {ModalComponent} from "../../../../../theme/components/ng2-bs4-modal/modal";
 import {SeerTree} from "../../../../..//theme/modules/seer-tree/seer-tree/seer-tree.component";
 import {jsonTree} from "../../../../../theme/utils/json-tree";
@@ -13,8 +12,6 @@ import {GlobalState} from "../../../../../global.state";
   selector: 'OrgListComponent',
   templateUrl: './org-list.Component.html',
   styleUrls: ['./org-list.component.scss'],
-  providers: [Ng2Uploader],
-
 })
 export class OrgListComponent extends BaseModalComponent implements OnInit{
   @ViewChild(ModalComponent) modal;

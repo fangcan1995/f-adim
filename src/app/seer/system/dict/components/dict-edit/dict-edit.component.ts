@@ -19,9 +19,9 @@ import { SeerMessageService } from '../../../../../theme/services/seer-message.s
 })
 export class DictEditComponent implements OnInit {
   dict: any = {};
-  private editType: string = 'add';
-  private forbidSaveBtn: boolean = true;
-  private id: string;
+  editType: string = 'add';
+  forbidSaveBtn: boolean = true;
+  id: string;
   @ViewChild('myForm') myForm;
   constructor(
     private _dictService: DictService,
@@ -41,10 +41,6 @@ export class DictEditComponent implements OnInit {
       })
       .catch(err => {
         this.showError(err.msg || '获取字典信息失败')
-        .onClose()
-        .subscribe(() => {
-          this._router.navigate(['/system/dict']);
-        });
       });
     } else if ( this.editType === 'add' ) {
       this._route.queryParams

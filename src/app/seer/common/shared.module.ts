@@ -5,12 +5,10 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Ng2SmartTableModule } from "ng2-smart-table";
 import { CustomFormsModule } from 'ng2-validation';
+
 import {
-    
     ModalModule,
     PaginationModule,
-} from 'ng2-bootstrap';
-import {
     BsDropdownModule,
     PopoverModule,
     BsDatepickerModule,
@@ -23,8 +21,6 @@ import { MyDatePickerModule } from 'mydatepicker/dist/my-date-picker.module';
 import { Ng2DatetimePickerModule } from 'ng2-datetime-picker';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { ChartsModule } from "ng2-charts";
-import { MultiPickerComponent } from "./multi-picker/multi-picker.component";
-import { MultiPickerDirective } from "./multi-picker/multi-picker.directive";
 
 import { NgaModule } from "../../theme/nga.module";
 
@@ -43,18 +39,11 @@ import { SeerPaginationComponent } from './seer-pagination';
 import { SeerCoolCheckboxComponent } from './seer-cool-checkbox';
 import { SeerAddressPickerComponent } from './seer-address-picker';
 
-// 待干掉
-import { seerAlertComponent } from "./seer_alert/seer_alert";
-import { seerTableComponent } from "./seer_table/seer.table";
 
 @NgModule({
   declarations: [
-    seerTableComponent,
-    MultiPickerComponent,
-    MultiPickerDirective,
     DictSelectDirective,
     DictTranslateDirective,
-    seerAlertComponent,
     SeerEditorComponent,
     SeerPrintComponent,
     
@@ -98,16 +87,12 @@ import { seerTableComponent } from "./seer_table/seer.table";
     Ng2SmartTableModule,
     BsDropdownModule,
     ModalModule,
-    seerTableComponent,
     MultiselectDropdownModule,
     PaginationModule,
     MyDatePickerModule,
     Ng2DatetimePickerModule,
-    MultiPickerComponent,
-    MultiPickerDirective,
     DictSelectDirective,
     DictTranslateDirective,
-    seerAlertComponent,
     CKEditorModule,
     SeerEditorComponent,
     SeerPrintComponent,
@@ -123,8 +108,6 @@ import { seerTableComponent } from "./seer_table/seer.table";
     SeerCoolCheckboxComponent,
     SeerAddressPickerComponent,
   ],
-
-  entryComponents:[MultiPickerComponent]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {

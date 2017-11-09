@@ -1,8 +1,8 @@
 import {Component,OnInit,TemplateRef, ViewEncapsulation} from '@angular/core';
 import {Location} from '@angular/common';
 import {ActivatedRoute, Params,Router} from "@angular/router";
-import {MessageService} from "../../message.service";
-import {GlobalState} from "../../../../../global.state";
+import { MessageService } from "../../message.service";
+import { GlobalState } from "../../../../../global.state";
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { BsModalService} from 'ngx-bootstrap/modal';
 import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
@@ -17,7 +17,7 @@ import {formatDate} from "ngx-bootstrap/bs-moment/format";
 })
 export class MessageEditComponent {
 
-  private message:any={};
+  message:any = {};
   title : string;
   isAdd: boolean;
   editId: string;

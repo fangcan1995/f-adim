@@ -90,15 +90,15 @@ export class TreeOptions {
     }
 
     if (options.context) {
-      deprecated('context', 'values directly in a template in the content of the <Tree> component like this: <Tree><template #treeNodeTemplate let-node>{{ outsideValue }}</template></Tree>.  If you don\'t have time to update your code and don\'t need AoT compilation, use DeprecatedTreeModule');
+      deprecated('context', 'values directly in a template in the content of the <Tree> component like this: <Tree><ng-template #treeNodeTemplate let-node>{{ outsideValue }}</ng-template></Tree>.  If you don\'t have time to update your code and don\'t need AoT compilation, use DeprecatedTreeModule');
     }
 
     if (options.treeNodeTemplate) {
-      deprecated('treeNodeTemplate', 'a template in the content of the <Tree> component like this: <Tree><template #treeNodeTemplate let-node>...</template></Tree>.  If you don\'t have time to update your code and don\'t need AoT compilation, use DeprecatedTreeModule');
+      deprecated('treeNodeTemplate', 'a template in the content of the <Tree> component like this: <Tree><ng-template #treeNodeTemplate let-node>...</ng-template></Tree>.  If you don\'t have time to update your code and don\'t need AoT compilation, use DeprecatedTreeModule');
     }
 
     if (options.loadingComponent) {
-      deprecated('loadingComponent', 'a template in the content of the <Tree> component like this: <Tree><template #loadingTemplate>...</template></Tree>.  If you don\'t have time to update your code and don\'t need AoT compilation, use DeprecatedTreeModule');
+      deprecated('loadingComponent', 'a template in the content of the <Tree> component like this: <Tree><ng-template #loadingTemplate>...</ng-template></Tree>.  If you don\'t have time to update your code and don\'t need AoT compilation, use DeprecatedTreeModule');
     }
 
     if (_.get(options, 'mouse.shift')) {

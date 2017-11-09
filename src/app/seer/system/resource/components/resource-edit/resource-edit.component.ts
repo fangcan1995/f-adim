@@ -21,9 +21,9 @@ import {error} from "util";
 })
 export class ResourceEditComponent implements OnInit {
   resource: ResourceModel = new ResourceModel();
-  private editType: string = 'add';
-  private forbidSaveBtn: boolean = true;
-  private id: string;
+  editType: string = 'add';
+  forbidSaveBtn: boolean = true;
+  id: string;
   resourceList: any = [];
   @ViewChild('myForm') myForm;
   constructor(
@@ -55,10 +55,6 @@ export class ResourceEditComponent implements OnInit {
       })
       .catch(err => {
         this.showError(err.msg || '获取资源信息失败')
-        .onClose()
-        .subscribe(() => {
-          this._router.navigate(['/system/resource']);
-        });
       });
     } else if ( this.editType === 'add' ) {
       this.forbidSaveBtn = false;

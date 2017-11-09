@@ -10,7 +10,6 @@ import { InfoPublishEditComponent } from './components/info-publish-edit/info-pu
 import { InfoPublishDialogComponent } from "./components/info-publish-dialog/info-publish-dialog";
 import {BaseService} from "../../base.service";
 import { TreeModule } from "app/theme/modules";
-import {Ng2Uploader} from "ng2-uploader";
 import { ModalComponent } from "../../../theme/components/ng2-bs4-modal/modal";
 @NgModule({
   imports: [
@@ -27,7 +26,6 @@ import { ModalComponent } from "../../../theme/components/ng2-bs4-modal/modal";
   providers: [
     InfoPublishService,
     BaseService,
-    Ng2Uploader,
     ModalComponent,
   ],
 })

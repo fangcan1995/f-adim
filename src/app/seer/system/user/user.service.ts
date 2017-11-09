@@ -22,7 +22,7 @@ export class UserService extends BaseService<any> {
   getUsersWithStaffsWithOrgs(): Promise<ResModel> {
     return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ROLES']}/userTree`).toPromise();
   }
-  resetPassword(): Promise<ResModel> {
-    return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['USERS']}/password`).toPromise();
+  resetPassword(params): Promise<ResModel> {
+    return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['USERS']}/password`, params).toPromise();
   }
 }

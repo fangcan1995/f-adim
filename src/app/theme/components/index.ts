@@ -7,9 +7,6 @@ export * from './baContentTop';
 export * from './baCard';
 export * from './baBackTop';
 export * from './baFullCalendar';
-export * from './baPictureUploader';
-export * from './baCheckbox';
-export * from './baMultiCheckbox';
 export * from './ng2-bs4-modal'
 export * from './seer-card'
 export * from './tree-picker'

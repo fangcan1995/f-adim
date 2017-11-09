@@ -39,9 +39,12 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
       })
       .onClose()
       .subscribe(res => {
-        this.authService.isLoggedIn = false;
-        this.authService.logout()
-        .subscribe(this.redirectToLogin.bind(this));
+        if ( this.authService.isLoggedIn ) {
+          this.authService.isLoggedIn = false;
+          this.authService.logout()
+          .subscribe(this.redirectToLogin.bind(this));
+        }
+        
       })
     })
   }
