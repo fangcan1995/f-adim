@@ -1,7 +1,7 @@
 
 import {Component, Input, OnInit} from "@angular/core";
 
-import {LoanBasicService} from "../../loan-basic.service";
+import {CommonService} from "../../common.service";
 import {UPDATE} from "../../../../common/seer-table/seer-table.actions";
 
 @Component({
@@ -17,7 +17,7 @@ export class InvestRecordComponent implements OnInit {
 
   public actions = [ UPDATE ];
 
-  constructor(private service: LoanBasicService){}
+  constructor(private service: CommonService){}
 
   ngOnInit() {}
 

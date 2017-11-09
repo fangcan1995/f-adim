@@ -1,7 +1,7 @@
 
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 
-import {LoanBasicService} from "../../loan-basic.service";
+import {CommonService} from "../../common.service";
 
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 import {Router} from "@angular/router";
@@ -25,7 +25,7 @@ export class AuditOperationComponent implements OnInit {
 
   private reason: string = "";
 
-  constructor(private service: LoanBasicService, private _messageService: SeerMessageService, private _router: Router,){}
+  constructor(private service: CommonService, private _messageService: SeerMessageService, private _router: Router,){}
 
   ngOnInit() {
 

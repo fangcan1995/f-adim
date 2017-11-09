@@ -1,7 +1,7 @@
 
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output} from "@angular/core";
 
-import {LoanBasicService} from "../../loan-basic.service";
+import {CommonService} from "../../common.service";
 import {SAVE, UPDATE} from "../../../../common/seer-table/seer-table.actions";
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 
@@ -21,7 +21,7 @@ export class LoanInfoComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Output() notify: EventEmitter<any> = new EventEmitter();
 
-  constructor(private service: LoanBasicService, private _messageService: SeerMessageService,){}
+  constructor(private service: CommonService, private _messageService: SeerMessageService,){}
 
   ngOnInit(): void {
     if(!this.disabled) { this.actions = [ SAVE ] } else { this.actions = [] }

@@ -7,9 +7,9 @@ import { IntentionComponent } from './intention.component';
 import { IntentionService } from "./intention.service";
 
 import {IntentionCompletionComponent} from "./components/intention-completion/intention-completion.component";
-import {LoanBasicModule} from "../loan-basic/loan-basic.module";
 import {FirstAuditComponent} from "./components/first-audit/first-audit.component";
 import {SecondAuditComponent} from "./components/second-audit/second-audit.component";
+import {CommonModule} from "../common/common.module";
 
 
 
@@ -17,8 +17,8 @@ import {SecondAuditComponent} from "./components/second-audit/second-audit.compo
   imports: [
     NgaModule,
     SharedModule,
-    routing,
-    LoanBasicModule
+    CommonModule,
+    routing
   ],
   declarations: [
     IntentionComponent,
