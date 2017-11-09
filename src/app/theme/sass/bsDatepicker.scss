@@ -366,6 +366,7 @@
 .bs-datepicker-container {
 }
 
+
 .bs-datepicker-custom-range {
   padding: 15px;
   background: #eee
@@ -571,5 +572,5 @@
 }
 
 .bs-datepicker {
-  z-index: 1040;
+  z-index: 10400;   //edit by lily 1040改为10400
 }
