@@ -56,7 +56,6 @@ export class UserEditComponent implements OnInit {
       this._userService.getOne(this.id)
       .then(res => {
         this.user = res.data || {};
-        
         return this.getRoles()
       })
       .then(res => {
