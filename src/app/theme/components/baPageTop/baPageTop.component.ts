@@ -13,6 +13,9 @@ import { ManageService } from '../../services/manage.service';
 import { AuthService } from '../../services/auth.service';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
+
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { CustomValidators } from 'ng2-validation';
 @Component({
   selector: 'ba-page-top',
   templateUrl: './baPageTop.html',
@@ -22,6 +25,8 @@ export class BaPageTop implements OnInit {
 
   @ViewChild('pageTop') pageTop: ElementRef;
   @ViewChild('modal') modal: ModalDirective;
+  @ViewChild('myForm') myForm;
+  
   public isScrolled:boolean = false;
   isSuccess: boolean;
   loginName: string;
@@ -31,7 +36,10 @@ export class BaPageTop implements OnInit {
   activePageIcon: string;
   isHidden: boolean;
   _offsetTop:number;
-  user: any = {};
+
+  user:any = {};
+  
+  form:FormGroup;
   constructor(
     private router: Router,
     private _state: GlobalState,
@@ -47,6 +55,15 @@ export class BaPageTop implements OnInit {
         this.activePageTitle = activeLink.title;
         this.activePageIcon = this._getActivePageIcon(activeLink);
       }
+    });
+
+    let oldPassword = new FormControl('', Validators.required);
+    let newPassword = new FormControl('', Validators.required);
+    let certainPassword = new FormControl('', CustomValidators.equalTo(newPassword));
+    this.form = new FormGroup({
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+      certainPassword: certainPassword
     });
   }
   ngOnInit(): void {
@@ -92,9 +109,29 @@ export class BaPageTop implements OnInit {
     this.modal.show();
   }
   handleModalShown() {
-
+    this._manageService.getUserFromLocal()
+    .then(res => {
+      this.user = res.data || {};
+    })
+    
   }
   handleModalHide() {
-    
+    this.form.reset()
+  }
+
+  savePassword() {
+    if ( this.form.valid ) {
+      const { oldPassword, newPassword } = this.form.value;
+      const params = {
+        userId: this.user.userId,
+        oldPassword,
+        newPassword,
+        type: '1',
+      }
+      this._manageService.changePassword(params)
+      .then(res => {
+        console.log(res)
+      })
+    }
   }
 }

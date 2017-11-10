@@ -45,4 +45,8 @@ export class ManageService extends BaseService<any> {
     return '/' + r.hrefUrl;
   }
 
+  public changePassword(params?) {
+    return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['USERS']}/password`, params).toPromise();
+  }
+
 }
