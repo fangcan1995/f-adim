@@ -1,0 +1,42 @@
+<seer-content-top>
+  <button class="btn btn-outline-dark" (click)="handleBackBtnClick()">返回</button>
+</seer-content-top>
+<div class="widgets">
+  <div class="row justify-content-center">
+
+    <!-- 会员信息 -->
+    <div class="col-md-12">
+      <loan-member-info [disabled]="true" [member]="member"></loan-member-info>
+    </div>
+
+    <!-- 贷款信息 -->
+    <div class="col-md-12">
+      <loan-info [disabled]="true" [loan]="loan" (notify)="loanTypeChange($event)"></loan-info>
+    </div>
+
+    <!-- 个人征信信息 -->
+    <div class="col-md-12">
+      <credit-info [disabled]="true" [credits]="credits"></credit-info>
+    </div>
+
+    <!-- 抵押信息 -->
+    <div class="col-md-12">
+      <pawn-info [disabled]="true" [loan]="loan" [memberId]="member.memberId" [vehicles]="vehicles" [houses]="houses" [pawn]="pawn"></pawn-info>
+    </div>
+
+    <!-- 抵押资料（附件） -->
+    <div class="col-md-12">
+      <audit-material [disabled]="true" [projectId]="loan.projectId" [attachments]="attachment"></audit-material>
+    </div>
+
+    <!-- 审批流程 -->
+    <div class="col-md-12">
+      <audit-process [data]="auditHistory"></audit-process>
+    </div>
+
+    <!-- 投资流程 -->
+    <div class="col-md-12">
+      <!--<invest-record [investRecords]="investRecords"></invest-record>-->
+    </div>
+  </div>
+</div>
