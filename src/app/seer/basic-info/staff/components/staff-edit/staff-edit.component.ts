@@ -25,34 +25,8 @@ export class StaffEditComponent implements OnInit {
   isDimission = false;
   staffId;
 
-  //组织树
-  treeTitle = "组织机构树";
   treePermissions = TREE_PERMISSIONS.NOTIFY | TREE_PERMISSIONS.ADD | TREE_PERMISSIONS.EDIT | TREE_PERMISSIONS.DELETE | TREE_PERMISSIONS.DRAG | TREE_PERMISSIONS.SHOW_FILTER | TREE_PERMISSIONS.SHOW_ADD_ROOT;
-  treeNode = [];
-  //下面两个为多个checkbox选择插件配置
-  dropdownSettings: IMultiSelectSettings = {
-    pullRight: false,
-    enableSearch: false,
-    checkedStyle: 'checkboxes',
-    buttonClasses: 'btn btn-default',
-    selectionLimit: 0,
-    closeOnSelect: false,
-    autoUnselect: false,
-    showCheckAll: false,
-    showUncheckAll: false,
-    dynamicTitleMaxItems: 3,
-    maxHeight: '300px',
-  };
-  myRepertoryTexts: IMultiSelectTexts = {
-    checkAll: '选中所有',
-    uncheckAll: '取消所有',
-    checked: '个选中',
-    checkedPlural: '个选中',
-    searchPlaceholder: '搜索...',
-    defaultTitle: '选择账号',
-  };
-
-  private accountData: IMultiSelectOption[] = [];
+  treeNode = []; //组织树
 
   public staff: any = {
     sysEmployer: {}
@@ -136,16 +110,38 @@ export class StaffEditComponent implements OnInit {
   }
 
   /* 获取全部组织机构 */
-  // getOrganizations() {
-  //   // this._staffService.getOrganizations().then((result) => {
-  //   //   result.data.map(org => org['children'] = []);
-  //   //   let nodes = json2Tree(result.data, {parentId: 'orgParentId', children: 'children'}, [{
-  //   //     origin: 'orgName',
-  //   //     replace: 'name'
-  //   //   }]);
-  //   //   this.treeNode = nodes;
-  //   // });
-  // }
+  getOrganizations() {
+    this._staffService.getOrganizations().then((result) => {
+      console.log(result);
+      let nodes = json2Tree(result.data,
+        {parentId: 'pid', children: 'children', id: 'departmentId'},
+        [
+          {origin: 'departmentName', replace: 'name'},
+          {origin: 'departmentId', replace: 'id'}
+        ]
+      );
+
+      function addIcon(param) {
+        param.map(org => {
+          if (org.children) {
+            org.customIcon = 'ion-ios-people';
+            addIcon(org.children);
+          }
+          else {
+            org.customIcon = 'ion-android-people';
+            org.children = [];
+          }
+        })
+      }
+
+      addIcon(nodes);
+      nodes.map(rootNode => rootNode['expanded'] = true);
+      this.treeNode = nodes;
+      console.log(this.treeNode);
+    }).catch(err => {
+      console.log(err);
+    });
+  }
 
   //职位保存基本信息
   jobInfoNotify() {
@@ -154,9 +150,9 @@ export class StaffEditComponent implements OnInit {
     this._staffService.putOne(this.staff.sysEmployer.id, this.staff.sysEmployer).then((result) => {
       console.log(this.staff.sysEmployer);
       if (result.code == 0) {
-        alert("添加成功");
+        this.alertSuccess("添加成功");
       } else {
-        alert("添加失败");
+        this.alertError("添加失败");
       }
     });
   }
@@ -167,9 +163,9 @@ export class StaffEditComponent implements OnInit {
     this._staffService.putOne(this.staff.sysEmployer.id, this.staff.sysEmployer).then((result) => {
       console.log(this.staff.sysEmployer);
       if (result.code == 0) {
-        alert("添加成功");
+        this.alertSuccess("添加成功");
       } else {
-        alert("添加失败");
+        this.alertError("添加失败");
       }
     });
   }
@@ -220,20 +216,33 @@ export class StaffEditComponent implements OnInit {
       case 'save':
         if (editData.id) {
           this._staffService.putOneEdu(this.staffId, editData).then((result) => {
-            this.educationView.save(key);
+            if (result.code == 0) {
+              this.educationView.save(key);
+              this.alertSuccess("修改成功");
+            } else {
+              this.alertError("添加失败");
+            }
           });//修改
         } else {
           this._staffService.postOneEdu(this.staffId, editData).then((result) => {
-            this.educationView.save(key);
+            if (result.code == 0) {
+              this.educationView.save(key);
+              this.alertSuccess("添加成功");
+            } else {
+              this.alertError("添加失败");
+            }
           });//新增
         }
-        alert('保存');
         break;
       case 'delete':
         this._staffService.deleteEdu(this.staffId, editData.id).then((result) => {
-          this.educationView.delete(key);
+          if (result.code == 0) {
+            this.educationView.delete(key);
+            this.alertSuccess("删除成功");
+          } else {
+            this.alertError("删除失败");
+          }
         });
-        alert('删除');
         break;
     }
   }
@@ -246,20 +255,34 @@ export class StaffEditComponent implements OnInit {
       case 'save':
         if (editData.id) {
           this._staffService.putOneRelations(this.staffId, editData).then((result) => {
-            this.relationView.save(key);
+            if (result.code == 0) {
+              this.educationView.save(key);
+              this.alertSuccess("修改成功");
+            } else {
+              this.alertError("添加失败");
+            }
           });//修改
         } else {
           this._staffService.postOneRelations(this.staffId, editData).then((result) => {
-            this.relationView.save(key);
+            if (result.code == 0) {
+              this.educationView.save(key);
+              this.alertSuccess("添加成功");
+            } else {
+              this.alertError("添加失败");
+            }
           });//新增
         }
         alert('保存');
         break;
       case 'delete':
         this._staffService.deleteRelations(this.staffId, editData.id).then((result) => {
-          this.relationView.delete(key);
+          if (result.code == 0) {
+            this.educationView.delete(key);
+            this.alertSuccess("删除成功");
+          } else {
+            this.alertError("删除失败");
+          }
         });
-        alert('删除');
         break;
     }
   }
@@ -272,20 +295,33 @@ export class StaffEditComponent implements OnInit {
       case 'save':
         if (editData.id) {
           this._staffService.putOneExperiences(this.staffId, editData).then((result) => {
-            this.experienceView.save(key);
+            if (result.code == 0) {
+              this.educationView.save(key);
+              this.alertSuccess("修改成功");
+            } else {
+              this.alertError("添加失败");
+            }
           });//修改
         } else {
           this._staffService.postOneExperiences(this.staffId, editData).then((result) => {
-            this.experienceView.save(key);
+            if (result.code == 0) {
+              this.educationView.save(key);
+              this.alertSuccess("添加成功");
+            } else {
+              this.alertError("添加失败");
+            }
           });//新增
         }
-        alert('保存');
         break;
       case 'delete':
         this._staffService.deleteExperiences(this.staffId, editData.id).then((result) => {
-          this.experienceView.delete(key);
+          if (result.code == 0) {
+            this.educationView.delete(key);
+            this.alertSuccess("删除成功");
+          } else {
+            this.alertError("删除失败");
+          }
         });
-        alert('删除');
         break;
     }
   }
@@ -297,7 +333,40 @@ export class StaffEditComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  save(prams) {
-
+  private nodeId: string;
+  private nodeName: string;
+  onNotice ($event) {
+    console.log($event);
+    let node = $event.node;
+    if($event.eventName == "onFocus") {
+      this.nodeName = node.data.name;
+      this.nodeId = node.data.id;
+    }
   }
+
+  save () {
+    this.staff.sysEmployer.departmentId = this.nodeId;
+    this.staff.sysEmployer.departmentName = this.nodeName;
+  }
+
+  alertSuccess(info: string) {
+    this._messageService.open({
+      icon: 'fa fa-times-circle',
+      message: info,
+      autoHideDuration: 3000,
+    }).onClose().subscribe(() => {
+      this._router.navigate(['/basic-info/staff-manage/'])
+    });
+  }
+
+  alertError(errMsg: string) {
+    this.forbidSaveBtn = false;
+    // 错误处理的正确打开方式
+    this._messageService.open({
+      icon: 'fa fa-times-circle',
+      message: errMsg,
+      autoHideDuration: 3000,
+    })
+  }
+
 }
