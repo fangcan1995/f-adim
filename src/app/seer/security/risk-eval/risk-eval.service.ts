@@ -11,7 +11,7 @@ export class RiskEvalService extends BaseService<any> {
     this.setApi("riskEvals");
   }
 
-  private riskEvalsAPI = "http://172.16.1.27:8070/riskEvals";
+  private riskEvalsAPI = "http://172.16.7.4:8020/riskEvals";
 
   //1 获取数据列表
   getLists(pageInfo: any): Promise<any> {
