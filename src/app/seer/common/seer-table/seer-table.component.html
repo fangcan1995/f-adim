@@ -103,11 +103,11 @@
           <div *ngIf="title.type === 'html'" [innerHTML]="item[title.key]"></div>
           <div *ngIf="title.type=='image'" >
             <span class="seer_font"><img src="{{item[title.key]}}" style="width: 50px; height: 40px" (click)="openModal(image)" ></span>
-            <template #image>
+            <ng-template #image>
               <div class="modal-body">
                 <img src="{{item[title.key]}}" style="width:100%">
               </div>
-            </template>
+            </ng-template>
           </div>
           <div *ngIf="title.type=='date'" >
             <span class="seer_font">{{item[title.key]| date:'yyyy-MM-dd'}}</span>

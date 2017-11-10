@@ -9,7 +9,7 @@
         <div style="margin-bottom: 24px;">
           <button class="btn btn-primary">新建红包</button>
           <button class="btn btn-primary" (click)="open(template)">关联活动</button>
-           <template #template>
+           <ng-template #template>
               <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
                 <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">选择关联活动</h4>
               </div>
@@ -44,7 +44,7 @@
                 <button class="btn btn-primary" (click)="modalRef.hide()">取消</button>
                 <button class="btn btn-primary" (click)="modalRef.hide()">确定</button>
               </div>
-          </template>  
+          </ng-template>  
         </div>
         <form class="form-horizontal">
           <div class="row">

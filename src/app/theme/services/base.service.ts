@@ -21,7 +21,7 @@ export const API = {
   'USERS': 'permission/users',
   'RESOURCES': 'permission/resources',
   'DICTS': 'system/dicts',
-  'ROLES': 'system/roles',
+  'ROLES': 'permission/roles',
 
   'ORGS': 'organizations'
 }

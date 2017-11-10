@@ -27,10 +27,10 @@ export class RoleEditComponent implements OnInit {
   };
   activeResources:any = [];
   activeAccounts:any = [];
-  private editType:string = 'add';
-  private forbidSaveBtn:boolean = true;
-  private forbidResetPasswordBtn:boolean = true;
-  private id:string;
+  editType:string = 'add';
+  forbidSaveBtn:boolean = true;
+  forbidResetPasswordBtn:boolean = true;
+  id:string;
   @ViewChild('myForm') myForm;
   @ViewChild('accountTree') accountTree: SeerTree;
   @ViewChild('resourceTree') resourceTree: SeerTree;
@@ -64,10 +64,6 @@ export class RoleEditComponent implements OnInit {
       })
       .catch(err => {
         this.showError(err.msg || '获取角色信息失败')
-        .onClose()
-        .subscribe(() => {
-          this._router.navigate(['/system/role']);
-        });
       });
     } else if ( this.editType === 'add' ) {
       Promise.all([ this.getResources(), this.getUsersWithStaffsWithOrgs() ])
@@ -76,10 +72,6 @@ export class RoleEditComponent implements OnInit {
       })
       .catch(err => {
         this.showError(err.msg || '获取角色信息失败')
-        .onClose()
-        .subscribe(() => {
-          this._router.navigate(['/system/role']);
-        });
       });
     }
   }

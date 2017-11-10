@@ -10,31 +10,31 @@ import { Location } from '@angular/common';
 })
 export class FirstAuditComponent implements OnInit, OnChanges {
 
-  private member: any = {}; //会员信息
+  public member: any = {}; //会员信息
 
-  private loan: any = {}; //借款信息
+  public loan: any = {}; //借款信息
 
-  private vehicles: any = []; //车辆信息
+  public vehicles: any = []; //车辆信息
 
-  private houses: any = []; //房屋信息
+  public houses: any = []; //房屋信息
 
-  private credits: any = []; //信用信息
+  public credits: any = []; //信用信息
 
-  private attachment: any = []; //审核资料（附件）
+  public attachment: any = []; //审核资料（附件）
 
-  private investRecords: any = []; //投资信息
+  public investRecords: any = []; //投资信息
 
-  private auditHistory: any = []; //审核记录
+  public auditHistory: any = []; //审核记录
 
-  private loanType: any = {};
+  public loanType: any = {};
 
-  private pawn: any = {}; //抵押物信息
+  public pawn: any = {}; //抵押物信息
 
-  private id: string;
+  public id: string;
 
-  private submitData: any = {};
+  public submitData: any = {};
 
-  private titles = [
+  public titles = [
     {key:'number',label:'编号'},
     {key:'process',label:'审批流程'},
     {key:'time',label:'审批时间'},

@@ -13,14 +13,14 @@ import {SeerMessageService} from "../../../../../theme/services/seer-message.ser
 export class MemberInfoComponent implements OnInit {
 
   @Input()
-  private disabled: boolean = false;
+  public disabled: boolean = false;
 
   @Input()
-  private member : any = {};
+  public member : any = {};
 
-  private classNames: any = {"addressContainerClass": "form-group col-xs-12 col-md-12 col-lg-5 col-xlg-4"};
+  public classNames: any = {"addressContainerClass": "form-group col-xs-12 col-md-12 col-lg-5 col-xlg-4"};
 
-  private actions = [];
+  public actions = [];
 
   constructor(private service: CommonService , private _messageService: SeerMessageService,){}
 
@@ -34,7 +34,7 @@ export class MemberInfoComponent implements OnInit {
   }
 
   //地址快捷方式
-  private shortcut($event): void {
+  public shortcut($event): void {
     if($event.toElement.checked) {
       this.member.liveProvince = this.member.domicileProvince;
       this.member.liveCity = this.member.domicileCity;
@@ -60,7 +60,7 @@ export class MemberInfoComponent implements OnInit {
   }
 
   //保存
-  private save(): void {
+  public save(): void {
 
     let params = {
       "memberId": this.member.memberId,

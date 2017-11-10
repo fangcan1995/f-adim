@@ -50,7 +50,7 @@
 </seer-collapse-card>
 
 <!-- create vehicle modal -->
-<template #vehicleTemplate>
+<ng-template #vehicleTemplate>
   <div class="modal-header">
     <h5 class="modal-title pull-left">
       <ng-container *ngIf="!vehicleReadOnly">新增车辆</ng-container>
@@ -135,10 +135,10 @@
     </ng-container>
     <button type="button"  class="btn btn-default" (click)="modalRef.hide()">关闭</button>
   </div>
-</template>
+</ng-template>
 
 <!-- create house modal -->
-<template #houseTemplate>
+<ng-template #houseTemplate>
   <div class="modal-header">
     <h5 class="modal-title pull-left">
       <ng-container *ngIf="!houseReadOnly">新增房屋</ng-container>
@@ -229,4 +229,4 @@
     </ng-container>
     <button type="button"  class="btn btn-default" (click)="modalRef.hide()">关闭</button>
   </div>
-</template>
+</ng-template>

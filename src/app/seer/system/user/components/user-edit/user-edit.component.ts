@@ -31,11 +31,11 @@ export class UserEditComponent implements OnInit {
     originId: '',
     name: '',
   };
-  private editType:string = 'add';
-  private forbidSaveBtn:boolean = true;
-  private forbidResetPasswordBtn:boolean = true;
-  private id:string;
-  private isDepartmentDropdownOpen:boolean = false;
+  editType:string = 'add';
+  forbidSaveBtn:boolean = true;
+  forbidResetPasswordBtn:boolean = true;
+  id:string;
+  isDepartmentDropdownOpen:boolean = false;
   staffTreeNodes;
   staffPermission = TREE_PERMISSIONS.NOTIFY;
   @ViewChild('myForm') myForm;
@@ -64,10 +64,6 @@ export class UserEditComponent implements OnInit {
       })
       .catch(err => {
         this.showError(err.msg || '获取用户信息失败')
-        .onClose()
-        .subscribe(() => {
-          this._router.navigate(['/system/user']);
-        });
       });
     } else if ( this.editType === 'add' ) {
       Promise.all([ this.getRoles(), this.getUsersWithStaffsWithOrgs() ])
@@ -76,10 +72,6 @@ export class UserEditComponent implements OnInit {
       })
       .catch(err => {
         this.showError(err.msg || '获取用户信息失败')
-        .onClose()
-        .subscribe(() => {
-          this._router.navigate(['/system/user']);
-        });
       })
     }
   }
@@ -127,6 +119,21 @@ export class UserEditComponent implements OnInit {
   }
   handleBackBtnClick() {
     this._location.back();
+  }
+  handleResetPasswordBtn() {
+    this.forbidResetPasswordBtn = true;
+    this._userService.resetPassword({
+      userId: this.user.userId,
+      type: 0,
+    })
+    .then(res => {
+      this.forbidResetPasswordBtn = false;
+      this.showSuccess(res.msg || '重置密码成功')
+    })
+    .catch(err => {
+      this.forbidResetPasswordBtn = false;
+      this.showError(err.msg || '重置密码失败')
+    })
   }
   getRoles() {
     return this._userService.getRoles()

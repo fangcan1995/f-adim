@@ -4,11 +4,10 @@ import { Location } from '@angular/common';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs/Observable';
 import { InfoPublishService } from "../../info-publish.service";
-import {Ng2Uploader} from "ng2-uploader";
 import {GlobalState} from "../../../../../global.state";
 import { SeerTree } from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
 import { TREE_EVENTS } from "../../../../../theme/modules/seer-tree/constants/events";
-import { jsonTree } from "../../../../../theme/utils/json-tree";
+import { json2Tree } from "../../../../../theme/libs";
 import { User } from "../../../../model/auth/user";
 import { ModalComponent } from "../../../../../theme/components/ng2-bs4-modal/modal";
 import { ModalDirective ,BsModalService} from 'ngx-bootstrap/modal';
@@ -19,7 +18,6 @@ import {TREE_PERMISSIONS} from "../../../../../theme/modules/seer-tree/constants
 @Component({
   templateUrl: './info-publish-edit.component.html',
   styleUrls: ['./info-publish-edit.component.scss'],
-  providers: [Ng2Uploader],
 })
 // export class OrgTreeDialogComponent extends BaseModalComponent implements OnInit
 export class InfoPublishEditComponent implements OnInit {
@@ -37,6 +35,7 @@ export class InfoPublishEditComponent implements OnInit {
   };
   public uploadInProgress:boolean = false;
   public picture = '';
+  defaultPicture;
   imageError;
   currentStaff;
   treePermissions = TREE_PERMISSIONS.NOTIFY|TREE_PERMISSIONS.ADD|TREE_PERMISSIONS.EDIT|TREE_PERMISSIONS.DELETE|TREE_PERMISSIONS.DRAG|TREE_PERMISSIONS.SHOW_FILTER|TREE_PERMISSIONS.SHOW_ADD_ROOT;
@@ -51,7 +50,7 @@ export class InfoPublishEditComponent implements OnInit {
   @ViewChild('fileUpload') protected _fileUpload:ElementRef;
   onUpload:EventEmitter<any> = new EventEmitter();
   onUploadCompleted:EventEmitter<any> = new EventEmitter();
-  constructor(private location: Location,private InfoPublishService:InfoPublishService,private renderer:Renderer, protected _uploader:Ng2Uploader,private gs:GlobalState,private modalService: BsModalService) {
+  constructor(private location: Location,private InfoPublishService:InfoPublishService,private renderer:Renderer,private gs:GlobalState,private modalService: BsModalService) {
     // 模态层
      this.gs.subscribe(this.EVENT, (param) => {
       this.openModal(param); 
@@ -105,7 +104,7 @@ export class InfoPublishEditComponent implements OnInit {
               };
               if (this._canUploadOnServer()) {
                 this.uploadInProgress = true;
-                this._uploader.addFilesToQueue(files);
+                // this._uploader.addFilesToQueue(files);
               }
             }
       }else {
@@ -160,7 +159,7 @@ export class InfoPublishEditComponent implements OnInit {
       console.log("111111111111111111111111111111");
       
       result.data.map(org=>org['children']=[]);
-      let nodes = jsonTree(result.data,{parentId:'orgParentId',children:'children'},[{origin:'orgName',replace:'name'}]);
+      let nodes = json2Tree(result.data,{parentId:'orgParentId',children:'children'},[{origin:'orgName',replace:'name'}]);
       //nodes.map(rootNode=>rootNode['expanded']=true);
       this.treeNode = nodes;
     });
@@ -173,6 +172,10 @@ export class InfoPublishEditComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+  save() {
+
+  }
+
    onSave(): void {
     // let rolesTemp: string[] = [];
     // for (let data of this.roles) {

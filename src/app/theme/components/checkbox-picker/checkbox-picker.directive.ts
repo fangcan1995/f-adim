@@ -26,11 +26,11 @@ export class CheckboxPickerDirective implements OnInit {
   @Input() showFilter: boolean = false;
   @Output() notify = new EventEmitter();
 
-  private el: HTMLInputElement;
+  public el: HTMLInputElement;
   /* input element */
-  private modalElement: HTMLElement;
+  public modalElement: HTMLElement;
   /* dropdown element */
-  private componentRef: ComponentRef<CheckboxPickerComponent>;
+  public componentRef: ComponentRef<CheckboxPickerComponent>;
   /* dropdown component reference */
 
   constructor(private resolver: ComponentFactoryResolver,

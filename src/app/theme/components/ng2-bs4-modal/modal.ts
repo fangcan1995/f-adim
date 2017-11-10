@@ -26,7 +26,7 @@ import {BaseDynamicComponent} from "../../directives/dynamicComponent/dynamic-co
 })
 export class ModalComponent {
 
-  private overrideSize: string = null;
+  public overrideSize: string = null;
 
   @Input() componentInstance: BaseDynamicComponent;
   @Input() animation: boolean = true;
@@ -37,7 +37,7 @@ export class ModalComponent {
     return this.animation;
   }
 
-  private inAnimation = false;
+  public inAnimation = false;
 
   @HostBinding('class.backdrop') get backdropClass(): string | boolean {
     return this.backdrop;
@@ -47,13 +47,13 @@ export class ModalComponent {
     setTimeout(() => this.inAnimation = true, 10)
   }
 
-  private isSmall() {
+  public isSmall() {
     return this.overrideSize !== ModalSize.Large
       && this.size === ModalSize.Small
       || this.overrideSize === ModalSize.Small;
   }
 
-  private isLarge() {
+  public isLarge() {
     return this.overrideSize !== ModalSize.Small
       && this.size === ModalSize.Large
       || this.overrideSize === ModalSize.Large;

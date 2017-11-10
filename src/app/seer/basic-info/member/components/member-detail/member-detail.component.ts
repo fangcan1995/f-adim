@@ -4,10 +4,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./member-detail.component.scss']
 })
 export class MemberDetailComponent {
-
+  public forbidSaveBtn: boolean = true;
   constructor(
   ) {}
-
+  handleSaveBtnClick() {}
   /*public member: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;

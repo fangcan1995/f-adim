@@ -1,8 +1,8 @@
-import {Component,OnInit,TemplateRef} from '@angular/core';
+import {Component,OnInit,TemplateRef, ViewEncapsulation} from '@angular/core';
 import {Location} from '@angular/common';
 import {ActivatedRoute, Params,Router} from "@angular/router";
-import {MessageService} from "../../message.service";
-import {GlobalState} from "../../../../../global.state";
+import { MessageService } from "../../message.service";
+import { GlobalState } from "../../../../../global.state";
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { BsModalService} from 'ngx-bootstrap/modal';
 import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
@@ -12,11 +12,13 @@ import {formatDate} from "ngx-bootstrap/bs-moment/format";
 @Component({
   selector: 'message-edit',
   templateUrl: './message-edit.component.html',
-  styleUrls: ['./message-edit.component.css'],
+  styleUrls: ['./message-edit.component.scss'],
+  /*encapsulation: ViewEncapsulation.None*/
 })
 export class MessageEditComponent {
 
-  private message:any={};
+  message:any = {};
+  expectSendTime;
   title : string;
   isAdd: boolean;
   editId: string;
@@ -53,6 +55,7 @@ export class MessageEditComponent {
   };
   modalhasGlobalFilter = false;
   modalfilters =[];
+  formGroupColNum='col-sm-12 col-md-6 col-lg-6';
   modalTitles=[];
   modalPageInfo={
     "pageNum":1,
@@ -78,6 +81,7 @@ export class MessageEditComponent {
   }; //分页、排序、检索
   selectedUserId=[]; //选中的用户id
   ids='';//选中的用户id
+  chooseResult:string='选择用户';  //选择人员按钮中文提示
   public modalRef: BsModalRef;
   cardActions2 = [this.modalActionSet.All,this.modalActionSet.OK];
 
@@ -112,7 +116,6 @@ export class MessageEditComponent {
       });
     }else {
       this.isPickUsersAble=true;
-
     };
   }
   //激活选择用户按钮
@@ -136,6 +139,9 @@ export class MessageEditComponent {
       this.disabled.sendNotify=true;
       this.disabled.sendMessage=true;
     }
+
+    this.ids='';
+    this.chooseResult='选择用户';
   }
   //即刻下发事件处理方法
   ckboxToggle(messageType:any){
@@ -216,6 +222,18 @@ export class MessageEditComponent {
             options:[{value:'', content: '全部'},{value:'1', content: '龙区'},{value:'2', content: '辽区'}]
           },
           {
+            key: 'investOrNot',
+            label: '投资状态',
+            type: 'select',
+            options:[{value:'', content: '全部'},{value:'0', content: '未投资'},{value:'1', content: '已投资'}]
+          },
+          {
+            key: 'sex',
+            label: '性别',
+            type: 'select',
+            options:[{value:'', content: '全部'},{value:'1', content: '男'},{value:'2', content: '女'}]
+          },
+          {
             key: 'mage',
             label: '年龄',
             groups: [
@@ -227,18 +245,6 @@ export class MessageEditComponent {
               },
             ],
             groupSpaces: ['至']
-          },
-          {
-            key: 'sex',
-            label: '性别',
-            type: 'select',
-            options:[{value:'', content: '全部'},{value:'1', content: '男'},{value:'2', content: '女'}]
-          },
-          {
-            key: 'investOrNot',
-            label: '投资状态',
-            type: 'select',
-            options:[{value:'', content: '全部'},{value:'0', content: '未投资'},{value:'1', content: '已投资'}]
           },
           {
             key: 'investDate',
@@ -353,18 +359,18 @@ export class MessageEditComponent {
       case 'ok':
         this.ids='';
         this.ids=this.selectedUserId.join(",");
+        this.chooseResult=`已选定${this.ids.split(',').length}人`;
         this.modalService.hide(1);
         break;
       case 'all':
         this.ids='';
         this.service.getIds(this.usersType,this.modalPageInfo.query).then(data=>{
-          console.log(data);
           if(this.usersType=='members'){
             this.ids=data.message || null;
           }else if(this.usersType=='users'){
             this.ids=data.data.ids || null;message
           }
-
+          this.chooseResult=`已选定${this.modalPageInfo.total}人`
         }).catch(err=>{
           this.showError(err.json().message || '连接错误');
         });
@@ -378,12 +384,18 @@ export class MessageEditComponent {
   modalChangeTable(message){
     const type = message.type;
     let data = message.data;
+    let keyId;
+    if(this.usersType=='members'){
+      keyId=data.memberId;
+    }else if(this.usersType=='users'){
+      keyId=data.id;
+    }
     switch (type) {
       case 'select_one':
         if(data.selected){
-          this.selectedUserId.push(data.id);
+          this.selectedUserId.push(keyId);
         }else{
-          let idIndex=this.selectedUserId.findIndex(x => x == data.id);
+          let idIndex=this.selectedUserId.findIndex(x => x == keyId);
           this.selectedUserId.splice(idIndex,1);
         }
         break;

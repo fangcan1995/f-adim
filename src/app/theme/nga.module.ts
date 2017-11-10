@@ -14,15 +14,12 @@ import {
 import {
   BaBackTop,
   BaCard,
-  BaCheckbox,
   BaContentTop,
   BaFullCalendar,
   BaMenuItem,
   BaMenu,
   BaMsgCenter,
-  BaMultiCheckbox,
   BaPageTop,
-  BaPictureUploader,
   BaSidebar,
   ModalComponent,
   ModalHeaderComponent,
@@ -81,7 +78,7 @@ import {
 import {
   TreeModule
 } from './modules';
-import {Ng2BootstrapModule} from "ng2-bootstrap";
+import {Ng2BootstrapModule} from "ngx-bootstrap";
 import {TreePickerComponent} from "./components/tree-picker/tree-picker.component";
 import {TreePickerDirective} from "./components/tree-picker/tree-picker.directive";
 import {CheckboxPickerComponent} from "./components/checkbox-picker/checkbox-picker.component";
@@ -93,15 +90,12 @@ import { CKEditorModule } from 'ng2-ckeditor';
 const NGA_COMPONENTS = [
   BaBackTop,
   BaCard,
-  BaCheckbox,
   BaContentTop,
   BaFullCalendar,
   BaMenuItem,
   BaMenu,
   BaMsgCenter,
-  BaMultiCheckbox,
   BaPageTop,
-  BaPictureUploader,
   BaSidebar,
   ModalComponent,
   ModalHeaderComponent,

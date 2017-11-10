@@ -13,7 +13,7 @@ import {SeerDialogService, SeerMessageService,} from '../../../../../theme/servi
 })
 export class MessageDetailComponent {
 
-  private message:any={};
+  message:any = {};
   title : string;
   editId: string;
   usersType: string; //用户类型
@@ -90,5 +90,8 @@ export class MessageDetailComponent {
       icon: 'fa fa-times-circle',
       autoHideDuration: 3000,
     })
+  }
+  selectUsersType() {
+    
   }
 }

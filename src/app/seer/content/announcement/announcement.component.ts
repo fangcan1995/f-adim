@@ -165,7 +165,7 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
   }
 
   handleFiltersChanged($event) {
-    let params=$event;
+    let params = $event;
     let { effectTime, ...otherParams } = params;
     let effectTimeStart,
       effectTimeEnd;
@@ -181,7 +181,23 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
     this.pageInfo.query = params;
     this.getList();
   }
-
+  handleSearchBtnClicked($event) {
+    let params = $event;
+    let { effectTime, ...otherParams } = params;
+    let effectTimeStart,
+      effectTimeEnd;
+    if ( _.isArray(effectTime) ) {
+      effectTimeStart = effectTime[0] ? (formatDate(effectTime[0],'YYYY-MM-DD 00:00:00')) : null;
+      effectTimeEnd = effectTime[1] ? (formatDate(effectTime[0],'YYYY-MM-DD 23:59:59')) : null;
+    }
+    params = {
+      ...otherParams,
+      effectTimeStart,
+      effectTimeEnd,
+    }
+    this.pageInfo.query = params;
+    this.getList();
+  }
   /*handleSearchBtnClicked($event) {
     let params = {
       ...$event,
@@ -189,7 +205,7 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
     this.getList(params)
   }*/
 
-  handlePageChange($event) {
+  handleChangePage($event) {
     this.pageInfo.pageSize = $event.pageSize;
     this.pageInfo.pageNum=$event.pageNum;
     this.getList();

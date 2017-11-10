@@ -13,11 +13,11 @@ import {SeerMessageService} from "../../../../../theme/services/seer-message.ser
 export class LoanInfoComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input()
-  private disabled: boolean = false;
+  public disabled: boolean = false;
 
-  @Input() loan = {};
+  @Input() loan:any = {};
 
-  private actions = [];
+  public actions = [];
 
   @Output() notify: EventEmitter<any> = new EventEmitter();
 
@@ -50,7 +50,7 @@ export class LoanInfoComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   //保存借款信息
-  private save(): void {
+  public save(): void {
     this.service.updateLoan(this.loan).then((res => {
       if(0 == res.code) {
         this.showSuccess(res.msg || '保存成功');
@@ -61,7 +61,7 @@ export class LoanInfoComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   //借款类型改变通知
-  private loanTypeChange() {
+  public loanTypeChange() {
     this.notify.emit(this.loan['loanApplyType']);
   }
 

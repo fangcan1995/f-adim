@@ -11,7 +11,6 @@ import { NgaModule } from "./theme/nga.module";
 import { AppRoutingModule } from "./app.routing.module";
 import { SeerModule } from "./seer/seer.module";
 import { LoginModule } from "./seer/login/login.module";
-import { CriteriaModule } from "./criteria/criteria.module";
 import { CKEditorModule } from 'ng2-ckeditor';
 import { AccordionModule,AlertModule,ButtonsModule,ModalModule,TabsModule } from 'ngx-bootstrap';
 
@@ -39,7 +38,6 @@ export type StoreType = {
     BrowserAnimationsModule,
     AppRoutingModule,
     SeerModule,
-    CriteriaModule,
     CKEditorModule,
     ModalModule.forRoot(),
     AlertModule.forRoot(),

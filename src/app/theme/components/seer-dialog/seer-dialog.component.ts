@@ -3,7 +3,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ModalDirective } from "ng2-bootstrap";
+import { ModalDirective } from "ngx-bootstrap";
 import { SeerDialogService } from '../../services/seer-dialog.service';
 @Component({
   selector: 'seer-dialog',
@@ -11,9 +11,9 @@ import { SeerDialogService } from '../../services/seer-dialog.service';
   styleUrls: ['./seer-dialog.component.scss'],
 })
 export class SeerDialogComponent implements OnInit {
-  private content: any;
-  private header: any;
-  private actions: Array<any> = [];
+  content: any;
+  header: any;
+  actions: Array<any> = [];
   @ViewChild('childModal') public childModal: ModalDirective;
   constructor(private service: SeerDialogService) {}
   ngOnInit() {

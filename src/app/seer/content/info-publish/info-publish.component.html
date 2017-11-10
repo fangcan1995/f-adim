@@ -1,7 +1,7 @@
 
 <div class="row">
   <div class="col-sm-3">
-    <ba-card [title]="title" baCardClass="with-scroll">
+    <seer-collapse-card [title]="title" baCardClass="with-scroll">
         <div class="col-sm-12">
             <seer-tree
             (notify)="onNotify($event) "
@@ -12,10 +12,10 @@
             >
             </seer-tree>
         </div>    
-    </ba-card>
+    </seer-collapse-card>
   </div>
   <div class="col-sm-9">
-    <ba-card [title]="tableTitle" baCardClass="with-scroll">
+    <seer-collapse-card [title]="tableTitle" baCardClass="with-scroll" [canCollapse]=false>
       <seer-collapse-card
       >
         <seer-filter
@@ -30,7 +30,6 @@
         <seer-table
           [data]="source"
           [titles]="titles"
-          [translate]="dict"
           (notify)="onChange($event)"
          
           [hideColumns]="true"
@@ -39,7 +38,7 @@
           
         ></seer-table>
       </seer-collapse-card>
-    </ba-card>
+    </seer-collapse-card>
   </div>
 </div>
 <div dynamic-component></div>

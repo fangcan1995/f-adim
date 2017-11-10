@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import {Component, ViewChild, OnDestroy} from "@angular/core";
 // OrgManageService
 import {GlobalState} from "../../../global.state";
-import {jsonTree} from "../../..//theme/utils/json-tree";
+import {json2Tree} from "../../..//theme/libs";
 import {TREE_PERMISSIONS} from "../../../theme/modules/seer-tree/constants/permissions";
 import {TREE_EVENTS} from "../../../theme/modules/seer-tree/constants/events";
 import {SeerTree} from "../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
@@ -118,7 +118,7 @@ export class InfoPublishComponent {
   getOrganizations() {
     this.service.getOrganizations().then((result) => {
       result.data.map(org=>org['children']=[]);
-      let nodes = jsonTree(result.data,{parentId:'orgParentId',children:'children'},[{origin:'orgName',replace:'name'}]);
+      let nodes = json2Tree(result.data,{parentId:'orgParentId',children:'children'},[{origin:'orgName',replace:'name'}]);
       //nodes.map(rootNode=>rootNode['expanded']=true);
       this.treeNode = nodes;
     });
@@ -131,6 +131,8 @@ export class InfoPublishComponent {
     this.service.getStaffsByOrgId(orgId).then((result) => {this.tableSource = result.data});
   }
 
+  handleFiltersChanged() {}
+  handleSearchBtnClicked() {}
   /*
    * 组织树通知
    * */

@@ -15,15 +15,18 @@ import {SeerDialogService, SeerMessageService,} from '../../../../../theme/servi
 })
 export class MessageTemplateEditComponent implements OnInit {
   //template: Template = new Template();
-  private template:any={};
+  template:any={};
   title="";
-  private _editType: string = 'add';
+  _editType: string = 'add';
   isAdd: boolean;
   editId: string;
   public forbidSaveBtn: boolean = true;
   isPickUsersAble:boolean=true;  //选择用户按钮无效
   IsChecked={"sendMail":false,"sendNotify":false,"sendMessage":false,"now":false}
   disabled={"sendMail":true,"sendNotify":true,"sendMessage":true,"now":false}; checkbox是否可用
+  sendMail;
+  sendNotify;
+  sendMessage;
   constructor(
     private route: ActivatedRoute,
     private _router: Router,
@@ -129,4 +132,5 @@ export class MessageTemplateEditComponent implements OnInit {
       autoHideDuration: 3000,
     })
   }
+
 }

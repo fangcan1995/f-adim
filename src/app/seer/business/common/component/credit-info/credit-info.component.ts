@@ -13,20 +13,20 @@ import {SeerMessageService} from "../../../../../theme/services/seer-message.ser
 export class CreditInfoComponent implements OnInit, OnChanges {
 
   @Input()
-  private disabled: boolean = false;
+  public disabled: boolean = false;
 
   @Input()
-  private credits: any[] = [];
+  public credits: any[] = [];
 
-  private riskReport = {};
+  public riskReport:any = {};
 
-  private creditReport = {};
+  public creditReport:any = {};
 
-  private antiFraudReport = {};
+  public antiFraudReport:any = {};
 
-  private actions = [ SAVE ];
+  public actions = [ SAVE ];
 
-  private creditReportType = [];
+  public creditReportType = [];
 
   constructor(private service: CommonService , private _messageService: SeerMessageService,){}
 
@@ -56,15 +56,15 @@ export class CreditInfoComponent implements OnInit, OnChanges {
     });
   }
 
-  private preview(param):void {
+  public preview(param):void {
 
   }
 
-  private download(param):void {
+  public download(param):void {
     console.log(param + ",TODO");
   }
 
-  private query(param, creditType):void {
+  public query(param, creditType):void {
     this.service.getMemberCredit(param.memberId, creditType).then(res => {
       if(0 == res.code) {
         this.showSuccess(res.msg || '保存成功');
@@ -74,7 +74,7 @@ export class CreditInfoComponent implements OnInit, OnChanges {
     });
   }
 
-  private requery(param):void {
+  public requery(param):void {
     console.log(param + ",TODO");
   }
 

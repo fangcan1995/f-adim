@@ -19,8 +19,10 @@ export class BaSidebar {
   public menuHeight:number;
   public isMenuCollapsed:boolean = false;
   public isMenuShouldCollapsed:boolean = false;
-  private _offsetTop: number;
-  private _defaultTop:number;
+  public _offsetTop: number;
+  public _defaultTop:number;
+  hoverElemTop;
+  outOfArea;
   @ViewChild('sidebar') sidebar: ElementRef;
   constructor(
     private _elementRef:ElementRef,

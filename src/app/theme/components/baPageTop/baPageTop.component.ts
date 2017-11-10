@@ -83,4 +83,7 @@ export class BaPageTop implements OnInit {
   public logout() {
     this._authService.logout().subscribe();
   }
+  onChangePassword() {
+    
+  }
 }

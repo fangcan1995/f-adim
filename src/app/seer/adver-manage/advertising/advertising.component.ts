@@ -148,7 +148,7 @@ export class AdvertisingComponent implements OnInit {
   //高级检索
   handleFiltersChanged($event) {
     let params=$event;
-    let { createTime, ...otherParams } = params;
+    let { createTime,...otherParams } = params;
     let createTimeStart,
       createTimeEnd;
     if ( _.isArray(createTime) ) {

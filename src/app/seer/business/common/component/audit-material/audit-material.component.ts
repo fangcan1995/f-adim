@@ -16,19 +16,19 @@ import {BASE_URL} from "../../../../../theme/services/base.service";
 export class AuditMaterialComponent implements OnInit, OnChanges{
 
   @Input()
-  private disabled: boolean = false;
+  public disabled: boolean = false;
 
   @Input()
-  private projectId : string;
+  public projectId : string;
 
   @Input()
-  private attachments = [];
+  public attachments = [];
 
-  private uploader:FileUploader; //上传对象
+  public uploader:FileUploader; //上传对象
 
-  private progress: number = 0; //上传进度
+  public progress: number = 0; //上传进度
 
-  private imageType = ['jpg', 'jpeg', 'bmp', 'gif', 'png', 'svg'];
+  public imageType = ['jpg', 'jpeg', 'bmp', 'gif', 'png', 'svg'];
 
   constructor(private service: CommonService, private _messageService: SeerMessageService){}
 
