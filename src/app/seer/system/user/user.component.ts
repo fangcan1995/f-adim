@@ -3,7 +3,12 @@ import { DatePipe } from "@angular/common";
 import { Router } from "@angular/router";
 import * as _ from 'lodash';
 import { UserService } from './user.service';
-import { SeerDialogService, SeerMessageService } from '../../../theme/services';
+import {
+  ManageService,
+  SeerDialogService,
+  SeerMessageService,
+} from '../../../theme/services';
+import { GlobalState } from '../../../global.state';
 import { UPDATE, DELETE, CREATE } from '../../common/seer-table';
 @Component({
   templateUrl: './user.component.html',
@@ -16,7 +21,9 @@ export class UserComponent implements OnInit {
     private _userService:UserService,
     private _dialogService:SeerDialogService,
     private _messageService:SeerMessageService,
-    private _datePipe:DatePipe
+    private _datePipe:DatePipe,
+    private _manageService:ManageService,
+    private _state: GlobalState,
     ) {}
   hasGlobalFilter:boolean = true;
   filters:any = [
@@ -190,6 +197,7 @@ export class UserComponent implements OnInit {
               this._userService
               .deleteOne(data.userId)
               .then((res) => {
+                this.refreshMenu();
                 this.showSuccess(res.msg || '删除用户成功')
                 this.getList();
               })
@@ -213,6 +221,16 @@ export class UserComponent implements OnInit {
       message,
       icon: 'fa fa-times-circle',
       autoHideDuration: 3000,
+    })
+  }
+  refreshMenu() {
+    this._manageService.getDataFromServer()
+    .then(res => {
+      let data = res.data || {};
+      let { menus:resources = null, ...user } = data;
+      this._manageService.setUserToLocal(user)
+      this._manageService.setResourcesToLocal(resources);
+      this._state.notify('menu.changed', resources);
     })
   }
 }

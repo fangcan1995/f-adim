@@ -10,11 +10,12 @@ import { Router, ActivatedRoute } from "@angular/router";
 import * as _ from 'lodash';
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import { RoleService } from '../../role.service';
-import { SeerDialogService, SeerMessageService } from '../../../../../theme/services';
+import { SeerDialogService, SeerMessageService, ManageService } from '../../../../../theme/services';
 import { json2Tree } from '../../../../../theme/libs';
 import { SeerTree } from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
 import { TREE_PERMISSIONS } from "../../../../../theme/modules/seer-tree/constants/permissions";
 import { TreeNode } from "../../../../../theme/modules/seer-tree/models/tree-node.model";
+import { GlobalState } from '../../../../../global.state';
 @Component({
   templateUrl: './role-edit.component.html',
   styleUrls: [ './role-edit.component.scss' ],
@@ -45,6 +46,8 @@ export class RoleEditComponent implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private _messageService: SeerMessageService,
+    private _manageService:ManageService,
+    private _state: GlobalState,
     ) { }
   ngOnInit() {
     this.editType = this._route.snapshot.url[0].path;
@@ -193,6 +196,7 @@ export class RoleEditComponent implements OnInit {
         this._roleService.putOne('', params)
         .then(res => {
           this.forbidSaveBtn = false;
+          this.refreshMenu();
           this.showSuccess(res.msg || '更新成功')
           .onClose()
           .subscribe(() => {
@@ -207,6 +211,7 @@ export class RoleEditComponent implements OnInit {
         this._roleService.postOne(params)
         .then(res => {
           this.forbidSaveBtn = false;
+          this.refreshMenu();
           this.showSuccess(res.msg || '保存成功')
           .onClose()
           .subscribe(() => {
@@ -220,6 +225,16 @@ export class RoleEditComponent implements OnInit {
       }
       
     }
+  }
+  refreshMenu() {
+    this._manageService.getDataFromServer()
+    .then(res => {
+      let data = res.data || {};
+      let { menus:resources = null, ...user } = data;
+      this._manageService.setUserToLocal(user)
+      this._manageService.setResourcesToLocal(resources);
+      this._state.notify('menu.changed', resources);
+    })
   }
   handleBackBtnClick() {
     this._location.back();

@@ -47,6 +47,8 @@ export class BaSidebar {
     this._manageService.getResourcesFromLocal()
     .then(res => {
       if ( res.code == 0 ) {
+        console.log(res)
+        
         this.routes = resources2Menu(res.data);
       }
     })

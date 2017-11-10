@@ -10,8 +10,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, NavigationExtras } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
+import  * as _ from 'lodash';
 import { GlobalState } from '../../global.state';
-import { parseQueryString, setStorage } from '../../theme/libs/utils';
+import { parseQueryString, setStorage, getStorage } from '../../theme/libs';
 
 import { AuthService, ManageService, SeerMessageService } from '../../theme/services';
 
@@ -78,21 +80,19 @@ export class LoginComponent {
           value: res,
         }, false)
       }
-      return this._manageService.getDataFromServer()
+      return Observable.fromPromise(this._manageService.getDataFromServer())
     })
     .subscribe(res => {
-      let user = res[0].data || {};
-      let resources = res[1].data ? res[1].data.list || [] : [];
-      setStorage({
-        key: 'user',
-        value: user,
-      }, false)
-      setStorage({
-        key: 'resources',
-        value: resources,
-      }, false)
+      let data = res.data || {};
+      let { menus:resources = null, ...user } = data;
+      this._manageService.setUserToLocal(user)
+      this._manageService.setResourcesToLocal(resources);
       if ( this._authService.isLoggedIn ) {
-        let redirectUrl = this._authService.redirectUrl ? this._authService.redirectUrl : '/home';
+        let resources = getStorage({ key: 'resources' });
+        let fullPaths = _.map(resources, r => r['fullPath']);
+        let reg = new RegExp('^(' + fullPaths.join('|') + ')', 'g');
+
+        let redirectUrl = this._authService.redirectUrl && this._authService.redirectUrl != '/login' ? this._authService.redirectUrl : reg.test('/workspace') ? '/workspace' : _.find(fullPaths, t => t.split('\/').length > 2 );
         let redirectSearch = this._authService.redirectSearch;
         let loginSearch = parseQueryString(location.search);
 
@@ -112,4 +112,6 @@ export class LoginComponent {
   versionShow() {
     this.dynamicComponentLoader.loadComponent(VersionInfoComponent, null);
   }
+
+  
 }

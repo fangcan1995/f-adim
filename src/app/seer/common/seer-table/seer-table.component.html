@@ -1,147 +1,130 @@
-<div>
-  <div class="row btnGroup">
-    <div class="col-sm-6 btnGroup__left">
-      <button class="btn btn-outline-dark btnGroup__item" *ngIf="!hidePrint" type="button" (click)="importExcel()"><i class="icon-import"></i>导入</button>
-        <div class="btn-group btnGroup__item" *ngIf="!hideExport">
-          <button type="button" class="btn btn-outline-dark dropdown-toggle" id="js-export-btn" data-toggle="dropdown" aria-expanded="false" >
-            <i class="icon-export"></i>导出<span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu"  aria-labelledby="js-export-btn" role="menu">
-            <li class="dropdown-item export">PDF</li>
-            <li class="dropdown-item export" (click)="exportExcel()">Excel</li>
-            <li class="dropdown-item export">Another Excel</li>
-            <li class="dropdown-item export" (click)="exportTempExcel()">导出模板Excel</li>
-          </ul>
-        </div>
-      <button class="btn btn-primary btnGroup__item" *ngIf="!hidePrint" disabled type="button"><i class="icon-print"></i>打印</button>
-    </div>
-    <div class="col-sm-6 btnGroup__right">
-      <button
-        class="btn btn-info pull-right btnGroup__item"
-        type="button"
-        *ngIf="!hideAddButton"
-        (click)="create()"
-        >
-        新增
-      </button>
-      <button
-        class="btn btn-danger pull-right btnGroup__item"
-        type="button"
-        *ngIf="!hideRemoveAll"
-        [disabled]="!renderSelectedNum()"
-        (click)="deleteMultiple()"
-        >
-        批量删除 {{renderSelectedNum()}}
-      </button>
-
-      <div class="pull-right btnGroup__item" *ngIf="!hideColumns">
-        <ss-multiselect-dropdown
-          [options]="multiColumnOptions"
-          [(ngModel)]="multiColumnArray"
-          (ngModelChange)="onChangeColumn($event)"
-          [texts]="multiSelectTexts"
-          [settings]="multiSelectSettings"
-          >
-        </ss-multiselect-dropdown>
+<div class="row btnGroup">
+  <div class="col-sm-6 btnGroup__left">
+    <button class="btn btn-outline-dark btnGroup__item" *ngIf="!hidePrint" type="button" (click)="importExcel()"><i class="icon-import"></i>导入</button>
+      <div class="btn-group btnGroup__item" *ngIf="!hideExport">
+        <button type="button" class="btn btn-outline-dark dropdown-toggle" id="js-export-btn" data-toggle="dropdown" aria-expanded="false" >
+          <i class="icon-export"></i>导出<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu"  aria-labelledby="js-export-btn" role="menu">
+          <li class="dropdown-item export">PDF</li>
+          <li class="dropdown-item export" (click)="exportExcel()">Excel</li>
+          <li class="dropdown-item export">Another Excel</li>
+          <li class="dropdown-item export" (click)="exportTempExcel()">导出模板Excel</li>
+        </ul>
       </div>
-
-      <button
-        class="pull-right btnGroup__item {{action.className}}"
-        type="button"
-        *ngFor="let action of customActions"
-        (click)="onCustomAction(action)"
+    <button class="btn btn-primary btnGroup__item" *ngIf="!hidePrint" disabled type="button"><i class="icon-print"></i>打印</button>
+  </div>
+  <div class="col-sm-6 btnGroup__right">
+    <button
+      class="btn btn-info pull-right btnGroup__item"
+      type="button"
+      *ngIf="!hideAddButton"
+      (click)="create()"
+      >
+      新增
+    </button>
+    <button
+      class="btn btn-danger pull-right btnGroup__item"
+      type="button"
+      *ngIf="!hideRemoveAll"
+      [disabled]="!renderSelectedNum()"
+      (click)="deleteMultiple()"
+      >
+      批量删除 {{renderSelectedNum()}}
+    </button>
+    <div class="pull-right btnGroup__item" *ngIf="!hideColumns">
+      <ss-multiselect-dropdown
+        [options]="multiColumnOptions"
+        [(ngModel)]="multiColumnArray"
+        (ngModelChange)="onChangeColumn($event)"
+        [texts]="multiSelectTexts"
+        [settings]="multiSelectSettings"
         >
-        {{ action.name }}
-      </button>
-
+      </ss-multiselect-dropdown>
     </div>
+    <button
+      class="pull-right btnGroup__item {{action.className}}"
+      type="button"
+      *ngFor="let action of customActions"
+      (click)="onCustomAction(action)"
+      >
+      {{ action.name }}
+    </button>
   </div>
 </div>
 <div style="overflow: auto;">
-    <table
-      class="table table-hover">
-      <thead>
-        <tr #tr>
-          <th *ngIf="!hideCheckbox" class="table-checkbox">
-            <!-- 此处不能用 checkedChange -->
-            <seer-cool-checkbox
-              [(checked)]="selectedAll"
-              (change)="selectAll()"
-            ></seer-cool-checkbox>
-          </th>
-          <th *ngIf="showSeq" class="table-seq">序号</th>
-          <th *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
-            {{ title.label }}
-          </th>
-          <th class="table-actions" *ngIf="!hideActions">操作</th>
-        </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let item of getData(); let i = index">
-        <td *ngIf="!hideCheckbox" class="table-checkbox">
+  <table class="table table-hover">
+    <thead>
+      <tr #tr>
+        <th *ngIf="!hideCheckbox" class="table-checkbox">
           <!-- 此处不能用 checkedChange -->
           <seer-cool-checkbox
-            [(checked)]="item.selected"
-            (change)="selectOne(item)"
+            [(checked)]="selectedAll"
+            (change)="selectAll()"
           ></seer-cool-checkbox>
-        </td>
-        <td *ngIf="showSeq" class="table-seq"><span class="seer_font">{{ item.SEQ }}</span></td>
-        <td *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
+        </th>
+        <th *ngIf="showSeq" class="table-seq">序号</th>
+        <th *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
+          {{ title.label }}
+        </th>
+        <th class="table-actions" *ngIf="!hideActions">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of getData(); let i = index">
+      <td *ngIf="!hideCheckbox" class="table-checkbox">
+        <!-- 此处不能用 checkedChange -->
+        <seer-cool-checkbox
+          [(checked)]="item.selected"
+          (change)="selectOne(item)"
+        ></seer-cool-checkbox>
+      </td>
+      <td *ngIf="showSeq" class="table-seq"><span class="seer_font">{{ item.SEQ }}</span></td>
+      <td *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
+        <a *ngIf="title.type=='link'" class="seer_font seer_a_font" href="{{item[title.key]}}">{{item[title.key]}}</a>
 
-          <div *ngIf="title.type=='link'">
-            <a class="seer_font seer_a_font" href="{{item[title.key]}}">{{item[title.key]}}</a>
+        <input  *ngIf="title.type=='input_number'" type="number" class="form-control" [(ngModel)]="item[title.key]"/>
+
+        <span *ngIf="title.type!='input_number' && title.type!='link' && title.type != 'html' && title.type!='image' && title.type != 'date' && title.type != 'date-time' && !displayOriginalData" class="seer_font">{{renderValue(title,item[title.key])}}</span>
+
+        <span *ngIf="title.type!='input_number' && title.type!='link' && title.type != 'html'  && title.type!='image' && title.type != 'date' && title.type != 'date-time' && displayOriginalData" class="seer_font">{{item[title.key]}}</span>
+        <div *ngIf="title.type === 'html'" [innerHTML]="item[title.key]"></div>
+        <span *ngIf="title.type=='image'"  class="seer_font"><img src="{{item[title.key]}}" style="width: 50px; height: 40px" (click)="openModal(image)" ></span>
+        <ng-template #image>
+          <div class="modal-body">
+            <img src="{{item[title.key]}}" style="width:100%">
           </div>
-          <div *ngIf="title.type=='input_number'">
-            <input  type="number" class="form-control" [(ngModel)]="item[title.key]"/>
-          </div>
-          <div *ngIf="title.type!='input_number' && title.type!='link' && title.type != 'html' && title.type!='image' && title.type != 'date' && title.type != 'date-time' && !displayOriginalData">
-            <span class="seer_font">{{renderValue(title,item[title.key])}}</span>
-          </div>
-          <div *ngIf="title.type!='input_number' && title.type!='link' && title.type != 'html'  && title.type!='image' && title.type != 'date' && title.type != 'date-time' && displayOriginalData">
-            <span class="seer_font">{{item[title.key]}}</span>
-          </div>
-          <div *ngIf="title.type === 'html'" [innerHTML]="item[title.key]"></div>
-          <div *ngIf="title.type=='image'" >
-            <span class="seer_font"><img src="{{item[title.key]}}" style="width: 50px; height: 40px" (click)="openModal(image)" ></span>
-            <ng-template #image>
-              <div class="modal-body">
-                <img src="{{item[title.key]}}" style="width:100%">
-              </div>
-            </ng-template>
-          </div>
-          <div *ngIf="title.type=='date'" >
-            <span class="seer_font">{{item[title.key]| date:'yyyy-MM-dd'}}</span>
-          </div>
-          <div *ngIf="title.type=='date-time'" >
-            <span class="seer_font">{{item[title.key]|date:'yyyy-MM-dd HH:mm:ss'}}</span>
-          </div>
-        </td>
-        <td class="table-actions" *ngIf="!hideActions">
-          <div *ngIf="item.actions">
-            <i
-              *ngFor="let action of item.actions"
-              class="table-action {{ action.icon }}"
-              (click)="handleActionsClick({action: action, item: item})"
-              popover="{{ action.name }}"
-              triggers="mouseenter:mouseleave"
-              ></i>
-          </div>
+        </ng-template>
+        <span *ngIf="title.type=='date'" class="seer_font">{{item[title.key]| date:'yyyy-MM-dd'}}</span>
+        <span *ngIf="title.type=='date-time'" class="seer_font">{{item[title.key]|date:'yyyy-MM-dd HH:mm:ss'}}</span>
+      </td>
+      <td class="table-actions" *ngIf="!hideActions">
+        <ng-container *ngIf="item.actions">
+          <i
+            *ngFor="let action of item.actions"
+            class="table-action {{ action.icon }}"
+            (click)="handleActionsClick({action: action, item: item})"
+            popover="{{ action.name }}"
+            triggers="mouseenter:mouseleave"
+            ></i>
+        </ng-container>
+      </td>
+    </tr>
+    </tbody>
+    <tfoot *ngIf="!hidePagination">
+      <tr>
+        <td [attr.colspan]="tr.children.length">
+          <seer-pagination
+            [rowCount]="getRowCount()"
+            [rowsOnPageSet]="rowsOnPageSet"
+            [rowsOnPage]="paginationRules ? rowsOnPage : pageSize"
+            [pageNumber]="pageNum"
+            (notify)="onPageChange($event)"
+          ></seer-pagination>
         </td>
       </tr>
-      </tbody>
-      <tfoot *ngIf="!hidePagination">
-        <tr>
-          <td [attr.colspan]="tr.children.length">
-            <seer-pagination
-              [rowCount]="getRowCount()"
-              [rowsOnPageSet]="rowsOnPageSet"
-              [rowsOnPage]="paginationRules ? rowsOnPage : pageSize"
-              [pageNumber]="pageNum"
-              (notify)="onPageChange($event)"
-            ></seer-pagination>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+    </tfoot>
+  </table>
 </div>
+
 

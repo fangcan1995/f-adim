@@ -9,9 +9,10 @@ import {
 
 import { GlobalState } from '../../../global.state';
 import { Router } from "@angular/router";
-import { DynamicComponentLoader } from "../../directives/dynamicComponent/dynamic-component.directive";
 import { ManageService } from '../../services/manage.service';
 import { AuthService } from '../../services/auth.service';
+
+import { ModalDirective } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'ba-page-top',
   templateUrl: './baPageTop.html',
@@ -19,10 +20,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class BaPageTop implements OnInit {
 
-  @ViewChild(DynamicComponentLoader)
   @ViewChild('pageTop') pageTop: ElementRef;
-  dynamicComponentLoader: DynamicComponentLoader;
-
+  @ViewChild('modal') modal: ModalDirective;
   public isScrolled:boolean = false;
   isSuccess: boolean;
   loginName: string;
@@ -80,10 +79,22 @@ export class BaPageTop implements OnInit {
 
     this._offsetTop = -scrollY
   }
-  public logout() {
-    this._authService.logout().subscribe();
+  public logout($event) {
+    $event.preventDefault();
+    this._authService.logout().subscribe(res => {
+      this.router.navigate(['/login']);
+    });
   }
-  onChangePassword() {
+
+
+  showModal($event) {
+    $event.preventDefault();
+    this.modal.show();
+  }
+  handleModalShown() {
+
+  }
+  handleModalHide() {
     
   }
 }

@@ -101,9 +101,11 @@ export class ResourceComponent implements OnInit {
     }
     // 更新左侧导航菜单
     refreshMenu() {
-      this._manageService.getResourcesFromServer({ pageSize: 10000 })
+      this._manageService.getDataFromServer()
       .then(res => {
-        const resources = res.data ? res.data.list || [] : [];
+        let data = res.data || {};
+        let { menus:resources = null, ...user } = data;
+        this._manageService.setUserToLocal(user)
         this._manageService.setResourcesToLocal(resources);
         this._state.notify('menu.changed', resources);
       })

@@ -14,7 +14,8 @@ const BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export const BASE_URL = `http://${BASE_SERVER}`;
 export const API = {
   'LOGIN': 'uaa/oauth/token',
-  'LOGOUT': 'logout',
+  'LOGOUT': 'uaa/oauth/logout',
+  'PASSWORD': 'uaa/password',
   'SIGNUP': 'signup',
   'MEMBERS': 'members',
   'USER': 'permission/users/getByToken',

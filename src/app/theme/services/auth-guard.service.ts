@@ -14,6 +14,7 @@ import { AuthService } from './auth.service';
 import { GlobalState } from '../../global.state';
 import { SeerMessageService } from './seer-message.service'
 import { parseQueryString, getStorage } from '../libs/utils';
+import * as _ from 'lodash';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
@@ -71,26 +72,42 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     return this.checkLogin(url);
   }
   checkLogin(url: string): boolean {
-    if ( this.authService.isLoggedIn || getStorage({ key: 'token' }) ) return true;
-    this.authService.redirectUrl = url;
-    let oldQueryString = location.search;
-    let oldQueryParams = parseQueryString(oldQueryString);
-    this.authService.redirectSearch = oldQueryParams;
+    let resources = getStorage({ key: 'resources' })
+    if ( ( !this.authService.isLoggedIn && !getStorage({ key: 'token' }) ) || !resources ) {
+      this.authService.redirectUrl = url;
+      let oldQueryString = location.search;
+      let oldQueryParams = parseQueryString(oldQueryString);
+      this.authService.redirectSearch = oldQueryParams;
 
-    // redirectFragment 暂时不添加进跳转链接
+      // redirectFragment 暂时不添加进跳转链接
 
-    /*// Create a dummy session id
-    let sessionId = 123456789;
+      /*// Create a dummy session id
+      let sessionId = 123456789;
 
-    // Set our navigation extras object
-    // that contains our global query params and fragment
-    let navigationExtras: NavigationExtras = {
-      queryParams: { 'session_id': sessionId },
-      fragment: 'anchor'
-    };*/
+      // Set our navigation extras object
+      // that contains our global query params and fragment
+      let navigationExtras: NavigationExtras = {
+        queryParams: { 'session_id': sessionId },
+        fragment: 'anchor'
+      };*/
 
-    // Navigate to the login page with extras
-    this.router.navigate(['/login']);
-    return false;
+      // Navigate to the login page with extras
+      this.router.navigate(['/login']);
+      return false;
+    }
+    // 重定向的时候不会判断要重定向到的页面
+    url = url === '\/' ? '/workspace' : url;
+    console.log(url)
+
+    let fullPaths = _.map(resources, r => r['fullPath']);
+    fullPaths.unshift('\/login');
+    let reg = new RegExp('^(' + fullPaths.join('|') + ')', 'g');
+    console.log(fullPaths)
+    if ( !reg.test(url) ) {
+      this.location.back();
+      return false;
+    }
+    return true;
   }
+
 }

@@ -6,9 +6,11 @@ import {
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import {
+  ManageService,
   SeerDialogService,
   SeerMessageService,
 } from '../../../theme/services';
+import { GlobalState } from '../../../global.state';
 import { UPDATE, DELETE, COPY_CREATE, DOWNLOAD, DETAIL, PREVIEW } from '../../common/seer-table/seer-table.actions';
 import { hasGlobalFilter, tableTitles } from './role.config';
 import { RoleService } from './role.service';
@@ -35,6 +37,8 @@ export class RoleComponent {
     private _dialogService: SeerDialogService,
     private _messageService: SeerMessageService,
     private _roleService: RoleService,
+    private _manageService:ManageService,
+    private _state: GlobalState,
     ) {
 
   }
@@ -95,6 +99,7 @@ export class RoleComponent {
               this._roleService
               .deleteOne(data.roleId)
               .then((res) => {
+                this.refreshMenu();
                 this.showSuccess(res.msg || '删除用户成功')
                 this.getList();
               })
@@ -107,5 +112,15 @@ export class RoleComponent {
       case 'delete_multiple':
         break;
     }
+  }
+  refreshMenu() {
+    this._manageService.getDataFromServer()
+    .then(res => {
+      let data = res.data || {};
+      let { menus:resources = null, ...user } = data;
+      this._manageService.setUserToLocal(user)
+      this._manageService.setResourcesToLocal(resources);
+      this._state.notify('menu.changed', resources);
+    })
   }
 }
