@@ -52,8 +52,8 @@ export class StaffEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.getOrganizations();//为什么要获取组织结构？
-    //this.isDimission=false;
+    this.getOrganizations();
+    this.isDimission=false;
     this._route.url.mergeMap(url => {
       this._editType = url[0].path;
       return this._route.params
