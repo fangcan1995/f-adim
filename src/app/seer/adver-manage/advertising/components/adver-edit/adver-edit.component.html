@@ -57,20 +57,25 @@
                 <label  class="col-sm-2 col-lg-1 control-label">广告图片</label>
                 <div class="col-sm-6 col-lg-3">
                   <img src="{{advertising.icon}}" style="display:block;width:200px;margin-bottom: 10px" *ngIf="advertising.icon">
-                  <input type="file" ng2FileSelect [uploader]="uploader"  (change)="uploadFile($event)" [disabled]="uploadDisabled">
+                  <input type="file" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)" [disabled]="uploadDisabled" >
                   <!--<textarea class="form-control" name="imgLink" id="imgLink"  [(ngModel)]="advertising.imgLink" required></textarea>-->
                 </div>
+
               </div>
-              <ng-container *ngFor="let item of attachments; let i = index">
-                <ng-container *ngIf="imageType.indexOf(item.fileSuff.toLowerCase()) != -1">
-                  <div class="form-group col-sm-6 col-md-4 col-lg-3 col-xlg-2">
-                    <div class="row">
-                      <img src="{{item.uploadPath}}" height="108px"><p></p>
-                      <a *ngIf="!disabled" href="javascript:void(0)" class="card-link" (click)="deleteFile(item, i)">删除</a>
+              <!--<div class="row">
+                <ng-container *ngFor="let item of attachments; let i = index">
+                  <ng-container *ngIf="imageType.indexOf(item.fileSuff.toLowerCase()) != -1">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 col-xlg-2">
+                      <div class="row">
+                        <img src="{{item.uploadPath}}" height="108px"><p></p>
+                        <a *ngIf="!disabled" href="javascript:void(0)" class="card-link" (click)="deleteFile(item, i)">删除</a>
+                      </div>
                     </div>
-                  </div>
+                  </ng-container>
                 </ng-container>
-              </ng-container>
+
+              </div>-->
+
             </div>
           </div>
         </form>

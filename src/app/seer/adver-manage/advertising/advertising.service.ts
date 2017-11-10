@@ -34,7 +34,8 @@ export class AdvertisingService extends BaseService<ResModel>{
   }
   // 3添加一条数据
   postOne(params):Promise<ResModel> {
-    return this._httpInterceptorService.request('POST', `${this.advertisingManageUrl}`, params).toPromise();
+    let fileId=params.fileId;
+    return this._httpInterceptorService.request('POST', `${this.advertisingManageUrl}/${fileId}`, params).toPromise();
   }
 
   // 4 修改一条数据，提供所有字段

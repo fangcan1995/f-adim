@@ -24,7 +24,8 @@ export const API = {
   'DICTS': 'system/dicts',
   'ROLES': 'permission/roles',
 
-  'ORGS': 'organizations'
+  'ORGS': 'organizations',
+  'TASKS':'subject'
 }
 
 // 此服务用于继承，请不要注入使用；如果想用更灵活的http服务请使用HttpInterceptorService，最灵活的是angular2自带的Http服务；

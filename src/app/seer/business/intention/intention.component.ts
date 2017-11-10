@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import * as _ from 'lodash';
 import { IntentionService } from "./intention.service";
+import {PREVIEW} from "../../common/seer-table/seer-table.actions";
 
 @Component({
 
@@ -44,7 +45,7 @@ export class IntentionComponent {
     'prepayAudit': {'type': 'prepayAudit', 'name': '提前还款审核', 'className': 'btn btn-xs btn-info', 'icon': 'icon-edit'},
     'prepaying': {'type': 'prepaying', 'name': '提前还款中', 'className': 'btn btn-xs btn-info', 'icon': 'icon-edit'},
     'failure': {'type': 'failure', 'name': '已流标', 'className': 'btn btn-xs btn-info', 'icon': 'icon-edit'},
-    'end': {'type': 'end', 'name': '已结清', 'className': 'btn btn-xs btn-info', 'icon': 'icon-edit'}
+    'end': {'type': 'end', 'name': '已结清', 'className': 'btn btn-xs btn-info', 'icon': 'icon-edit'},
 
   }
 
@@ -83,19 +84,32 @@ export class IntentionComponent {
         let projectStatus = i.projectStatus;
         let actions;
         switch (projectStatus) {
-          case "10": actions = [this.actionSet.completion]; break; //待补填资料
-          case "20": actions = [this.actionSet.firstAudit]; break; //待初审
-          case "30": actions = [this.actionSet.secondAudit]; break; //待复审
-          case "40": actions = [this.actionSet.release]; break; //待标的发布
-          //case "50": actions = [this.actionSet.investing]; break; //投资中
-          case "60": actions = [this.actionSet.fillAudit]; break; //待满标审核
-          //case "70": actions = [this.actionSet.repaying]; break; //还款中
-          //case "80": actions = [this.actionSet.prepayApply]; break; //提前还款申请
-          case "81": actions = [this.actionSet.prepayAudit]; break; //待提前还款审核
-          //case "82": actions = [this.actionSet.prepaying]; break; //提前还款中
-          //case "90": actions = [this.actionSet.failure]; break; //流标
-          //case "100": actions = [this.actionSet.end]; break; //已结清
-          default: actions = []; break; //补填资料
+          case "10":
+            actions = [PREVIEW, this.actionSet.completion]; break; //待补填资料
+          case "20":
+            actions = [PREVIEW, this.actionSet.firstAudit]; break; //待初审
+          case "30":
+            actions = [PREVIEW, this.actionSet.secondAudit]; break; //待复审
+          case "40":
+            actions = [PREVIEW, this.actionSet.release]; break; //待标的发布
+          //case "50":
+          // actions = [this.actionSet.investing]; break; //投资中
+          case "60":
+            actions = [PREVIEW, this.actionSet.fillAudit]; break; //待满标审核
+          //case "70":
+          // actions = [this.actionSet.repaying]; break; //还款中
+          //case "80":
+          // actions = [this.actionSet.prepayApply]; break; //提前还款申请
+          case "81":
+            actions = [PREVIEW, this.actionSet.prepayAudit]; break; //待提前还款审核
+          //case "82":
+          // actions = [this.actionSet.prepaying]; break; //提前还款中
+          //case "90":
+          // actions = [this.actionSet.failure]; break; //流标
+          //case "100":
+          // actions = [this.actionSet.end]; break; //已结清
+          default:
+            actions = [PREVIEW]; break; //补填资料
         }
         return _.set(i, 'actions', actions);
       });
@@ -119,19 +133,50 @@ export class IntentionComponent {
   //操作
   onChange($event) {
     switch ($event.type) {
-      case 'completion': this._router.navigate(['../completion', $event.data.id],{relativeTo: this.route}); break;
-      case 'firstAudit': this._router.navigate(['../firstAudit', $event.data.id],{relativeTo: this.route}); break;
-      case 'secondAudit': this._router.navigate(['../secondAudit', $event.data.id],{relativeTo: this.route}); break;
-      case 'release': this._router.navigate(['release', $event.data.id],{relativeTo: this.route}); break;
-      case 'investing': this._router.navigate(['investing', $event.data.id],{relativeTo: this.route}); break;
-      case 'fillAudit': this._router.navigate(['fillAudit', $event.data.id],{relativeTo: this.route}); break;
-      case 'repaying': this._router.navigate(['repaying', $event.data.id],{relativeTo: this.route}); break;
-      case 'prepayApply': this._router.navigate(['prepayApply', $event.data.id],{relativeTo: this.route}); break;
-      case 'prepayAudit': this._router.navigate(['prepayAudit', $event.data.id],{relativeTo: this.route}); break;
-      case 'prepaying': this._router.navigate(['prepaying', $event.data.id],{relativeTo: this.route}); break;
-      case 'failure': this._router.navigate(['failure', $event.data.id],{relativeTo: this.route}); break;
-      case 'end': this._router.navigate(['end', $event.data.id],{relativeTo: this.route}); break;
+      case 'completion':
+        this._router.navigate(['../completion', $event.data.id],{relativeTo: this.route});
+        break;
+      case 'firstAudit':
+        this._router.navigate(['../firstAudit', $event.data.id],{relativeTo: this.route});
+        break;
+      case 'secondAudit':
+        this._router.navigate(['../secondAudit', $event.data.id],{relativeTo: this.route});
+        break;
+      case 'release':
+        this._router.navigate(['release', $event.data.id],{relativeTo: this.route});
+        break;
+      case 'investing':
+        this._router.navigate(['investing', $event.data.id],{relativeTo: this.route});
+        break;
+      case 'fillAudit':
+        this._router.navigate(['fillAudit', $event.data.id],{relativeTo: this.route});
+        break;
+      case 'repaying':
+        this._router.navigate(['repaying', $event.data.id],{relativeTo: this.route});
+        break;
+      case 'prepayApply':
+        this._router.navigate(['prepayApply', $event.data.id],{relativeTo: this.route});
+        break;
+      case 'prepayAudit':
+        this._router.navigate(['prepayAudit', $event.data.id],{relativeTo: this.route});
+        break;
+      case 'prepaying':
+        this._router.navigate(['prepaying', $event.data.id],{relativeTo: this.route});
+        break;
+      case 'failure':
+        this._router.navigate(['failure', $event.data.id],{relativeTo: this.route});
+        break;
+      case 'end':
+        this._router.navigate(['end', $event.data.id],{relativeTo: this.route});
+        break;
+      case 'preview':
+        this._router.navigate(['../detail', $event.data.id],{relativeTo: this.route});
+        break;
+      case 'create':
+        this._router.navigate(['../create'],{relativeTo: this.route});
+        break;
     }
+
   }
 }
 
