@@ -57,8 +57,8 @@ export class CheckboxPickerComponent{
   isCheckedField: string;
   isHiddenField: string;
   pageSize: number;
-  private currentPage = 0;
-  private Math = Math;
+  public currentPage = 0;
+  public Math = Math;
   @ViewChild(ModalComponent) modal: ModalComponent;
 
   public onChange(item) {
@@ -90,11 +90,11 @@ export class CheckboxPickerComponent{
     this.close();
   }
 
-  private turn2Page(pageNum){
+  public turn2Page(pageNum){
     this.currentPage = pageNum;
   }
 
-  private filterData(text){
+  public filterData(text){
     if(!text){
       this.data.map((item)=>{
         item[this.isHiddenField] = false;
@@ -106,7 +106,7 @@ export class CheckboxPickerComponent{
     }
   }
 
-  private hideItem = (item)=>{
+  public hideItem = (item)=>{
     return !item[this.isHiddenField];
   }
 }
