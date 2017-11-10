@@ -12,6 +12,12 @@ export class CommonService extends BaseService<any>{
     this.setApi('/intentions/loan');
   }
 
+  //获取标的详情
+  public getProjectById(id): Promise<any> {
+    let url = BASE_URL + `/subject/intentions/fill/${id}`;
+    return this._httpInterceptorService.request('GET', url).toPromise();
+  }
+
   //更新会员信息
   public updateMember(params: any): Promise<any> {
     let url = BASE_URL + `/member/members/${params["memberId"]}/baseInfo`;

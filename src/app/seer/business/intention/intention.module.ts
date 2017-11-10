@@ -10,6 +10,10 @@ import {IntentionCompletionComponent} from "./components/intention-completion/in
 import {FirstAuditComponent} from "./components/first-audit/first-audit.component";
 import {SecondAuditComponent} from "./components/second-audit/second-audit.component";
 import {CommonModule} from "../common/common.module";
+import {DetailComponent} from "./components/detail/detail.component";
+import {CreateIntentionComponent} from "./components/create-intention/create-intention.component";
+import {MemberService} from "../../basic-info/member/member.service";
+import {SelectModule} from "ng2-select";
 
 
 
@@ -18,16 +22,20 @@ import {CommonModule} from "../common/common.module";
     NgaModule,
     SharedModule,
     CommonModule,
+    SelectModule,
     routing
   ],
   declarations: [
     IntentionComponent,
     IntentionCompletionComponent,
     FirstAuditComponent,
-    SecondAuditComponent
+    SecondAuditComponent,
+    DetailComponent,
+    CreateIntentionComponent
   ],
   providers: [
     IntentionService,
+    MemberService
   ],
   exports: [
   ]

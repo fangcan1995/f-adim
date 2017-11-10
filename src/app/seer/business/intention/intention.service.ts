@@ -8,9 +8,6 @@ export class IntentionService extends BaseService<any>{
   //意向
   private intention_url = 'subject/intentions';
 
-  //会员
-  private member_url =   + '/members';
-
   constructor(protected _httpInterceptorService: HttpInterceptorService,) {
     super(_httpInterceptorService);
     this.setApi(this.intention_url);
@@ -33,7 +30,23 @@ export class IntentionService extends BaseService<any>{
     return this._httpInterceptorService.request('POST', url, param, false).toPromise();
   }
 
+  //新增意向申请
+  public createIntention(params): Promise<any> {
+    let url = BASE_URL + '/subject/intentions/apply';
+    return this._httpInterceptorService.request('POST', url, params, false).toPromise();
+  }
 
+  //查询用户列表
+  public getMembers(params): Promise<any> {
+    let url = BASE_URL + '/members';
+    return this._httpInterceptorService.request('GET', url, params, false).toPromise();
+  }
+
+  //查询用户列表
+  public fuzzySearch(params): Promise<any> {
+    let url = BASE_URL + '/member/members/';
+    return this._httpInterceptorService.request('GET', url, params, false).toPromise();
+  }
 
 
 

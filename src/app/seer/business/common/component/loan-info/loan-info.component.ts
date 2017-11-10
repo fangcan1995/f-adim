@@ -25,7 +25,6 @@ export class LoanInfoComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngOnInit(): void {
     if(!this.disabled) { this.actions = [ SAVE ] } else { this.actions = [] }
-
   }
 
   ngOnChanges() {

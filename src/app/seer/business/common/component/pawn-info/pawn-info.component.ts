@@ -10,12 +10,12 @@ import {SeerMessageService} from "../../../../../theme/services/seer-message.ser
   selector: 'pawn-info',
   templateUrl: './pawn-info.component.html',
 })
-export class PawnInfoComponent implements OnInit{
+export class PawnInfoComponent implements OnInit, OnChanges{
 
   @Input()
   private disabled: boolean = false;
 
-  @Input() projectId : string;
+  @Input() loan = {};
 
   @Input() memberId : string;
 
@@ -35,10 +35,13 @@ export class PawnInfoComponent implements OnInit{
 
   ngOnInit() { if(!this.disabled) { this.actions = [ UPDATE ]; } else {this.actions = []; } }
 
+   ngOnChanges() {
+    //console.log(this.pawn);
+   }
   //设置抵押物车辆
   private setVehicle($event, vehicle) {
     $event.preventDefault();
-    this.service.pawnVehicle(vehicle.id, this.projectId).then(res => {
+    this.service.pawnVehicle(vehicle.id, this.loan['projectId']).then(res => {
       if("0" == res.code) {
         this.pawn = vehicle;
         this.pawn['pawnType'] = "1";
@@ -51,7 +54,7 @@ export class PawnInfoComponent implements OnInit{
   //设置抵押物房产
   private setHouse($event, house) {
     $event.preventDefault();
-    this.service.pawnHouse(house.id, this.projectId).then(res => {
+    this.service.pawnHouse(house.id, this.loan['projectId']).then(res => {
       if("0" == res.code) {
         this.pawn = house;
         this.pawn['pawnType'] = "2";

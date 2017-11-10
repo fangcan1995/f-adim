@@ -12,12 +12,13 @@ import {PawnInfoComponent} from "./component/pawn-info/pawn-info.component";
 import {MemberInfoComponent} from "./component/member-info/member-info.component";
 import {InvestRecordComponent} from "./component/invest-record/invest-record.component";
 import {CommonService} from "./common.service";
+import {ProjectDetailComponent} from "./component/project-detail/project-detail.component";
 
 @NgModule({
   imports: [
     NgaModule,
     SharedModule,
-    FileUploadModule
+    FileUploadModule,
   ],
   declarations: [
     AuditProcessComponent,
@@ -27,7 +28,8 @@ import {CommonService} from "./common.service";
     LoanInfoComponent,
     PawnInfoComponent,
     MemberInfoComponent,
-    InvestRecordComponent
+    InvestRecordComponent,
+    ProjectDetailComponent
   ],
    providers: [
     CommonService,
