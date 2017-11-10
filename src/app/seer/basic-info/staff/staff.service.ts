@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
-import {SERVER} from "../../const";
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-import {HttpInterceptorService} from "../../../theme/services/http-interceptor.service"
+import {HttpInterceptorService, ResModel} from "../../../theme/services/http-interceptor.service"
 import {StaffModule} from "./staff.module"
 import {BaseService} from "../../../theme/services/base.service";
 
@@ -19,7 +18,7 @@ export class StaffService extends BaseService<StaffModule> {
   private relationsAPI = "relations";
   private businessAPI = "experiences";
 
-  private organizationsAPI = SERVER + '/basicinfo/organizations'; //获取机构列表
+  private organizationsAPI = "http://172.16.7.4:8020/permission/organizations/all";
 
 
   // 1、获取数据列表
@@ -35,23 +34,16 @@ export class StaffService extends BaseService<StaffModule> {
     }
     const url = `${this.staffsAPI}${page}${sort}${query}`;
     return this._httpInterceptorService.request("GET", `${url}`).toPromise();
-    // return this.http.get(url, {withCredentials: true}).toPromise().then(res => res.json());
   }
 
   //2、根据id获取员工信息
   getOne(id: string): Promise<any> {
     return super.getOne(id);
-    // const url = `${this.staffsAPI}/${id}`;
-    // return this.http.get(url, {withCredentials: true}).toPromise().then(res => res.json());
   }
 
   // 3、添加一个员工
   postOne(params: StaffModule): Promise<any> {
     return super.postOne(params);
-    // const url = `${this.staffsAPI}`;
-    // return this.http.post(url, params, {
-    //   withCredentials: true
-    // }).toPromise().then(res => res.json());
   }
 
   // 4、删除一个员工
@@ -61,7 +53,6 @@ export class StaffService extends BaseService<StaffModule> {
 
   // 5、修改员工信息
   putOne(id, params): Promise<any> {
-    // return super.putOne(id, params);
     return this._httpInterceptorService.request('PUT', `${this.staffsAPI}`, params).toPromise();
   }
 
@@ -119,6 +110,10 @@ export class StaffService extends BaseService<StaffModule> {
     return this._httpInterceptorService.request('DELETE', `${url}`).toPromise();
   }
 
+  getOrganizations(): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET',`${this.organizationsAPI}`,{}, true).toPromise();
+  }
+
   private extractData(res: Response) {
     let body = res.json();
     return body || {};
@@ -146,13 +141,6 @@ export class StaffService extends BaseService<StaffModule> {
       .map(this.extractData)
       .catch(this.handleError);
   }
-
-  /* 查询全部库房 */
-  // getOrganizations(): Promise<Result> {
-  //   let url = `${this.getOrgListUrl}`;
-  //   return this.getAll(url);
-  // }
-
 
 }
 
