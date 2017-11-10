@@ -2,7 +2,6 @@ import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {Location} from '@angular/common';
 import * as _ from 'lodash';
-import {IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import {SeerMessageService} from '../../../../../theme/services/seer-message.service';
 import {StaffService} from '../../staff.service';
 import {titlesEducation, titlesRelation, titlesExperience} from '../../staff.config';
@@ -10,8 +9,6 @@ import {BsModalRef} from 'ngx-bootstrap/modal/modal-options.class';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {json2Tree} from "../../../../../theme/libs";
 import {TREE_PERMISSIONS} from "../../../../../theme/modules/seer-tree/constants/permissions";
-import {TREE_EVENTS} from "../../../../../theme/modules/seer-tree/constants/events";
-import {SeerTree} from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
 import {UPDATE, DELETE, SAVE} from '../../../../common/seer-table/seer-table.actions';
 
 @Component({

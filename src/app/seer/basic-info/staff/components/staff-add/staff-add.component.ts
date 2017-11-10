@@ -6,7 +6,6 @@ import {StaffService} from '../../staff.service';
 import {titlesEducation, titlesRelation, titlesExperience} from '../../staff.config';
 import {BsModalRef} from 'ngx-bootstrap/modal/modal-options.class';
 import {BsModalService} from 'ngx-bootstrap/modal';
-import {jsonTree} from "../../../../../theme/utils/json-tree";
 import {UPDATE, DELETE, SAVE} from '../../../../common/seer-table/seer-table.actions';
 import {json2Tree} from "../../../../../theme/libs/json2Tree";
 import {TREE_PERMISSIONS} from "../../../../../theme/modules/seer-tree/constants/permissions";
