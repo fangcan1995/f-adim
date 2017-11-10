@@ -29,23 +29,26 @@ export class RiskRatingService extends BaseService<any> {
   }
 
   //2 获取一条数据
-  getOne(id: string):  Promise<any> {
-    return super.getOne(id);
+  getOne(id: string): Promise<any> {
+    // return super.getOne(id);
+    return this._httpInterceptorService.request('GET', `${this.riskRatingsAPI}/${id}`).toPromise();
   }
 
   // 3 添加一条数据
-  postOne(params):  Promise<any> {
-    return super.postOne(params);
+  postOne(params): Promise<any> {
+    // return super.postOne(params);
+    return this._httpInterceptorService.request('post', `${this.riskRatingsAPI}`, params).toPromise();
   }
 
   // 4 修改一条数据
-  putOne(params):  Promise<any> {
+  putOne(params): Promise<any> {
     return this._httpInterceptorService.request('PUT', `${this.riskRatingsAPI}`, params).toPromise();
   }
 
   // 5 删除一条数据
-  deleteOne(id):  Promise<any> {
-    return super.deleteOne(id);
+  deleteOne(id): Promise<any> {
+    // return super.deleteOne(id);
+    return this._httpInterceptorService.request('DELETE', `${this.riskRatingsAPI}/${id}`).toPromise();
   }
 
 }
