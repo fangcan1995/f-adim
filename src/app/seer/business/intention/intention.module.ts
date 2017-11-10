@@ -22,7 +22,6 @@ import {SelectModule} from "ng2-select";
     NgaModule,
     SharedModule,
     CommonModule,
-    SelectModule,
     routing
   ],
   declarations: [
