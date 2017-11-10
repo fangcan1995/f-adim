@@ -13,7 +13,7 @@ export class StaffService extends BaseService<StaffModule> {
     this.setApi("staffs");
   }
 
-  private staffsAPI = "http://172.16.1.27:8090/staffs";
+  private staffsAPI = "http://172.16.7.4:8020/staffs";
   private educationsAPI = "educations";
   private relationsAPI = "relations";
   private businessAPI = "experiences";
