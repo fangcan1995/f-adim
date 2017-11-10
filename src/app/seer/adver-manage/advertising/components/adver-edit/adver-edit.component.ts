@@ -26,6 +26,7 @@ export class AdverEditComponent implements OnInit{
   public uploader:FileUploader; //上传对象
   public progress: number = 0; //上传进度
   public imageType = ['jpg', 'jpeg', 'bmp', 'gif', 'png', 'svg'];  //图片类型
+  //fileId='';
   //
 
   constructor(private _advertisingService: AdvertisingService,
@@ -42,43 +43,46 @@ export class AdverEditComponent implements OnInit{
       .subscribe(params => {
         if (this._editType === 'edit') {
           this.advertisingId=params.id;
+
           this._advertisingService.getOne(params.id)
             .then(res => {
               this.advertising = res.data || {};
               this.forbidSaveBtn = false;
+              // 初始化定义uploader变量,用来配置input中的uploader属性
+              let headers = [{name: 'Authorization', value: `${this.tokenType} ${this.accessToken}`}];
+              this.uploader = new FileUploader({
+                url:`${this.fileApi}?id=${this.advertisingId}&fileId=${this.advertising.fileId}`,
+                method: "PUT",
+                headers:headers,
+                //allowedFileType:this.imageType,
+              });
+              this.uploader.onSuccessItem = this.successItem.bind(this);
+              this.uploader.onCompleteAll = this.onCompleteAll.bind(this);
+              //end
             }).catch(err => {
             this.showError(err.json().message || '获取失败');
           });
         } else if (this._editType === 'add') {
           this.forbidSaveBtn = false;
+          // 初始化定义uploader变量,用来配置input中的uploader属性
+          let headers = [{name: 'Authorization', value: `${this.tokenType} ${this.accessToken}`}];
+          this.uploader = new FileUploader({
+            url: this.fileApi,
+            method: "POST",
+            headers:headers,
+          });
+          this.uploader.onSuccessItem = this.successItem.bind(this);
+          this.uploader.onCompleteAll = this.onCompleteAll.bind(this);
+          //end
         }
       });
 
-    // 初始化定义uploader变量,用来配置input中的uploader属性
-    let headers = [{name: 'Authorization', value: `${this.tokenType} ${this.accessToken}`}];
-    if(this.advertisingId){
-      this.uploader = new FileUploader({
-        url:`${this.fileApi}?id=${this.advertisingId}&fileId=${this.advertising.fileId}`,
-        method: "PUT",
-        headers:headers,
-        //allowedFileType:this.imageType,
-      });
-    }else {
-      this.uploader = new FileUploader({
-        url: this.fileApi,
-        method: "POST",
-        headers:headers,
-        //allowedFileType:this.imageType,
-      });
-    }
-    this.uploader.onSuccessItem = this.successItem.bind(this);
-    this.uploader.onCompleteAll = this.onCompleteAll.bind(this);
   }
-
   // 上传
   uploadFile() {
     _.forEach(this.uploader.queue, (t, i) => {
       this.uploader.queue[i].upload(); // 开始上传
+
     });
   }
   //上传成功回调
@@ -90,10 +94,14 @@ export class AdverEditComponent implements OnInit{
       let fileLength = this.uploader.queue.length;
       this.progress += Math.round(100/fileLength);
       //唯一图片场景下
-      //console.log(this.attachments);
       let attachmentsNum=this.attachments.length-1;
-      this.advertising.icon=this.attachments[attachmentsNum].uploadPath;
-      this.advertising.fileId=this.attachments[attachmentsNum].id;
+      if(!this.attachments[attachmentsNum]){
+        this.showError('上传失败');
+      }else{
+        this.advertising.icon=this.attachments[attachmentsNum].uploadPath;
+        this.advertising.fileId=this.attachments[attachmentsNum].id;
+      }
+
       //
     }else {
       // 上传文件后获取服务器返回的数据错误
