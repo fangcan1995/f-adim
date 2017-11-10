@@ -5,6 +5,7 @@ import {StaffService} from "./staff.service";
 import {UPDATE, DELETE} from '../../common/seer-table/seer-table.actions';
 import {SeerDialogService} from "../../../theme/services/seer-dialog.service"
 import {titles} from './staff.config';
+import {SeerMessageService} from "../../../theme/services/seer-message.service";
 
 @Component({
   templateUrl: './staff.component.html',
@@ -13,6 +14,7 @@ import {titles} from './staff.config';
 export class StaffComponent {
 
   hasGlobalFilter = true;
+  public forbidSaveBtn: boolean = true;
   OPEN_USER = [
     {type: 'open', name: '开通用户', className: 'btn btn-info'}
   ];
@@ -55,6 +57,7 @@ export class StaffComponent {
   constructor(private _router: Router,
               private _route: ActivatedRoute,
               private staffManageService: StaffService,
+              private _messageService: SeerMessageService,
               private _dialogService: SeerDialogService) {
   }
 
@@ -92,9 +95,10 @@ export class StaffComponent {
             if (action === 1) {
               this.staffManageService.deleteOne(data.id).then((data) => {
                 if (data.code == '0') {
+                  this.alertSuccess(data.message);
                   this.getStaffs();
                 } else {
-                  alert("删除失败");
+                  this.alertError(data.message);
                 }
               });
             }
@@ -138,6 +142,26 @@ export class StaffComponent {
       staffs.push(staff);
     });
     console.log(staffs);
+  }
+
+  alertSuccess(info: string) {
+    this._messageService.open({
+      icon: 'fa fa-times-circle',
+      message: info,
+      autoHideDuration: 3000,
+    }).onClose().subscribe(() => {
+      this._router.navigate(['/basic-info/staff-manage/'])
+    });
+  }
+
+  alertError(errMsg: string) {
+    this.forbidSaveBtn = false;
+    // 错误处理的正确打开方式
+    this._messageService.open({
+      icon: 'fa fa-times-circle',
+      message: errMsg,
+      autoHideDuration: 3000,
+    })
   }
 
 }
