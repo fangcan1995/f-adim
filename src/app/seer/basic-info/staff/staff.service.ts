@@ -13,12 +13,12 @@ export class StaffService extends BaseService<StaffModule> {
     this.setApi("staffs");
   }
 
-  private staffsAPI = "http://172.16.7.4:8020/staffs";
+  private staffsAPI = "http://172.16.7.4:8090/staffs";
   private educationsAPI = "educations";
   private relationsAPI = "relations";
   private businessAPI = "experiences";
 
-  private organizationsAPI = "http://172.16.7.4:8020/permission/organizations/all";
+  private organizationsAPI = "http://172.16.7.4:8090/permission/organizations/all";
 
 
   // 1、获取数据列表
@@ -38,17 +38,20 @@ export class StaffService extends BaseService<StaffModule> {
 
   //2、根据id获取员工信息
   getOne(id: string): Promise<any> {
-    return super.getOne(id);
+    // return super.getOne(id);
+    return this._httpInterceptorService.request('GET', `${this.staffsAPI}/${id}`).toPromise();
   }
 
   // 3、添加一个员工
   postOne(params: StaffModule): Promise<any> {
-    return super.postOne(params);
+    // return super.postOne(params);
+    return this._httpInterceptorService.request('post', `${this.staffsAPI}`, params).toPromise();
   }
 
   // 4、删除一个员工
   deleteOne(id): Promise<any> {
-    return super.deleteOne(id);
+    // return super.deleteOne(id);
+    return this._httpInterceptorService.request('DELETE', `${this.staffsAPI}/${id}`).toPromise();
   }
 
   // 5、修改员工信息

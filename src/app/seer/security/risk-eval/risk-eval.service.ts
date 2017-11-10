@@ -11,7 +11,7 @@ export class RiskEvalService extends BaseService<any> {
     this.setApi("riskEvals");
   }
 
-  private riskEvalsAPI = "http://172.16.7.4:8020/riskEvals";
+  private riskEvalsAPI = "http://172.16.7.3:8070/riskEvals";
 
   //1 获取数据列表
   getLists(pageInfo: any): Promise<any> {
@@ -30,12 +30,14 @@ export class RiskEvalService extends BaseService<any> {
 
   //2 获取一条数据
   getOne(id: string): Promise<any> {
-    return super.getOne(id);
+    // return super.getOne(id);
+    return this._httpInterceptorService.request('GET', `${this.riskEvalsAPI}/${id}`).toPromise();
   }
 
   // 3 添加一条题目
   postOne(params): Promise<any> {
-    return super.postOne(params);
+    // return super.postOne(params);
+    return this._httpInterceptorService.request('post', `${this.riskEvalsAPI}`, params).toPromise();
   }
 
   // 4 修改一条数据
@@ -45,7 +47,8 @@ export class RiskEvalService extends BaseService<any> {
 
   // 5 删除一条数据
   deleteOne(id): Promise<any> {
-    return super.deleteOne(id);
+    // return super.deleteOne(id);
+    return this._httpInterceptorService.request('DELETE', `${this.riskEvalsAPI}/${id}`).toPromise();
   }
 
 }

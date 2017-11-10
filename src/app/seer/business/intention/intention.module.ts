@@ -13,7 +13,6 @@ import {CommonModule} from "../common/common.module";
 import {DetailComponent} from "./components/detail/detail.component";
 import {CreateIntentionComponent} from "./components/create-intention/create-intention.component";
 import {MemberService} from "../../basic-info/member/member.service";
-import {SelectModule} from "ng2-select";
 
 
 
@@ -22,7 +21,6 @@ import {SelectModule} from "ng2-select";
     NgaModule,
     SharedModule,
     CommonModule,
-    SelectModule,
     routing
   ],
   declarations: [
