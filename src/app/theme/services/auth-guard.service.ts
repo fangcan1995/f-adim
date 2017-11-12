@@ -97,12 +97,9 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     }
     // 重定向的时候不会判断要重定向到的页面
     url = url === '\/' ? '/workspace' : url;
-    console.log(url)
-
     let fullPaths = _.map(resources, r => r['fullPath']);
     fullPaths.unshift('\/login');
     let reg = new RegExp('^(' + fullPaths.join('|') + ')', 'g');
-    console.log(fullPaths)
     if ( !reg.test(url) ) {
       this.location.back();
       return false;

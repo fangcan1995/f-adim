@@ -57,6 +57,11 @@ export class BaPageTop implements OnInit {
       }
     });
 
+
+    this._state.subscribe('user.changed', () => {
+      this.user = this._manageService.getUserFromLocal() || {};
+    })
+
     let oldPassword = new FormControl('', Validators.required);
     let newPassword = new FormControl('', Validators.required);
     let certainPassword = new FormControl('', CustomValidators.equalTo(newPassword));
@@ -67,10 +72,7 @@ export class BaPageTop implements OnInit {
     });
   }
   ngOnInit(): void {
-    this._manageService.getUserFromLocal()
-    .then(res => {
-      this.user = res.data || {};
-    })
+    this.user = this._manageService.getUserFromLocal() || {};
   }
   private _getActivePageIcon(activeLink) {
     if ( !activeLink.icon && !activeLink.parent ) {
@@ -109,16 +111,12 @@ export class BaPageTop implements OnInit {
     this.modal.show();
   }
   handleModalShown() {
-    this._manageService.getUserFromLocal()
-    .then(res => {
-      this.user = res.data || {};
-    })
-    
+    this.user = this._manageService.getUserFromLocal() || {};
+    this.form.reset()
   }
   handleModalHide() {
     this.form.reset()
   }
-
   savePassword() {
     if ( this.form.valid ) {
       const { oldPassword, newPassword } = this.form.value;

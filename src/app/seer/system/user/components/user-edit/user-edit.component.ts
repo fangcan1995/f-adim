@@ -91,7 +91,14 @@ export class UserEditComponent implements OnInit {
         this._userService.putOne('', params)
         .then(res => {
           this.forbidSaveBtn = false;
-          this.refreshMenu();
+
+          // 如果编辑的用户正好是自己，那么刷新本地信息
+          let userInLocal = this._manageService.getUserFromLocal() || {};
+
+          if ( userInLocal.userId == this.user.userId ) {
+            this._manageService.refreshLocalDataAndNotify()
+          }
+
           this.showSuccess(res.msg || '更新成功')
           .onClose()
           .subscribe(() => {
@@ -111,7 +118,6 @@ export class UserEditComponent implements OnInit {
         this._userService.postOne(params)
         .then(res => {
           this.forbidSaveBtn = false;
-          this.refreshMenu();
           this.showSuccess(res.msg || '保存成功')
         })
         .catch(err => {
@@ -121,16 +127,6 @@ export class UserEditComponent implements OnInit {
       }
       
     }
-  }
-  refreshMenu() {
-    this._manageService.getDataFromServer()
-    .then(res => {
-      let data = res.data || {};
-      let { menus:resources = null, ...user } = data;
-      this._manageService.setUserToLocal(user)
-      this._manageService.setResourcesToLocal(resources);
-      this._state.notify('menu.changed', resources);
-    })
   }
   handleBackBtnClick() {
     this._location.back();

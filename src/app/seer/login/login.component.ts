@@ -80,13 +80,9 @@ export class LoginComponent {
           value: res,
         }, false)
       }
-      return Observable.fromPromise(this._manageService.getDataFromServer())
+      return Observable.fromPromise(this._manageService.refreshLocalDataAndNotify())
     })
     .subscribe(res => {
-      let data = res.data || {};
-      let { menus:resources = null, ...user } = data;
-      this._manageService.setUserToLocal(user)
-      this._manageService.setResourcesToLocal(resources);
       if ( this._authService.isLoggedIn ) {
         let resources = getStorage({ key: 'resources' });
         let fullPaths = _.map(resources, r => r['fullPath']);

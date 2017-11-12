@@ -11,7 +11,7 @@ import { SeerMessageService } from '../../../../../theme/services/seer-message.s
   templateUrl: './message-template-detail.component.html',
   styleUrls: ['./message-template-detail.component.css'],
   providers: [messageTplManageService],
-  encapsulation: ViewEncapsulation.None
+  /*encapsulation: ViewEncapsulation.None*/
 })
 export class MessageTemplateDetailComponent implements OnInit {
   //template: Template = new Template();

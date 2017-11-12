@@ -86,7 +86,6 @@ export class RoleEditComponent implements OnInit {
         let staffs = data.employeeList || [];
         let users = data.userList || [];
 
-
         departments = _(departments).map(t => {
           t = _.set(t, 'originId', t['id']);
           t = _.set(t, 'type', 'D');
@@ -129,7 +128,7 @@ export class RoleEditComponent implements OnInit {
   }
 
   getResources() {
-    return this._roleService.getResourcesFromServer({pageSize: 10000})
+    return this._roleService.getResources({ pageSize: 10000 })
     .then(res => {
       let resources = res.data ? res.data.list || [] : [];
       this.resourceTreeNodes = json2Tree(
@@ -196,7 +195,13 @@ export class RoleEditComponent implements OnInit {
         this._roleService.putOne('', params)
         .then(res => {
           this.forbidSaveBtn = false;
-          this.refreshMenu();
+
+          // 如果编辑的角色正好是用户所属的角色之一, 或者用户在角色要绑定到的角色列表中，那么刷新本地数据；
+          let rolesInLocal = this._manageService.getRolesFromLocal() || [];
+          let userInLocal = this._manageService.getUserFromLocal() || {};
+          if ( _.find(rolesInLocal, t => t['roleId'] == this.role['roleId']) || _.includes(accountIds, userInLocal['userId'] )) {
+            this._manageService.refreshLocalDataAndNotify();
+          }
           this.showSuccess(res.msg || '更新成功')
           .onClose()
           .subscribe(() => {
@@ -211,7 +216,12 @@ export class RoleEditComponent implements OnInit {
         this._roleService.postOne(params)
         .then(res => {
           this.forbidSaveBtn = false;
-          this.refreshMenu();
+          // 如果编辑的角色正好是用户所属的角色之一，那么刷新本地数据；
+          let rolesInLocal = this._manageService.getRolesFromLocal() || [];
+          let userInLocal = this._manageService.getUserFromLocal() || {};
+          if ( _.find(rolesInLocal, t => t['roleId'] == this.role['roleId']) || _.includes(accountIds, userInLocal['userId'] )) {
+            this._manageService.refreshLocalDataAndNotify();
+          }
           this.showSuccess(res.msg || '保存成功')
           .onClose()
           .subscribe(() => {
@@ -225,16 +235,6 @@ export class RoleEditComponent implements OnInit {
       }
       
     }
-  }
-  refreshMenu() {
-    this._manageService.getDataFromServer()
-    .then(res => {
-      let data = res.data || {};
-      let { menus:resources = null, ...user } = data;
-      this._manageService.setUserToLocal(user)
-      this._manageService.setResourcesToLocal(resources);
-      this._state.notify('menu.changed', resources);
-    })
   }
   handleBackBtnClick() {
     this._location.back();

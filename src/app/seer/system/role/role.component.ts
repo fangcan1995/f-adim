@@ -94,33 +94,27 @@ export class RoleComponent {
         break;
       case 'delete':
         this._dialogService.confirm('确定删除吗？')
-          .subscribe(action => {
-            if ( action === 1 ) {
-              this._roleService
-              .deleteOne(data.roleId)
-              .then((res) => {
-                this.refreshMenu();
-                this.showSuccess(res.msg || '删除用户成功')
-                this.getList();
-              })
-              .catch(err => {
-                this.showError(err.msg || '删除用户失败')
-              });
-            }
-          })
+        .subscribe(action => {
+          if ( action === 1 ) {
+            this._roleService
+            .deleteOne(data.roleId)
+            .then(res => {
+              // 如果删除的角色正好是用户所属的角色之一，那么刷新本地数据；
+              let rolesInLocal = this._manageService.getRolesFromLocal() || [];
+              if ( _.find(rolesInLocal, t => t['roleId'] == data['roleId']) ) {
+                this._manageService.refreshLocalDataAndNotify();
+              }
+              this.showSuccess(res.msg || '删除用户成功')
+              this.getList();
+            })
+            .catch(err => {
+              this.showError(err.msg || '删除用户失败')
+            });
+          }
+        })
         break;
       case 'delete_multiple':
         break;
     }
-  }
-  refreshMenu() {
-    this._manageService.getDataFromServer()
-    .then(res => {
-      let data = res.data || {};
-      let { menus:resources = null, ...user } = data;
-      this._manageService.setUserToLocal(user)
-      this._manageService.setResourcesToLocal(resources);
-      this._state.notify('menu.changed', resources);
-    })
   }
 }
