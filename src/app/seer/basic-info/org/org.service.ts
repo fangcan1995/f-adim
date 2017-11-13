@@ -35,7 +35,7 @@ export class OrgService extends BaseService<any>{
    * 查询全部库房
    * */
   getOrganizations(): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET','http://172.16.4.62:8090/organizations/all',{}, true).toPromise();
+    return this._httpInterceptorService.request('GET','http://172.16.7.4:8020/permission/organizations/all',{}, true).toPromise();
   }
 
 
@@ -45,7 +45,7 @@ export class OrgService extends BaseService<any>{
 
   // 表格假数据
  getData(params): Promise<any>{
-   return this._httpInterceptorService.request('GET', `http://172.16.4.62:8090/organizations`, params, true).toPromise();
+   return this._httpInterceptorService.request('GET', `http://172.16.7.4:8020/permission/organizations`, params, true).toPromise();
  }
 
 
@@ -53,7 +53,7 @@ export class OrgService extends BaseService<any>{
    * */
 
   getOrganizationsById (orgId): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `http://172.16.4.62:8090/organizations/${orgId}?departmentId=${orgId}`, {}, true).toPromise();
+    return this._httpInterceptorService.request('GET', `http://172.16.7.4:8020/permission/organizations/${orgId}?departmentId=${orgId}`, {}, true).toPromise();
   }
 
   getStaffsByOrgId(orgId): Promise<ResModel> {
@@ -74,32 +74,33 @@ export class OrgService extends BaseService<any>{
   addOrganization(data): Promise<ResModel> {
     let url = `http://172.16.7.4:8020/permission/organizations`;   //测试用地址
     console.log(data);
-    return this._httpInterceptorService.request('POST', url, data, true).toPromise();
+    return this._httpInterceptorService.request('POST', url, data).toPromise();
   }
 
 
 
   editOrganization(data): Promise<ResModel> {
-    let url = `http://172.16.7.4:8020/permission/organizations/`;   //测试用地址
-    return this._httpInterceptorService.request('PUT', url, data, true).toPromise();
+    let url = `http://172.16.7.4:8020/permission/organizations`;   //测试用地址
+    console.log(data);
+    return this._httpInterceptorService.request('PUT', url, data).toPromise();
   }
 
 
   delOrganization(orgId): Promise<ResModel> {
     let url = `http://172.16.7.4:8020/permission/organizations/${orgId}`;   //测试用地址
-    return this._httpInterceptorService.request('DELETE', url,{}, true).toPromise();
+    return this._httpInterceptorService.request('DELETE', url,{}).toPromise();
   }
 
   /*设置员工为组织机构的负责人*/
   configDepartLeader(params): Promise<ResModel> {
-    let url = `http://172.16.4.62:8090/organizations/${params.departmentId}/staffs/${params.id}`;
-    return this._httpInterceptorService.request('PUT', url, {}, true).toPromise();//测试用地址
+    let url = `http://172.16.7.4:8020/permission/organizations/${params.departmentId}/staffs/${params.id}`;
+    return this._httpInterceptorService.request('PUT', url, {}).toPromise();//测试用地址
   }
 
   /* 通过组织id 和员工 id获取员工的信息 */
   getStaffInfo (id): Promise<ResModel> {
-    let url = `http://172.16.4.62:8090/staffs/${id}`;
-    return this._httpInterceptorService.request('GET', url, {}, true).toPromise();
+    let url = `http://172.16.7.4:8020/permission/staffs/${id}`;
+    return this._httpInterceptorService.request('GET', url, {}).toPromise();
   }
 
 }
