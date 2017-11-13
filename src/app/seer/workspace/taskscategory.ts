@@ -1,51 +1,51 @@
 export const taskScategory = [
   {
-    "code":"first",
-    "category":"01",
-    "categoryName":"补填资料",
-    "color":"label-blue",
-    "detailPageUrl":"/system/resource-manage/edit/"
-  },
-  {
-    "code":"second",
-    "category":"02",
-    "categoryName":"初审",
-    "color":"label-blue",
-    "detailPageUrl":""
-  },
-  {
-    "code":"third",
-    "category":"03",
-    "categoryName":"复审",
-    "color":"label-blue",
+    "code":"",
+    "taskName": "全部",
     "detailPageUrl":"",
+    "editPageUrl":""
   },
   {
-    "code":"forth",
-    "category":"04",
-    "categoryName":"标的发布",
-    "color":"label-blue",
-    "detailPageUrl":""
+    "code":"10",
+    "taskName": "待补全资料",
+    "detailPageUrl":"/business/intention/completion/",
+    "editPageUrl":"/business/intention/detail/"
   },
   {
-    "code":"fifth",
-    "category":"05",
-    "categoryName":"流标",
-    "color":"label-gold",
-    "detailPageUrl":"label-pink"
+    "code":"20",
+    "taskName":"待初审",
+    "detailPageUrl":"",
+    "editPageUrl":"/business/intention/firstAudit/"
   },
   {
-    "sixth":"second",
-    "category":"06",
-    "categoryName":"满标审核",
-    "color":"label-pink",
-    "detailPageUrl":""
+    "code":"30",
+    "taskName":"待复审",
+    "detailPageUrl":"",
+    "editPageUrl":""
   },
   {
-    "code":"seventh",
-    "category":"07",
-    "categoryName":"提前还款审核",
-    "color":"label-green",
-    "detailPageUrl":""
-  }
+    "code":"40",
+    "taskName":"待标的发布",
+    "detailPageUrl":"",
+    "editPageUrl":""
+  },
+  {
+    "code":"60",
+    "taskName":"待满标审核",
+    "detailPageUrl":"",
+    "editPageUrl":""
+  },
+  {
+    "code":"81",
+    "taskName":"待提前还款审核",
+    "detailPageUrl":"",
+    "editPageUrl":""
+  },
+  {
+    "code":"100",
+    "taskName":"待提前还款审核",
+    "detailPageUrl":"",
+    "editPageUrl":""
+  },
+
 ];
