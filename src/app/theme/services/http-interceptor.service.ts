@@ -124,8 +124,8 @@ export class HttpInterceptorService {
       });
       
     } else {
-      let code = error.name ? error.name : error.toString();
-      code = errorCode.has(code) ? code : -1;
+      let code = error.code ? error.code : error.name ? error.name : error.toString();
+      code = errorCode.has(code) ? code : code ? code : -1;
       let msg = errorCode.has(code) ? errorCode.get(code) : error.message ? error.message : error.toString();
       return Observable.throw({
         code,

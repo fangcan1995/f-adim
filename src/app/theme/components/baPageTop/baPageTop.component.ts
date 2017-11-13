@@ -9,9 +9,14 @@ import {
 
 import { GlobalState } from '../../../global.state';
 import { Router } from "@angular/router";
-import { DynamicComponentLoader } from "../../directives/dynamicComponent/dynamic-component.directive";
 import { ManageService } from '../../services/manage.service';
 import { AuthService } from '../../services/auth.service';
+
+import { ModalDirective } from 'ngx-bootstrap/modal';
+
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { CustomValidators } from 'ng2-validation';
+import { parseQueryString, setStorage, getStorage } from '../../libs';
 @Component({
   selector: 'ba-page-top',
   templateUrl: './baPageTop.html',
@@ -19,10 +24,10 @@ import { AuthService } from '../../services/auth.service';
 })
 export class BaPageTop implements OnInit {
 
-  @ViewChild(DynamicComponentLoader)
   @ViewChild('pageTop') pageTop: ElementRef;
-  dynamicComponentLoader: DynamicComponentLoader;
-
+  @ViewChild('modal') modal: ModalDirective;
+  @ViewChild('myForm') myForm;
+  
   public isScrolled:boolean = false;
   isSuccess: boolean;
   loginName: string;
@@ -32,7 +37,10 @@ export class BaPageTop implements OnInit {
   activePageIcon: string;
   isHidden: boolean;
   _offsetTop:number;
-  user: any = {};
+
+  user:any = {};
+  
+  form:FormGroup;
   constructor(
     private router: Router,
     private _state: GlobalState,
@@ -49,12 +57,23 @@ export class BaPageTop implements OnInit {
         this.activePageIcon = this._getActivePageIcon(activeLink);
       }
     });
+
+
+    this._state.subscribe('user.changed', () => {
+      this.user = this._manageService.getUserFromLocal() || {};
+    })
+
+    let oldPassword = new FormControl('', Validators.required);
+    let newPassword = new FormControl('', Validators.required);
+    let certainPassword = new FormControl('', CustomValidators.equalTo(newPassword));
+    this.form = new FormGroup({
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+      certainPassword: certainPassword
+    });
   }
   ngOnInit(): void {
-    this._manageService.getUserFromLocal()
-    .then(res => {
-      this.user = res.data || {};
-    })
+    this.user = this._manageService.getUserFromLocal() || {};
   }
   private _getActivePageIcon(activeLink) {
     if ( !activeLink.icon && !activeLink.parent ) {
@@ -80,10 +99,44 @@ export class BaPageTop implements OnInit {
 
     this._offsetTop = -scrollY
   }
-  public logout() {
-    this._authService.logout().subscribe();
+  public logout($event) {
+    $event.preventDefault();
+    this._authService.logout().subscribe(this.redirectToLogin.bind(this));
   }
-  onChangePassword() {
-    
+
+  redirectToLogin() {
+    let url = location.pathname;
+    this._authService.redirectUrl = url;
+    let oldQueryString = location.search;
+    let oldQueryParams = parseQueryString(oldQueryString);
+    this._authService.redirectSearch = oldQueryParams;
+    this.router.navigate(['/login']);
+  }
+
+  showModal($event) {
+    $event.preventDefault();
+    this.modal.show();
+  }
+  handleModalShown() {
+    this.user = this._manageService.getUserFromLocal() || {};
+    this.form.reset()
+  }
+  handleModalHide() {
+    this.form.reset()
+  }
+  savePassword() {
+    if ( this.form.valid ) {
+      const { oldPassword, newPassword } = this.form.value;
+      const params = {
+        userId: this.user.userId,
+        oldPassword,
+        newPassword,
+        type: '1',
+      }
+      this._manageService.changePassword(params)
+      .then(res => {
+        console.log(res)
+      })
+    }
   }
 }

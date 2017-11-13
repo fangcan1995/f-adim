@@ -98,7 +98,7 @@
   width: 316px;
   left: auto;
   right: -44px;
-  top: $top-dropdown-height;
+  top: 33px;
   @include scrollbars(.4em, rgba(0,0,0,0.5), #fff);
   .header {
     padding: 10px 12px;
@@ -193,8 +193,8 @@
 
   &.profile-dropdown {
     width: 145px;
-    top: 30px;
-    right: -16px;
+    top: 38px;
+    right: -14px;
     a {
       text-align: left;
       border: none;

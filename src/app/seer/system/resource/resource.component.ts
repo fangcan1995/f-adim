@@ -85,8 +85,13 @@ export class ResourceComponent implements OnInit {
                   this._resourceService
                   .deleteOne(data)
                   .then((res) => {
+                    // 如果编辑的菜单正好是用户有权查看的菜单，那么刷新用户信息
+                    let resourcesInLocal = this._manageService.getResourcesFromLocal() || [];
+                    if ( _.find(resourcesInLocal, t => t['menuId']) == data['menuId'] ) {
+                      this._manageService.refreshLocalDataAndNotify();
+                    }
                     this.showSuccess(res.msg || '删除资源成功')
-                    this.refreshMenu();
+                    
                   })
                   .catch(err => {
                     this.showError(err.msg || '删除资源失败')
@@ -99,15 +104,7 @@ export class ResourceComponent implements OnInit {
             break;
         }
     }
-    // 更新左侧导航菜单
-    refreshMenu() {
-      this._manageService.getResourcesFromServer({ pageSize: 10000 })
-      .then(res => {
-        const resources = res.data ? res.data.list || [] : [];
-        this._manageService.setResourcesToLocal(resources);
-        this._state.notify('menu.changed', resources);
-      })
-    }
+
     showSuccess(message: string) {
       return this._messageService.open({
         message,

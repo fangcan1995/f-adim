@@ -14,7 +14,8 @@ const BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export const BASE_URL = `http://${BASE_SERVER}`;
 export const API = {
   'LOGIN': 'uaa/oauth/token',
-  'LOGOUT': 'logout',
+  'LOGOUT': 'uaa/oauth/logout',
+  'PASSWORD': 'uaa/password',
   'SIGNUP': 'signup',
   'MEMBERS': 'members',
   'USER': 'permission/users/getByToken',
@@ -62,44 +63,9 @@ export class BaseService<T> {
   public deleteOne(id: string | number): Promise<ResModel> {
     return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${this._api}/${id}`).toPromise();
   }
-  // 从本地存储里获取用户信息
-  public getUserFromLocal(): Promise<ResModel> {
-    return new Promise(resolve => {
-      resolve({
-        code: 0,
-        msg: '',
-        data: getStorage({ key: 'user' })
-      })
-    });
-  }
-  // 从服务器端获取用户信息
-  public getUserFromServer(): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['USER']}`).toPromise();
-  }
-  // 从本地获取资源（菜单）
-  public getResourcesFromLocal(): Promise<ResModel> {
-    return new Promise(resolve => {
-      resolve({
-        code: 0,
-        msg: '',
-        data: getStorage({ key: 'resources' })
-      })
-    })
-  }
-  // 从服务器获取资源（菜单）
-  public getResourcesFromServer(params?): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['RESOURCES']}`, params).toPromise()
-  }
-  // 从本地获取字典
-  public getDictsFromLocal(): Promise<ResModel> {
-    return new Promise(resolve => {
-      resolve({
-        code: 0,
-        msg: '',
-        data: getStorage({ key: 'dicts' })
-      })
-    })
-  }
+
+
+
   public getDictsFromServer(params?): Promise<ResModel> {
     return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['DICTS']}`, params).toPromise();
   }
@@ -191,6 +157,7 @@ export class BaseService<T> {
       })
     }
   }
+  // 拉取字典数据的加强版，如果没有获取成功就用一次之前存储的数据
   public getDictsPro(): Promise<ResModel> {
     return this.getDicts()
     .then(res => {

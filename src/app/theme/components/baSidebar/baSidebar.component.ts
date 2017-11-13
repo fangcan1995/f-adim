@@ -34,22 +34,12 @@ export class BaSidebar {
       this.isMenuCollapsed = isCollapsed;
     });
     this._state.subscribe('menu.changed',() => {
-      this._manageService.getResourcesFromLocal()
-      .then(res => {
-        if ( res.code == 0 ) {
-          this.routes = resources2Menu(res.data);
-        }
-      })
+      this.routes = resources2Menu(this._manageService.getResourcesFromLocal() || [])
     })
   }
 
   public ngOnInit():void {
-    this._manageService.getResourcesFromLocal()
-    .then(res => {
-      if ( res.code == 0 ) {
-        this.routes = resources2Menu(res.data);
-      }
-    })
+    this.routes = resources2Menu(this._manageService.getResourcesFromLocal() || [])
     this._defaultTop = this.sidebar.nativeElement.offsetTop; 
     this._offsetTop = this._defaultTop;
     if (this._shouldMenuCollapse()) {

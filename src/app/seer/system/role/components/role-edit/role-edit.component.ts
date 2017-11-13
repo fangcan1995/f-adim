@@ -1,6 +1,5 @@
 import {
   Component,
-  ViewEncapsulation,
   ViewChild,
   OnInit
 } from "@angular/core";
@@ -10,15 +9,15 @@ import { Router, ActivatedRoute } from "@angular/router";
 import * as _ from 'lodash';
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import { RoleService } from '../../role.service';
-import { SeerDialogService, SeerMessageService } from '../../../../../theme/services';
+import { SeerDialogService, SeerMessageService, ManageService } from '../../../../../theme/services';
 import { json2Tree } from '../../../../../theme/libs';
 import { SeerTree } from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
 import { TREE_PERMISSIONS } from "../../../../../theme/modules/seer-tree/constants/permissions";
 import { TreeNode } from "../../../../../theme/modules/seer-tree/models/tree-node.model";
+import { GlobalState } from '../../../../../global.state';
 @Component({
   templateUrl: './role-edit.component.html',
   styleUrls: [ './role-edit.component.scss' ],
-  encapsulation: ViewEncapsulation.None
 })
 export class RoleEditComponent implements OnInit {
   role:any = {
@@ -45,6 +44,8 @@ export class RoleEditComponent implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private _messageService: SeerMessageService,
+    private _manageService:ManageService,
+    private _state: GlobalState,
     ) { }
   ngOnInit() {
     this.editType = this._route.snapshot.url[0].path;
@@ -82,7 +83,6 @@ export class RoleEditComponent implements OnInit {
         let departments = data.departmentList || [];
         let staffs = data.employeeList || [];
         let users = data.userList || [];
-
 
         departments = _(departments).map(t => {
           t = _.set(t, 'originId', t['id']);
@@ -126,7 +126,7 @@ export class RoleEditComponent implements OnInit {
   }
 
   getResources() {
-    return this._roleService.getResourcesFromServer({pageSize: 10000})
+    return this._roleService.getResources({ pageSize: 10000 })
     .then(res => {
       let resources = res.data ? res.data.list || [] : [];
       this.resourceTreeNodes = json2Tree(
@@ -187,15 +187,19 @@ export class RoleEditComponent implements OnInit {
         userIds: accountIds,
         resourceIds,
       }
-
-
       if ( this.editType === 'edit' ) {
         this._roleService.putOne('', params)
         .then(res => {
-          this.forbidSaveBtn = false;
+          // 如果编辑的角色正好是用户所属的角色之一, 或者用户在角色要绑定到的角色列表中，那么刷新本地数据；
+          let rolesInLocal = this._manageService.getRolesFromLocal() || [];
+          let userInLocal = this._manageService.getUserFromLocal() || {};
+          if ( _.find(rolesInLocal, t => t['roleId'] == this.role['roleId']) || _.includes(accountIds, userInLocal['userId'] )) {
+            this._manageService.refreshLocalDataAndNotify();
+          }
           this.showSuccess(res.msg || '更新成功')
           .onClose()
           .subscribe(() => {
+            this.forbidSaveBtn = false;
             this._router.navigate(['/system/role']);
           });
         })
@@ -206,10 +210,16 @@ export class RoleEditComponent implements OnInit {
       } else {
         this._roleService.postOne(params)
         .then(res => {
-          this.forbidSaveBtn = false;
+          // 如果编辑的角色正好是用户所属的角色之一，那么刷新本地数据；
+          let rolesInLocal = this._manageService.getRolesFromLocal() || [];
+          let userInLocal = this._manageService.getUserFromLocal() || {};
+          if ( _.find(rolesInLocal, t => t['roleId'] == this.role['roleId']) || _.includes(accountIds, userInLocal['userId'] )) {
+            this._manageService.refreshLocalDataAndNotify();
+          }
           this.showSuccess(res.msg || '保存成功')
           .onClose()
           .subscribe(() => {
+            this.forbidSaveBtn = false;
             this._router.navigate(['/system/role']);
           });
         })

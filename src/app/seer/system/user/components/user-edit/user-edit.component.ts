@@ -11,7 +11,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import * as _ from 'lodash';
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import { UserService } from '../../user.service';
-import { SeerDialogService, SeerMessageService } from '../../../../../theme/services';
+import { SeerDialogService, SeerMessageService, ManageService } from '../../../../../theme/services';
 
 import { json2Tree } from '../../../../../theme/libs';
 import { SeerTree } from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
@@ -19,6 +19,7 @@ import { TREE_PERMISSIONS } from "../../../../../theme/modules/seer-tree/constan
 
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { ModalDirective, BsModalService } from 'ngx-bootstrap/modal';
+import { GlobalState } from '../../../../../global.state';
 @Component({
   templateUrl: './user-edit.component.html',
   styleUrls: [ './user-edit.component.scss' ],
@@ -48,6 +49,8 @@ export class UserEditComponent implements OnInit {
     private _router: Router,
     private _messageService: SeerMessageService,
     private _modalService: BsModalService,
+    private _manageService:ManageService,
+    private _state: GlobalState,
     ) { }
   ngOnInit() {
     this.editType = this._route.snapshot.url[0].path;
@@ -82,15 +85,23 @@ export class UserEditComponent implements OnInit {
       if ( this.editType === 'edit' ) {
         let params = {
           userId: this.user.userId,
-          loginName: this.user.loginName,
           roleIds,
         }
         this._userService.putOne('', params)
         .then(res => {
-          this.forbidSaveBtn = false;
+          
+
+          // 如果编辑的用户正好是自己，那么刷新本地信息
+          let userInLocal = this._manageService.getUserFromLocal() || {};
+
+          if ( userInLocal.userId == this.user.userId ) {
+            this._manageService.refreshLocalDataAndNotify()
+          }
+
           this.showSuccess(res.msg || '更新成功')
           .onClose()
           .subscribe(() => {
+            this.forbidSaveBtn = false;
             this._router.navigate(['/system/user']);
           });
         })

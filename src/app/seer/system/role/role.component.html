@@ -1,21 +1,18 @@
 <seer-content-top>
   <seer-filter
     [hasGlobalFilter]=hasGlobalFilter
+    (onInit)=handleFiltersChanged($event)
     (onFiltersChanged)=handleFiltersChanged($event)
     (onSearchBtnClicked)=handleFiltersChanged($event)
   ></seer-filter>  
 </seer-content-top>
 <seer-collapse-card>
   <seer-table
-    [data]="roles"
-    [titles]="titles"
-    [translate]="dict"
-    [paginationRules]=0
-    [pageSize]=pageSize
-    [pageNum]=pageNum
-    [total]=total
-    (notify)="handleNotify($event)"
-    (changePage)=handleChangePage($event)
+    [data]=roles
+    [titles]=titles
+    [paginationRules]=1
+    (notify)=handleNotify($event)
     [hideRemoveAll]=true
+    [filters]=tableFilters
   ></seer-table>
 </seer-collapse-card>

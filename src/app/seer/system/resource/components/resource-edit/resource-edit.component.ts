@@ -13,9 +13,8 @@ import { GlobalState } from '../../../../../global.state';
 import { ResourceService } from "../../resource.service";
 import { ResourceModel } from "../../resource.model";
 import {error} from "util";
-
+import * as _ from 'lodash';
 @Component({
-  selector: 'app-resource-edit',
   templateUrl: './resource-edit.component.html',
   styleUrls: [ './resource-edit.component.scss' ]
 })
@@ -43,9 +42,9 @@ export class ResourceEditComponent implements OnInit {
       menuId: '0',
       menuName: '顶级菜单'
     })
-    this._resourceService.getResourcesFromLocal()
+    this._resourceService.getList({ pageSize: 10000 })
     .then(res => {
-      this.resourceList = this.resourceList.concat(res.data || []);
+      this.resourceList = this.resourceList.concat(res.data ? res.data.list || [] : []);
     })
     if ( this.editType === 'edit' ) {
       this._resourceService.getOne(this.id)
@@ -69,11 +68,16 @@ export class ResourceEditComponent implements OnInit {
       if ( this.editType === 'edit' ) {
         this._resourceService.putOne('', this.resource)
         .then(res => {
-          this.forbidSaveBtn = false;
-          this.refreshMenu()
+          
+          // 如果编辑的菜单正好是用户有权查看的菜单，那么刷新用户信息
+          let resourcesInLocal = this._manageService.getResourcesFromLocal() || [];
+          if ( _.find(resourcesInLocal, t => t['menuId']) == this.resource['menuId'] ) {
+            this._manageService.refreshLocalDataAndNotify();
+          }
           this.showSuccess(res.msg || '更新成功')
           .onClose()
           .subscribe(() => {
+            this.forbidSaveBtn = false;
             this._router.navigate(['/system/resource']);
           });
         })
@@ -84,11 +88,10 @@ export class ResourceEditComponent implements OnInit {
       } else {
         this._resourceService.postOne(this.resource)
         .then(res => {
-          this.forbidSaveBtn = false;
-          this.refreshMenu()
           this.showSuccess(res.msg || '保存成功')
           .onClose()
           .subscribe(() => {
+            this.forbidSaveBtn = false;
             this._router.navigate(['/system/resource']);
           });
         })
@@ -100,14 +103,7 @@ export class ResourceEditComponent implements OnInit {
       
     }
   }
-  refreshMenu() {
-    this._manageService.getResourcesFromServer({ pageSize: 10000 })
-    .then(res => {
-      const resources = res.data ? res.data.list || [] : [];
-      this._manageService.setResourcesToLocal(resources);
-      this._state.notify('menu.changed', resources);
-    })
-  }
+
   showSuccess(message: string) {
     return this._messageService.open({
       message,

@@ -11,7 +11,7 @@ import {SeerDialogService, SeerMessageService,} from '../../../../../theme/servi
   templateUrl: './message-template-edit.component.html',
   styleUrls: ['./message-template-edit.component.css'],
   providers: [messageTplManageService],
-  encapsulation: ViewEncapsulation.None
+  /*encapsulation: ViewEncapsulation.None*/
 })
 export class MessageTemplateEditComponent implements OnInit {
   //template: Template = new Template();
@@ -23,7 +23,7 @@ export class MessageTemplateEditComponent implements OnInit {
   public forbidSaveBtn: boolean = true;
   isPickUsersAble:boolean=true;  //选择用户按钮无效
   IsChecked={"sendMail":false,"sendNotify":false,"sendMessage":false,"now":false}
-  disabled={"sendMail":true,"sendNotify":true,"sendMessage":true,"now":false}; checkbox是否可用
+  disabled={"sendMail":true,"sendNotify":true,"sendMessage":true,"now":false}; // checkbox是否可用
   sendMail;
   sendNotify;
   sendMessage;

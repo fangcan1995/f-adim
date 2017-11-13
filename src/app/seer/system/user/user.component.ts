@@ -3,7 +3,13 @@ import { DatePipe } from "@angular/common";
 import { Router } from "@angular/router";
 import * as _ from 'lodash';
 import { UserService } from './user.service';
-import { SeerDialogService, SeerMessageService } from '../../../theme/services';
+import {
+  ManageService,
+  SeerDialogService,
+  SeerMessageService,
+  AuthService,
+} from '../../../theme/services';
+import { GlobalState } from '../../../global.state';
 import { UPDATE, DELETE, CREATE } from '../../common/seer-table';
 @Component({
   templateUrl: './user.component.html',
@@ -16,7 +22,10 @@ export class UserComponent implements OnInit {
     private _userService:UserService,
     private _dialogService:SeerDialogService,
     private _messageService:SeerMessageService,
-    private _datePipe:DatePipe
+    private _datePipe:DatePipe,
+    private _manageService:ManageService,
+    private _state: GlobalState,
+    private _authService:AuthService
     ) {}
   hasGlobalFilter:boolean = true;
   filters:any = [
@@ -174,7 +183,6 @@ export class UserComponent implements OnInit {
     this.getList();
   }
 
-  /*更新*/
   handleNotify({ type, data }): void {
     switch ( type ) {
       case CREATE.type:
@@ -190,8 +198,17 @@ export class UserComponent implements OnInit {
               this._userService
               .deleteOne(data.userId)
               .then((res) => {
-                this.showSuccess(res.msg || '删除用户成功')
-                this.getList();
+                this.showSuccess(res.msg || '删除用户成功');
+                // 如果删除的用户正好是自己，那么退出到登录页
+                let userInLocal = this._manageService.getUserFromLocal() || {};
+                if ( userInLocal.userId == data.userId ) {
+                  this._authService.logout().subscribe(res => {
+                    this._router.navigate(['/login'])
+                  })
+                } else {
+                  this.getList();
+                }
+                
               })
               .catch(err => {
                 this.showError(err.msg || '删除用户失败')
