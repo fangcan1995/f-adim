@@ -1,6 +1,5 @@
 import {
   Component,
-  ViewEncapsulation,
   ViewChild,
   OnInit
 } from "@angular/core";
@@ -19,7 +18,6 @@ import { GlobalState } from '../../../../../global.state';
 @Component({
   templateUrl: './role-edit.component.html',
   styleUrls: [ './role-edit.component.scss' ],
-  encapsulation: ViewEncapsulation.None
 })
 export class RoleEditComponent implements OnInit {
   role:any = {
@@ -189,13 +187,9 @@ export class RoleEditComponent implements OnInit {
         userIds: accountIds,
         resourceIds,
       }
-
-
       if ( this.editType === 'edit' ) {
         this._roleService.putOne('', params)
         .then(res => {
-          this.forbidSaveBtn = false;
-
           // 如果编辑的角色正好是用户所属的角色之一, 或者用户在角色要绑定到的角色列表中，那么刷新本地数据；
           let rolesInLocal = this._manageService.getRolesFromLocal() || [];
           let userInLocal = this._manageService.getUserFromLocal() || {};
@@ -205,6 +199,7 @@ export class RoleEditComponent implements OnInit {
           this.showSuccess(res.msg || '更新成功')
           .onClose()
           .subscribe(() => {
+            this.forbidSaveBtn = false;
             this._router.navigate(['/system/role']);
           });
         })
@@ -215,7 +210,6 @@ export class RoleEditComponent implements OnInit {
       } else {
         this._roleService.postOne(params)
         .then(res => {
-          this.forbidSaveBtn = false;
           // 如果编辑的角色正好是用户所属的角色之一，那么刷新本地数据；
           let rolesInLocal = this._manageService.getRolesFromLocal() || [];
           let userInLocal = this._manageService.getUserFromLocal() || {};
@@ -225,6 +219,7 @@ export class RoleEditComponent implements OnInit {
           this.showSuccess(res.msg || '保存成功')
           .onClose()
           .subscribe(() => {
+            this.forbidSaveBtn = false;
             this._router.navigate(['/system/role']);
           });
         })
