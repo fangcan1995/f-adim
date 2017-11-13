@@ -7,7 +7,7 @@ import { UserService } from "./user.service";
 import { UserComponent } from "./user.component";
 import { UserEditComponent } from "./components/user-edit/user-edit.component";
 import { RoleService } from "../role/role.service";
-
+import { ResourceService } from '../resource/resource.service';
 @NgModule({
   imports: [
     NgaModule,
@@ -21,6 +21,7 @@ import { RoleService } from "../role/role.service";
   providers: [
     UserService,
     RoleService,
+    ResourceService,
   ]
 })
 export class UserModule {

@@ -85,7 +85,6 @@ export class UserEditComponent implements OnInit {
       if ( this.editType === 'edit' ) {
         let params = {
           userId: this.user.userId,
-          loginName: this.user.loginName,
           roleIds,
         }
         this._userService.putOne('', params)

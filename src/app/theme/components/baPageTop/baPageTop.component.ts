@@ -16,6 +16,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
+import { parseQueryString, setStorage, getStorage } from '../../libs';
 @Component({
   selector: 'ba-page-top',
   templateUrl: './baPageTop.html',
@@ -100,11 +101,17 @@ export class BaPageTop implements OnInit {
   }
   public logout($event) {
     $event.preventDefault();
-    this._authService.logout().subscribe(res => {
-      this.router.navigate(['/login']);
-    });
+    this._authService.logout().subscribe(this.redirectToLogin.bind(this));
   }
 
+  redirectToLogin() {
+    let url = location.pathname;
+    this._authService.redirectUrl = url;
+    let oldQueryString = location.search;
+    let oldQueryParams = parseQueryString(oldQueryString);
+    this._authService.redirectSearch = oldQueryParams;
+    this.router.navigate(['/login']);
+  }
 
   showModal($event) {
     $event.preventDefault();

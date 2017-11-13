@@ -86,9 +86,11 @@ export class LoginComponent {
       if ( this._authService.isLoggedIn ) {
         let resources = getStorage({ key: 'resources' });
         let fullPaths = _.map(resources, r => r['fullPath']);
+        fullPaths.unshift('\/login');
         let reg = new RegExp('^(' + fullPaths.join('|') + ')', 'g');
 
-        let redirectUrl = this._authService.redirectUrl && this._authService.redirectUrl != '/login' ? this._authService.redirectUrl : reg.test('/workspace') ? '/workspace' : _.find(fullPaths, t => t.split('\/').length > 2 );
+        let redirectUrl = this._authService.redirectUrl && this._authService.redirectUrl != '/login' ? this._authService.redirectUrl : reg.test('/workspace') ? '/workspace' : _.find(fullPaths, t => t.split('\/').length > 2 ) ? _.find(fullPaths, t => t.split('\/').length > 2 ) : '/page-not-found';
+        console.log(reg, reg.test('/workspace'))
         let redirectSearch = this._authService.redirectSearch;
         let loginSearch = parseQueryString(location.search);
 
