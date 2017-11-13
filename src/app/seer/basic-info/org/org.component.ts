@@ -154,6 +154,7 @@ export class OrgComponent implements OnDestroy{
         }
         addIcon(nodes);
         nodes.map(rootNode=>rootNode['expanded']=true);
+        console.log(nodes);
         this.treeNode = nodes;
     }).catch(err => {
         console.log(err);
@@ -328,13 +329,13 @@ export class OrgComponent implements OnDestroy{
     /*  删除组织结构 */
     if($event.eventName == TREE_EVENTS.onDeleteNode) {
       this.service.delOrganization($event.node.data.departmentId).then( result => {
-        if(result.code == 0) {
-          this.alertSuccess(result.message);
-          this.getOrganizations();
-        }
-        else {
-          this.alertError(result.message);
-        }
+        console.log(result);
+        this.alertSuccess(result.message);
+        this.getOrganizations();
+      }).catch(err => {
+        console.log(err);
+        this.alertError('请先删除子机构');
+        this.getOrganizations();
       });
     }
 
@@ -345,7 +346,7 @@ export class OrgComponent implements OnDestroy{
         departmentName: $event.node.data.name,
         name: $event.node.data.name,
         pid: $event.node.parent.data.departmentId,
-        pids: $event.node.parent.data.pids + ',' + $event.node.parent.data.departmentId,
+        pids: ($event.node.parent.data.pids ? $event.node.parent.data.pids + ',' : '') + $event.node.parent.data.departmentId,
       };
       this.service.addOrganization(orgModel).then( result => {
         if(result.code == 0) {
@@ -368,7 +369,8 @@ export class OrgComponent implements OnDestroy{
 
       this.info.departmentName = $event.node.data.name;
       this.info.departmentId = $event.node.data.departmentId;
-      this.info.departmentLeader = $event.node.data.departmentLeader;
+      this.info.departmentLeader = $event.node.data.departmentLeader ? $event.node.data.departmentLeader : '';
+      this.info.departLeaderId = $event.node.data.departLeaderId ? $event.node.data.departLeaderId : '';
       this.info.pid = $event.to.parent.data.departmentId;
       this.info.pids = $event.to.parent.data.pids + ',' + $event.to.parent.data.departmentId;
       this.service.editOrganization(this.info).then((result) => {
@@ -386,7 +388,8 @@ export class OrgComponent implements OnDestroy{
     if($event.eventName == TREE_EVENTS.onRenameNode) {
       this.info.departmentName = $event.node.data.name;
       this.info.departmentId = $event.node.data.departmentId;
-      this.info.departmentLeader = $event.node.data.departmentLeader;
+      this.info.departmentLeader = $event.node.data.departmentLeader ? $event.node.data.departmentLeader : '';
+      this.info.departLeaderId = $event.node.data.departLeaderId ? $event.node.data.departLeaderId : '';
       this.info.pid = $event.node.data.pid;
       this.info.pids = $event.node.data.pids;
       this.service.editOrganization(this.info).then( result => {
@@ -397,6 +400,8 @@ export class OrgComponent implements OnDestroy{
         else {
           this.alertError(result.message);
         }
+      }).catch( err => {
+        console.log(err);
       });
     }
 }
