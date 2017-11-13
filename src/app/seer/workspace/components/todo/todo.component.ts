@@ -4,6 +4,7 @@ import {Result} from "../../../model/result.class";
 import {Router} from "@angular/router";
 import {ORDER_STATE} from "../../../const";
 import {taskScategory} from "../../taskscategory";
+import {SeerMessageService} from "../../../../theme/services/seer-message.service"
 import * as _ from 'lodash';
 @Component({
   selector: 'todo',
@@ -28,7 +29,7 @@ export class TodoComponent implements OnInit {
   isChecked=[true,false,false,false,false,false,false];
   taskTypes=taskScategory;  //单选框列表
   currentType=0;  //当前选中类型
-  constructor(private service: WorkspaceService, private router:Router) {
+  constructor(private service: WorkspaceService, private router:Router,private _messageService: SeerMessageService) {
   }
   ngOnInit(): void {
     this.getList();
@@ -40,7 +41,6 @@ export class TodoComponent implements OnInit {
       this.pageInfo.total=res.data.total; //记录总数
       this.tasks = res.data.list;         //记录列表
       //重写数据
-      console.log(this.tasks);
       this.tasks = _.map(this.tasks, r => {
         let taskInfo;
         let tasktype;
@@ -50,7 +50,7 @@ export class TodoComponent implements OnInit {
       });
       //console.log(this.tasks);
     }).catch(err=>{
-      console.log(err);
+      this.showError(err.msg.message || '连接失败');
     });
   }//获取数据
 
@@ -69,5 +69,11 @@ export class TodoComponent implements OnInit {
     this.pageInfo.pageNum=$event.pageNum;
     this.getList();
   }//分页
-
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
+  }
 }
