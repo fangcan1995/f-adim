@@ -72,19 +72,17 @@ export class MemberComponent implements OnInit {
     "pageSize":10,
     "sort":"-createTime",
     "total":"",
-    "query":{
-      "globalSearch":"",
-      "userName":"",
-      "trueName":"",
-      "idNumber":"",
-      "phoneNumber":"",
-      "classify":"",
-      "ageStart":"",
-      "ageEnd":"",
-      "registTimeStart":"",
-      "registTimeEnd":"",
-      "invitedMember":""
-    },
+    "globalSearch":"",
+    "userName":"",
+    "trueName":"",
+    "idNumber":"",
+    "phoneNumber":"",
+    "classify":"",
+    "ageStart":"",
+    "ageEnd":"",
+    "registTimeStart":"",
+    "registTimeEnd":"",
+    "invitedMember":""
 
   }; //分页、排序、检索
   customActions = [
@@ -175,7 +173,7 @@ export class MemberComponent implements OnInit {
       ageEnd,
     }
     //console.log(params);
-    this.pageInfo.query = params;
+    this.pageInfo = params;
     this.getList();
   }//全局搜索
   showSuccess(message: string) {
