@@ -14,7 +14,7 @@ export class TodoComponent implements OnInit {
   tasks = []; //任务列表
   titles = [
     {key:'taskInfo',label:'任务',type:'html'},
-    {key:'time', label:'任务发布时间'},
+    {key:'time', label:'任务发布时间',type:'date-time'},
   ]; //任务表表头
   pageInfo={
     "pageNum":1,
