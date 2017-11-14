@@ -9,8 +9,7 @@ import {
 
 import { GlobalState } from '../../../global.state';
 import { Router } from "@angular/router";
-import { ManageService } from '../../services/manage.service';
-import { AuthService } from '../../services/auth.service';
+import { ManageService, AuthService, SeerMessageService } from '../../services';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
@@ -46,6 +45,7 @@ export class BaPageTop implements OnInit {
     private _state: GlobalState,
     private _manageService: ManageService,
     private _authService: AuthService,
+    private _messageService:SeerMessageService,
     ) {
     this._state.subscribe('menu.activeLink', (activeLink) => {
       if ( !activeLink || !activeLink.route || !activeLink.route.paths ) {
@@ -137,6 +137,16 @@ export class BaPageTop implements OnInit {
       .then(res => {
         console.log(res)
       })
+      .catch(err => {
+        this.showError(err.msg || '修改密码失败')
+      })
     }
+  }
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
   }
 }
