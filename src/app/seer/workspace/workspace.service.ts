@@ -1,40 +1,19 @@
 import {Injectable} from "@angular/core";
 import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel} from "../../theme/services"
-
 @Injectable()
 export class WorkspaceService extends BaseService<ResModel>{
-  private apiUrl=`http://172.16.7.4:8080/works/todo`;
-  private apiUrl2=`http://172.16.7.4:8080/works/complete`;
-  constructor(
-    protected _httpInterceptorService:HttpInterceptorService
-  ) {
+  constructor(protected _httpInterceptorService: HttpInterceptorService,) {
     super(_httpInterceptorService);
-    this.setApi(API['ROLES']);
+    this.setApi('TASKS');
   }
-  getTasks(pageInfo?:any): Promise<ResModel> {
-    //
-    const page=`?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
-    const sort=`&sortBy=${pageInfo.sort}`;
-    const jsonQueryObj = pageInfo.query;
-    let query:string="";
-    for (var prop in jsonQueryObj) {
-      if(jsonQueryObj[prop]){
-        query+=`&${prop}=${jsonQueryObj[prop]}`;
-      }
-    }
-    return this._httpInterceptorService.request('GET', `${this.apiUrl}/${page}${sort}${query}`,{}).toPromise();
+  //获取待办业务列表
+  getTasks(params?:any): Promise<ResModel> {
+    let url = `${BASE_URL}/${API['TASKS']}/works/todo`;
+    return this._httpInterceptorService.request('GET',url,params).toPromise();
   }
-
-  getCompleteTasks(pageInfo?:any): Promise<ResModel> {
-    const page=`?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
-    const sort=`&sortBy=${pageInfo.sort}`;
-    const jsonQueryObj = pageInfo.query;
-    let query:string="";
-    for (var prop in jsonQueryObj) {
-      if(jsonQueryObj[prop]){
-        query+=`&${prop}=${jsonQueryObj[prop]}`;
-      }
-    }
-    return this._httpInterceptorService.request('GET', `${this.apiUrl2}/${page}${sort}${query}`,{}).toPromise();
+  //获取已办业务列表
+  getCompleteTasks(params?:any): Promise<ResModel> {
+    let url = `${BASE_URL}/${API['TASKS']}/works/complete`;
+    return this._httpInterceptorService.request('GET', url,params).toPromise();
   }
 }
