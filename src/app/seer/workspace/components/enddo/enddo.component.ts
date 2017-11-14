@@ -22,9 +22,7 @@ export class EnddoComponent implements OnInit {
     "pageSize":10,
     "sort":"",
     "total":10,
-    "query":{
-      "status":""
-    }
+    "status":""
   }; //分页及排序
   isChecked=[true,false,false,false,false,false,false]; //单选按钮默认选中状态
   taskTypes=taskScategory;  //所有任务类型
@@ -61,7 +59,7 @@ export class EnddoComponent implements OnInit {
       this.isChecked=[false,false,false,false,false,false,false];
       this.isChecked[index]=true;
       this.currentType=index;
-      this.pageInfo.query.status=taskType.code;
+      this.pageInfo.status=taskType.code;
       this.getList()
     }
 
