@@ -64,7 +64,7 @@ export class TodoComponent implements OnInit {
 
   }
 
-  //分页
+  //换页
   handlePageChange($event) {
     this.pageInfo.pageSize = $event.pageSize;
     this.pageInfo.pageNum=$event.pageNum;
