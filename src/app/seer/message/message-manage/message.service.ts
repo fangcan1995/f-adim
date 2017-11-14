@@ -43,7 +43,7 @@ export class MessageService extends BaseService<ResModel>{
   }
   //8 获取一条已经发送的消息对应的发送记录
   getRecords(id:string,params:any): Promise<ResModel> {
-    let url = `${BASE_URL}/${API['MESSAGESRECORDS']}/${id}/message`;
+    let url = `${BASE_URL}/${API['RECORDS']}/${id}/message`;
     return this._httpInterceptorService.request('GET', url,params).toPromise();
   }
 // 获取接收消息的人员id字符串
