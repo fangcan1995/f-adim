@@ -370,7 +370,7 @@ export class MessageEditComponent {
           }
           this.chooseResult=`已选定${this.modalPageInfo.total}人`
         }).catch(err=>{
-          this.showError(err.msg.message || '连接错误');
+          this.showError(err.msg || '连接错误');
         });
         this.modalService.hide(1);
         break;

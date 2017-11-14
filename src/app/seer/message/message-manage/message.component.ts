@@ -140,7 +140,7 @@ export class MessageComponent {
           return _.set(r, 'actions', actions)
         })
       }).catch(err => {
-        this.showError(err.json().message || '连接失败');
+        this.showError(err.msg || '连接失败');
       });
   }
 
@@ -169,7 +169,7 @@ export class MessageComponent {
                       this.showSuccess(data.message || '删除成功');
                       this.getList();
                     }).catch(err => {
-                    this.showError(err.json().message || '删除失败');
+                    this.showError(err.msg || '删除失败');
                   });
                 }else{
                   //修改为不可见状态
@@ -177,7 +177,7 @@ export class MessageComponent {
                     this.showSuccess(data.message || '删除成功');
                     this.getList();
                   }).catch(err=>{
-                    this.showError(err.json().message || '删除失败');
+                    this.showError(err.msg || '删除失败');
                     }
                   );
 

@@ -62,7 +62,7 @@ export class MessageDetailComponent {
       this.modalPageInfo.total=data.data.total; //记录总数
       this.modalUsers=data.data.list;
     }).catch(err => {
-      this.showError(err.msg.message || '连接失败');
+      this.showError(err.msg || '连接失败');
     });
   }
 
