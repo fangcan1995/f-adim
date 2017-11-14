@@ -7,6 +7,7 @@ import {
 	BASE_URL,
 	ResModel,
 } from '../../../theme/services';
+import { ResourceService } from '../resource/resource.service';
 @Injectable()
 export class UserService extends BaseService<any> {
   constructor(

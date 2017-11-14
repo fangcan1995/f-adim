@@ -1,22 +1,18 @@
 import {Injectable} from "@angular/core";
-import {BaseService} from "../base.service";
-import {SERVER} from "../const";
-import {Result} from "../model/result.class";
+import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel} from "../../theme/services"
+
 @Injectable()
-export class WorkspaceService extends BaseService<any> {
-  private apiUrl=``;
-
-  getTasks(pageInfo?:any) {
-    /*let sessionData = localStorage.getItem('data');
-    if (sessionData) {
-      let currentUser = JSON.parse(sessionData)['currentUser'];
-      if (currentUser && currentUser.staffId) {
-        const url = `${SERVER}/workflow/basic/task/assignee/${currentUser.staffId}`
-        return this.getAll(url);
-      }
-    }
-    return new Promise(() => {});*/
-
+export class WorkspaceService extends BaseService<ResModel>{
+  private apiUrl=`http://172.16.7.4:8080/works/todo`;
+  private apiUrl2=`http://172.16.7.4:8080/works/complete`;
+  constructor(
+    protected _httpInterceptorService:HttpInterceptorService
+  ) {
+    super(_httpInterceptorService);
+    this.setApi(API['ROLES']);
+  }
+  getTasks(pageInfo?:any): Promise<ResModel> {
+    //
     const page=`?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
     const sort=`&sortBy=${pageInfo.sort}`;
     const jsonQueryObj = pageInfo.query;
@@ -26,12 +22,19 @@ export class WorkspaceService extends BaseService<any> {
         query+=`&${prop}=${jsonQueryObj[prop]}`;
       }
     }
-    const url = `${this.apiUrl}/${page}${sort}${query}`;
-    return this.getAll(url);
+    return this._httpInterceptorService.request('GET', `${this.apiUrl}/${page}${sort}${query}`,{}).toPromise();
   }
 
-  getOrderCensorHistory(orderId):Promise<Result>{
-    const url = `${SERVER}/workflow/basic/history/`+orderId;
-    return this.getAll(url);
+  getCompleteTasks(pageInfo?:any): Promise<ResModel> {
+    const page=`?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
+    const sort=`&sortBy=${pageInfo.sort}`;
+    const jsonQueryObj = pageInfo.query;
+    let query:string="";
+    for (var prop in jsonQueryObj) {
+      if(jsonQueryObj[prop]){
+        query+=`&${prop}=${jsonQueryObj[prop]}`;
+      }
+    }
+    return this._httpInterceptorService.request('GET', `${this.apiUrl2}/${page}${sort}${query}`,{}).toPromise();
   }
 }

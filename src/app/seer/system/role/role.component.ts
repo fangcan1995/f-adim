@@ -21,16 +21,10 @@ import { RoleService } from './role.service';
 export class RoleComponent {
   hasGlobalFilter = hasGlobalFilter;
   titles = tableTitles;
-  
-  total = 0;
+  tableFilters = {};
   roles = [];
-  pageSize: 10;
-  pageNum: 1;
-  sortBy: '';
   params:any = {
-    pageSize: 10,
-    pageNum: 1,
-    sortBy: '',
+    pageSize: 10000,
   };
   constructor(
     private _router: Router,
@@ -50,25 +44,10 @@ export class RoleComponent {
     .then(res => {
       let data = res.data || {};
       this.roles = _.map(data.list, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
-      this.total = data.total || 0;
-      this.pageSize = data.pageSize || this.params.pageSize;
-      this.pageNum = data.pageNum || this.params.pageNum;
     })
     .catch(err => {
       this.showError( err.msg || '获取角色失败' );
     });
-  }
-  handleFiltersChanged($event) {
-    this.params = {
-      ...this.params,
-      ...$event,
-    }
-    this.getList();
-  }
-  handleChangePage({ pageNum, pageSize }) {
-    this.params.pageNum = pageNum;
-    this.params.pageSize = pageSize;
-    this.getList();
   }
   showSuccess(message: string) {
     return this._messageService.open({
@@ -116,5 +95,8 @@ export class RoleComponent {
       case 'delete_multiple':
         break;
     }
+  }
+  handleFiltersChanged($event) {
+    this.tableFilters = $event;
   }
 }

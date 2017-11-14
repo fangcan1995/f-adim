@@ -1,51 +1,32 @@
-
 <div style="margin:10px 30px; background: #c12e2a">
-  <seer-card>
+  <seer-card >
     <div class="row" style="margin-bottom: 10px;">
-      <seer-checkbox (click)="ckboxToggle('all')" [isChecked]="isChecked.all" [label]="'全部('+pageInfo.total+')'"></seer-checkbox>
       <seer-checkbox
-        *ngFor="let taskType of taskTypes"
-        (click)="ckboxToggle(taskType.code)"
-        [isChecked]="isChecked[taskType.code]"
-        [label]="taskType.categoryName+'('+getCategoryCount(taskType.category)+')'"
+        *ngFor="let taskType of taskTypes;let i=index"
+        (click)="ckboxToggle(taskType,i)"
+        [isChecked]="isChecked[i]"
+        [label]="taskType.taskName"
       >
       </seer-checkbox>
-      <!--  <seer-checkbox (click)="toggleCategory(taskType.ORDER)" [isChecked]="isChecked(taskType.ORDER)" [label]="'意向处理('+getCategoryCount(taskType.ORDER)+')'"></seer-checkbox>
-        <seer-checkbox (click)="toggleCategory(taskType.STORAGE)" [isChecked]="isChecked(taskType.STORAGE)" [label]="'标的管理('+getCategoryCount(taskType.STORAGE)+')'"></seer-checkbox>
-        <seer-checkbox (click)="toggleCategory(taskType.ACTIVITY)" [isChecked]="isChecked(taskType.ACTIVITY)" [label]="'项目管理('+getCategoryCount(taskType.ACTIVITY)+')'"></seer-checkbox>-->
     </div>
     <div class="row">
-      <!--<seer-table
+      <seer-table *ngIf="tasks.length>0"
         [data]="tasks"
         [titles]="titles"
-        (notify)="onChange($event)"
+        [translate]="dict"
+        [paginationRules]="0"
+        [pageNum]="pageInfo.pageNum"
+        [pageSize]="pageInfo.pageSize"
+        [total]="pageInfo.total"
         [hideExport]="true"
         [hidePrint]="true"
         [hideRemoveAll]="true"
         [hideColumns]="true"
-      ></seer-table>-->
-      <ul class="mail-list">
-        <li class="list-item" *ngFor="let task of data">
-          <div class="item-subject" style="left:20px;">
-            <span class="label {{getTasksCategory(task.category).color}}">{{getTasksCategory(task.category).categoryName}}</span>
-            <span style="cursor: pointer; color: #333333" (click)="directToTaskHandlePage(getTasksCategory(task.category).detailPageUrl,task.id)">
-            {{task.name}}
-          </span>
-          </div>
-          <div class=" pull-right item-time">
-            {{task.createTime}}
-          </div>
-        </li>
-      </ul>
-      <div style="margin: 30px 10px">
-        <seer-pagination
-          [rowCount]=this.pageInfo.total
-          [rowsOnPageSet]="[10, 15, 30]"
-          [rowsOnPage]=this.pageInfo.pageSize
-          [pageNumber]=this.pageInfo.pageNum
-          (notify)="onPageChange($event)"
-        ></seer-pagination>
-      </div>
+        [hideActions]="true"
+        [hideCheckbox]="true"
+        [hideAddButton]="true"
+        (changePage)="handlePageChange($event)"
+      ></seer-table>
     </div>
   </seer-card>
 </div>

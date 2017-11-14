@@ -40,12 +40,8 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
       })
       .onClose()
       .subscribe(res => {
-        if ( this.authService.isLoggedIn ) {
-          this.authService.isLoggedIn = false;
-          this.authService.logout()
-          .subscribe(this.redirectToLogin.bind(this));
-        }
-        
+        this.authService.logout()
+        .subscribe(this.redirectToLogin.bind(this));
       })
     })
   }
@@ -96,14 +92,14 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
       return false;
     }
     // 重定向的时候不会判断要重定向到的页面
-    url = url === '\/' ? '/workspace' : url;
+    /*url = url === '\/' ? '/workspace' : url;
     let fullPaths = _.map(resources, r => r['fullPath']);
     fullPaths.unshift('\/login');
     let reg = new RegExp('^(' + fullPaths.join('|') + ')', 'g');
     if ( !reg.test(url) ) {
       this.location.back();
       return false;
-    }
+    }*/
     return true;
   }
 

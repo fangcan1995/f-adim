@@ -85,12 +85,11 @@ export class UserEditComponent implements OnInit {
       if ( this.editType === 'edit' ) {
         let params = {
           userId: this.user.userId,
-          loginName: this.user.loginName,
           roleIds,
         }
         this._userService.putOne('', params)
         .then(res => {
-          this.forbidSaveBtn = false;
+          
 
           // 如果编辑的用户正好是自己，那么刷新本地信息
           let userInLocal = this._manageService.getUserFromLocal() || {};
@@ -102,6 +101,7 @@ export class UserEditComponent implements OnInit {
           this.showSuccess(res.msg || '更新成功')
           .onClose()
           .subscribe(() => {
+            this.forbidSaveBtn = false;
             this._router.navigate(['/system/user']);
           });
         })

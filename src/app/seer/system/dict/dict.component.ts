@@ -150,9 +150,5 @@ export class DictComponent implements OnInit {
   handleFiltersChanged($event) {
     this.tableFilters = $event;
   }
-
-  handleSearchBtnClicked($event) {
-    this.tableFilters = $event;
-  }
 }
 
