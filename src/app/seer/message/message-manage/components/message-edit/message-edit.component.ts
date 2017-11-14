@@ -24,14 +24,14 @@ export class MessageEditComponent {
   editId: string;
   isPickUsersAble:boolean=true;  //选择用户按钮无效
   usersType: string; //用户类型
-  IsChecked={"sendMail":false,"sendNotify":false,"sendMessage":false,"now":false}
-  disabled={"sendMail":true,"sendNotify":true,"sendMessage":true,"now":false}; checkbox是否可用
+  IsChecked={"sendMail":false,"sendNotify":false,"sendMessage":false,"now":false};//checkbox初始状态
+  disabled={"sendMail":true,"sendNotify":true,"sendMessage":true,"now":false}; //checkbox是否可用
   allowChange:boolean=false;//date-picker是否可用
   readonly:boolean=false;//date-picker是否只读
   _editType: string = 'add';
   forbidSaveBtn: boolean = true;
-  modalClass={"class":"modal-lg"};  //模态框样式
-
+  //模态框相关
+  modalClass={"class":"modal-lg"};
   modalUsers=[];
   modalActionSet = {
     'SEARCH': {
@@ -62,22 +62,20 @@ export class MessageEditComponent {
     "pageSize":10,
     "sort":"",
     "total":"",
-    "query":{
-      "memberType":"",
-      "department":"",
-      "mageMix":"",
-      "mageMax":"",
-      "sex":"",
-      "investOrNot":"",
-      "investDateBefore":"",
-      "investDateAfter":"",
-      "investAllMix":"",
-      "investAllMax":"",
-      "investOneMix":"",
-      "investOneMax":"",
-      "inviteMembersMix":"",
-      "inviteMembersMax":"",
-    },
+    "memberType":"",
+    "department":"",
+    "mageMix":"",
+    "mageMax":"",
+    "sex":"",
+    "investOrNot":"",
+    "investDateBefore":"",
+    "investDateAfter":"",
+    "investAllMix":"",
+    "investAllMax":"",
+    "investOneMix":"",
+    "investOneMax":"",
+    "inviteMembersMix":"",
+    "inviteMembersMax":"",
   }; //分页、排序、检索
   selectedUserId=[]; //选中的用户id
   ids='';//选中的用户id
@@ -200,11 +198,13 @@ export class MessageEditComponent {
     }
 
   }
+
   //将true false转成1 0
   Cint(parm:Boolean){
     return parm === true ? 1 : 0;
   }
-  //模态框
+
+  //模态框，前台用户和后台用户显示不一样的内容
   openModal(template: TemplateRef<any>) {
     switch(this.usersType){
       case 'members':
@@ -322,11 +322,10 @@ export class MessageEditComponent {
     this.getUsersList();
     this.selectedUserId=[];   //清空已选择id数组
   }
+
   //获取列表
   getUsersList():void{
     this.service.getUsers(this.usersType,this.modalPageInfo).then(res => {
-      console.log('--------------------------');
-      console.log(res);
       this.modalPageInfo.pageNum=res.data.pageNum;  //当前页
       this.modalPageInfo.pageSize=res.data.pageSize; //每页记录数
       this.modalPageInfo.total=res.data.total; //记录总数
@@ -340,17 +339,16 @@ export class MessageEditComponent {
         }
       }
       );
-      console.log(this.modalUsers);
     });
   }
+
   //模态框分页事件
   modalPageChange($event){
     this.modalPageInfo.pageSize = $event.pageSize;
     this.modalPageInfo.pageNum=$event.pageNum;
-    //this.selectedUserId=[];
-
     this.getUsersList();
   }
+
   //模态框用户事件绑定
   modalChangeCard(message){
     switch ( message.type ) {
@@ -364,7 +362,7 @@ export class MessageEditComponent {
         break;
       case 'all':
         this.ids='';
-        this.service.getIds(this.usersType,this.modalPageInfo.query).then(data=>{
+        this.service.getIds(this.usersType,this.modalPageInfo).then(data=>{
           if(this.usersType=='members'){
             this.ids=data.message || null;
           }else if(this.usersType=='users'){
@@ -372,7 +370,7 @@ export class MessageEditComponent {
           }
           this.chooseResult=`已选定${this.modalPageInfo.total}人`
         }).catch(err=>{
-          this.showError(err.json().message || '连接错误');
+          this.showError(err.msg.message || '连接错误');
         });
         this.modalService.hide(1);
         break;
@@ -380,6 +378,7 @@ export class MessageEditComponent {
         break;
     }
   }
+
   //模态框选择用户id
   modalChangeTable(message){
     const type = message.type;
@@ -403,6 +402,8 @@ export class MessageEditComponent {
         break;
     }
   }
+
+  //格式化查询参数
   modalFiltersChanged($event){
     let params=$event;
     let { mage,investDate,investAll,investOne,inviteMembers,...otherParams } = params;
@@ -444,14 +445,16 @@ export class MessageEditComponent {
       inviteMembersMix,
       inviteMembersMax,
     }
-    console.log(params);
-    this.modalPageInfo.query = params;
+    this.modalPageInfo = params;
     this.getUsersList();
   }
+
   //返回
   handleBackBtnClick() {
     this.location.back()
   }
+
+  //成功提示
   showSuccess(message: string) {
     return this._messageService.open({
       message,
@@ -459,6 +462,8 @@ export class MessageEditComponent {
       autoHideDuration: 3000,
     })
   }
+
+  //失败提示
   showError(message: string) {
     return this._messageService.open({
       message,

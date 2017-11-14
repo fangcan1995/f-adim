@@ -3,8 +3,8 @@ import {Location} from '@angular/common';
 import {ActivatedRoute, Params,Router} from "@angular/router";
 import {MessageService} from "../../message.service";
 import {GlobalState} from "../../../../../global.state";
-import { ModalDirective ,BsModalService} from 'ngx-bootstrap/modal';
-import {SeerDialogService, SeerMessageService,} from '../../../../../theme/services';
+import { BsModalService} from 'ngx-bootstrap/modal';
+import {SeerMessageService,} from '../../../../../theme/services';
 
 @Component({
   selector: 'message-edit',
@@ -16,11 +16,11 @@ export class MessageDetailComponent {
   message:any = {};
   title : string;
   editId: string;
-  usersType: string; //用户类型
+
   modalUsers=[];
   modelTitles= [
-    {key: 'name', label: '会员姓名', hidden: false},
-    {key: 'loginName', label: '会员账号', hidden: false},
+    {key: 'name', label: '姓名', hidden: false},
+    {key: 'loginName', label: '账号', hidden: false},
     {key: 'phone', label: '联系方式', hidden: false},
     {key: 'mailResult', label: '消息中心',isDict:true,category:"MSG_STATUS"},
     {key: 'notifyResult', label: '推送',isDict:true,category:"MSG_STATUS"},
@@ -30,10 +30,7 @@ export class MessageDetailComponent {
     "pageNum":1,
     "pageSize":10,
     "sort":"",
-    "total":"",
-    "query":{
-    },
-
+    "total":""
   }; //分页、排序、检索
   constructor(
     private location: Location ,
@@ -57,6 +54,7 @@ export class MessageDetailComponent {
     this.getRecordList();
   }
 
+  //获取列表
   getRecordList(){
     this.service.getRecords(this.editId,this.modalPageInfo).then((data)=>{
       this.modalPageInfo.pageNum=data.data.pageNum;  //当前页
@@ -64,10 +62,11 @@ export class MessageDetailComponent {
       this.modalPageInfo.total=data.data.total; //记录总数
       this.modalUsers=data.data.list;
     }).catch(err => {
-      this.showError(err.json().message || '连接失败');
+      this.showError(err.msg.message || '连接失败');
     });
   }
-  //模态框分页事件
+
+  //模态框换页
   modalPageChange($event){
     this.modalPageInfo.pageSize = $event.pageSize;
     this.modalPageInfo.pageNum=$event.pageNum;
@@ -77,6 +76,8 @@ export class MessageDetailComponent {
   handleBackBtnClick() {
     this.location.back()
   }
+
+  //成功提示
   showSuccess(message: string) {
     return this._messageService.open({
       message,
@@ -84,6 +85,8 @@ export class MessageDetailComponent {
       autoHideDuration: 3000,
     })
   }
+
+  //失败提示
   showError(message: string) {
     return this._messageService.open({
       message,
@@ -91,7 +94,5 @@ export class MessageDetailComponent {
       autoHideDuration: 3000,
     })
   }
-  selectUsersType() {
-    
-  }
+
 }
