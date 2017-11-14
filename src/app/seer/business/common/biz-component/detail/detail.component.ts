@@ -2,7 +2,7 @@
 import {Component, OnChanges, OnInit} from "@angular/core";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import { Location } from '@angular/common';
-import {IntentionService} from "../../intention.service";
+import {CommonService} from "../../common.service";
 @Component({
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss']
@@ -30,7 +30,7 @@ export class DetailComponent implements OnInit {
   private id: string;
 
   constructor(
-    private service: IntentionService,
+    private service: CommonService,
     private route: ActivatedRoute,
     private _location: Location){}
 
@@ -45,7 +45,7 @@ export class DetailComponent implements OnInit {
 
   //通过id获取意向信息
   protected getIntentionById(id :string) {
-    this.service.getIntentionById(id).then((res) => {
+    this.service.getProjectById(id).then((res) => {
       if("0" == res.code) {
         this.loan = res.data.loanInfo;
         this.member = res.data.memberInfo;

@@ -1,10 +1,10 @@
 
 import {Component, OnChanges, OnInit, TemplateRef} from "@angular/core";
-import {IntentionService} from "../../intention.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import { Location } from '@angular/common';
+import {CommonService} from "../../common.service";
 @Component({
   templateUrl: './create-intention.component.html',
   styleUrls: ['./create-intention.component.scss']
@@ -40,7 +40,7 @@ export class CreateIntentionComponent implements OnInit, OnChanges {
   private members: any[] = []; //待选会员
 
   constructor(
-    private service: IntentionService,
+    private service: CommonService,
     private route: ActivatedRoute,
     private _router: Router,
     private _messageService: SeerMessageService,

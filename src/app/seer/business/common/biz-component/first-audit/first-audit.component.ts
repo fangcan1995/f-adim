@@ -1,14 +1,14 @@
 
 import {Component, OnChanges, OnInit} from "@angular/core";
-import {IntentionService} from "../../intention.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 import { Location } from '@angular/common';
+import {CommonService} from "../../common.service";
 @Component({
-  templateUrl: './intention-completion.component.html',
-  styleUrls: ['./intention-completion.component.scss']
+  templateUrl: './first-audit.component.html',
+  styleUrls: ['./first-audit.component.scss']
 })
-export class IntentionCompletionComponent implements OnInit, OnChanges {
+export class FirstAuditComponent implements OnInit, OnChanges {
 
   public member: any = {}; //会员信息
 
@@ -43,7 +43,7 @@ export class IntentionCompletionComponent implements OnInit, OnChanges {
   ];
 
   constructor(
-    private service: IntentionService,
+    private service: CommonService,
     private route: ActivatedRoute,
     private _router: Router,
     private _messageService: SeerMessageService,
@@ -65,7 +65,7 @@ export class IntentionCompletionComponent implements OnInit, OnChanges {
 
   //通过id获取意向信息
   protected getIntentionById(id :string) {
-    this.service.getIntentionById(id).then((res) => {
+    this.service.getProjectById(id).then((res) => {
       if("0" == res.code) {
         this.loan = res.data.loanInfo;
         this.member = res.data.memberInfo;

@@ -1,14 +1,14 @@
 
 import {Component, OnChanges, OnInit} from "@angular/core";
-import {IntentionService} from "../../intention.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 import { Location } from '@angular/common';
+import {CommonService} from "../../common.service";
 @Component({
-  templateUrl: './second-audit.component.html',
-  styleUrls: ['./second-audit.component.scss']
+  templateUrl: './intention-completion.component.html',
+  styleUrls: ['./intention-completion.component.scss']
 })
-export class SecondAuditComponent implements OnInit, OnChanges {
+export class IntentionCompletionComponent implements OnInit, OnChanges {
 
   public member: any = {}; //会员信息
 
@@ -43,7 +43,7 @@ export class SecondAuditComponent implements OnInit, OnChanges {
   ];
 
   constructor(
-    private service: IntentionService,
+    private service: CommonService,
     private route: ActivatedRoute,
     private _router: Router,
     private _messageService: SeerMessageService,
@@ -53,7 +53,7 @@ export class SecondAuditComponent implements OnInit, OnChanges {
 
     this.route.params.subscribe((params: Params) => {
       params['id']? this.id = params['id']:"";
-      this.getIntentionById(this.id);
+      this.getProjectById(this.id);
     });
 
     //this.getDicts();
@@ -64,8 +64,8 @@ export class SecondAuditComponent implements OnInit, OnChanges {
   }
 
   //通过id获取意向信息
-  protected getIntentionById(id :string) {
-    this.service.getIntentionById(id).then((res) => {
+  protected getProjectById(id :string) {
+    this.service.getProjectById(id).then((res) => {
       if("0" == res.code) {
         this.loan = res.data.loanInfo;
         this.member = res.data.memberInfo;

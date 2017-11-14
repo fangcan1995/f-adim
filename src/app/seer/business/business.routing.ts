@@ -13,7 +13,8 @@ const routes: Routes = [
       { path: 'target', loadChildren:'./target/target.module#TargetModule' },
       { path: 'project', loadChildren:'./project/project.module#ProjectModule' },
       { path: 'transfer', loadChildren:'./transfer/transfer.module#TransferModule'},
-      { path: 'parameter', loadChildren:'./parameter/parameter.module#ParameterModule'}
+      { path: 'parameter', loadChildren:'./parameter/parameter.module#ParameterModule'},
+      { path: 'forms', loadChildren:'./common/common.module#CommonModule'}
 
     ]
   }
