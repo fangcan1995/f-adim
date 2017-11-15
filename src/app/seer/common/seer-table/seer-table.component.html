@@ -81,22 +81,22 @@
       </td>
       <td *ngIf="showSeq" class="table-seq"><span class="seer_font">{{ item.SEQ }}</span></td>
       <td *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
-        <a *ngIf="title.type=='link'" class="seer_font seer_a_font" href="{{item[title.key]}}" target="_blank">{{item[title.key]}}</a>
+        <a *ngIf="title.type=='link'" class="seer_font seer_a_font" target="{{title.target || '_blank'}}" href="{{item[title.key]}}" title="{{item[title.key]}}">{{item[title.key]}}</a>
+        <a href *ngIf="title.type === 'clickable' "  class="seer_font seer_a_font" (click)="handleClick($event, item)"  title="{{item[title.key]}}">{{item[title.key]}}</a>
+        <input  *ngIf="title.type=='input_number'" type="number" class="form-control" title="{{item[title.key]}}" [(ngModel)]="item[title.key]"/>
 
-        <input  *ngIf="title.type=='input_number'" type="number" class="form-control" [(ngModel)]="item[title.key]"/>
+        <span *ngIf="title.type != 'clickable' && title.type!='input_number' && title.type!='link' && title.type != 'html' && title.type!='image' && title.type != 'date' && title.type != 'date-time' && !displayOriginalData" class="seer_font" title="{{renderValue(title,item[title.key])}}">{{renderValue(title,item[title.key])}}</span>
 
-        <span *ngIf="title.type!='input_number' && title.type!='link' && title.type != 'html' && title.type!='image' && title.type != 'date' && title.type != 'date-time' && !displayOriginalData" class="seer_font">{{renderValue(title,item[title.key])}}</span>
-
-        <span *ngIf="title.type!='input_number' && title.type!='link' && title.type != 'html'  && title.type!='image' && title.type != 'date' && title.type != 'date-time' && displayOriginalData" class="seer_font">{{item[title.key]}}</span>
+        <span *ngIf="title.type != 'clickable' && title.type!='input_number' && title.type!='link' && title.type != 'html'  && title.type!='image' && title.type != 'date' && title.type != 'date-time' && displayOriginalData" class="seer_font" title="{{item[title.key]}}">{{item[title.key]}}</span>
         <div *ngIf="title.type === 'html'" [innerHTML]="item[title.key]"></div>
-        <span *ngIf="title.type=='image'"  class="seer_font"><img src="{{item[title.key]}}" style="width: 50px; height: 40px" (click)="openModal(image)" ></span>
+        <span *ngIf="title.type=='image'" class="seer_font"  title="{{item[title.key]}}"><img src="{{item[title.key]}}" style="width: 50px; height: 40px" (click)="openModal(image)" ></span>
         <ng-template #image>
           <div class="modal-body">
             <img src="{{item[title.key]}}" style="width:100%">
           </div>
         </ng-template>
-        <span *ngIf="title.type=='date'" class="seer_font">{{item[title.key]| date:'yyyy-MM-dd'}}</span>
-        <span *ngIf="title.type=='date-time'" class="seer_font">{{item[title.key]|date:'yyyy-MM-dd HH:mm:ss'}}</span>
+        <span *ngIf="title.type=='date'" class="seer_font" title="{{item[title.key]| date:'yyyy-MM-dd'}}">{{item[title.key]| date:'yyyy-MM-dd'}}</span>
+        <span *ngIf="title.type=='date-time'" class="seer_font" title="{{item[title.key]|date:'yyyy-MM-dd HH:mm:ss'}}">{{item[title.key]|date:'yyyy-MM-dd HH:mm:ss'}}</span>
       </td>
       <td class="table-actions" *ngIf="!hideActions">
         <ng-container *ngIf="item.actions">
@@ -111,20 +111,17 @@
       </td>
     </tr>
     </tbody>
-    <tfoot *ngIf="!hidePagination">
-      <tr>
-        <td [attr.colspan]="tr.children.length">
-          <seer-pagination
-            [rowCount]="getRowCount()"
-            [rowsOnPageSet]="rowsOnPageSet"
-            [rowsOnPage]="paginationRules ? rowsOnPage : pageSize"
-            [pageNumber]="pageNum"
-            (notify)="onPageChange($event)"
-          ></seer-pagination>
-        </td>
-      </tr>
-    </tfoot>
+    
   </table>
 </div>
+
+<seer-pagination
+   *ngIf="!hidePagination"
+  [rowCount]="getRowCount()"
+  [rowsOnPageSet]="rowsOnPageSet"
+  [rowsOnPage]="paginationRules ? rowsOnPage : pageSize"
+  [pageNumber]="pageNum"
+  (notify)="onPageChange($event)"
+></seer-pagination>
 
 

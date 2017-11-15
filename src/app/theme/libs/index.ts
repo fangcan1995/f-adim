@@ -3,3 +3,4 @@ export * from './resources2Menu';
 export * from './castDict2Translate';
 export * from './cityJson';
 export * from './json2Tree';
+export * from './md5';

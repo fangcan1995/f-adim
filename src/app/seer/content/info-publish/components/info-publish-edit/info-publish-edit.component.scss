@@ -1,0 +1,19 @@
+
+
+.form-page-header {
+  top: 0;
+  left: 0;
+  margin-bottom: 30px;
+}
+
+.form-page-header > button:first-child {
+  margin-left: 30px;
+}
+
+:host /deep/ {
+  .seer-card-header {
+    margin-left: 0;
+  }
+
+}
+

@@ -1,264 +1,276 @@
-import {Component, ViewEncapsulation, OnInit, ViewChild, Renderer, EventEmitter, ElementRef,OnDestroy,AfterViewInit,TemplateRef} from '@angular/core';
-import {Router,ActivatedRoute,} from '@angular/router';
+import {Component, OnInit, OnChanges, Input, ViewChild, TemplateRef} from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import {SeerMessageService} from '../../../../../theme/services/seer-message.service';
+import { InfoPublishService } from '../../info-publish.service';
 import { Location } from '@angular/common';
+import {FileUploader, ParsedResponseHeaders, FileItem} from 'ng2-file-upload';
+import {getStorage} from '../../../../../theme/libs/utils';
+import {BASE_URL} from '../../../../../theme/services/base.service';
 import * as _ from 'lodash';
-import { Observable } from 'rxjs/Observable';
-import { InfoPublishService } from "../../info-publish.service";
+
 import {GlobalState} from "../../../../../global.state";
-import { SeerTree } from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
-import { TREE_EVENTS } from "../../../../../theme/modules/seer-tree/constants/events";
-import { json2Tree } from "../../../../../theme/libs";
+import {json2Tree} from "../../../../../theme/libs/json2Tree";
+import {TREE_PERMISSIONS} from "../../../../../theme/modules/seer-tree/constants/permissions";
+import {TREE_EVENTS} from "../../../../../theme/modules/seer-tree/constants/events";
+import {SeerTree} from "../../../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
+
 import { User } from "../../../../model/auth/user";
 import { ModalComponent } from "../../../../../theme/components/ng2-bs4-modal/modal";
 import { ModalDirective ,BsModalService} from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
-import {DynamicComponentLoader,DynamicComponentParam} from "../../../../../theme/directives/dynamicComponent/dynamic-component.directive";
-import { InfoPublishDialogComponent } from "../info-publish-dialog/info-publish-dialog";
-import {TREE_PERMISSIONS} from "../../../../../theme/modules/seer-tree/constants/permissions";
+
+
 @Component({
   templateUrl: './info-publish-edit.component.html',
-  styleUrls: ['./info-publish-edit.component.scss'],
+  styleUrls: ['./info-publish-edit.component.scss']
 })
-// export class OrgTreeDialogComponent extends BaseModalComponent implements OnInit
-export class InfoPublishEditComponent implements OnInit {
-  EVENT = 'openUserAddedDialog'
-  SAVEEVENT = 'saveSysUser';
-  EDITEVENT = 'editSysUser';
-  nodes = [];
-  sysUser : User = new User();
-  staffName;
-  public isModalShown:boolean = false;
-  public editor;
-  public title:string;
-  public uploaderOptions:any = {
-    // url: 'http://website.com/upload'
-  };
-  public uploadInProgress:boolean = false;
-  public picture = '';
-  defaultPicture;
-  imageError;
-  currentStaff;
-  treePermissions = TREE_PERMISSIONS.NOTIFY|TREE_PERMISSIONS.ADD|TREE_PERMISSIONS.EDIT|TREE_PERMISSIONS.DELETE|TREE_PERMISSIONS.DRAG|TREE_PERMISSIONS.SHOW_FILTER|TREE_PERMISSIONS.SHOW_ADD_ROOT;
-  treeNode = [];
-  // 模态层
-  @ViewChild('autoShownModal') public autoShownModal:ModalDirective;
-  // @ViewChild(DynamicComponentLoader)
-  // dynamicComponentLoader: DynamicComponentLoader;
-  // 树
-  @ViewChild(SeerTree) seerTree: SeerTree;
-  // 图片上传
-  @ViewChild('fileUpload') protected _fileUpload:ElementRef;
-  onUpload:EventEmitter<any> = new EventEmitter();
-  onUploadCompleted:EventEmitter<any> = new EventEmitter();
-  constructor(private location: Location,private InfoPublishService:InfoPublishService,private renderer:Renderer,private gs:GlobalState,private modalService: BsModalService) {
-    // 模态层
-     this.gs.subscribe(this.EVENT, (param) => {
-      this.openModal(param); 
-    });
+
+export class InfoPublishEditComponent implements  OnInit, OnChanges {
+  @Input()
+  private disabled: boolean = false;
+
+  @Input()
+  private projectId : string;
+
+
+  @ViewChild('autoShownModal') public autoShownModal: ModalDirective;
+
+
+  public infoPublishSource: any = {};
+  private _editType: string = 'add';
+  private uploadDisabled:boolean=false;
+
+  /* 上传图片相关 */
+  fileApi = 'http://172.16.1.221:8070/affiche/file';
+  token = getStorage({key: 'token'});
+  tokenType = this.token.token_type;
+  accessToken = this.token.access_token;
+  public attachments = [];
+  public uploader:FileUploader; //上传对象
+  private progress: number = 0; //上传进度
+
+
+  constructor (
+    private _infoPublishService: InfoPublishService,
+    private _messageService: SeerMessageService,
+    private _activatedRoute: ActivatedRoute,
+    private _router: Router,
+    private _location: Location,
+    private modalService: BsModalService,
+    private globalState: GlobalState
+  ) {
+    this.globalState.subscribe(this.EVENT, param => {
+      this.openModal(param);
+    })
   }
-  ngOnInit() {
-    this.title = '基本信息';
-    this.getOrganizations();
-  }
-  // ==================模态层=========================
-  // ngx
+
+
+  /* 模态框相关 */
   public modalRef: BsModalRef;
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
-  // public openModal(data) {
-  //      console.log(this.dynamicComponentLoader);
-  //   this.dynamicComponentLoader.loadComponent(data.component);
-  // }
-//  ngOnDestroy(): any {
-//     this.gs.unsubscribe(this.EVENT);
-//   }
-  //========================弹出新增用户模态窗口=============
-  // popupAdd(): void {
-  //   let param: DynamicComponentParam = {component: InfoPublishDialogComponent};
-  //    console.log(param);
-  //   this.gs.notify(this.EVENT, param);
-  // }
-  // openTree(){
-  //   //  打开模态层
-  //   this.popupAdd();
-  // }
-
-  // 图片上传
-  public onFiles():void {
-    let files = this._fileUpload.nativeElement.files;
-    if(files[0].size<1048576){
-      if(files[0].type == ("image/png")||
-         files[0].type == ("image/jpeg")||
-         files[0].type == ("image/jpg")||
-         files[0].type == ("image/bmp")||
-         files[0].type == ("image/gif")){
-            this.imageError = false;
-            if (files.length) {
-              const file = files[0];
-              this._changePicture(file);
-              let reader = new FileReader();
-              reader.readAsDataURL(file);
-              reader.onload = () =>{
-                // this.currentStaff.file = reader.result;
-              };
-              if (this._canUploadOnServer()) {
-                this.uploadInProgress = true;
-                // this._uploader.addFilesToQueue(files);
-              }
-            }
-      }else {
-        this.imageError = "请您选择格式为jpeg、jpg、bmp、gif、png的图片。";
-      }
-    }else{
-      this.imageError = "请您选择小于1Mb的图片。";
-    }
-  }
-
-  public bringFileSelector():boolean {
-    this.renderer.invokeElementMethod(this._fileUpload.nativeElement, 'click');
-    return false;
-  }
-
-  public removePicture():boolean {
-    this.picture = '';
-    return false;
-  }
-
-  protected _changePicture(file:File):void {
-    const reader = new FileReader();
-    reader.addEventListener('load', (event:Event) => {
-      this.picture = (<any> event.target).result;
-    }, false);
-    reader.readAsDataURL(file);
-  }
-
-  protected _onUpload(data):void {
-    if (data['done'] || data['abort'] || data['error']) {
-      this._onUploadCompleted(data);
-    } else {
-      this.onUpload.emit(data);
-    }
-  }
-
-  protected _onUploadCompleted(data):void {
-    this.uploadInProgress = false;
-    this.onUploadCompleted.emit(data);
-  }
-
-  protected _canUploadOnServer():boolean {
-    return !!this.uploaderOptions['url'];
-  }
-  /*
-   * 获取全部组织机构
-   * */
-   getOrganizations() {
-    this.InfoPublishService.getOrganizations().then((result) => {
-      console.log(result.data);
-      // 希望返回数据中有用于判断是否是子节点的字段 根据字段进行判断 如果是子节点 点击后就以{{}}的形式在html中显示 不是则提示不能选中该节点 
-      console.log("111111111111111111111111111111");
-      
-      result.data.map(org=>org['children']=[]);
-      let nodes = json2Tree(result.data,{parentId:'orgParentId',children:'children'},[{origin:'orgName',replace:'name'}]);
-      //nodes.map(rootNode=>rootNode['expanded']=true);
-      this.treeNode = nodes;
-    });
-  }
-  // ========================树保存事件=================================  
   public hideModal():void {
     this.autoShownModal.hide();
   }
-  // ============================返回上一层=======================
-  goBack(): void {
-    this.location.back();
-  }
-  save() {
-
-  }
-
-   onSave(): void {
-    // let rolesTemp: string[] = [];
-    // for (let data of this.roles) {
-    //   if (data.selected) {
-    //     rolesTemp.push(data.roleId);
-    //   }
-    // }
-    // this.sysUser.roles = rolesTemp;
-    // this.service.createUser(this.sysUser).then((param) => {
-    // this.hideModal();
-    //   this.gs.notify(this.SAVEEVENT, param); //触发新增发放
-    // });
-    console.log(111);
-    
-  }
-   //==================树选择事件================================
-  //  树选择事件 判断部分
-  onTreePickerNotify($event){ 
-    
-    console.log(Object.keys($event.node));
-
-    
-    console.log($event.eventName);
-    
-    
-    // if($event.eventName == "onSelectCompleted"){ 
-    //   if($event.data.length > 0) {
-    //     this.sysUser.staffId = $event.data[0].id;
-    //     this.staffName = $event.data[0].data.name;
-    //   }else {
-    //     this.sysUser.staffId = undefined;
-    //     this.staffName = undefined;
-    //   }
-    // }
-  }
 
 
-  // tinymce 编辑器
-  ngAfterViewInit() {
-    tinymce.init({
-        selector: '#post_editor',
-        skin_url: '/assets/skins/lightgray',
-        //menubar:false,
-        plugins: [
-          'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-          'searchreplace wordcount visualblocks visualchars code fullscreen',
-          'insertdatetime media nonbreaking save table contextmenu directionality',
-          'emoticons template paste textcolor colorpicker textpattern imagetools codesample'
-        ],
-        toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-        toolbar2: 'print preview media | forecolor backcolor emoticons | codesample',
-        image_advtab: true,
-        codesample_content_css:'/assets/css/prism.css',
-        //文件和图片上传相关的选项
-        file_browser_callback_types: 'image',
-        file_browser_callback: function(field_name, url, type, win) {
-          console.log(type);
-          console.log(type=='image');
-          if(type=='image'){
-              let event = new MouseEvent('click', {
-                'view': window,
-                'bubbles': true,
-                'cancelable': true
-              });
-              let fileInput = document.getElementById('img_input');
-              fileInput.dispatchEvent(event);
-          } 
-        },
-        setup: editor => {
-          this.editor = editor;
-          editor.on('keyup', () => {
-              const content = editor.getContent();
-              console.log(content);
+  //编辑的保存按钮
+  public saveButtonState: boolean = true;
+
+
+  /* 公共变量与缓存 */
+  // 栏目树相关
+  title = '基本信息';
+  treePermissions = TREE_PERMISSIONS.NOTIFY;
+  treeNode = [];
+  cacheMemory;
+  newsId;
+
+
+  EVENT = 'openUserAddedDialog'
+  SAVEEVENT = 'saveSysUser';
+  EDITEVENT = 'editSysUser';
+
+  /* 初始化渲染 */
+  ngOnInit () {
+    this.newsId = this._activatedRoute.snapshot.params.id;
+    this._activatedRoute.url.mergeMap( url => {
+      this._editType = url[0].path;
+      return this._activatedRoute.params;
+    }).subscribe( result => {
+      if (this._editType == 'edit') {
+        this._infoPublishService.getArticle(result.id).then( res => {
+          this.infoPublishSource = res.data || {};
+          this.cacheMemory = _.cloneDeep(this.infoPublishSource);
+          this.saveButtonState = false;
+          console.log(this.infoPublishSource);
+          //初始化uploader变量，用来配置input 中的uploader属性
+          let headers = [{name: 'Authorization', value: `${this.tokenType}${this.accessToken}`}];
+          this.uploader = new FileUploader({
+            url: `${this.fileApi}?id=${this.newsId}&fileId=${this.infoPublishSource.fileId}`,
+            method: 'PUT',
+            headers: headers
           });
-        }
+          this.uploader.onSuccessItem = this.successItem.bind(this);
+          this.uploader.onCompleteAll = this.onCompleteAll.bind(this);
+        }).catch(err => {
+          this.showError(err.msg || '获取失败');
+        });
+      }
+      else if(this._editType == 'add') {
+        this.saveButtonState = false;
+        // 初始化定义uploader变量,用来配置input中的uploader属性
+        let headers = [{name: 'Authorization', value: `${this.tokenType} ${this.accessToken}`}];
+        this.uploader = new FileUploader({
+          url: this.fileApi,
+          method: "POST",
+          headers:headers,
+        });
+        this.uploader.onSuccessItem = this.successItem.bind(this);
+        this.uploader.onCompleteAll = this.onCompleteAll.bind(this);
+      }
+    });
+
+    this.getColumnTree();
+  }
+
+  /* 当注入的信息变化时 */
+  ngOnChanges () {
+
+  }
+
+  /* 返回按钮 */
+  goBack () {
+    this._location.back();
+  }
+
+  /* 保存按钮 */
+  handleSaveClick() {
+    if(this.saveButtonState) return;
+    this.saveButtonState = true;
+
+    if(this._editType === 'edit') {
+      this._infoPublishService.editArticle(this.infoPublishSource).then(res => {
+        this.saveButtonState = false;
+        this.showSuccess(res.message || '更新成功').onClose()
+          .subscribe(() => {
+            this._router.navigate(['/content/info-publish/'])
+          });
+      }).catch(err => {
+        this.saveButtonState = true;
+        this.showError(err.msg || '更新失败');
       });
-  	}
-  	ngOnDestroy() {
-    	tinymce.remove(this.editor);
     }
-    // 所选栏目点击弹出模态层事件
-    springing():void{
-      // 弹出模态层
-      
+    else if(this._editType === 'add') {
+      this._infoPublishService.addNewArticle(this.infoPublishSource).then((res:any) => {
+        this.saveButtonState = false;
+        this.showSuccess(res.msg || '保存成功').onClose()
+          .subscribe(() => {
+            this._router.navigate(['/content/info-publish']);
+          });
+      }).catch(err => {
+        this.saveButtonState = false;
+        this.showError(err.msg || '保存失败');
+      });
     }
+    else {
+      return;
+    }
+  }
+
+  /* 获取栏目树的节点 */
+  getColumnTree () {
+    return  this._infoPublishService.getAllColumnTree().then( result => {
+      result.data.map(org=>org['children']=[]);
+      let nodes = json2Tree(result.data, {parentId:'parentId',children:'children', id: 'id'},[{origin:'affTypeName',replace:'name'}]);
+      nodes.map(rootNode=>rootNode['expanded']=true);
+      this.treeNode = nodes;
+    });
+  }
+
+  /* 栏目树点选的响应 */
+  onTreePick ($event) {
+    console.log($event);
+
+    if($event.eventName == TREE_EVENTS.onActivate) {
+      console.log($event.node.data);
+      if($event.node.data.isRoot === 2) {
+        this.infoPublishSource.typeId = $event.node.data.id;
+        this.infoPublishSource.affTypeName = $event.node.data.affTypeName;
+      }
+      else {
+        this.showError('不能选择根栏目，请选择最终子栏目创建文章！').onClose();
+      }
+
+    }
+
+  }
+
+  /* 模态框保存按钮，保存当时数据的快照 */
+  onSave() {
+    this.cacheMemory = _.cloneDeep(this.infoPublishSource);
+    console.log(this.cacheMemory);
+  }
+
+  /* 模态框取消按钮，恢复最近一次数据的快照 */
+  onCancel () {
+    this.infoPublishSource = this.cacheMemory;
+    console.log(this.infoPublishSource);
+  }
+
+
+  /* 上传 */
+  uploadFile() {
+    _.forEach(this.uploader.queue, (t, i) => {
+      this.uploader.queue[i].upload(); // 开始上传
+    });
+  }
+
+  /* 上传成功回调 */
+  successItem ( FileItem, response: string, status: number, headers: ParsedResponseHeaders):any {
+    if (status == 200) {
+      // 上传文件后获取服务器返回的数据
+      let tempRes = JSON.parse(response);
+      this.attachments.push(tempRes.data);
+      let fileLength = this.uploader.queue.length;
+      this.progress += Math.round(100/fileLength);
+      //唯一图片场景下
+      let attachmentsNum=this.attachments.length-1;
+      if(!this.attachments[attachmentsNum]){
+        this.showError('上传失败');
+      }else{
+        this.infoPublishSource.affIcon=this.attachments[attachmentsNum].uploadPath;
+        this.infoPublishSource.fileId=this.attachments[attachmentsNum].id;
+      }
+
+      //
+    }else {
+      // 上传文件后获取服务器返回的数据错误
+      this.showError("上传失败！")
+    }
+  }
+
+  /* 全部上传完成回调 */
+  onCompleteAll(): any {
+    this.uploader.clearQueue();
+    this.progress = 0;
+  }
+
+
+  /* 提示框区域 */
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
+  }
 }

@@ -5,7 +5,7 @@
 <div class="widgets">
   <div class="row justify-content-center">
     <div class="col-sm-12">
-      <seer-collapse-card title="广告基本信息" cardClass="with-scroll" [canCollapse]=false>
+      <seer-collapse-card cardTitle="广告基本信息" cardClass="with-scroll" [canCollapse]=false>
         <form class="form-horizontal">
           <div class="row">
             <div class="form-group col-sm-12">
@@ -57,7 +57,7 @@
                 <label  class="col-sm-2 col-lg-1 control-label">广告图片</label>
                 <div class="col-sm-6 col-lg-3">
                   <img src="{{advertising.icon}}" style="display:block;width:200px;margin-bottom: 10px" *ngIf="advertising.icon">
-                  <input type="file" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)" [disabled]="uploadDisabled" >
+                  <input class="btn btn-primary" type="file" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)" [disabled]="uploadDisabled" >
                   <!--<textarea class="form-control" name="imgLink" id="imgLink"  [(ngModel)]="advertising.imgLink" required></textarea>-->
                 </div>
 

@@ -8,8 +8,6 @@ import { StaffService } from './staff.service';
 import { StaffComponent } from './staff.component';
 import { StaffEditComponent } from './components/staff-edit/staff-edit.component';
 import {StaffAddComponent} from "./components/staff-add/staff-add.component"
-import { OrgListComponent } from './components/orgList/org-list.component';
-//import {OrgTreeDialogComponent} from "../org-manage/components/tree/org-tree.component"
 
 @NgModule({
   imports: [
@@ -21,8 +19,6 @@ import { OrgListComponent } from './components/orgList/org-list.component';
     StaffComponent,
     StaffEditComponent,
     StaffAddComponent,
-    OrgListComponent,
-   // OrgTreeDialogComponent,
   ],
   providers: [
     StaffService

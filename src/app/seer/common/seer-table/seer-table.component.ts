@@ -25,6 +25,8 @@ export interface TableTitleModel {
   textAlign?: string, // 默认left 可传 center right
   hidden?: boolean,
   category?: string,
+  target?:string,
+  href?:string,
 }
 
 @Component({
@@ -141,7 +143,10 @@ export class SeerTableComponent implements OnInit {
     this.notify.emit({type: 'select_one', data: event});
   }
 
-
+  handleClick($event, item) {
+    $event.preventDefault();
+    this.notify.emit({ type: 'click', data: item })
+  }
   handleActionsClick($event) {
     this.notify.emit({type: $event.action.type, data: $event.item});
   }

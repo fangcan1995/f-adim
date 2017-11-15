@@ -11,12 +11,14 @@ import { InfoPublishDialogComponent } from "./components/info-publish-dialog/inf
 import {BaseService} from "../../base.service";
 import { TreeModule } from "app/theme/modules";
 import { ModalComponent } from "../../../theme/components/ng2-bs4-modal/modal";
+import {FileUploadModule} from "ng2-file-upload";
 @NgModule({
   imports: [
     NgaModule,
     SharedModule,
     routing,
-    TreeModule
+    TreeModule,
+    FileUploadModule
   ],
   declarations: [
     InfoPublishComponent,
