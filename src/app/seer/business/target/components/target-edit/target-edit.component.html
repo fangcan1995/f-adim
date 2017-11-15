@@ -7,7 +7,7 @@
 <div class="widgets">
   <div class="row justify-content-center">
     <div class="col-md-12">
-      <seer-collapse-card title="基本信息" cardClass="with-scroll" [canCollapse]="true" [headerActions]="memberActions" (notify)="handleMemberCardNotify($event)">
+      <seer-collapse-card cardTitle="基本信息" cardClass="with-scroll" [canCollapse]="true" [headerActions]="memberActions" (notify)="handleMemberCardNotify($event)">
         <form class="form-horizontal">
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
@@ -161,7 +161,7 @@
       </seer-collapse-card>
     </div>
     <div class="col-md-12">
-      <seer-collapse-card title="借款信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true [headerActions]="loanActions" (notify)="handleLoanCardNotify($event)">
+      <seer-collapse-card cardTitle="借款信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true [headerActions]="loanActions" (notify)="handleLoanCardNotify($event)">
         <form class="form-horizontal">
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
@@ -251,7 +251,7 @@
       </seer-collapse-card>
     </div>
     <div class="col-md-12">
-      <seer-collapse-card title="信用信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+      <seer-collapse-card cardTitle="信用信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <form class="form-horizontal">
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
@@ -298,7 +298,7 @@
       </seer-collapse-card>
     </div>
     <div class="col-md-12">
-      <seer-collapse-card title="信用信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+      <seer-collapse-card cardTitle="信用信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <form class="form-horizontal">
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
@@ -344,7 +344,7 @@
       </seer-collapse-card>
     </div>
     <div class="col-md-12">
-      <seer-collapse-card title="选择抵押物" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+      <seer-collapse-card cardTitle="选择抵押物" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
 
         <div class="row">
           <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
@@ -444,7 +444,7 @@
       </seer-collapse-card>
     </div>
     <div class="col-md-12">
-      <seer-collapse-card title="审核资料" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+      <seer-collapse-card cardTitle="审核资料" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <button class="btn btn-primary" (click)="handleBackBtnClick()">上传附件</button><p></p>
         <form class="form-horizontal">
           <div class="row">

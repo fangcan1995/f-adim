@@ -23,7 +23,16 @@
   background: $danger;
 }
 .form-group {
+  position: relative;
   margin-bottom: $space-between;
+}
+.text-danger {
+  position: absolute;
+  margin-bottom: 0;
+  font-size: 12px;
+  line-height: 20px;
+  width: calc(100% - 30px);
+  text-align: right;
 }
 .form-horizontal {
   label {

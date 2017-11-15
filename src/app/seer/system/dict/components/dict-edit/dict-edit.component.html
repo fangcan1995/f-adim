@@ -6,7 +6,7 @@
 <div class="widgets">
   <div class="row justify-content-center">
     <div class="col-md-12">
-      <seer-collapse-card title="字典管理" cardClass="with-scroll" [canCollapse]=false>
+      <seer-collapse-card cardTitle="字典管理" cardClass="with-scroll" [canCollapse]=false>
         <form class="form-horizontal" #myForm="ngForm">
           <div class="row">
 
@@ -24,7 +24,6 @@
                     [required]=true
                     [(ngModel)]="dict.category"
                     />
-                    <!-- <p *ngIf="category.dirty && category.errors?.required">required error</p> -->
                 </div>
               </div>
             </div>

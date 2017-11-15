@@ -9,7 +9,7 @@
   <seer-card>
     <div class="row justify-content-center">
       <div class="col-md-12">
-        <seer-collapse-card title="借款统计" cardClass="with-scroll" [canCollapse]=true>
+        <seer-collapse-card cardTitle="借款统计" cardClass="with-scroll" [canCollapse]=true>
           <div class="row" style="border-bottom:1px solid #ededed;margin-bottom: 10px">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               借款申请笔数:2
@@ -71,7 +71,7 @@
             </div>
           </div>
         </seer-collapse-card>
-        <seer-collapse-card title="借款记录" cardClass="with-scroll" [canCollapse]=true >
+        <seer-collapse-card cardTitle="借款记录" cardClass="with-scroll" [canCollapse]=true >
           <seer-simple-table
             [data]="loansRecord"
             [titles]="titlesLoansRecord"

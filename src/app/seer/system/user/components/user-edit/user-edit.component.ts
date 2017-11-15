@@ -208,7 +208,8 @@ export class UserEditComponent implements OnInit {
     this.modal.show();
   }
   onNotice ({ eventName, node }) {
-    if( eventName == 'onActivate' ) {
+    console.log(eventName)
+    if( eventName == 'onFocus' ) {
       if ( node.data.type == 'S' ) {
         this.activeStaff = node.data;
       } else {
