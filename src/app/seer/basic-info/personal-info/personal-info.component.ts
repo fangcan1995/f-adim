@@ -1,23 +1,23 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import {Component, OnInit, TemplateRef, ViewChild} from "@angular/core";
+import {Router, ActivatedRoute} from "@angular/router";
 import {Location} from '@angular/common';
 import * as _ from 'lodash';
-import {SeerMessageService} from '../../../../../theme/services/seer-message.service';
-import {StaffService} from '../../staff.service';
-import {titlesEducation, titlesRelation, titlesExperience} from '../../staff.config';
-import {BsModalRef} from 'ngx-bootstrap/modal/modal-options.class';
-import {BsModalService} from 'ngx-bootstrap/modal';
-import {json2Tree} from "../../../../../theme/libs";
-import {TREE_PERMISSIONS} from "../../../../../theme/modules/seer-tree/constants/permissions";
-import {UPDATE, DELETE, SAVE} from '../../../../common/seer-table/seer-table.actions';
+import {SeerDialogService} from '../../../theme/services/seer-dialog.service';
+import {UPDATE, DELETE, SAVE} from '../../common/seer-table/seer-table.actions';
+import {SeerMessageService} from "../../../theme/services/seer-message.service";
+import {PersonalInfoService} from "./personal-info.service";
+import {StaffService} from "../staff/staff.service";
+import {TREE_PERMISSIONS} from "../../../theme/modules/seer-tree/constants/permissions";
+import {titlesEducation, titlesRelation, titlesExperience} from '../staff/staff.config';
+import {BsModalRef, BsModalService} from "ngx-bootstrap";
+import {json2Tree} from "../../../theme/libs/json2Tree";
 
 @Component({
-  templateUrl: './staff-edit.component.html',
-  styleUrls: ['./staff-edit.component.scss']
+  templateUrl: './personal-info.component.html',
+  styleUrls: ['./personal-info.component.scss'],
 })
-export class StaffEditComponent implements OnInit {
+export class PersonalInfoComponent implements OnInit {
 
-  private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
   isDimission = false;
   staffId;
@@ -25,12 +25,15 @@ export class StaffEditComponent implements OnInit {
   treePermissions = TREE_PERMISSIONS.NOTIFY | TREE_PERMISSIONS.ADD | TREE_PERMISSIONS.EDIT | TREE_PERMISSIONS.DELETE | TREE_PERMISSIONS.DRAG | TREE_PERMISSIONS.SHOW_FILTER | TREE_PERMISSIONS.SHOW_ADD_ROOT;
   treeNode = []; //组织树
 
-  public staff: any = {
+  staff: any = {
     sysEmployer: {}
   };
   educationsData = [];
   relationsData = [];
   experiencesData = [];
+  user: any = {};
+  role: any = {};
+
 
   public titlesEducation = titlesEducation;
   public titlesRelation = titlesRelation;
@@ -43,53 +46,61 @@ export class StaffEditComponent implements OnInit {
   collapseCardActions = [SAVE];
   simpleTableActions = [UPDATE, DELETE];
 
-  constructor(private _staffService: StaffService,
+  constructor(private _personalInfoService: PersonalInfoService,
+              private _staffService: StaffService,
+              private modalService: BsModalService,
               private _messageService: SeerMessageService,
-              private _route: ActivatedRoute,
               private _router: Router,
+              private _route: ActivatedRoute,
               private _location: Location,
-              private modalService: BsModalService) {
+              private _dialogService: SeerDialogService,) {
   }
 
   ngOnInit() {
     this.getOrganizations();
-    this.isDimission=false;
+    this.isDimission = false;
     this._route.url.mergeMap(url => {
-      this._editType = url[0].path;
       return this._route.params
     }).subscribe(params => {
-      if (this._editType === 'edit') {
-        this.staffId = params.id;
-        this._staffService.getOne(params.id).then(res => {
-          // console.log(res.data.sysEmployer);
-          this.staff = res.data || {};
+      this._personalInfoService.getOne(params.id).then(res => {
+        // console.log(res.data.sysEmployer);
+        this.staff = res.data.staffInfo || {};
+        this.staffId = this.staff.sysEmployer.id;
+        this.user = res.data.userInfo || {};
+        let roleString = "";
+        let length = this.user.roles.length - 1;
+        this.user.roles.forEach(function (item, idx) {
+          if (idx == length) {
+            roleString += item.roleName;
+            return;
+          }
+          roleString += item.roleName + "、";
+        });
+        this.role = roleString;
 
-          this.dateFormat();
-          this.staffStateChange(this.staff.sysEmployer.empStatus);
+        this.dateFormat();
+        this.staffStateChange(this.staff.sysEmployer.empStatus);
 
-          this.educationsData = this.staff.sysEduExperList;
-          this.educationsData = _.map(this.educationsData, r => _.set(r, 'actions', [UPDATE, DELETE]));
+        this.educationsData = this.staff.sysEduExperList;
+        this.educationsData = _.map(this.educationsData, r => _.set(r, 'actions', [UPDATE, DELETE]));
 
-          this.relationsData = this.staff.sysEmployContactList;
-          this.relationsData = _.map(this.relationsData, r => _.set(r, 'actions', [UPDATE, DELETE]));
+        this.relationsData = this.staff.sysEmployContactList;
+        this.relationsData = _.map(this.relationsData, r => _.set(r, 'actions', [UPDATE, DELETE]));
 
-          this.experiencesData = this.staff.sysWorkExperList;
-          this.experiencesData = _.map(this.experiencesData, r => _.set(r, 'actions', [UPDATE, DELETE]));
+        this.experiencesData = this.staff.sysWorkExperList;
+        this.experiencesData = _.map(this.experiencesData, r => _.set(r, 'actions', [UPDATE, DELETE]));
 
-          this.forbidSaveBtn = false;
-        }, errMsg => {
-          // 错误处理的正确打开方式
-          this._messageService.open({
-            icon: 'fa fa-times-circle',
-            message: errMsg,
-            autoHideDuration: 3000,
-          }).onClose().subscribe(() => {
-            this._location.back()
-          })
-        })
-      } else if (this._editType === 'add') {
         this.forbidSaveBtn = false;
-      }
+      }, errMsg => {
+        // 错误处理的正确打开方式
+        this._messageService.open({
+          icon: 'fa fa-times-circle',
+          message: errMsg,
+          autoHideDuration: 3000,
+        }).onClose().subscribe(() => {
+          this._location.back()
+        })
+      })
     })
   }
 
@@ -333,16 +344,17 @@ export class StaffEditComponent implements OnInit {
 
   private nodeId: string;
   private nodeName: string;
-  onNotice ($event) {
+
+  onNotice($event) {
     console.log($event);
     let node = $event.node;
-    if($event.eventName == "onFocus") {
+    if ($event.eventName == "onFocus") {
       this.nodeName = node.data.name;
       this.nodeId = node.data.id;
     }
   }
 
-  save () {
+  save() {
     this.staff.sysEmployer.departmentId = this.nodeId;
     this.staff.sysEmployer.departmentName = this.nodeName;
   }
@@ -353,7 +365,7 @@ export class StaffEditComponent implements OnInit {
       message: info,
       autoHideDuration: 3000,
     }).onClose().subscribe(() => {
-      this._router.navigate(['/basic-info/staff-manage/'])
+      // this._router.navigate(['/basic-info/staff-manage/'])
     });
   }
 
@@ -368,3 +380,4 @@ export class StaffEditComponent implements OnInit {
   }
 
 }
+
