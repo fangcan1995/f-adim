@@ -15,7 +15,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
-import { parseQueryString, setStorage, getStorage } from '../../libs';
+import { parseQueryString, setStorage, getStorage, hex_md5 } from '../../libs';
 @Component({
   selector: 'ba-page-top',
   templateUrl: './baPageTop.html',
@@ -134,8 +134,8 @@ export class BaPageTop implements OnInit {
       const { oldPassword, newPassword } = this.form.value;
       const params = {
         userId: this.user.userId,
-        oldPassword,
-        newPassword,
+        oldPassword: hex_md5(oldPassword),
+        newPassword: hex_md5(newPassword),
         type: '1',
       }
       this._manageService.changePassword(params)

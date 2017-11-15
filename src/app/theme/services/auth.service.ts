@@ -24,8 +24,8 @@ export class AuthService {
   login(account: any, password: any): Observable<any> {
     let params = {
       username: account,
-      //password: hex_md5(password),
-      password,
+      password: hex_md5(password),
+      // password,
       client_id: 'system',
       client_secret: 'secret',
       grant_type: 'password',
