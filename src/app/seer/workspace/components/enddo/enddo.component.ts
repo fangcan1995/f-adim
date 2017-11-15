@@ -1,8 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import {WorkspaceService} from "../../workspace.service";
-import {Result} from "../../../model/result.class";
-import {Router} from "@angular/router";
-import {ORDER_STATE} from "../../../const";
+import {ActivatedRoute, Router} from "@angular/router";
 import {taskScategory} from "../../taskscategory";
 import {SeerMessageService} from "../../../../theme/services/seer-message.service"
 import * as _ from 'lodash';
@@ -29,7 +27,8 @@ export class EnddoComponent implements OnInit {
   currentType=0;  //当前选中类型
   constructor(
     private service: WorkspaceService,
-    private router:Router,
+    private _router:Router,
+    private route: ActivatedRoute,
     private _messageService: SeerMessageService) {
   }
   ngOnInit(): void {
@@ -79,5 +78,15 @@ export class EnddoComponent implements OnInit {
       icon: 'fa fa-times-circle',
       autoHideDuration: 3000,
     })
+  }
+
+  //页面跳转
+  public preview(id) {
+    let url = `/business/forms/`;
+      //详情
+    this._router.navigate([url + 'detail', id], {relativeTo: this.route});
+
+
+
   }
 }
