@@ -38,7 +38,7 @@ export class AuditOperationComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-      if(this.loan) {
+      if(this.loan != {} && this.loan['taskId'] != undefined) {
         this.getNextNodes(this.loan.taskId);
       }
   }
