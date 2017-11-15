@@ -7,7 +7,7 @@ import {
   BASE_URL,
   API,
 } from './base.service';
-import { setStorage, delStorage } from '../libs/utils';
+import { setStorage, delStorage, hex_md5 } from '../libs';
 
 @Injectable()
 export class AuthService {
@@ -24,7 +24,8 @@ export class AuthService {
   login(account: any, password: any): Observable<any> {
     let params = {
       username: account,
-      password: password,
+      //password: hex_md5(password),
+      password,
       client_id: 'system',
       client_secret: 'secret',
       grant_type: 'password',
