@@ -305,7 +305,7 @@ export class MemberEditComponent implements OnInit {
     });
   }//重置交易密码
   lock(){
-    this._memberService.patchOne(this.memberId,{"id":this.memberId,"status":0}).then((data:any)=>{
+    this._memberService.patchOne(this.memberId,{"memberId":this.memberId,"status":0}).then((data:any)=>{
       this.showSuccess(data.msg || '该会员已经启用');
     }).catch(err => {
       this.showError(err.msg || '启用失败');
@@ -323,9 +323,10 @@ export class MemberEditComponent implements OnInit {
     this.baseInfo.liveDistrict = $event.district.item_code;
     this.baseInfo.liveAddress = $event.address;
   }//修改目前居住地
+  //后退
   handleBackBtnClick() {
     this._location.back()
-  }//后退
+  }
   showSuccess(message: string) {
     return this._messageService.open({
       message,

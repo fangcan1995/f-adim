@@ -12,7 +12,7 @@ import {formatDate} from "ngx-bootstrap/bs-moment/format";
   styleUrls: ['./message.component.css'],
 })
 export class MessageComponent {
-  hasGlobalFilter = true;
+  hasGlobalFilter = true; //打开全局检索
   filters = [
     {
       key: 'msgTitle',
@@ -72,23 +72,21 @@ export class MessageComponent {
       label:'消息简介',
       type: 'input.text',
     },
-  ];
+  ];  //设置查询组件
   pageInfo={
     "pageNum":1,
     "pageSize":10,
     "sort":"-createTime",
     "total":"",
-    "query":{
-      "globalSearch":"",
-      "msgTitle":"",
-      "adaptationUser":"",
-      "sendMail":"",
-      "sendNotify":"",
-      "sendMessage":"",
-      "beginTime":"",
-      "endTime":"",
-      "msgProfile":""
-    },
+    "globalSearch":"",
+    "msgTitle":"",
+    "adaptationUser":"",
+    "sendMail":"",
+    "sendNotify":"",
+    "sendMessage":"",
+    "beginTime":"",
+    "endTime":"",
+    "msgProfile":""
 
   }; //分页、排序、检索
   source = [];
@@ -142,10 +140,11 @@ export class MessageComponent {
           return _.set(r, 'actions', actions)
         })
       }).catch(err => {
-        this.showError(err.json().message || '连接失败');
+        this.showError(err.msg || '连接失败');
       });
   }
-  //
+
+  //增删改预览
   onChange(message):void {
       const type = message.type;
       let data = message.data;
@@ -170,7 +169,7 @@ export class MessageComponent {
                       this.showSuccess(data.message || '删除成功');
                       this.getList();
                     }).catch(err => {
-                    this.showError(err.json().message || '删除失败');
+                    this.showError(err.msg || '删除失败');
                   });
                 }else{
                   //修改为不可见状态
@@ -178,7 +177,7 @@ export class MessageComponent {
                     this.showSuccess(data.message || '删除成功');
                     this.getList();
                   }).catch(err=>{
-                    this.showError(err.json().message || '删除失败');
+                    this.showError(err.msg || '删除失败');
                     }
                   );
 
@@ -191,12 +190,14 @@ export class MessageComponent {
 
       }
     }
-  //分页
+
+  //换页
   handlePageChange($event) {
     this.pageInfo.pageSize = $event.pageSize;
     this.pageInfo.pageNum=$event.pageNum;
     this.getList();
   }
+
   //全局搜索
   handleFiltersChanged($event) {
     let params=$event;
@@ -213,22 +214,11 @@ export class MessageComponent {
       endTime,
     }
     //console.log(params);
-    this.pageInfo.query = params;
+    this.pageInfo = params;
     this.getList();
   }
-/*  //多条件检索
-  handleSearchBtnClicked($event) {
-    //alert(2);
-    let params=$event;
-    console.log(params);
-    /!*this.queryParams = $event;
-    let params = {
-      ...this.queryParams,
-      pageSize: this.pageSize,
-      PageNum: this.pageNum,
-    };*!/
-    this.getList();
-  }*/
+
+  //成功提示
   showSuccess(message: string) {
     return this._messageService.open({
       message,
@@ -236,6 +226,8 @@ export class MessageComponent {
       autoHideDuration: 3000,
     })
   }
+
+  //失败提示
   showError(message: string) {
     return this._messageService.open({
       message,

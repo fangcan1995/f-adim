@@ -71,17 +71,15 @@ export class MessageTemplateComponent {
     "pageSize":10,
     "sort":"",
     "total":"",
-    "query":{
-      "globalSearch":"",
-      "tempName":"",
-      "tempCode":"",
-      "adaptationUser":"",
-      "businessType":"",
-      "sendMessage":"",
-      "sendNotify":"",
-      "sendMail":"",
-      "tempTitle":""
-    },
+    "globalSearch":"",
+    "tempName":"",
+    "tempCode":"",
+    "adaptationUser":"",
+    "businessType":"",
+    "sendMessage":"",
+    "sendNotify":"",
+    "sendMail":"",
+    "tempTitle":""
 
   }; //分页、排序、检索
   title = '消息模板';
@@ -99,25 +97,7 @@ export class MessageTemplateComponent {
     {key:'updateTime', label:'最后修改时间',type:'date-time'},
     {key:'updateUser', label:'最后修改人'},
   ];
-  //tplTypeOptions={};
-
   ngOnInit() {
-    //获取数据字典内容
-    // this.service.getDictByKey('MESSAGE_TEMPLATE_TYPE').then((result) => {
-    //   if (result.success) {
-    //     result.data.sort((a,b)=>+a.dictSort-+b.dictSort).forEach(dict=>{
-    //       this.optionType.push({ value:dict.dictValueId,content:dict.dictValueName});
-    //     });
-    //   }
-    // });
-    // this.service.getDictByKey('IS_SYSMESSAGETEMPLATE').then((result) => {
-    //     if (result.success) {
-    //       result.data.sort((a, b) => +a.dictSort - +b.dictSort).forEach(dict => {
-    //         this.optionisSystem.push({value: dict.dictValueId, content: dict.dictValueName});
-    //       });
-    //   };
-    // });
-
     this.allTplsList();
   }
   constructor(
@@ -137,7 +117,7 @@ export class MessageTemplateComponent {
       this.source = res.data.list;
       this.source = _.map(this.source, r => _.set(r, 'actions', [ PREVIEW,UPDATE, DELETE ]));
     }).catch(err => {
-      this.showError(err.json().message || '连接失败');
+      this.showError(err.msg || '连接失败');
     });
   }
   onChange(message):void {
@@ -162,7 +142,7 @@ export class MessageTemplateComponent {
                   this.showSuccess(data.message || '删除成功');
                   this.allTplsList();
                 }).catch(err => {
-                this.showError(err.json().message || '删除失败');
+                this.showError(err.msg || '删除失败');
               });
             }
           })
@@ -181,7 +161,7 @@ export class MessageTemplateComponent {
   //全局搜索
   handleFiltersChanged($event) {
     let params=$event;
-    this.pageInfo.query = params;
+    this.pageInfo = params;
     this.allTplsList();
   }
   showSuccess(message: string) {

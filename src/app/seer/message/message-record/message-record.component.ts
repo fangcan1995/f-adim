@@ -73,18 +73,16 @@ export class MessageRecordComponent {
     "pageSize":10,
     "sort":"",
     "total":"",
-    "query":{
-      "globalSearch":"",
-      "trueName":"",
-      "userName":"",
-      "businessType":"",
-      "msgType":"",
-      "sendMessage":"",
-      "sendNotify":"",
-      "beginTime":"",
-      "endTime":"",
-      "msgStatus":""
-    },
+    "globalSearch":"",
+    "trueName":"",
+    "userName":"",
+    "businessType":"",
+    "msgType":"",
+    "sendMessage":"",
+    "sendNotify":"",
+    "beginTime":"",
+    "endTime":"",
+    "msgStatus":""
 
   }; //分页、排序、检索
   title = '消息发送记录';
@@ -139,7 +137,7 @@ export class MessageRecordComponent {
       endTime,
     }
     //console.log(params);
-    this.pageInfo.query = params;
+    this.pageInfo = params;
     this.getRecord();
   }
   showSuccess(message: string) {

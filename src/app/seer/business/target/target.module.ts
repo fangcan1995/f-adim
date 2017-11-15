@@ -6,7 +6,8 @@ import { routing } from './target.routing';
 import { TargetService } from "./target.service";
 
 import { TargetComponent } from './target.component';
-import { TargetEditComponent } from './components/target-edit/target-edit.component';
+import {CommonService} from "../common/common.service";
+import {MemberService} from "../../basic-info/member/member.service";
 
 @NgModule({
   imports: [
@@ -16,10 +17,12 @@ import { TargetEditComponent } from './components/target-edit/target-edit.compon
   ],
   declarations: [
     TargetComponent,
-    TargetEditComponent,
   ],
   providers: [
     TargetService,
+    CommonService,
+    MemberService
+
   ],
 })
 export class TargetModule {

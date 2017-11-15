@@ -1,27 +1,12 @@
-import {
-  Routes,
-  RouterModule,
-}  from '@angular/router';
+import { Routes, RouterModule }  from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
-import { TargetComponent } from './target.component';
-import { TargetEditComponent } from './components/target-edit/target-edit.component';
+import {TargetComponent} from "./target.component";
 
 const routes: Routes = [
   {
     path: '',
     children: [
-      {
-        path: '',
-        component: TargetComponent,
-      },
-      {
-        path: 'add',
-        component: TargetEditComponent,
-      },
-      {
-        path: 'edit/:id',
-        component: TargetEditComponent,
-      },
+      {path: '', component: TargetComponent},
     ]
   }
 ];

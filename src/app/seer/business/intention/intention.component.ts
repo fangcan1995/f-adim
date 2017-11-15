@@ -40,7 +40,7 @@ export class IntentionComponent {
   //表格标题
   titles = [
     {
-      key:'applyNum', label:'项目编号'
+      key:'applyNum', label:'申请编号'
     },
     {
       key:'userName', label:'用户名',
@@ -122,7 +122,7 @@ export class IntentionComponent {
 
   //操作
   onChange($event) {
-    this.commonService.loadForm($event.type, $event.data);
+    this.commonService.loadForm($event.type, $event.data.projectId);
   }
 }
 

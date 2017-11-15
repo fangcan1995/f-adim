@@ -3,7 +3,7 @@ import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel} from "../../..
 import {getStorage} from "../../../theme/libs/utils"
 @Injectable()
 export class MemberService extends BaseService<ResModel>{
-  MembersUrl="http://172.16.7.4:9080/members"; //会员接口
+  MembersUrl=`${BASE_URL}/${API['MEMBERS']}/members`; //会员接口
   emergencyContactUrl=`emergencyContact`;//联系人
   VehicleContactUrl=`vehicleInfo`;//车辆
   HouseContactUrl=`houseInfo`;//车辆
@@ -13,28 +13,20 @@ export class MemberService extends BaseService<ResModel>{
     protected _httpInterceptorService:HttpInterceptorService
   ) {
     super(_httpInterceptorService);
-    this.setApi(API['ROLES']);
+    console.log(this.accessToken);
+    //this.setApi(API['MEMBERS']);
   }
   // 1 获取数据列表,OK
-  getList(pageInfo): Promise<ResModel> {
-    const page=`?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
-    const sort=`&sortBy=${pageInfo.sort}`;
-    const jsonQueryObj = pageInfo.query;
-    let query:string="";
-    for (var prop in jsonQueryObj) {
-      if(jsonQueryObj[prop]){
-        query+=`&${prop}=${jsonQueryObj[prop]}`;
-      }
-    }
-    return this._httpInterceptorService.request('GET', `${this.MembersUrl}/${page}${sort}${query}`,{}, true).toPromise();
+  getList(params?): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET',`${this.MembersUrl}` ,params).toPromise();
   }
   // 2 获取一条数据,OK
   getOne(id: string | number): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${this.MembersUrl}/${id}`,{}, true).toPromise();
+    return this._httpInterceptorService.request('GET', `${this.MembersUrl}/${id}`).toPromise();
   }
   //3 修改基本信息,OK
-  putBasicInfo(id, params): Promise<ResModel> {
-    return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/baseInfo`, params).toPromise();
+  putBasicInfo(id,params): Promise<ResModel> {
+    return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/baseInfo`,params).toPromise();
   }
   //4-1 增加联系人,OK
   postContact(id, params): Promise<ResModel> {
@@ -87,7 +79,7 @@ export class MemberService extends BaseService<ResModel>{
   }
   //11 修改会员交易密码,OK,改为身份证后六位
   putTradePasswords(id, params?): Promise<ResModel> {
-    return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/passwords`, params).toPromise();
+    return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/transactionPasswords`, params).toPromise();
   }
   // 15 根据会员ID查询贷款信息
   getLoans(id): Promise<ResModel> {
@@ -172,7 +164,8 @@ export class MemberService extends BaseService<ResModel>{
     })
   }
   //21 修改一条数据，提供部分字段
-  patchOne(id, params): Promise<ResModel> {
+  patchOne(id,params): Promise<ResModel> {
+    console.log(params);
     return this._httpInterceptorService.request('PATCH', `${this.MembersUrl}/${id}/status`, params).toPromise();
   }
 }

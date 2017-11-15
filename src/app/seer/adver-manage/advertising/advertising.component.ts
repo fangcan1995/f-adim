@@ -57,13 +57,11 @@ export class AdvertisingComponent implements OnInit {
     "pageSize": 10,
     "sort": "",
     "total": "",
-    "query": {
-      "globalSearch": "",
-      "adType": "",
-      "putEnv": "",
-      "createTimeStart": "",
-      "createTimeEnd": "",
-    },
+    "globalSearch": "",
+    "adType": "",
+    "putEnv": "",
+    "createTimeStart": "",
+    "createTimeEnd": "",
   };
 
   constructor(
@@ -161,7 +159,7 @@ export class AdvertisingComponent implements OnInit {
       createTimeEnd,
     }
     //console.log(params);
-    this.pageInfo.query = params;
+    this.pageInfo = params;
     this.getList();
   }
   //分页

@@ -112,10 +112,12 @@ export class CreateIntentionComponent implements OnInit, OnChanges {
       this.loan.memberId = this.member.id;
       this.service.createIntention(this.loan).then(res => {
         if(0 == res.code) {
-          this.showSuccess(res.msg || '已提交');
+          //this.showSuccess(res.msg || '已提交');
+          this.showSuccess('申请成功');
           this._router.navigate(['business/intention']);
         } else {
-          this.showError(res.msg || '提交失败');
+          //this.showError(res.msg || '提交失败');
+          this.showError('申请失败');
         }
       });
     }else {
