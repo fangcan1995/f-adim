@@ -5,7 +5,7 @@
         *ngFor="let taskType of taskTypes;let i=index"
         (click)="ckboxToggle(taskType,i)"
         [isChecked]="isChecked[i]"
-        [label]="taskType.taskName"
+        [label]="taskType.taskName+'('+taskType.total+')'"
       >
       </seer-checkbox>
     </div>

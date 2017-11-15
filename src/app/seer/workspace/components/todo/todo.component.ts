@@ -33,9 +33,16 @@ export class TodoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    //获取各类任务的数量
     this.service.getCounts().then(res=>{
-      console.log(res);
+      let totals=0;
+      this.taskTypes.map(r => {
+        if(res.data[r.code]){
+          r.total=res.data[r.code];
+          totals=totals+r.total;
+        }
+      });
+      this.taskTypes[0].total=totals; //全部任务数
     }).catch(err=>{
       this.showError(err.msg || '获取任务数量失败');
     });
@@ -49,7 +56,6 @@ export class TodoComponent implements OnInit {
       this.pageInfo.pageSize = res.data.pageSize; //每页记录数
       this.pageInfo.total = res.data.total; //记录总数
       this.tasks = res.data.list;         //记录列表
-      console.log(this.tasks);
       //拼装数据
       this.tasks = _.map(this.tasks, r => {
         let tasktype = _.find(this.taskTypes, x => x.code === r.projectStatus) || {
