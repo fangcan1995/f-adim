@@ -90,7 +90,6 @@ export class LoginComponent {
         let reg = new RegExp('^(' + fullPaths.join('|') + ')', 'g');
 
         let redirectUrl = this._authService.redirectUrl && this._authService.redirectUrl != '/login' ? this._authService.redirectUrl : reg.test('/workspace') ? '/workspace' : _.find(fullPaths, t => t.split('\/').length > 2 ) ? _.find(fullPaths, t => t.split('\/').length > 2 ) : '/page-not-found';
-        console.log(reg, reg.test('/workspace'))
         let redirectSearch = this._authService.redirectSearch;
         let loginSearch = parseQueryString(location.search);
 

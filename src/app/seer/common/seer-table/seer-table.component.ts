@@ -25,6 +25,8 @@ export interface TableTitleModel {
   textAlign?: string, // 默认left 可传 center right
   hidden?: boolean,
   category?: string,
+  target?:string,
+  href?:string,
 }
 
 @Component({
