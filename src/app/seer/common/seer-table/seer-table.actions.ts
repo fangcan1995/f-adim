@@ -68,7 +68,8 @@ export const ENABLE= {
   className: 'btn btn-xs btn-info',
   icon: 'icon-checkmark',
 
-}
+};
+
 export const DISABLE= {
   type: 'disable',
   name: '禁用',
@@ -82,4 +83,19 @@ export const CONFIG_LEADER = {
   name: '设为负责人',
   class: '',
   icon: 'icon-checkmark',
-}
+};
+
+export const PUBLISHED = {
+  type: 'published',
+  name: '发布',
+  className: 'btn btn-xs btn-info',
+  icon: 'icon-checkmark',
+
+};
+export const UNPUBLISHED = {
+  type: 'unpublished',
+  name: '取消发布',
+  className: 'btn btn-xs btn-info',
+  icon: 'icon-blocked',
+
+};

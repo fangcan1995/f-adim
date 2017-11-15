@@ -1,26 +1,21 @@
-<form (submit)="save()">
+<form><!-- (submit)="save()" -->
   <div class="form-page-header">
     <button type="button" class="btn btn-default" (click)="goBack()">返回列表</button>
-    <button type="submit" class="btn btn-primary">保存</button>
-    <button type="submit" class="btn btn-primary">发布</button>
+    <button class="btn btn-primary" [disabled]="saveButtonState" (click)="handleSaveClick()">保存</button>
   </div>
   <seer-card [title]="title" >
     <div class="form-group ">
         <div class="row">
-            <label for="idNumber" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">所属栏目</label>
+            <label for="columnSelect" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">所属栏目</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" id="idNumber" (click)="openModal(template)">
-                <ng-template #template>
+                <input type="text" class="form-control" id="columnSelect" (click)="openModal(template)" [value]="infoPublishSource.affTypeName || '请选择栏目'" readonly >
+                <template #template>
                     <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
-                        <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">选着栏目</h4>
-                        <!-- <span aria-hidden="true" class="close pull-right" aria-label="Close" (click)="modalRef.hide()" style="display:inline-block; margin:0; padding:0; float:right;">&times;</span> -->
-                        <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                        <span aria-hidden="true" >&times;</span> 
-                        </button> -->
+                        <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">选择栏目</h4>
                     </div>
                     <div class="modal-body">
                         <seer-tree
-                        (notify)="onTreePickerNotify($event)"
+                        (notify)="onTreePick($event)"
                         [permissions]="treePermissions"
                         [nodes]="treeNode"
                         [defaultNodeName]="'新建部门'"
@@ -30,31 +25,31 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" (click)="onSave();modalRef.hide()">保存</button>
-                        <button type="button" class="btn btn-default" (click)="modalRef.hide()">取消</button>
+                        <button type="button" class="btn btn-default" (click)="onCancel(); modalRef.hide()">取消</button>
                     </div>
-                </ng-template>  
+                </template>
             </div>
-        </div> 
+        </div>
     </div>
     <div class="form-group ">
         <div class="row">
-            <label for="idNumber" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">标题</label>
+            <label for="title" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">标题</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="idNumber" >
+                <input type="text" class="form-control" id="title" [(ngModel)]="infoPublishSource.title" [ngModelOptions]="{standalone: true}">
             </div>
         </div>
-    </div> 
+    </div>
     <div class="form-group ">
         <div class="row">
-            <label for="idNumber" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">标题链接</label>
+            <label for="titleLink" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">标题链接</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="idNumber" placeholder="如需链接到其他地址">
+                <input type="text" class="form-control" id="titleLink" placeholder="如需链接到其他地址" [(ngModel)]="infoPublishSource.affLinkUrl" [ngModelOptions]="{standalone: true}" >
             </div>
         </div>
-    </div> 
+    </div>
     <div class="form-group ">
         <div class="row">
-            <div class="col-sm-6">
+            <!--<div class="col-sm-6">
                 <label for="inputTplName"  class="col-sm-2 control-label" style="text-align:right; height:35px; line-height:35px;">缩略图</label>
                 <button type="button"  class="btn btn-primary col-sm-2"  (click)="bringFileSelector();">上传图片</button>
             </div>
@@ -67,18 +62,24 @@
                         </div>
                         <input #fileUpload type="file" name="file" hidden="true" id="uploadFile" (change)="onFiles()">
                     </div>
-                </div> 
-            </div>
+                </div>
+            </div>-->
+
+          <label class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">缩略图</label>
+          <div class="col-sm-6 col-xs-12 col-md-6 col-lg-1">
+            <img src="{{infoPublishSource.affIcon}}" *ngIf="infoPublishSource.affIcon"  style="display:block; width:200px; margin-bottom: 10px" >
+            <input type="file" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)" [disabled]="uploadDisabled" >
+          </div>
         </div>
-    </div> 
+    </div>
    <!--编辑器  -->
     <div class="form-group ">
         <div class="row">
-            <label for="idNumber" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">正文</label>
+            <label for="mainBody" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">正文</label>
             <div class="col-sm-11">
-                <textarea id="post_editor" class="form-control" style="height:400px;"></textarea>
+              <seer-editor [(data)]="infoPublishSource.affContent" id="mainBody" ></seer-editor>
             </div>
         </div>
-    </div> 
+    </div>
   </seer-card>
 </form>

@@ -1,7 +1,7 @@
 
 <div class="row">
   <div class="col-sm-3">
-    <seer-collapse-card [title]="title" baCardClass="with-scroll">
+    <seer-collapse-card [title]="title" baCardClass="with-scroll tree-card">
         <div class="col-sm-12">
             <seer-tree
             (notify)="onNotify($event) "
@@ -11,7 +11,7 @@
             [loadingText]="''"
             >
             </seer-tree>
-        </div>    
+        </div>
     </seer-collapse-card>
   </div>
   <div class="col-sm-9">
@@ -31,11 +31,11 @@
           [data]="source"
           [titles]="titles"
           (notify)="onChange($event)"
-         
+
           [hideColumns]="true"
           [hidePrint]="true"
           [hideRemoveAll]="true"
-          
+
         ></seer-table>
       </seer-collapse-card>
     </seer-collapse-card>

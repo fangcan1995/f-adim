@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import {Component, ViewChild, OnDestroy} from "@angular/core";
 // OrgManageService
 import {GlobalState} from "../../../global.state";
-import {json2Tree} from "../../..//theme/libs";
+import {json2Tree} from "../../..//theme/libs/json2Tree";
 import {TREE_PERMISSIONS} from "../../../theme/modules/seer-tree/constants/permissions";
 import {TREE_EVENTS} from "../../../theme/modules/seer-tree/constants/events";
 import {SeerTree} from "../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
@@ -11,100 +11,284 @@ import {infoModle} from "./infoModle";
 /*import any = jasmine.any;*/
 import {DynamicComponentLoader} from "../../../theme/directives/dynamicComponent/dynamic-component.directive";
 import { InfoPublishService } from "./info-publish.service";
-import { SeerDialogService } from '../../../theme/services/seer-dialog.service'
-import {UPDATE, DELETE} from "../../common/seer-table/seer-table.actions"
+import { SeerDialogService, SeerMessageService } from '../../../theme/services'
+import { UPDATE, DELETE, PUBLISHED, UNPUBLISHED } from "../../common/seer-table/seer-table.actions"
 import * as _ from 'lodash';
 @Component({
   templateUrl: './info-publish.component.html',
   styleUrls: ['./info-publish.component.scss'],
 })
 export class InfoPublishComponent {
-  title = "栏目列表"
+  title = "栏目列表";
   tableTitle: string = "文章列表";
   hasGlobalFilter = true;
-  optionType=[{value:'', content: '请选择'}];
-  optionisSystem=[{value:'', content: '请选择'}];
   source = [];
   data=[];
   titles = [
-    {key:'roleName',label:'栏目'},
-    {key:'validState',label:'文章标题',isDict:true},
-    {key:'operateTime',label:'发布者'},
-    {key:'createTime',label:'更新时间'},
-    {key:'sendStage',label:'状态'},
-    {key:'number',label:'浏览次数'},
+    {key:'affTypeName',label:'栏目'},
+    {key:'title',label:'文章标题',isDict:true},
+    {key:'updateUser',label:'发布者'},
+    {key:'updateTime',label:'更新时间',type:'date-time'},
+    {key:'status',label:'状态'},
+    {key:'viewCounts',label:'浏览次数'},
   ];
   filters = [
     {
       key: 'tplName',
-      label: '栏目',
-      type: 'input.text',
+      label: '状态',
+      type: 'select',
+      options: [
+        {content: '全部'},
+        {value: '1', content: '已发布'},
+        {value: '2', content: '未发布'},
+      ]
     },
-    {
-      key: 'tplCode',
-      label: '标题',
-      type: 'input.text',
-    },
-
   ];
+
+
+  /* 更新信息缓存 */
+  info = {
+    parentId: '',
+    parentIds: '',
+    affTypeName: '',
+    id: ''
+  };
+
+  cacheMemory = {
+
+  };
+
+  pageInfo = {
+    pageNum: 1,
+    pageSize: 100000,
+    total: 1000,
+    typeId: 1,
+    globalSearch: '',
+    sortBy: '',
+    isRoot: 1
+  };
+
+
    //组织树
   treePermissions = TREE_PERMISSIONS.NOTIFY|TREE_PERMISSIONS.ADD|TREE_PERMISSIONS.EDIT|TREE_PERMISSIONS.DELETE|TREE_PERMISSIONS.DRAG|TREE_PERMISSIONS.SHOW_FILTER|TREE_PERMISSIONS.SHOW_ADD_ROOT;
   treeNode = [];
 
 
-  //员工列表
+  //右侧表格列表
   tableSource = [];
 
   staffId: string;
 
-  constructor(protected service: InfoPublishService, private _dialogService: SeerDialogService, private _router: Router, private _state: GlobalState) {
+  constructor(
+    protected service: InfoPublishService,
+    private _dialogService: SeerDialogService,
+    private _messageService: SeerMessageService,
+    private _router: Router,
+    private _state: GlobalState
+  ) {
     this._state.subscribe("orgStaffState",(a)=>{
-      this.getStaffsByOrgId(this.staffId);
+      this.getColumnListById(this.staffId);
     })
   }
 
+
+  /* 初始化渲染 */
   ngOnInit() {
     // 初始化树形结构
-    this.getOrganizations();
+    this.getColumnTree();
     // 获取右侧表格数据
-    this.getList();
+    console.log('=====================================');
+    console.log(this.pageInfo);
+    this.getColumnList(this.pageInfo);
   }
 
-  // 重新获取列表（刚开始，改变时候刷新表格）
-  getList(params?):void{
-    this.service.getDatas()
-    .then(res => {
-      this.source = res.data;
-      this.source = _.map(this.source, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
-    });
-  }
-
+  /* 组件销毁 */
   ngOnDestroy(): void {
     this._state.unsubscribe("orgStaffState");
   }
-  // 按钮跳转路由事件
+
+
+  /* --------------------------------------------------------------------------------------------- */
+  /* 栏目树的方法 */
+  /* --------------------------------------------------------------------------------------------- */
+
+  /* 获取全部栏目树 */
+  getColumnTree() {
+    this.service.getAllColumnTree().then((result) => {
+      result.data.map(org=>org['children']=[]);
+      let nodes = json2Tree(result.data, {parentId:'parentId',children:'children', id: 'id'},[{origin:'affTypeName',replace:'name'}]);
+      nodes.map(rootNode=>rootNode['expanded']=true);
+      this.treeNode = nodes;
+    });
+  }
+
+  /* 栏目树结构监控的事件 */
+  onNotify($event) {
+    console.log($event);
+
+    /* 组织被点击在焦点上 TREE_EVENTS.onFocus */
+    if ($event.eventName == TREE_EVENTS.onFocus) {
+      /* 当树机构的节点在焦点事件时，获取对应节点的右侧表数据 */
+      console.log($event.node.data.id);
+      this.pageInfo.typeId = $event.node.data.id;
+      this.pageInfo.isRoot = $event.node.data.isRoot;
+      this.getColumnList(this.pageInfo);
+
+    }
+
+    /* 根据组织机构查询人员 TREE_EVENTS.onActivate */
+    if ($event.eventName == TREE_EVENTS.onActivate) {
+
+    }
+    /* 删除组织机构 TREE_EVENTS.onDeleteNode */
+    if ($event.eventName == TREE_EVENTS.onDeleteNode) {
+      this.service.deleteColumn($event.node.data.id).then( result => {
+        console.log(result);
+        this.alertSuccess(result.message);
+        this.getColumnTree();
+      })
+    }
+
+    /* 新增组织结构 TREE_EVENTS.onAddNewNode */
+    if ($event.eventName == TREE_EVENTS.onAddNewNode) {
+      let event = $event.node;
+      let test = event.parent.data.id.toString().indexOf(event.parent.data.parentIds.toString());
+      let newPoint = {
+        affTypeName: event.data.name,
+        parentId: event.parent.data.id,
+        parentIds: test === 0 ? event.parent.data.parentIds : event.parent.data.parentIds + ',' + event.parent.data.id
+      };
+      console.log(newPoint);
+      this.service.addColumn(newPoint).then( result => {
+        console.log(result);
+        this.alertSuccess(result.message);
+        this.getColumnTree();
+      })
+
+
+
+    }
+
+    /*/!* 双击 TREE_EVENTS.onDoubleClick *!/
+    if($event.eventName == TREE_EVENTS.onDoubleClick) {
+
+    }*/
+
+    /* 移动组织机构 TREE_EVENTS.onMoveNode */
+    if ($event.eventName == TREE_EVENTS.onMoveNode) {
+      this.info.affTypeName = $event.node.data.name;
+      this.info.id = $event.node.data.id;
+      this.info.parentId = $event.to.parent.data.id;
+      this.info.parentIds = $event.to.parent.data.parentIds + ',' + $event.to.parent.data.id;
+      console.log(this.info);
+      this.service.editColumn(this.info).then( result => {
+        console.log(result);
+        this.alertSuccess(result.message);
+        this.getColumnTree();
+      });
+    }
+
+    /* 组织机构重命名 TREE_EVENTS.onRenameNode */
+    if ($event.eventName == TREE_EVENTS.onRenameNode) {
+      this.info.affTypeName = $event.node.data.name;
+      this.info.id = $event.node.data.id;
+      this.info.parentId = $event.node.data.parentId;
+      this.info.parentIds = $event.node.data.parentIds;
+      console.log(this.info);
+      this.service.editColumn(this.info).then( result => {
+        this.alertSuccess(result.message);
+        this.getColumnTree();
+      });
+    }
+
+  }
+
+  /*--------------------------------------------------------------------------------------------*/
+  /* 右侧列表相关的 */
+  /*--------------------------------------------------------------------------------------------*/
+
+  /* 右侧表格渲染 */
+  getColumnList(params?):void{
+    this.service.getColumnList(params)
+      .then(res => {
+        this.pageInfo.pageNum = res.data.pageNum;  //当前页
+        this.pageInfo.pageSize = res.data.pageSize; //每页记录数
+        this.pageInfo.total = res.data.total; //记录总数
+        this.source = res.data.list;
+        console.log(this.source);
+        this.source.map(x => {
+          x.status = x.status === 0 ? '未发布' : '已发布';
+        });
+        //this.source = _.map(this.source, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
+        this.source = _.map(this.source, r => {
+          let status = r.status;
+          let actions;
+          switch(status) {
+            case '未发布':
+              actions = [UPDATE, DELETE, PUBLISHED];
+              break;
+            case '已发布':
+              actions = [UPDATE, DELETE, UNPUBLISHED];
+              break;
+          }
+          return _.set(r, 'actions', actions);
+        });
+      });
+  }
+
+  /* 右侧表格操作，对应的 */
   onChange(message):void {
     const type = message.type;
-    console.log(type);
-
     let data = message.data;
+    console.log(data);
     switch ( type ) {
       case 'create':
         this._router.navigate(['/content/info-publish/add']);
         break;
       case 'update':
-        this._router.navigate(['/content/info-publish/edit',message.data.msgId])
+        this._router.navigate(['/content/info-publish/edit', message.data.id]);
+        break;
+      case 'published':
+        this._dialogService.confirm('确定发布么？')
+          .subscribe( action => {
+            if(action === 1) {
+              console.log({id: data.id, status: data.status === '未发布' ? '1' : '0'});
+              this.service.patch({id: data.id, status: data.status === '未发布' ? '1' : '0'}).then( result =>{
+                this.alertSuccess(result.message);
+                console.log(this.pageInfo);
+                this.getColumnList(this.pageInfo);
+              })
+            }
+          });
+        break;
+      case 'unpublished':
+        this._dialogService.confirm('确定取消发布么？')
+          .subscribe( action => {
+            if(action === 1) {
+              console.log({id: data.id, status: data.status === '未发布' ? '1' : '0'});
+              this.service.patch({id: data.id, status: data.status === '未发布' ? '1' : '0'}).then( result =>{
+                this.alertSuccess(result.message);
+                console.log(this.pageInfo);
+                this.getColumnList(this.pageInfo);
+              })
+            }
+          });
         break;
       case 'delete':
         this._dialogService.confirm('确定删除吗？')
           .subscribe(action => {
             if ( action === 1 ) {
-              // this.service.deleteOne(message.data.id)
-              //   .subscribe(data => {
-              //     this.getList();
-              // });
+              this.pageInfo.typeId = data.typeId;
+              this.service.deleteArticle(data.id).then( result => {
+                console.log(result);
+                this.alertSuccess(result.message);
+                this.getColumnList(this.pageInfo);
+              }).catch( err => {
+                console.log(err);
+                this.alertError(err.message);
+              });
             }
-          })
+          });
 
         break;
       case 'delete_all':
@@ -112,96 +296,46 @@ export class InfoPublishComponent {
         break;
     }
   }
-  /*
-   * 获取全部组织机构
-   * */
-  getOrganizations() {
-    this.service.getOrganizations().then((result) => {
-      result.data.map(org=>org['children']=[]);
-      let nodes = json2Tree(result.data,{parentId:'orgParentId',children:'children'},[{origin:'orgName',replace:'name'}]);
-      //nodes.map(rootNode=>rootNode['expanded']=true);
-      this.treeNode = nodes;
+
+
+
+
+
+
+  /*-----------------------------------------------------------------------------------------*/
+  /* 特殊方法，不敢动 (初始化和销毁组件)*/
+  /*-----------------------------------------------------------------------------------------*/
+  /* 通过栏目id获得表数据 */
+  getColumnListById(orgId) {
+    this.service.getColumnListById(orgId).then((result) => {
+      this.pageInfo.pageNum = result.data.pageNum;  //当前页
+      this.pageInfo.pageSize = result.data.pageSize; //每页记录数
+      this.pageInfo.total = result.data.total; //记录总数
+      this.source = result.data.list;
+      this.source = _.map(this.source, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
     });
   }
 
-  /*
-   * 通过组织机构id获取所属员工
-   * */
-  getStaffsByOrgId(orgId) {
-    this.service.getStaffsByOrgId(orgId).then((result) => {this.tableSource = result.data});
-  }
-
-  handleFiltersChanged() {}
-  handleSearchBtnClicked() {}
-  /*
-   * 组织树通知
-   * */
-  onNotify($event){
-
-    // /* 根据组织机构查询人员*/
-    // if ($event.eventName==TREE_EVENTS.onActivate){
-    //   //$event.node.setIsExpanded(true)
-    //   this.staffId = $event.node.id;
-    //   this.getStaffsByOrgId($event.node.id);
-    // }
-
-    // /* 删除组织机构*/
-    // if ($event.eventName==TREE_EVENTS.onDeleteNode){
-    //   this.service.delOrganization($event.node.id);
-    // }
-
-    // /* 新增组织机构*/
-    // if ($event.eventName==TREE_EVENTS.onAddNewNode){
-    //   console.log($event.node);
-    //   let orgModel = new infoModle();
-    //   orgModel.id = $event.node.id;
-    //   orgModel.orgParentId = $event.node.parent.id;
-    //   orgModel.orgName = $event.node.data.name;
-    //   if($event.node.isRoot == true) {
-    //     orgModel.orgSort = $event.node.treeModel.roots.length;
-    //   }else {
-    //     orgModel.orgSort = $event.node.parent.children.length;
-    //   }
-
-    //   this.service.addOrganization(orgModel).then((result) => {
-    //     if(!result.success) {
-    //       alert("操作失败，请重试！");
-    //     }
-    //   });
-    // }
 
 
-    // if ($event.eventName==TREE_EVENTS.onDoubleClick){
 
-    // }
 
-    // /* 移动组织机构*/
-    // if ($event.eventName==TREE_EVENTS.onMoveNode){
-    //   console.log($event.node);
-    //   let orgModel = new infoModle();
-    //   orgModel.id = $event.node.id;
-    //   orgModel.orgParentId = $event.node.parentId;
-    //   orgModel.orgSort = $event.to.index;
-    //     this.service.editOrganization(orgModel).then((result) => {
-    //     if(!result.success) {
-    //       if(!result.success) {
-    //         alert("操作失败，请重试！");
-    //       }
-    //     }
-    //   });
-    // }
 
-    // /* 组织机构重命名*/
-    // if ($event.eventName==TREE_EVENTS.onRenameNode){
-    //   let orgModel = new infoModle();
-    //   orgModel.id = $event.node.id;
-    //   orgModel.orgName = $event.node.data.name;
-    //   this.service.editOrganization(orgModel).then((result) => {
-    //     if(!result.success) {
-    //       alert("操作失败，请重试！");
-    //     }
-    //   });
-    // }
+  alertSuccess(info:string){
+    this._messageService.open({
+      icon: 'fa fa-check',
+      message: info,
+      autoHideDuration: 3000,
+    }).onClose();
+  };
 
-  }
+  alertError(errMsg:string){
+    // 错误处理的正确打开方式
+    this._messageService.open({
+      icon: 'fa fa-times-circle',
+      message: errMsg,
+      autoHideDuration: 3000,
+    })
+  };
+
 }
