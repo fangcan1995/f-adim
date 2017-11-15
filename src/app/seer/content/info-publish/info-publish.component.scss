@@ -5,3 +5,32 @@ input{outline:none;}
 img{border:0; display:block;}
 /*=================================定义文字三属性==================*/
 body{font-size:12px; font-family:"微软雅黑"; color:#3e3e3e;}
+
+
+
+:host /deep/ {
+  .tree-node-actions {
+    min-width: 70px;
+    text-align: center;
+    top: 0;
+    right: 0;
+
+    span {
+      display: inline-block;
+      width: 40px;
+      height: auto;
+    }
+  }
+
+  .tree-node-actions .tree-node-action-list {
+    top: 0 !important;
+    right: -40px !important;
+  }
+
+  .tree-card .card-content {
+    padding: 15px;
+    overflow: hidden;
+  }
+
+
+}
