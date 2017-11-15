@@ -58,7 +58,6 @@ export class InvestsInfoComponent implements OnInit {
       return this._route.params
     })
       .subscribe(params => {
-        if ( this._editType === 'invests' ) {
           this.memberId=params.id;
           this._memberService.getInvests(params.id)
           .then(res => {
@@ -68,24 +67,9 @@ export class InvestsInfoComponent implements OnInit {
             }).catch(err=>{
             this.showError(err.msg || '连接失败');
           });
-        }
       })
   }
-  handleBackBtnClick() {
-    this._router.navigate([`../../`], {relativeTo: this._route});
-  }
-  memberInfoClick(){
-    this._router.navigate([`../../detail/${this.memberId}`], {relativeTo: this._route});
-  }
-  investInfoClick(){
-    this._router.navigate([`../../invests/${this.memberId}`], {relativeTo: this._route});
-  }
-  loanInfoClick(){
-    this._router.navigate([`../../loans/${this.memberId}`], {relativeTo: this._route});
-  }
-  tradeInfoClick(){
-    this._router.navigate([`../../trades/${this.memberId}`], {relativeTo: this._route});
-  }
+
   showSuccess(message: string) {
     return this._messageService.open({
       message,
