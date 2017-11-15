@@ -110,8 +110,7 @@
 
         </seer-collapse-card>
         <seer-collapse-card cardTitle="接收用户" >
-          <div class="row">
-
+          <div class="row" *ngIf="modalUsers.length>0">
             <seer-table
               [data]="modalUsers"
               [titles]="modelTitles"
