@@ -9,6 +9,7 @@ const routes: Routes = [
       { path: '', component: StaffComponent },
       { path: 'add', component: StaffAddComponent },
       { path: 'edit/:id', component: StaffEditComponent },
+      { path: 'detail/:id', component: StaffEditComponent },
     ]
   }
 ];

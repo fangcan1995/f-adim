@@ -5,7 +5,7 @@ export const filters = [
   {key: 'staffDtoCardId', label: '身份证', type: 'input.text'},
 ];
 export const titles = [
-  {key: 'empName', label: '姓名'},
+  {key: 'empName', label: '姓名', type: 'link', action: 'redirect()'},
   {key: 'emCode', label: '员工编号'},
   {key: 'pDepartmentName', label: '分公司'},
   {key: 'departmentName', label: '团队'},
