@@ -1,11 +1,11 @@
 import {Injectable} from "@angular/core";
 import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel} from "../../../theme/services"
-
+import {getStorage} from "../../../theme/libs/utils"
 @Injectable()
 export class AdvertisingService extends BaseService<ResModel>{
-
   // 1 获取数据列表
   getList(params?):Promise<ResModel> {
+    //console.log(getStorage({ key: 'token' }).access_token);
     return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ADVERTISINGS']}`,params).toPromise();
   }
 

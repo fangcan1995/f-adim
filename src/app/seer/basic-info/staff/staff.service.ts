@@ -14,6 +14,7 @@ export class StaffService extends BaseService<StaffModule> {
   }
 
   private staffsAPI = "http://172.16.7.4:8090/staffs";
+  // private staffsAPI = "http://172.16.1.27:8090/staffs";
   private educationsAPI = "educations";
   private relationsAPI = "relations";
   private businessAPI = "experiences";
