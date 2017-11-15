@@ -1,5 +1,6 @@
 :host /deep/ {
-  .table thead{ display: none}
+  .table{ border: none}
+  .table p{ cursor: pointer; margin-bottom: 0}
   .row .table tbody{     border-width: 0 0; border: none; border-color: #fff;}
   .table th,.table td{ border:none;padding:13px 0}
   .table td a{ color:#333333}

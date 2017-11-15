@@ -141,7 +141,10 @@ export class SeerTableComponent implements OnInit {
     this.notify.emit({type: 'select_one', data: event});
   }
 
-
+  handleClick($event, item) {
+    $event.preventDefault();
+    this.notify.emit({ type: 'click', data: item })
+  }
   handleActionsClick($event) {
     this.notify.emit({type: $event.action.type, data: $event.item});
   }

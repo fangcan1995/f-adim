@@ -5,7 +5,7 @@ import {AdvertisingService} from "../../advertising.service";
 import {Location} from "@angular/common";
 import {FileUploader, ParsedResponseHeaders, FileItem} from "ng2-file-upload";
 import {getStorage} from "../../../../../theme/libs/utils";
-//import {BASE_URL} from "../../../../../theme/services/base.service";
+import {BASE_URL,API} from "../../../../../theme/services/base.service";
 import * as _ from 'lodash';
 @Component({
   templateUrl: './adver-edit.component.html',
@@ -19,15 +19,13 @@ export class AdverEditComponent implements OnInit{
   public forbidSaveBtn: boolean = true;
   //上传图片相关
   fileApi="http://172.16.1.221:8070/advertising/file"; //上传接口
+  //fileApi=`${BASE_URL}/${API['ADVERTISINGS']}/file`; //上传接口
   token = getStorage({ key: 'token' });
   tokenType = this.token.token_type;
   accessToken =this.token.access_token;
   public attachments = [];
   public uploader:FileUploader; //上传对象
   public progress: number = 0; //上传进度
-  public imageType = ['jpg', 'jpeg', 'bmp', 'gif', 'png', 'svg'];  //图片类型
-  //fileId='';
-  //
 
   constructor(private _advertisingService: AdvertisingService,
               private _messageService: SeerMessageService,
@@ -60,7 +58,7 @@ export class AdverEditComponent implements OnInit{
               this.uploader.onCompleteAll = this.onCompleteAll.bind(this);
               //end
             }).catch(err => {
-            this.showError(err.json().message || '获取失败');
+            this.showError(err.msg || '获取失败');
           });
         } else if (this._editType === 'add') {
           this.forbidSaveBtn = false;
@@ -146,24 +144,7 @@ export class AdverEditComponent implements OnInit{
     } else {
       return;
     }
-    /*requestStream$
-      .subscribe(res => {
-        this._messageService.open({
-          icon: 'fa fa-times-circle',
-          message: res.msg,
-          autoHideDuration: 3000,
-        }).onClose().subscribe(() => {
-          this._router.navigate(['/seer/basic-info/member'])
-        });
-      }, errMsg => {
-        this.forbidSaveBtn = false;
-        // 错误处理的正确打开方式
-        this._messageService.open({
-          icon: 'fa fa-times-circle',
-          message: errMsg,
-          autoHideDuration: 3000,
-        })
-      })*/
+
 
   }
   showSuccess(message: string) {

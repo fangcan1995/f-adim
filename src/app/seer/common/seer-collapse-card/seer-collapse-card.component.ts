@@ -7,7 +7,7 @@ import { Animations } from '../../../theme/animations/animations';
   animations: [ Animations.slideInOut ]
 })
 export class SeerCollapseCardComponent implements OnInit, OnChanges {
-  @Input() title:String;
+  @Input() cardTitle:String;
   @Input() baCardClass:String;
   @Input() cardType:String;
   @Input() canCollapse: boolean = false;

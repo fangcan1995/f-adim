@@ -1,32 +1,28 @@
 <div style="margin:10px 30px; background: #c12e2a">
   <seer-card >
-    <!--<div class="row" style="margin-bottom: 10px;">
-      <seer-checkbox
-        *ngFor="let taskType of taskTypes;let i=index"
-        (click)="ckboxToggle(taskType,i)"
-        [isChecked]="isChecked[i]"
-        [label]="taskType.taskName"
-      >
-      </seer-checkbox>
-    </div>-->
-    <div class="row">
-      <seer-table *ngIf="tasks.length>0"
-        [data]="tasks"
-        [titles]="titles"
-        [translate]="dict"
-        [paginationRules]="0"
-        [pageNum]="pageInfo.pageNum"
-        [pageSize]="pageInfo.pageSize"
-        [total]="pageInfo.total"
-        [hideExport]="true"
-        [hidePrint]="true"
-        [hideRemoveAll]="true"
-        [hideColumns]="true"
-        [hideActions]="true"
-        [hideCheckbox]="true"
-        [hideAddButton]="true"
-        (changePage)="handlePageChange($event)"
-      ></seer-table>
+    <div class="row" style="margin-bottom: 10px;" >
+      <table class="table table-hover" *ngIf="tasks.length>0">
+        <tbody>
+        <tr *ngFor="let task of tasks">
+          <td><p (click)="preview(task.id)"><span class="label label-10000" >{{task.taskName}}</span> {{task.projectName}} 来自 {{task.memberName}} 的任务
+          </p></td>
+          <td>{{task.time}}</td>
+        </tr>
+        </tbody>
+        <tfoot >
+        <tr>
+          <td colspan="2">
+            <seer-pagination
+              [rowCount]="pageInfo.total"
+              [rowsOnPageSet]="[10, 15, 30]"
+              [rowsOnPage]="pageInfo.pageSize"
+              [pageNumber]="pageInfo.pageNum"
+              (notify)="onPageChange($event)"
+            ></seer-pagination>
+          </td>
+        </tr>
+        </tfoot>
+      </table>
     </div>
   </seer-card>
 </div>

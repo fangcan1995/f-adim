@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import {WorkspaceService} from "../../workspace.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {taskScategory} from "../../taskscategory";
 import {SeerMessageService} from "../../../../theme/services/seer-message.service"
 import * as _ from 'lodash';
@@ -13,52 +13,63 @@ import * as _ from 'lodash';
 export class TodoComponent implements OnInit {
   tasks = []; //任务列表
   titles = [
-    {key:'taskInfo',label:'任务',type:'html'},
-    {key:'time', label:'任务发布时间',type:'date-time'},
+    {key: 'taskInfo', label: '任务', type: 'html'},
+    {key: 'time', label: '任务发布时间', type: 'date-time'},
   ]; //任务表表头
-  pageInfo={
-    "pageNum":1,
-    "pageSize":10,
-    "sort":"",
-    "total":10,
-    "status":""
+  pageInfo = {
+    "pageNum": 1,
+    "pageSize": 10,
+    "sort": "",
+    "total": 10,
+    "status": ""
   }; //分页及排序
-  isChecked=[true,false,false,false,false,false,false]; //单选按钮默认选中状态
-  taskTypes=taskScategory;  //所有任务类型
-  currentType=0;  //当前选中类型
-  constructor(
-    private service: WorkspaceService,
-    private router:Router,
-    private _messageService: SeerMessageService) {
+  isChecked = [true, false, false, false, false, false, false]; //单选按钮默认选中状态
+  taskTypes = taskScategory;  //所有任务类型
+  currentType = 0;  //当前选中类型
+  constructor(private service: WorkspaceService,
+              private _router: Router,
+              private route: ActivatedRoute,
+              private _messageService: SeerMessageService) {
   }
+
   ngOnInit(): void {
+
+    this.service.getCounts().then(res=>{
+      console.log(res);
+    }).catch(err=>{
+      this.showError(err.msg || '获取任务数量失败');
+    });
     this.getList();
   }
+
   //获取列表
-  getList(){
+  getList() {
     this.service.getTasks(this.pageInfo).then((res) => {
-      this.pageInfo.pageNum=res.data.pageNum;  //当前页
-      this.pageInfo.pageSize=res.data.pageSize; //每页记录数
-      this.pageInfo.total=res.data.total; //记录总数
+      this.pageInfo.pageNum = res.data.pageNum;  //当前页
+      this.pageInfo.pageSize = res.data.pageSize; //每页记录数
+      this.pageInfo.total = res.data.total; //记录总数
       this.tasks = res.data.list;         //记录列表
+      console.log(this.tasks);
       //拼装数据
       this.tasks = _.map(this.tasks, r => {
-        let tasktype=_.find(this.taskTypes,x => x.code === r.projectStatus)||{"editPageUrl":"","code":"10000","taskName":"错误"};
-        let taskInfo=`<a href="${tasktype.editPageUrl}${r.id}" target="_blank"><span class="label label-${tasktype.code}" >${tasktype.taskName}</span> ${r.projectName} 来自 ${r.memberName} 的任务</a>`;
-        return _.set(r, 'taskInfo', taskInfo);
+        let tasktype = _.find(this.taskTypes, x => x.code === r.projectStatus) || {
+          "code": "test",
+          "taskName": "test"
+        };
+        return _.set(r, 'taskType',`${tasktype.taskName}` );
       });
-  }).catch(err=>{
-    this.showError(err.msg || '待办任务获取失败');
-  });
+    }).catch(err => {
+      this.showError(err.msg || '待办任务获取失败');
+    });
   }
 
   //模拟checkbox切换状态
-  ckboxToggle(taskType:any,index){
-    if(this.currentType!=index){
-      this.isChecked=[false,false,false,false,false,false,false];
-      this.isChecked[index]=true;
-      this.currentType=index;
-      this.pageInfo.status=taskType.code;
+  ckboxToggle(taskType: any, index) {
+    if (this.currentType != index) {
+      this.isChecked = [false, false, false, false, false, false, false];
+      this.isChecked[index] = true;
+      this.currentType = index;
+      this.pageInfo.status = taskType.code;
       this.getList()
     }
 
@@ -67,8 +78,17 @@ export class TodoComponent implements OnInit {
   //换页
   handlePageChange($event) {
     this.pageInfo.pageSize = $event.pageSize;
-    this.pageInfo.pageNum=$event.pageNum;
+    this.pageInfo.pageNum = $event.pageNum;
     this.getList();
+  }
+
+  //成功提示
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
   }
 
   //错误提示
@@ -79,4 +99,52 @@ export class TodoComponent implements OnInit {
       autoHideDuration: 3000,
     })
   }
+
+  //页面跳转
+  public loadForm(formType, id) {
+    let url = `/business/forms/`;
+    switch (formType) {
+      //补填资料
+      case '10':
+        this._router.navigate([url + 'completion', id], {relativeTo: this.route});
+        break;
+
+      //初审
+      case '20':
+        this._router.navigate([url + 'firstAudit', id], {relativeTo: this.route});
+        break;
+
+      //复审
+      case '30':
+        this._router.navigate([url + 'secondAudit', id], {relativeTo: this.route});
+        break;
+
+      //发布
+      case '40':
+        this._router.navigate([url + 'release', id], {relativeTo: this.route});
+        break;
+
+      //满标
+      case '60':
+        this._router.navigate([url + 'fillAudit', id], {relativeTo: this.route});
+        break;
+
+      //提前还款审核
+      case '81':
+        this._router.navigate([url + 'fillAudit', id], {relativeTo: this.route});
+        break;
+
+      //详情
+      case 'preview':
+        this._router.navigate([url + 'detail', id], {relativeTo: this.route});
+        break;
+
+      //测试页面
+      case 'test':
+        this._router.navigate([url + 'fillAudit', id], {relativeTo: this.route});
+        break;
+
+    }
+  }
+
 }

@@ -17,4 +17,10 @@ export class WorkspaceService extends BaseService<ResModel>{
     let url = `${BASE_URL}/${API['TASKS']}/works/complete`;
     return this._httpInterceptorService.request('GET', url,params).toPromise();
   }
+
+  //获取各种任务的总数
+  getCounts(): Promise<ResModel> {
+    let url = `${BASE_URL}/${API['TASKS']}/works/todo/count`;
+    return this._httpInterceptorService.request('GET', url).toPromise();
+  }
 }

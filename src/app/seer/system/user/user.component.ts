@@ -92,10 +92,6 @@ export class UserComponent implements OnInit {
       label: '最后登录IP',
     },
     {
-      key: 'loginIp',
-      label: '最后登录IP',
-    },
-    {
       key: 'loginDate',
       label: '最后登录时间',
       type: 'date-time',
