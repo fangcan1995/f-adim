@@ -6,7 +6,8 @@ import { routing } from './project.routing';
 import { ProjectService } from "./project.service";
 
 import { ProjectComponent } from './project.component';
-import { ProjectEditComponent } from './components/project-edit/project-edit.component';
+import {CommonService} from "../common/common.service";
+import {MemberService} from "../../basic-info/member/member.service";
 @NgModule({
   imports: [
     NgaModule,
@@ -15,10 +16,12 @@ import { ProjectEditComponent } from './components/project-edit/project-edit.com
   ],
   declarations: [
     ProjectComponent,
-    ProjectEditComponent,
   ],
   providers: [
     ProjectService,
+    CommonService,
+    MemberService
+
   ],
 })
 export class ProjectModule {

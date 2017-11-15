@@ -5,10 +5,15 @@
         <div class="row">
           <label for="actionType" class="col-sm-4 control-label">审批意见</label>
           <div class="col-sm-8">
+            <!--
             <select class="form-control" id="actionType" placeholder="" [(ngModel)]="actionType" [ngModelOptions]="{standalone: true}"
                     dict-select
                     [key]="'ACTION_TYPE'"
                     [selected]="103">
+            </select>
+            -->
+            <select class="form-control" id="actionType" placeholder="" [(ngModel)]="actionType" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let item of nextNodes" value="{{item.actionType}}">{{item.nodeName}}</option>
             </select>
           </div>
         </div>

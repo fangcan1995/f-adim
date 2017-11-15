@@ -1,141 +1,130 @@
 import { Component } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
 import * as _ from 'lodash';
-import { TargetService } from "./target.service";
-import {UPDATE, DELETE} from "../../common/seer-table/seer-table.actions"
+
+import {CommonService} from "../common/common.service";
+import {TargetService} from "./target.service";
 
 @Component({
   templateUrl: './target.component.html',
   styleUrls: ['./target.component.scss'],
 })
+
 export class TargetComponent {
-  constructor( private service: TargetService, private _router: Router, private route: ActivatedRoute) {}
+
   hasGlobalFilter = true;
-  source = [];
+
+  //过滤器
   filters = [
-   {
-      key: 'userName',
-      label: '用户姓名',
-      type: 'input.text',
-    },
-     {
-      key: 'tel',
-    label: '手机号码',
-      type: 'input.text',
+    {
+      key: 'userName', label: '用户姓名', type: 'input.text'
     },
     {
-      key: 'type',
-      label: '借款方式',
-      type: 'select',
-      options: [
-        {
-          content: '全部'
-        },
-        {
-          value: '0',
-          content: '汇车贷'
-        },
-        {
-          value: '1',
-          content: '汇房贷',
-        },
-        {
-          value: '2',
-          content: '信用贷',
-        },
-      ]
+      key: 'phoneNumber', label: '手机号', type: 'input.text'
     },
     {
-      key: 'time',
-      label: '借款期限',
-      type: 'select',
-      options: [
-        {
-          content: '全部'
-        },
-        {
-          value: '0',
-          content: '三个月'
-        },
-        {
-          value: '1',
-          content: '六个月',
-        },
-        {
-          value: '2',
-          content: '一年',
-        },
-      ]
+      key: 'loanApplyType', label: '借款类型', type: 'select', isDict: true, category: 'LOAN_APPLY_TYPE'
     },
     {
-      key: 'state',
-      label: '项目状态',
-      type: 'select',
-      options: [
-        {
-          content: '全部'
-        },
-        {
-          value: '0',
-          content: '待标的发布'
-        },
-        {
-          value: '1',
-          content: '投资中',
-        },
-        {
-          value: '2',
-          content: '待满标审核',
-        },
-        {
-          value: '3',
-          content: '流标',
-        },
-        {
-          value: '4',
-          content: '待标的发布',
-        },
-      ]
+      key: 'loanApplyExpiry', label: '借款期限', type: 'select', isDict: true, category: 'LOAN_APPLY_EXPIRY'
     },
     {
-      key: 'time',
-      label: '发布时间',
-      type: 'input.date',
+      key: 'applyStatus', label: '项目状态', type: 'select', isDict: true, category: 'PROJECT_STATUS'
     },
-  ]
-  titles = [
-    {key:'number',label:'编号'},
-    {key:'pNumber',label:'项目编号'},
-    {key:'userName',label:'用户姓名'},
-    {key:'telPhone',label:'手机号码'},
-    {key:'type',label:'借款类型'},
-    {key:'money',label:'借款金额'},
-    {key:'date',label:'借款期限'},
-    {key:'time',label:'申请时间'},
-    {key:'state',label:'项目状态'},
+    {
+      key: 'applyTimeStart', label: '申请时间', type: 'input.text'
+    },
+    {
+      key: 'applyTimeEnd', label: '至', type: 'input.text'
+    },
   ];
- 
+
+  //表格标题
+  titles = [
+    {
+      key:'projectCode', label:'项目编号'
+    },
+    {
+      key:'userName', label:'用户名',
+    },
+    {
+      key:'phoneNumber', label:'手机号'
+    },
+    {
+      key:'loanApplyType', label:'借款类型', isDict: true, category: 'LOAN_APPLY_TYPE'
+    },
+    {
+      key:'applyAmt', label:'借款金额'
+    },
+    {
+      key:'loanApplyExpiry', label:'借款期限', isDict: true, category: 'LOAN_APPLY_EXPIRY'
+    },
+    {
+      key:'publishTime', label:'发布时间'
+    },
+    {
+      key:'projectStatus', label:'项目状态', isDict: true, category: 'PROJECT_STATUS'
+    },
+  ];
+
+  //查询参数，分页、排序、检索
+  pageInfo = {
+    "pageNum": 1,
+    "pageSize": 10,
+    "sort": "-createTime",
+    "total": "",
+    "globalSearch": "",
+    "userName": "",
+    "phoneNumber": "",
+    "loanApplyType": "",
+    "loanApplyExpiry": "",
+    "applyStatus": "",
+    "applyTimeStart": "",
+    "applyTimeEnd": "",
+  };
+
+  source = [];
+
+  constructor(
+    private service: TargetService,
+    private commonService: CommonService) {}
+
   ngOnInit() {
+
     this.getList();
-  }
-  getList(params?):void{
-      this.service.getDatas()
-      .then(res => {
-        this.source = res.data;
-        this.source = _.map(this.source, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
-      });
-  }
-  onChange(message):void {
-    const type = message.type;
-    let data = message.data;
-     switch ( type ) {
-      case 'update':
-        this._router.navigate(['business/target/add']);
-        // this._router.navigate(['completion', data.projectId],{relativeTo: this.route});
-        break;
-    }
+
   }
 
- 
+  //初始化数据
+  getList(): void{
+    this.service.getList(this.pageInfo).then((res: any) => {
+      console.log(res.data.list);
+      this.pageInfo.pageNum=res.data.pageNum;  //当前页
+      this.pageInfo.pageSize=res.data.pageSize; //每页记录数
+      this.pageInfo.total=res.data.total; //记录总数
+      this.source = res.data.list;
+      this.source = _.map(this.source, i => {
+        return _.set(i, 'actions', this.commonService.setAction(i.projectStatus));
+      });
+    });
+  }
+
+  //分页查询
+  handlePageChange($event) {
+    this.pageInfo.pageSize = $event.pageSize;
+    this.pageInfo.pageNum = $event.pageNum;
+    this.getList();
+  }
+
+  //全局检索
+  handleFiltersChanged($event) {
+    let params = $event;
+    this.pageInfo = Object.assign({}, this.pageInfo, params);
+    this.getList();
+  }
+
+  //操作
+  onChange($event) {
+    this.commonService.loadForm($event.type, $event.data.id);
+  }
 }
 

@@ -63,7 +63,7 @@ export class IntentionCompletionComponent implements OnInit, OnChanges {
     //this.getDicts();
   }
 
-  //通过id获取意向信息
+  //通过id获取详细信息
   protected getProjectById(id :string) {
     this.service.getProjectById(id).then((res) => {
       if("0" == res.code) {
@@ -131,14 +131,4 @@ export class IntentionCompletionComponent implements OnInit, OnChanges {
     this._location.back();
   }
 
-  private handleSaveBtnClick(){
-    this.service.completion(this.submitData).then(res => {
-      if(0 == res.code) {
-        this.showSuccess(res.msg || '已提交');
-        this._router.navigate(['business/intention']);
-      } else {
-        this.showError(res.msg || '提交失败');
-      }
-    });
-  }
 }

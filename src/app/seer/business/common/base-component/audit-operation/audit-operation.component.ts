@@ -1,8 +1,8 @@
 
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from "@angular/core";
 
 import {CommonService} from "../../common.service";
-
+import { Location } from '@angular/common';
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 import {Router} from "@angular/router";
 
@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
   templateUrl: './audit-operation.component.html',
   styleUrls: ['./audit-operation.component.scss']
 })
-export class AuditOperationComponent implements OnInit {
+export class AuditOperationComponent implements OnInit, OnChanges {
 
   @Input()
   public projectId: string;
@@ -25,12 +25,37 @@ export class AuditOperationComponent implements OnInit {
 
   public reason: string = "";
 
-  constructor(private service: CommonService, private _messageService: SeerMessageService, private _router: Router,){}
+  private nextNodes: any[] = [];
+
+  constructor(
+    private service: CommonService,
+    private _messageService: SeerMessageService,
+    private _router: Router,
+    private _location: Location,){}
 
   ngOnInit() {
 
   }
 
+  ngOnChanges() {
+      if(this.loan) {
+        this.getNextNodes(this.loan.taskId);
+      }
+  }
+
+
+  //获取下级节点
+  public getNextNodes(nodeId) {
+      this.service.getNextNodes(nodeId).then(res => {
+        if(res.code == 0) {
+            this.nextNodes = res.data;
+        }else {
+          console.log(res.message);
+        }
+      }).catch(e => {
+        console.log(e)
+      });
+  }
   public submit(): void {
 
     let param = {
@@ -42,21 +67,25 @@ export class AuditOperationComponent implements OnInit {
 
     if(this.loan.projectStatus == 10) {
       this.service.completion(param).then(res => {
-        console.log(res);
         if(0 == res.code) {
-          this.showSuccess(res.msg || '已提交');
-          this._router.navigate(['business/intention']);
+          //this.showSuccess(res.msg || '已提交');
+          this.showSuccess('已提交');
+          this.handleBackBtnClick();
         } else {
-          this.showError(res.msg || '提交失败');
+          //this.showError(res.msg || '提交失败');
+          this.showError('提交失败');
+          this.handleBackBtnClick();
         }
       });
     }else {
       this.service.audit(param).then(res => {
         if(0 == res.code) {
-          this.showSuccess(res.msg || '已提交');
-          this._router.navigate(['business/intention']);
+          //this.showSuccess(res.msg || '已提交');
+          this.showSuccess('已提交');
+          this.handleBackBtnClick();
         } else {
-          this.showError(res.msg || '提交失败');
+          //this.showError(res.msg || '提交失败');
+          this.handleBackBtnClick();
         }
       });
     }
@@ -76,5 +105,9 @@ export class AuditOperationComponent implements OnInit {
       icon: 'fa fa-times-circle',
       autoHideDuration: 3000,
     })
+  }
+
+  handleBackBtnClick() {
+    this._location.back();
   }
 }

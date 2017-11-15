@@ -67,9 +67,11 @@ export class CreditInfoComponent implements OnInit, OnChanges {
   public query(param, creditType):void {
     this.service.getMemberCredit(param.memberId, creditType).then(res => {
       if(0 == res.code) {
-        this.showSuccess(res.msg || '保存成功');
+        //this.showSuccess(res.msg || '保存成功');
+        this.showSuccess('查询成功');
       } else {
-        this.showError(res.msg || '保存失败');
+        //this.showError(res.msg || '查询失败');
+        this.showError('查询失败');
       }
     });
   }

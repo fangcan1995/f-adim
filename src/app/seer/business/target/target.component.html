@@ -3,8 +3,8 @@
   <seer-filter
     [hasGlobalFilter]="hasGlobalFilter"
     [filters]="filters"
-    (onFiltersChanged)=handleFiltersChanged($event)
-    (onSearchBtnClicked)=handleSearchBtnClicked($event)
+    (onFiltersChanged)= handleFiltersChanged($event)
+    (onSearchBtnClicked)=handleFiltersChanged($event)
   ></seer-filter>
 </seer-collapse-card>
 <seer-collapse-card
@@ -12,8 +12,16 @@
   <seer-table
     [data]="source"
     [titles]="titles"
-    [translate]="dict"
+    [pageNum]="pageInfo.pageNum"
+    [pageSize]="pageInfo.pageSize"
+    [total]="pageInfo.total"
+    [paginationRules]="0"
     (notify)="onChange($event)"
+    (changePage)="handlePageChange($event)"
+    [hideExport]="true"
+    [hidePrint]="true"
+    [hideRemoveAll]="true"
+    [hideColumns]="true"
+    [hideAddButton]="true"
   ></seer-table>
 </seer-collapse-card>
-

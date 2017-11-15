@@ -4,7 +4,7 @@ import {BASE_URL, BaseService} from "../../../theme/services/base.service";
 import {HttpInterceptorService} from "../../../theme/services/http-interceptor.service";
 import {Http, RequestOptions, ResponseContentType} from "@angular/http";
 import {
-  COMPLETION, DETAIL, FILLAUDIT, FIRSTAUDIT, PREPAYAUDIT, RELEASE, SECONDAUDIT
+  COMPLETION, DETAIL, FILLAUDIT, FIRSTAUDIT, PREPAYAUDIT, RELEASE, SECONDAUDIT, TEST
 } from "./workflow-action";
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -18,6 +18,12 @@ export class CommonService extends BaseService<any>{
     private _http: Http) {
     super(_httpInterceptorService);
     this.setApi('/intentions/loan');
+  }
+
+  //新增意向申请
+  public getNextNodes(nodeId): Promise<any> {
+    let url = BASE_URL + `/subject/intentions/nextNode/${nodeId}`;
+    return this._httpInterceptorService.request('GET', url, false).toPromise();
   }
 
   //新增意向申请
@@ -130,7 +136,7 @@ export class CommonService extends BaseService<any>{
 
       //投资中
       case "50":
-        actions = [DETAIL]; break;
+        actions = [DETAIL, TEST]; break;
 
       //待满标审核
       case "60":
@@ -138,7 +144,7 @@ export class CommonService extends BaseService<any>{
 
       //还款中
       case "70":
-        actions = [DETAIL]; break;
+        actions = [DETAIL, TEST]; break;
 
       //提前还款申请
       case "80":
@@ -146,7 +152,7 @@ export class CommonService extends BaseService<any>{
 
       //待提前还款
       case "81":
-        actions = [DETAIL]; break;
+        actions = [DETAIL, TEST]; break;
 
       //已流标
       case "90":
@@ -163,7 +169,7 @@ export class CommonService extends BaseService<any>{
     return actions;
   }
 
-  public loadForm(formType, param) {
+  public loadForm(formType,id) {
 
     let url = `/business/forms/`;
     switch (formType) {
@@ -174,31 +180,38 @@ export class CommonService extends BaseService<any>{
 
       //补填资料
       case 'completion':
-        this._router.navigate([url + 'completion', param.id],{relativeTo: this.route}); break;
+        this._router.navigate([url + 'completion', id],{relativeTo: this.route}); break;
 
       //初审
       case 'firstAudit':
-        this._router.navigate([url + 'firstAudit', param.id],{relativeTo: this.route}); break;
+        this._router.navigate([url + 'firstAudit', id],{relativeTo: this.route}); break;
 
       //复审
       case 'secondAudit':
-        this._router.navigate([url + 'secondAudit', param.id],{relativeTo: this.route}); break;
+        this._router.navigate([url + 'secondAudit', id],{relativeTo: this.route}); break;
 
       //发布
       case 'release':
-        this._router.navigate([url + 'release', param.id],{relativeTo: this.route}); break;
+        this._router.navigate([url + 'release', id],{relativeTo: this.route}); break;
 
       //满标
       case 'fillAudit':
-        this._router.navigate([url + 'fillAudit', param.id],{relativeTo: this.route}); break;
+        this._router.navigate([url + 'fillAudit', id],{relativeTo: this.route}); break;
 
       //提前还款审核
       case 'prepayAudit':
-        this._router.navigate([url + 'fillAudit', param.id],{relativeTo: this.route}); break;
+        this._router.navigate([url + 'fillAudit', id],{relativeTo: this.route}); break;
 
       //详情
       case 'preview':
-        this._router.navigate([url + 'detail', param.id],{relativeTo: this.route}); break;
+        this._router.navigate([url + 'detail', id],{relativeTo: this.route}); break;
+
+      //测试页面
+      case 'test':
+        this._router.navigate([url + 'fillAudit', id],{relativeTo: this.route}); break;
+
     }
   }
+
+
 }
