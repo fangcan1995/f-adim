@@ -43,7 +43,7 @@ export class InfoPublishEditComponent implements  OnInit, OnChanges {
   /* 上传图片相关 */
   fileApi = 'http://172.16.1.221:8070/affiche/file';
   token = getStorage({key: 'token'});
-  tokeType = this.token.token_type;
+  tokenType = this.token.token_type;
   accessToken = this.token.access_token;
   public attachments = [];
   public uploader:FileUploader; //上传对象
@@ -105,25 +105,30 @@ export class InfoPublishEditComponent implements  OnInit, OnChanges {
           this.cacheMemory = _.cloneDeep(this.infoPublishSource);
           this.saveButtonState = false;
           console.log(this.infoPublishSource);
-          /* 初始化uploader变量，用来配置input 中的uploader属性 */
-          /*let headers = [{name: '', value: `${this.tokeType}${this.accessToken}`}];
+          //初始化uploader变量，用来配置input 中的uploader属性
+          let headers = [{name: 'Authorization', value: `${this.tokenType}${this.accessToken}`}];
           this.uploader = new FileUploader({
             url: `${this.fileApi}?id=${this.newsId}&fileId=${this.infoPublishSource.fileId}`,
             method: 'PUT',
             headers: headers
-          });*/
-        }, errMsg => {
-          this._messageService.open({
-            icon: 'fa fa-times-circle',
-            message: errMsg,
-            autoHideDuration: 3000,
-          }).onClose().subscribe( () => {
-            this._location.back();
-          })
+          });
+          this.uploader.onSuccessItem = this.successItem.bind(this);
+          this.uploader.onCompleteAll = this.onCompleteAll.bind(this);
+        }).catch(err => {
+          this.showError(err.msg || '获取失败');
         });
       }
       else if(this._editType == 'add') {
         this.saveButtonState = false;
+        // 初始化定义uploader变量,用来配置input中的uploader属性
+        let headers = [{name: 'Authorization', value: `${this.tokenType} ${this.accessToken}`}];
+        this.uploader = new FileUploader({
+          url: this.fileApi,
+          method: "POST",
+          headers:headers,
+        });
+        this.uploader.onSuccessItem = this.successItem.bind(this);
+        this.uploader.onCompleteAll = this.onCompleteAll.bind(this);
       }
     });
 
@@ -190,8 +195,14 @@ export class InfoPublishEditComponent implements  OnInit, OnChanges {
 
     if($event.eventName == TREE_EVENTS.onActivate) {
       console.log($event.node.data);
-      this.infoPublishSource.typeId = $event.node.data.id;
-      this.infoPublishSource.affTypeName = $event.node.data.affTypeName;
+      if($event.node.data.isRoot === 2) {
+        this.infoPublishSource.typeId = $event.node.data.id;
+        this.infoPublishSource.affTypeName = $event.node.data.affTypeName;
+      }
+      else {
+        this.showError('不能选择根栏目，请选择最终子栏目创建文章！').onClose();
+      }
+
     }
 
   }
