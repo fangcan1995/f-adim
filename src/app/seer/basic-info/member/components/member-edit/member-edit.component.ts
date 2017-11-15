@@ -1,10 +1,11 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild,TemplateRef } from '@angular/core';
 import { Router, ActivatedRoute,} from '@angular/router';
 import { Location } from '@angular/common';
 import * as _ from 'lodash';
 import { MemberService } from '../../member.service';
 import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
-import {UPDATE, DELETE,DOWNLOAD, PREVIEW,SAVE} from "../../../../common/seer-table/seer-table.actions"
+import {BsModalRef, BsModalService} from "ngx-bootstrap";
+import {UPDATE, DELETE,DOWNLOAD, PREVIEW,SAVE,CREATE} from "../../../../common/seer-table/seer-table.actions"
 
 @Component({
   templateUrl: './member-edit.component.html',
@@ -28,7 +29,8 @@ export class MemberEditComponent implements OnInit {
   houseInfo: any = [];  //房屋信息
   creditInfo: any = [];//个人征信信息
   simpleTableActions = [UPDATE, DELETE];
-  collapseCardActions = [SAVE];
+  saveActions=[SAVE];
+  addActions=[CREATE];
   titlesEmergencyContact=[
     {
       key:'contName',
@@ -78,12 +80,22 @@ export class MemberEditComponent implements OnInit {
     { key:'creditLevel', label:'综合信用等级' },
     { key:'creditExpire', label:'有效日期' },
   ];//征信
+  house={};
+  vehicle={};
+  public credits: any[] = [];
+
+  public riskReport:any = {};
+
+  public creditReport:any = {};
+
+  public antiFraudReport:any = {};
   constructor(
     private _memberService: MemberService,
     private _messageService: SeerMessageService,
     private _route: ActivatedRoute,
     private _router: Router,
     private _location: Location,
+    private modalService: BsModalService
   ) {}
   ngOnInit() {
     this._route.url.mergeMap(url => {
@@ -340,5 +352,34 @@ export class MemberEditComponent implements OnInit {
       icon: 'fa fa-times-circle',
       autoHideDuration: 3000,
     })
+  }
+  //弹出层
+  public modalRef: BsModalRef;
+  public openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+  //新增车辆弹出层
+  private vehicleReadOnly: boolean = true;
+  public vehicleModal(template: TemplateRef<any>, vehicleReadOnly: boolean, vehicle?: any) {
+
+    if(vehicleReadOnly) {
+      this.vehicle = vehicle;
+    }else {
+      this.vehicle = {};
+    }
+    this.vehicleReadOnly = vehicleReadOnly;
+    this.openModal(template);
+  }
+
+  //新增房产弹出层
+  private houseReadOnly: boolean = true;
+  public houseModal(template: TemplateRef<any>,houseReadOnly, house?: any) {
+    if(houseReadOnly) {
+      this.house = house;
+    }else {
+      this.house = {};
+    }
+    this.houseReadOnly = houseReadOnly;
+    this.openModal(template);
   }
 }
