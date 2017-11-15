@@ -110,11 +110,8 @@ export class BaPageTop implements OnInit {
   }
 
   redirectToLogin() {
-    let url = location.pathname;
-    this._authService.redirectUrl = url;
-    let oldQueryString = location.search;
-    let oldQueryParams = parseQueryString(oldQueryString);
-    this._authService.redirectSearch = oldQueryParams;
+    this._authService.redirectUrl = null;
+    this._authService.redirectSearch = null;
     this.router.navigate(['/login']);
   }
 

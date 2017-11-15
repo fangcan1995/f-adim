@@ -81,7 +81,7 @@
       </td>
       <td *ngIf="showSeq" class="table-seq"><span class="seer_font">{{ item.SEQ }}</span></td>
       <td *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
-        <a *ngIf="title.type=='link'" class="seer_font seer_a_font" href="{{item[title.key]}}" title="{{item[title.key]}}">{{item[title.key]}}</a>
+        <a *ngIf="title.type=='link'" class="seer_font seer_a_font" target="{{title.target || '_blank'}}" href="{{item[title.href] || item[title.key]}}" title="{{item[title.key]}}">{{item[title.key]}}</a>
         <a href *ngIf="title.type === 'clickable' "  class="seer_font seer_a_font" (click)="handleClick($event, item)"  title="{{item[title.key]}}">{{item[title.key]}}</a>
         <input  *ngIf="title.type=='input_number'" type="number" class="form-control" title="{{item[title.key]}}" [(ngModel)]="item[title.key]"/>
 
