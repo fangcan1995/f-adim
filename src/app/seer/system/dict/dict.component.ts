@@ -40,6 +40,7 @@ export class DictComponent implements OnInit {
     {
       key:'category',
       label:'字典编号',
+      type: 'clickable'
     },
     {
       key:'categoryName',
