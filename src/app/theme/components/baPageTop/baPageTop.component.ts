@@ -26,7 +26,7 @@ export class BaPageTop implements OnInit {
   @ViewChild('pageTop') pageTop: ElementRef;
   @ViewChild('modal') modal: ModalDirective;
   @ViewChild('myForm') myForm;
-  
+
   public isScrolled:boolean = false;
   isSuccess: boolean;
   loginName: string;
@@ -38,7 +38,7 @@ export class BaPageTop implements OnInit {
   _offsetTop:number;
 
   user:any = {};
-  
+
   form:FormGroup;
   constructor(
     private router: Router,
@@ -102,6 +102,11 @@ export class BaPageTop implements OnInit {
   public logout($event) {
     $event.preventDefault();
     this._authService.logout().subscribe(this.redirectToLogin.bind(this));
+  }
+
+  onOpenPersonalInfo() {
+    let id =  this.user.userId;
+    this.router.navigate([`../../../basic-info/personal-info/${id}`]);
   }
 
   redirectToLogin() {

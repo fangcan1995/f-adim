@@ -12,6 +12,7 @@ const routes: Routes = [
       { path: 'staff-manage', loadChildren:'./staff/staff.module#StaffModule' },
       { path: 'org', loadChildren:'./org/org.module#OrgModule' },
       { path: 'member', loadChildren:'./member/member.module#MemberModule' },
+      { path: 'personal-info', loadChildren:'./personal-info/personal-info.module#PersonalInfoModule' },
     ]
   }
 ];

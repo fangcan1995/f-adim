@@ -1,6 +1,7 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Router, ActivatedRoute,} from '@angular/router';
 import {Location} from '@angular/common';
+import * as _ from 'lodash';
 import {SeerMessageService} from '../../../../../theme/services/seer-message.service';
 import {StaffService} from '../../staff.service';
 import {titlesEducation, titlesRelation, titlesExperience} from '../../staff.config';
@@ -78,9 +79,9 @@ export class StaffAddComponent implements OnInit {
 
   //职位保存基本信息
   jobInfoNotify() {
-    console.log(this.staff.sysEmployer);
-    this.timestampFormat();
-    this._staffService.putOne(this.staff.sysEmployer.id, this.staff.sysEmployer).then((result) => {
+    let staffinfo = _.cloneDeep(this.staff);
+    this.timestampFormat(staffinfo);
+    this._staffService.putOne(staffinfo.sysEmployer.id, staffinfo.sysEmployer).then((result) => {
       console.log(this.staff.sysEmployer);
       if (result.code == 0) {
         this.alertSuccess("添加成功");
@@ -92,8 +93,9 @@ export class StaffAddComponent implements OnInit {
 
   //职位个人基本信息
   staffInfoNotify() {
-    this.timestampFormat();
-    this._staffService.putOne(this.staff.sysEmployer.id, this.staff.sysEmployer).then((result) => {
+    let staffinfo = _.cloneDeep(this.staff);
+    this.timestampFormat(staffinfo);
+    this._staffService.putOne(staffinfo.sysEmployer.id, staffinfo.sysEmployer).then((result) => {
       console.log(this.staff.sysEmployer);
       if (result.code == 0) {
         this.alertSuccess("添加成功");
@@ -104,21 +106,21 @@ export class StaffAddComponent implements OnInit {
   }
 
   /*Date类型转化为时间戳*/
-  timestampFormat() {
-    if (this.staff.sysEmployer.entryTime != null && this.staff.sysEmployer.entryTime != "") {
-      this.staff.sysEmployer.entryTime = this.staff.sysEmployer.entryTime.getTime();
+  timestampFormat(data) {
+    if (data.sysEmployer.entryTime != null && data.sysEmployer.entryTime != "") {
+      data.sysEmployer.entryTime = data.sysEmployer.entryTime.getTime();
     }
-    if (this.staff.sysEmployer.exitTime != null && this.staff.sysEmployer.exitTime != "") {
-      this.staff.sysEmployer.exitTime = this.staff.sysEmployer.exitTime.getTime();
+    if (data.sysEmployer.exitTime != null && data.sysEmployer.exitTime != "") {
+      data.sysEmployer.exitTime = data.sysEmployer.exitTime.getTime();
     }
-    if (this.staff.sysEmployer.contractStartDate != null && this.staff.sysEmployer.contractStartDate != "") {
-      this.staff.sysEmployer.contractStartDate = this.staff.sysEmployer.contractStartDate.getTime();
+    if (data.sysEmployer.contractStartDate != null && data.sysEmployer.contractStartDate != "") {
+      data.sysEmployer.contractStartDate = data.sysEmployer.contractStartDate.getTime();
     }
-    if (this.staff.sysEmployer.contractEndDate != null && this.staff.sysEmployer.contractEndDate != "") {
-      this.staff.sysEmployer.contractEndDate = this.staff.sysEmployer.contractEndDate.getTime();
+    if (data.sysEmployer.contractEndDate != null && data.sysEmployer.contractEndDate != "") {
+      data.sysEmployer.contractEndDate = data.sysEmployer.contractEndDate.getTime();
     }
-    if (this.staff.sysEmployer.empBirth != null && this.staff.sysEmployer.empBirth != "") {
-      this.staff.sysEmployer.empBirth = this.staff.sysEmployer.empBirth.getTime();
+    if (data.sysEmployer.empBirth != null && data.sysEmployer.empBirth != "") {
+      data.sysEmployer.empBirth = data.sysEmployer.empBirth.getTime();
     }
   }
 
