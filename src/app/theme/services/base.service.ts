@@ -9,10 +9,7 @@ import {
 import { getStorage, setStorage, castDict2Translate } from '../libs';
 
 const BASE_DOMAIN = '172.16.7.4';
-// '172.16.1.234'
 const BASE_PORT = 8020;
-// const BASE_DOMAIN = '172.16.1.27';
-// const BASE_PORT = 8090;
 const BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export const BASE_URL = `http://${BASE_SERVER}`;
 export const API = {
