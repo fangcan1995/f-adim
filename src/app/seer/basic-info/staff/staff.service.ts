@@ -43,6 +43,11 @@ export class StaffService extends BaseService<StaffModule> {
     return this._httpInterceptorService.request('GET', `${this.staffsAPI}/${id}`).toPromise();
   }
 
+  getDetailOne(id: string): Promise<any> {
+    // return super.getOne(id);
+    return this._httpInterceptorService.request('GET', `${this.staffsAPI}/detail/${id}`).toPromise();
+  }
+
   // 3、添加一个员工
   postOne(params: StaffModule): Promise<any> {
     // return super.postOne(params);
