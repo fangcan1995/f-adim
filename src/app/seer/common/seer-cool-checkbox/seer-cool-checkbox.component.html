@@ -1,4 +1,8 @@
 <label class="cool-checkbox">
-  <input [id]="id" [name]="name" type="checkbox" class="cool-checkbox-input" [(ngModel)]="checked" [disabled]="disabled" [indeterminate]="true" />
-  <span class="cool-checkbox-indicator fa fa-check"></span>
+  <input #checkboxInput [id]="id" [name]="name" type="checkbox" class="cool-checkbox-input" [(ngModel)]="checked" [disabled]="disabled" [indeterminate]="indeterminate" />
+  <span
+  	class="cool-checkbox-indicator fa"
+  	[class.fa-check]="checkboxInput.checked"
+	[class.fa-minus]="checkboxInput.indeterminate"
+  ></span>
 </label>

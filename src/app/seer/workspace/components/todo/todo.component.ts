@@ -24,7 +24,7 @@ export class TodoComponent implements OnInit {
     "status": ""
   }; //分页及排序
   isChecked = [true, false, false, false, false, false, false]; //单选按钮默认选中状态
-  taskTypes = taskScategory;  //所有任务类型
+  taskTypes = _.cloneDeep(taskScategory);  //所有任务类型
   currentType = 0;  //当前选中类型
   constructor(private service: WorkspaceService,
               private _router: Router,
@@ -33,7 +33,11 @@ export class TodoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //获取各类任务的数量
+    this.getCounts();
+    this.getList();
+  }
+  //获取任务数量
+  getCounts(){
     this.service.getCounts().then(res=>{
       let totals=0;
       this.taskTypes.map(r => {
@@ -46,9 +50,7 @@ export class TodoComponent implements OnInit {
     }).catch(err=>{
       this.showError(err.msg || '获取任务数量失败');
     });
-    this.getList();
   }
-
   //获取列表
   getList() {
     this.service.getTasks(this.pageInfo).then((res) => {
@@ -76,7 +78,8 @@ export class TodoComponent implements OnInit {
       this.isChecked[index] = true;
       this.currentType = index;
       this.pageInfo.status = taskType.code;
-      this.getList()
+      this.getCounts();
+      this.getList();
     }
 
   }
@@ -85,6 +88,7 @@ export class TodoComponent implements OnInit {
   handlePageChange($event) {
     this.pageInfo.pageSize = $event.pageSize;
     this.pageInfo.pageNum = $event.pageNum;
+    this.getCounts();
     this.getList();
   }
 

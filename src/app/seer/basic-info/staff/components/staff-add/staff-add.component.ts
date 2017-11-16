@@ -52,7 +52,7 @@ export class StaffAddComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getOrganizations();
+    // this.getOrganizations();
     this._route.url.mergeMap(url => {
       this._editType = url[0].path;
       return this._route.params

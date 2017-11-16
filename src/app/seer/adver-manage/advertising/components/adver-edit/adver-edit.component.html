@@ -57,7 +57,7 @@
                 <label  class="col-sm-2 col-lg-1 control-label">广告图片</label>
                 <div class="col-sm-6 col-lg-3">
                   <img src="{{advertising.icon}}" style="display:block;width:200px;margin-bottom: 10px" *ngIf="advertising.icon">
-                  <input class="btn btn-primary" type="file" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)" [disabled]="uploadDisabled" >
+                  <input  type="file" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)" [disabled]="uploadDisabled" >
                   <!--<textarea class="form-control" name="imgLink" id="imgLink"  [(ngModel)]="advertising.imgLink" required></textarea>-->
                 </div>
 

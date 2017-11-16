@@ -112,7 +112,7 @@ export class MessageRecordComponent {
       this.pageInfo.total=res.data.total; //记录总数
       this.source = res.data.list;
     }).catch(err => {
-      this.showError(err.json().message || '连接失败');
+      this.showError(err.msg || '连接失败');
     });
   }
   //分页

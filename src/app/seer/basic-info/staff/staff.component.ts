@@ -111,6 +111,10 @@ export class StaffComponent {
         });
       case 'open':
         this.openUsers(data);
+        break;
+      case 'click':
+        this._router.navigate([`detail/${data.id}`], {relativeTo: this._route});
+        break;
       default:
         break;
     }
