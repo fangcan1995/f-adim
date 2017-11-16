@@ -14,17 +14,8 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
 
   hasGlobalFilter = true;
   filters = [
-    /*{key: 'announcementType', label: '公告类型', type: 'select',
-      options: [
-        {content: '请选择'},
-        {value: '0', content: '前端'},
-        {value: '1', content: '后端'}
-      ]
-    },*/
     {key:'announceName', label: '公告名称', type: 'input.text'},
     {key:'announceTitle', label: '公告标题', type: 'input.text'},
-    /*{key: 'issueDateBegin', label: '添加时间', type: 'input.text'},
-    {key: 'issueDateEnd', label: '一　　　', type: 'input.text'},*/
     {
       key: 'effectTime',
       label: '生效时间',
@@ -44,54 +35,22 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
   titles = [
     {key: 'noticeName', label: '公告名称'},
     {key: 'title', label: '公告标题'},
-    /*{key: 'announcementType', label: '公告类型'},*/
     {key: 'effectTime', label: '生效时间',type:'date'},
     {key: 'updateTime', label: '最后修改时间', type:'date'},
     {key: 'updateUser', label: '最后修改人'},
   ];
 
 
-  /*actionSet = {
-    'update': {
-      'type': 'update',
-      'name': '编辑',
-      'className': 'btn btn-xs btn-info',
-      'icon': 'icon-edit',
-      'action': 'update'
-    },
-    'delete': {
-      'type': 'delete',
-      'name': '删除',
-      'className': 'btn btn-xs btn-danger',
-      'icon': 'icon-delete',
-      'action': 'remove'
-    },
-    'startUsing': {
-      'type': 'startUsing',
-      'name': '启用',
-      'className': 'btn btn-xs btn-info',
-      'icon': 'icon-blocked',
-      'action': 'startUsing'
-    },
-    'disable': {
-      'type': 'disable',
-      'name': '禁用',
-      'className': 'btn btn-xs btn-info',
-      'icon': 'icon-checkmark',
-      'action': 'disable'
-    }
-  };*/
-
   pageInfo = {
     "pageNum": 1,
     "pageSize": 10,
-    "sortBy": "id",
-    "total": "",
-    "query": {
-      "globalSearch": "",
-      "category": "",
-      "categoryName": "",
-    },
+    "globalSearch": '',
+    "sortBy": "",
+    "noticeName": '',
+    "title": '',
+    "effectTimeStart": '',
+    "effectTimeEnd": '',
+    "total": ''
   };
 
   constructor(private _announcementService: AnnouncementService, private _dialogService: SeerDialogService,
@@ -165,46 +124,31 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
   }
 
   handleFiltersChanged($event) {
-    let params = $event;
-    let { effectTime, ...otherParams } = params;
-    let effectTimeStart,
-      effectTimeEnd;
-    if ( _.isArray(effectTime) ) {
-      effectTimeStart = effectTime[0] ? (formatDate(effectTime[0],'YYYY-MM-DD 00:00:00')) : null;
-      effectTimeEnd = effectTime[1] ? (formatDate(effectTime[0],'YYYY-MM-DD 23:59:59')) : null;
+    console.log($event);
+    this.pageInfo.globalSearch = $event.globalSearch;
+    this.pageInfo.noticeName = $event.announceName;
+    this.pageInfo.title = $event.announceTitle;
+    if ( _.isArray($event.effectTime) ) {
+      this.pageInfo.effectTimeStart = $event.effectTime[0] ? (formatDate($event.effectTime[0],'YYYY-MM-DD hh:mm:ss')) : null;
+      this.pageInfo.effectTimeEnd = $event.effectTime[1] ? (formatDate($event.effectTime[1],'YYYY-MM-DD hh:mm:ss')) : null;
     }
-    params = {
-      ...otherParams,
-      effectTimeStart,
-      effectTimeEnd,
-    }
-    this.pageInfo.query = params;
     this.getList();
   }
-  handleSearchBtnClicked($event) {
-    let params = $event;
-    let { effectTime, ...otherParams } = params;
-    let effectTimeStart,
-      effectTimeEnd;
-    if ( _.isArray(effectTime) ) {
-      effectTimeStart = effectTime[0] ? (formatDate(effectTime[0],'YYYY-MM-DD 00:00:00')) : null;
-      effectTimeEnd = effectTime[1] ? (formatDate(effectTime[0],'YYYY-MM-DD 23:59:59')) : null;
-    }
-    params = {
-      ...otherParams,
-      effectTimeStart,
-      effectTimeEnd,
-    }
-    this.pageInfo.query = params;
-    this.getList();
-  }
-  /*handleSearchBtnClicked($event) {
-    let params = {
-      ...$event,
-    }
-    this.getList(params)
-  }*/
 
+  handleSearchBtnClicked($event) {
+    this.pageInfo.globalSearch = $event.globalSearch;
+    this.pageInfo.noticeName = $event.announceName;
+    this.pageInfo.title = $event.announceTitle;
+    if ( _.isArray($event.effectTime) ) {
+      this.pageInfo.effectTimeStart = $event.effectTime[0] ? (formatDate($event.effectTime[0],'YYYY-MM-DD hh:mm:ss')) : null;
+      this.pageInfo.effectTimeEnd = $event.effectTime[1] ? (formatDate($event.effectTime[1],'YYYY-MM-DD hh:mm:ss')) : null;
+    }
+    console.log(this.pageInfo);
+    this.getList();
+  }
+
+
+  /* 切换页面 */
   handleChangePage($event) {
     this.pageInfo.pageSize = $event.pageSize;
     this.pageInfo.pageNum=$event.pageNum;
