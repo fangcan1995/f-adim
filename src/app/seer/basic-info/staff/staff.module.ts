@@ -8,6 +8,7 @@ import { StaffService } from './staff.service';
 import { StaffComponent } from './staff.component';
 import { StaffEditComponent } from './components/staff-edit/staff-edit.component';
 import {StaffAddComponent} from "./components/staff-add/staff-add.component"
+import {StaffDetailComponent} from "./components/staff-detail/staff-detail.component";
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import {StaffAddComponent} from "./components/staff-add/staff-add.component"
     StaffComponent,
     StaffEditComponent,
     StaffAddComponent,
+    StaffDetailComponent
   ],
   providers: [
     StaffService
