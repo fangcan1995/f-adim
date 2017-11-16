@@ -7,9 +7,9 @@ import { SeerMessageService } from '../../../../../../theme/services/seer-messag
 @Component({
   selector: 'loansInfo',
   templateUrl: './loansInfo.component.html',
-
 })
 export class LoansInfoComponent implements OnInit {
+
   public member: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
@@ -54,34 +54,18 @@ export class LoansInfoComponent implements OnInit {
       return this._route.params
     })
       .subscribe(params => {
-        if ( this._editType === 'loans' ) {
           this.memberId=params.id;
           this._memberService.getLoans(params.id)
             .then(res => {
               this.member = res.data || {};
-              this.loansRecord=res.data.loansRecord;
+              this.loansRecord=res.data.list;
               this.forbidSaveBtn = false;
             }).catch(err=>{
             this.showError(err.msg || '连接失败');
           });
-        }
       })
   }
-  handleBackBtnClick() {
-    this._router.navigate([`../../`], {relativeTo: this._route});
-  }
-  memberInfoClick(){
-    this._router.navigate([`../../detail/${this.memberId}`], {relativeTo: this._route});
-  }
-  investInfoClick(){
-    this._router.navigate([`../../invests/${this.memberId}`], {relativeTo: this._route});
-  }
-  loanInfoClick(){
-    this._router.navigate([`../../loans/${this.memberId}`], {relativeTo: this._route});
-  }
-  tradeInfoClick(){
-    this._router.navigate([`../../trades/${this.memberId}`], {relativeTo: this._route});
-  }
+
   showSuccess(message: string) {
     return this._messageService.open({
       message,

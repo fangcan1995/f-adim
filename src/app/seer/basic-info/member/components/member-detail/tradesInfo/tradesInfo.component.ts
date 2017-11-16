@@ -7,6 +7,7 @@ import { SeerMessageService } from '../../../../../../theme/services/seer-messag
 @Component({
   selector: 'tradesInfo',
   templateUrl: './tradesInfo.component.html',
+  styleUrls: ['./tradesInfo.component.scss']
 
 })
 export class TradesInfoComponent implements OnInit {
@@ -16,8 +17,9 @@ export class TradesInfoComponent implements OnInit {
   tradesRecord: any = [];  //借款记录
   titlesTradesRecord=[
     {
-      key:'aaa',
+      key:'time',
       label:'交易时间',
+      type:'date-time'
     },
     {
       key:'bbb',
@@ -28,19 +30,12 @@ export class TradesInfoComponent implements OnInit {
       label:'交易金额(元)',
     },
     {
-      key:'ddd',
+      key:'idNumber',
       label:'状态',
     }
   ];
   memberId:any='';
-
-  isChecked={
-    "all":true,
-    "first":false,
-    "second":false,
-    "third":false,
-    "forth":false
-  };
+  className=["common active","common", "common", "common", "common"];
   pageInfo={
     "pageNum":1,
     "pageSize":10,
@@ -87,7 +82,6 @@ export class TradesInfoComponent implements OnInit {
       return this._route.params
     })
       .subscribe(params => {
-        if ( this._editType === 'trades' ) {
           this.memberId=params.id;
           this._memberService.getTrades(params.id)
             .then(res => {
@@ -97,40 +91,24 @@ export class TradesInfoComponent implements OnInit {
             }).catch(err=>{
             this.showError(err.msg || '连接失败');
           });
-        }
       })
   }
-  ckboxToggle(category:any){
+  toggle(category:any,index?){
     if(this.currentType!=category){
-      for ( var i in this.isChecked) {
-        this.isChecked[i]=false;
-      }
       if(category=="all"){
         this.currentType='all';
-        this.isChecked['all']=true;
+        this.className = ["common active", "common", "common", "common", "common"];
         this.pageInfo.query.category="";
       }else{
         this.currentType=category;
-        this.isChecked[category]=true;
+        this.className = ["common", "common", "common", "common", "common"];
+        this.className[index]="common active";
         this.pageInfo.query.category=category;
       }
+
     }
   }//选框点击
-  handleBackBtnClick() {
-    this._router.navigate([`../../`], {relativeTo: this._route});
-  }
-  memberInfoClick(){
-    this._router.navigate([`../../detail/${this.memberId}`], {relativeTo: this._route});
-  }
-  investInfoClick(){
-    this._router.navigate([`../../invests/${this.memberId}`], {relativeTo: this._route});
-  }
-  loanInfoClick(){
-    this._router.navigate([`../../loans/${this.memberId}`], {relativeTo: this._route});
-  }
-  tradeInfoClick(){
-    this._router.navigate([`../../trades/${this.memberId}`], {relativeTo: this._route});
-  }
+
   showSuccess(message: string) {
     return this._messageService.open({
       message,

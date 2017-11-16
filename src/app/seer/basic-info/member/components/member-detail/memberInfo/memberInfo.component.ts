@@ -103,21 +103,7 @@ export class MemberInfoComponent implements OnInit {
         }
       })
   }
-  handleBackBtnClick() {
-    this._router.navigate([`../../`], {relativeTo: this._route});
-  }
-  memberInfoClick(){
-    this._router.navigate([`../../detail/${this.memberId}`], {relativeTo: this._route});
-  }
-  investInfoClick(){
-    this._router.navigate([`../../invests/${this.memberId}`], {relativeTo: this._route});
-  }
-  loanInfoClick(){
-    this._router.navigate([`../../loans/${this.memberId}`], {relativeTo: this._route});
-  }
-  tradeInfoClick(){
-    this._router.navigate([`../../trades/${this.memberId}`], {relativeTo: this._route});
-  }
+
   showSuccess(message: string) {
     return this._messageService.open({
       message,

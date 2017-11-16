@@ -18,8 +18,8 @@ export class AdverEditComponent implements OnInit{
   public uploadDisabled:boolean=false;
   public forbidSaveBtn: boolean = true;
   //上传图片相关
-  fileApi="http://172.16.1.221:8070/advertising/file"; //上传接口
-  //fileApi=`${BASE_URL}/${API['ADVERTISINGS']}/file`; //上传接口
+  //fileApi=`http://172.16.1.221:8070/advertising/file`; //上传接口
+  fileApi=`${BASE_URL}/${API['ADVERTISINGS']}/file`; //上传接口
   token = getStorage({ key: 'token' });
   tokenType = this.token.token_type;
   accessToken =this.token.access_token;
@@ -45,6 +45,7 @@ export class AdverEditComponent implements OnInit{
           this._advertisingService.getOne(params.id)
             .then(res => {
               this.advertising = res.data || {};
+              console.log(this.advertising);
               this.forbidSaveBtn = false;
               // 初始化定义uploader变量,用来配置input中的uploader属性
               let headers = [{name: 'Authorization', value: `${this.tokenType} ${this.accessToken}`}];

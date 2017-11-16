@@ -111,6 +111,10 @@ export class StaffComponent {
         });
       case 'open':
         this.openUsers(data);
+        break;
+      case 'click':
+        window.open('http://localhost:4200/basic-info/staff-manage/detail/' + data.id, '_blank');
+        break;
       default:
         break;
     }

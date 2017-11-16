@@ -13,7 +13,7 @@ export class MemberService extends BaseService<ResModel>{
     protected _httpInterceptorService:HttpInterceptorService
   ) {
     super(_httpInterceptorService);
-    console.log(this.accessToken);
+
     //this.setApi(API['MEMBERS']);
   }
   // 1 获取数据列表,OK
@@ -89,11 +89,11 @@ export class MemberService extends BaseService<ResModel>{
             "code": "0",
             "message": "SUCCESS",
             'data':{
-              countInfo: {
+              "countInfo": {
                 "userName": "5",
                 "bbb": "1"
               },   //基本信息
-              loansRecord: [{
+              "list": [{
                 "id": "BBH20170778961354",
                 "status": "待提交",
                 "count":"100000.00",
@@ -141,19 +141,19 @@ export class MemberService extends BaseService<ResModel>{
           'data': {
             tradesRecord: [
               {
-                "userName": "2017-09-23 11:00:01",
+                "time": "2017-09-23 11:00:01",
                 "bbb": "商户转账",
                 "ccc": "103.33",
                 "idNumber": "成功",
               },
               {
-                "userName": "2017-09-23 11:00:01",
+                "time": "2017-09-23 11:00:01",
                 "bbb": "商户转账",
                 "ccc": "103.33",
                 "idNumber": "成功",
               },
               {
-                "userName": "2017-09-23 11:00:01",
+                "time": "2017-09-23 11:00:01",
                 "bbb": "商户转账",
                 "ccc": "103.33",
                 "idNumber": "成功",
