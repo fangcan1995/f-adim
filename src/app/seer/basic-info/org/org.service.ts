@@ -43,9 +43,9 @@ export class OrgService extends BaseService<any>{
     return this._httpInterceptorService.request('DELETE', `http://172.16.7.4:8020/permission/organizations/staffs/staffid?employerId=${id}`, {}, true).toPromise();
   }
 
-  // 表格假数据
+  // 表格数据
  getData(params): Promise<any>{
-   return this._httpInterceptorService.request('GET', `http://172.16.7.4:8020/permission/organizations`, params, true).toPromise();
+   return this._httpInterceptorService.request('GET', `http://172.16.4.62:8090/organizations`, params, true).toPromise();
  }
 
 
