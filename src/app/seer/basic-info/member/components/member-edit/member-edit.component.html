@@ -8,7 +8,7 @@
 <div class="widgets">
   <div class="row justify-content-center">
     <div class="col-md-12">
-        <seer-collapse-card cardTitle="基本信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false
+        <seer-collapse-card cardTitle="基本信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true
                             [headerActions]="saveActions"
                             (notify)="basicInfoNotify($event)"
         >
@@ -137,7 +137,18 @@
                 <div class="row">
                   <label for="currentResidence" class="col-sm-4 col-md-2 col-xlg-1 control-label">现居住地</label>
                   <div class="col-sm-8 col-md-10 col-xlg-10" id="currentResidence">
-                    <seer-address-picker (notify)="currentResidenceChanged($event)" [defaultItemCode]="baseInfo.liveDistrict" [defaultAddress]="baseInfo.liveAddress"></seer-address-picker>
+                    <seer-address-picker (notify)="currentResidenceChanged($event)" [defaultItemCode]="baseInfo.liveDistrict" [defaultAddress]="baseInfo.liveAddress">
+                      <div *ngIf="!disabled" class="col-sm-1 col-md-1 col-lg-12 col-xlg-2" >
+                      </div>
+                    </seer-address-picker>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-sm-12">
+                <div class="row">
+                  <label class="col-sm-4 col-md-2 col-xlg-1 control-label"></label>
+                  <div class="col-sm-8 col-md-10 col-xlg-10" >
+                    <seer-cool-checkbox (click)="shortcut($event)"></seer-cool-checkbox> 同户籍地址
                   </div>
                 </div>
               </div>
@@ -160,18 +171,18 @@
             </div>
           </form>
         </seer-collapse-card>
-        <seer-collapse-card cardTitle="紧急联系人" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
+        <seer-collapse-card cardTitle="紧急联系人" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
           <seer-simple-table
             #contactTable
             [data]="emergencyContact"
             [titles]="titlesEmergencyContact"
             [hidePagination]="true"
-            [actions]="simpleTableActions[0]"
+            [actions]="simpleTableActions"
             (notify)="contactModifyNotify($event)"
           >
           </seer-simple-table>
         </seer-collapse-card>
-        <seer-collapse-card cardTitle="工作信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false
+        <seer-collapse-card cardTitle="工作信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true
                             [headerActions]="saveActions"
                             (notify)="workInfoNotify($event)">
           <div class="row">
@@ -244,7 +255,7 @@
             </div>
           </div>
       </seer-collapse-card>
-        <seer-collapse-card cardTitle="账户信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=false>
+        <seer-collapse-card cardTitle="账户信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
@@ -347,7 +358,14 @@
             </div>
           </div>
       </seer-collapse-card>
-        <seer-collapse-card cardTitle="车辆信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true  [headerActions]="addActions" (notify)="vehicleAdd($event)">
+        <seer-collapse-card cardTitle="车辆信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+          <div *ngIf="!disabled" class="row">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+              <div class="row">
+                <button class="btn btn-primary" type="button" (click)="vehicleModal(vehicleTemplate, false)">新增车辆</button>
+              </div>
+            </div>
+          </div>
           <ng-container *ngFor="let vehicle of vehicleInfo">
             <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
               <div class="row">
@@ -357,32 +375,21 @@
                     <p class="card-text">{{vehicle.carNumber}}、行驶{{vehicle.mileage}}公里、{{vehicle.carAge}}年车龄、评估价格为{{vehicle.pricePotential}}元</p>
                     <a href="javascript:void(0)" class="card-link" (click)="vehicleModal(vehicleTemplate, true, vehicle)">详情</a>
                     <a href="javascript:void(0)" class="card-link" (click)="vehicleModal(vehicleTemplate, false, vehicle)">修改</a>
-                    <a href="javascript:void(0)" class="card-link" (click)="vehicleDel(vehicleTemplate, true, vehicle)">删除</a>
+                    <a href="javascript:void(0)" class="card-link" (click)="delVehicle(vehicle.id)">删除</a>
                   </div>
                 </div>
               </div>
             </div>
           </ng-container>
-          <!--<seer-simple-table
-            #vehicleTable
-            [data]="vehicleInfo"
-            [titles]="titlesVehicleInfo"
-            [hidePagination]="true"
-            [actions]="simpleTableActions"
-            (notify)="vehicleInfoModifyNotify($event)"
-          >
-          </seer-simple-table>-->
         </seer-collapse-card>
-        <seer-collapse-card cardTitle="房屋信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true [headerActions]="addActions" (notify)="houseAdd($event)">
-          <!--<seer-simple-table
-            #houseTable
-            [data]="houseInfo"
-            [titles]="titlesHouseInfo"
-            [hidePagination]="true"
-            [actions]="simpleTableActions"
-            (notify)="houseInfoModifyNotify($event)"
-          >
-          </seer-simple-table>-->
+        <seer-collapse-card cardTitle="房屋信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+              <div class="row">
+                <button  class="btn btn-primary" type="button" (click)="houseModal(houseTemplate,false)">新增房产</button>
+              </div>
+            </div>
+          </div>
           <ng-container *ngIf="houseInfo.length > 0">
             <form class="form-horizontal">
               <div class="row">
@@ -391,9 +398,10 @@
                     <div   class="card checkable-card" style="max-width: 20rem;">
                       <div class="card-header">产权证号：{{house.houseBelongNo}}</div>
                       <div class="card-body text-secondary">
-                        <p class="card-text">房产地址：{{house.houseAdress}} 评估价格{{house.pricePotential}} </p>
-                        <a *ngIf="!disabled" href="javascript:void(0)" class="card-link" (click)="setHouse($event, house)">设为抵押物</a>
-                        <a href="javascript:void(0)" class="card-link" (click)="houseModal(houseTemplate, true, house)">查看详情</a>
+                        <p class="card-text">房产地址：{{house.houseAdress}} <br>评估价格：{{house.pricePotential}} </p>
+                        <a href="javascript:void(0)" class="card-link" (click)="houseModal(houseTemplate, true, house)">详情</a>
+                        <a href="javascript:void(0)" class="card-link" (click)="houseModal(houseTemplate, false, house)">修改</a>
+                        <a href="javascript:void(0)" class="card-link" (click)="delHouse(house.id)">删除</a>
                       </div>
                     </div>
                   </div>
@@ -479,7 +487,8 @@
 <ng-template #vehicleTemplate>
   <div class="modal-header">
     <h5 class="modal-title pull-left">
-      <ng-container *ngIf="!vehicleReadOnly">新增车辆</ng-container>
+      <ng-container *ngIf="(!vehicleReadOnly)&&(!vehicle.id)">新增车辆</ng-container>
+      <ng-container *ngIf="(!vehicleReadOnly)&&(vehicle.id)">修改车辆信息</ng-container>
       <ng-container *ngIf="vehicleReadOnly">查看详情</ng-container></h5>
   </div>
   <div class="modal-body">
@@ -487,65 +496,65 @@
       <div class="row">
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="brand" class="col-sm-4 control-label text-right">车辆品牌</label>
+            <label for="carBrand" class="col-sm-4 control-label text-right">车辆品牌</label>
             <div class="col-sm-8">
-              <input class="form-control" id="brand" placeholder="车辆品牌" [(ngModel)]="vehicle.carBrand" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="carBrand" placeholder="车辆品牌" [(ngModel)]="vehicle.carBrand" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="model" class="col-sm-4 control-label text-right">车辆型号</label>
+            <label for="carModel" class="col-sm-4 control-label text-right">车辆型号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="model" placeholder="车辆型号" [(ngModel)]="vehicle.carModel" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="carModel" placeholder="车辆型号" [(ngModel)]="vehicle.carModel" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="vin" class="col-sm-4 control-label text-right">车架号</label>
+            <label for="viNumber" class="col-sm-4 control-label text-right">车架号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="vin" placeholder="车架号" [(ngModel)]="vehicle.viNumber" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="viNumber" placeholder="车架号" [(ngModel)]="vehicle.viNumber" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="lpn" class="col-sm-4 control-label text-right">车牌号</label>
+            <label for="carNumber" class="col-sm-4 control-label text-right">车牌号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="lpn" placeholder="车牌号" [(ngModel)]="vehicle.carNumber" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="carNumber" placeholder="车牌号" [(ngModel)]="vehicle.carNumber" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="certificateNumber" class="col-sm-4 control-label text-right">登记证号</label>
+            <label for="carRegNumber" class="col-sm-4 control-label text-right">登记证号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="certificateNumber" placeholder="登记证号" [(ngModel)]="vehicle.carRegNumber" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="carRegNumber" placeholder="登记证号" [(ngModel)]="vehicle.carRegNumber" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="autoAge" class="col-sm-4 control-label text-right">车龄</label>
+            <label for="carAge" class="col-sm-4 control-label text-right">车龄</label>
             <div class="col-sm-8">
-              <input class="form-control" id="autoAge" placeholder="车龄" [(ngModel)]="vehicle.carAge" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="carAge" placeholder="车龄" [(ngModel)]="vehicle.carAge" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="range" class="col-sm-4 control-label text-right">行驶里程</label>
+            <label for="mileage" class="col-sm-4 control-label text-right">行驶里程</label>
             <div class="col-sm-8">
-              <input class="form-control" id="range" placeholder="行驶里程" [(ngModel)]="vehicle.mileage" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="mileage" placeholder="行驶里程" [(ngModel)]="vehicle.mileage" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="evaluatedPrice" class="col-sm-4 control-label text-right">评估价格</label>
+            <label for="pricePotential" class="col-sm-4 control-label text-right">评估价格</label>
             <div class="col-sm-8">
-              <input class="form-control" id="evaluatedPrice" placeholder="评估价格" [(ngModel)]="vehicle.pricePotential" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="pricePotential" placeholder="评估价格" [(ngModel)]="vehicle.pricePotential" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
@@ -562,21 +571,20 @@
 <ng-template #houseTemplate>
   <div class="modal-header">
     <h5 class="modal-title pull-left">
-      <ng-container *ngIf="!houseReadOnly">新增房屋</ng-container>
+      <ng-container *ngIf="(!houseReadOnly)&&(!house.id)">新增房产</ng-container>
+      <ng-container *ngIf="(!houseReadOnly)&&(house.id)">修改房产信息</ng-container>
       <ng-container *ngIf="houseReadOnly" >查看详情</ng-container>
+
     </h5>
-    <!--<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>-->
   </div>
   <div class="modal-body">
     <form class="form-horizontal">
       <div class="row">
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="brand" class="col-sm-4 control-label text-right">房产地址</label>
+            <label for="houseAdress" class="col-sm-4 control-label text-right">房产地址</label>
             <div class="col-sm-8">
-              <input class="form-control" id="brand" placeholder="房产地址" [(ngModel)]="house.houseAdress" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="houseAdress" placeholder="房产地址" [(ngModel)]="house.houseAdress" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
@@ -595,9 +603,9 @@
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="floorage" class="col-sm-4 control-label text-right">建筑面积</label>
+            <label for="area" class="col-sm-4 control-label text-right">建筑面积</label>
             <div class="col-sm-8">
-              <input class="form-control" id="floorage" placeholder="建筑面积" [(ngModel)]="house.area" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="area" placeholder="建筑面积" [(ngModel)]="house.area" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
@@ -611,33 +619,33 @@
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="debt" class="col-sm-4 control-label text-right">尚欠贷余额</label>
+            <label for="debtMoney" class="col-sm-4 control-label text-right">尚欠贷余额</label>
             <div class="col-sm-8">
-              <input class="form-control" id="debt" placeholder="尚欠贷余额" [(ngModel)]="house.debtMoney" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="debtMoney" placeholder="尚欠贷余额" [(ngModel)]="house.debtMoney" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="landCertificate" class="col-sm-4 control-label text-right">土地所有证号</label>
+            <label for="landNo" class="col-sm-4 control-label text-right">土地所有证号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="landCertificate" placeholder="土地所有证号" [(ngModel)]="house.landNo" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="landNo" placeholder="土地所有证号" [(ngModel)]="house.landNo" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="houseCertificate" class="col-sm-4 control-label text-right">房屋产权所有证号</label>
+            <label for="houseBelongNo" class="col-sm-4 control-label text-right">房屋产权所有证号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="houseCertificate" placeholder="房屋产权所有证号" [(ngModel)]="house.houseBelongNo" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="houseBelongNo" placeholder="房屋产权所有证号" [(ngModel)]="house.houseBelongNo" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="evaluatedPrice" class="col-sm-4 control-label text-right">评估价格</label>
+            <label for="pricePotential2" class="col-sm-4 control-label text-right">评估价格</label>
             <div class="col-sm-8">
-              <input class="form-control" id="evaluatedPrice" placeholder="评估价格" [(ngModel)]="house.pricePotential" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="pricePotential2" placeholder="评估价格" [(ngModel)]="house.pricePotential" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>

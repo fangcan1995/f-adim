@@ -8,8 +8,8 @@
       <div class="col-md-12">
         <seer-collapse-card cardTitle="基本信息" >
           <div class="row">
-            <div class="col-md-12 col-lg-6">
-              <div class="form-group">
+            <div class="form-group col-md-12 col-lg-6">
+              <div class="row">
                 <label class="col-lg-4 col-xlg-2 control-label">消息名称</label>
                 <div class="col-lg-8 col-xlg-10">
                   <input type="hidden" name="message.id" [(ngModel)]="message.id">
@@ -19,8 +19,8 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12 col-lg-6">
-              <div class="form-group">
+            <div class="form-group col-md-12 col-lg-6">
+              <div class="row">
                 <label class="col-lg-4 col-xlg-2 control-label">适配用户</label>
                 <div class="col-lg-8 col-xlg-10">
                   <select type="email" class="form-control" name="adaptationUser" id="adaptationUser" dict-select
@@ -37,8 +37,8 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12 col-lg-6">
-              <div class="form-group">
+            <div class="form-group col-md-12 col-lg-6">
+              <div class="row">
                 <label class="col-lg-4 col-xlg-2 control-label">消息类型</label>
                 <div class="col-lg-8 col-xlg-10">
                   <select type="email" class="form-control" name="businessType" id="businessType" dict-select
@@ -53,8 +53,8 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12 col-lg-6">
-              <div class="form-group">
+            <div class="form-group col-md-12 col-lg-6">
+              <div class="row">
                 <label class="col-lg-4 col-xlg-2 control-label">显示范围</label>
                 <div class="col-lg-8 col-xlg-10">
                   <seer-cool-checkbox
@@ -77,8 +77,8 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12 col-lg-6">
-              <div class="form-group">
+            <div class="form-groupcol-md-12 col-lg-6">
+              <div class="row">
                 <label class="col-lg-4 col-xlg-2 control-label">下发时间</label>
                 <div class="col-lg-5 col-xlg-7">
                   <seer-datepicker
@@ -91,9 +91,7 @@
                   </seer-datepicker>
                 </div>
                 <div class="col-lg-3 col-xlg-3">
-                  <seer-cool-checkbox
-                    (click)="sendNow($event)"
-                  ></seer-cool-checkbox> 即刻下发
+                  <seer-cool-checkbox (click)="sendNow($event)"></seer-cool-checkbox> 即刻下发
                   <!--<seer-checkbox (click)="ckboxToggle('now')" [isChecked]="IsChecked.now" [label]="'即刻下发'" [disabled]="disabled.now"></seer-checkbox>-->
                 </div>
               </div>
@@ -102,8 +100,8 @@
         </seer-collapse-card>
         <seer-collapse-card cardTitle="消息内容">
           <div class="row">
-            <div class="col-md-12 col-lg-6">
-              <div class="form-group">
+            <div class="form-group col-md-12 col-lg-6">
+              <div class="row">
                 <label class="col-lg-4 col-xlg-2 control-label">消息简介</label>
                 <div class="col-lg-8 col-xlg-10">
                   <input type="text" class="form-control" id="msgProfile" name="msgProfile" [(ngModel)]="message.msgProfile">
@@ -112,8 +110,8 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12 col-lg-6">
-              <div class="form-group">
+            <div class="form-group col-md-12 col-lg-6">
+              <div class="row">
                 <label class="col-lg-4 col-xlg-2 control-label">消息内容</label>
                 <div class="col-lg-8 col-xlg-10">
                   <textarea class="form-control" id="msgContent" name="msgContent" [(ngModel)]="message.msgContent"></textarea>
@@ -121,7 +119,6 @@
               </div>
             </div>
           </div>
-
         </seer-collapse-card>
         <seer-collapse-card cardTitle="接收用户" >
           <div class="row">
