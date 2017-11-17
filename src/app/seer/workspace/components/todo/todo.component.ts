@@ -24,7 +24,7 @@ export class TodoComponent implements OnInit {
     "status": ""
   }; //分页及排序
   isChecked = [true, false, false, false, false, false, false]; //单选按钮默认选中状态
-  taskTypes = taskScategory;  //所有任务类型
+  taskTypes = _.cloneDeep(taskScategory);  //所有任务类型
   currentType = 0;  //当前选中类型
   constructor(private service: WorkspaceService,
               private _router: Router,

@@ -14,7 +14,7 @@ import * as _ from 'lodash';
 @Injectable()
 export class AnnouncementService extends BaseService<any>{
 
-  apiUrl = 'http://172.16.4.62:8070/announcements';
+  apiUrl = 'http://172.16.7.4:8020/notice/announcements';
   accessToken = getStorage({ key: 'token' }).access_token;
 
 
@@ -24,17 +24,17 @@ export class AnnouncementService extends BaseService<any>{
 
   // 获取数据列表
   getList(params?): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', 'http://172.16.4.62:8070/announcements', params).toPromise();
+    return this._httpInterceptorService.request('GET', this.apiUrl, params).toPromise();
   }
 
   // 删除一条数据
   deleteOne(id: string | number): Promise<ResModel> {
-    return this._httpInterceptorService.request('DELETE', `http://172.16.4.62:8070/announcements/${id}`).toPromise();
+    return this._httpInterceptorService.request('DELETE', `${this.apiUrl}/${id}`).toPromise();
   }
 
   // 获取一条数据
   getOne(id: string | number): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `http://172.16.4.62:8070/announcements/${id}`).toPromise();
+    return this._httpInterceptorService.request('GET', `${this.apiUrl}/${id}`).toPromise();
   }
 
   // 添加一条数据
@@ -45,7 +45,7 @@ export class AnnouncementService extends BaseService<any>{
 
   // 修改一条数据，提供所有字段
   putOne(params: any): Promise<ResModel> {
-    return this._httpInterceptorService.request('PUT', `http://172.16.4.62:8070/announcements`, params).toPromise();
+    return this._httpInterceptorService.request('PUT', `${this.apiUrl}`, params).toPromise();
   }
 
 }

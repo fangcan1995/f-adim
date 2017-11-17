@@ -41,7 +41,7 @@ export class InfoPublishEditComponent implements  OnInit, OnChanges {
   private uploadDisabled:boolean=false;
 
   /* 上传图片相关 */
-  fileApi = 'http://172.16.1.221:8070/affiche/file';
+  fileApi = 'http://172.16.7.4:8020/notice/affiche/file';
   token = getStorage({key: 'token'});
   tokenType = this.token.token_type;
   accessToken = this.token.access_token;
