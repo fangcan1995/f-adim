@@ -181,7 +181,7 @@ export class MessageEditComponent {
       this.message.sendNotify=this.Cint(this.message.sendNotify);
       this.message.sendMessage=this.Cint(this.message.sendMessage);
       this.message.receivers=this.ids;
-      console.log(this.message);
+      //console.log(this.message);
       this.service.postOne(this.message).then((data:any) => {
         this.forbidSaveBtn = false;
         this.showSuccess(data.msg || '保存成功')
@@ -366,7 +366,7 @@ export class MessageEditComponent {
           if(this.usersType=='members'){
             this.ids=data.message || null;
           }else if(this.usersType=='users'){
-            this.ids=data.data.ids || null;message
+            this.ids=data.data.ids || null;
           }
           this.chooseResult=`已选定${this.modalPageInfo.total}人`
         }).catch(err=>{
@@ -385,18 +385,37 @@ export class MessageEditComponent {
     let data = message.data;
     let keyId;
     if(this.usersType=='members'){
-      keyId=data.memberId;
+      keyId='memberId';
     }else if(this.usersType=='users'){
-      keyId=data.id;
+      keyId='id';
     }
-    switch (type) {
+    switch (type){
       case 'select_one':
+
+        //选中追加到数组中，否则从数组中删除
+        let idIndex=this.selectedUserId.findIndex(x => x == data[keyId]);
         if(data.selected){
-          this.selectedUserId.push(keyId);
+          if(idIndex<0){
+            this.selectedUserId.push(data[keyId]);
+          }
         }else{
-          let idIndex=this.selectedUserId.findIndex(x => x == keyId);
           this.selectedUserId.splice(idIndex,1);
         }
+
+        break;
+      case 'select_all':
+        //遍历数组，选中追加到数组中，否则从数组中删除
+        data.map(r=> {
+          let idIndex=this.selectedUserId.findIndex(x => x == r[keyId]);
+          if(r.selected){
+            //如果选中人员中不存在这个人
+            if(idIndex<0){
+              this.selectedUserId.push(r[keyId]);
+            }
+          }else{
+            this.selectedUserId.splice(idIndex,1);
+          }
+        })
         break;
       default:
         break;
