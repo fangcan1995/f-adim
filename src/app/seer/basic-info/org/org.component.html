@@ -1,13 +1,4 @@
 <div class="row">
-  <!--<seer-collapse-card>
-      <seer-filter
-      [hasGlobalFilter]="hasGlobalFilter"
-      [filters]="filters"
-      (onFiltersChanged)=handleFiltersChanged($event)
-      (onSearchBtnClicked)=handleSearchBtnClicked($event)
-      disabled
-      ></seer-filter>
-  </seer-collapse-card>-->
   <div class="col-sm-4">
     <seer-collapse-card [title]="treeTitle" baCardClass="with-scroll">
       <div class="col-sm-12">
@@ -18,18 +9,16 @@
           [loadingText]="''">
         </seer-tree>
       </div>
-      <!--<button class="btn btn-primary" (click)="getOperationRecords()">保存</button>-->
     </seer-collapse-card>
   </div>
 
 
   <div class="col-sm-8">
     <seer-collapse-card [title]="tableTitle" baCardClass="with-scroll">
-       <!--<button type="button" class="btn btn-sx btn-info" style="margin-bottom:10px;" (click)="handleChangeLeader()">保存</button>-->
-       <div class="form-group ">
+      <div class="form-group ">
         <div class="row">
           <label for="idNumber" class="col-sm-2 control-label" style="text-align:center; height:35px; line-height:35px;">机构名称</label>
-          <!-- <label for="idNumber" class="col-sm-3 control-label" style="text-align:left; height:35px; line-height:35px;">互联网金融部</label> -->
+
           <div class="col-sm-3">
             <input type="text" class="form-control" id="department" placeholder="部门"  [(ngModel)]="info.departmentName" disabled>
           </div>
@@ -39,52 +28,15 @@
           </div>
         </div>
       </div>
-      <!--<div class="form-group ">
-        <div class="row">
-          <label for="idNumber" class="col-sm-2  col-md-2 control-label" style="text-align:center; height:35px; line-height:35px;">机构负责人</label>
-          <div class="col-sm-3">
-            <input type="text" class="form-control" id="idNumber" placeholder="xxxx" disabled>
-          </div>
-          <div class="col-sm-4">
-             <input type="text" class="form-control" id="idNumber" placeholder="1333333333" disabled>
-          </div>
-        </div>
-      </div>-->
-      <!--<div class="form-group ">
-        <div class="row">
-          <label for="idNumber" class="col-sm-2 col-md-2  control-label" style="text-align:center; height:35px; line-height:35px;">上级负责人</label>
-          <div class="col-sm-3">
-            <input type="text" class="form-control" id="idNumber" placeholder="xxxx" disabled>
-          </div>
-          <div class="col-sm-4">
-             <input type="text" class="form-control" id="idNumber" placeholder="1888888888" disabled>
-          </div>
-        </div>
-      </div>
-      <div class="form-group ">
-        <div class="row">
-          <label for="idNumber" class="col-sm-2 col-md-2 control-label" style="text-align:center; height:35px; line-height:35px;">机构人员</label>
-        </div>
-      </div>-->
-       <seer-collapse-card>
 
+      <seer-collapse-card>
         <div class="row">
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="idNumber" placeholder="全局过滤" [(ngModel)]="pageInfo.globalSearch">
+            <input type="text" class="form-control" id="idNumber" placeholder="全局过滤" [(ngModel)]="pageInfo.globalSearch" (change)="searchFilter()">
           </div>
           <div class="col-sm-2">
-            <button type="button" class="btn btn-sx btn-info" (click)="seachFilter()">检索</button>
-          </div>
-          <div class="col-sm-2">
-            <!--<button type="button" class="btn btn-sx btn-info" (click)="openModal(template)">调换部门</button>-->
             <ng-template #template>
-              <!-- <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
-                  <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">用户列表</h4> -->
-                  <!-- <span aria-hidden="true" class="close pull-right" aria-label="Close" (click)="modalRef.hide()" style="display:inline-block; margin:0; padding:0; float:right;">&times;</span> -->
-                  <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                  <span aria-hidden="true" >&times;</span>
-                  </button> -->
-              <!-- </div> -->
+
               <div class="modal-body">
 
                   <seer-tree
@@ -94,29 +46,25 @@
                     [defaultNodeName]="'新建部门'"
                     [loadingText]="''">
                   </seer-tree>
-               <!-- [permissions]="treePermissions"   是否可更改-->
               </div>
               <div class="modal-footer">
                  <button type="button" class="btn btn-sx btn-info" (click)="modalRef.hide()">确定</button>
                  <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
               </div>
-              <!--<org-tree></org-tree>-->
             </ng-template>
           </div>
         </div>
-       </seer-collapse-card>
-    <seer-collapse-card>
-      <seer-table
-        [data]="datas"
-        [titles]="titles"
-        [hideExport]="true"
-        [hidePrint]="true"
-        [hideRemoveAll]="true"
-        [hideColumns]="true"
-        [hideAddButton]="true"
-        [hideCheckbox]="true"
-        (notify)="onChange($event)"
-      ></seer-table>
+        <seer-table
+          [data]="datas"
+          [titles]="titles"
+          [hideExport]="true"
+          [hidePrint]="true"
+          [hideRemoveAll]="true"
+          [hideColumns]="true"
+          [hideAddButton]="true"
+          [hideCheckbox]="true"
+          (notify)="onChange($event)"
+        ></seer-table>
       </seer-collapse-card>
     </seer-collapse-card>
   </div>
