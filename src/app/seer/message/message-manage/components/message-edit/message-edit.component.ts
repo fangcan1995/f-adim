@@ -108,12 +108,19 @@ export class MessageEditComponent {
       this.isPickUsersAble=false;
       this.service.getMessageById(this.editId).then((data) => {
         this.message = data.data;
-        if(this.message.adaptationUser=="backend"){
+
+        if(this.message.adaptationUser=="1"){
+          this.usersType="users";
+          //后台用户
           this.disabled={"sendMail":true,"sendNotify":true,"sendMessage":false,"now":false}
+        }else if(this.message.adaptationUser=="0"){
+          //前台用户
+          this.usersType="members";
         }
       });
     }else {
       this.isPickUsersAble=true;
+
     };
   }
   //激活选择用户按钮
@@ -141,19 +148,16 @@ export class MessageEditComponent {
     this.ids='';
     this.chooseResult='选择用户';
   }
+
   //即刻下发事件处理方法
-  ckboxToggle(messageType:any){
-    if(messageType=='now'){
-      this.IsChecked[messageType]=!this.IsChecked[messageType]; //切换对勾状态
-      if(this.disabled[messageType]==false){
-          this.disabled.now=true;
-          this.allowChange=true;
-          this.readonly=true;
-      }else{
-        this.disabled.now=false;
-        this.allowChange=false;
-        this.readonly=false;
-      }
+  sendNow($event){
+    if($event.toElement.checked){
+      //this.readonly=true;
+      this.message.expectSendTime='';
+      this.allowChange=true;
+    }else{
+      //this.readonly=false;
+      this.allowChange=false;
     }
   }
   //保存

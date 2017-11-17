@@ -8,7 +8,7 @@
       <div class="col-md-12">
         <seer-collapse-card cardTitle="基本信息" >
           <div class="row">
-            <div class="col-lg-12 col-xlg-6">
+            <div class="col-md-12 col-lg-6">
               <div class="form-group">
                 <label class="col-lg-4 col-xlg-2 control-label">消息名称</label>
                 <div class="col-lg-8 col-xlg-10">
@@ -60,19 +60,16 @@
                   <seer-cool-checkbox
                     name="sendMail"
                     [(checked)]="message.sendMail"
-                    (change)="ckboxToggle('sendMail')"
                     [disabled]="disabled.sendMail"
                   ></seer-cool-checkbox> 消息中心
                   <seer-cool-checkbox
                     name="sendNotify"
                     [(checked)]="message.sendNotify"
-                    (change)="ckboxToggle('sendNotify')"
                     [disabled]="disabled.sendNotify"
                   ></seer-cool-checkbox> 推送通知
                   <seer-cool-checkbox
                     name="sendMessage"
                     [(checked)]="message.sendMessage"
-                    (change)="ckboxToggle('sendMessage')"
                     [disabled]="disabled.sendMessage"
                   ></seer-cool-checkbox> 短信通知
                 </div>
@@ -80,10 +77,10 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-xs-12 col-md-12 col-lg-6">
+            <div class="col-md-12 col-lg-6">
               <div class="form-group">
-                <label class="col-sm-2 control-label">下发时间</label>
-                <div class="col-sm-4">
+                <label class="col-lg-4 col-xlg-2 control-label">下发时间</label>
+                <div class="col-lg-5 col-xlg-7">
                   <seer-datepicker
                     [(date)]="message.expectSendTime"
                     [name]="expectSendTime"
@@ -93,8 +90,11 @@
                   >
                   </seer-datepicker>
                 </div>
-                <div class="col-sm-4">
-                  <seer-checkbox (click)="ckboxToggle('now')" [isChecked]="IsChecked.now" [label]="'即刻下发'" [disabled]="disabled.now"></seer-checkbox>
+                <div class="col-lg-3 col-xlg-3">
+                  <seer-cool-checkbox
+                    (click)="sendNow($event)"
+                  ></seer-cool-checkbox> 即刻下发
+                  <!--<seer-checkbox (click)="ckboxToggle('now')" [isChecked]="IsChecked.now" [label]="'即刻下发'" [disabled]="disabled.now"></seer-checkbox>-->
                 </div>
               </div>
             </div>
