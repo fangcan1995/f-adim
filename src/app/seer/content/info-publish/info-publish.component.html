@@ -16,8 +16,7 @@
   </div>
   <div class="col-sm-9">
     <seer-collapse-card [title]="tableTitle" baCardClass="with-scroll" [canCollapse]=false>
-      <seer-collapse-card
-      >
+      <seer-collapse-card>
         <seer-filter
           [hasGlobalFilter]="hasGlobalFilter"
           [filters]="filters"
@@ -25,13 +24,12 @@
           (onSearchBtnClicked)=handleSearchBtnClicked($event)
         ></seer-filter>
       </seer-collapse-card>
-      <seer-collapse-card
-      >
+      <seer-collapse-card>
         <seer-table
           [data]="source"
           [titles]="titles"
           (notify)="onChange($event)"
-
+          [hideCheckbox]="true"
           [hideColumns]="true"
           [hidePrint]="true"
           [hideRemoveAll]="true"
