@@ -188,6 +188,9 @@ export class UserEditComponent implements OnInit {
         }).value();
 
         this.staffTreeNodes = json2Tree(departments.concat(staffs));
+        setTimeout(() => {
+          this.staffTree.setActiveNodes([this.activeStaff.id]);
+        })
       })
   }
   showSuccess(message: string) {
@@ -209,7 +212,7 @@ export class UserEditComponent implements OnInit {
   }
   onNotice ({ eventName, node }) {
     console.log(eventName)
-    if( eventName == 'onFocus' ) {
+    if( eventName == 'onActivate' ) {
       if ( node.data.type == 'S' ) {
         this.activeStaff = node.data;
       } else {
@@ -221,6 +224,6 @@ export class UserEditComponent implements OnInit {
     this.staffTree.clearHistory()
   }
   handleModalShown() {
-    this.staffTree.setActiveNodes([this.activeStaff.id])
+   
   }
 }

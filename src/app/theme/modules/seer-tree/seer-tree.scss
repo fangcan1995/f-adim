@@ -132,7 +132,7 @@ $tree-node-height: 36px;
   }
 
   .node-content-wrapper.is-dragging-over-disabled {
-    opacity: 0.5
+    opacity: 0.5;
   }
 
   .toggle-children-wrapper {
@@ -140,11 +140,11 @@ $tree-node-height: 36px;
     cursor: pointer;
   }
   .node-wrapper:hover > .node-content-wrapper > treenodecontent > .tree-node-actions {
-    display: block;
+    visibility: visible;
   }
   .tree-node-actions {
     position: relative;
-    display: none;
+    visibility: hidden;
     > .tree-node-action-list {
       display: none;
       position: absolute;
