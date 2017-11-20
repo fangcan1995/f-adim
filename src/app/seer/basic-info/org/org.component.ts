@@ -166,25 +166,23 @@ export class OrgComponent implements OnDestroy{
 
   // 表的数据的获取
   getlist(params){
-     /*this.service.getData(params)
-      .then(res => {
-        this.datas = res.data;
-
-        this.datas = _.map(this.datas, r => _.set(r, 'actions', [ DELETE ]));
-      })*/
      this.service.getData(params).then( result => {
+       console.log('========================||||||||||||||||||');
+       console.log(result);
        this.pageInfo.pageNum = result.data.pageNum;  //当前页
        this.pageInfo.pageSize = result.data.pageSize; //每页记录数
        this.pageInfo.total = result.data.total; //记录总数
        this.datas = result.data.list;
        this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE,CONFIG_LEADER]));
+     }).catch(err => {
+       console.log(err);
      });
 
   }
 
   /* 全局搜索 */
 
-  seachFilter () {
+  searchFilter () {
     this.service.getData(this.pageInfo).then( result => {
       this.pageInfo.pageNum = result.data.pageNum;  //当前页
       this.pageInfo.pageSize = result.data.pageSize; //每页记录数
@@ -193,6 +191,7 @@ export class OrgComponent implements OnDestroy{
       this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE,CONFIG_LEADER]));
     });
   }
+
 
 
 
@@ -299,6 +298,7 @@ export class OrgComponent implements OnDestroy{
         if($event.node.data.departmentLeader) {
           this.service.getStaffInfo($event.node.data.departmentLeader)
             .then( result => {
+              console.log(result);
               if(result.data.sysEmployer.empName) {
                 this.info.departmentLeader = result.data.sysEmployer.empName;
               }

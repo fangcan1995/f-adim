@@ -41,7 +41,8 @@ export class InfoPublishEditComponent implements  OnInit, OnChanges {
   private uploadDisabled:boolean=false;
 
   /* 上传图片相关 */
-  fileApi = 'http://172.16.1.221:8070/affiche/file';
+  /*fileApi = 'http://172.16.7.4:8020/notice/affiche';*/
+  fileApi=`${BASE_URL}/notice/affiche`;
   token = getStorage({key: 'token'});
   tokenType = this.token.token_type;
   accessToken = this.token.access_token;
@@ -106,10 +107,10 @@ export class InfoPublishEditComponent implements  OnInit, OnChanges {
           this.saveButtonState = false;
           console.log(this.infoPublishSource);
           //初始化uploader变量，用来配置input 中的uploader属性
-          let headers = [{name: 'Authorization', value: `${this.tokenType}${this.accessToken}`}];
+          let headers = [{name: 'Authorization', value: `${this.tokenType} ${this.accessToken}`}];
           this.uploader = new FileUploader({
-            url: `${this.fileApi}?id=${this.newsId}&fileId=${this.infoPublishSource.fileId}`,
-            method: 'PUT',
+            url: `${this.fileApi}/upfile?id=${this.newsId}&fileId=${this.infoPublishSource.fileId}`,
+            method: 'POST',
             headers: headers
           });
           this.uploader.onSuccessItem = this.successItem.bind(this);
@@ -123,7 +124,7 @@ export class InfoPublishEditComponent implements  OnInit, OnChanges {
         // 初始化定义uploader变量,用来配置input中的uploader属性
         let headers = [{name: 'Authorization', value: `${this.tokenType} ${this.accessToken}`}];
         this.uploader = new FileUploader({
-          url: this.fileApi,
+          url: `${this.fileApi}/file`,
           method: "POST",
           headers:headers,
         });

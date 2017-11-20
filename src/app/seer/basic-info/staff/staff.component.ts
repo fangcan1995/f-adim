@@ -113,7 +113,7 @@ export class StaffComponent {
         this.openUsers(data);
         break;
       case 'click':
-        window.open('http://localhost:4200/basic-info/staff-manage/detail/' + data.id, '_blank');
+        this._router.navigate([`detail/${data.id}`], {relativeTo: this._route});
         break;
       default:
         break;

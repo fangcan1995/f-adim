@@ -108,12 +108,19 @@ export class MessageEditComponent {
       this.isPickUsersAble=false;
       this.service.getMessageById(this.editId).then((data) => {
         this.message = data.data;
-        if(this.message.adaptationUser=="backend"){
+
+        if(this.message.adaptationUser=="1"){
+          this.usersType="users";
+          //后台用户
           this.disabled={"sendMail":true,"sendNotify":true,"sendMessage":false,"now":false}
+        }else if(this.message.adaptationUser=="0"){
+          //前台用户
+          this.usersType="members";
         }
       });
     }else {
       this.isPickUsersAble=true;
+
     };
   }
   //激活选择用户按钮
@@ -141,19 +148,16 @@ export class MessageEditComponent {
     this.ids='';
     this.chooseResult='选择用户';
   }
+
   //即刻下发事件处理方法
-  ckboxToggle(messageType:any){
-    if(messageType=='now'){
-      this.IsChecked[messageType]=!this.IsChecked[messageType]; //切换对勾状态
-      if(this.disabled[messageType]==false){
-          this.disabled.now=true;
-          this.allowChange=true;
-          this.readonly=true;
-      }else{
-        this.disabled.now=false;
-        this.allowChange=false;
-        this.readonly=false;
-      }
+  sendNow($event){
+    if($event.toElement.checked){
+      //this.readonly=true;
+      this.message.expectSendTime='';
+      this.allowChange=true;
+    }else{
+      //this.readonly=false;
+      this.allowChange=false;
     }
   }
   //保存
@@ -181,7 +185,7 @@ export class MessageEditComponent {
       this.message.sendNotify=this.Cint(this.message.sendNotify);
       this.message.sendMessage=this.Cint(this.message.sendMessage);
       this.message.receivers=this.ids;
-      console.log(this.message);
+      //console.log(this.message);
       this.service.postOne(this.message).then((data:any) => {
         this.forbidSaveBtn = false;
         this.showSuccess(data.msg || '保存成功')
@@ -366,7 +370,7 @@ export class MessageEditComponent {
           if(this.usersType=='members'){
             this.ids=data.message || null;
           }else if(this.usersType=='users'){
-            this.ids=data.data.ids || null;message
+            this.ids=data.data.ids || null;
           }
           this.chooseResult=`已选定${this.modalPageInfo.total}人`
         }).catch(err=>{
@@ -385,18 +389,37 @@ export class MessageEditComponent {
     let data = message.data;
     let keyId;
     if(this.usersType=='members'){
-      keyId=data.memberId;
+      keyId='memberId';
     }else if(this.usersType=='users'){
-      keyId=data.id;
+      keyId='id';
     }
-    switch (type) {
+    switch (type){
       case 'select_one':
+
+        //选中追加到数组中，否则从数组中删除
+        let idIndex=this.selectedUserId.findIndex(x => x == data[keyId]);
         if(data.selected){
-          this.selectedUserId.push(keyId);
+          if(idIndex<0){
+            this.selectedUserId.push(data[keyId]);
+          }
         }else{
-          let idIndex=this.selectedUserId.findIndex(x => x == keyId);
           this.selectedUserId.splice(idIndex,1);
         }
+
+        break;
+      case 'select_all':
+        //遍历数组，选中追加到数组中，否则从数组中删除
+        data.map(r=> {
+          let idIndex=this.selectedUserId.findIndex(x => x == r[keyId]);
+          if(r.selected){
+            //如果选中人员中不存在这个人
+            if(idIndex<0){
+              this.selectedUserId.push(r[keyId]);
+            }
+          }else{
+            this.selectedUserId.splice(idIndex,1);
+          }
+        })
         break;
       default:
         break;

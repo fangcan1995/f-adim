@@ -8,6 +8,7 @@ import {TREE_PERMISSIONS} from "../../../theme/modules/seer-tree/constants/permi
 import {TREE_EVENTS} from "../../../theme/modules/seer-tree/constants/events";
 import {SeerTree} from "../../../theme/modules/seer-tree/seer-tree/seer-tree.component";
 import {infoModle} from "./infoModle";
+import {formatDate} from "ngx-bootstrap/bs-moment/format";
 /*import any = jasmine.any;*/
 import {DynamicComponentLoader} from "../../../theme/directives/dynamicComponent/dynamic-component.directive";
 import { InfoPublishService } from "./info-publish.service";
@@ -40,10 +41,24 @@ export class InfoPublishComponent {
       options: [
         {content: '全部'},
         {value: '1', content: '已发布'},
-        {value: '2', content: '未发布'},
+        {value: '0', content: '未发布'},
       ]
     },
+    {
+      key: 'effectTime',
+      label: '生效时间',
+      groups: [
+        {
+          type: 'datepicker',
+        },
+        {
+          type: 'datepicker',
+        },
+      ],
+      groupSpaces: ['至']
+    }
   ];
+
 
 
   /* 更新信息缓存 */
@@ -65,7 +80,10 @@ export class InfoPublishComponent {
     typeId: 1,
     globalSearch: '',
     sortBy: '',
-    isRoot: 1
+    isRoot: 1,
+    status: '',
+    updateTimeStart: '',
+    updateTimeEnd: ''
   };
 
 
@@ -106,6 +124,7 @@ export class InfoPublishComponent {
   ngOnDestroy(): void {
     this._state.unsubscribe("orgStaffState");
   }
+
 
 
   /* --------------------------------------------------------------------------------------------- */
@@ -201,6 +220,28 @@ export class InfoPublishComponent {
       });
     }
 
+  }
+
+  /* 全局搜索 */
+  handleFiltersChanged ($event) {
+    this.pageInfo.globalSearch = $event.globalSearch ? $event.globalSearch : '';
+    this.pageInfo.status = $event.tplName ? $event.tplName : '';
+    if ( _.isArray($event.effectTime) ) {
+      this.pageInfo.updateTimeStart = $event.effectTime[0] ? (formatDate($event.effectTime[0],'YYYY-MM-DD hh:mm:ss')) : null;
+      this.pageInfo.updateTimeEnd = $event.effectTime[1] ? (formatDate($event.effectTime[1],'YYYY-MM-DD hh:mm:ss')) : null;
+    }
+    this.getColumnList(this.pageInfo);
+  }
+
+  /* 搜索按钮 */
+  handleSearchBtnClicked ($event) {
+    this.pageInfo.globalSearch = $event.globalSearch ? $event.globalSearch : '';
+    this.pageInfo.status = $event.tplName ? $event.tplName : '';
+    if ( _.isArray($event.effectTime) ) {
+      this.pageInfo.updateTimeStart = $event.effectTime[0] ? (formatDate($event.effectTime[0],'YYYY-MM-DD hh:mm:ss')) : null;
+      this.pageInfo.updateTimeEnd = $event.effectTime[1] ? (formatDate($event.effectTime[1],'YYYY-MM-DD hh:mm:ss')) : null;
+    }
+    this.getColumnList(this.pageInfo);
   }
 
   /*--------------------------------------------------------------------------------------------*/

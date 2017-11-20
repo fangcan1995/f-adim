@@ -19,7 +19,7 @@ export class AdverEditComponent implements OnInit{
   public forbidSaveBtn: boolean = true;
   //上传图片相关
   //fileApi=`http://172.16.1.221:8070/advertising/file`; //上传接口
-  fileApi=`${BASE_URL}/${API['ADVERTISINGS']}/file`; //上传接口
+  fileApi=`${BASE_URL}/${API['ADVERTISINGS']}`; //上传接口
   token = getStorage({ key: 'token' });
   tokenType = this.token.token_type;
   accessToken =this.token.access_token;
@@ -41,7 +41,6 @@ export class AdverEditComponent implements OnInit{
       .subscribe(params => {
         if (this._editType === 'edit') {
           this.advertisingId=params.id;
-
           this._advertisingService.getOne(params.id)
             .then(res => {
               this.advertising = res.data || {};
@@ -50,10 +49,9 @@ export class AdverEditComponent implements OnInit{
               // 初始化定义uploader变量,用来配置input中的uploader属性
               let headers = [{name: 'Authorization', value: `${this.tokenType} ${this.accessToken}`}];
               this.uploader = new FileUploader({
-                url:`${this.fileApi}?id=${this.advertisingId}&fileId=${this.advertising.fileId}`,
-                method: "PUT",
+                url:`${this.fileApi}/upfile?id=${this.advertisingId}&fileId=${this.advertising.fileId}`,
+                method: "POST",
                 headers:headers,
-                //allowedFileType:this.imageType,
               });
               this.uploader.onSuccessItem = this.successItem.bind(this);
               this.uploader.onCompleteAll = this.onCompleteAll.bind(this);
@@ -66,7 +64,7 @@ export class AdverEditComponent implements OnInit{
           // 初始化定义uploader变量,用来配置input中的uploader属性
           let headers = [{name: 'Authorization', value: `${this.tokenType} ${this.accessToken}`}];
           this.uploader = new FileUploader({
-            url: this.fileApi,
+            url: `${this.fileApi}/file`,
             method: "POST",
             headers:headers,
           });
@@ -88,11 +86,14 @@ export class AdverEditComponent implements OnInit{
   successItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders):any{
     if (status == 200) {
       // 上传文件后获取服务器返回的数据
+      console.log(response);
       let tempRes = JSON.parse(response);
       this.attachments.push(tempRes.data);
       let fileLength = this.uploader.queue.length;
       this.progress += Math.round(100/fileLength);
+
       //唯一图片场景下
+
       let attachmentsNum=this.attachments.length-1;
       if(!this.attachments[attachmentsNum]){
         this.showError('上传失败');
