@@ -12,6 +12,7 @@ import {
     BsDropdownModule,
     PopoverModule,
     BsDatepickerModule,
+    TimepickerModule,
 } from 'ngx-bootstrap';
 
 import { DataTableModule } from "angular2-datatable";
@@ -76,6 +77,7 @@ import { SeerAddressPickerComponent } from './seer-address-picker';
     ChartsModule,
     PopoverModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    TimepickerModule.forRoot(),
   ],
   providers:[
 
