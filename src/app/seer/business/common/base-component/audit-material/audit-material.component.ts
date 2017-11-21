@@ -120,7 +120,9 @@ export class AuditMaterialComponent implements OnInit, OnChanges{
         console.log(res.message);
         this.showError(res.message);
       }
-    });
+    }).catch(err => {
+      this.showError( err.msg || '删除文件失败' );
+      });
   }
 
   showSuccess(message: string) {

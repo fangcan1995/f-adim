@@ -7,6 +7,7 @@ import { IntentionComponent } from './intention.component';
 import { IntentionService } from "./intention.service";
 import {MemberService} from "../../basic-info/member/member.service";
 import {CommonService} from "../common/common.service";
+import {SeerMessageService} from "../../../theme/services/seer-message.service";
 
 
 
@@ -22,8 +23,8 @@ import {CommonService} from "../common/common.service";
   providers: [
     IntentionService,
     CommonService,
-    MemberService
-
+    MemberService,
+    SeerMessageService
   ],
   exports: [
 

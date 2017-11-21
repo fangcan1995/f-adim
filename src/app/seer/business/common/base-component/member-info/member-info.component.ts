@@ -90,6 +90,8 @@ export class MemberInfoComponent implements OnInit {
       } else {
         this.showError(res.msg || '保存失败');
       }
+    }).catch(err => {
+      this.showError( err.msg || '保存失败' );
     });
   }
 

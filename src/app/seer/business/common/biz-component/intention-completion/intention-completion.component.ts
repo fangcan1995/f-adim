@@ -79,6 +79,8 @@ export class IntentionCompletionComponent implements OnInit, OnChanges {
       }else {
         console.log("fail");
       }
+    }).catch(err => {
+      this.showError( err.msg || '获取贷款信息失败' );
     });
   }
 

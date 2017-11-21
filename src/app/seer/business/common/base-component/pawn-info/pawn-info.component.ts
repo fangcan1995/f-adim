@@ -48,6 +48,8 @@ export class PawnInfoComponent implements OnInit, OnChanges{
       }else {
         console.log(res.message);
       }
+    }).catch(err => {
+      this.showError( err.msg || '设置抵押物失败' );
     });
   }
 
@@ -61,6 +63,8 @@ export class PawnInfoComponent implements OnInit, OnChanges{
       }else {
         console.log(res.message);
       }
+    }).catch(err => {
+      this.showError( err.msg || '设置抵押物失败' );
     });
   }
 

@@ -8,6 +8,7 @@ import { TargetService } from "./target.service";
 import { TargetComponent } from './target.component';
 import {CommonService} from "../common/common.service";
 import {MemberService} from "../../basic-info/member/member.service";
+import {SeerMessageService} from "../../../theme/services/seer-message.service";
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import {MemberService} from "../../basic-info/member/member.service";
   providers: [
     TargetService,
     CommonService,
-    MemberService
+    MemberService,
+    SeerMessageService
 
   ],
 })

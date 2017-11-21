@@ -120,27 +120,33 @@ export class CommonService extends BaseService<any>{
 
       //待补填资料
       case "10":
-        actions = [DETAIL, COMPLETION]; break;
+        //actions = [DETAIL, COMPLETION]; break;
+        actions = [DETAIL]; break;
 
       //待初审
       case "20":
-        actions = [DETAIL, FIRSTAUDIT]; break;
+        //actions = [DETAIL, FIRSTAUDIT]; break;
+        actions = [DETAIL]; break;
 
       //待复审
       case "30":
-        actions = [DETAIL, SECONDAUDIT]; break;
+        //actions = [DETAIL, SECONDAUDIT]; break;
+        actions = [DETAIL]; break;
 
       //待标的发布
       case "40":
-        actions = [DETAIL, RELEASE]; break;
+        //actions = [DETAIL, RELEASE]; break;
+        actions = [DETAIL]; break;
 
       //投资中
       case "50":
-        actions = [DETAIL, TEST]; break;
+        //actions = [DETAIL, TEST]; break;
+        actions = [DETAIL]; break;
 
       //待满标审核
       case "60":
-        actions = [DETAIL, FILLAUDIT]; break;
+        //actions = [DETAIL, FILLAUDIT]; break;
+        actions = [DETAIL]; break;
 
       //还款中
       case "70":
@@ -148,7 +154,8 @@ export class CommonService extends BaseService<any>{
 
       //提前还款申请
       case "80":
-        actions = [DETAIL, PREPAYAUDIT]; break;
+        //actions = [DETAIL, PREPAYAUDIT]; break;
+        actions = [DETAIL]; break;
 
       //待提前还款
       case "81":

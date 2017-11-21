@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 
 import {CommonService} from "../common/common.service";
 import {TargetService} from "./target.service";
+import {SeerMessageService} from "../../../theme/services/seer-message.service";
 
 @Component({
   templateUrl: './target.component.html',
@@ -86,7 +87,8 @@ export class TargetComponent {
 
   constructor(
     private service: TargetService,
-    private commonService: CommonService) {}
+    private commonService: CommonService,
+    private _messageService: SeerMessageService,) {}
 
   ngOnInit() {
 
@@ -105,6 +107,8 @@ export class TargetComponent {
       this.source = _.map(this.source, i => {
         return _.set(i, 'actions', this.commonService.setAction(i.projectStatus));
       });
+    }).catch(err => {
+      this.showError( err.msg || '查询失败' );
     });
   }
 
@@ -125,6 +129,22 @@ export class TargetComponent {
   //操作
   onChange($event) {
     this.commonService.loadForm($event.type, $event.data.id);
+  }
+
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
   }
 }
 

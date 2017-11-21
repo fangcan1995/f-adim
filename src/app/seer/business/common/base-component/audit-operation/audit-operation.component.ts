@@ -52,8 +52,8 @@ export class AuditOperationComponent implements OnInit, OnChanges {
         }else {
           console.log(res.message);
         }
-      }).catch(e => {
-        console.log(e)
+      }).catch(err => {
+        this.showError( err.msg || '获取下级审批节点失败' );
       });
   }
   public submit(): void {
@@ -76,6 +76,8 @@ export class AuditOperationComponent implements OnInit, OnChanges {
           this.showError('提交失败');
           this.handleBackBtnClick();
         }
+      }).catch(err => {
+        this.showError( err.msg || '提交失败' );
       });
     }else {
       this.service.audit(param).then(res => {
@@ -87,6 +89,8 @@ export class AuditOperationComponent implements OnInit, OnChanges {
           //this.showError(res.msg || '提交失败');
           this.handleBackBtnClick();
         }
+      }).catch(err => {
+        this.showError( err.msg || '提交失败' );
       });
     }
   }

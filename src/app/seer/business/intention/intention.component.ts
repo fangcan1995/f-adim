@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import * as _ from 'lodash';
 import { IntentionService } from "./intention.service";
 import {CommonService} from "../common/common.service";
+import {SeerMessageService} from "../../../theme/services/seer-message.service";
 
 @Component({
   templateUrl: './intention.component.html',
@@ -85,7 +86,8 @@ export class IntentionComponent {
 
   constructor(
     private service: IntentionService,
-    private commonService: CommonService) {}
+    private commonService: CommonService,
+    private _messageService: SeerMessageService,) {}
 
   ngOnInit() {
 
@@ -103,6 +105,8 @@ export class IntentionComponent {
       this.source = _.map(this.source, i => {
         return _.set(i, 'actions', this.commonService.setAction(i.projectStatus));
       });
+    }).catch(err => {
+      this.showError( err.msg || '查询失败' );
     });
   }
 
@@ -123,6 +127,22 @@ export class IntentionComponent {
   //操作
   onChange($event) {
     this.commonService.loadForm($event.type, $event.data.projectId);
+  }
+
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
   }
 }
 

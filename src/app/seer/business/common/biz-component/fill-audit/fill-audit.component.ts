@@ -79,6 +79,8 @@ export class FillAuditComponent implements OnInit, OnChanges {
       }else {
         console.log("fail");
       }
+    }).catch(err => {
+      this.showError( err.msg || '获取贷款信息失败' );
     });
   }
 
@@ -139,6 +141,8 @@ export class FillAuditComponent implements OnInit, OnChanges {
       } else {
         this.showError(res.msg || '提交失败');
       }
+    }).catch(err => {
+      this.showError( err.msg || '提交失败' );
     });
   }
 }

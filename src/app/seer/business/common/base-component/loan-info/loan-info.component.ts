@@ -31,14 +31,19 @@ export class LoanInfoComponent implements OnInit, OnChanges, AfterViewInit {
 
     //初审、复审时
     if( undefined != this.loan['projectStatus'] && this.loan['projectStatus'] != 10) {
+
       //设置借款类型禁用
       document.getElementById("loanApplyType").setAttribute("disabled", "disabled");
+
       //设置项目名称禁用
       document.getElementById("projectName").setAttribute("disabled", "disabled");
+
       //设置还款方式禁用
       document.getElementById("repayType").setAttribute("disabled", "disabled");
+
       //设置手续费禁用
       document.getElementById("serviceRate").setAttribute("disabled", "disabled");
+
       //设置还款来源禁用
       document.getElementById("repayFrom").setAttribute("disabled", "disabled");
     }
@@ -57,7 +62,9 @@ export class LoanInfoComponent implements OnInit, OnChanges, AfterViewInit {
       } else {
         this.showError(res.msg || '保存失败');
       }
-    }));
+    })).catch(err => {
+      this.showError( err.msg || '保存失败' );
+    });
   }
 
   //借款类型改变通知

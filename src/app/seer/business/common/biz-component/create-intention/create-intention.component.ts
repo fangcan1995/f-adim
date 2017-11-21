@@ -119,6 +119,8 @@ export class CreateIntentionComponent implements OnInit, OnChanges {
           //this.showError(res.msg || '提交失败');
           this.showError('申请失败');
         }
+      }).catch(err => {
+        this.showError( err.msg || '申请失败' );
       });
     }else {
       this.showError("请选择会员");

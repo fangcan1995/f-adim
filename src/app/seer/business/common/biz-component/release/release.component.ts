@@ -139,6 +139,8 @@ export class ReleaseComponent implements OnInit, OnChanges {
       } else {
         this.showError(res.msg || '提交失败');
       }
+    }).catch(err => {
+      this.showError( err.msg || '提交失败' );
     });
   }
 }

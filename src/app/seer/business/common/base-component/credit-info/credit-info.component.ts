@@ -73,6 +73,8 @@ export class CreditInfoComponent implements OnInit, OnChanges {
         //this.showError(res.msg || '查询失败');
         this.showError('查询失败');
       }
+    }).catch(err => {
+      this.showError( err.msg || '查询失败' );
     });
   }
 
