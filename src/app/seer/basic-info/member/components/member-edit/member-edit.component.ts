@@ -62,6 +62,7 @@ export class MemberEditComponent implements OnInit {
         this._memberService.getOne(params.id).then(res => {
           this.memberId=params.id;
           this.member = res.data || {};
+          console.log(this.member);
           this.baseInfo=this.member.baseInfo|| {};
           this.emergencyContact=this.member.contactList|| [];
           this.workInfo=this.member.workInfo|| {};
@@ -268,11 +269,16 @@ export class MemberEditComponent implements OnInit {
     });
   }
   //解锁/锁定
-  lock(){
-    this._memberService.patchOne(this.memberId,{"memberId":this.memberId,"status":0}).then((data:any)=>{
-      this.showSuccess(data.msg || '该会员已经启用');
+  lock(status){
+    console.log(status);
+    let params={
+      "memberId":this.memberId,
+      "status":'1'
+    }
+    this._memberService.patchOne(this.memberId,params).then((data:any)=>{
+      this.showSuccess(data.msg || '设置成功');
     }).catch(err => {
-      this.showError(err.msg || '启用失败');
+      this.showError(err.msg || '设置失败');
     });
   }
   //后退

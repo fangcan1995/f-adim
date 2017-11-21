@@ -163,9 +163,9 @@ export class MemberService extends BaseService<ResModel>{
         })
     })
   }
-  //21 修改一条数据，提供部分字段
+  //21 修改一条数据，提供部分字段,有问题
   patchOne(id,params): Promise<ResModel> {
-    console.log(params);
+    console.log(this.accessToken);
     return this._httpInterceptorService.request('PATCH', `${this.MembersUrl}/${id}/status`, params).toPromise();
   }
 }

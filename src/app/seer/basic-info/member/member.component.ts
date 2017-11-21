@@ -29,15 +29,7 @@ export class MemberComponent implements OnInit {
       ],
       groupSpaces: ['至']
     },
-    {
-      key: 'status', label: '会员状态', type: 'select',
-      options: [
-        {content: '请选择'},
-        {value: '0', content: '启用'},
-        {value: '1', content: '登录帐号锁定'},
-        {value: '2', content: '停用'}
-      ]
-    },
+    {key: 'status', label: '会员状态', type: 'select', isDict: true, category: 'MEMBER_STATUS'},
     {
       key: 'registTime',
       label: '注册时间',
@@ -116,7 +108,7 @@ export class MemberComponent implements OnInit {
               actions = [PREVIEW,UPDATE];
               break;
             case 1://锁定
-              actions = [PREVIEW];
+              actions = [PREVIEW,UPDATE];
               break;
             case 2://停用
               actions = [PREVIEW];
