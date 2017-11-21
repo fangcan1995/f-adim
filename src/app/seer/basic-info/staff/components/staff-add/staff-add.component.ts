@@ -33,9 +33,9 @@ export class StaffAddComponent implements OnInit {
   public titlesRelation = titlesRelation;
   public titlesExperience = titlesExperience;
 
-  @ViewChild('educationView') educationView;
-  @ViewChild('relationView') relationView;
-  @ViewChild('experienceView') experienceView;
+  @ViewChild('educationView') educationView; //学历技能信息表格
+  @ViewChild('relationView') relationView; //家庭主要关系表格
+  @ViewChild('experienceView') experienceView; //主要工作经历表格
 
   collapseCardActions = [SAVE];
   simpleTableActions = [UPDATE, DELETE];
@@ -52,7 +52,7 @@ export class StaffAddComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.getOrganizations();
+    this.getOrganizations();
     this._route.url.mergeMap(url => {
       this._editType = url[0].path;
       return this._route.params
