@@ -1,0 +1,27 @@
+:host /deep/ {
+  .group {
+    div {
+      border: 0 solid rgba(0, 0, 0, 0.15);
+      background: #ccc;
+      appearance: none;
+      padding-right: 0;
+      padding-left: 0;
+      position: relative;
+      .unit{
+        position: absolute;
+        right: 10px;
+        top:7px;
+        font-size: 12px;
+      }
+
+    }
+    label {
+      text-align: center;
+      padding-top: 5px;
+      font-size: 14px;
+    }
+  }
+  .modal-body{
+    .unit{ color:#00abff}
+  }
+}

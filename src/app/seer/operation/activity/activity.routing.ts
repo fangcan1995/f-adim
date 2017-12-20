@@ -10,6 +10,10 @@ const routes: Routes = [
     		path: '',
     		component: ActivityComponent,
     	},
+      {
+        path: 'add',
+        component: ActivityEditComponent,
+      },
     	{
     		path: 'edit',
     		component: ActivityEditComponent,
