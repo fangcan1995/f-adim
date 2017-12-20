@@ -14,10 +14,10 @@ const routes: Routes = [
         path: 'add',
         component: ActivityEditComponent,
       },
-    	{
-    		path: 'edit',
-    		component: ActivityEditComponent,
-    	},
+      {
+        path: 'edit/:id',
+        component: ActivityEditComponent,
+      },
     ]
   }
 ];

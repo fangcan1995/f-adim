@@ -7,6 +7,7 @@ import {ActivityService} from "../../activity.service";
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { BsModalService} from 'ngx-bootstrap/modal';
+import {UPDATE, DELETE,PREVIEW} from "../../../../common/seer-table/seer-table.actions"
 @Component({
   templateUrl: './activity-edit.component.html',
   styleUrls: ['./activity-edit.component.scss']
@@ -14,10 +15,13 @@ import { BsModalService} from 'ngx-bootstrap/modal';
 export class ActivityEditComponent implements OnInit {
 
   public activity: any = {};
+  public baseInfo: any = {};
+  public awards: any = {};
+  public scopes: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
   isInvestMode:boolean = true;
-  public source = [];
+  //public source = [];
   public data = [];
   @ViewChild('simpleTable') simpleTable
   constructor(private _activityService: ActivityService,
@@ -27,13 +31,13 @@ export class ActivityEditComponent implements OnInit {
               private _location: Location,
               private modalService: BsModalService,) {
   }
-  /*titles = [
+  titles = [
     {key:'jpmc',label:' 奖品名称'},
-    {key:'jplx',label:'类型'},
+    {key:'awardType',label:'类型',isDict: true, category: 'AWARD_TYPE'},
     {key:'jcsl',label:'已抽数量'},
     {key:'jpsl',label:'奖品数量'},
     {key:'djl',label:'得奖率'},
-  ];*/
+  ];
   //模态框相关
   modalClass={"class":"modal-lg"};
   modalUsers=[];
@@ -95,36 +99,35 @@ export class ActivityEditComponent implements OnInit {
     })
       .subscribe(params => {
         if (this._editType === 'edit') {
-          console.log(params.id);
-          /*this._activityService.getOne(params.id)
-            .subscribe(res => {
+          this._activityService.getOne(params.id)
+            .then(res => {
               this.activity = res.data || {};
+              this.baseInfo=this.activity.baseInfo;
+              this.baseInfo.pl1=(this.baseInfo.pl).split("/")[0];   //频率字段拆分
+              this.baseInfo.pl2=(this.baseInfo.pl).split("/")[1];
+              this.awards=this.activity.awards;
+              this.awards.data=this.awards.redEnvelopes.concat(this.awards.rateCoupons).concat(this.awards.raffleTickets).concat(this.awards.physicalRewards);
+              this.awards.data=_.map(this.awards.data, t => {
+                return _.set(t, 'actions', [PREVIEW, UPDATE, DELETE]);
+              });
               this.forbidSaveBtn = false;
-              /!*this.getList();
-              this.getData();*!/
-            }, errMsg => {
-              // 错误处理的正确打开方式
-              this._messageService.open({
-                icon: 'fa fa-times-circle',
-                message: errMsg,
-                autoHideDuration: 3000,
-              }).onClose().subscribe(() => {
-                this._location.back()
-              })
-            })*/
+            })
+            .catch(err => {
+              this.showError(err.msg || '获取失败');
+            });
+
         } else if (this._editType === 'add') {
-          console.log('新增');
           this.forbidSaveBtn = false;
         }
       })
 
   }
 // 假数据
- getList(params?):void{
+/* getList(params?):void{
       this._activityService.getDatas()
       .then(res => {
-        console.log(res.data);
-        this.source = res.data;
+        //console.log(res.data);
+        this.awards = res.data;
       });
   }
 
@@ -134,7 +137,7 @@ export class ActivityEditComponent implements OnInit {
         console.log(res.data);
         this.data = res.data;
       });
-  }
+  }*/
   handleBackBtnClick() {
     this._location.back()
   }
@@ -310,4 +313,20 @@ export class ActivityEditComponent implements OnInit {
   openAwardsModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
+
+  showSuccess(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-check',
+      autoHideDuration: 3000,
+    })
+  }
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
+  }
+
 }

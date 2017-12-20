@@ -138,12 +138,71 @@ export class ActivityService extends BaseService<ResModel>{
       resolve(
         {
           "data": {
-            baseInfo: {},
+            baseInfo: {
+              'activityId':'20171220001',
+              'activityTheme':'三八节活动',
+              'glhd':'20171220003',
+              'trigMode':'1',
+              'productCategory':'3',
+              'investLimit':'1',
+              'investAmount1':'10000.00',
+              'investAmount2':'100000.00',
+              'investTimes1':'1',
+              'investTimes2':'10',
+              'activityStartTime':'2017/12/01',
+              'activityEndTime':'2017/12/01',
+              'pl':'1/7',  //频率
+              'issueTime':'1',
+              'ymlj':'www.baidu.com',
+              'remark':'这是备注',
+              'activityScope':'2'
+            },
             awards: {
-              redEnvelopes:[],
-              rateCoupons:[],
-              raffleTickets:[],
-              physicalRewards:[]
+              redEnvelopes:[
+                {
+                  'jpmc':'18元现金红包',
+                  'awardType':'1',
+                  're_type':'1',
+                  'jcsl':'10',
+                  'jpsl':'100',
+                  'djl':'100%'
+                },
+                {
+                  'jpmc':'100元返现红包',
+                  'awardType':'1',
+                  're_type':'2',
+                  'jcsl':'10',
+                  'jpsl':'100',
+                  'djl':'100%'
+                }
+                ],
+              rateCoupons:[
+                {
+                  'jpmc':'30天加息券',
+                  'awardType':'2',
+                  'jcsl':'10',
+                  'jpsl':'100',
+                  'djl':'100%'
+                }
+              ],
+              raffleTickets:[
+                {
+                  'jpmc':'100元京东卡',
+                  'awardType':'3',
+                  'jcsl':'10',
+                  'jpsl':'100',
+                  'djl':'100%'
+                }
+              ],
+              physicalRewards:[
+                {
+                  'jpmc':'幸运大抽奖',
+                  'awardType':'4',
+                  'jcsl':'10',
+                  'jpsl':'100',
+                  'djl':'100%'
+                }
+              ]
             },
             scopes: [],
           },
