@@ -107,12 +107,10 @@
               <div class="row">
                 <label  class="col-sm-4 col-md-2 control-label">活动时间</label>
                 <div class="col-sm-8 col-md-10 group" >
-                  <div class="col-sm-5">
+                  <!--<div class="col-sm-5">
                     <seer-datepicker
                       [(date)]="baseInfo.activityStartTime"
-                      [name]="activityStartTime"
                       [dateFormatingRules]="'yyyy-MM-dd'"
-                      [readonly]="readonly"
                     >
                     </seer-datepicker>
                   </div>
@@ -120,12 +118,10 @@
                   <div class="col-sm-5">
                     <seer-datepicker
                       [(date)]="baseInfo.activityEndTime"
-                      [name]="activityEndTime"
                       [dateFormatingRules]="'yyyy-MM-dd'"
-                      [readonly]="readonly"
                     >
                     </seer-datepicker>
-                  </div>
+                  </div>-->
                 </div>
 
               </div>
@@ -181,30 +177,74 @@
     </div>
     <div class="col-md-12">
       <seer-collapse-card cardTitle="活动奖励信息" cardClass="with-scroll" >
-        <div>
-          <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="openAwardsModal(award1)">添加现金红包</button>
-          <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="openAwardsModal(award2)">添加返现红包</button>
-          <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="openAwardsModal(award3)">添加加息券</button>
-          <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="openAwardsModal(award4)">添加实物礼品</button>
-          <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="openAwardsModal(award5)">添加抽奖券</button>
+        <div style="margin-bottom: 10px">
+          <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="openAwardsModal('redEnvelopes',award1,-1,false)">添加现金红包</button>
+          <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="openAwardsModal('redEnvelopes',award2,-1,false)">添加返现红包</button>
+          <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="openAwardsModal('rateCoupons',award3,-1,false)">添加加息券</button>
+          <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="openAwardsModal('physicalRewards',award4,-1,false)">添加实物礼品</button>
+          <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="openAwardsModal('raffleTickets',award5,-1,false)">添加抽奖券</button>
         </div>
-        <seer-table
-          [data]="awards.data"
-          [titles]="titles"
-          [pageNum]="1"
-          [pageSize]="10"
-          [total]="8"
-          [paginationRules]="1"
-          [translate]="translate"
-          [hideExport]="true"
-          [hidePrint]="true"
-          [hideRemoveAll]="true"
-          [hideColumns]="true"
-          [hideAddButton]="true"
-          [hideCheckbox]="true"
-          [hidePagination]="true"
-          (notify)="handleSimpleTableNotify($event)"
-        ></seer-table>
+        <table class="table table-hover" >
+          <thead>
+            <th>奖品名称</th>
+            <th>类型</th>
+            <th>已抽数量</th>
+            <th>奖品数量</th>
+            <th>得奖率</th>
+            <th>操作</th>
+          </thead>
+          <tbody>
+          <tr *ngFor="let redEnvelope of awards.redEnvelopes;let i=index">
+            <td>{{redEnvelope.jpmc}}</td>
+            <td>{{redEnvelope.awardTitle}}</td>
+            <td>{{redEnvelope.jcsl}}</td>
+            <td>{{redEnvelope.jpsl}}</td>
+            <td>{{redEnvelope.djl}}</td>
+            <td>
+              <i class="table-action icon-preview" title="预览" (click)="openAwardsModal('redEnvelopes',award1,i,true)"></i>
+              <i class="table-action icon-edit" title="编辑" (click)="openAwardsModal('redEnvelopes',award1,i,false)" *ngIf="redEnvelope.awardTitle=='现金红包'"></i>
+              <i class="table-action icon-edit" title="编辑" (click)="openAwardsModal('redEnvelopes',award2,i,false)" *ngIf="redEnvelope.awardTitle=='返现红包'"></i>
+              <i class="table-action icon-delete" title="删除" (click)="delAward('redEnvelopes',i)"></i>
+            </td>
+          </tr>
+          <tr *ngFor="let rateCoupon of awards.rateCoupons;let i=index">
+            <td>{{rateCoupon.jpmc}}</td>
+            <td>{{rateCoupon.awardTitle}}</td>
+            <td>{{rateCoupon.jcsl}}</td>
+            <td>{{rateCoupon.jpsl}}</td>
+            <td>{{rateCoupon.djl}}</td>
+            <td>
+              <i class="table-action icon-preview" title="预览" (click)="openAwardsModal('rateCoupons',award3,i,true)"></i>
+              <i class="table-action icon-edit" title="编辑" (click)="openAwardsModal('rateCoupons',award3,i,false)" ></i>
+              <i class="table-action icon-delete" title="删除" (click)="delAward('rateCoupons',i)"></i>
+            </td>
+          </tr>
+          <tr *ngFor="let physicalReward of awards.physicalRewards;let i=index">
+            <td>{{physicalReward.jpmc}}</td>
+            <td>{{physicalReward.awardTitle}}</td>
+            <td>{{physicalReward.jcsl}}</td>
+            <td>{{physicalReward.jpsl}}</td>
+            <td>{{physicalReward.djl}}</td>
+            <td>
+              <i class="table-action icon-preview" title="预览" (click)="openAwardsModal('physicalRewards',award4,i,true)"></i>
+              <i class="table-action icon-edit" title="编辑" (click)="openAwardsModal('physicalRewards',award4,i,false)" ></i>
+              <i class="table-action icon-delete" title="删除" (click)="delAward('physicalRewards',i)"></i>
+            </td>
+          </tr>
+          <tr *ngFor="let raffleTicket of awards.raffleTickets;let i=index">
+            <td>{{raffleTicket.jpmc}}</td>
+            <td>{{raffleTicket.awardTitle}}</td>
+            <td>{{raffleTicket.jcsl}}</td>
+            <td>{{raffleTicket.jpsl}}</td>
+            <td>{{raffleTicket.djl}}</td>
+            <td>
+              <i class="table-action icon-preview" title="预览" (click)="openAwardsModal('raffleTickets',award3,i,true)"></i>
+              <i class="table-action icon-edit" title="编辑" (click)="openAwardsModal('raffleTickets',award3,i,false)" ></i>
+              <i class="table-action icon-delete" title="删除" (click)="delAward('raffleTickets',i)"></i>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </seer-collapse-card>
     </div>
     <div class="col-md-12">
@@ -218,11 +258,37 @@
                         dict-select
                         [key]="'ACTIVITY_SCOPE'"
                         [selected]="baseInfo.activityScope"
-                        (change)="openMemberModal($event.target.value,members)"
+                        (change)="showChooseMembers($event.target.value)"
                         [topOption]="{itemid:'',itemName:'请选择'}" required>
                 </select>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="row"  [hidden]="hideChooseMembers">
+          <div class="form-group col-sm-12">
+            <div style="margin-top: 10px">
+              <button class="btn btn-primary left-button"  (click)="openMemberModal(members)">选择</button>
+              <button class="btn btn-primary left-button"  (click)="clearScopes()">清空</button>
+            </div>
+            <seer-table
+            [data]="memberScopes"
+            [titles]="membersTitles"
+            [pageNum]="scopesPageInfo.pageNum"
+            [pageSize]="scopesPageInfo.pageSize"
+            [total]="scopesPageInfo.total"
+            [paginationRules]="0"
+            [hideExport]="true"
+            [hidePrint]="true"
+            [hideRemoveAll]="true"
+            [hideColumns]="true"
+            [hideAddButton]="true"
+            [hideActions]="true"
+            [hideCheckbox]="true"
+            [hidePagination]="hidePagination"
+            [showSeq]="true"
+            (changePage)="membersPageChange($event)"
+          ></seer-table>
           </div>
         </div>
 
@@ -245,7 +311,6 @@
         [hasGlobalFilter]="modalhasGlobalFilter"
         [filters]="modalfilters"
         (onSearchBtnClicked)=modalFiltersChanged($event)
-        *ngIf="usersType=='members'"
         [formGroupColNum]="formGroupColNum"
       ></seer-filter>
       <seer-table
@@ -270,7 +335,10 @@
 </ng-template>
 <ng-template #award1 >
   <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
-    <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">添加现金红包</h4>
+    <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">
+      <ng-container *ngIf="(awardCurrIndex==-1)">添加现金红包</ng-container>
+      <ng-container *ngIf="(awardCurrIndex!=-1)">修改现金红包</ng-container>
+    </h4>
   </div>
   <div class="modal-body">
       <div class="row">
@@ -278,7 +346,7 @@
           <div class="row">
             <label for="activityTheme" class="col-sm-4 col-md-2 control-label">奖品名称</label>
             <div class="col-sm-8 col-md-10">
-              <input type="text" class="form-control"  [(ngModel)]="activity.jpmc" required>
+              <input type="text" class="form-control"  [(ngModel)]="awardCurr.jpmc" required>
             </div>
           </div>
         </div>
@@ -286,7 +354,7 @@
           <div class="row">
             <label for="activityTheme" class="col-sm-4 col-md-2 control-label">红包金额</label>
             <div class="col-sm-8 col-md-10">
-              <input type="text" class="form-control"  [(ngModel)]="activity.jpmc" required>
+              <input type="text" class="form-control"  [(ngModel)]="awardCurr.money" required>
             </div>
           </div>
         </div>
@@ -294,7 +362,7 @@
           <div class="row">
             <label for="activityTheme" class="col-sm-4 col-md-2 control-label">获奖概率</label>
             <div class="col-sm-8 col-md-10">
-              <input type="text" class="form-control"  [(ngModel)]="activity.jpmc" required>
+              <input type="text" class="form-control"  [(ngModel)]="awardCurr.djl" required>
             </div>
           </div>
         </div>
@@ -302,20 +370,23 @@
           <div class="row">
             <label for="activityTheme" class="col-sm-4 col-md-2 control-label">奖品总数</label>
             <div class="col-sm-8 col-md-10">
-              <input type="text" class="form-control"  [(ngModel)]="activity.jpmc" required>
+              <input type="text" class="form-control"  [(ngModel)]="awardCurr.jpsl" required>
             </div>
           </div>
         </div>
       </div>
   </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-sx btn-info" (click)="saveHouse(house)">确定</button>
+  <div class="modal-footer" >
+    <button type="button" class="btn btn-sx btn-info" (click)="saveAward('redEnvelopes',awardCurr,1)" *ngIf="!awardCurrReadOnly">确定</button>
     <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
   </div>
 </ng-template>
 <ng-template #award2 >
   <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
-    <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">添加返现红包</h4>
+    <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">
+      <ng-container *ngIf="(awardCurrIndex==-1)">添加返现红包</ng-container>
+      <ng-container *ngIf="(awardCurrIndex!=-1)">修改返现红包</ng-container>
+    </h4>
   </div>
   <div class="modal-body">
     <div class="row">
@@ -323,7 +394,7 @@
         <div class="row">
           <label for="activityTheme" class="col-sm-4 col-md-2 control-label">奖品名称</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="activity.jpmc" required>
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.jpmc" required>
           </div>
         </div>
       </div>
@@ -331,7 +402,7 @@
         <div class="row">
           <label for="activityTheme" class="col-sm-4 col-md-2 control-label">红包金额</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="activity.jpmc" required>
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.money" required>
           </div>
         </div>
       </div>
@@ -339,10 +410,10 @@
         <div class="row">
           <label for="productCategory" class="col-sm-4  control-label">适用产品</label>
           <div class="col-sm-8" >
-            <select class="form-control"  [(ngModel)]="activity.productCategory"
+            <select class="form-control"  [(ngModel)]="awardCurr.productCategory"
                     dict-select
                     [key]="'PRODUCT_CATEGORY'"
-                    [selected]="activity.productCategory"
+                    [selected]="awardCurr.productCategory"
                     [topOption]="{itemid:'',itemName:'请选择'}" required>
             </select>
           </div>
@@ -352,10 +423,10 @@
         <div class="row">
           <label for="productCategory" class="col-sm-4  control-label">激活方式</label>
           <div class="col-sm-8" >
-            <select class="form-control"  [(ngModel)]="activity.useLimit"
+            <select class="form-control"  [(ngModel)]="awardCurr.useLimit"
                     dict-select
                     [key]="'USE_LIMIT'"
-                    [selected]="activity.useLimit"
+                    [selected]="awardCurr.useLimit"
                     [topOption]="{itemid:'',itemName:'请选择'}" required>
             </select>
           </div>
@@ -365,7 +436,7 @@
         <div class="row">
           <label for="activityTheme" class="col-sm-4  control-label">启用限额</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control"  [(ngModel)]="activity.jpmc" required>
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.jpmc" required>
           </div>
         </div>
       </div>
@@ -373,7 +444,7 @@
         <div class="row">
           <label for="activityTheme" class="col-sm-4  control-label">有效期限</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control"  [(ngModel)]="activity.jpmc" required>
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.jpmc" required>
           </div>
         </div>
       </div>
@@ -381,10 +452,10 @@
         <div class="row">
           <label for="productCategory" class="col-sm-4  control-label">叠加限制</label>
           <div class="col-sm-8" >
-            <select class="form-control"  [(ngModel)]="activity.isStacking"
+            <select class="form-control"  [(ngModel)]="awardCurr.isStacking"
                     dict-select
                     [key]="'IS_STACKING'"
-                    [selected]="activity.isStacking"
+                    [selected]="awardCurr.isStacking"
                     [topOption]="{itemid:'',itemName:'请选择'}" required>
             </select>
           </div>
@@ -394,7 +465,7 @@
         <div class="row">
           <label for="activityTheme" class="col-sm-4 control-label">获奖概率</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control"  [(ngModel)]="activity.jpmc" required>
+            <input type="text" class="form-control"  [(ngModel)]="activity.djl" required>
           </div>
         </div>
       </div>
@@ -409,39 +480,232 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-sx btn-info" (click)="saveHouse(house)">确定</button>
+    <button type="button" class="btn btn-sx btn-info" (click)="saveAward('redEnvelopes',awardCurr,2)">确定</button>
     <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
   </div>
 </ng-template>
 <ng-template #award3 >
   <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
-    <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">添加加息券</h4>
+    <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">
+      <ng-container *ngIf="(awardCurrIndex==-1)">添加加息券</ng-container>
+      <ng-container *ngIf="(awardCurrIndex!=-1)">修改加息券</ng-container>
+    </h4>
   </div>
   <div class="modal-body">
-    123
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <div class="row">
+          <label for="activityTheme" class="col-sm-4 col-md-2 control-label">奖品名称</label>
+          <div class="col-sm-8 col-md-10">
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.jpmc" required>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-12 col-lg-6">
+        <div class="row">
+          <label for="activityTheme" class="col-sm-4  control-label">加息额度</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.jpmc" required>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-12 col-lg-6">
+        <div class="row">
+          <label for="activityTheme" class="col-sm-4  control-label">加息期限</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.jpmc" required>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-12 col-lg-6" >
+        <div class="row">
+          <label for="productCategory" class="col-sm-4  control-label">适用产品</label>
+          <div class="col-sm-8" >
+            <select class="form-control"  [(ngModel)]="awardCurr.productCategory"
+                    dict-select
+                    [key]="'PRODUCT_CATEGORY'"
+                    [selected]="awardCurr.productCategory"
+                    [topOption]="{itemid:'',itemName:'请选择'}" required>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-12 col-lg-6" >
+        <div class="row">
+          <label for="productCategory" class="col-sm-4  control-label">激活方式</label>
+          <div class="col-sm-8" >
+            <select class="form-control"  [(ngModel)]="awardCurr.useLimit"
+                    dict-select
+                    [key]="'USE_LIMIT'"
+                    [selected]="awardCurr.useLimit"
+                    [topOption]="{itemid:'',itemName:'请选择'}" required>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-12 col-lg-6">
+        <div class="row">
+          <label for="activityTheme" class="col-sm-4  control-label">启用限额</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.jpmc" required>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-12 col-lg-6">
+        <div class="row">
+          <label for="activityTheme" class="col-sm-4  control-label">有效期限</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.jpmc" required>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-12 col-lg-6" >
+        <div class="row">
+          <label for="productCategory" class="col-sm-4  control-label">叠加限制</label>
+          <div class="col-sm-8" >
+            <select class="form-control"  [(ngModel)]="awardCurr.isStacking"
+                    dict-select
+                    [key]="'IS_STACKING'"
+                    [selected]="awardCurr.isStacking"
+                    [topOption]="{itemid:'',itemName:'请选择'}" required>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-12 col-lg-6">
+        <div class="row">
+          <label for="activityTheme" class="col-sm-4 control-label">获奖概率</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control"  [(ngModel)]="activity.djl" required>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-12">
+        <div class="row">
+          <label for="activityTheme" class="col-sm-4 col-md-2 control-label">奖品总数</label>
+          <div class="col-sm-8 col-md-10">
+            <input type="text" class="form-control"  [(ngModel)]="activity.jpmc" required>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-sx btn-info" (click)="saveHouse(house)">确定</button>
+    <button type="button" class="btn btn-sx btn-info" (click)="saveAward('rateCoupons',awardCurr)">确定</button>
     <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
   </div>
 </ng-template>
 <ng-template #award4 >
   <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
-    <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">添加实物礼品</h4>
+    <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">
+      <ng-container *ngIf="(awardCurrIndex==-1)">添加实物礼品</ng-container>
+      <ng-container *ngIf="(awardCurrIndex!=-1)">修改实物礼品</ng-container>
+    </h4>
   </div>
   <div class="modal-body">
-    123
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <div class="row">
+          <label for="activityTheme" class="col-sm-4 col-md-2 control-label">奖品名称</label>
+          <div class="col-sm-8 col-md-10">
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.jpmc" required>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12">
+        <div class="row">
+          <label for="activityTheme" class="col-sm-4 col-md-2 control-label">获奖概率</label>
+          <div class="col-sm-8 col-md-10">
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.djl" required>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12">
+        <div class="row">
+          <label for="activityTheme" class="col-sm-4 col-md-2 control-label">奖品单价</label>
+          <div class="col-sm-8 col-md-10">
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.money" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-sm-12">
+        <div class="row">
+          <label for="activityTheme" class="col-sm-4 col-md-2 control-label">奖品总数</label>
+          <div class="col-sm-8 col-md-10">
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.jpsl" required>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sx btn-info" (click)="saveAward('physicalRewards',awardCurr,1)">确定</button>
+    <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
   </div>
 </ng-template>
 <ng-template #award5 >
   <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
-    <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">添加抽奖券</h4>
+    <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">
+      <ng-container *ngIf="(awardCurrIndex==-1)">添加抽奖券</ng-container>
+      <ng-container *ngIf="(awardCurrIndex!=-1)">修改抽奖券</ng-container>
+    </h4>
   </div>
   <div class="modal-body">
-    12
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <div class="row">
+          <label for="activityTheme" class="col-sm-4 col-md-2 control-label">奖品名称</label>
+          <div class="col-sm-8 col-md-10">
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.jpmc" required>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12">
+        <div class="row">
+          <label for="activityTheme" class="col-sm-4 col-md-2 control-label">关联活动</label>
+          <div class="col-sm-8 col-md-10">
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.jpmc" required>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12">
+        <div class="row">
+          <label for="activityTheme" class="col-sm-4 col-md-2 control-label">单券次数</label>
+          <div class="col-sm-8 col-md-10">
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.jpmc" required>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12">
+        <div class="row">
+          <label for="activityTheme" class="col-sm-4 col-md-2 control-label">获奖概率</label>
+          <div class="col-sm-8 col-md-10">
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.djl" required>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12">
+        <div class="row">
+          <label for="activityTheme" class="col-sm-4 col-md-2 control-label">奖券总数</label>
+          <div class="col-sm-8 col-md-10">
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.money" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-sm-12">
+        <div class="row">
+          <label for="activityTheme" class="col-sm-4 col-md-2 control-label">奖品总数</label>
+          <div class="col-sm-8 col-md-10">
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.jpsl" required>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-sx btn-info" (click)="saveHouse(house)">确定</button>
+    <button type="button" class="btn btn-sx btn-info" (click)="saveAward('raffleTickets',awardCurr,1)">确定</button>
     <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
   </div>
 </ng-template>

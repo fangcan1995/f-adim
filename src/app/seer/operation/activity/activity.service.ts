@@ -121,7 +121,7 @@ export class ActivityService extends BaseService<ResModel>{
         {
           "code": "0",
           "message": "SUCCESS",
-          'data':{
+          "data":{
             "pageNum": 1,
             "pageSize": 10,
             "total": 13,
@@ -138,7 +138,7 @@ export class ActivityService extends BaseService<ResModel>{
       resolve(
         {
           "data": {
-            baseInfo: {
+            "baseInfo": {
               'activityId':'20171220001',
               'activityTheme':'三八节活动',
               'glhd':'20171220003',
@@ -149,28 +149,36 @@ export class ActivityService extends BaseService<ResModel>{
               'investAmount2':'100000.00',
               'investTimes1':'1',
               'investTimes2':'10',
-              'activityStartTime':'2017/12/01',
-              'activityEndTime':'2017/12/01',
+              'activityStartTime':"2017-12-22 14:14:33",
+              'activityEndTime':"2017-12-22 14:14:33",
               'pl':'1/7',  //频率
               'issueTime':'1',
               'ymlj':'www.baidu.com',
               'remark':'这是备注',
-              'activityScope':'2'
+              'activityScope':'3'
             },
-            awards: {
+            "awards": {
               redEnvelopes:[
                 {
+                  'id':'1',
                   'jpmc':'18元现金红包',
                   'awardType':'1',
-                  're_type':'1',
+                  'reType':'1',
+                  'awardTitle':'现金红包',
+                  'money':18,
                   'jcsl':'10',
                   'jpsl':'100',
-                  'djl':'100%'
+                  'djl':'100%',
+                  'aaa':'111',
+                  'bbb':'bbb',
                 },
                 {
+                  'id':'2',
                   'jpmc':'100元返现红包',
                   'awardType':'1',
-                  're_type':'2',
+                  'reType':'2',
+                  'awardTitle':'返现红包',
+                  'money':100,
                   'jcsl':'10',
                   'jpsl':'100',
                   'djl':'100%'
@@ -178,17 +186,10 @@ export class ActivityService extends BaseService<ResModel>{
                 ],
               rateCoupons:[
                 {
+                  'id':1,
                   'jpmc':'30天加息券',
                   'awardType':'2',
-                  'jcsl':'10',
-                  'jpsl':'100',
-                  'djl':'100%'
-                }
-              ],
-              raffleTickets:[
-                {
-                  'jpmc':'100元京东卡',
-                  'awardType':'3',
+                  'awardTitle':'加息券',
                   'jcsl':'10',
                   'jpsl':'100',
                   'djl':'100%'
@@ -196,15 +197,28 @@ export class ActivityService extends BaseService<ResModel>{
               ],
               physicalRewards:[
                 {
+                  'id':1,
+                  'jpmc':'100元京东卡',
+                  'awardType':'3',
+                  'awardTitle':'实物礼品',
+                  'jcsl':'10',
+                  'jpsl':'100',
+                  'djl':'100%'
+                }
+              ],
+              raffleTickets:[
+                {
+                  'id':1,
                   'jpmc':'幸运大抽奖',
                   'awardType':'4',
+                  'awardTitle':'抽奖券',
                   'jcsl':'10',
                   'jpsl':'100',
                   'djl':'100%'
                 }
               ]
             },
-            scopes: [],
+            "scopes": ["1","1111111","e05cf41992f142148ffc59b2acce4def"]
           },
           code: "0",
           message: "SUCCESS",
@@ -233,8 +247,9 @@ export class ActivityService extends BaseService<ResModel>{
   }
 
   // 4 修改一条数据，提供所有字段
-  putOne(id, params):Promise<any> {
+  putOne(id,params):Promise<any> {
     //return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['ACTIVITIES']}`, params).toPromise();
+    console.log(params);
     let index = _.findIndex(this.mockData, t => t.id === id);
     if (index != -1) {
       this.mockData[index] = params;
@@ -250,8 +265,6 @@ export class ActivityService extends BaseService<ResModel>{
     })
   }
 
-
-
   //5 停止终止活动
   stop(id): Promise<ResModel> {
     //return this._httpInterceptorService.request('POST', `${BASE_URL}/${API['ACTIVITIES']}/${id}/stop`,).toPromise();
@@ -265,6 +278,7 @@ export class ActivityService extends BaseService<ResModel>{
       )
     })
   }
+
   // 6 删除一条数据
   deleteOne(id):Promise<any> {
     //return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${API['ACTIVITIES']}/${id}`).toPromise();
@@ -279,7 +293,49 @@ export class ActivityService extends BaseService<ResModel>{
       )
     })
   }
-  //8 根据活动ID查询发放记录
+
+  //7 查询会员列表
+  getMembers(params:any): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MEMBERS']}/members/members/messages`,params).toPromise();
+  }
+
+  //8 查询会员id数组中的会员列表
+  getIdsMembers(ids):Promise<ResModel> {
+    //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ACTIVITIES']}/{id}/scopes`,ids).toPromise();
+    //console.log(ids);
+    return new Promise((resolve, reject) => {
+      resolve(
+        {
+          "code": "0",
+          "message": "SUCCESS",
+          "data":{
+            "list":[
+              {
+                "userName": "xiaowei",
+                "trueName": "陈二狗",
+                "phoneNumber":"12345678",
+                "idNumber":"220221194902145515"
+              },
+              {
+                "userName": "user",
+                "trueName": "小张",
+                "phoneNumber":"138868686",
+                "idNumber":"123123123123"
+              },
+              {
+                "userName": "ssssdfdfds",
+                "trueName": "小李",
+                "phoneNumber":"13588886666",
+                "idNumber":"210221194902142345"
+              }
+            ]
+          },
+        }
+      )
+    })
+  }
+
+  //9 根据活动ID查询发放记录
   getSendRecords(id): Promise<ResModel> {
     //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ACTIVITIES']}/${id}/sendRecords`, params).toPromise();
     return new Promise((resolve, reject) => {
@@ -302,7 +358,8 @@ export class ActivityService extends BaseService<ResModel>{
       )
     })
   }
-  //9 补发奖励
+
+  //10 补发奖励
   reSend(id, params): Promise<ResModel> {
     //return this._httpInterceptorService.request('POST', `${BASE_URL}/${API['ACTIVITIES']}/${id}/reSend`, params).toPromise();
     return new Promise((resolve, reject) => {
@@ -315,6 +372,13 @@ export class ActivityService extends BaseService<ResModel>{
       )
     })
   }
+
+  //11 获取参与活动的会员id拼接的字符串
+  getIds(params?): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MEMBERS']}/members/members/ids`,params).toPromise();
+
+  }
+
   getDatas(): Promise<any> {
       return new Promise((resolve, reject) => {
         resolve(

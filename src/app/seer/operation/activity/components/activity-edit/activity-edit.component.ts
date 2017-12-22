@@ -4,41 +4,50 @@ import {Location} from '@angular/common';
 import * as _ from 'lodash';
 import {Observable} from 'rxjs/Observable';
 import {ActivityService} from "../../activity.service";
-import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { BsModalService} from 'ngx-bootstrap/modal';
-import {UPDATE, DELETE,PREVIEW} from "../../../../common/seer-table/seer-table.actions"
+import {SeerDialogService, SeerMessageService,} from '../../../../../theme/services';
+import {formatDate} from "ngx-bootstrap/bs-moment/format";
 @Component({
   templateUrl: './activity-edit.component.html',
   styleUrls: ['./activity-edit.component.scss']
 })
 export class ActivityEditComponent implements OnInit {
-
-  public activity: any = {};
-  public baseInfo: any = {};
-  public awards: any = {};
-  public scopes: any = {};
-  private _editType: string = 'add';
-  public forbidSaveBtn: boolean = true;
+  _editType: string = 'add';
+  forbidSaveBtn: boolean = true;
   isInvestMode:boolean = true;
-  //public source = [];
-  public data = [];
-  @ViewChild('simpleTable') simpleTable
-  constructor(private _activityService: ActivityService,
-              private _messageService: SeerMessageService,
-              private _activatedRoute: ActivatedRoute,
-              private _router: Router,
-              private _location: Location,
-              private modalService: BsModalService,) {
-  }
-  titles = [
-    {key:'jpmc',label:' 奖品名称'},
-    {key:'awardType',label:'类型',isDict: true, category: 'AWARD_TYPE'},
-    {key:'jcsl',label:'已抽数量'},
-    {key:'jpsl',label:'奖品数量'},
-    {key:'djl',label:'得奖率'},
+
+  activity: any = {};  //一个活动的全部信息
+  baseInfo: any = {};  //活动基本信息
+  awards: any = {};  //活动奖励信息
+  scopes= []; //活动范围
+
+  redEnvelopes=[];  //活动奖励信息-红包列表
+  rateCoupons=[];  //活动奖励信息-加息券列表
+  raffleTickets=[];  //活动奖励信息-抽奖券列表
+  physicalRewards=[];  //活动奖励信息-实物奖励列表
+
+  awardCurr: any = {};//当然编辑的奖品
+  awardCurrIndex=-1; //当然编辑的奖品索引
+  awardCurrReadOnly:boolean=false;  //当前奖励是否只读
+
+  memberScopes=[];  //会员信息列表
+  hideChooseMembers:boolean=true;
+  hidePagination=false;//会员信息列表是否分页
+  scopesPageInfo={
+    "pageNum":1,
+    "pageSize":10,
+    "total":'',
+  };//会员信息列表分页信息
+  membersTitles = [
+    {key: 'userName', label: '用户名'},
+    {key: 'trueName', label: '真实姓名'},
+    {key: 'phoneNumber', label: '手机号'},
+    {key: 'idNumber', label: '身份证号'},
   ];
-  //模态框相关
+
+
+  //选择用户模态框相关
   modalClass={"class":"modal-lg"};
   modalUsers=[];
   modalActionSet = {
@@ -64,7 +73,12 @@ export class ActivityEditComponent implements OnInit {
   modalhasGlobalFilter = false;
   modalfilters =[];
   formGroupColNum='col-sm-12 col-md-6 col-lg-6';
-  modalTitles=[];
+  modalTitles=[
+    {key: 'userName', label: '用户名'},
+    {key: 'trueName', label: '真实姓名'},
+    {key: 'phoneNumber', label: '手机号'},
+    {key: 'idNumber', label: '身份证号'},
+  ];
   modalPageInfo={
     "pageNum":1,
     "pageSize":10,
@@ -85,12 +99,20 @@ export class ActivityEditComponent implements OnInit {
     "inviteMembersMix":"",
     "inviteMembersMax":"",
   }; //分页、排序、检索
-  selectedUserId=[]; //选中的用户id
+  selectedUserId=[]; //选中的用户id,
   ids='';//选中的用户id
   chooseResult:string='选择用户';  //选择人员按钮中文提示
   public modalRef: BsModalRef;
   cardActions2 = [this.modalActionSet.All,this.modalActionSet.OK];
 
+  constructor(private _activityService: ActivityService,
+              private _messageService: SeerMessageService,
+              private _dialogService: SeerDialogService,
+              private _activatedRoute: ActivatedRoute,
+              private _router: Router,
+              private _location: Location,
+              private modalService: BsModalService,
+              ) {}
 
   ngOnInit() {
     this._activatedRoute.url.mergeMap(url => {
@@ -103,13 +125,18 @@ export class ActivityEditComponent implements OnInit {
             .then(res => {
               this.activity = res.data || {};
               this.baseInfo=this.activity.baseInfo;
-              this.baseInfo.pl1=(this.baseInfo.pl).split("/")[0];   //频率字段拆分
-              this.baseInfo.pl2=(this.baseInfo.pl).split("/")[1];
+              (this.baseInfo.trigMode=='4')?this.isInvestMode=false:this.isInvestMode=true; //投资奖励的特殊处理
+              (this.baseInfo.activityScope=='3')?this.hideChooseMembers=false:this.hideChooseMembers=true; //指定用户的特殊处理
+              this.baseInfo.pl1=(this.baseInfo.pl).split("/")[0];   //频率字段拆分出次数
+              this.baseInfo.pl2=(this.baseInfo.pl).split("/")[1];//频率字段拆分出时间间隔
               this.awards=this.activity.awards;
-              this.awards.data=this.awards.redEnvelopes.concat(this.awards.rateCoupons).concat(this.awards.raffleTickets).concat(this.awards.physicalRewards);
-              this.awards.data=_.map(this.awards.data, t => {
-                return _.set(t, 'actions', [PREVIEW, UPDATE, DELETE]);
-              });
+              /*this.redEnvelopes=this.awards.redEnvelopes;
+              this.rateCoupons=this.awards.rateCoupons;
+              this.raffleTickets=this.awards.raffleTickets;
+              this.physicalRewards=this.awards.physicalRewards;*/
+              this.scopesPageInfo.total=this.activity.scopes.length;
+              this.scopes=this.activity.scopes;  //范围列表
+              this.getMembersList(this.scopes.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
               this.forbidSaveBtn = false;
             })
             .catch(err => {
@@ -118,93 +145,131 @@ export class ActivityEditComponent implements OnInit {
 
         } else if (this._editType === 'add') {
           this.forbidSaveBtn = false;
+          this.activity={
+            "baseInfo":{},
+            "awards":{
+              "redEnvelopes":[],
+              "rateCoupons":[],
+              "physicalRewards":[],
+              "raffleTickets":[],
+            },
+            "scopes":[],
+          }
+          this.baseInfo= this.activity.baseInfo;
+          this.awards=this.activity.awards;
+          this.scopes=this.activity.scopes;
+
         }
       })
 
   }
-// 假数据
-/* getList(params?):void{
-      this._activityService.getDatas()
-      .then(res => {
-        //console.log(res.data);
-        this.awards = res.data;
-      });
-  }
 
-  getData(params?):void{
-      this._activityService.getData()
-      .then(res => {
-        console.log(res.data);
-        this.data = res.data;
-      });
-  }*/
-  handleBackBtnClick() {
-    this._location.back()
-  }
-
-  handleSaveBtnClick() {
-    if (this.forbidSaveBtn) return;
-    this.forbidSaveBtn = true;
-    let requestStream$;
-    if (this._editType === 'edit') {
-      requestStream$ = this._activityService.putOne(this.activity.id, this.activity)
-    } else if (this._editType === 'add') {
-      requestStream$ = this._activityService.postOne(this.activity)
-    } else {
-      return;
-    }
-    requestStream$
-      .subscribe(res => {
-        this._messageService.open({
-          icon: 'fa fa-times-circle',
-          message: res.msg,
-          autoHideDuration: 3000,
-        }).onClose().subscribe(() => {
-          this._router.navigate(['/seer/basic-info/member'])
-        });
-      }, errMsg => {
-        this.forbidSaveBtn = false;
-        // 错误处理的正确打开方式
-        this._messageService.open({
-          icon: 'fa fa-times-circle',
-          message: errMsg,
-          autoHideDuration: 3000,
-        })
-      })
-  }
-  handleSimpleTableNotify($event) {
-    console.log($event)
-    let { type, key } = $event;
-    switch ( type ) {
-      case 'save':
-        console.log(this.simpleTable.getFormatDataByKey(key))
-        setTimeout(() => {
-          this.simpleTable.save(key);
-        }, 3000)
-        break;
-      case 'delete':
-        console.log(this.simpleTable.getFormatDataByKey(key))
-        setTimeout(() => {
-          this.simpleTable.delete(key);
-        }, 3000)
-        break;
-    }
-  }
-  handleSimpleTableCardNotify($event) {
-    console.log($event)
-  }
-//选择触发方式
+  /*基本信息相关********************************/
+ //选择触发方式，选中4（投资奖励时，显示附加信息）
   chooseTrigMode(params?){
-    console.log(params);
     if(params=='4'){
       this.isInvestMode=false;
     }else {
       this.isInvestMode=true;
     }
   }
-  //选择会员会员模态框
-  openMemberModal(activityScope,template: TemplateRef<any>) {
+  /**********************************/
+
+  /*奖励模态框相关*********************************/
+  //1 打开奖励模态框
+  openAwardsModal(type,template: TemplateRef<any>,index,readonly) {
+    this.modalRef = this.modalService.show(template);
+    if(index >=0){
+      this.awardCurrReadOnly=readonly;
+      this.awardCurr=_.cloneDeep(this.awards[type][index]);//克隆当前奖励,防止同步更新
+      this.awardCurrIndex=index;
+    }else{
+      this.awardCurr={};
+      this.awardCurrIndex=-1;
+    }
+  }
+  //2 增改奖励
+  saveAward(type,award,redType?){
+    if(this.awardCurrIndex===-1){
+      //新增
+      award.jcsl='0';
+      switch (type){
+        case 'redEnvelopes':
+          if(redType===1) {
+            award.awardTitle = '现金红包';
+          }else if(redType===2) {
+            award.awardTitle = '返现红包';
+          }
+          award.awardType='1';
+          award.reType=type;
+          break;
+        case 'rateCoupons':
+          award.awardType='2';
+          award.awardTitle = '加息券';
+          break;
+        case 'raffleTickets':
+          award.awardType='3';
+          award.awardTitle = '抽奖券';
+          break;
+        case 'physicalRewards':
+          award.awardType='4';
+          award.awardTitle = '实物礼品';
+          break;
+      }
+      //插入数据
+      this.awards[type].unshift(award);
+    }else{
+      //修改数据
+      this.awards[type][this.awardCurrIndex]= award;
+    }
+    this.modalRef.hide();
+  }
+  //3 删除奖励
+  delAward(type,index){
+    this.awards[type].splice(index,1);
+  }
+
+  /**********************************/
+  /*选择会员相关********************************/
+  //获取会员id被包含在ids数组中的会员信息列表
+  getMembersList(ids){
+    console.log('--------------');
+    console.log(ids);
+    this._activityService.getIdsMembers(ids)
+      .then(res=>{
+        this.memberScopes = res.data.list;
+      }).catch(err=>{
+        this.showError(err.msg || '获取失败');
+      }
+    );
+  }
+  //已选会员列表翻页
+  membersPageChange($event){
+    if($event){
+      this.scopesPageInfo.pageSize = $event.pageSize;
+      this.scopesPageInfo.pageNum=$event.pageNum;
+      //this.scopes=this.activity.scopes.slice((this.scopesPageInfo.pageNum-1)*this.scopesPageInfo.pageSize,this.scopesPageInfo.pageNum*this.scopesPageInfo.pageSize);
+      this.getMembersList(this.scopes.slice((this.scopesPageInfo.pageNum-1)*this.scopesPageInfo.pageSize,this.scopesPageInfo.pageNum*this.scopesPageInfo.pageSize));
+    }
+  }
+  // 清空
+  clearScopes(){
+    this.activity.scopes.splice=[0,this.activity.scopes.length];
+    this.memberScopes.splice(0,this.memberScopes.length);
+    this.hidePagination=true;
+    //this.scopesPageInfo.total='0';
+    //console.log(this.memberScopes);
+  }
+  showChooseMembers(activityScope){
     if(activityScope=='3'){
+      this.hideChooseMembers=false;
+    }else{
+      this.hideChooseMembers=true;
+    }
+  }
+  //模态框相关
+  //1 打开会员模态框
+  openMemberModal(template: TemplateRef<any>) {
       this.modalfilters=[
         {
           key: 'memberType',
@@ -296,24 +361,224 @@ export class ActivityEditComponent implements OnInit {
           groupSpaces: ['至']
         }
       ];
-      this.modalTitles=[
-        {key: 'userName', label: '用户名', hidden: false},
-        {key: 'trueName', label: '真实姓名', hidden: false},
-        {key: 'phoneNumber', label: '手机号', hidden: false},
-        {key: 'idNumber', label: '身份证号', hidden: false},
-      ];
       this.modalRef = this.modalService.show(template,this.modalClass);
-      //this.getUsersList();
-      this.selectedUserId=[];   //清空已选择id数组
+      this.modalGetMembersList();
+      this.selectedUserId=_.cloneDeep(this.scopes);   //防止没确定前更新数据
+
+  }
+  //2 获取会员列表
+  modalGetMembersList():void{
+    this._activityService.getMembers(this.modalPageInfo).then(res => {
+      this.modalPageInfo.pageNum=res.data.pageNum;  //当前页
+      this.modalPageInfo.pageSize=res.data.pageSize; //每页记录数
+      this.modalPageInfo.total=res.data.total; //记录总数
+      this.modalUsers = res.data.list;
+      //渲染已经被选择的会员
+      this.modalUsers = _.map(this.modalUsers, r =>{
+          let idIndex=this.scopes.findIndex(x => x == r.memberId);
+          if(idIndex!=-1){
+            return _.set(r, 'selected', 1)
+          }else{
+            return _.set(r, 'selected', 0)
+          }
+        }
+      );
+    });
+  }
+  //3 会员模态框事件绑定
+  modalChangeCard(message){
+    switch ( message.type ) {
+      case 'search':
+        //过滤会员列表
+        break;
+      case 'ok':
+        //1 将选中的会员id加入参加范围数组中
+        this.scopes=this.selectedUserId;
+
+        this.activity.scopes=this.scopes;
+        console.log(this.activity.scopes);
+        console.log('------------------')
+        console.log(this.activity);
+        //2 重新新获取会员信息
+        this.hidePagination=false;
+        this.getMembersList(this.scopes.slice(0,this.scopesPageInfo.pageSize)); //重新读活动范围中对应的第一页会员信息
+        this.modalService.hide(1);
+        break;
+      case 'all':
+        //1 将后台返回会员id加入参加范围数组中
+        this._activityService.getIds(this.modalPageInfo).then(data=>{
+          this.scopes=data.data.split(",")||[];  //转成数组
+          this.activity.scopes=this.scopes;
+        }).catch(err=>{
+          this.showError(err.msg || '连接错误');
+        });
+        //2 重新新获取会员信息
+        this.hidePagination=false;
+        this.getMembersList(this.scopes.slice(0,this.scopesPageInfo.pageSize)); //重新读活动范围中对应的第一页会员信息
+        this.modalService.hide(1);
+        break;
+      default:
+        break;
+    }
+  }
+  //4 会员模态框选择用户id
+  modalChangeTable(message){
+    const type = message.type;
+    let data = message.data;
+    let keyId='memberId';
+    switch (type){
+      case 'select_one':
+        //选中追加到数组中，否则从数组中删除
+        let idIndex=this.selectedUserId.findIndex(x => x == data[keyId]);
+        if(data.selected){
+          if(idIndex<0){
+            this.selectedUserId.push(data[keyId]);
+          }
+        }else{
+          this.selectedUserId.splice(idIndex,1);
+        }
+
+        break;
+      case 'select_all':
+        //遍历数组，选中追加到数组中，反选从数组中删除，这里只针对当前页
+        data.map(r=> {
+          let idIndex=this.selectedUserId.findIndex(x => x == r[keyId]);
+          if(r.selected){
+            //如果这条记录被选中，将id添加到已选数组中
+            if(idIndex<0){
+              this.selectedUserId.push(r[keyId]);
+            }
+          }else{
+            //如果这条选中的记录被反选，将id从已选数组中删除
+            this.selectedUserId.splice(idIndex,1);
+          }
+        })
+
+        break;
+      default:
+        break;
+    }
+  }
+  //5 会员模态框分页事件
+  modalPageChange($event){
+    this.modalPageInfo.pageSize = $event.pageSize;
+    this.modalPageInfo.pageNum=$event.pageNum;
+    this.modalGetMembersList();
+  }
+  //6 格式化查询参数
+  modalFiltersChanged($event){
+    let params=$event;
+    let { mage,investDate,investAll,investOne,inviteMembers,...otherParams } = params;
+    let mageMix,mageMax,
+      investDateBefore, investDateAfter,
+      investAllMix,investAllMax,
+      investOneMix,investOneMax,
+      inviteMembersMix,inviteMembersMax;
+    if ( _.isArray(mage)) {
+      mageMix = mage[0] || null;
+      mageMax = mage[1] || null;
+    }
+    if ( _.isArray(investDate)) {
+      investDateBefore = investDate[0] ? (formatDate(investDate[0],'YYYY-MM-DD 00:00:00')) : null;
+      investDateAfter = investDate[1] ? (formatDate(investDate[1],'YYYY-MM-DD 23:59:59')) : null;
+    }
+    if ( _.isArray(investAll)) {
+      investAllMix = investAll[0] || null;
+      investAllMax = investAll[1] || null;
+    }
+    if ( _.isArray(investOne)) {
+      investOneMix = investOne[0] || null;
+      investOneMax = investOne[1] || null;
+    }
+    if ( _.isArray(inviteMembers)) {
+      inviteMembersMix = inviteMembers[0] || null;
+      inviteMembersMax = inviteMembers[1] || null;
+    }
+    params = {
+      ...otherParams,
+      mageMix,
+      mageMax,
+      investDateBefore,
+      investDateAfter,
+      investAllMix,
+      investAllMax,
+      investOneMix,
+      investOneMax,
+      inviteMembersMix,
+      inviteMembersMax,
+    }
+    this.modalPageInfo = params;
+    console.log(this.modalPageInfo);
+    this.modalGetMembersList();
+  }
+  /**********************************/
+
+  /************公共********************/
+  //返回
+  handleBackBtnClick() {
+    this._location.back()
+  }
+  //保存
+  handleSaveBtnClick() {
+    if ( this.forbidSaveBtn ) return;
+    this.forbidSaveBtn = true;
+    console.log('________________________');
+    console.log(this.activity);
+    console.log('________________________');
+    //如果不是投资奖励，删除相关属性
+    if(this.activity.baseInfo.trigMode!='4'){
+      delete this.baseInfo.productCategory;
+      delete this.baseInfo.investLimit;
+      delete this.baseInfo.investAmount1;
+      delete this.baseInfo.investAmount2;
+      delete this.baseInfo.investTimes1;
+      delete this.baseInfo.investTimes2;
+    }
+    //投资范围如果不是指定用户，清空数组
+    if(this.activity.baseInfo.activityScope!='3'){
+      this.activity.scopes=[];
+    }
+    //拼接参加频率
+    this.baseInfo.pl=this.baseInfo.pl1+'/'+this.baseInfo.pl2;
+    delete this.baseInfo.pl1;
+    delete this.baseInfo.pl2;
+
+    if (this._editType === 'edit') {
+      console.log('编辑的数据');
+      this._activityService.putOne(this.activity.id, this.activity)
+        .then(res=>{
+          this.forbidSaveBtn = false;
+          this.showSuccess(res.msg || '更新成功')
+            .onClose()
+            .subscribe(() => {
+              this._router.navigate(['/operation/activity']);
+            });
+        })
+        .catch(err => {
+        this.forbidSaveBtn = false;
+        this.showError(err.msg || '更新失败')
+      });
+    } else if (this._editType === 'add') {
+      console.log('添加的数据');
+      console.log(this.activity);
+      this._activityService.postOne(this.activity)
+        .then((data:any) => {
+          this.forbidSaveBtn = false;
+          this.showSuccess(data.msg || '保存成功')
+            .onClose()
+            .subscribe(() => {
+              this._router.navigate(['/operation/activity']);
+            });
+        }).catch(err => {
+          this.forbidSaveBtn = false;
+          this.showError(err.msg || '保存失败')
+        });
+    } else {
+      return;
     }
 
-
   }
-  //添加奖励模态框
-  openAwardsModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-  }
-
+  //成功提示
   showSuccess(message: string) {
     return this._messageService.open({
       message,
@@ -321,6 +586,7 @@ export class ActivityEditComponent implements OnInit {
       autoHideDuration: 3000,
     })
   }
+  //错误提示
   showError(message: string) {
     return this._messageService.open({
       message,
