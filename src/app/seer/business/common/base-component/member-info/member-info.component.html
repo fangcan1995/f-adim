@@ -1,7 +1,6 @@
-
 <seer-collapse-card cardTitle="基本信息" cardClass="with-scroll" [canCollapse]="true" [headerActions]="actions" (notify)="save()">
-  <form class="form-horizontal">
-    <div class="row" style="margin-left: 10px">
+  <form class="form-horizontal" [formGroup]="form">
+    <div class="row">
       <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
         <div class="row">
           <label for="account" class="col-sm-4 control-label">用户名</label>
@@ -38,12 +37,13 @@
         <div class="row">
           <label for="m_sex" class="col-sm-4 control-label">性别</label>
           <div class="col-sm-8">
-            <select class="form-control" id="m_sex" placeholder="" [(ngModel)]="member.msex" [ngModelOptions]="{standalone: true}" [disabled]="disabled"
+            <select class="form-control" id="m_sex" placeholder="" [(ngModel)]="member.msex" name="msex" [disabled]="disabled" formControlName="msex"
                     dict-select
                     [key]="'M_SEX'"
                     [selected]="member.msex"
                     [topOption]="{itemid:'',itemName:'请选择'}">
             </select>
+            <p *ngIf="form.controls.msex.errors?.min" class="text-danger">请选择该项</p>
           </div>
         </div>
       </div>
@@ -51,7 +51,8 @@
         <div class="row">
           <label for="age" class="col-sm-4 control-label">年龄</label>
           <div class="col-sm-8">
-            <input class="form-control" id="age" placeholder="年龄" [(ngModel)]="member.mage" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
+            <input class="form-control" id="age" placeholder="年龄" [(ngModel)]="member.mage" name="mage" formControlName="mage">
+            <p *ngIf="form.controls.mage.invalid && form.controls.mage.errors?.number" class="text-danger">请输入正确年龄</p>
           </div>
         </div>
       </div>
@@ -112,7 +113,8 @@
         <div class="row">
           <label for="AssetsIntro" class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 ">资产介绍</label>
           <div class="col-sm-11 col-md-10 col-lg-10 col-xlg-11">
-            <textarea class="form-control" id="AssetsIntro" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 84px;" [(ngModel)]="member.assetDesc" [ngModelOptions]="{standalone: true}" [disabled]="disabled"></textarea>
+            <textarea class="form-control" id="AssetsIntro" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 84px;" [(ngModel)]="member.assetDesc" name="assetDesc" [disabled]="disabled" placeholder="请输入资产介绍" formControlName="assetDesc"></textarea>
+            <p *ngIf="form.controls.assetDesc.errors?.required" class="text-danger">该项不能为空</p>
           </div>
         </div>
       </div>
@@ -120,7 +122,8 @@
         <div class="row">
           <label for="debtIntro" class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 ">债务介绍</label>
           <div class="col-sm-11 col-md-10 col-lg-10 col-xlg-11">
-            <textarea class="form-control" id="debtIntro" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 84px;" [(ngModel)]="member.debtDesc" [ngModelOptions]="{standalone: true}" [disabled]="disabled"></textarea>
+            <textarea class="form-control" id="debtIntro" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 84px;" [(ngModel)]="member.debtDesc" name="debtDesc" [disabled]="disabled" placeholder="请输入债务介绍" formControlName="debtDesc"></textarea>
+            <p *ngIf="form.controls.debtDesc.errors?.required" class="text-danger">该项不能为空</p>
           </div>
         </div>
       </div>

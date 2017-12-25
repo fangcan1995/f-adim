@@ -5,6 +5,8 @@ import {CommonService} from "../../common.service";
 import {UPDATE} from "../../../../common/seer-table/seer-table.actions";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {CustomValidators} from "ng2-validation";
 
 @Component({
   selector: 'pawn-info',
@@ -31,7 +33,81 @@ export class PawnInfoComponent implements OnInit, OnChanges{
 
   public house:any = {};
 
-  constructor( private service: CommonService, private modalService: BsModalService, private _messageService: SeerMessageService,){}
+  vehicle_form : FormGroup;
+
+  house_form : FormGroup;
+
+  constructor(
+    private service: CommonService,
+    private modalService: BsModalService,
+    private _messageService: SeerMessageService,){
+
+    //新增车辆表单验证
+    this.vehicle_form = new FormGroup({
+
+      //车辆品牌
+      carBrand: new FormControl('', Validators.required),
+
+      //车辆型号
+      carModel: new FormControl('', Validators.required),
+
+      //车架号
+      viNumber: new FormControl('', Validators.required),
+
+      //车牌号
+      carNumber: new FormControl('', Validators.required),
+
+      //登记证号
+      carRegNumber: new FormControl('', Validators.required),
+
+      //车龄
+      //carAge: new FormControl('', Validators.required),
+
+      //购车年份
+      purchaseYear: new FormControl('', Validators.required),
+
+      //行驶里程
+      mileage: new FormControl('', Validators.required),
+
+      //评估价格
+      pricePotential: new FormControl('', Validators.required),
+
+    });
+
+    //新增房屋表单验证
+    this.house_form = new FormGroup({
+
+      //房产地址
+      houseAdress: new FormControl('', Validators.required),
+
+      //房屋类型
+      houseType: new FormControl('', CustomValidators.min(0)),
+
+      //建筑面积
+      area: new FormControl('', Validators.required),
+
+      //房龄
+      //houseAge: new FormControl('', Validators.required),
+
+      //购车年份
+      completionYear: new FormControl('', Validators.required),
+
+      //尚欠贷余额
+      debtMoney: new FormControl('', Validators.required),
+
+      //土地所有证号
+      landNo: new FormControl('', Validators.required),
+
+      //房屋产权所有证号
+      houseBelongNo: new FormControl('', Validators.required),
+
+      //评估价格
+      pricePotential: new FormControl('', Validators.required),
+
+    });
+
+
+  }
 
   ngOnInit() { if(!this.disabled) { this.actions = [ UPDATE ]; } else {this.actions = []; } }
 

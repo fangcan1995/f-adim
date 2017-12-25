@@ -21,6 +21,10 @@ import {SecondAuditComponent} from "./biz-component/second-audit/second-audit.co
 import {FillAuditComponent} from "./biz-component/fill-audit/fill-audit.component";
 import {PrepaymentComponent} from "./biz-component/prepayment-audit/prepayment-audit.component";
 import {ReleaseComponent} from "./biz-component/release/release.component";
+import { ReactiveFormsModule } from '@angular/forms';
+import { CustomFormsModule } from 'ng2-validation';
+import {NgxCurrencyModule} from "ngx-currency";
+
 
 @NgModule({
   imports: [
@@ -28,6 +32,9 @@ import {ReleaseComponent} from "./biz-component/release/release.component";
     SharedModule,
     FileUploadModule,
     routing,
+    CustomFormsModule,
+    NgxCurrencyModule,
+    ReactiveFormsModule
   ],
   declarations: [
     CreateIntentionComponent,

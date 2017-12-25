@@ -1,11 +1,17 @@
 <seer-collapse-card cardTitle="审批流程" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
-  <seer-simple-table
-    [data]="data"
-    [titles]="title"
-    [hidePagination]="true"
-    [hideActions]="true"
-    [hideAddButton]="true"
-  ></seer-simple-table>
+
+  <ng-container *ngIf="data.length > 0">
+    <seer-simple-table
+      [data]="data"
+      [titles]="title"
+      [hidePagination]="true"
+      [hideActions]="true"
+      [hideAddButton]="true"
+    ></seer-simple-table>
+  </ng-container>
+
+  <ng-container *ngIf="data.length == 0">暂无审批流程</ng-container>
+
 </seer-collapse-card>
 
 

@@ -49,5 +49,10 @@
         </ng-container>
       </ng-container>
     </div>
+    <div class="row" style="margin-left: 10px">
+      <ng-container *ngIf="attachments.length == 0">
+        暂未添加审核资料
+      </ng-container>
+    </div>
   </form>
 </seer-collapse-card>

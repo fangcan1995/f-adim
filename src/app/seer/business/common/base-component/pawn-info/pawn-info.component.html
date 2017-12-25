@@ -29,6 +29,13 @@
       </div>
     </form>
   </ng-container>
+  <ng-container *ngIf="loan.loanApplyType == 1 && vehicles.length == 0">
+    <form class="form-horizontal">
+      <div class="row">
+        暂无车辆信息
+      </div>
+    </form>
+  </ng-container>
   <ng-container *ngIf="houses.length > 0">
     <form class="form-horizontal">
       <div class="row">
@@ -37,13 +44,20 @@
             <div [ngClass] = "{'active' : pawn.pawnType == '2' && pawn.id == house.id}"  class="card checkable-card" style="max-width: 20rem;">
               <div class="card-header">产权证号：{{house.houseBelongNo}}</div>
               <div class="card-body text-secondary">
-                <p class="card-text">房产地址：{{house.houseAdress}} 评估价格{{house.pricePotential}} </p>
+                <p class="card-text">{{house.houseAdress}}、{{house.area}} </p>
                 <a *ngIf="!disabled" href="javascript:void(0)" class="card-link" (click)="setHouse($event, house)">设为抵押物</a>
                 <a href="javascript:void(0)" class="card-link" (click)="houseModal(houseTemplate, true, house)">查看详情</a>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container *ngIf="loan.loanApplyType == 2 && houses.length == 0">
+    <form class="form-horizontal">
+      <div class="row">
+        暂无房屋信息
       </div>
     </form>
   </ng-container>
@@ -60,13 +74,14 @@
     </button>-->
   </div>
   <div class="modal-body">
-    <form class="form-horizontal">
+    <form class="form-horizontal" [formGroup]="vehicle_form">
       <div class="row">
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
             <label for="brand" class="col-sm-4 control-label text-right">车辆品牌</label>
             <div class="col-sm-8">
-              <input class="form-control" id="brand" placeholder="车辆品牌" [(ngModel)]="vehicle.carBrand" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="brand" placeholder="请输入车辆品牌" [(ngModel)]="vehicle.carBrand" name="carBrand" formControlName="carBrand">
+              <p *ngIf="vehicle_form.controls.carBrand.errors?.required" class="text-danger">必填项</p>
             </div>
           </div>
         </div>
@@ -74,7 +89,8 @@
           <div class="row">
             <label for="model" class="col-sm-4 control-label text-right">车辆型号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="model" placeholder="车辆型号" [(ngModel)]="vehicle.carModel" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="model" placeholder="请输入车辆型号" [(ngModel)]="vehicle.carModel" name="carModel" formControlName="carModel">
+              <p *ngIf="vehicle_form.controls.carModel.errors?.required" class="text-danger">必填项</p>
             </div>
           </div>
         </div>
@@ -82,7 +98,8 @@
           <div class="row">
             <label for="vin" class="col-sm-4 control-label text-right">车架号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="vin" placeholder="车架号" [(ngModel)]="vehicle.viNumber" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="vin" placeholder="请输入车架号" [(ngModel)]="vehicle.viNumber" name="viNumber" formControlName="viNumber">
+              <p *ngIf="vehicle_form.controls.viNumber.errors?.required" class="text-danger">必填项</p>
             </div>
           </div>
         </div>
@@ -90,7 +107,8 @@
           <div class="row">
             <label for="lpn" class="col-sm-4 control-label text-right">车牌号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="lpn" placeholder="车牌号" [(ngModel)]="vehicle.carNumber" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="lpn" placeholder="请输入车牌号" [(ngModel)]="vehicle.carNumber" name="carNumber" formControlName="carNumber">
+              <p *ngIf="vehicle_form.controls.carNumber.errors?.required" class="text-danger">必填项</p>
             </div>
           </div>
         </div>
@@ -98,15 +116,26 @@
           <div class="row">
             <label for="certificateNumber" class="col-sm-4 control-label text-right">登记证号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="certificateNumber" placeholder="登记证号" [(ngModel)]="vehicle.carRegNumber" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="certificateNumber" placeholder="请输入登记证号" [(ngModel)]="vehicle.carRegNumber" name="carRegNumber" formControlName="carRegNumber">
+              <p *ngIf="vehicle_form.controls.carRegNumber.errors?.required" class="text-danger">必填项</p>
             </div>
           </div>
         </div>
-        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+        <!--<div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
             <label for="autoAge" class="col-sm-4 control-label text-right">车龄</label>
             <div class="col-sm-8">
-              <input class="form-control" id="autoAge" placeholder="车龄" [(ngModel)]="vehicle.carAge" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="autoAge" placeholder="请输入车龄" [(ngModel)]="vehicle.carAge" name="carAge" formControlName="carAge">
+              <p *ngIf="vehicle_form.controls.carAge.errors?.required" class="text-danger">必填项</p>
+            </div>
+          </div>
+        </div>-->
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label for="purchaseYear" class="col-sm-4 control-label text-right">购车年份</label>
+            <div class="col-sm-8">
+              <input class="form-control" id="purchaseYear" placeholder="请输入车龄" [(ngModel)]="vehicle.purchaseYear" name="purchaseYear" formControlName="purchaseYear">
+              <p *ngIf="vehicle_form.controls.purchaseYear.errors?.required" class="text-danger">必填项</p>
             </div>
           </div>
         </div>
@@ -114,7 +143,8 @@
           <div class="row">
             <label for="range" class="col-sm-4 control-label text-right">行驶里程</label>
             <div class="col-sm-8">
-              <input class="form-control" id="range" placeholder="行驶里程" [(ngModel)]="vehicle.mileage" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="range" placeholder="请输入行驶里程" [(ngModel)]="vehicle.mileage" name="mileage" formControlName="mileage">
+              <p *ngIf="vehicle_form.controls.mileage.errors?.required" class="text-danger">必填项</p>
             </div>
           </div>
         </div>
@@ -122,7 +152,8 @@
           <div class="row">
             <label for="evaluatedPrice" class="col-sm-4 control-label text-right">评估价格</label>
             <div class="col-sm-8">
-              <input class="form-control" id="evaluatedPrice" placeholder="评估价格" [(ngModel)]="vehicle.pricePotential" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="evaluatedPrice" placeholder="请输入评估价格" [(ngModel)]="vehicle.pricePotential" name="pricePotential" formControlName="pricePotential">
+              <p *ngIf="vehicle_form.controls.pricePotential.errors?.required" class="text-danger">必填项</p>
             </div>
           </div>
         </div>
@@ -131,7 +162,7 @@
   </div>
   <div class="modal-footer">
     <ng-container *ngIf="!vehicleReadOnly">
-      <button type="button" class="btn btn-sx btn-info" (click)="saveVehicle(vehicle)">确定</button>
+      <button type="button" class="btn btn-sx btn-info" [disabled]="!vehicle_form.valid" (click)="saveVehicle(vehicle)">确定</button>
     </ng-container>
     <button type="button"  class="btn btn-default" (click)="modalRef.hide()">关闭</button>
   </div>
@@ -149,13 +180,14 @@
     </button>-->
   </div>
   <div class="modal-body">
-    <form class="form-horizontal">
+    <form class="form-horizontal" [formGroup]="house_form">
       <div class="row">
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
             <label for="brand" class="col-sm-4 control-label text-right">房产地址</label>
             <div class="col-sm-8">
-              <input class="form-control" id="brand" placeholder="房产地址" [(ngModel)]="house.houseAdress" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="brand" placeholder="请输入房产地址" [(ngModel)]="house.houseAdress" name="houseAdress" formControlName="houseAdress">
+              <p *ngIf="house_form.controls.houseAdress.errors?.required" class="text-danger">必填项</p>
             </div>
           </div>
         </div>
@@ -163,7 +195,7 @@
           <div class="row">
             <label for="houseType" class="col-sm-4 control-label text-right">房屋类型</label>
             <div class="col-sm-8">
-              <select class="form-control" id="houseType" placeholder="" [(ngModel)]="house.houseType" [ngModelOptions]="{standalone: true}"
+              <select class="form-control" id="houseType" placeholder="" [(ngModel)]="house.houseType" name="houseType" formControlName="houseType"
                       dict-select
                       [key]="'HOUSE_TYPE'"
                       [selected]="house.houseType"
@@ -176,15 +208,26 @@
           <div class="row">
             <label for="floorage" class="col-sm-4 control-label text-right">建筑面积</label>
             <div class="col-sm-8">
-              <input class="form-control" id="floorage" placeholder="建筑面积" [(ngModel)]="house.area" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="floorage" placeholder="请输入建筑面积" [(ngModel)]="house.area" name="area" formControlName="area">
+              <p *ngIf="house_form.controls.area.errors?.required" class="text-danger">必填项</p>
             </div>
           </div>
         </div>
-        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+        <!--<div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
             <label for="houseAge" class="col-sm-4 control-label text-right">房龄</label>
             <div class="col-sm-8">
-              <input class="form-control" id="houseAge" placeholder="房龄" [(ngModel)]="house.houseAge" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="houseAge" placeholder="请输入房龄" [(ngModel)]="house.houseAge" name="houseAge" formControlName="houseAge">
+              <p *ngIf="house_form.controls.houseAge.errors?.required" class="text-danger">必填项</p>
+            </div>
+          </div>
+        </div>-->
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label for="completionYear" class="col-sm-4 control-label text-right">竣工年份</label>
+            <div class="col-sm-8">
+              <input class="form-control" id="completionYear" placeholder="请输入车龄" [(ngModel)]="house.completionYear" name="completionYear" formControlName="completionYear">
+              <p *ngIf="house_form.controls.completionYear.errors?.required" class="text-danger">必填项</p>
             </div>
           </div>
         </div>
@@ -192,7 +235,8 @@
           <div class="row">
             <label for="debt" class="col-sm-4 control-label text-right">尚欠贷余额</label>
             <div class="col-sm-8">
-              <input class="form-control" id="debt" placeholder="尚欠贷余额" [(ngModel)]="house.debtMoney" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="debt" placeholder="请输入尚欠贷余额" [(ngModel)]="house.debtMoney" name="debtMoney" formControlName="debtMoney">
+              <p *ngIf="house_form.controls.debtMoney.errors?.required" class="text-danger">必填项</p>
             </div>
           </div>
         </div>
@@ -200,7 +244,8 @@
           <div class="row">
             <label for="landCertificate" class="col-sm-4 control-label text-right">土地所有证号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="landCertificate" placeholder="土地所有证号" [(ngModel)]="house.landNo" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="landCertificate" placeholder="请输入土地所有证号" [(ngModel)]="house.landNo" name="landNo" formControlName="landNo">
+              <p *ngIf="house_form.controls.landNo.errors?.required" class="text-danger">必填项</p>
             </div>
           </div>
         </div>
@@ -208,7 +253,8 @@
           <div class="row">
             <label for="houseCertificate" class="col-sm-4 control-label text-right">房屋产权所有证号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="houseCertificate" placeholder="房屋产权所有证号" [(ngModel)]="house.houseBelongNo" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="houseCertificate" placeholder="请输入房屋产权所有证号" [(ngModel)]="house.houseBelongNo" name="houseBelongNo" formControlName="houseBelongNo">
+              <p *ngIf="house_form.controls.houseBelongNo.errors?.required" class="text-danger">必填项</p>
             </div>
           </div>
         </div>
@@ -216,7 +262,8 @@
           <div class="row">
             <label for="evaluatedPrice" class="col-sm-4 control-label text-right">评估价格</label>
             <div class="col-sm-8">
-              <input class="form-control" id="evaluatedPrice" placeholder="评估价格" [(ngModel)]="house.pricePotential" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" id="evaluatedPrice" placeholder="请输入评估价格" [(ngModel)]="house.pricePotential" name="pricePotential" formControlName="pricePotential">
+              <p *ngIf="house_form.controls.pricePotential.errors?.required" class="text-danger">必填项</p>
             </div>
           </div>
         </div>
@@ -225,7 +272,7 @@
   </div>
   <div class="modal-footer">
     <ng-container *ngIf="!houseReadOnly">
-      <button type="button" class="btn btn-sx btn-info" (click)="saveHouse(house)">确定</button>
+      <button type="button" class="btn btn-sx btn-info" [disabled]="!house_form.valid" (click)="saveHouse(house)">确定</button>
     </ng-container>
     <button type="button"  class="btn btn-default" (click)="modalRef.hide()">关闭</button>
   </div>
