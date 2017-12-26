@@ -6,9 +6,9 @@
           <div class="card checkable-card" style="max-width: 20rem;">
             <div class="card-header">个人风险报告</div>
             <div class="card-body text-secondary">
-              <p class="card-text">{{riskReport.updateTime || '未查询'}}</p>
+              <p class="card-text">{{riskReport.updateTime || '暂未查询'}}</p>
               <ng-container *ngIf="!riskReport.updateTime">
-                <a href="javascript:void(0)" class="card-link" (click)="query(creditReport, 1)">获取信用报告</a>
+                <a href="javascript:void(0)" class="card-link" (click)="query(creditReport, 1)">查询</a>
               </ng-container>
               <ng-container *ngIf="riskReport.updateTime">
                 <a href="javascript:void(0)" class="card-link" (click)="preview(creditReport)">预览</a>
@@ -24,9 +24,9 @@
           <div ngClass="{}" class="card checkable-card" style="max-width: 20rem;">
             <div class="card-header">个人信用报告</div>
             <div class="card-body text-secondary">
-              <p class="card-text">{{creditReport.updateTime || '未查询'}}</p>
+              <p class="card-text">{{creditReport.updateTime || '暂未查询'}}</p>
               <ng-container *ngIf="!creditReport.updateTime">
-                <a href="javascript:void(0)" class="card-link" (click)="query(creditReport, 2)">获取信用报告</a>
+                <a href="javascript:void(0)" class="card-link" (click)="query(creditReport, 2)">查询</a>
               </ng-container>
               <ng-container *ngIf="creditReport.updateTime">
                 <a href="javascript:void(0)" class="card-link" (click)="preview(creditReport)">预览</a>
@@ -42,9 +42,9 @@
           <div class="card checkable-card active" style="max-width: 20rem;">
             <div class="card-header">个人反欺诈报告</div>
             <div class="card-body text-secondary">
-              <p class="card-text">{{antiFraudReport.updateTime || '未查询'}}</p>
+              <p class="card-text">{{antiFraudReport.updateTime || '暂未查询'}}</p>
               <ng-container *ngIf="!antiFraudReport.updateTime">
-                <a href="javascript:void(0)" class="card-link" (click)="query(creditReport, 3)">获取信用报告</a>
+                <a href="javascript:void(0)" class="card-link" (click)="query(creditReport, 3)">查询</a>
               </ng-container>
               <ng-container *ngIf="antiFraudReport.updateTime">
                 <a href="javascript:void(0)" class="card-link" (click)="preview(creditReport)">预览</a>

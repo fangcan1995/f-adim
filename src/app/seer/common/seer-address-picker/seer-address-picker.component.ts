@@ -164,7 +164,7 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
       .filter(t => t['item_code'].substr(0, 2) === this.curProvince['item_code'].substr(0, 2))
       .value();
       list = list.concat(citys)
-      
+
     }
 
     return list;
@@ -178,7 +178,7 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
       .filter(t => t['item_code'].substr(0, 4) === this.curCity['item_code'].substr(0, 4))
       .value();
       list = list.concat(citys)
-      
+
     }
     return list;
   }

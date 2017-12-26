@@ -41,6 +41,14 @@ export const SAVE = {
 	icon: 'fa fa-check'
 }
 
+export const SAVE_DISABLE = {
+  type: 'save',
+  name: '保存',
+  disabled: 'disabled',
+  className: 'btn btn-xs btn-primary',
+  icon: 'fa fa-check'
+}
+
 export const CANCEL = {
 	type: 'cancel',
 	name: '取消',

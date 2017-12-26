@@ -1,16 +1,17 @@
 <seer-collapse-card cardTitle="借款信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true [headerActions]="actions" (notify)="save($event)">
-  <form class="form-horizontal">
+  <form class="form-horizontal" [formGroup]="form">
     <div class="row">
       <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
         <div class="row">
           <label for="loanApplyType" class="col-sm-4 control-label">借款类型</label>
           <div class="col-sm-8">
-            <select class="form-control" id="loanApplyType" placeholder="" [(ngModel)]="loan.loanApplyType" (change)="loanTypeChange()" [ngModelOptions]="{standalone: true}" [disabled]="disabled"
+            <select class="form-control" id="loanApplyType" placeholder="" [(ngModel)]="loan.loanApplyType" (change)="loanTypeChange()" [disabled]="disabled" name="loanApplyType" formControlName="loanApplyType"
                     dict-select
                     [key]="'LOAN_APPLY_TYPE'"
                     [selected]="loan.loanApplyType"
                     [topOption]="{itemid:'',itemName:'请选择'}">
             </select>
+            <p *ngIf="form.controls.loanApplyType.errors?.min" class="text-danger">请选择该项</p>
           </div>
         </div>
       </div>
@@ -18,7 +19,8 @@
         <div class="row">
           <label for="applyAmt" class="col-sm-4 control-label">借款金额</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="applyAmt" placeholder="借款金额" [(ngModel)]="loan.applyAmt" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
+            <input currencyMask [options]="{ prefix: '￥', allowZero: false}" class="form-control" id="applyAmt" placeholder="借款金额" [(ngModel)]="loan.applyAmt"  [disabled]="disabled" name="applyAmt" formControlName="applyAmt">
+            <p *ngIf="form.controls.applyAmt.errors?.min" class="text-danger">借款金额最小为100元</p>
           </div>
         </div>
       </div>
@@ -26,20 +28,25 @@
         <div class="row">
           <label for="loanApplyExpiry" class="col-sm-4 control-label">借款期限</label>
           <div class="col-sm-8 ">
-            <select class="form-control" id="loanApplyExpiry" placeholder="" [(ngModel)]="loan.loanApplyExpiry" [ngModelOptions]="{standalone: true}" [disabled]="disabled"
+            <select class="form-control" id="loanApplyExpiry" placeholder="" [(ngModel)]="loan.loanApplyExpiry" [disabled]="disabled" name="loanApplyExpiry" formControlName="loanApplyExpiry"
                     dict-select
                     [key]="'LOAN_APPLY_EXPIRY'"
                     [selected]="loan.loanApplyExpiry"
                     [topOption]="{itemid:'',itemName:'请选择'}">
             </select>
+            <p *ngIf="form.controls.loanApplyExpiry.errors?.min" class="text-danger">请选择该项</p>
           </div>
         </div>
       </div>
       <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
         <div class="row">
-          <label for="rate" class="col-sm-4 control-label">年利率</label>
-          <div class="col-sm-8">
-            <input type="text" class="form-control" id="rate" placeholder="年利率" [(ngModel)]="loan.rate" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
+          <label for="greenHand" class="col-sm-4 control-label">新手标</label>
+          <div class="col-sm-8 ">
+            <select class="form-control" id="greenHand" placeholder="" [(ngModel)]="loan.greenHand" [disabled]="disabled"  [ngModelOptions]="{standalone: true}"
+                    dict-select
+                    [key]="'GREEN_HAND'"
+                    [selected]="loan.greenHand">
+            </select>
           </div>
         </div>
       </div>
@@ -47,7 +54,24 @@
         <div class="row">
           <label for="projectName" class="col-sm-4 control-label">项目名称</label>
           <div class="col-sm-8">
-            <input class="form-control" id="projectName" placeholder="项目名称" [(ngModel)]="loan.projectName" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
+            <input class="form-control" id="projectName" placeholder="项目名称" [(ngModel)]="loan.projectName" [ngModelOptions]="{standalone: true}" disabled>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+        <div class="row">
+          <label for="rate" class="col-sm-4 control-label">年利率</label>
+          <div class="col-sm-8">
+            <input currencyMask [options]="{ prefix : '', suffix : '%', allowZero: false}"  class="form-control" id="rate" placeholder="年利率" [(ngModel)]="loan.rate" [disabled]="disabled" name="rate" formControlName="rate" >
+            <p *ngIf="form.controls.rate.errors?.min" class="text-danger">年利率不能为0%</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+        <div class="row">
+          <label for="raiseRate" class="col-sm-4 control-label">加息</label>
+          <div class="col-sm-8 ">
+            <input currencyMask [options]="{ prefix : '', suffix : '%', allowZero: false}"  class="form-control" id="raiseRate" placeholder="加息" [(ngModel)]="loan.raiseRate" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
           </div>
         </div>
       </div>
@@ -55,12 +79,13 @@
         <div class="row">
           <label for="repayType" class="col-sm-4 control-label">还款方式</label>
           <div class="col-sm-8">
-            <select class="form-control" id="repayType" placeholder="" [(ngModel)]="loan.repayType" [ngModelOptions]="{standalone: true}" [disabled]="disabled"
+            <select class="form-control" id="repayType" placeholder="" [(ngModel)]="loan.repayType" [disabled]="disabled" name="repayType" formControlName="repayType"
                     dict-select
                     [key]="'REPAY_TYPE'"
                     [selected]="loan.repayType"
                     [topOption]="{itemid:'',itemName:'请选择'}">
             </select>
+            <p *ngIf="form.controls.repayType.errors?.min" class="text-danger">请选择该项</p>
           </div>
         </div>
       </div>
@@ -68,11 +93,25 @@
         <div class="row">
           <label for="serviceRate" class="col-sm-4 control-label">手续费</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="serviceRate" placeholder="手续费" [(ngModel)]="loan.serviceRate" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
+            <input currencyMask [options]="{ prefix: '￥', allowZero: false}"  class="form-control" id="serviceRate" placeholder="手续费" [(ngModel)]="loan.serviceRate" [disabled]="disabled" name="serviceRate" formControlName="serviceRate">
+            <p *ngIf="form.controls.serviceRate.errors?.min" class="text-danger">手续费不能为0</p>
           </div>
         </div>
       </div>
       <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+        <div class="row">
+          <label for="loanPurpose" class="col-sm-4 control-label">借款用途</label>
+          <div class="col-sm-8 ">
+            <select class="form-control" id="loanPurpose" placeholder="" [(ngModel)]="loan.loanPurpose" [disabled]="disabled"  [ngModelOptions]="{standalone: true}"
+                    dict-select
+                    [key]="'LOAN_PURPOSE'"
+                    [selected]="loan.loanPurpose"
+                    [topOption]="{itemid:'',itemName:'请选择'}">
+            </select>
+          </div>
+        </div>
+      </div>
+      <!--<div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
         <div class="row">
           <label for="repayFrom" class="col-sm-4 control-label">还款来源</label>
           <div class="col-sm-8">
@@ -84,7 +123,7 @@
             </select>
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
   </form>
 </seer-collapse-card>
