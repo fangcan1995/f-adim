@@ -21,17 +21,7 @@
     [hidePrint]="true"
     [hideColumns]="true"
     (notify)="onChange($event)"
+    (changePage)="handlePageChange($event)"
   ></seer-table>
 </seer-collapse-card>
-<ng-template #stop >
-  <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
-    <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">添加现金红包</h4>
-  </div>
-  <div class="modal-body">
-    123
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-sx btn-info" (click)="saveHouse(house)">确定</button>
-    <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
-  </div>
-</ng-template>
+

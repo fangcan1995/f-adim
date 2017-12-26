@@ -1,13 +1,14 @@
 import {Injectable} from "@angular/core";
 import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel} from "../../../theme/services"
 import * as _ from 'lodash';
+import {getStorage} from "../../../theme/libs/utils";
 @Injectable()
 
 export class ActivityService extends BaseService<ResModel>{
   mockData=[
     {
       "id": "1",
-      "activityId": "20170913001",
+      "activityCode": "20170913001",
       "activityTheme": "新手注册活动",
       "trig_mode": "1",
       "ydjps": "0",
@@ -18,7 +19,7 @@ export class ActivityService extends BaseService<ResModel>{
     },
     {
       "id": "2",
-      "activityId": "20170913002",
+      "activityCode": "20170913002",
       "activityTheme": "三八女神节活动",
       "trig_mode": "2",
       "ydjps": "0",
@@ -29,7 +30,7 @@ export class ActivityService extends BaseService<ResModel>{
     },
     {
       "id": "3",
-      "activityId": "20170913003",
+      "activityCode": "20170913003",
       "activityTheme": "新手注册活动",
       "trig_mode": "1",
       "ydjps": "20",
@@ -40,7 +41,7 @@ export class ActivityService extends BaseService<ResModel>{
     },
     {
       "id": "4",
-      "activityId": "20170913004",
+      "activityCode": "20170913004",
       "activityTheme": "三八女神节活动",
       "trig_mode": "2",
       "ydjps": "30",
@@ -51,7 +52,7 @@ export class ActivityService extends BaseService<ResModel>{
     },
     {
       "id": "5",
-      "activityId": "20170913005",
+      "activityCode": "20170913005",
       "activityTheme": "新手注册活动",
       "trig_mode": "1",
       "ydjps": "100",
@@ -62,7 +63,7 @@ export class ActivityService extends BaseService<ResModel>{
     },
     {
       "id": "6",
-      "activityId": "20170913006",
+      "activityCode": "20170913006",
       "activityTheme": "三八女神节活动",
       "trig_mode": "2",
       "ydjps": "100",
@@ -72,7 +73,7 @@ export class ActivityService extends BaseService<ResModel>{
     },
     {
       "id": "7",
-      "activityId": "20170913007",
+      "activityCode": "20170913007",
       "activityTheme": "新手注册活动",
       "trig_mode": "1",
       "ydjps": "50",
@@ -83,7 +84,7 @@ export class ActivityService extends BaseService<ResModel>{
     },
     {
       "id": "8",
-      "activityId": "20170913008",
+      "activityCode": "20170913008",
       "activityTheme": "三八女神节活动",
       "trig_mode": "2",
       "ydjps": "100",
@@ -93,7 +94,7 @@ export class ActivityService extends BaseService<ResModel>{
     },
     {
       "id": "9",
-      "activityId": "20170913009",
+      "activityCode": "20170913009",
       "activityTheme": "新手注册活动",
       "trig_mode": "1",
       "ydjps": "50",
@@ -104,7 +105,7 @@ export class ActivityService extends BaseService<ResModel>{
     },
     {
       "id": "10",
-      "activityId": "20170913010",
+      "activityCode": "20170913010",
       "activityTheme": "三八女神节活动",
       "trig_mode": "2",
       "ydjps": "100",
@@ -113,10 +114,13 @@ export class ActivityService extends BaseService<ResModel>{
       "activityStatus": "4",
     },
   ];
+  accessToken = getStorage({ key: 'token' }).access_token;
   // 1 获取数据列表
   getList(params?):Promise<ResModel> {
+    console.log(this.accessToken);
+    return this._httpInterceptorService.request('GET', `http://172.16.4.62:9080/activities?access_token=${this.accessToken}`,params).toPromise();
     //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ACTIVITIES']}`,params).toPromise();
-    return new Promise((resolve, reject) => {
+    /*return new Promise((resolve, reject) => {
       resolve(
         {
           "code": "0",
@@ -129,20 +133,21 @@ export class ActivityService extends BaseService<ResModel>{
           }
         }
       )
-    })
+    })*/
   }
 //2 获取一条数据
   getOne(id):Promise<ResModel> {
+    return this._httpInterceptorService.request('GET', `http://172.16.4.62:9080/activities/${id}?access_token=${this.accessToken}`,{}, true).toPromise();
     //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ACTIVITIES']}/${id}`,{}, true).toPromise();
-    return new Promise((resolve, reject) => {
+    /*return new Promise((resolve, reject) => {
       resolve(
         {
           "data": {
-            "baseInfo": {
-              'activityId':'20171220001',
+            "BaseInfoDTO": {
+              'activityCode':'20171220001',
               'activityTheme':'三八节活动',
               'glhd':'20171220003',
-              'trigMode':'1',
+              'trigMode':'4',
               'productCategory':'3',
               'investLimit':'1',
               'investAmount1':'10000.00',
@@ -157,8 +162,8 @@ export class ActivityService extends BaseService<ResModel>{
               'remark':'这是备注',
               'activityScope':'3'
             },
-            "awards": {
-              redEnvelopes:[
+            "AwardsDTO": {
+              redEnvelopesDTO:[
                 {
                   'id':'1',
                   'jpmc':'18元现金红包',
@@ -184,7 +189,7 @@ export class ActivityService extends BaseService<ResModel>{
                   'djl':'100%'
                 }
                 ],
-              rateCoupons:[
+              rateCouponsDTO:[
                 {
                   'id':1,
                   'jpmc':'30天加息券',
@@ -195,7 +200,7 @@ export class ActivityService extends BaseService<ResModel>{
                   'djl':'100%'
                 }
               ],
-              physicalRewards:[
+              physicalRewardsDTO:[
                 {
                   'id':1,
                   'jpmc':'100元京东卡',
@@ -206,7 +211,7 @@ export class ActivityService extends BaseService<ResModel>{
                   'djl':'100%'
                 }
               ],
-              raffleTickets:[
+              raffleTicketsDTO:[
                 {
                   'id':1,
                   'jpmc':'幸运大抽奖',
@@ -218,14 +223,14 @@ export class ActivityService extends BaseService<ResModel>{
                 }
               ]
             },
-            "scopes": ["1","1111111","e05cf41992f142148ffc59b2acce4def"]
+            "scopes": ["1","1111111","e05cf41992f142148ffc59b2acce4def",'2','3','4','5','6','7','8','9','10']
           },
           code: "0",
           message: "SUCCESS",
         }
 
       )
-    })
+    })*/
   }
 
 // 3添加一条数据
@@ -249,7 +254,6 @@ export class ActivityService extends BaseService<ResModel>{
   // 4 修改一条数据，提供所有字段
   putOne(id,params):Promise<any> {
     //return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['ACTIVITIES']}`, params).toPromise();
-    console.log(params);
     let index = _.findIndex(this.mockData, t => t.id === id);
     if (index != -1) {
       this.mockData[index] = params;
@@ -266,23 +270,14 @@ export class ActivityService extends BaseService<ResModel>{
   }
 
   //5 停止终止活动
-  stop(id): Promise<ResModel> {
-    //return this._httpInterceptorService.request('POST', `${BASE_URL}/${API['ACTIVITIES']}/${id}/stop`,).toPromise();
-    return new Promise((resolve, reject) => {
-      resolve(
-        {
-          code: "0",
-          message: "SUCCESS",
-        }
-
-      )
-    })
+  stop(id,params): Promise<ResModel> {
+    return this._httpInterceptorService.request('POST', `http://172.16.4.62:9080/activities/${id}/stop?access_token=${this.accessToken}`,params).toPromise();
   }
 
   // 6 删除一条数据
   deleteOne(id):Promise<any> {
-    //return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${API['ACTIVITIES']}/${id}`).toPromise();
-    let data = _.remove(this.mockData, x => x.id === id);
+    return this._httpInterceptorService.request('DELETE', `http://172.16.4.62:9080/activities/${id}?access_token=${this.accessToken}`).toPromise();
+    /*let data = _.remove(this.mockData, x => x.id === id);
     return new Promise((resolve, reject) => {
       resolve(
         {
@@ -291,7 +286,7 @@ export class ActivityService extends BaseService<ResModel>{
         }
 
       )
-    })
+    })*/
   }
 
   //7 查询会员列表
@@ -300,10 +295,12 @@ export class ActivityService extends BaseService<ResModel>{
   }
 
   //8 查询会员id数组中的会员列表
-  getIdsMembers(ids):Promise<ResModel> {
+  getIdsMembers(params):Promise<ResModel> {
+    return this._httpInterceptorService.request('GET', `http://172.16.4.62:9080/activities/scope?access_token=a717fd54-0fb0-4262-8828-08747a35f3c8`, params).toPromise();
+
     //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ACTIVITIES']}/{id}/scopes`,ids).toPromise();
     //console.log(ids);
-    return new Promise((resolve, reject) => {
+    /*return new Promise((resolve, reject) => {
       resolve(
         {
           "code": "0",
@@ -332,25 +329,103 @@ export class ActivityService extends BaseService<ResModel>{
           },
         }
       )
-    })
+    })*/
   }
 
   //9 根据活动ID查询发放记录
-  getSendRecords(id): Promise<ResModel> {
+  getSendRecords(id,params): Promise<ResModel> {
+
     //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ACTIVITIES']}/${id}/sendRecords`, params).toPromise();
     return new Promise((resolve, reject) => {
       resolve(
         {
           "data": {
-            baseInfo: {},
-            awards: {
-              redEnvelopes:[],
-              rateCoupons:[],
-              raffleTickets:[],
-              physicalRewards:[]
-            },
-            scopes: [],
-          },
+            "pageNum": 1,
+            "pageSize": 10,
+            "total": 13,
+            "list":[
+              {
+                "sendTime": "2017/12/12 18:12:12",
+                "userName": "xiaowei",
+                "trueName": "陈二狗",
+                "phoneNumber":"12345678",
+                "awardName":"110000201812130001",
+                "sendStatus":"1"
+              },
+              {
+                "sendTime": "2017/12/12 18:12:12",
+                "userName": "user",
+                "trueName": "小张",
+                "phoneNumber":"138868686",
+                "awardName":"110000201812130001",
+                "sendStatus":"1"
+              },
+              {
+                "sendTime": "2017/12/12 18:12:12",
+                "userName": "ssssdfdfds",
+                "trueName": "小李",
+                "phoneNumber":"13588886666",
+                "awardName":"110000201812130001",
+                "sendStatus":"2"
+              },
+              {
+                "sendTime": "2017/12/12 18:12:12",
+                "userName": "ssssdfdfds",
+                "trueName": "小李",
+                "phoneNumber":"13588886666",
+                "awardName":"110000201812130001",
+                "sendStatus":"2"
+              },
+              {
+                "sendTime": "2017/12/12 18:12:12",
+                "userName": "ssssdfdfds",
+                "trueName": "小李",
+                "phoneNumber":"13588886666",
+                "awardName":"110000201812130001",
+                "sendStatus":"2"
+              },
+              {
+                "sendTime": "2017/12/12 18:12:12",
+                "userName": "ssssdfdfds",
+                "trueName": "小李",
+                "phoneNumber":"13588886666",
+                "awardName":"110000201812130001",
+                "sendStatus":"2"
+              },
+              {
+                "sendTime": "2017/12/12 18:12:12",
+                "userName": "ssssdfdfds",
+                "trueName": "小李",
+                "phoneNumber":"13588886666",
+                "awardName":"110000201812130001",
+                "sendStatus":"2"
+              },
+              {
+                "sendTime": "2017/12/12 18:12:12",
+                "userName": "ssssdfdfds",
+                "trueName": "小李",
+                "phoneNumber":"13588886666",
+                "awardName":"110000201812130001",
+                "sendStatus":"2"
+              },
+              {
+                "sendTime": "2017/12/12 18:12:12",
+                "userName": "ssssdfdfds",
+                "trueName": "小李",
+                "phoneNumber":"13588886666",
+                "awardName":"110000201812130001",
+                "sendStatus":"2"
+              },
+              {
+                "sendTime": "2017/12/12 18:12:12",
+                "userName": "ssssdfdfds",
+                "trueName": "小李",
+                "phoneNumber":"13588886666",
+                "awardName":"110000201812130001",
+                "sendStatus":"2"
+              }
+            ]
+    },
           code: "0",
           message: "SUCCESS",
         }
@@ -360,7 +435,7 @@ export class ActivityService extends BaseService<ResModel>{
   }
 
   //10 补发奖励
-  reSend(id, params): Promise<ResModel> {
+  reSend(id): Promise<ResModel> {
     //return this._httpInterceptorService.request('POST', `${BASE_URL}/${API['ACTIVITIES']}/${id}/reSend`, params).toPromise();
     return new Promise((resolve, reject) => {
       resolve(
@@ -376,108 +451,7 @@ export class ActivityService extends BaseService<ResModel>{
   //11 获取参与活动的会员id拼接的字符串
   getIds(params?): Promise<ResModel> {
     return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MEMBERS']}/members/members/ids`,params).toPromise();
-
   }
 
-  getDatas(): Promise<any> {
-      return new Promise((resolve, reject) => {
-        resolve(
-          {
-            'success': 0,
-
-            'data':[
-                {"roleName":"xxxx","validState":"短信","sendTime":"自动","sendway":"2017-08-18 09:21:12","Time":"短信","red":"01","add":"01"},
-
-              ]
-          }
-        )
-      })
-    }
-  getData(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      resolve(
-        {
-          'success': true,
-          'data':[
-              {"roleName":"xxxx","validState":"短信","sendTime":"自动","sendway":"2017-08-18 09:21:12","Time":"短信","red":"01","add":"01"},
-
-            ]
-        }
-      )
-    })
-    }
-
 }
-/*getList(params?): Observable<any> {
-    // return this._httpInterceptorService.request('GET', `${baseUrl}/${apis['MEMBERS']}`, params);
-    let res = {
-      "code": "0",
-      "message": "SUCCESS",
-      "data": {
-        "pageNum": 1,
-        "pageSize": 10,
-        "total": 13,
-        "list":this.mockData
-      },
-    };
-    return Observable.of(res)
-  }*/
-// 获取一条数据
-/*
-getOne(id): Observable<any> {
-  // return this._httpInterceptorService.request('GET', `${baseUrl}/${apis['MEMBERS']}/${id}`);
-  let data = _.find(this.mockData, x => x.id === id);
-console.log(data);
-let res = {
-  code: 0,
-  msg: '',
-  data,
-  extras: {}
-};
-return Observable.of(res);
 
-}*/
-// 添加一条数据
-/*
-postOne(params): Observable<any> {
-  // return this._httpInterceptorService.request('POST', `${baseUrl}/${apis['MEMBERS']}`, params)
-  let id = _.reduce(this.mockData, (max, n) => Number(n.id) > max ? Number(n.id) : max, 0) + 1;
-params.id = id;
-this.mockData.push(params);
-let res = {
-  code: 0,
-  msg: '',
-  data: params,
-  extras: {}
-};
-return Observable.of(res);
-}*/
-// 修改一条数据，提供所有字段
-/*
-putOne(id, params): Observable<any> {
-  // return this._httpInterceptorService.request('PUT', `${baseUrl}/${apis['MEMBERS']}/${id}`, params)
-  let index = _.findIndex(this.mockData, t => t.id === id);
-if (index != -1) {
-  this.mockData[index] = params;
-}
-let res = {
-  code: 0,
-  msg: '',
-  data: params,
-  extras: {}
-};
-return Observable.of(res);
-}*/
-// 删除一条数据
-/*
-deleteOne(id): Observable<any> {
-  // return this._httpInterceptorService.request('DELETE', `${baseUrl}/${apis['MEMBERS']}/${id}`)
-  let data = _.remove(this.mockData, x => x.id === id);
-let res = {
-  code: 0,
-  msg: '',
-  data,
-  extras: {}
-};
-return Observable.of(res);
-}*/
