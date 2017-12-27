@@ -235,9 +235,12 @@ export class ActivityService extends BaseService<ResModel>{
 
 // 3添加一条数据
   postOne(params):Promise<ResModel> {
+    //let fileId=params.fileId;
+    return this._httpInterceptorService.request('POST', `http://172.16.1.221:9080/activities?access_token=${this.accessToken}`, params).toPromise();
+
     /*let fileId=params.fileId;
     return this._httpInterceptorService.request('POST', `${BASE_URL}/${API['ACTIVITIES']}/${fileId}`, params).toPromise();*/
-    let id = _.reduce(this.mockData, (max, n) => Number(n.id) > max ? Number(n.id) : max, 0) + 1;
+    /*let id = _.reduce(this.mockData, (max, n) => Number(n.id) > max ? Number(n.id) : max, 0) + 1;
     params.id = id;
     this.mockData.push(params);
     return new Promise((resolve, reject) => {
@@ -248,13 +251,14 @@ export class ActivityService extends BaseService<ResModel>{
         }
 
       )
-    })
+    })*/
   }
 
   // 4 修改一条数据，提供所有字段
   putOne(id,params):Promise<any> {
+    return this._httpInterceptorService.request('PUT', `http://172.16.1.221:9080/activities?access_token=${this.accessToken}`, params).toPromise();
     //return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['ACTIVITIES']}`, params).toPromise();
-    let index = _.findIndex(this.mockData, t => t.id === id);
+    /*let index = _.findIndex(this.mockData, t => t.id === id);
     if (index != -1) {
       this.mockData[index] = params;
     }
@@ -266,7 +270,7 @@ export class ActivityService extends BaseService<ResModel>{
         }
 
       )
-    })
+    })*/
   }
 
   //5 停止终止活动

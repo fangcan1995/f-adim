@@ -23,6 +23,7 @@ export class ActivityEditComponent {
   isAddaward=true;  //是否可以新增奖励
 
   activity: any = {};  //一个活动的全部信息
+  activitySubmit: any = {};  //被提交的活动的全部信息
   baseInfoDTO: any = {};  //活动基本信息
   awardsDTO: any = {};  //活动奖励信息
   scopesDTO= []; //活动范围
@@ -122,17 +123,20 @@ export class ActivityEditComponent {
           this._activityService.getOne(params.id)
             .then(res => {
               this.activity = res.data || {};
+              //console.log('&&&&&&&&&&&&&&&&&&&');
+              //console.log(this.activity);
               this.baseInfoDTO=this.activity.baseInfoDTO;
               (this.baseInfoDTO.trigMode=='4')?this.isInvestMode=false:this.isInvestMode=true; //投资奖励的特殊处理
               (this.baseInfoDTO.activityScope=='3')?this.hideChooseMembers=false:this.hideChooseMembers=true; //指定用户的特殊处理
               this.baseInfoDTO.beginTime=new Date(this.baseInfoDTO.beginTime);  //格式化时间
               this.baseInfoDTO.endTime=new Date(this.baseInfoDTO.endTime);  //格式化时间
-              this.baseInfoDTO.participateNum1=(this.baseInfoDTO.participateNum).split("/")[0];   //频率字段拆分出次数
-              this.baseInfoDTO.participateNum2=(this.baseInfoDTO.participateNum).split("/")[1];//频率字段拆分出时间间隔
+
+              this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[0]:'';//频率字段拆分出次数
+              this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[1]:'';//频率字段拆分出时间间隔
               if(this.baseInfoDTO.trigMode){
                 this.isAddaward=false;
               }
-
+              //console.log(this.baseInfoDTO);
               this.awardsDTO=this.activity.awardsDTO;
 
               this.scopesPageInfo.total=this.activity.scopesDTO.length;
@@ -525,30 +529,50 @@ export class ActivityEditComponent {
   handleSaveBtnClick() {
     if ( this.forbidSaveBtn ) return;
     this.forbidSaveBtn = true;
-    console.log('________________________');
-    console.log(this.activity);
-    console.log('________________________');
+    let baseInfo=_.cloneDeep(this.activity.baseInfoDTO);
     //如果不是投资奖励，删除相关属性
-    if(this.activity.baseInfoDTO.trigMode!='4'){
-      delete this.baseInfoDTO.productCategory;
-      delete this.baseInfoDTO.investLimit;
-      delete this.baseInfoDTO.investMinMoney;
-      delete this.baseInfoDTO.investMaxMoney;
-      delete this.baseInfoDTO.investMinNum;
-      delete this.baseInfoDTO.investMaxNum;
+    if(baseInfo.trigMode!='4'){
+      delete baseInfo.productCategory;
+      delete baseInfo.investLimit;
+      delete baseInfo.investMinMoney;
+      delete baseInfo.investMaxMoney;
+      delete baseInfo.investMinNum;
+      delete baseInfo.investMaxNum;
     }
     //投资范围如果不是指定用户，清空数组
-    if(this.activity.baseInfoDTO.activityScope!='3'){
+    if(baseInfo.activityScope!='3'){
       this.activity.scopesDTO=[];
     }
     //拼接参加频率
-    this.baseInfoDTO.participateNum=this.baseInfoDTO.participateNum1+'/'+this.baseInfoDTO.participateNum2;
-    delete this.baseInfoDTO.participateNum1;
-    delete this.baseInfoDTO.participateNum2;
+    baseInfo.participateNum=baseInfo.participateNum1+'/'+baseInfo.participateNum2;
+    delete baseInfo.participateNum1;
+    delete baseInfo.participateNum2;
+    //处理日期
+    baseInfo.beginTime=(baseInfo.beginTime.getTime())|| null;
+    baseInfo.endTime=(baseInfo.endTime.getTime())|| null;
+
+    console.log(baseInfo);
+    this.activitySubmit={
+      "activityId":this.activity.activityId,
+      "baseInfoPOJO":baseInfo,
+      "awardsPOJO":{
+        "redEnvelopesPOJOs":this.activity.awardsDTO.redEnvelopesDTOs,
+        "rateCouponsPOJOs":this.activity.awardsDTO.rateCouponsDTOs,
+        "physicalRewardsPOJOs":this.activity.awardsDTO.physicalRewardsDTOs,
+        "raffleTicketsPOJOs":this.activity.awardsDTO.raffleTicketsDTOs,
+      },
+      "scopesDTO":this.activity.scopesDTO
+
+    }
+    //this.activitySubmit.baseInfoPOJO.beginTime=beginTime;
+    //this.activitySubmit.baseInfoPOJO.endTime=endTime;
+
 
     if (this._editType === 'edit') {
       console.log('编辑的数据');
-      this._activityService.putOne(this.activity.id, this.activity)
+
+      console.log(this.activitySubmit);
+      this._activityService.putOne(this.activity.id, this.activitySubmit)
         .then(res=>{
           this.forbidSaveBtn = false;
           this.showSuccess(res.msg || '更新成功')
@@ -563,8 +587,9 @@ export class ActivityEditComponent {
       });
     } else if (this._editType === 'add') {
       console.log('添加的数据');
-      console.log(this.activity);
-      this._activityService.postOne(this.activity)
+      this.activitySubmit.activityId=null;
+      console.log(this.activitySubmit);
+      this._activityService.postOne(this.activitySubmit)
         .then((data:any) => {
           this.forbidSaveBtn = false;
           this.showSuccess(data.msg || '保存成功')

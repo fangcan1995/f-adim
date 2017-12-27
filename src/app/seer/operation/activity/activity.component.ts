@@ -77,7 +77,7 @@ export class ActivityComponent implements OnInit {
   ) {}
   getList() {
     this._activityService.getList(this.pageInfo).then(res => {
-
+        console.log(res.data);
         this.pageInfo.pageNum=res.data.pageNum;  //当前页
         this.pageInfo.pageSize=res.data.pageSize; //每页记录数
         this.pageInfo.total=res.data.total; //记录总数
@@ -155,6 +155,8 @@ export class ActivityComponent implements OnInit {
   //条件过滤
   handleFiltersChanged($event) {
     let params=$event;
+    console.log('---------------------');
+    console.log(params);
     let { beginTime, ...otherParams } = params;
     let beginStartTime,
       beginEndTime;
@@ -167,7 +169,7 @@ export class ActivityComponent implements OnInit {
       beginStartTime,
       beginEndTime,
     }
-    //console.log(params);
+    console.log(typeof beginStartTime);
     this.pageInfo = params;
     this.getList();
   }
