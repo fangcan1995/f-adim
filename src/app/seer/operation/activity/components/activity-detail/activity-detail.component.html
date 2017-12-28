@@ -10,50 +10,46 @@
               <div class="row">
                 <label  class="col-sm-4 col-md-2 control-label">活动主题</label>
                 <div class="col-sm-8 col-md-10">
-                  <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.activityName" disabled>
+                  <label class="form-control">{{baseInfoDTO.activityName}}</label>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
               <div class="row">
-                <label for="activityCode" class="col-sm-4 col-md-2 control-label">活动编号</label>
+                <label  class="col-sm-4 col-md-2 control-label">活动编号</label>
                 <div class="col-sm-8 col-md-10">
-                  <input type="text" class="form-control" id="activityCode" [(ngModel)]="baseInfoDTO.activityCode" disabled>
+                  <label class="form-control">{{baseInfoDTO.activityCode}}</label>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
               <div class="row">
-                <label for="parentId" class="col-sm-4 col-md-2 control-label">关联活动</label>
+                <label class="col-sm-4 col-md-2 control-label">关联活动</label>
                 <div class="col-sm-8 col-md-10">
-                  <input type="text" class="form-control" id="parentId" [(ngModel)]="baseInfoDTO.parentId" disabled>
+                  <label class="form-control">{{baseInfoDTO.parentId}}</label>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
               <div class="row">
-                <label for="trigMode" class="col-sm-4 col-md-2 control-label">触发方式</label>
+                <label class="col-sm-4 col-md-2 control-label">触发方式</label>
                 <div class="col-sm-8 col-md-10" >
-                  <select class="form-control" id="trigMode"  [(ngModel)]="baseInfoDTO.trigMode" disabled
+                  <!--<select class="form-control" id="trigMode"  [(ngModel)]="baseInfoDTO.trigMode" disabled
                           dict-select
                           [key]="'TRIG_MODE'"
                           [selected]="baseInfoDTO.trigMode"
                           (change)="chooseTrigMode($event.target.value)"
                           [topOption]="{itemid:'',itemName:'请选择'}" >
-                  </select >
+                  </select >-->
+                  <label class="form-control">{{baseInfoDTO.trigMode}}</label>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6" [hidden]="isInvestMode">
               <div class="row">
-                <label for="productCategory" class="col-sm-4 col-md-2 control-label">标的条件</label>
+                <label  class="col-sm-4 col-md-2 control-label">标的条件</label>
                 <div class="col-sm-8 col-md-10" >
-                  <select class="form-control" id="productCategory" [(ngModel)]="baseInfoDTO.productCategory" disabled
-                          dict-select
-                          [key]="'PRODUCT_CATEGORY'"
-                          [selected]="baseInfoDTO.productCategory"
-                          [topOption]="{itemid:'',itemName:'请选择'}" >
-                  </select>
+                  <label class="form-control">{{baseInfoDTO.productCategory}}</label>
                 </div>
               </div>
             </div>
@@ -61,12 +57,7 @@
               <div class="row">
                 <label  class="col-sm-4 col-md-2 control-label">投资条件</label>
                 <div class="col-sm-8 col-md-10" >
-                  <select class="form-control"  [(ngModel)]="baseInfoDTO.investLimit" disabled
-                          dict-select
-                          [key]="'INVEST_LIMIT'"
-                          [selected]="baseInfoDTO.investLimit"
-                          [topOption]="{itemid:'',itemName:'请选择'}" >
-                  </select>
+                  <label class="form-control">{{baseInfoDTO.investLimit}}</label>
                 </div>
               </div>
             </div>
@@ -75,12 +66,12 @@
                 <label  class="col-sm-4 col-md-2 control-label">投资金额</label>
                 <div class="col-sm-8 col-md-10 group">
                   <div class="col-sm-5">
-                    <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.investMinMoney" disabled>
+                    <label class="form-control">{{baseInfoDTO.investMinMoney}}</label>
                     <span class="unit">元</span>
                   </div>
                   <label class="col-sm-2">至</label>
                   <div class="col-sm-5" style="position: relative">
-                    <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.investMaxMoney" disabled>
+                    <label class="form-control">{{baseInfoDTO.investMaxMoney}}</label>
                     <span class="unit">元</span>
                   </div>
                 </div>
@@ -91,12 +82,12 @@
                 <label  class="col-sm-4 col-md-2 control-label">投资次数</label>
                 <div class="col-sm-8 col-md-10 group">
                   <div class="col-sm-5">
-                    <input type="text" class="form-control" id="investMinNum" [(ngModel)]="baseInfoDTO.investMinNum" disabled>
+                    <label class="form-control">{{baseInfoDTO.investMinNum}}</label>
                     <span class="unit">次</span>
                   </div>
                   <label class="col-sm-2">至</label>
                   <div class="col-sm-5">
-                    <input type="text" class="form-control" id="investMaxNum" [(ngModel)]="baseInfoDTO.investMaxNum" disabled>
+                    <label class="form-control">{{baseInfoDTO.investMaxNum}}</label>
                     <span class="unit">次</span>
                   </div>
                 </div>
@@ -107,19 +98,11 @@
                 <label  class="col-sm-4 col-md-2 control-label">活动时间</label>
                 <div class="col-sm-8 col-md-10 group" >
                   <div class="col-sm-5">
-                    <seer-datepicker disabled
-                      [(date)]="baseInfoDTO.beginTime"
-                      [dateFormatingRules]="'yyyy-MM-dd'"
-                    >
-                    </seer-datepicker>
+                    <label class="form-control">{{baseInfoDTO.beginTime| date:'yyyy-MM-dd'}}</label>
                   </div>
                   <label class="col-sm-2">至</label>
                   <div class="col-sm-5">
-                    <seer-datepicker disabled
-                      [(date)]="baseInfoDTO.endTime"
-                      [dateFormatingRules]="'yyyy-MM-dd'"
-                    >
-                    </seer-datepicker>
+                    <label class="form-control">{{baseInfoDTO.endTime| date:'yyyy-MM-dd'}}</label>
                   </div>
                 </div>
 
@@ -130,12 +113,12 @@
                 <label class="col-sm-4 col-md-2 control-label">参加频率</label>
                 <div class="col-sm-8 col-md-10 group" >
                   <div class="col-sm-5">
-                    <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.participateNum1" disabled>
+                    <label class="form-control">{{baseInfoDTO.participateNum1}}</label>
                     <span class="unit">次</span>
                   </div>
                   <label class="col-sm-2">/</label>
                   <div class="col-sm-5">
-                    <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.participateNum2" disabled>
+                    <label class="form-control">{{baseInfoDTO.participateNum2}}</label>
                     <span class="unit">天</span>
                   </div>
 
@@ -146,28 +129,23 @@
               <div class="row">
                 <label  class="col-sm-4 col-md-2 control-label">结算方式</label>
                 <div class="col-sm-8 col-md-10" >
-                  <select class="form-control"  [(ngModel)]="baseInfoDTO.issueTime" disabled
-                          dict-select
-                          [key]="'ISSUE_TIME'"
-                          [selected]="baseInfoDTO.issueTime"
-                          [topOption]="{itemid:'',itemName:'请选择'}" >
-                  </select>
+                  <label class="form-control">{{baseInfoDTO.issueTime }}</label>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12">
               <div class="row">
-                <label for="activityPageUrl" class="col-sm-4 col-md-2 col-lg-1 control-label">页面链接</label>
+                <label class="col-sm-4 col-md-2 col-lg-1 control-label">页面链接</label>
                 <div class="col-sm-8 col-md-10 col-lg-11">
-                  <input type="text" class="form-control" id="activityPageUrl" [(ngModel)]="baseInfoDTO.activityPageUrl" disabled>
+                  <label class="form-control">{{baseInfoDTO.activityPageUrl}}</label>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12">
               <div class="row">
-                <label for="activityRemark" class="col-sm-4 col-md-2 col-lg-1 control-label">活动备注</label>
+                <label class="col-sm-4 col-md-2 col-lg-1 control-label">活动备注</label>
                 <div class="col-sm-8 col-md-10 col-lg-11">
-                  <input type="text" class="form-control" id="activityRemark" [(ngModel)]="baseInfoDTO.activityRemark" disabled>
+                  <label class="form-control">{{baseInfoDTO.activityRemark}}</label>
                 </div>
               </div>
             </div>
@@ -187,7 +165,7 @@
           </thead>
           <tbody>
           <tr *ngFor="let redEnvelope of awardsDTO.redEnvelopesDTOs;let i=index">
-            <td>{{redEnvelope.awardSum}}</td>
+            <td>{{redEnvelope.reName}}</td>
             <td>{{redEnvelope.awardTitle}}</td>
             <td>{{redEnvelope.awardSentSum}}</td>
             <td>{{redEnvelope.awardSum}}</td>
@@ -198,7 +176,7 @@
             </td>
           </tr>
           <tr *ngFor="let rateCoupon of awardsDTO.rateCouponsDTOs;let i=index">
-            <td>{{rateCoupon.awardSum}}</td>
+            <td>{{rateCoupon.rcName}}</td>
             <td>{{rateCoupon.awardTitle}}</td>
             <td>{{rateCoupon.awardSentSum}}</td>
             <td>{{rateCoupon.awardSum}}</td>
@@ -208,7 +186,7 @@
             </td>
           </tr>
           <tr *ngFor="let physicalReward of awardsDTO.physicalRewardsDTOs;let i=index">
-            <td>{{physicalReward.awardSum}}</td>
+            <td>{{physicalReward.prName}}</td>
             <td>{{physicalReward.awardTitle}}</td>
             <td>{{physicalReward.awardSentSum}}</td>
             <td>{{physicalReward.awardSum}}</td>
@@ -218,7 +196,7 @@
             </td>
           </tr>
           <tr *ngFor="let raffleTicket of awardsDTO.raffleTicketsDTOs;let i=index">
-            <td>{{raffleTicket.awardSum}}</td>
+            <td>{{raffleTicket.rtName}}</td>
             <td>{{raffleTicket.awardTitle}}</td>
             <td>{{raffleTicket.awardSentSum}}</td>
             <td>{{raffleTicket.awardSum}}</td>
@@ -271,7 +249,7 @@
         <div class="row">
           <label class="col-sm-4 col-md-2 control-label">奖品名称</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.reName" disabled>
+            <label class="form-control">{{awardCurr.reName}}</label>
           </div>
         </div>
       </div>
@@ -279,7 +257,7 @@
         <div class="row">
           <label class="col-sm-4 col-md-2 control-label">红包金额</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.reAmount" disabled>
+            <label class="form-control">{{awardCurr.reAmount}}</label>
           </div>
         </div>
       </div>
@@ -287,7 +265,7 @@
         <div class="row">
           <label class="col-sm-4 col-md-2 control-label">获奖概率</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardPersents" disabled>
+            <label class="form-control">{{awardCurr.awardPersents}}</label>
           </div>
         </div>
       </div>
@@ -295,7 +273,7 @@
         <div class="row">
           <label class="col-sm-4 col-md-2 control-label">奖品总数</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardSum" disabled>
+            <label class="form-control">{{awardCurr.awardSum}}</label>
           </div>
         </div>
       </div>
@@ -317,7 +295,7 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">奖品名称</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.reName" disabled>
+            <label class="form-control">{{awardCurr.reName}}</label>
           </div>
         </div>
       </div>
@@ -325,33 +303,23 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">红包金额</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.reAmount" disabled>
+            <label class="form-control">{{awardCurr.reAmount}}</label>
           </div>
         </div>
       </div>
       <div class="form-group col-sm-12 col-md-12 col-lg-6" >
         <div class="row">
-          <label for="productCategory" class="col-sm-4  control-label">适用产品</label>
+          <label  class="col-sm-4  control-label">适用产品</label>
           <div class="col-sm-8" >
-            <select class="form-control"  [(ngModel)]="awardCurr.productCategory"
-                    dict-select
-                    [key]="'PRODUCT_CATEGORY'"
-                    [selected]="awardCurr.productCategory"
-                    [topOption]="{itemid:'',itemName:'请选择'}" disabled>
-            </select>
+            <label class="form-control">{{awardCurr.productCategory}}</label>
           </div>
         </div>
       </div>
       <div class="form-group col-sm-12 col-md-12 col-lg-6" >
         <div class="row">
-          <label for="productCategory" class="col-sm-4  control-label">激活方式</label>
+          <label  class="col-sm-4  control-label">激活方式</label>
           <div class="col-sm-8" >
-            <select class="form-control"  [(ngModel)]="awardCurr.useLimit"
-                    dict-select
-                    [key]="'USE_LIMIT'"
-                    [selected]="awardCurr.useLimit"
-                    [topOption]="{itemid:'',itemName:'请选择'}" disabled>
-            </select>
+            <label class="form-control">{{awardCurr.useLimit}}</label>
           </div>
         </div>
       </div>
@@ -359,7 +327,7 @@
         <div class="row">
           <label  class="col-sm-4  control-label">启用限额</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.useMinAmount" disabled>
+            <label class="form-control">{{awardCurr.useMinAmount}}</label>
           </div>
         </div>
       </div>
@@ -367,20 +335,15 @@
         <div class="row">
           <label  class="col-sm-4  control-label">有效期限</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.expiryDate" disabled>
+            <label class="form-control">{{awardCurr.expiryDate}}</label>
           </div>
         </div>
       </div>
       <div class="form-group col-sm-12 col-md-12 col-lg-6" >
         <div class="row">
-          <label for="productCategory" class="col-sm-4  control-label">叠加限制</label>
+          <label  class="col-sm-4  control-label">叠加限制</label>
           <div class="col-sm-8" >
-            <select class="form-control"  [(ngModel)]="awardCurr.isStacking"
-                    dict-select
-                    [key]="'IS_STACKING'"
-                    [selected]="awardCurr.isStacking"
-                    [topOption]="{itemid:'',itemName:'请选择'}" disabled>
-            </select>
+            <label class="form-control">{{awardCurr.isStacking}}</label>
           </div>
         </div>
       </div>
@@ -388,7 +351,7 @@
         <div class="row">
           <label  class="col-sm-4 control-label">获奖概率</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardPersents" disabled>
+            <label class="form-control">{{awardCurr.awardPersents}}</label>
           </div>
         </div>
       </div>
@@ -396,7 +359,7 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">奖品总数</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardSum" disabled>
+            <label class="form-control">{{awardCurr.awardSum}}</label>
           </div>
         </div>
       </div>
@@ -418,7 +381,7 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">奖品名称</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.rcName" disabled>
+            <label class="form-control">{{awardCurr.rcName}}</label>
           </div>
         </div>
       </div>
@@ -426,7 +389,7 @@
         <div class="row">
           <label  class="col-sm-4  control-label">加息额度</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.rcAmount" disabled>
+            <label class="form-control">{{awardCurr.rcAmount}}</label>
           </div>
         </div>
       </div>
@@ -434,33 +397,23 @@
         <div class="row">
           <label  class="col-sm-4  control-label">加息期限</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.rcLength" disabled>
+            <label class="form-control">{{awardCurr.rcLength}}</label>
           </div>
         </div>
       </div>
       <div class="form-group col-sm-12 col-md-12 col-lg-6" >
         <div class="row">
-          <label for="productCategory" class="col-sm-4  control-label">适用产品</label>
+          <label  class="col-sm-4  control-label">适用产品</label>
           <div class="col-sm-8" >
-            <select class="form-control"  [(ngModel)]="awardCurr.productCategory"
-                    dict-select
-                    [key]="'PRODUCT_CATEGORY'"
-                    [selected]="awardCurr.productCategory"
-                    [topOption]="{itemid:'',itemName:'请选择'}" disabled>
-            </select>
+            <label class="form-control">{{awardCurr.productCategory}}</label>
           </div>
         </div>
       </div>
       <div class="form-group col-sm-12 col-md-12 col-lg-6" >
         <div class="row">
-          <label for="productCategory" class="col-sm-4  control-label">激活方式</label>
+          <label class="col-sm-4  control-label">激活方式</label>
           <div class="col-sm-8" >
-            <select class="form-control"  [(ngModel)]="awardCurr.useLimit"
-                    dict-select
-                    [key]="'USE_LIMIT'"
-                    [selected]="awardCurr.useLimit"
-                    [topOption]="{itemid:'',itemName:'请选择'}" disabled>
-            </select>
+            <label class="form-control">{{awardCurr.useLimit}}</label>
           </div>
         </div>
       </div>
@@ -468,7 +421,7 @@
         <div class="row">
           <label  class="col-sm-4  control-label">启用限额</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.useMinAmount" disabled>
+            <label class="form-control">{{awardCurr.useMinAmount}}</label>
           </div>
         </div>
       </div>
@@ -476,20 +429,15 @@
         <div class="row">
           <label  class="col-sm-4  control-label">有效期限</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.expiryDate" disabled>
+            <label class="form-control">{{awardCurr.expiryDate}}</label>
           </div>
         </div>
       </div>
       <div class="form-group col-sm-12 col-md-12 col-lg-6" >
         <div class="row">
-          <label for="productCategory" class="col-sm-4  control-label">叠加限制</label>
+          <label  class="col-sm-4  control-label">叠加限制</label>
           <div class="col-sm-8" >
-            <select class="form-control"  [(ngModel)]="awardCurr.isStacking"
-                    dict-select
-                    [key]="'IS_STACKING'"
-                    [selected]="awardCurr.isStacking"
-                    [topOption]="{itemid:'',itemName:'请选择'}" disabled>
-            </select>
+            <label class="form-control">{{awardCurr.isStacking}}</label>
           </div>
         </div>
       </div>
@@ -497,7 +445,7 @@
         <div class="row">
           <label  class="col-sm-4 control-label">获奖概率</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardPersents" disabled>
+            <label class="form-control">{{awardCurr.awardPersents}}</label>
           </div>
         </div>
       </div>
@@ -505,7 +453,7 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">奖品总数</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardSum" disabled>
+            <label class="form-control">{{awardCurr.awardSum}}</label>
           </div>
         </div>
       </div>
@@ -527,7 +475,7 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">奖品名称</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.prName" disabled>
+            <label class="form-control">{{awardCurr.prName}}</label>
           </div>
         </div>
       </div>
@@ -535,7 +483,7 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">获奖概率</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardPersents" disabled>
+            <label class="form-control">{{awardCurr.awardPersents}}</label>
           </div>
         </div>
       </div>
@@ -543,7 +491,7 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">奖品单价</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.prPrice" disabled>
+            <label class="form-control">{{awardCurr.prPrice}}</label>
           </div>
         </div>
       </div>
@@ -552,7 +500,7 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">奖品总数</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardSum" disabled>
+            <label class="form-control">{{awardCurr.awardSum}}</label>
           </div>
         </div>
       </div>
@@ -574,7 +522,7 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">奖品名称</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.rtName" disabled>
+            <label class="form-control">{{awardCurr.rtName}}</label>
           </div>
         </div>
       </div>
@@ -582,7 +530,7 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">关联活动</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.activityId" disabled>
+            <label class="form-control">{{awardCurr.activityId}}</label>
           </div>
         </div>
       </div>
@@ -590,7 +538,7 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">单券次数</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.perNumber" disabled>
+            <label class="form-control">{{awardCurr.perNumber}}</label>
           </div>
         </div>
       </div>
@@ -598,7 +546,7 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">获奖概率</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardPersents" disabled>
+            <label class="form-control">{{awardCurr.awardPersents}}</label>
           </div>
         </div>
       </div>
@@ -606,7 +554,7 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">奖券总数</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardSum" disabled>
+            <label class="form-control">{{awardCurr.awardSum}}</label>
           </div>
         </div>
       </div>
