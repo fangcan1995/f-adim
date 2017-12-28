@@ -123,6 +123,8 @@ export class ActivityEditComponent {
           this._activityService.getOne(params.id)
             .then(res => {
               this.activity = res.data || {};
+              console.log('请求的数据');
+              console.log(res.data);
               this.baseInfoDTO=this.activity.baseInfoDTO;
               (this.baseInfoDTO.trigMode=='4')?this.isInvestMode=false:this.isInvestMode=true; //投资奖励的特殊处理
               (this.baseInfoDTO.activityScope=='3')?this.hideChooseMembers=false:this.hideChooseMembers=true; //指定用户的特殊处理
@@ -138,7 +140,7 @@ export class ActivityEditComponent {
               this.awardsDTO=this.activity.awardsDTO;
 
               this.scopesPageInfo.total=this.activity.scopesDTO.length;
-              console.log(this.activity.scopesDTO);
+
               this.scopesDTO=this.activity.scopesDTO;  //范围列表
               this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
               this.forbidSaveBtn = false;
@@ -408,8 +410,6 @@ export class ActivityEditComponent {
         this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //重新读活动范围中对应的第一页会员信息
         this.scopesPageInfo.total=this.scopesDTO.length.toString();
 
-        console.log('###########');
-        console.log(this.scopesPageInfo);
         this.modalService.hide(1);
         break;
       case 'all':
