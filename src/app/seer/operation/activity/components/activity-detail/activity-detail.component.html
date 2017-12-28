@@ -34,14 +34,7 @@
               <div class="row">
                 <label class="col-sm-4 col-md-2 control-label">触发方式</label>
                 <div class="col-sm-8 col-md-10" >
-                  <!--<select class="form-control" id="trigMode"  [(ngModel)]="baseInfoDTO.trigMode" disabled
-                          dict-select
-                          [key]="'TRIG_MODE'"
-                          [selected]="baseInfoDTO.trigMode"
-                          (change)="chooseTrigMode($event.target.value)"
-                          [topOption]="{itemid:'',itemName:'请选择'}" >
-                  </select >-->
-                  <label class="form-control">{{baseInfoDTO.trigMode}}</label>
+                  <label class="form-control" dict-trans [key]="'TRIG_MODE'" [value]="baseInfoDTO.trigMode"></label>
                 </div>
               </div>
             </div>
@@ -49,7 +42,7 @@
               <div class="row">
                 <label  class="col-sm-4 col-md-2 control-label">标的条件</label>
                 <div class="col-sm-8 col-md-10" >
-                  <label class="form-control">{{baseInfoDTO.productCategory}}</label>
+                  <label class="form-control" dict-trans [key]="'PRODUCT_CATEGORY'" [value]="baseInfoDTO.productCategory"></label>
                 </div>
               </div>
             </div>
@@ -57,7 +50,7 @@
               <div class="row">
                 <label  class="col-sm-4 col-md-2 control-label">投资条件</label>
                 <div class="col-sm-8 col-md-10" >
-                  <label class="form-control">{{baseInfoDTO.investLimit}}</label>
+                  <label class="form-control" dict-trans [key]="'INVEST_LIMIT'" [value]="baseInfoDTO.investLimit"></label>
                 </div>
               </div>
             </div>
@@ -129,7 +122,7 @@
               <div class="row">
                 <label  class="col-sm-4 col-md-2 control-label">结算方式</label>
                 <div class="col-sm-8 col-md-10" >
-                  <label class="form-control">{{baseInfoDTO.issueTime }}</label>
+                  <label class="form-control" dict-trans [key]="'ISSUE_TIME'" [value]="baseInfoDTO.issueTime"></label>
                 </div>
               </div>
             </div>
@@ -311,7 +304,7 @@
         <div class="row">
           <label  class="col-sm-4  control-label">适用产品</label>
           <div class="col-sm-8" >
-            <label class="form-control">{{awardCurr.productCategory}}</label>
+            <label class="form-control" dict-trans [key]="'PRODUCT_CATEGORY'" [value]="awardCurr.productCategory"></label>
           </div>
         </div>
       </div>
@@ -319,7 +312,7 @@
         <div class="row">
           <label  class="col-sm-4  control-label">激活方式</label>
           <div class="col-sm-8" >
-            <label class="form-control">{{awardCurr.useLimit}}</label>
+            <label class="form-control" dict-trans [key]="'USE_LIMIT'" [value]="awardCurr.useLimit"></label>
           </div>
         </div>
       </div>
@@ -343,7 +336,7 @@
         <div class="row">
           <label  class="col-sm-4  control-label">叠加限制</label>
           <div class="col-sm-8" >
-            <label class="form-control">{{awardCurr.isStacking}}</label>
+            <label class="form-control" dict-trans [key]="'IS_STACKING'" [value]="awardCurr.isStacking"></label>
           </div>
         </div>
       </div>
@@ -405,7 +398,7 @@
         <div class="row">
           <label  class="col-sm-4  control-label">适用产品</label>
           <div class="col-sm-8" >
-            <label class="form-control">{{awardCurr.productCategory}}</label>
+            <label class="form-control" dict-trans [key]="'PRODUCT_CATEGORY'" [value]="awardCurr.productCategory"></label>
           </div>
         </div>
       </div>
@@ -413,7 +406,7 @@
         <div class="row">
           <label class="col-sm-4  control-label">激活方式</label>
           <div class="col-sm-8" >
-            <label class="form-control">{{awardCurr.useLimit}}</label>
+            <label class="form-control" dict-trans [key]="'USE_LIMIT'" [value]="awardCurr.useLimit"></label>
           </div>
         </div>
       </div>
@@ -437,7 +430,7 @@
         <div class="row">
           <label  class="col-sm-4  control-label">叠加限制</label>
           <div class="col-sm-8" >
-            <label class="form-control">{{awardCurr.isStacking}}</label>
+            <label class="form-control" dict-trans [key]="'IS_STACKING'" [value]="awardCurr.isStacking"></label>
           </div>
         </div>
       </div>

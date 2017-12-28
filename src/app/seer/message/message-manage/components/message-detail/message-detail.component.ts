@@ -5,7 +5,7 @@ import {MessageService} from "../../message.service";
 import {GlobalState} from "../../../../../global.state";
 import { BsModalService} from 'ngx-bootstrap/modal';
 import {SeerMessageService,} from '../../../../../theme/services';
-
+import * as _ from 'lodash';
 @Component({
   selector: 'message-edit',
   templateUrl: './message-detail.component.html',
@@ -50,8 +50,12 @@ export class MessageDetailComponent {
     this.title = '查看消息';
     this.service.getMessageById(this.editId).then((data) => {
       this.message = data.data;
+
+      /*this.getDicts("adaptationUser","ADAPTATION_USER","message");
+      this.getDicts("businessType","BUSINESS_TYPE","message");*/
     });
     this.getRecordList();
+
   }
 
   //获取列表
@@ -94,5 +98,17 @@ export class MessageDetailComponent {
       autoHideDuration: 3000,
     })
   }
-
+//用字典过滤数据,fieldName字段名，category字典key，obj输出到哪个对象
+  /*getDicts(fieldName,category,obj): void {
+    this.service.getDictTranslate([{"fieldName": fieldName,"category": category}]).then(res =>{
+      let item=_.cloneDeep(res.data[fieldName]);
+      if(res.code==0) {
+        let index=item.findIndex(x => x.itemId == this[obj][fieldName]);
+        if(index!=-1){
+          this[obj][fieldName]=item[index].itemName;
+          //console.log(this[obj][fieldName]);
+        }
+      }
+    });
+  }*/
 }

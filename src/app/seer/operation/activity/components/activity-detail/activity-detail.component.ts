@@ -80,10 +80,10 @@ export class ActivityDetailComponent implements OnInit {
               this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[0]:'';//频率字段拆分出次数
               this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[1]:'';//频率字段拆分出时间间隔
               //查字典
-              this.getDicts("trigMode","TRIG_MODE","baseInfoDTO");
+              /*this.getDicts("trigMode","TRIG_MODE","baseInfoDTO");
               this.getDicts("productCategory","PRODUCT_CATEGORY","baseInfoDTO");
               this.getDicts("investLimit","INVEST_LIMIT","baseInfoDTO");
-              this.getDicts("issueTime","ISSUE_TIME","baseInfoDTO");
+              this.getDicts("issueTime","ISSUE_TIME","baseInfoDTO");*/
               this.awardsDTO=this.activity.awardsDTO;
 
               //获取发放记录
@@ -105,10 +105,6 @@ export class ActivityDetailComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
     if(index >=0){
       this.awardCurr=_.cloneDeep(this.awardsDTO[type][index]);//克隆当前奖励,防止同步更新
-      this.getDicts('useLimit',"USE_LIMIT","awardCurr");
-      this.getDicts('isStacking',"IS_STACKING","awardCurr");
-      this.getDicts('productCategory',"PRODUCT_CATEGORY","awardCurr");
-
       this.awardCurrIndex=index;
     }else{
       this.awardCurr={};
@@ -151,7 +147,7 @@ export class ActivityDetailComponent implements OnInit {
     }
   }
   //用字典过滤数据,fieldName字段名，category字典key，obj输出到哪个对象
-  getDicts(fieldName,category,obj): void {
+  /*getDicts(fieldName,category,obj): void {
     this._activityService.getDictTranslate([{"fieldName": fieldName,"category": category}]).then(res =>{
       let item=_.cloneDeep(res.data[fieldName]);
       if(res.code==0) {
@@ -162,7 +158,7 @@ export class ActivityDetailComponent implements OnInit {
          }
       }
     });
-  }
+  }*/
   //补发奖励
   onChange(message) {
     const type = message.type;

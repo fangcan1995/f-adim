@@ -2,134 +2,116 @@
   <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
 </seer-content-top>
 <div class="widgets">
-    <div class="row justify-content-center">
-      <div class="col-md-12">
-        <seer-collapse-card cardTitle="基本信息" >
-          <div class="row">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <seer-collapse-card cardTitle="基本信息" >
+        <div class="row">
+          <div class="form-group col-sm-12">
             <div class="row">
-              <div class="col-sm-6 col-xs-12 col-md-6 col-lg-3">
-                <div class="form-group">
-                  <label class="col-sm-4 control-label">消息名称</label>
-                  <div class="col-sm-8 ">
-                    {{message.msgTitle}}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-
-              <div class="col-sm-6 col-xs-12 col-md-6 col-lg-3">
-                <div class="form-group">
-                  <label class="col-sm-4 control-label">适配用户</label>
-                  <div class="col-sm-8 ">
-                    <select type="email" class="form-control" name="adaptationUser" id="adaptationUser" dict-select
-                            [(ngModel)]="message.adaptationUser"
-                            [key]="'ADAPTATION_USER'"
-                            [topOption]="{itemId:'',itemName:'请选择'}"
-                            (change)="selectUsersType($event.target.value)"
-                            [selected]="message.adaptationUser"
-                            [disabled]="true"
-                           >
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-xs-12 col-md-6 col-lg-3">
-                <div class="form-group">
-                  <label class="col-sm-4 control-label">消息类型</label>
-                  <div class="col-sm-8 ">
-                    <select type="email" class="form-control" name="businessType" id="businessType" dict-select
-                            [(ngModel)]="message.businessType"
-                            [key]="'BUSINESS_TYPE'"
-                            [topOption]="{itemId:'',itemName:'请选择'}"
-                            [selected]="message.businessType"
-                            [disabled]="true"
-                    >
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-6 col-xs-12 col-md-6 col-lg-6">
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">显示范围</label>
-                  <div class="col-sm-8 ">
-                    <seer-cool-checkbox
-                      [(checked)]="message.sendMail"
-                      [disabled]="true"
-                    ></seer-cool-checkbox> 消息中心
-                    <seer-cool-checkbox
-                      [(checked)]="message.sendNotify"
-                      [disabled]="true"
-                    ></seer-cool-checkbox> 推送通知
-                    <seer-cool-checkbox
-                      [(checked)]="message.sendMessage"
-                      [disabled]="true"
-                    ></seer-cool-checkbox> 短信通知
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-6 col-xs-12 col-md-6 col-lg-6">
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">下发时间</label>
-                  <div class="col-sm-4">
-                    {{message.expectSendTime | date:'yyyy-MM-dd HH:mm:ss'}}
-                  </div>
-                  <div class="col-sm-4">
-
-                  </div>
-                </div>
+              <label class="col-sm-2 col-md-1 control-label">消息名称</label>
+              <div class="col-sm-10 col-md-11">
+                <label class="form-control">{{message.msgTitle}}</label>
               </div>
             </div>
           </div>
-        </seer-collapse-card>
-        <seer-collapse-card cardTitle="消息内容">
-          <div class="row">
-            <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">
-              <div class="form-group">
-                <label class="col-sm-2 control-label">消息简介</label>
-                <div class="col-sm-10 ">
-                  {{message.msgProfile}}
-                </div>
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
+            <div class="row">
+              <label  class="col-sm-4 col-md-2 control-label">适配用户</label>
+              <div class="col-sm-8 col-md-10">
+                <label class="form-control" dict-trans [key]="'ADAPTATION_USER'" [value]="message.adaptationUser"></label>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">
-              <div class="form-group">
-                <label class="col-sm-2 control-label">消息内容</label>
-                <div class="col-sm-10 ">
-                  <textarea class="form-control" id="msgContent" name="msgContent" [(ngModel)]="message.msgContent" readonly="true"></textarea>
-                </div>
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
+            <div class="row">
+              <label  class="col-sm-4 col-md-2 control-label">消息类型</label>
+              <div class="col-sm-8 col-md-10">
+                <label class="form-control" dict-trans [key]="'BUSINESS_TYPE'" [value]="message.businessType"></label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
+            <div class="row">
+              <label  class="col-sm-4 col-md-2 control-label">显示范围</label>
+              <div class="col-sm-8 col-md-10"><label class="form-control">
+                <ng-container *ngIf="message.sendMail">
+                  消息中心&nbsp;
+                </ng-container>
+                <ng-container *ngIf="message.sendNotify">
+                  推送通知&nbsp;
+                </ng-container>
+                <ng-container *ngIf="message.sendMessage">
+                  短信通知
+                </ng-container>
+              </label>
+                <!--<seer-cool-checkbox
+                  [(checked)]="message.sendMail"
+                  [disabled]="true"
+                ></seer-cool-checkbox> 消息中心
+                <seer-cool-checkbox
+                  [(checked)]="message.sendNotify"
+                  [disabled]="true"
+                ></seer-cool-checkbox> 推送通知
+                <seer-cool-checkbox
+                  [(checked)]="message.sendMessage"
+                  [disabled]="true"
+                ></seer-cool-checkbox> 短信通知-->
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
+            <div class="row">
+              <label  class="col-sm-4 col-md-2 control-label">下发时间</label>
+              <div class="col-sm-8 col-md-10">
+                <label class="form-control">{{message.expectSendTime | date:'yyyy-MM-dd HH:mm:ss'}}</label>
               </div>
             </div>
           </div>
 
-        </seer-collapse-card>
-        <seer-collapse-card cardTitle="接收用户" >
-          <div class="row" *ngIf="modalUsers.length>0">
-            <seer-table
-              [data]="modalUsers"
-              [titles]="modelTitles"
-              [pageNum]="modalPageInfo.pageNum"
-              [pageSize]="modalPageInfo.pageSize"
-              [total]="modalPageInfo.total"
-              [showSeq]="true"
-              [paginationRules]="0"
-              [hideExport]="true"
-              [hidePrint]="true"
-              [hideRemoveAll]="true"
-              [hideColumns]="true"
-              [hideAddButton]="true"
-              [hideActions]="true"
-              [hideCheckbox]="false"
-              (changePage)="modalPageChange($event)"
-            ></seer-table>
+        </div>
+      </seer-collapse-card>
+      <seer-collapse-card cardTitle="消息内容">
+        <div class="row">
+          <div class="form-group col-sm-12">
+            <div class="row">
+              <label  class="col-md-2 col-lg-1 control-label">消息简介</label>
+              <div class="col-md-10 col-lg-11">
+                <label class="form-control">{{message.msgProfile}}</label>
+              </div>
+            </div>
           </div>
-        </seer-collapse-card>
-      </div>
+          <div class="form-group col-sm-12">
+            <div class="row">
+              <label  class="col-md-2 col-lg-1 control-label">消息内容</label>
+              <div class="col-md-10 col-lg-11">
+                <label class="form-control" style="min-height: 50px;overflow: auto">{{message.msgContent}}</label>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </seer-collapse-card>
+      <seer-collapse-card cardTitle="接收用户" >
+        <div class="row" *ngIf="modalUsers.length>0">
+          <seer-table
+            [data]="modalUsers"
+            [titles]="modelTitles"
+            [pageNum]="modalPageInfo.pageNum"
+            [pageSize]="modalPageInfo.pageSize"
+            [total]="modalPageInfo.total"
+            [showSeq]="true"
+            [paginationRules]="0"
+            [hideExport]="true"
+            [hidePrint]="true"
+            [hideRemoveAll]="true"
+            [hideColumns]="true"
+            [hideAddButton]="true"
+            [hideActions]="true"
+            [hideCheckbox]="true"
+            (changePage)="modalPageChange($event)"
+          ></seer-table>
+        </div>
+      </seer-collapse-card>
     </div>
+  </div>
 </div>

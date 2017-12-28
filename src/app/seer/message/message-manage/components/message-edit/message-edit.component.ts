@@ -108,6 +108,7 @@ export class MessageEditComponent {
       this.isPickUsersAble=false;
       this.service.getMessageById(this.editId).then((data) => {
         this.message = data.data;
+        this.message.expectSendTime=new Date(this.message.expectSendTime);
 
         if(this.message.adaptationUser=="1"){
           this.usersType="users";
@@ -174,7 +175,7 @@ export class MessageEditComponent {
         this.showSuccess(data.msg || '更新成功')
           .onClose()
           .subscribe(() => {
-            this._router.navigate(['/message/message']);
+            this._router.navigate(['/operation/activity/']);
           });
       }).catch(err => {
         this.forbidSaveBtn = false;
