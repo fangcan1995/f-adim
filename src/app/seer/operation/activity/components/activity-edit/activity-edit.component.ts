@@ -559,13 +559,13 @@ export class ActivityEditComponent {
         "physicalRewardsPOJOs":this.activity.awardsDTO.physicalRewardsDTOs,
         "raffleTicketsPOJOs":this.activity.awardsDTO.raffleTicketsDTOs,
       },
-      "scopesDTO":this.activity.scopesDTO
-
+      "scopesDTO":this.activity.scopesDTO.join(',')
     }
 
     if (this._editType === 'edit') {
       console.log('编辑的数据');
       console.log(this.activitySubmit);
+
       this._activityService.putOne(this.activity.id, this.activitySubmit)
         .then(res=>{
           this.forbidSaveBtn = false;

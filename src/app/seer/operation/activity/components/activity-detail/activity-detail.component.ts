@@ -158,7 +158,7 @@ export class ActivityDetailComponent implements OnInit {
          let index=item.findIndex(x => x.itemId == this[obj][fieldName]);
          if(index!=-1){
            this[obj][fieldName]=item[index].itemName;
-           console.log(this[obj][fieldName]);
+           //console.log(this[obj][fieldName]);
          }
       }
     });
