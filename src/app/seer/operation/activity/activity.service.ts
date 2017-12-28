@@ -5,115 +5,6 @@ import {getStorage} from "../../../theme/libs/utils";
 @Injectable()
 
 export class ActivityService extends BaseService<ResModel>{
-  mockData=[
-    {
-      "id": "1",
-      "activityCode": "20170913001",
-      "activityTheme": "新手注册活动",
-      "trig_mode": "1",
-      "ydjps": "0",
-      "jpzs": "100",
-      "activityStartTime": "2017-01-05 13:23:48",
-      "activityStatus": "1",
-
-    },
-    {
-      "id": "2",
-      "activityCode": "20170913002",
-      "activityTheme": "三八女神节活动",
-      "trig_mode": "2",
-      "ydjps": "0",
-      "jpzs": "100",
-      "activityStartTime": "2017-01-05 13:23:48",
-      "activityStatus": "1",
-
-    },
-    {
-      "id": "3",
-      "activityCode": "20170913003",
-      "activityTheme": "新手注册活动",
-      "trig_mode": "1",
-      "ydjps": "20",
-      "jpzs": "100",
-      "activityStartTime": "2017-01-05 13:23:48",
-      "activityStatus": "2",
-
-    },
-    {
-      "id": "4",
-      "activityCode": "20170913004",
-      "activityTheme": "三八女神节活动",
-      "trig_mode": "2",
-      "ydjps": "30",
-      "jpzs": "100",
-      "activityStartTime": "2017-01-05 13:23:48",
-      "activityStatus": "2",
-
-    },
-    {
-      "id": "5",
-      "activityCode": "20170913005",
-      "activityTheme": "新手注册活动",
-      "trig_mode": "1",
-      "ydjps": "100",
-      "jpzs": "100",
-      "activityStartTime": "2017-01-05 13:23:48",
-      "activityStatus": "3",
-
-    },
-    {
-      "id": "6",
-      "activityCode": "20170913006",
-      "activityTheme": "三八女神节活动",
-      "trig_mode": "2",
-      "ydjps": "100",
-      "jpzs": "100",
-      "activityStartTime": "2017-01-05 13:23:48",
-      "activityStatus": "3",
-    },
-    {
-      "id": "7",
-      "activityCode": "20170913007",
-      "activityTheme": "新手注册活动",
-      "trig_mode": "1",
-      "ydjps": "50",
-      "jpzs": "50",
-      "activityStartTime": "2017-01-05 13:23:48",
-      "activityStatus": "4",
-
-    },
-    {
-      "id": "8",
-      "activityCode": "20170913008",
-      "activityTheme": "三八女神节活动",
-      "trig_mode": "2",
-      "ydjps": "100",
-      "jpzs": "100",
-      "activityStartTime": "2017-01-05 13:23:48",
-      "activityStatus": "4",
-    },
-    {
-      "id": "9",
-      "activityCode": "20170913009",
-      "activityTheme": "新手注册活动",
-      "trig_mode": "1",
-      "ydjps": "50",
-      "jpzs": "50",
-      "activityStartTime": "2017-01-05 13:23:48",
-      "activityStatus": "4",
-
-    },
-    {
-      "id": "10",
-      "activityCode": "20170913010",
-      "activityTheme": "三八女神节活动",
-      "trig_mode": "2",
-      "ydjps": "100",
-      "jpzs": "100",
-      "activityStartTime": "2017-01-05 13:23:48",
-      "activityStatus": "4",
-    },
-  ];
   accessToken = getStorage({ key: 'token' }).access_token;
   // 1 获取数据列表
   getList(params?):Promise<ResModel> {
@@ -300,7 +191,7 @@ export class ActivityService extends BaseService<ResModel>{
 
   //8 查询会员id数组中的会员列表
   getIdsMembers(params):Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `http://172.16.4.62:9080/activities/scope?access_token=a717fd54-0fb0-4262-8828-08747a35f3c8`, params).toPromise();
+    return this._httpInterceptorService.request('GET', `http://172.16.4.62:9080/activities/scope?access_token=${this.accessToken}`, params).toPromise();
 
     //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ACTIVITIES']}/{id}/scopes`,ids).toPromise();
     //console.log(ids);

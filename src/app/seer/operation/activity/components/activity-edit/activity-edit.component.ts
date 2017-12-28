@@ -36,7 +36,7 @@ export class ActivityEditComponent {
   hidePagination=false;//会员信息列表是否分页
   scopesPageInfo={
     "pageNum":1,
-    "pageSize":5,
+    "pageSize":10,
     "total":'',
   };//会员信息列表分页信息
   membersTitles = [
@@ -123,8 +123,6 @@ export class ActivityEditComponent {
           this._activityService.getOne(params.id)
             .then(res => {
               this.activity = res.data || {};
-              //console.log('&&&&&&&&&&&&&&&&&&&');
-              //console.log(this.activity);
               this.baseInfoDTO=this.activity.baseInfoDTO;
               (this.baseInfoDTO.trigMode=='4')?this.isInvestMode=false:this.isInvestMode=true; //投资奖励的特殊处理
               (this.baseInfoDTO.activityScope=='3')?this.hideChooseMembers=false:this.hideChooseMembers=true; //指定用户的特殊处理
@@ -266,6 +264,7 @@ export class ActivityEditComponent {
   clearScopes(){
     this.memberScopes=[];
     this.scopesDTO=[];
+    this.activity.scopesDTO=[];
     this.scopesPageInfo.total='0';
   }
   showChooseMembers(activityScope){
@@ -551,7 +550,6 @@ export class ActivityEditComponent {
     baseInfo.beginTime=(baseInfo.beginTime.getTime())|| null;
     baseInfo.endTime=(baseInfo.endTime.getTime())|| null;
 
-    console.log(baseInfo);
     this.activitySubmit={
       "activityId":this.activity.activityId,
       "baseInfoPOJO":baseInfo,
@@ -564,13 +562,9 @@ export class ActivityEditComponent {
       "scopesDTO":this.activity.scopesDTO
 
     }
-    //this.activitySubmit.baseInfoPOJO.beginTime=beginTime;
-    //this.activitySubmit.baseInfoPOJO.endTime=endTime;
-
 
     if (this._editType === 'edit') {
       console.log('编辑的数据');
-
       console.log(this.activitySubmit);
       this._activityService.putOne(this.activity.id, this.activitySubmit)
         .then(res=>{
