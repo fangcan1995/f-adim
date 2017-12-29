@@ -4,108 +4,138 @@
     <div class="row justify-content-center">
       <div class="col-md-12">
         <seer-collapse-card cardTitle="基本信息" cardClass="with-scroll" >
-            <div class="row">
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label class="col-sm-4">用户名:</label>
-                  <div class="col-sm-8" >{{baseInfo.userName}}</div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label class="col-sm-4">真实姓名:</label>
-                  <div class="col-sm-8" >{{baseInfo.trueName}}</div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label class="col-sm-4">身份证号:</label>
-                  <div class="col-sm-8" >{{baseInfo.idNumber}}</div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label class="col-sm-4">性别:</label>
-                  <div class="col-sm-8" dict-trans [key]="'M_SEX'" [value]="baseInfo.mSex"></div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label class="col-sm-4">年龄:</label>
-                  <div class="col-sm-8" >{{baseInfo.mAge}}</div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label class="col-sm-4">学历:</label>
-                  <div class="col-sm-8" dict-trans [key]="'EDUCATION'" [value]="baseInfo.education"></div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label class="col-sm-4">婚姻状况:</label>
-                  <div class="col-sm-8" dict-trans [key]="'MARRAGE_STATUS'" [value]="baseInfo.maritaStatus"></div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label class="col-sm-4">年收入:</label>
-                  <div class="col-sm-8" >{{baseInfo.yearIncome}}</div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label class="col-sm-4">社保:</label>
-                  <div class="col-sm-8" >{{baseInfo.socialNo}}</div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label class="col-sm-4">手机号:</label>
-                  <div class="col-sm-8" >{{baseInfo.phoneNumber}}</div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label class="col-sm-4">电子邮件:</label>
-                  <div class="col-sm-8" >{{baseInfo.eMail}}</div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label class="col-sm-4">住房情况:</label>
-                  <div class="col-sm-8" >{{baseInfo.houseAbout}}</div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12">
-                <div class="row">
-                  <label class="col-sm-1">户籍地址:</label>
-                  <div class="col-sm-8" >
-                    <seer-address-picker  [defaultItemCode]="baseInfo.domicileDistrict" [defaultAddress]="baseInfo.domicileAddress" disabled="true" ></seer-address-picker>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12">
-                <div class="row">
-                  <label class="col-sm-1">现居住地:</label>
-                  <div class="col-sm-6 preview">
-                    <seer-address-picker  [defaultItemCode]="baseInfo.liveDistrict" [defaultAddress]="baseInfo.liveAddress" disabled="true" ></seer-address-picker>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12">
-                <div class="row">
-                  <label class="col-sm-1">资产介绍:</label>
-                  <div class="col-sm-6" >{{baseInfo.assetDesc}}</div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12">
-                <div class="row">
-                  <label class="col-sm-1">债务介绍:</label>
-                  <div class="col-sm-8" >{{baseInfo.debtDesc}}</div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label  class="col-sm-4 control-label">用户名</label>
+                <div class="col-sm-8 ">
+                  <label  class="form-control">{{baseInfo.userName}}</label>
                 </div>
               </div>
             </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label  class="col-sm-4 control-label">真实姓名</label>
+                <div class="col-sm-8">
+                  <label  class="form-control">{{baseInfo.trueName}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label class="col-sm-4 control-label">身份证号</label>
+                <div class="col-sm-8">
+                  <label  class="form-control">{{baseInfo.idNumber}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label class="col-sm-4 control-label">性别</label>
+                <div class="col-sm-8">
+                  <label  class="form-control" dict-trans [key]="'M_SEX'" [value]="baseInfo.mSex"></label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label class="col-sm-4 control-label">年龄</label>
+                <div class="col-sm-8">
+                  <label  class="form-control">{{baseInfo.mAge}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label class="col-sm-4 control-label">学历</label>
+                <div class="col-sm-8">
+                  <label class="form-control" dict-trans [key]="'EDUCATION'" [value]="baseInfo.education"></label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label  class="col-sm-4 control-label">婚姻状况</label>
+                <div class="col-sm-8">
+                  <label class="form-control" dict-trans [key]="'MARRAGE_STATUS'" [value]="baseInfo.maritaStatus"></label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label  class="col-sm-4 control-label">年收入</label>
+                <div class="col-sm-8">
+                  <label  class="form-control">{{baseInfo.yearIncome}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label class="col-sm-4 control-label">社保</label>
+                <div class="col-sm-8">
+                  <label  class="form-control">{{baseInfo.socialNo}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label class="col-sm-4 control-label">手机号</label>
+                <div class="col-sm-8">
+                  <label  class="form-control">{{baseInfo.phoneNumber}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label  class="col-sm-4 control-label">电子邮件</label>
+                <div class="col-sm-8">
+                  <label  class="form-control">{{baseInfo.eMail}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label  class="col-sm-4 control-label">住房情况</label>
+                <div class="col-sm-8">
+                  <label  class="form-control">{{baseInfo.houseAbout}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+              <div class="row">
+                <label for="domicilePlace" class="col-sm-4 col-md-2 col-xlg-1 control-label">户口所在地</label>
+                <div class="col-sm-8 col-md-10 col-xlg-10" id="domicilePlace">
+                  <seer-address-picker (notify)="domicilePlaceChanged($event)" [defaultItemCode]="baseInfo.domicileDistrict" [defaultAddress]="baseInfo.domicileAddress" disabled="true"></seer-address-picker>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+              <div class="row">
+                <label for="currentResidence" class="col-sm-4 col-md-2 col-xlg-1 control-label">现居住地</label>
+                <div class="col-sm-8 col-md-10 col-xlg-10" id="currentResidence">
+                  <seer-address-picker  [defaultItemCode]="baseInfo.liveDistrict" [defaultAddress]="baseInfo.liveAddress" disabled="true">
+                  </seer-address-picker>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-sm-12">
+              <div class="row">
+                <label  class="col-sm-4 col-md-2 col-xlg-1 control-label">资产介绍</label>
+                <div class="col-sm-8 col-md-10 col-xlg-11">
+                  <label class="form-control">{{baseInfo.assetDesc}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12">
+              <div class="row">
+                <label  class="col-sm-4 col-md-2 col-xlg-1 control-label">债务介绍</label>
+                <div class="col-sm-8 col-md-10 col-xlg-11">
+                  <label class="form-control">{{baseInfo.debtDesc}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
         </seer-collapse-card>
         <seer-collapse-card cardTitle="紧急联系人" cardClass="with-scroll" *ngIf="emergencyContact.length>0" >
           <seer-simple-table

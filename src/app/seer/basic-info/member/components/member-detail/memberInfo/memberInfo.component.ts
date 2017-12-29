@@ -3,6 +3,7 @@ import {Router, ActivatedRoute,} from '@angular/router';
 import { Location } from '@angular/common';
 import { MemberService } from '../../../member.service';
 import { SeerMessageService } from '../../../../../../theme/services/seer-message.service';
+import * as _ from 'lodash';
 @Component({
   selector: 'memberInfo',
   templateUrl: './memberInfo.component.html',
@@ -39,6 +40,7 @@ export class MemberInfoComponent implements OnInit {
       label:'身份证号',
     }
   ];//关系人
+
   titlesVehicleInfo= [
     { key:'carBrand', label:'车辆品牌' },
     { key:'carModel', label:'车辆型号' },
@@ -90,6 +92,7 @@ export class MemberInfoComponent implements OnInit {
           this._memberService.getOne(params.id).then(res => {
             this.member = res.data || {};
             this.baseInfo=this.member.baseInfo|| {};
+
             this.emergencyContact=this.member.contactList|| [];
             this.workInfo=this.member.workInfo|| {};
             this.accountInfo=this.member.AcBank|| {};
@@ -97,6 +100,7 @@ export class MemberInfoComponent implements OnInit {
             this.vehicleInfo=this.member.carMessageList|| [];
             this.houseInfo=this.member.houseMessageList|| [];
             this.creditInfo=this.member.creditInfo|| [];
+
           }).catch(err=>{
             this.showError(err.msg || '连接失败');
           });
@@ -117,5 +121,8 @@ export class MemberInfoComponent implements OnInit {
       icon: 'fa fa-times-circle',
       autoHideDuration: 3000,
     })
+  }
+  change(){
+    alert();
   }
 }

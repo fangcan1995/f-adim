@@ -1,4 +1,4 @@
-.preview .form-control {
+/*.preview .form-control {
   display: block;
   width: 100%;
   padding: 0.5rem 0.75rem;
@@ -10,10 +10,28 @@
   background-clip: padding-box;
   border: 0 solid rgba(0, 0, 0, 0.15);
   border-radius: 0.25rem;
-}
-:host /deep/ .form-control {
-  border: 0 solid rgba(0, 0, 0, 0.15);
-  background: #fff;
-  appearance:none;
+}*/
 
+:host /deep/ {
+  /*.form-control {
+    border: 0px solid rgba(0, 0, 0, 0.15);
+    background: #fff;
+    appearance:none;
+
+  }*/
+  .preview .form-control {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.25;
+    color: #000;
+    background-color: #fff;
+    background-image: none;
+    background-clip: padding-box;
+    border: 0 solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+  }
+  .row>label{ text-align: right; padding-top: 5px }
+  .form-control {}
 }
