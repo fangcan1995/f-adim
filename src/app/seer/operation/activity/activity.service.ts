@@ -118,7 +118,7 @@ export class ActivityService extends BaseService<ResModel>{
   // 1 获取数据列表
   getList(params?):Promise<ResModel> {
     console.log(this.accessToken);
-    return this._httpInterceptorService.request('GET', `http://172.16.4.62:9080/activities?access_token=${this.accessToken}`,params).toPromise();
+    return this._httpInterceptorService.request('GET', `http://172.16.1.221:9080/activities?access_token=${this.accessToken}`,params).toPromise();
     //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ACTIVITIES']}`,params).toPromise();
     /*return new Promise((resolve, reject) => {
       resolve(
@@ -137,7 +137,7 @@ export class ActivityService extends BaseService<ResModel>{
   }
 //2 获取一条数据
   getOne(id):Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `http://172.16.4.62:9080/activities/${id}?access_token=${this.accessToken}`,{}, true).toPromise();
+    return this._httpInterceptorService.request('GET', `http://172.16.1.221:9080/activities/${id}?access_token=${this.accessToken}`,{}, true).toPromise();
     //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ACTIVITIES']}/${id}`,{}, true).toPromise();
     /*return new Promise((resolve, reject) => {
       resolve(
@@ -275,7 +275,7 @@ export class ActivityService extends BaseService<ResModel>{
 
   //5 停止终止活动
   stop(id,params): Promise<ResModel> {
-    return this._httpInterceptorService.request('POST', `http://172.16.4.62:9080/activities/${id}/stop?access_token=${this.accessToken}`,params).toPromise();
+    return this._httpInterceptorService.request('POST', `http://172.16.1.221:9080/activities/${id}/stop?access_token=${this.accessToken}`,params).toPromise();
   }
 
   // 6 删除一条数据
@@ -300,7 +300,7 @@ export class ActivityService extends BaseService<ResModel>{
 
   //8 查询会员id数组中的会员列表
   getIdsMembers(params):Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `http://172.16.4.62:9080/activities/scope?access_token=${this.accessToken}`, params).toPromise();
+    return this._httpInterceptorService.request('GET', `http://172.16.1.221:9080/activities/scope?access_token=${this.accessToken}`, params).toPromise();
 
     //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ACTIVITIES']}/{id}/scopes`,ids).toPromise();
     //console.log(ids);

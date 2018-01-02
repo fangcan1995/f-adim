@@ -343,7 +343,7 @@
           <div class="row">
             <label  class="col-sm-4 col-md-2 control-label">奖品名称</label>
             <div class="col-sm-8 col-md-10">
-              <input type="text" class="form-control"  [(ngModel)]="awardCurr.reName"  required>
+              <input type="text" class="form-control"  [(ngModel)]="awardCurr.reName" disabled  required>
             </div>
           </div>
         </div>
@@ -351,7 +351,7 @@
           <div class="row">
             <label  class="col-sm-4 col-md-2 control-label">红包金额</label>
             <div class="col-sm-8 col-md-10">
-              <input type="text" class="form-control"  [(ngModel)]="awardCurr.reAmount" required>
+              <input type="text" class="form-control"  [(ngModel)]="awardCurr.reAmount" (keyup)="redEnvelopeNameChange('现金红包')" required>
             </div>
           </div>
         </div>
@@ -391,7 +391,7 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">奖品名称</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.reName" required>
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.reName" disabled required>
           </div>
         </div>
       </div>
@@ -399,7 +399,7 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">红包金额</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.reAmount" required>
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.reAmount" (keyup)="redEnvelopeNameChange('返现红包')" required>
           </div>
         </div>
       </div>
@@ -494,7 +494,7 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">奖品名称</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.rcName" required>
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.rcName" disabled required>
           </div>
         </div>
       </div>
@@ -502,7 +502,7 @@
         <div class="row">
           <label  class="col-sm-4  control-label">加息额度</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.rcAmount" required>
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.rcAmount" (keyup)="rateCouponNameChange()" required>
           </div>
         </div>
       </div>
@@ -510,7 +510,7 @@
         <div class="row">
           <label  class="col-sm-4  control-label">加息期限</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.rcLength" required>
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.rcLength" (keyup)="rateCouponNameChange()" required>
           </div>
         </div>
       </div>

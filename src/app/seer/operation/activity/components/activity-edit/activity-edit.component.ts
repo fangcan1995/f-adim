@@ -199,6 +199,7 @@ export class ActivityEditComponent {
     if(this.awardCurrIndex===-1){
       //新增
       award.awardSentSum='0';
+
       switch (type){
         case 'redEnvelopesDTOs':
           if(redType==='1') {
@@ -234,6 +235,29 @@ export class ActivityEditComponent {
   //3 删除奖励
   delAward(type,index){
     this.awardsDTO[type].splice(index,1);
+  }
+  //4 奖品名称自动生成-红包
+  redEnvelopeNameChange(type){
+    if(this.awardCurr.reAmount!=''){
+      this.awardCurr.reName=this.awardCurr.reAmount+'元'+type;
+    }else{
+      this.awardCurr.reName='';
+    }
+  }
+  //5 奖品名称自动生成-加息券
+  rateCouponNameChange(){
+    let tempName1,tempName2;
+    if(this.awardCurr.rcAmount!=''){
+      tempName1=this.awardCurr.rcAmount+'%加息券';
+    }else{
+      tempName1='';
+    }
+    if(this.awardCurr.rcLength!=''&&this.awardCurr.rcLength){
+      tempName2=this.awardCurr.rcLength+'天';
+    }else{
+      tempName2='';
+    }
+    this.awardCurr.rcName=tempName2+tempName1;
   }
 
 
