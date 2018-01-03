@@ -120,6 +120,27 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
             }
           });
         break;
+      case 'export':
+        console.log(this.pageInfo);
+        for (let p in this.pageInfo) {
+          if(this.pageInfo[p] == '' || undefined || null) {
+            delete this.pageInfo[p];
+          }
+        }
+        console.log(this.pageInfo);
+        this._announcementService.exportForm(this.pageInfo).then(res => {
+          let blob = res.blob();
+          let a = document.createElement('a');
+          let url = window.URL.createObjectURL(blob);
+          a.href = url;
+          a.download = '公告管理' + '.xls';
+          a.click();
+          window.URL.revokeObjectURL(url);
+          console.log(res);
+        }).catch(err => {
+          console.log(err);
+        });
+        break;
     }
   }
 

@@ -7,12 +7,23 @@ import {
   ResModel,
 } from "../../../theme/services";
 import {Observable} from "rxjs/Observable";
+
+import {Headers, Http, RequestOptions, ResponseContentType} from '@angular/http';
 import {getStorage} from "../../../theme/libs/utils"
 
 import * as _ from 'lodash';
 
 @Injectable()
 export class AnnouncementService extends BaseService<any>{
+
+  constructor(
+    protected _httpInterceptorService:HttpInterceptorService,
+    private http: Http
+  ) {
+    super(_httpInterceptorService);
+  }
+
+  private headers = new Headers({'Content-Type': 'application/json'});
 
   apiUrl = 'http://172.16.7.4:8020/notice/announcements';
   accessToken = getStorage({ key: 'token' }).access_token;
@@ -47,5 +58,18 @@ export class AnnouncementService extends BaseService<any>{
   putOne(params: any): Promise<ResModel> {
     return this._httpInterceptorService.request('PUT', `${this.apiUrl}`, params).toPromise();
   }
+
+  /* 导出表格 */
+  /*exportForm(params: any): Promise<ResModel> {
+    return this._httpInterceptorService.request('POST', `http://172.16.4.62:8070/announcements/export`, params).toPromise();
+  }*/
+
+  exportForm(params): Promise<any> {
+    return this.http.get(`http://172.16.4.62:8070/announcements/export`, new RequestOptions({
+      responseType: ResponseContentType.Blob,
+      search: params
+    })).toPromise();
+  }
+
 
 }
