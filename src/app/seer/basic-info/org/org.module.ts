@@ -10,12 +10,15 @@ import { OrgService } from "./org.service";
 
 import {Ng2SmartTableModule} from "ng2-smart-table";
 
+import { TimepickerModule } from 'ngx-bootstrap';
+
 @NgModule({
   imports: [
     NgaModule,
     SharedModule,
     routing,
     Ng2SmartTableModule,
+    TimepickerModule.forRoot()
   ],
   declarations: [
     OrgComponent,

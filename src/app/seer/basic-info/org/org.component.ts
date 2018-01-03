@@ -28,6 +28,8 @@ import { ModalDirective, BsModalService } from 'ngx-bootstrap/modal';
 import { User } from "../../model/auth/user";
 import {DELETE, UPDATE, CONFIG_LEADER} from "../../common/seer-table/seer-table.actions";
 import {isNullOrUndefined} from "util";
+
+
 @Component({
   templateUrl: './org.component.html',
   styleUrls: ['./org.component.scss'],
@@ -57,6 +59,8 @@ export class OrgComponent implements OnDestroy{
   cacheMemory = '1';
   flag: string;
 
+
+  mytime: Date = new Date();
 
   //员工列表
   tableTitle: string = "机构员工列表";
