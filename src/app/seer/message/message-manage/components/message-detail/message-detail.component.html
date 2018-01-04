@@ -19,6 +19,7 @@
               <label  class="col-sm-4 col-md-2 control-label">适配用户</label>
               <div class="col-sm-8 col-md-10">
                 <label class="form-control" dict-trans [key]="'ADAPTATION_USER'" [value]="message.adaptationUser"></label>
+
               </div>
             </div>
           </div>
@@ -33,29 +34,18 @@
           <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
             <div class="row">
               <label  class="col-sm-4 col-md-2 control-label">显示范围</label>
-              <div class="col-sm-8 col-md-10"><label class="form-control">
-                <ng-container *ngIf="message.sendMail">
-                  消息中心&nbsp;
-                </ng-container>
-                <ng-container *ngIf="message.sendNotify">
-                  推送通知&nbsp;
-                </ng-container>
-                <ng-container *ngIf="message.sendMessage">
-                  短信通知
-                </ng-container>
+              <div class="col-sm-8 col-md-10">
+                <label class="form-control">
+                  <ng-container *ngIf="message.sendMail">
+                    消息中心&nbsp;
+                  </ng-container>
+                  <ng-container *ngIf="message.sendNotify">
+                    推送通知&nbsp;
+                  </ng-container>
+                  <ng-container *ngIf="message.sendMessage">
+                    短信通知
+                  </ng-container>
               </label>
-                <!--<seer-cool-checkbox
-                  [(checked)]="message.sendMail"
-                  [disabled]="true"
-                ></seer-cool-checkbox> 消息中心
-                <seer-cool-checkbox
-                  [(checked)]="message.sendNotify"
-                  [disabled]="true"
-                ></seer-cool-checkbox> 推送通知
-                <seer-cool-checkbox
-                  [(checked)]="message.sendMessage"
-                  [disabled]="true"
-                ></seer-cool-checkbox> 短信通知-->
               </div>
             </div>
           </div>
@@ -84,7 +74,9 @@
             <div class="row">
               <label  class="col-md-2 col-lg-1 control-label">消息内容</label>
               <div class="col-md-10 col-lg-11">
-                <label class="form-control" style="min-height: 50px;overflow: auto">{{message.msgContent}}</label>
+                <label class="form-control" style="min-height: 100px;overflow: auto" [innerHTML]="message.msgContent">
+
+                </label>
               </div>
             </div>
           </div>

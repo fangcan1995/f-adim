@@ -9,14 +9,15 @@ import { MessageTemplateEditComponent } from './components/message-template-edit
 import {SharedModule} from "../../common/shared.module";
 import {messageTplManageService} from "./message-template.service";
 import { MessageTemplateDetailComponent} from "./components/message-template-detail/message-template-detail.component"
-
+import { CustomFormsModule } from 'ng2-validation';
 @NgModule({
   imports: [
     CommonModule,
     AngularFormsModule,
     NgaModule,
     routing,
-    SharedModule
+    SharedModule,
+    CustomFormsModule,
   ],
   declarations: [
     MessageTemplateComponent,
