@@ -12,13 +12,21 @@ import {BaseService} from "../../base.service";
 import { TreeModule } from "app/theme/modules";
 import { ModalComponent } from "../../../theme/components/ng2-bs4-modal/modal";
 import {FileUploadModule} from "ng2-file-upload";
+
+import { ReactiveFormsModule } from '@angular/forms';
+import { CustomFormsModule } from 'ng2-validation';
+import {NgxCurrencyModule} from "ngx-currency";
+
 @NgModule({
   imports: [
     NgaModule,
     SharedModule,
     routing,
     TreeModule,
-    FileUploadModule
+    FileUploadModule,
+    ReactiveFormsModule,
+    CustomFormsModule,
+    NgxCurrencyModule
   ],
   declarations: [
     InfoPublishComponent,

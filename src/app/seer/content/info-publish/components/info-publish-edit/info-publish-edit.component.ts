@@ -18,6 +18,8 @@ import { User } from "../../../../model/auth/user";
 import { ModalComponent } from "../../../../../theme/components/ng2-bs4-modal/modal";
 import { ModalDirective ,BsModalService} from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {CustomValidators} from "ng2-validation";
 
 
 @Component({
@@ -49,6 +51,7 @@ export class InfoPublishEditComponent implements  OnInit, OnChanges {
   public attachments = [];
   public uploader:FileUploader; //上传对象
   private progress: number = 0; //上传进度
+  form : FormGroup;
 
 
   constructor (
@@ -62,7 +65,14 @@ export class InfoPublishEditComponent implements  OnInit, OnChanges {
   ) {
     this.globalState.subscribe(this.EVENT, param => {
       this.openModal(param);
-    })
+    });
+
+    this.form = new FormGroup({
+      //
+      column: new FormControl('', CustomValidators.required),
+      title: new FormControl('', Validators.required),
+      //content: new FormControl('', Validators.required),
+    });
   }
 
 
@@ -151,33 +161,50 @@ export class InfoPublishEditComponent implements  OnInit, OnChanges {
     if(this.saveButtonState) return;
     this.saveButtonState = true;
 
-    if(this._editType === 'edit') {
-      this._infoPublishService.editArticle(this.infoPublishSource).then(res => {
-        this.saveButtonState = false;
-        this.showSuccess(res.message || '更新成功').onClose()
-          .subscribe(() => {
-            this._router.navigate(['/content/info-publish/'])
-          });
-      }).catch(err => {
-        this.saveButtonState = true;
-        this.showError(err.msg || '更新失败');
-      });
+    if(!this.form.valid) {
+      this.showError('请按规则填写表单');
+      this.saveButtonState = false;
     }
-    else if(this._editType === 'add') {
-      this._infoPublishService.addNewArticle(this.infoPublishSource).then((res:any) => {
-        this.saveButtonState = false;
-        this.showSuccess(res.msg || '保存成功').onClose()
-          .subscribe(() => {
-            this._router.navigate(['/content/info-publish']);
-          });
-      }).catch(err => {
-        this.saveButtonState = false;
-        this.showError(err.msg || '保存失败');
-      });
+    else if(!this.infoPublishSource.affContent) {
+      this.showError('请填写文章内容');
+      this.saveButtonState = false;
+    }
+    else if(!this.infoPublishSource.affTypeName) {
+      this.showError('请选择栏目');
+      this.saveButtonState = false;
     }
     else {
-      return;
+      if(this._editType === 'edit') {
+        this._infoPublishService.editArticle(this.infoPublishSource).then(res => {
+          this.saveButtonState = false;
+          this.showSuccess(res.message || '更新成功').onClose()
+            .subscribe(() => {
+              this._router.navigate(['/content/info-publish/'])
+            });
+        }).catch(err => {
+          this.saveButtonState = true;
+          this.showError(err.msg || '更新失败');
+        });
+      }
+      else if(this._editType === 'add') {
+        this._infoPublishService.addNewArticle(this.infoPublishSource).then((res:any) => {
+          this.saveButtonState = false;
+          this.showSuccess(res.msg || '保存成功').onClose()
+            .subscribe(() => {
+              this._router.navigate(['/content/info-publish']);
+            });
+        }).catch(err => {
+          this.saveButtonState = false;
+          this.showError(err.msg || '保存失败');
+        });
+      }
+      else {
+        return;
+      }
     }
+
+
+
   }
 
   /* 获取栏目树的节点 */
