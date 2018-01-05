@@ -1,81 +1,74 @@
 <seer-content-top>
   <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
-  <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
+  <button class="btn btn-primary left-button" [disabled]="!validationForm.form.valid || !advertising.icon" (click)="handleSaveBtnClick()">保存</button>
 </seer-content-top>
 <div class="widgets">
   <div class="row justify-content-center">
     <div class="col-sm-12">
       <seer-collapse-card cardTitle="广告基本信息" cardClass="with-scroll" [canCollapse]=false>
-        <form class="form-horizontal">
+        <form class="form-horizontal" #validationForm="ngForm">
           <div class="row">
             <div class="form-group col-sm-12">
               <div class="row">
-                <label for="title" class="col-sm-2 col-lg-1 control-label">广告标题</label>
-                <div class="col-sm-6 col-lg-3">
-                  <input type="text" class="form-control" name="title" id="title" [(ngModel)]="advertising.title" required>
+                <label  class="col-sm-2 col-lg-1 control-label">广告标题</label>
+                <div class="col-sm-6">
+                  <!--<input type="text" class="form-control" name="title" id="title" [(ngModel)]="advertising.title" formControlName="title" required />
+                  <p *ngIf="form.controls.title.errors?.required" class="text-danger">*</p>-->
+                  <input class="form-control"  type="text" ngModel name="title" [(ngModel)]="advertising.title" #title="ngModel" [rangeLength]="[2,100]" required />
+                  <p class="text-danger" *ngIf="title.errors?.required">*</p>
+                  <p class="text-danger" *ngIf="title.errors?.rangeLength">输入字符长度在2-100之间</p>
+                 <!-- <p class="text-danger" *ngIf="!form.controls.oldPassword.pristine && form.controls.oldPassword.errors?.required">请输入原密码</p>-->
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12">
               <div class="row">
                 <label for="adType" class="col-sm-2 col-lg-1 control-label">广告类型</label>
-                <div class="col-sm-6 col-lg-3">
-                  <select type="email" class="form-control" name="adType" id="adType" dict-select
+                <div class="col-sm-6">
+                  <select type="email" class="form-control" name="adType" id="adType" #adType="ngModel" required
+                          dict-select
                           [(ngModel)]="advertising.adType"
                           [key]="'ADVERTISING_ADTYPE'"
                           [topOption]="{itemId:'',itemName:'请选择'}"
-                          [selected]="advertising.adType"
-                          required>
+                          [selected]="advertising.adType">
                   </select>
+                  <p class="text-danger" *ngIf="adType.errors?.required">*</p>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12">
               <div class="row">
                 <label for="putEnv" class="col-sm-2 col-lg-1 control-label">投放端</label>
-                <div class="col-sm-6 col-lg-3">
-                  <select type="email" class="form-control" name="putEnv" id="putEnv" dict-select
-                          [(ngModel)]="advertising.putEnv"
-                          [key]="'ADVERTISING_PUTENV'"
-                          [topOption]="{itemId:'',itemName:'请选择'}"
-                          [selected]="advertising.putEnv"
-                          required>
+                <div class="col-sm-6">
+                  <select  class="form-control" id="putEnv" name="putEnv"  #putEnv="ngModel" required
+                           dict-select
+                           [(ngModel)]="advertising.putEnv"
+                           [key]="'ADVERTISING_PUTENV'"
+                           [selected]="advertising.putEnv"
+                           [topOption]="{itemId:'',itemName:'请选择'}"
+                  >
                   </select>
+                  <p class="text-danger" *ngIf="putEnv.errors?.required">*</p>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12">
               <div class="row">
                 <label for="url" class="col-sm-2 col-lg-1 control-label">广告链接</label>
-                <div class="col-sm-6 col-lg-3">
-                  <input type="text" class="form-control" name="url" id="url" [(ngModel)]="advertising.url" required>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" name="url" id="url" [(ngModel)]="advertising.url" #url="ngModel" url />
+                  <p *ngIf="url.errors?.url&&!url.pristine" class="text-danger">请输入正确的网址</p>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12">
               <div class="row">
                 <label  class="col-sm-2 col-lg-1 control-label">广告图片</label>
-                <div class="col-sm-6 col-lg-3">
+                <div class="col-sm-6">
                   <img src="{{advertising.icon}}" style="display:block;width:200px;margin-bottom: 10px" *ngIf="advertising.icon">
-                  <input  type="file" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)" [disabled]="uploadDisabled" >
-                  <!--<textarea class="form-control" name="imgLink" id="imgLink"  [(ngModel)]="advertising.imgLink" required></textarea>-->
+                  <input type="file" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)" [disabled]="uploadDisabled">
                 </div>
-
               </div>
-              <!--<div class="row">
-                <ng-container *ngFor="let item of attachments; let i = index">
-                  <ng-container *ngIf="imageType.indexOf(item.fileSuff.toLowerCase()) != -1">
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 col-xlg-2">
-                      <div class="row">
-                        <img src="{{item.uploadPath}}" height="108px"><p></p>
-                        <a *ngIf="!disabled" href="javascript:void(0)" class="card-link" (click)="deleteFile(item, i)">删除</a>
-                      </div>
-                    </div>
-                  </ng-container>
-                </ng-container>
-
-              </div>-->
-
             </div>
           </div>
         </form>

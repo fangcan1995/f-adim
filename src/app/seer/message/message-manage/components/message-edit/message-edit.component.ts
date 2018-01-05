@@ -1,4 +1,4 @@
-import {Component,OnInit,TemplateRef, ViewEncapsulation} from '@angular/core';
+import {Component,OnInit,TemplateRef, ViewEncapsulation,ViewChild} from '@angular/core';
 import {Location} from '@angular/common';
 import {ActivatedRoute, Params,Router} from "@angular/router";
 import { MessageService } from "../../message.service";
@@ -24,8 +24,8 @@ export class MessageEditComponent {
   editId: string;
   isPickUsersAble:boolean=true;  //选择用户按钮无效
   usersType: string; //用户类型
-  IsChecked={"sendMail":false,"sendNotify":false,"sendMessage":false,"now":false};//checkbox初始状态
-  disabled={"sendMail":true,"sendNotify":true,"sendMessage":true,"now":false}; //checkbox是否可用
+  //IsChecked={"sendMail":false,"sendNotify":false,"sendMessage":false,"now":false};//checkbox初始状态
+  disabled={"sendMail":true,"sendNotify":true,"sendMessage":true,"now":true}; //checkbox是否可用
   allowChange:boolean=false;//date-picker是否可用
   readonly:boolean=false;//date-picker是否只读
   _editType: string = 'add';
@@ -83,6 +83,8 @@ export class MessageEditComponent {
   public modalRef: BsModalRef;
   cardActions2 = [this.modalActionSet.All,this.modalActionSet.OK];
 
+  @ViewChild('validationForm') validationForm;
+
   constructor(
     private location: Location ,
     private _route: ActivatedRoute,
@@ -103,7 +105,6 @@ export class MessageEditComponent {
     this.title = this.isAdd ? '新建消息' : '修改消息';
     this.forbidSaveBtn=false;
     if(!this.isAdd) {
-      //this.getResourceById(this.editId);
       this._editType='edit';
       this.isPickUsersAble=false;
       this.service.getMessageById(this.editId).then((data) => {
@@ -113,7 +114,7 @@ export class MessageEditComponent {
         if(this.message.adaptationUser=="1"){
           this.usersType="users";
           //后台用户
-          this.disabled={"sendMail":true,"sendNotify":true,"sendMessage":false,"now":false}
+          this.disabled={"sendMail":true,"sendNotify":true,"sendMessage":true,"now":false}
         }else if(this.message.adaptationUser=="0"){
           //前台用户
           this.usersType="members";
@@ -121,7 +122,6 @@ export class MessageEditComponent {
       });
     }else {
       this.isPickUsersAble=true;
-
     };
   }
   //激活选择用户按钮
@@ -166,16 +166,17 @@ export class MessageEditComponent {
     if ( this.forbidSaveBtn ) return;
     this.forbidSaveBtn = true;
     if ( this._editType === 'edit' ) {
-      this.message.sendMail=this.Cint(this.message.sendMail);
+      /*this.message.sendMail=this.Cint(this.message.sendMail);
       this.message.sendNotify=this.Cint(this.message.sendNotify);
-      this.message.sendMessage=this.Cint(this.message.sendMessage);
+      this.message.sendMessage=this.Cint(this.message.sendMessage);*/
       this.message.receivers=this.ids;
+
       this.service.putOne(this.message).then((data:any) => {
         this.forbidSaveBtn = false;
         this.showSuccess(data.msg || '更新成功')
           .onClose()
           .subscribe(() => {
-            this._router.navigate(['/operation/activity/']);
+            this._router.navigate(['/message/message/']);
           });
       }).catch(err => {
         this.forbidSaveBtn = false;

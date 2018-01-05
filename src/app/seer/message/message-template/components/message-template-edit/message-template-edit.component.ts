@@ -1,4 +1,4 @@
-import {Component, ViewEncapsulation,Input,OnInit} from "@angular/core";
+import {Component, ViewEncapsulation,Input,OnInit,ViewChild} from "@angular/core";
 import {messageTplManageService} from "../../message-template.service"
 import {Router,ActivatedRoute, Params} from "@angular/router";
 import {Location} from '@angular/common';
@@ -27,6 +27,7 @@ export class MessageTemplateEditComponent implements OnInit {
   sendMail;
   sendNotify;
   sendMessage;
+  @ViewChild('validationForm') validationForm;
   constructor(
     private route: ActivatedRoute,
     private _router: Router,
