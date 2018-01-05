@@ -4,6 +4,8 @@ import {SeerMessageService} from "../../../../../theme/services/seer-message.ser
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from '@angular/common';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {CustomValidators} from "ng2-validation";
 
 @Component({
   templateUrl: './announcement-edit.component.html',
@@ -14,11 +16,17 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
   public announcement: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
+  form : FormGroup;
   constructor(private _announcementService: AnnouncementService,
               private _messageService: SeerMessageService,
               private _activatedRoute: ActivatedRoute,
               private _router: Router,
               private _location: Location) {
+
+      this.form = new FormGroup({
+        announcementName: new FormControl('', Validators.required),
+        announcementTitle: new FormControl('', Validators.required),
+      });
 
   }
 
@@ -35,6 +43,7 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
           this._announcementService.getOne(params.id)
             .then(res => {
               this.announcement = res.data;
+              this.announcement.effectTime = new Date(this.announcement.effectTime);
               this.forbidSaveBtn = false;
             }, errMsg => {
               // 错误处理的正确打开方式
@@ -60,12 +69,24 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
     if (this.forbidSaveBtn) return;
     this.forbidSaveBtn = true;
 
-    this._announcementService.putOne(this.announcement)
-      .then(data => {
-        this.alertSuccess(data.message);
-      }).catch(err => {
+    if(!this.form.valid) {
+      this.alertError('请按规则填写表单');
+      this.forbidSaveBtn = false;
+    }
+    else if(!this.announcement.content) {
+      this.alertError('请填写文章内容');
+      this.forbidSaveBtn = false;
+    }
+    else {
+      this._announcementService.putOne(this.announcement)
+        .then(data => {
+          this.alertSuccess(data.message);
+        }).catch(err => {
         console.log(err);
       });
+    }
+
+
 
   }
 
