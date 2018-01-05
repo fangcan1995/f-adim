@@ -11,11 +11,17 @@ import {MemberInfoComponent} from "./components/member-detail/memberInfo/memberI
 import {LoansInfoComponent} from "./components/member-detail/loansInfo/loansInfo.component"
 import {InvestsInfoComponent} from "./components/member-detail/investsInfo/investsInfo.component";
 import {TradesInfoComponent} from "./components/member-detail/tradesInfo/tradesInfo.component"
+import { ReactiveFormsModule } from '@angular/forms';
+import { CustomFormsModule } from 'ng2-validation';
+import {NgxCurrencyModule} from "ngx-currency";
 @NgModule({
   imports: [
     SharedModule,
     NgaModule,
     routing,
+    CustomFormsModule,
+    NgxCurrencyModule,
+    ReactiveFormsModule
   ],
   declarations: [
     MemberComponent,

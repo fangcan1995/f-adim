@@ -78,7 +78,7 @@ export class ActivityDetailComponent implements OnInit {
               //this.baseInfoDTO.trigMode='4';
               (this.baseInfoDTO.trigMode=='4')?this.isInvestMode=false:this.isInvestMode=true; //投资奖励的特殊处理
               this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[0]:'';//频率字段拆分出次数
-              this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[1]:'';//频率字段拆分出时间间隔
+              this.baseInfoDTO.participateNum2=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[1]:'';//频率字段拆分出时间间隔
               //查字典
               /*this.getDicts("trigMode","TRIG_MODE","baseInfoDTO");
               this.getDicts("productCategory","PRODUCT_CATEGORY","baseInfoDTO");

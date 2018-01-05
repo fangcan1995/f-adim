@@ -63,7 +63,7 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label  class="col-sm-4 control-label">年收入</label>
+                <label  class="col-sm-4 control-label">年均收入</label>
                 <div class="col-sm-8">
                   <label  class="form-control">{{baseInfo.yearIncome}}</label>
                 </div>
@@ -71,7 +71,7 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label class="col-sm-4 control-label">社保</label>
+                <label class="col-sm-4 control-label">社保账号</label>
                 <div class="col-sm-8">
                   <label  class="form-control">{{baseInfo.socialNo}}</label>
                 </div>
@@ -150,16 +150,16 @@
         <seer-collapse-card cardTitle="账户信息" cardClass="with-scroll"  >
             <div class="row">
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                账户归属:国汇财富
+                账户归属: {{accountInfo.accountSource}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                账户用户名:
+                账户用户名: {{baseInfo.trueName}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                开户行:
+                开户行: {{accountInfo.bankName}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                银行账户:
+                银行账户: {{accountInfo.bankNo}}
               </div>
             </div>
         </seer-collapse-card>
@@ -169,47 +169,47 @@
                 自有房产:
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                每月房屋按揭金额:
+                月房屋按揭金额: {{financialInfo.houseRepayMonth}}元
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                每月信用卡还款金额:
+                月信用卡还款金额: {{financialInfo.cardRepayMonth}}元
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
                 自有汽车:
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                每月汽车按揭金额:
+                月汽车按揭金额: {{financialInfo.carRepayMonth}}元
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                每月无抵押货款还款额:
+                月无抵押货款还款额: {{financialInfo.unsecuredRepayMonth}}｝元
               </div>
             </div>
         </seer-collapse-card>
         <seer-collapse-card cardTitle="工作信息" cardClass="with-scroll"  >
             <div class="row">
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                公司名称:XXX
+                公司名称: {{workInfo.companyName}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                公司性质:
+                公司性质: {{workInfo.companyType}}
               </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <!--<div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 公司规模:
+              </div>-->
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                职务: {{workInfo.jobPost}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                职务:
+                工作年限: {{workInfo.workYear}}年
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                工作年限:
+                工作电话: {{workInfo.workTel}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                工作电话:
-              </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                月收入:
+                月净收入: {{workInfo.monthIncome}}
               </div>
               <div class="form-group col-sm-12">
-                工作地点:
+                详细地址: {{workInfo.workAddress}}
               </div>
             </div>
         </seer-collapse-card>

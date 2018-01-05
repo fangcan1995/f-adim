@@ -12,7 +12,12 @@ import {UPDATE, DELETE,SAVE} from "../../../../common/seer-table/seer-table.acti
   styleUrls: ['./member-edit.component.scss']
 })
 export class MemberEditComponent implements OnInit {
-  @ViewChild('contactTable') contactTable
+  @ViewChild('contactTable') contactTable;
+  @ViewChild('validationForm') form1;
+  @ViewChild('validationForm') form2;
+  @ViewChild('validationForm') form3;
+  @ViewChild('validationForm') form4;
+  @ViewChild('validationForm') form5;
   public member: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
@@ -26,6 +31,7 @@ export class MemberEditComponent implements OnInit {
   houseInfo: any = [];  //房屋信息列表
   simpleTableActions = [UPDATE, DELETE];
   saveActions=[SAVE];
+  saveActionsDistabled=[false];
   titlesEmergencyContact=[
     {key:'contName', label:'姓名'},
     {key:'contRelation', label:'关系'},
@@ -66,11 +72,12 @@ export class MemberEditComponent implements OnInit {
           this.baseInfo=this.member.baseInfo|| {};
           this.emergencyContact=this.member.contactList|| [];
           this.workInfo=this.member.workInfo|| {};
-          this.accountInfo=this.member.AcBank|| {};
+          this.accountInfo=this.member.acBank|| {};
           this.financialInfo=this.member.financialInfo|| {};
           this.vehicleInfo=this.member.carMessageList|| [];
           this.houseInfo=this.member.houseMessageList|| [];
           this.forbidSaveBtn = false;
+          console.log(this.accountInfo);
         })
       }
     })
@@ -113,14 +120,24 @@ export class MemberEditComponent implements OnInit {
       switch ( type ) {
         case 'save':
           if(editData.id){
-            this._memberService.putContact(this.memberId,editData).then((data:any)=>{
-              this.showSuccess(data.msg || '更新成功');
-            }).catch(err => {
-              this.showError(err.msg || '更新失败');
-            });//修改
+            if(editData.contName && editData.contName!='' ){
+              alert(1);
+              this._memberService.putContact(this.memberId,editData).then((data:any)=>{
+                this.showSuccess(data.msg || '更新成功');
+              }).catch(err => {
+                this.showError(err.msg || '更新失败');
+              });//修改
+            }
+            else{
+              return false;
+            }
           }else{
-            this._memberService.postContact(this.memberId,editData).then((result) => {
-            });//新增
+            if(editData.contName && editData.contName!='' ) {
+              this._memberService.postContact(this.memberId, editData).then((result) => {
+              });//新增
+            }else{
+              return false;
+            }
           }
           this.contactTable.save(key);
           break;
@@ -160,12 +177,15 @@ export class MemberEditComponent implements OnInit {
       });
     }else{
       //新增
-      this._memberService.postVehicle(this.memberId,vehicle).then((result) => {
-        this.vehicleInfo.push(vehicle);
-        this.modalRef.hide();
-      }).catch(err=>{
-        this.showError(err.msg || '新增失败');
-      });
+
+        this._memberService.postVehicle(this.memberId,vehicle).then((result) => {
+          this.vehicleInfo.push(vehicle);
+          this.modalRef.hide();
+        }).catch(err=>{
+          this.showError(err.msg || '新增失败');
+        });
+
+
     }
   }
   //房产增改
@@ -184,7 +204,7 @@ export class MemberEditComponent implements OnInit {
     }else{
       //新增
       this._memberService.postHouse(this.memberId,house).then((result) => {
-        this.vehicleInfo.push(house);
+        this.houseInfo.push(house);
         this.modalRef.hide();
       }).catch(err=>{
         this.showError(err.msg || '新增失败');

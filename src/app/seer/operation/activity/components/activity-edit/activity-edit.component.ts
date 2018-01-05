@@ -141,7 +141,7 @@ export class ActivityEditComponent {
               this.baseInfoDTO.endTime=new Date(this.baseInfoDTO.endTime);  //格式化时间
 
               this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[0]:'';//频率字段拆分出次数
-              this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[1]:'';//频率字段拆分出时间间隔
+              this.baseInfoDTO.participateNum2=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[1]:'';//频率字段拆分出时间间隔
               if(this.baseInfoDTO.trigMode){
                 this.isAddaward=false;
               }

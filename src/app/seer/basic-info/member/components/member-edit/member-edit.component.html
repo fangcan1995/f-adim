@@ -1,6 +1,7 @@
 <seer-content-top>
   <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
-  <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="lock('1')" *ngIf="baseInfo.status=='0'">锁定</button>{{baseInfo.status}}
+
+  <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="lock('1')" *ngIf="baseInfo.status=='0'">锁定</button>
   <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="lock('0')" *ngIf="baseInfo.status=='1'">解锁</button>
   <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="tradePasswordReset()">交易密码重置</button>
   <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="passwordReset()">登录密码重置</button>
@@ -11,39 +12,40 @@
     <div class="col-md-12">
         <seer-collapse-card cardTitle="基本信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true
                             [headerActions]="saveActions"
+                            [saveDistabled]="form1.form.valid"
                             (notify)="basicInfoNotify($event)"
         >
-          <form class="form-horizontal">
+          <form class="form-horizontal" #form1="ngForm">
             <div class="row">
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="userName" class="col-sm-4 control-label">用户名</label>
+                  <label  class="col-sm-4 control-label">用户名</label>
                   <div class="col-sm-8 ">
-                    <input type="text" class="form-control" name="userName" id="userName" [(ngModel)]="baseInfo.userName" disabled>
+                    <input type="text" class="form-control" name="userName"  [(ngModel)]="baseInfo.userName" disabled>
                   </div>
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="trueName" class="col-sm-4 control-label">真实姓名</label>
+                  <label  class="col-sm-4 control-label">真实姓名</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" name="trueName" id="trueName" [(ngModel)]="baseInfo.trueName" disabled>
+                    <input type="text" class="form-control" name="trueName"  [(ngModel)]="baseInfo.trueName" disabled>
                   </div>
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="idNumber" class="col-sm-4 control-label">身份证号</label>
+                  <label  class="col-sm-4 control-label">身份证号</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" name="idNumber" id="idNumber" [(ngModel)]="baseInfo.idNumber" disabled>
+                    <input type="text" class="form-control" name="idNumber"  [(ngModel)]="baseInfo.idNumber" disabled>
                   </div>
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="mSex" class="col-sm-4 control-label">性别</label>
+                  <label  class="col-sm-4 control-label">性别</label>
                   <div class="col-sm-8">
-                    <select class="form-control" id="mSex" placeholder="" [(ngModel)]="baseInfo.mSex" [ngModelOptions]="{standalone: true}"
+                    <select class="form-control" name="mSex"  [(ngModel)]="baseInfo.mSex" [ngModelOptions]="{standalone: true}"
                             dict-select
                             [key]="'M_SEX'"
                             [selected]="baseInfo.mSex"
@@ -54,17 +56,17 @@
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="mAge" class="col-sm-4 control-label">年龄</label>
+                  <label class="col-sm-4 control-label">年龄</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" name="mAge" id="mAge" placeholder="年龄" [(ngModel)]="baseInfo.mAge" disabled>
+                    <input type="text" class="form-control" name="mAge"  [(ngModel)]="baseInfo.mAge" disabled>
                   </div>
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="education" class="col-sm-4 control-label">学历</label>
+                  <label  class="col-sm-4 control-label">学历</label>
                   <div class="col-sm-8">
-                    <select class="form-control" id="education" placeholder="" [(ngModel)]="baseInfo.education" [ngModelOptions]="{standalone: true}"
+                    <select class="form-control" name="education"  [(ngModel)]="baseInfo.education" [ngModelOptions]="{standalone: true}"
                             dict-select
                             [key]="'EDUCATION'"
                             [selected]="baseInfo.education"
@@ -75,9 +77,9 @@
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="maritaStatus" class="col-sm-4 control-label">婚姻状况</label>
+                  <label  class="col-sm-4 control-label">婚姻状况</label>
                   <div class="col-sm-8">
-                    <select class="form-control" id="maritaStatus" placeholder="" [(ngModel)]="baseInfo.maritaStatus" [ngModelOptions]="{standalone: true}"
+                    <select class="form-control" name="maritaStatus"  [(ngModel)]="baseInfo.maritaStatus" [ngModelOptions]="{standalone: true}"
                             dict-select
                             [key]="'MARRAGE_STATUS'"
                             [selected]="baseInfo.maritaStatus"
@@ -88,41 +90,46 @@
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="yearIncome" class="col-sm-4 control-label">年收入</label>
+                  <label  class="col-sm-4 control-label">年均收入</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control"  name="yearIncome" id="yearIncome" [(ngModel)]="baseInfo.yearIncome" >
+                    <input type="text" class="form-control"  name="yearIncome"  [(ngModel)]="baseInfo.yearIncome"
+                           #yearIncome="ngModel"  [range]="[0,999999999]"
+                           currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}"  />
+                    <p class="text-danger" *ngIf="yearIncome.errors?.range">请输入小于1000000000的数值</p>
                   </div>
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="socialNo" class="col-sm-4 control-label">社保</label>
+                  <label  class="col-sm-4 control-label">社保账号</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" name="socialNo" id="socialNo" [(ngModel)]="baseInfo.socialNo" >
+                    <input type="text" class="form-control" name="socialNo"  [(ngModel)]="baseInfo.socialNo" maxlength="18"
+                           currencyMask [options]="{ prefix: '',thousands:'', allowZero: false,precision:0,allowNegative:false}"
+                    >
                   </div>
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="phoneNumber" class="col-sm-4 control-label">手机号</label>
+                  <label  class="col-sm-4 control-label">手机号</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" [(ngModel)]="baseInfo.phoneNumber" disabled>
+                    <input type="text" class="form-control" name="phoneNumber"  [(ngModel)]="baseInfo.phoneNumber" disabled>
                   </div>
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="email" class="col-sm-4 control-label">电子邮件</label>
+                  <label  class="col-sm-4 control-label">电子邮件</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" name="eMail " id="eMail" [(ngModel)]="baseInfo.eMail" >
+                    <input type="text" class="form-control" name="eMail " [(ngModel)]="baseInfo.eMail" maxlength="30">
                   </div>
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="houseAbout" class="col-sm-4 control-label">住房情况</label>
+                  <label  class="col-sm-4 control-label">住房情况</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" name="houseAbout" id="houseAbout" [(ngModel)]="baseInfo.houseAbout" >
+                    <input type="text" class="form-control" name="houseAbout"  [(ngModel)]="baseInfo.houseAbout" maxlength="50">
                   </div>
                 </div>
               </div>
@@ -155,17 +162,19 @@
               </div>
               <div class="form-group col-sm-12">
                 <div class="row">
-                  <label for="assetDesc" class="col-sm-4 col-md-2 col-xlg-1 control-label">资产介绍</label>
+                  <label  class="col-sm-4 col-md-2 col-xlg-1 control-label">资产介绍</label>
                   <div class="col-sm-8 col-md-10 col-xlg-11">
-                  <textarea class="form-control" name="assetDesc" id="assetDesc" [(ngModel)]="baseInfo.assetDesc" ></textarea>
+                  <textarea class="form-control" name="assetDesc"  [(ngModel)]="baseInfo.assetDesc" #assetDesc="ngModel" [rangeLength]="[0,100]"></textarea>
+                    <p class="text-danger" *ngIf="assetDesc.errors?.rangeLength">字符长度要求在100以内</p>
                   </div>
                 </div>
               </div>
               <div class="form-group col-sm-12">
                 <div class="row">
-                  <label for="debtDesc" class="col-sm-4 col-md-2 col-xlg-1 control-label">债务介绍</label>
+                  <label  class="col-sm-4 col-md-2 col-xlg-1 control-label">债务介绍</label>
                   <div class="col-sm-8 col-md-10 col-xlg-11">
-                    <textarea class="form-control" name="debtDesc" id="debtDesc" [(ngModel)]="baseInfo.debtDesc" ></textarea>
+                    <textarea class="form-control" name="debtDesc"  [(ngModel)]="baseInfo.debtDesc" #debtDesc="ngModel" [rangeLength]="[0,100]"></textarea>
+                    <p class="text-danger" *ngIf="debtDesc.errors?.rangeLength">字符长度要求在100以内</p>
                   </div>
                 </div>
               </div>
@@ -185,76 +194,83 @@
         </seer-collapse-card>
         <seer-collapse-card cardTitle="工作信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true
                             [headerActions]="saveActions"
+                            [saveDistabled]="form2.form.valid"
                             (notify)="workInfoNotify($event)">
-          <div class="row">
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label  class="col-sm-4 control-label">公司名称</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="companyName" id="companyName" placeholder="公司名称"
-                         [(ngModel)]="workInfo.companyName" >
+          <form #form2="ngForm">
+            <div class="row">
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label  class="col-sm-4 control-label">公司名称</label>
+                  <div class="col-sm-8 ">
+                    <input type="text" class="form-control" name="companyName"  maxlength="20" [(ngModel)]="workInfo.companyName" >
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label  class="col-sm-4 control-label">公司性质</label>
+                  <div class="col-sm-8 ">
+                    <input type="text" class="form-control" name="companyType"  maxlength="10" [(ngModel)]="workInfo.companyType" >
+                  </div>
+                </div>
+              </div>
+              <!--<div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label  class="col-sm-4 control-label">公司规模</label>
+                  <div class="col-sm-8 ">
+                    <input type="text" class="form-control" name="companyScope"
+                           [(ngModel)]="workInfo.companyScope" >
+                  </div>
+                </div>
+              </div>-->
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label  class="col-sm-4 control-label">职务</label>
+                  <div class="col-sm-8 ">
+                    <input type="text" class="form-control" name="jobPost"  [(ngModel)]="workInfo.jobPost" maxlength="10">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label  class="col-sm-4 control-label">工作年限</label>
+                  <div class="col-sm-8 ">
+                    <input type="text" class="form-control" name="workYear"  [(ngModel)]="workInfo.workYear" maxlength="3"
+                           currencyMask [options]="{ prefix: '',suffix:'年',thousands:'', allowZero: false,precision:0,allowNegative:false}"
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label  class="col-sm-4 control-label">工作电话</label>
+                  <div class="col-sm-8 ">
+                    <input type="text" class="form-control"  name="workTel" [(ngModel)]="workInfo.workTel" maxlength="20">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label class="col-sm-4 control-label">月净收入</label>
+                  <div class="col-sm-8 ">
+                    <input type="text" class="form-control"  name="monthIncome" [(ngModel)]="workInfo.monthIncome" maxlength="13"
+                           #monthIncome="ngModel"  [range]="[0,999999999]"
+                           currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}"
+                    >
+                    <p class="text-danger" *ngIf="monthIncome.errors?.range">请输入小于1000000000的数值</p>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label  class="col-sm-4 control-label">详细地址</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="workAddress" [(ngModel)]="workInfo.workAddress" maxlength="30">
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="companyType" class="col-sm-4 control-label">公司性质</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="companyType" placeholder="公司性质"
-                         [(ngModel)]="workInfo.companyType" >
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="companyScope" class="col-sm-4 control-label">公司规模</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="companyScope" placeholder="公司规模"
-                         [(ngModel)]="workInfo.companyScope" >
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="jobPost" class="col-sm-4 control-label">职务</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="jobPost" id="jobPost" placeholder="职务" [(ngModel)]="workInfo.jobPost">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="workYear" class="col-sm-4 control-label">工作年限</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="workYear" id="workYear" [(ngModel)]="workInfo.workYear">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="workTel" class="col-sm-4 control-label">工作电话</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="workTel" name="workTel" [(ngModel)]="workInfo.workTel">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="monthIncome" class="col-sm-4 control-label">月收入</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="monthIncome" name="monthIncome" [(ngModel)]="workInfo.monthIncome">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12">
-              <div class="row">
-                <label for="workAddress" class="col-sm-4 col-md-2 col-xlg-1 control-label">工作地点</label>
-                <div class="col-sm-8 col-md-10 col-xlg-11">
-                  <input type="text" class="form-control" id="workAddress" name="workAddress" [(ngModel)]="workInfo.workAddress">
-                </div>
-              </div>
-            </div>
-          </div>
+          </form>
       </seer-collapse-card>
         <seer-collapse-card cardTitle="账户信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
           <div class="row">
@@ -262,11 +278,12 @@
               <div class="row">
                 <label  class="col-sm-4 control-label">账户归属</label>
                 <div class="col-sm-8 ">
-                  <select class="form-control" disabled>
+                  <!--<select class="form-control" disabled>
                     <option value="">国汇财富</option>
                     <option value="">巴巴汇</option>
                     <option value="">汇信贷</option>
-                  </select>
+                  </select>-->
+                  <input type="text" class="form-control" [value]="accountInfo.accountSource" disabled>
                 </div>
               </div>
             </div>
@@ -274,7 +291,7 @@
               <div class="row">
                 <label  class="col-sm-4 control-label">账户用户名</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control"  [(ngModel)]="baseInfo.trueName" disabled>
+                  <input type="text" class="form-control" [value]="baseInfo.trueName"  disabled>
                 </div>
               </div>
             </div>
@@ -282,14 +299,8 @@
               <div class="row">
                 <label  class="col-sm-4 control-label">开户行</label>
                 <div class="col-sm-8 ">
-                  <select class="form-control" id="bankNameCode"  [(ngModel)]="accountInfo.bankNameCode" [ngModelOptions]="{standalone: true}"
-                          dict-select
-                          [key]="'BANK_NAME_CODE'"
-                          [selected]="accountInfo.bankNameCode"
-                          [topOption]="{itemid:'',itemName:'请选择'}"
-                          disabled
-                  >
-                  </select>
+
+                  <input type="text" class="form-control"  [value]="accountInfo.bankName"  disabled>
                 </div>
               </div>
             </div>
@@ -297,46 +308,58 @@
               <div class="row">
                 <label class="col-sm-4 control-label">银行账户</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="bankNo"  [(ngModel)]="accountInfo.bankNo" disabled>
+                  <input type="text" class="form-control"  [value]="accountInfo.bankNo" disabled>
                 </div>
               </div>
             </div>
           </div>
         </seer-collapse-card>
         <seer-collapse-card cardTitle="财务状况" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true
-                            [headerActions]="saveActions"
-                            (notify)="financialInfoNotify($event)"
+                            [headerActions]="saveActions"  [saveDistabled]="form3.form.valid" (notify)="financialInfoNotify($event)"
         >
+          <form #form3="ngForm">
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label  class="col-sm-4 control-label">每月无抵押货款还款额</label>
+                <label  class="col-sm-4 control-label">月无抵押货款还款额</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="carRepayMonth" [(ngModel)]="financialInfo.unsecuredRepayMonth" >
+                  <input type="text" class="form-control" name="carRepayMonth" [(ngModel)]="financialInfo.unsecuredRepayMonth" maxlength="13"
+                         #carRepayMonth="ngModel"  [range]="[0,999999999]"
+                         currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}">
+                </div>
+                <p class="text-danger" *ngIf="carRepayMonth.errors?.range">请输入小于1000000000的数值</p>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
+              <div class="row">
+                <label  class="col-sm-4 control-label">月信用卡还款金额</label>
+                <div class="col-sm-8 ">
+                  <input type="text" class="form-control" name="cardRepayMonth" [(ngModel)]="financialInfo.cardRepayMonth" maxlength="13"
+                         #cardRepayMonth="ngModel"  [range]="[0,999999999]"
+                         currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}">
+                  <p class="text-danger" *ngIf="cardRepayMonth.errors?.range">请输入小于1000000000的数值</p>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label  class="col-sm-4 control-label">每月信用卡还款金额</label>
+                <label  class="col-sm-4 control-label">月房屋按揭金额</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="cardRepayMonth" [(ngModel)]="financialInfo.cardRepayMonth">
+                  <input type="text" class="form-control" name="houseRepayMonth" [(ngModel)]="financialInfo.houseRepayMonth" maxlength="13"
+                         #houseRepayMonth="ngModel"  [range]="[0,999999999]"
+                         currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}">
+                  <p class="text-danger" *ngIf="houseRepayMonth.errors?.range">请输入小于1000000000的数值</p>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label  class="col-sm-4 control-label">每月房屋按揭金额</label>
+                <label class="col-sm-4 control-label">月汽车按揭金额</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="houseRepayMonth" [(ngModel)]="financialInfo.houseRepayMonth">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              <div class="row">
-                <label class="col-sm-4 control-label">每月汽车按揭金额</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="unsecuredRepayMonth" [(ngModel)]="financialInfo.carRepayMonth">
+                  <input type="text" class="form-control" name="unsecuredRepayMonth" [(ngModel)]="financialInfo.carRepayMonth" maxlength="13"
+                         #unsecuredRepayMonth="ngModel"  [range]="[0,999999999]"
+                         currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}">
+                  <p class="text-danger" *ngIf="unsecuredRepayMonth.errors?.range">请输入小于1000000000的数值</p>
                 </div>
               </div>
             </div>
@@ -344,8 +367,8 @@
               <div class="row">
                 <label class="col-sm-4 control-label">自有汽车</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="hasCar"  [(ngModel)]="financialInfo.hasCar"
-                  >
+                  <input type="text" class="form-control" name="hasCar"  [(ngModel)]="financialInfo.hasCar"  maxlength="4"
+                         currencyMask [options]="{ prefix: '',suffix:'台',thousands:'', allowZero: false,precision:0,allowNegative:false}">
                 </div>
               </div>
             </div>
@@ -353,11 +376,13 @@
               <div class="row">
                 <label  class="col-sm-4 control-label">自有房产</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="hasHouse"  [(ngModel)]="financialInfo.hasHouse">
+                  <input type="text" class="form-control" name="hasHouse"  [(ngModel)]="financialInfo.hasHouse"  maxlength="4"
+                         currencyMask [options]="{ prefix: '',suffix:'套',thousands:'', allowZero: false,precision:0,allowNegative:false}">
                 </div>
               </div>
             </div>
           </div>
+          </form>
       </seer-collapse-card>
         <seer-collapse-card cardTitle="车辆信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
           <div *ngIf="!disabled" class="row">
@@ -412,21 +437,6 @@
           </ng-container>
         </seer-collapse-card>
         <seer-collapse-card cardTitle="个人征信信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
-          <!--<seer-table
-            #creditTable
-            [data]="creditInfo"
-            [titles]="titlesCreditInfo"
-            [hidePagination]="true"
-            [hideAddButton]="true"
-            [hideExport]="true"
-            [hidePrint]="true"
-            [hideCheckbox]="true"
-            [hideColumns]="true"
-            [hideRemoveAll]="true"
-            [showSeq]="true"
-            (notify)="creditInfoInfoModifyNotify($event)"
-          >
-          </seer-table>-->
           <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
             <div class="row">
               <div class="card checkable-card" style="max-width: 20rem;">
@@ -494,77 +504,92 @@
   </div>
   <div class="modal-body">
     <form class="form-horizontal">
-      <div class="row">
-        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
-          <div class="row">
-            <label for="carBrand" class="col-sm-4 control-label text-right">车辆品牌</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="carBrand" placeholder="车辆品牌" [(ngModel)]="vehicle.carBrand" [ngModelOptions]="{standalone: true}">
+      <form #form4="ngForm">
+        <div class="row">
+          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+            <div class="row">
+              <label  class="col-sm-4 col-md-2 control-label text-right">车辆品牌</label>
+              <div class="col-sm-8 col-md-10">
+                <input class="form-control" name="carBrand"  [(ngModel)]="vehicle.carBrand"  maxlength="4"  #carBrand="ngModel" required>
+                <p class="text-danger" *ngIf="carBrand.errors?.required">*</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
-          <div class="row">
-            <label for="carModel" class="col-sm-4 control-label text-right">车辆型号</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="carModel" placeholder="车辆型号" [(ngModel)]="vehicle.carModel" [ngModelOptions]="{standalone: true}">
+          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+            <div class="row">
+              <label  class="col-sm-4  col-md-2 control-label text-right">车辆型号</label>
+              <div class="col-sm-8  col-md-10 ">
+                <input class="form-control" name="carModel"  [(ngModel)]="vehicle.carModel" maxlength="10" #carModel="ngModel" required>
+                <p class="text-danger" *ngIf="carModel.errors?.required">*</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
-          <div class="row">
-            <label for="viNumber" class="col-sm-4 control-label text-right">车架号</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="viNumber" placeholder="车架号" [(ngModel)]="vehicle.viNumber" [ngModelOptions]="{standalone: true}">
+          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+            <div class="row">
+              <label  class="col-sm-4 col-md-2 control-label text-right">车架号</label>
+              <div class="col-sm-8 col-md-10">
+                <input class="form-control" name="viNumber"  [(ngModel)]="vehicle.viNumber" maxlength="17" #viNumber="ngModel" required>
+                <p class="text-danger" *ngIf="viNumber.errors?.required">*</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
-          <div class="row">
-            <label for="carNumber" class="col-sm-4 control-label text-right">车牌号</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="carNumber" placeholder="车牌号" [(ngModel)]="vehicle.carNumber" [ngModelOptions]="{standalone: true}">
+          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+            <div class="row">
+              <label  class="col-sm-4 col-md-2 control-label text-right">车牌号</label>
+              <div class="col-sm-8 col-md-10">
+                <input class="form-control" name="carNumber"  [(ngModel)]="vehicle.carNumber" maxlength="7" #carNumber="ngModel" required>
+                <p class="text-danger" *ngIf="carNumber.errors?.required">*</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
-          <div class="row">
-            <label for="carRegNumber" class="col-sm-4 control-label text-right">登记证号</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="carRegNumber" placeholder="登记证号" [(ngModel)]="vehicle.carRegNumber" [ngModelOptions]="{standalone: true}">
+          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+            <div class="row">
+              <label class="col-sm-4 col-md-2 control-label text-right">登记证号</label>
+              <div class="col-sm-8 col-md-10">
+                <input class="form-control" name="carRegNumber" maxlength="14" [(ngModel)]="vehicle.carRegNumber"  #carRegNumber="ngModel" required
+                       currencyMask [options]="{ prefix: '',suffix:'',thousands:'',allowZero: false,precision:0,allowNegative:false}">
+                <p class="text-danger" *ngIf="carRegNumber.errors?.required">*</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
-          <div class="row">
-            <label for="carAge" class="col-sm-4 control-label text-right">车龄</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="carAge" placeholder="车龄" [(ngModel)]="vehicle.carAge" [ngModelOptions]="{standalone: true}">
+          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+            <div class="row">
+              <label  class="col-sm-4 col-md-2 control-label text-right">购车年份</label>
+              <div class="col-sm-8 col-md-10">
+                <input class="form-control" name="carAge"  [(ngModel)]="vehicle.carAge" maxlength="5" #carAge="ngModel" required
+                       currencyMask [options]="{ prefix: '',suffix:'年',thousands:'',allowZero: false,precision:0,allowNegative:false}">
+                <p class="text-danger" *ngIf="carAge.errors?.required">*</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
-          <div class="row">
-            <label for="mileage" class="col-sm-4 control-label text-right">行驶里程</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="mileage" placeholder="行驶里程" [(ngModel)]="vehicle.mileage" [ngModelOptions]="{standalone: true}">
+          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+            <div class="row">
+              <label  class="col-sm-4 col-md-2 control-label text-right">行驶里程</label>
+              <div class="col-sm-8 col-md-10">
+                <input class="form-control" name="mileage"  [(ngModel)]="vehicle.mileage" maxlength="10"
+                       currencyMask [options]="{ prefix: '',suffix:'公里',thousands:'',allowZero: false,precision:0,allowNegative:false}"
+                >
+              </div>
             </div>
           </div>
-        </div>
-        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
-          <div class="row">
-            <label for="pricePotential" class="col-sm-4 control-label text-right">评估价格</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="pricePotential" placeholder="评估价格" [(ngModel)]="vehicle.pricePotential" [ngModelOptions]="{standalone: true}">
+          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+            <div class="row">
+              <label class="col-sm-4 col-md-2 control-label text-right">评估价格</label>
+              <div class="col-sm-8 col-md-10">
+                <input class="form-control" name="pricePotential" maxlength="13" [(ngModel)]="vehicle.pricePotential"
+                       currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}"
+                >
+              </div>
             </div>
           </div>
+
         </div>
-      </div>
+      </form>
     </form>
   </div>
   <div class="modal-footer">
     <ng-container *ngIf="!vehicleReadOnly">
-      <button type="button" class="btn btn-sx btn-info" (click)="saveVehicle(vehicle)">确定</button>
+      <button type="button" class="btn btn-sx btn-info" [disabled]="!(form4.form.valid)" (click)="saveVehicle(vehicle)">确定</button>
     </ng-container>
     <button type="button"  class="btn btn-default" (click)="modalRef.hide()">关闭</button>
   </div>
@@ -579,74 +604,85 @@
     </h5>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal">
+    <form class="form-horizontal" #form5="ngForm">
       <div class="row">
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="houseAdress" class="col-sm-4 control-label text-right">房产地址</label>
+            <label class="col-sm-4 control-label text-right">房产地址</label>
             <div class="col-sm-8">
-              <input class="form-control" id="houseAdress" placeholder="房产地址" [(ngModel)]="house.houseAdress" [ngModelOptions]="{standalone: true}">
+              <input class="form-control"  [(ngModel)]="house.houseAdress" name="houseAdress" maxlength="30" #houseAdress="ngModel" required>
+              <p class="text-danger" *ngIf="houseAdress.errors?.required">*</p>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="houseType" class="col-sm-4 control-label text-right">房屋类型</label>
+            <label  class="col-sm-4 control-label text-right">房屋类型</label>
             <div class="col-sm-8">
-              <select class="form-control" id="houseType" placeholder="" [(ngModel)]="house.houseType" [ngModelOptions]="{standalone: true}"
+              <select class="form-control" name="houseType"  [(ngModel)]="house.houseType" #houseType="ngModel" required
                       dict-select
                       [key]="'HOUSE_TYPE'"
                       [selected]="house.houseType"
                       [topOption]="{itemid:'',itemName:'请选择'}">
               </select>
+              <p class="text-danger" *ngIf="houseType.errors?.required">*</p>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="area" class="col-sm-4 control-label text-right">建筑面积</label>
+            <label  class="col-sm-4 control-label text-right">建筑面积</label>
             <div class="col-sm-8">
-              <input class="form-control" id="area" placeholder="建筑面积" [(ngModel)]="house.area" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" [(ngModel)]="house.area" name="area" maxlength="10" #area="ngModel" required
+                     currencyMask [options]="{ prefix: '',suffix:'平米',thousands:'',allowZero: false,precision:2,allowNegative:false}"
+              >
+              <p class="text-danger" *ngIf="area.errors?.required">*</p>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="houseAge" class="col-sm-4 control-label text-right">房龄</label>
+            <label class="col-sm-4 control-label text-right">竣工年份</label>
             <div class="col-sm-8">
-              <input class="form-control" id="houseAge" placeholder="房龄" [(ngModel)]="house.houseAge" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" name="houseAge" [(ngModel)]="house.houseAge" maxlength="5" #houseAge="ngModel" required
+                     currencyMask [options]="{ prefix: '',suffix:'年',thousands:'',allowZero: false,precision:0,allowNegative:false}">
+              <p class="text-danger" *ngIf="houseAge.errors?.required">*</p>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="debtMoney" class="col-sm-4 control-label text-right">尚欠贷余额</label>
+            <label class="col-sm-4 control-label text-right">尚欠贷余额</label>
             <div class="col-sm-8">
-              <input class="form-control" id="debtMoney" placeholder="尚欠贷余额" [(ngModel)]="house.debtMoney" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" name="debtMoney"  [(ngModel)]="house.debtMoney" maxlength="13" #debtMoney="ngModel" required
+                     currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}">
+              <p class="text-danger" *ngIf="debtMoney.errors?.required">*</p>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="landNo" class="col-sm-4 control-label text-right">土地所有证号</label>
+            <label class="col-sm-4 control-label text-right">土地所有证号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="landNo" placeholder="土地所有证号" [(ngModel)]="house.landNo" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" name="landNo"  [(ngModel)]="house.landNo" maxlength="25" >
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="houseBelongNo" class="col-sm-4 control-label text-right">房屋产权所有证号</label>
+            <label class="col-sm-4 control-label text-right">房屋所有权证号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="houseBelongNo" placeholder="房屋产权所有证号" [(ngModel)]="house.houseBelongNo" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" name="houseBelongNo"  [(ngModel)]="house.houseBelongNo" maxlength="9" #houseBelongNo="ngModel" required
+                     currencyMask [options]="{ prefix: '',thousands:'', allowZero: false,precision:0,allowNegative:false}">
+              <p class="text-danger" *ngIf="houseBelongNo.errors?.required">*</p>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="pricePotential2" class="col-sm-4 control-label text-right">评估价格</label>
+            <label  class="col-sm-4 control-label text-right">评估价格</label>
             <div class="col-sm-8">
-              <input class="form-control" id="pricePotential2" placeholder="评估价格" [(ngModel)]="house.pricePotential" [ngModelOptions]="{standalone: true}">
+              <input class="form-control" name="pricePotential2" [(ngModel)]="house.pricePotential" maxlength="13" currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}">
             </div>
           </div>
         </div>
@@ -655,7 +691,7 @@
   </div>
   <div class="modal-footer">
     <ng-container *ngIf="!houseReadOnly">
-      <button type="button" class="btn btn-sx btn-info" (click)="saveHouse(house)">确定</button>
+      <button type="button" class="btn btn-sx btn-info" [disabled]="!(form5.form.valid)" (click)="saveHouse(house)">确定</button>
     </ng-container>
     <button type="button"  class="btn btn-default" (click)="modalRef.hide()">关闭</button>
   </div>

@@ -47,7 +47,7 @@ export class MemberInfoComponent implements OnInit {
     { key:'viNumber', label:'车架号' },
     { key:'carNumber', label:'车牌号'},
     { key:'carRegNumber', label:'登记证号' },
-    { key:'carAge', label:'车龄' },
+    { key:'carAge', label:'购车年份' },
     { key:'mileage', label:'行驶里程' },
     { key:'pricePotential', label:'评估价格' },
   ]; //车
@@ -55,10 +55,10 @@ export class MemberInfoComponent implements OnInit {
     { key:'houseAdress', label:'房产地址' },
     { key:'area', label:'建筑面积' },
     { key:'houseType', label:'房屋类型', isDict: true, category: 'HOUSE_TYPE'  },
-    { key:'houseAge', label:'房龄'},
+    { key:'houseAge', label:'竣工年份'},
     { key:'debtMoney', label:'尚欠贷余额' },
     { key:'landNo', label:'土地所有证号' },
-    { key:'houseBelongNo', label:'房屋产权所有证号' },
+    { key:'houseBelongNo', label:'房屋所有权证号' },
     { key:'pricePotential', label:'评估价格' },
     { key:'loanYear', label:'贷款年限' },
     { key:'debtBank', label:'按揭银行' },
@@ -91,16 +91,17 @@ export class MemberInfoComponent implements OnInit {
           this.memberId=params.id;
           this._memberService.getOne(params.id).then(res => {
             this.member = res.data || {};
+            console.log(this.member);
             this.baseInfo=this.member.baseInfo|| {};
 
             this.emergencyContact=this.member.contactList|| [];
             this.workInfo=this.member.workInfo|| {};
-            this.accountInfo=this.member.AcBank|| {};
+            this.accountInfo=this.member.acBank|| {};
             this.financialInfo=this.member.financialInfo|| {};
             this.vehicleInfo=this.member.carMessageList|| [];
             this.houseInfo=this.member.houseMessageList|| [];
             this.creditInfo=this.member.creditInfo|| [];
-
+            console.log(this.accountInfo);
           }).catch(err=>{
             this.showError(err.msg || '连接失败');
           });
