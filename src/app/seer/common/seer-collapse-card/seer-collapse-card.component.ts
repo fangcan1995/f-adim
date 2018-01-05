@@ -13,6 +13,7 @@ export class SeerCollapseCardComponent implements OnInit, OnChanges {
   @Input() canCollapse: boolean = false;
   @Input() defaultExpand: boolean = true;
   @Input() headerActions;
+  @Input() saveDistabled: boolean = true;
   @Output() notify = new EventEmitter();
   public _isExpanded: boolean = false;
   constructor() {}

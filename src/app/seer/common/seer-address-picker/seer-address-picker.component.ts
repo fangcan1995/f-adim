@@ -40,7 +40,7 @@ export interface AddressPickerClassNamesModel {
           </select>
       </div>
       <div class="{{ classNames.addressContainerClass }}">
-        <input class="{{ classNames.addressClass }}" placeholder="详细地址" type="text" [(ngModel)]="address" (keyup)="handleAddressChange()" [disabled]="disabled">
+        <input class="{{ classNames.addressClass }}" placeholder="详细地址" type="text" [(ngModel)]="address" (keyup)="handleAddressChange()" [disabled]="disabled" maxlength="30">
       </div>
       <ng-content></ng-content>
     </div>
