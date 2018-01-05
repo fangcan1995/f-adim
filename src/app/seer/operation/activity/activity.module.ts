@@ -7,11 +7,17 @@ import { ActivityService } from "./activity.service";
 import { ActivityComponent } from './activity.component';
 import { ActivityEditComponent } from './components/activity-edit/activity-edit.component';
 import { ActivityDetailComponent } from './components/activity-detail/activity-detail.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CustomFormsModule } from 'ng2-validation';
+import {NgxCurrencyModule} from "ngx-currency";
 @NgModule({
   imports: [
     NgaModule,
     SharedModule,
     routing,
+    CustomFormsModule,
+    NgxCurrencyModule,
+    ReactiveFormsModule
   ],
   declarations: [
     ActivityComponent,

@@ -75,7 +75,7 @@ export class ActivityDetailComponent implements OnInit {
               console.log(res.data);
               this.activity = res.data || {};
               this.baseInfoDTO=this.activity.baseInfoDTO;
-              this.baseInfoDTO.trigMode='4';
+              //this.baseInfoDTO.trigMode='4';
               (this.baseInfoDTO.trigMode=='4')?this.isInvestMode=false:this.isInvestMode=true; //投资奖励的特殊处理
               this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[0]:'';//频率字段拆分出次数
               this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[1]:'';//频率字段拆分出时间间隔

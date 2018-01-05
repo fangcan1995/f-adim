@@ -8,11 +8,13 @@ import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { BsModalService} from 'ngx-bootstrap/modal';
 import {SeerDialogService, SeerMessageService,} from '../../../../../theme/services';
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
+
 @Component({
   templateUrl: './activity-edit.component.html',
   styleUrls: ['./activity-edit.component.scss']
 })
 export class ActivityEditComponent {
+
   _editType: string = 'add';
   forbidSaveBtn: boolean = true;
   isInvestMode:boolean = true;
@@ -27,9 +29,6 @@ export class ActivityEditComponent {
   baseInfoDTO: any = {};  //活动基本信息
   awardsDTO: any = {};  //活动奖励信息
   scopesDTO= []; //活动范围
-
-
-
 
   memberScopes=[];  //会员信息列表
   hideChooseMembers:boolean=true;
@@ -103,7 +102,14 @@ export class ActivityEditComponent {
   chooseResult:string='选择用户';  //选择人员按钮中文提示
   public modalRef: BsModalRef;
   cardActions2 = [this.modalActionSet.All,this.modalActionSet.OK];
+  @ViewChild('validationForm') validationForm;
+  @ViewChild('validationForm') form1;
+  @ViewChild('validationForm') form2;
+  @ViewChild('validationForm') form3;
+  @ViewChild('validationForm') form4;
+  @ViewChild('validationForm') form5;
 
+  isSelectedMember= false;
   constructor(private _activityService: ActivityService,
               private _messageService: SeerMessageService,
               private _dialogService: SeerDialogService,
@@ -114,6 +120,9 @@ export class ActivityEditComponent {
               ) {}
 
   ngOnInit() {
+
+    //this.forbidSaveBtn = false;
+
     this._activatedRoute.url.mergeMap(url => {
       this._editType = url[0].path;
       return this._activatedRoute.params
@@ -143,7 +152,7 @@ export class ActivityEditComponent {
 
               this.scopesDTO=this.activity.scopesDTO;  //范围列表
               this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
-              this.forbidSaveBtn = false;
+
             })
             /*.catch(err => {
               this.showError(err.msg || '获取失败');
@@ -164,6 +173,7 @@ export class ActivityEditComponent {
           this.baseInfoDTO= this.activity.baseInfoDTO;
           this.awardsDTO=this.activity.awardsDTO;
           this.scopesDTO=this.activity.scopesDTO;
+          //console.log(this.awardsDTO.length);
 
         }
       })
@@ -292,6 +302,7 @@ export class ActivityEditComponent {
     this.scopesDTO=[];
     this.activity.scopesDTO=[];
     this.scopesPageInfo.total='0';
+    this.isSelectedMember=false;
   }
   showChooseMembers(activityScope){
     if(activityScope=='3'){
@@ -433,6 +444,7 @@ export class ActivityEditComponent {
         this.hidePagination=false;
         this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //重新读活动范围中对应的第一页会员信息
         this.scopesPageInfo.total=this.scopesDTO.length.toString();
+        this.isSelectedMember=true;
 
         this.modalService.hide(1);
         break;
@@ -447,6 +459,7 @@ export class ActivityEditComponent {
         //2 重新新获取会员信息
         this.hidePagination=false;
         this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //重新读活动范围中对应的第一页会员信息
+        //this.isSelectedMember=true;
         this.modalService.hide(1);
         break;
       default:
