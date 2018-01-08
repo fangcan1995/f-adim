@@ -1,6 +1,6 @@
 <seer-content-top>
   <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
-  <button class="btn btn-primary left-button" [disabled]="!(validationForm.form.valid && (baseInfoDTO.activityScope==1 ||baseInfoDTO.activityScope==2 ||(baseInfoDTO.activityScope==3 && scopesDTO.length>0))  && (awardsDTO.redEnvelopesDTOs.length>0 || awardsDTO.rateCouponsDTOs.length>0 ||awardsDTO.physicalRewardsDTOs.length>0||awardsDTO.raffleTicketsDTOs.length>0))" (click)="handleSaveBtnClick()">保存</button>
+  <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn || !(validationForm.form.valid && (baseInfoDTO.activityScope==1 ||baseInfoDTO.activityScope==2 ||(baseInfoDTO.activityScope==3 && scopesDTO.length>0))  && (awardsDTO.redEnvelopesDTOs.length>0 || awardsDTO.rateCouponsDTOs.length>0 ||awardsDTO.physicalRewardsDTOs.length>0||awardsDTO.raffleTicketsDTOs.length>0))" (click)="handleSaveBtnClick()">保存</button>
 </seer-content-top>
 
 <div class="widgets">
@@ -13,8 +13,8 @@
                 <div class="row">
                   <label class="col-sm-4 col-md-2 control-label">活动主题</label>
                   <div class="col-sm-8 col-md-10">
-                    <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.activityName" name="activityName"  #activityName="ngModel" [rangeLength]="[0,20]" required />
-                    <p class="text-danger" *ngIf="activityName.errors?.required">*</p>
+                    <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.activityName" name="activityName" #activityName="ngModel" [rangeLength]="[0,20]" required />
+                     <p class="text-danger" *ngIf="activityName.errors?.required">*</p>
                     <p class="text-danger" *ngIf="activityName.errors?.rangeLength">请输入20个以内字符</p>
                   </div>
                 </div>

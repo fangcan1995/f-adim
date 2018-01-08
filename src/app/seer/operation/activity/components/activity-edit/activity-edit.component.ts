@@ -129,6 +129,7 @@ export class ActivityEditComponent {
     })
       .subscribe(params => {
         if (this._editType === 'edit') {
+          this.forbidSaveBtn=false;
           this._activityService.getOne(params.id)
             .then(res => {
               this.activity = res.data || {};
@@ -605,7 +606,6 @@ export class ActivityEditComponent {
 
       this._activityService.putOne(this.activity.id, this.activitySubmit)
         .then(res=>{
-          this.forbidSaveBtn = false;
           this.showSuccess(res.msg || '更新成功')
             .onClose()
             .subscribe(() => {
@@ -622,7 +622,6 @@ export class ActivityEditComponent {
       console.log(this.activitySubmit);
       this._activityService.postOne(this.activitySubmit)
         .then((data:any) => {
-          this.forbidSaveBtn = false;
           this.showSuccess(data.msg || '保存成功')
             .onClose()
             .subscribe(() => {

@@ -12,7 +12,7 @@
     <div class="col-md-12">
         <seer-collapse-card cardTitle="基本信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true
                             [headerActions]="saveActions"
-                            [saveDistabled]="form1.form.valid"
+                            [saveDistabled]="forbidBaseSaveBtn && form1.form.valid"
                             (notify)="basicInfoNotify($event)"
         >
           <form class="form-horizontal" #form1="ngForm">
@@ -194,7 +194,7 @@
         </seer-collapse-card>
         <seer-collapse-card cardTitle="工作信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true
                             [headerActions]="saveActions"
-                            [saveDistabled]="form2.form.valid"
+                            [saveDistabled]="forbidWorkSaveBtn && form2.form.valid"
                             (notify)="workInfoNotify($event)">
           <form #form2="ngForm">
             <div class="row">
@@ -315,7 +315,7 @@
           </div>
         </seer-collapse-card>
         <seer-collapse-card cardTitle="财务状况" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true
-                            [headerActions]="saveActions"  [saveDistabled]="form3.form.valid" (notify)="financialInfoNotify($event)"
+                            [headerActions]="saveActions"  [saveDistabled]="forbidFinancialSaveBtn && form3.form.valid" (notify)="financialInfoNotify($event)"
         >
           <form #form3="ngForm">
           <div class="row">

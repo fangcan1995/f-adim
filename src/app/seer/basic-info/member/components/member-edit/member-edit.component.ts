@@ -21,6 +21,9 @@ export class MemberEditComponent implements OnInit {
   public member: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
+  forbidBaseSaveBtn: boolean = false;
+  forbidWorkSaveBtn: boolean = true;
+  forbidFinancialSaveBtn: boolean = true;
   memberId:any='';
   baseInfo: any = {};  // 基本信息
   emergencyContact: any = [];  //紧急联系人
@@ -59,56 +62,66 @@ export class MemberEditComponent implements OnInit {
     private modalService: BsModalService
   ) {}
   ngOnInit() {
+    this.forbidBaseSaveBtn=true;
+    this.forbidWorkSaveBtn= true;
+    this. forbidFinancialSaveBtn= true;
     this._route.url.mergeMap(url => {
       this._editType = url[0].path
       return this._route.params
     })
     .subscribe(params => {
       if ( this._editType === 'edit' ) {
-        this._memberService.getOne(params.id).then(res => {
-          this.memberId=params.id;
-          this.member = res.data || {};
-          console.log(this.member);
-          this.baseInfo=this.member.baseInfo|| {};
-          this.emergencyContact=this.member.contactList|| [];
-          this.workInfo=this.member.workInfo|| {};
-          this.accountInfo=this.member.acBank|| {};
-          this.financialInfo=this.member.financialInfo|| {};
-          this.vehicleInfo=this.member.carMessageList|| [];
-          this.houseInfo=this.member.houseMessageList|| [];
-          this.forbidSaveBtn = false;
-          console.log(this.accountInfo);
-        })
+        this.getMemberInfo(params.id);
       }
+    })
+  }
+  getMemberInfo(id){
+    this._memberService.getOne(id).then(res => {
+      this.memberId=id;
+      this.member = res.data || {};
+      this.baseInfo=this.member.baseInfo|| {};
+      this.emergencyContact=this.member.contactList|| [];
+      this.workInfo=this.member.workInfo|| {};
+      this.accountInfo=this.member.acBank|| {};
+      this.financialInfo=this.member.financialInfo|| {};
+      this.vehicleInfo=this.member.carMessageList|| [];
+      this.houseInfo=this.member.houseMessageList|| [];
+      this.forbidSaveBtn = false;
+
     })
   }
   //保存基本信息
   basicInfoNotify() {
+    this.forbidBaseSaveBtn=false;
     this._memberService.putBasicInfo(this.memberId,this.baseInfo).then((data:any)=>{
         this.showSuccess(data.msg || '更新成功');
     }).catch(err => {
+
       this.showError(err.msg || '更新失败');
     });
+    this.forbidBaseSaveBtn=true;
   }
   //保存工作信息
   workInfoNotify() {
+    this.forbidWorkSaveBtn=false;
     this.workInfo.memberId=this.memberId;
     this._memberService.putWorkInfo(this.memberId,this.workInfo).then((data:any)=>{
       this.showSuccess(data.msg || '更新成功');
     }).catch(err => {
       this.showError(err.msg || '更新失败');
     });
-
+    this.forbidWorkSaveBtn=true;
   }
   //保存财务状况信息
   financialInfoNotify() {
+    this.forbidFinancialSaveBtn=false;
     this.financialInfo.memberId=this.memberId;
     this._memberService.putFinancialInfo(this.memberId,this.financialInfo).then((data:any)=>{
       this.showSuccess(data.msg || '更新成功');
     }).catch(err => {
       this.showError(err.msg || '更新失败');
     });
-
+    this.forbidFinancialSaveBtn=true;
   }
   //联系人增删改
   contactModifyNotify($event){
@@ -121,7 +134,6 @@ export class MemberEditComponent implements OnInit {
         case 'save':
           if(editData.id){
             if(editData.contName && editData.contName!='' ){
-              alert(1);
               this._memberService.putContact(this.memberId,editData).then((data:any)=>{
                 this.showSuccess(data.msg || '更新成功');
               }).catch(err => {
@@ -134,6 +146,7 @@ export class MemberEditComponent implements OnInit {
           }else{
             if(editData.contName && editData.contName!='' ) {
               this._memberService.postContact(this.memberId, editData).then((result) => {
+                this.getMemberInfo(this.memberId);
               });//新增
             }else{
               return false;

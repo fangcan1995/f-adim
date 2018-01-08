@@ -58,6 +58,7 @@ export class MessageTemplateEditComponent implements OnInit {
     };
   }
   handleSaveBtnClick(): void {
+    this.forbidSaveBtn =true;
     let resourceIds = [];
     this.template.sendMail=this.Cint(this.template.sendMail);
     this.template.sendNotify=this.Cint(this.template.sendNotify);
@@ -65,7 +66,7 @@ export class MessageTemplateEditComponent implements OnInit {
     if (this.template.id) {
       /*修改*/
       this.service.updateTemplate(this.template).then((data: any) => {
-        this.forbidSaveBtn = false;
+
         this.showSuccess(data.msg || '更新成功')
           .onClose()
           .subscribe(() => {
@@ -80,7 +81,6 @@ export class MessageTemplateEditComponent implements OnInit {
       //console.log(this.template);
       /*新增*/
       this.service.createTemplate(this.template).then((data:any) => {
-        this.forbidSaveBtn = false;
         this.showSuccess(data.msg || '保存成功').onClose()
           .subscribe(() => {
             this._router.navigate(['/message/message-template/']);

@@ -172,7 +172,6 @@ export class MessageEditComponent {
       this.message.receivers=this.ids;
 
       this.service.putOne(this.message).then((data:any) => {
-        this.forbidSaveBtn = false;
         this.showSuccess(data.msg || '更新成功')
           .onClose()
           .subscribe(() => {
@@ -180,7 +179,7 @@ export class MessageEditComponent {
           });
       }).catch(err => {
         this.forbidSaveBtn = false;
-        this.showError(err.msg || '更新失败')
+        this.showError(err.msg || '更新失败');
       });
     } else if ( this._editType === 'add' ) {
       this.message.sendMail=this.Cint(this.message.sendMail);
@@ -189,7 +188,6 @@ export class MessageEditComponent {
       this.message.receivers=this.ids;
       //console.log(this.message);
       this.service.postOne(this.message).then((data:any) => {
-        this.forbidSaveBtn = false;
         this.showSuccess(data.msg || '保存成功')
           .onClose()
           .subscribe(() => {

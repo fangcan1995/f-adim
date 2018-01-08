@@ -127,12 +127,13 @@ export class AdverEditComponent implements OnInit{
   }
   handleSaveBtnClick() {
     if (this.forbidSaveBtn) return;
-    this.forbidSaveBtn = true;
+
     //let requestStream$;
     if (this._editType === 'edit') {
+      this.forbidSaveBtn=true;
       console.log(this.advertising);
       this._advertisingService.putOne(this.advertising.id, this.advertising).then(data=>{
-        this.forbidSaveBtn = false;
+        this.forbidSaveBtn = true;
         this.showSuccess(data.msg || '更新成功').onClose()
           .subscribe(() => {
             this._router.navigate(['/adver-manage/advertising/']);
@@ -142,8 +143,8 @@ export class AdverEditComponent implements OnInit{
         this.showError(err.msg || '更新失败');
       });
     } else if (this._editType === 'add') {
+      this.forbidSaveBtn=true;
       this._advertisingService.postOne(this.advertising).then((data:any) => {
-        this.forbidSaveBtn = false;
         this.showSuccess(data.msg || '保存成功').onClose()
           .subscribe(() => {
             this._router.navigate(['/adver-manage/advertising/']);
