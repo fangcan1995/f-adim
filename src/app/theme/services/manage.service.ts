@@ -23,8 +23,11 @@ export class ManageService extends BaseService<any> {
     ) {
     super(_httpInterceptorService)
   }
+  // public getDataFromServer(): Promise<ResModel> {
+  //   return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['USER']}`).toPromise()
+  // }
   public getDataFromServer(): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['USER']}`).toPromise()
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['USER']}?systemType=loan`).toPromise()
   }
   public refreshLocalDataAndNotify() {
     return this.getDataFromServer()

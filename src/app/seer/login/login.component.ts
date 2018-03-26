@@ -32,7 +32,9 @@ export class LoginComponent {
   public form: FormGroup;
   public account: AbstractControl;
   public password: AbstractControl;
+  public verification: AbstractControl;
   public submitted: boolean = false;
+  public imgUrl:any="http://172.16.7.3:8060/uaa/code/image";
   errorMessage: string;
   loginInfo: Object;
   success: boolean;
@@ -55,10 +57,12 @@ export class LoginComponent {
     ) {
     this.form = fb.group({
       'account': ['admin', Validators.compose([Validators.required, Validators.minLength(4)])],
+      'verification': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
       'password': ['123456', Validators.compose([Validators.required, Validators.minLength(4)])]
     });
 
     this.account = this.form.controls['account'];
+    this.verification = this.form.controls['verification'];
     this.password = this.form.controls['password'];
 
   }
@@ -67,12 +71,15 @@ export class LoginComponent {
   public onSubmit(values: Object): void {
     this.submitted = true;
     if ( this.form.valid ) {
-      this.login(values['account'], values['password'])
+      this.login(values['account'], values['password'],values['verification'])
     }
   }
-  
-  login(account, password) {
-    this._authService.login(account, password)
+  changeImg(){
+    let data=new Date().getTime()
+    this.imgUrl="http://172.16.7.3:8060/uaa/code/image"+'?'+data;
+} 
+  login(account, password,verification) {
+    this._authService.login(account, password,verification)
     .mergeMap(res => {
       if ( res && !res.error ) {
         setStorage({
