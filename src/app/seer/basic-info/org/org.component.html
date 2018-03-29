@@ -1,6 +1,8 @@
 <div class="row">
   <div class="col-sm-4">
+    
     <seer-collapse-card [title]="treeTitle" baCardClass="with-scroll">
+      <h2 class="col-sm-12 seerTitle">国汇财富投资管理（大连）股份有限公司</h2>
       <div class="col-sm-12">
         <seer-tree
           (notify)="onNotify($event) "
@@ -17,14 +19,18 @@
     <seer-collapse-card [title]="tableTitle" baCardClass="with-scroll">
       <div class="form-group ">
         <div class="row">
-          <label for="idNumber" class="col-sm-2 control-label" style="text-align:center; height:35px; line-height:35px;">机构名称</label>
+          <label for="idNumber" class="col-sm-0 control-label" style="text-align:center; height:35px; line-height:35px;"></label>
 
           <div class="col-sm-3">
-            <input type="text" class="form-control" id="department" placeholder="部门"  [(ngModel)]="info.departmentName" disabled>
+            <!-- <input type="text" class="form-control department" id="department" placeholder="部门"  [(ngModel)]="info.departmentName" disabled> -->
+            <!-- <h3 clasa='department'>{{info.departmentName}}</h3> -->
+            <div class='department'>{{info.departmentName}}</div>
           </div>
-          <label for="idNumber" class="col-sm-2  col-md-2 control-label" style="text-align:center; height:35px; line-height:35px;">机构负责人</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="departmentLeader" placeholder="机构负责人" [(ngModel)]="info.departmentLeader" disabled>
+          <!-- <h3 [(ngModel)]="info.departmentName" ></h3> -->
+          <!-- <label for="idNumber" class="col-sm-2  col-md-2 control-label" style="text-align:center; height:35px; line-height:35px;">机构负责人:</label> -->
+          <div class="col-sm-4 departmentLeader">
+            <!-- <input type="text" class="form-control" id="departmentLeader" placeholder="机构负责人" [(ngModel)]="info.departmentLeader" disabled> -->
+            负责人:{{info.departmentLeader}}
           </div>
         </div>
       </div>
@@ -68,8 +74,6 @@
       </seer-collapse-card>
     </seer-collapse-card>
   </div>
-  <timepicker [(ngModel)]="mytime"></timepicker>
-  <pre class="alert alert-info">Time is: {{mytime}}</pre>
 </div>
 <div dynamic-component></div>
 

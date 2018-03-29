@@ -28,6 +28,7 @@ import { ModalDirective, BsModalService } from 'ngx-bootstrap/modal';
 import { User } from "../../model/auth/user";
 import {DELETE, UPDATE, CONFIG_LEADER} from "../../common/seer-table/seer-table.actions";
 import {isNullOrUndefined} from "util";
+import { colorHelper } from "app/theme/theme.constants";
 
 
 @Component({
@@ -54,10 +55,11 @@ export class OrgComponent implements OnDestroy{
     departmentLeader: '',
     departLeaderId: '',
     pid: '',
-    pids: ''
+    pids: '',
   };
   cacheMemory = '1';
   flag: string;
+  root: any = {};
 
 
   mytime: Date = new Date();
@@ -73,12 +75,13 @@ export class OrgComponent implements OnDestroy{
     { key:'empName', label:'姓名' },
     { key:'phone', label:'联系方式' },
     { key:'position', label:'职位' },
+    { key:'departmentName', label:'所属机构' },
   ];
   pageInfo = {
     pageNum: 1,
     pageSize: 100000,
     total: 1000,
-    departmentId: 1,
+    departmentId: '',
     globalSearch: '',
     sortBy: ''
   };
@@ -117,7 +120,7 @@ export class OrgComponent implements OnDestroy{
       this._state.subscribe("orgStaffState", a => {
         this.getStaffsByOrgId(this.staffId);
       })
-  }
+  } 
 
   ngOnInit() {
     // 初始化树结构
@@ -143,6 +146,16 @@ export class OrgComponent implements OnDestroy{
   getOrganizations() {
     this.service.getOrganizations()
       .then((result) => {
+        console.log(result.data)
+        result.data.some((x, i) => {
+          if(x.pids === '') {
+            console.log(i);
+            result.data[i].isRoot = true;
+            return this.root = x;
+          }
+        });
+        console.log(result.data);
+        this.info.departmentName =this.root.departmentName;
         let nodes = json2Tree(result.data, {parentId:'pid',children:'children', id: 'departmentId'},[{origin:'departmentName',replace:'name'}, {origin: 'departmentId', replace: 'id'}]);
         function addIcon (param) {
           param.map( org => {
@@ -160,6 +173,7 @@ export class OrgComponent implements OnDestroy{
         nodes.map(rootNode=>rootNode['expanded']=true);
         console.log(nodes);
         this.treeNode = nodes;
+        
     }).catch(err => {
         console.log(err);
     });
@@ -210,8 +224,9 @@ export class OrgComponent implements OnDestroy{
         this._router.navigate([`../../staff-manage/edit/${data.id}`], {relativeTo: this._activatedRoute});
         break;
       case 'config_leader':
+      console.log(data)
         this.cacheLeader = data.empName;
-        this.configDepartLeader({departmentId: this.cacheMemory, id: message.data.id});
+        this.configDepartLeader({departmentId: this.cacheMemory, departmentLeader: message.data.id});
         break;
       case 'delete':
         this._dialogService.confirm('确定删除吗？')
@@ -268,7 +283,7 @@ export class OrgComponent implements OnDestroy{
    * 组织树通知
    * */
   onNotify($event){
-
+   
     if($event.eventName == "onFocus"){
 
       /* 获取组织的名称及其领导 */
@@ -300,10 +315,12 @@ export class OrgComponent implements OnDestroy{
         });
 
         if($event.node.data.departmentLeader) {
+          console.log($event.node.data.departmentLeader);
           this.service.getStaffInfo($event.node.data.departmentLeader)
             .then( result => {
+          
               console.log(result);
-              if(result.data.sysEmployer.empName) {
+              if(result.data.sysEmployer && result.data.sysEmployer.empName) {
                 this.info.departmentLeader = result.data.sysEmployer.empName;
               }
               else {
@@ -370,7 +387,7 @@ export class OrgComponent implements OnDestroy{
 
     /* 移动组织机构*/
     if ( $event.eventName == TREE_EVENTS.onMoveNode ) {
-
+      console.log($event)
       this.info.departmentName = $event.node.data.name;
       this.info.departmentId = $event.node.data.departmentId;
       this.info.departmentLeader = $event.node.data.departmentLeader ? $event.node.data.departmentLeader : '';
