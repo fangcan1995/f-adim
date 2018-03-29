@@ -50,7 +50,11 @@ export class AdvertisingComponent implements OnInit {
     {key: 'putEnv', label: '投放端',isDict:true,category:"ADVERTISING_PUTENV"},
     {key: 'icon', label: '广告图片',type:'image'},
     {key: 'url', label: '广告链接',type:'link'},
-    {key: 'createTime', label: '添加时间',type:'date-time'}
+    /*{key: 'createTime', label: '添加时间',type:'date-time'},*/
+    {key: 'effectTime', label: '开始时间',type:'date-time'},
+    {key: 'expiryTime', label: '结束时间',type:'date-time'},
+    {key: 'putStatus', label: '投放状态'},
+
   ];
   pageInfo = {
     "pageNum": 1,
@@ -141,6 +145,29 @@ export class AdvertisingComponent implements OnInit {
           this.showError(err.json().message || '设置失败');
         });
         break;
+      case 'export':
+        console.log(this.pageInfo);
+        for (let p in this.pageInfo) {
+          if(this.pageInfo[p] == '' || undefined || null) {
+            delete this.pageInfo[p];
+          }
+        }
+        this._advertisingService.exportPersonalForm(this.pageInfo).then(res => {
+          let blob = res.blob();
+          let a = document.createElement('a');
+          let url = window.URL.createObjectURL(blob);
+          a.href = url;
+          a.download = '广告列表' + '.xls';
+          a.click();
+          window.URL.revokeObjectURL(url);
+          console.log(res);
+        }).catch(err => {
+          console.log(err);
+        });
+
+        break;
+
+
     }
   }
   //高级检索

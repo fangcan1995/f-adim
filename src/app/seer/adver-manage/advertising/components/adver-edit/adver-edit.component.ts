@@ -6,6 +6,9 @@ import {Location} from "@angular/common";
 import {FileUploader, ParsedResponseHeaders, FileItem} from "ng2-file-upload";
 import {getStorage} from "../../../../../theme/libs/utils";
 import {BASE_URL,API} from "../../../../../theme/services/base.service";
+/*import { TimepickerModule } from 'ngx-bootstrap';*/
+
+
 
 import * as _ from 'lodash';
 @Component({

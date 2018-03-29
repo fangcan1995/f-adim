@@ -1,0 +1,46 @@
+@import '../../../theme/sass/conf/conf';
+
+:host /deep/ {
+  .form-group {
+
+  }
+  .btn{
+    width: 50px;
+  }
+  /*.glyphicon-chevron-down:before {
+    content: "aa";
+  }
+  .glyphicon-chevron-up:before {
+    content: "bb";
+  }*/
+  .btn-link {
+    font-weight: 400;
+    color: #337ab7;
+    border-radius: 0;
+
+  }
+  .glyphicon {
+    border-style: solid;
+    display: block;
+    width: 9px;
+    height: 9px;
+    position: relative;
+    border-width: 3px 0px 0 3px;
+  }
+  .glyphicon-chevron-down {
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+    top: 0px;
+    left: 20px;
+    color: #337ab7;
+  }
+  .glyphicon-chevron-up {
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    top: 12px;
+    left: 20px;
+    color: #337ab7;
+  }
+}
+
+
