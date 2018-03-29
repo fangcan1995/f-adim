@@ -13,26 +13,13 @@ import {SERVER} from "../../const";
 import { User } from "../../model/auth/user";
 import {Result} from "../../model/result.class";
 import * as _ from 'lodash';
+import { getStorage } from '../../../theme/libs';
 @Injectable()
 export class InfoPublishService extends BaseService<any>{
     private orgManageUrl = SERVER + '/basicinfo';
     private userManageUrl = SERVER + '/sys/user';
     private roleManageUrl = SERVER+'/sys/role';
-    // private headers = new Headers({'Content-Type': 'application/json'});
-    /*mockData = [
-        {"roleName":"小花","validState":"15800624187","operateTime":"提前还款","number":"333","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"01"},
-        {"roleName":"小草","validState":"15800624187","operateTime":"提前还款","number":"333","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"02"},
-        {"roleName":"小人","validState":"15800624187","operateTime":"提前还款","number":"333","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"03"},
-        {"roleName":"小鱼","validState":"15800624187","operateTime":"提前还款","number":"333","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"04"},
-        {"roleName":"小美","validState":"15800624187","operateTime":"提前还款","number":"333","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"05"},
-        {"roleName":"小丑","validState":"15800624187","operateTime":"提前还款","number":"333","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"06"},
-        {"roleName":"小天","validState":"15800624187","operateTime":"提前还款","number":"333","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"07"},
-        {"roleName":"小年","validState":"15800624187","operateTime":"提前还款","number":"333","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"08"},
-        {"roleName":"小蒙","validState":"15800624187","operateTime":"提前还款","number":"333","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"09"},
-        {"roleName":"小狗","validState":"15800624187","operateTime":"提前还款","number":"333","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"10"},
-        {"roleName":"小蒙","validState":"15800624187","operateTime":"提前还款","number":"333","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"09"},
-        {"roleName":"小狗","validState":"15800624187","operateTime":"提前还款","number":"333","createTime":"2017-02-07 10:20:28","createUser":"me","sendStage":"已发送","sendDate":"2017-02-07 10:20:28","msgId":"10"}
-    ]*/
+    
   constructor(
     protected _httpInterceptorService:HttpInterceptorService
   ) {
@@ -45,9 +32,12 @@ export class InfoPublishService extends BaseService<any>{
         return Promise.reject(error.message || error);
     }
 
-    apiTypeUrl = 'http://172.16.7.4:8020/notice/affiche/type';
-    apiInfoUrl = 'http://172.16.7.4:8020/notice/affiche/info';
-    typeToInfo = 'http://172.16.7.4:8020/notice/affiche/typetoinfo';
+    apiTypeUrl = 'http://172.16.1.221:9080/affiche/type';
+    apiInfoUrl = 'http://172.16.1.221:9080/affiche/info';
+    typeToInfo = 'http://172.16.1.221:9080/affiche/typetoinfo';
+
+    //access_token = getStorage({ key: 'token'}).access_token;
+    access_token = '2c7cf0eb-0003-40c3-a6e7-b5d22a7492c5';
     /* ---------------------------------------------------- */
     /* 此处为左侧树结构（栏目）模块的方法 */
     /* ---------------------------------------------------- */
@@ -56,7 +46,7 @@ export class InfoPublishService extends BaseService<any>{
      * 查询全部栏目树
      * */
     getAllColumnTree(): Promise<ResModel> {
-        return this._httpInterceptorService.request('GET', this.apiTypeUrl, {}).toPromise();
+        return this._httpInterceptorService.request('GET', `${this.apiTypeUrl}`, {}).toPromise();
       }
 
 
