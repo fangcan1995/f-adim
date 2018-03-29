@@ -36,6 +36,7 @@ import { SeerSimpleTableComponent } from './seer-simple-table';
 import { SeerCollapseCardComponent } from './seer-collapse-card';
 import { SeerContentTopComponent } from './seer-content-top';
 import { SeerDatepickerComponent } from './seer-datepicker';
+import { SeerTimepickerComponent } from './seer-timepicker';
 import { SeerPaginationComponent } from './seer-pagination';
 import { SeerCoolCheckboxComponent } from './seer-cool-checkbox';
 import { SeerAddressPickerComponent } from './seer-address-picker';
@@ -47,13 +48,14 @@ import { SeerAddressPickerComponent } from './seer-address-picker';
     DictTranslateDirective,
     SeerEditorComponent,
     SeerPrintComponent,
-    
+
     SeerFilterComponent,
     SeerTableComponent,
     SeerSimpleTableComponent,
     SeerCollapseCardComponent,
     SeerContentTopComponent,
     SeerDatepickerComponent,
+    SeerTimepickerComponent,
     SeerPaginationComponent,
     SeerCoolCheckboxComponent,
     SeerAddressPickerComponent,
@@ -106,6 +108,7 @@ import { SeerAddressPickerComponent } from './seer-address-picker';
     SeerCollapseCardComponent,
     SeerContentTopComponent,
     SeerDatepickerComponent,
+    SeerTimepickerComponent,
     SeerPaginationComponent,
     SeerCoolCheckboxComponent,
     SeerAddressPickerComponent,

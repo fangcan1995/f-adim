@@ -99,7 +99,7 @@ export class TargetComponent {
   //初始化数据
   getList(): void{
     this.service.getList(this.pageInfo).then((res: any) => {
-      console.log(res.data.list);
+      console.log(res.data);
       this.pageInfo.pageNum=res.data.pageNum;  //当前页
       this.pageInfo.pageSize=res.data.pageSize; //每页记录数
       this.pageInfo.total=res.data.total; //记录总数

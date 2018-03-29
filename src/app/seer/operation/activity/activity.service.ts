@@ -114,7 +114,8 @@ export class ActivityService extends BaseService<ResModel>{
       "activityStatus": "4",
     },
   ];
-  accessToken = getStorage({ key: 'token' }).access_token;
+  //accessToken = getStorage({ key: 'token' }).access_token;
+  accessToken=`67a910de-54e6-497a-b05c-c4b328924b1e`;
   // 1 获取数据列表
   getList(params?):Promise<ResModel> {
     console.log(this.accessToken);
