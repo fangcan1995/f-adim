@@ -8,8 +8,16 @@ import {
 	ResModel,
 } from '../../../theme/services';
 import { ResourceService } from '../resource/resource.service';
+
+
+const usersUrl = 'http://172.16.1.234:9080/users';
+
+
 @Injectable()
+
+
 export class UserService extends BaseService<any> {
+
   constructor(
   	protected _httpInterceptorService:HttpInterceptorService,
     private _roleService:RoleService,
@@ -21,9 +29,11 @@ export class UserService extends BaseService<any> {
     return this._roleService.getList({ pageSize: 10000 })
   }
   getUsersWithStaffsWithOrgs(): Promise<ResModel> {
+    //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ROLES']}/userTree`).toPromise();
     return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ROLES']}/userTree`).toPromise();
   }
   resetPassword(params): Promise<ResModel> {
+    //return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['USERS']}/password`, params).toPromise();
     return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['USERS']}/password`, params).toPromise();
   }
 }

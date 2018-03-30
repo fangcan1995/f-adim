@@ -8,7 +8,7 @@ export class AdvertisingService extends BaseService<ResModel>{
 
   }
   url=`http://172.16.1.221:9080/advertisings`  //临时
-  accessToken=`67a910de-54e6-497a-b05c-c4b328924b1e`;
+  accessToken=`1596d41c-3a90-4115-ba5c-f9d8bce2f576`;
   // 1 获取数据列表
   getList(params?):Promise<ResModel> {
 
@@ -47,12 +47,12 @@ export class AdvertisingService extends BaseService<ResModel>{
     //return this._httpInterceptorService.request('PATCH', `${BASE_URL}/${API['ADVERTISINGS']}`, params).toPromise();
   }
   //7导出 excel
-  exportPersonalForm(params): Promise<any> {
+  /* exportPersonalForm(params): Promise<any> {
     let url='http://172.16.1.221:9080/advertisings?access_token=67a910de-54e6-497a-b05c-c4b328924b1e'  //临时
     return this.http.get(`${url}`, new RequestOptions({
       responseType: ResponseContentType.Blob,
       search: params
     })).toPromise();
-  }
+  } */
 
 }

@@ -5,6 +5,7 @@ import {SharedModule} from "../../common/shared.module";
 import {routing} from "./advertising.routing";
 import {AdvertisingComponent} from "./advertising.component";
 import {AdverEditComponent} from "./components/adver-edit/adver-edit.component";
+import {AdverDetailComponent} from "./components/adver-detail/adver-detail.component";
 import {AdvertisingService} from "./advertising.service";
 import {FileUploadModule} from "ng2-file-upload";
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +24,7 @@ import {NgxCurrencyModule} from "ngx-currency";
   declarations: [
     AdvertisingComponent,
     AdverEditComponent,
+    AdverDetailComponent,
   ],
   providers: [
     AdvertisingService,

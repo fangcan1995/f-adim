@@ -59,6 +59,7 @@ import { SeerAddressPickerComponent } from './seer-address-picker';
     SeerPaginationComponent,
     SeerCoolCheckboxComponent,
     SeerAddressPickerComponent,
+
   ],
   imports: [
     CommonModule,
