@@ -3,7 +3,7 @@ import {Router, ActivatedRoute} from "@angular/router";
 import * as _ from 'lodash';
 import {RiskEvalService} from './risk-eval.service';
 import {SeerDialogService} from '../../../theme/services/seer-dialog.service';
-import {UPDATE, DELETE} from '../../common/seer-table/seer-table.actions';
+import {PREVIEW,UPDATE, DELETE} from '../../common/seer-table/seer-table.actions';
 import {SeerMessageService} from "../../../theme/services/seer-message.service";
 
 @Component({
@@ -12,11 +12,11 @@ import {SeerMessageService} from "../../../theme/services/seer-message.service";
 })
 export class RiskEvalComponent implements OnInit {
 
-  hasGlobalFilter = true;
+  hasGlobalFilter = false;
   public forbidSaveBtn: boolean = true;
-  filters = [
+  /*filters = [
     {key: 'examName', label: '测评题目', type: 'input.text'}
-  ];
+  ];*/
   riskEvals = [];
   titles = [
     {key: 'examName', label: '测评题目'},
@@ -63,7 +63,7 @@ export class RiskEvalComponent implements OnInit {
       this.pageInfo.pageSize = res.data.pageSize; //每页记录数
       this.pageInfo.total = res.data.total; //记录总数
       this.riskEvals = res.data.list;
-      this.riskEvals = _.map(this.riskEvals, r => _.set(r, 'actions', [UPDATE, DELETE]));
+      this.riskEvals = _.map(this.riskEvals, r => _.set(r, 'actions', [PREVIEW,UPDATE, DELETE]));
     }, error => this.errorMessage = <any>error);
   }
 
@@ -74,6 +74,9 @@ export class RiskEvalComponent implements OnInit {
     switch (type) {
       case 'create':
         this._router.navigate(['add'], {relativeTo: this._route});
+        break;
+      case 'update':
+        this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
         break;
       case 'update':
         this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});

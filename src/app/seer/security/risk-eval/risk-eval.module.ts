@@ -6,6 +6,7 @@ import { routing } from './risk-eval.routing';
 import { RiskEvalService } from "./risk-eval.service";
 import { RiskEvalComponent } from './risk-eval.component';
 import { RiskEvalEditComponent } from './components/risk-eval-edit/risk-eval-edit.component';
+import { RiskEvalDetailComponent } from './components/risk-eval-detail/risk-eval-detail.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { RiskEvalEditComponent } from './components/risk-eval-edit/risk-eval-edi
   declarations: [
     RiskEvalComponent,
     RiskEvalEditComponent,
+    RiskEvalDetailComponent
   ],
   providers: [
     RiskEvalService,
