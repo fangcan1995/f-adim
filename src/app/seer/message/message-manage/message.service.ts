@@ -1,15 +1,21 @@
 import {Injectable} from "@angular/core";
-import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel} from "../../../theme/services"
-
+import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel} from "../../../theme/services";
+import { parseJson2URL, getStorage } from '../../../theme/libs/utils';
 @Injectable()
 export class MessageService extends BaseService<ResModel>{
   constructor(protected _httpInterceptorService: HttpInterceptorService,) {
     super(_httpInterceptorService);
     //this.setApi('MESSAGES');
   }
+  accessToken = getStorage({ key: 'token' }).access_token;
+
+  url=`http://172.16.1.234:9080/messages`  //临时
+
   // 1 获取消息列表
   getDatas(params:any): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MESSAGES']}`,params).toPromise();
+    console.log(this.accessToken);
+    return this._httpInterceptorService.request('GET', `${this.url}`,params).toPromise();
+    //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MESSAGES']}`,params).toPromise();
   }
   //2 获取一条消息
   getMessageById(id: string): Promise<ResModel> {

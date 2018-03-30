@@ -2,7 +2,7 @@ import { Routes, RouterModule }  from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 import {AdvertisingComponent} from "./advertising.component";
 import {AdverEditComponent} from "./components/adver-edit/adver-edit.component";
-
+import {AdverDetailComponent} from "./components/adver-detail/adver-detail.component";
 const routes: Routes = [
   {
     path: '',
@@ -18,6 +18,10 @@ const routes: Routes = [
       {
         path: 'edit/:id',
         component: AdverEditComponent,
+      },
+      {
+        path: 'detail/:id',
+        component: AdverDetailComponent,
       },
     ]
   }
