@@ -40,6 +40,7 @@ export class DictEditComponent implements OnInit {
         this.forbidSaveBtn = false;
       })
       .catch(err => {
+          console.log(err);
         this.showError(err.msg || '获取字典信息失败')
       });
     } else if ( this.editType === 'add' ) {
@@ -67,18 +68,24 @@ export class DictEditComponent implements OnInit {
         })
         .catch(err => {
           this.forbidSaveBtn = false;
-          this.showError(err.msg || '更新失败')
+          const msg = JSON.parse(err.msg);
+          this.showError(msg.message || '更新失败')
         })
       } else {
-        this._dictService.postOne(this.dict)
+        this._dictService.putOne('', this.dict)
         .then(res => {
           this.forbidSaveBtn = false;
           this._dictService.getDicts(true)
           this.showSuccess(res.msg || '保存成功')
+          .onClose()
+          .subscribe(() => {
+            this._router.navigate(['/system/dict']);
+          });
         })
         .catch(err => {
           this.forbidSaveBtn = false;
-          this.showError(err.msg || '保存失败')
+          const msg = JSON.parse(err.msg);
+          this.showError(msg.message || '保存失败')
         })
       }
       
