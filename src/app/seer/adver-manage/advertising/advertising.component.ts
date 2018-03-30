@@ -179,7 +179,7 @@ export class AdvertisingComponent implements OnInit {
             delete this.pageInfo[p];
           }
         }
-        this._advertisingService.exportPersonalForm(this.pageInfo).then(res => {
+        /* this._advertisingService.exportPersonalForm(this.pageInfo).then(res => {
           let blob = res.blob();
           let a = document.createElement('a');
           let url = window.URL.createObjectURL(blob);
@@ -190,7 +190,7 @@ export class AdvertisingComponent implements OnInit {
           console.log(res);
         }).catch(err => {
           console.log(err);
-        });
+        }); */
 
         break;
 
