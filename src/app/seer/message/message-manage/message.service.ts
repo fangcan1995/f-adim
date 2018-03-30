@@ -19,23 +19,29 @@ export class MessageService extends BaseService<ResModel>{
   }
   //2 获取一条消息
   getMessageById(id: string): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MESSAGES']}/${id}`).toPromise();
+
+    return this._httpInterceptorService.request('GET', `${this.url}/${id}`).toPromise();
+    //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MESSAGES']}/${id}`).toPromise();
   }
  //3 新增
   postOne(params): Promise<ResModel> {
-    return this._httpInterceptorService.request('POST', `${BASE_URL}/${API['MESSAGES']}`, params).toPromise();
+    return this._httpInterceptorService.request('POST', `${this.url}`,params).toPromise();
+    //return this._httpInterceptorService.request('POST', `${BASE_URL}/${API['MESSAGES']}`, params).toPromise();
   }
   //4 修改
   putOne(params):  Promise<ResModel> {
-    return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['MESSAGES']}`, params).toPromise();
+    return this._httpInterceptorService.request('PUT', `${this.url}`,params).toPromise();
+    //return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['MESSAGES']}`, params).toPromise();
   }
   //5 删除
   deleteMessage(id: string): Promise<ResModel> {
-    return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${API['MESSAGES']}/${id}`).toPromise();
+    return this._httpInterceptorService.request('DELETE', `${this.url}/${id}`).toPromise();
+    //return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${API['MESSAGES']}/${id}`).toPromise();
   }
   //6 逻辑删除
   deleteLogicalMessage(id: string): Promise<ResModel> {
-    return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${API['MESSAGES']}/logical/${id}`).toPromise();
+    return this._httpInterceptorService.request('DELETE', `${this.url}/logical/${id}`).toPromise();
+    //return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${API['MESSAGES']}/logical/${id}`).toPromise();
   }
   //7 获取人员列表
   getUsers(usersType:string,params:any): Promise<ResModel> {
