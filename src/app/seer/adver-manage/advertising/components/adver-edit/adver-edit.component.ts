@@ -1,4 +1,4 @@
-import {Component, OnInit,OnChanges,Input, ViewChild} from '@angular/core';
+import {Component, OnInit,OnChanges,Input, ViewChild,TemplateRef} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 import {AdvertisingService} from "../../advertising.service";
@@ -6,6 +6,7 @@ import {Location} from "@angular/common";
 import {FileUploader, ParsedResponseHeaders, FileItem} from "ng2-file-upload";
 import {getStorage} from "../../../../../theme/libs/utils";
 import {BASE_URL,API} from "../../../../../theme/services/base.service";
+import {BsModalRef, BsModalService} from "ngx-bootstrap";//edit by lily
 /*import { TimepickerModule } from 'ngx-bootstrap';*/
 
 
@@ -21,6 +22,10 @@ export class AdverEditComponent implements OnInit{
   public _editType: string = 'add';
   public uploadDisabled:boolean=false;
   public forbidSaveBtn: boolean = true;
+
+  effectTime;//开始时间
+  expiryTime; //结束时间
+  //putStatus; //投放状态
   //上传图片相关
 
   fileApi=`${BASE_URL}/${API['ADVERTISINGS']}`; //上传接口
@@ -35,6 +40,7 @@ export class AdverEditComponent implements OnInit{
               private _messageService: SeerMessageService,
               private _activatedRoute: ActivatedRoute,
               private _router: Router,
+              private modalService: BsModalService,
               private _location: Location) {
     //表单验证
    /* this.form = new FormGroup({
@@ -72,6 +78,7 @@ export class AdverEditComponent implements OnInit{
             this.showError(err.msg || '获取失败');
           });
         } else if (this._editType === 'add') {
+
           this.forbidSaveBtn = false;
           // 初始化定义uploader变量,用来配置input中的uploader属性
           let headers = [{name: 'Authorization', value: `${this.tokenType} ${this.accessToken}`}];
@@ -175,5 +182,9 @@ export class AdverEditComponent implements OnInit{
       icon: 'fa fa-times-circle',
       autoHideDuration: 3000,
     })
+  }
+  public modalRef: BsModalRef;
+  public openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 }

@@ -1,0 +1,99 @@
+<seer-content-top>
+  <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
+  <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn || !validationForm.form.valid || !advertising.icon" (click)="handleSaveBtnClick()">保存</button>
+</seer-content-top>
+<div class="widgets">
+  <div class="row justify-content-center">
+    <div class="col-sm-12">
+      <seer-collapse-card cardTitle="广告基本信息" cardClass="with-scroll" [canCollapse]=false>
+        <form class="form-horizontal" #validationForm="ngForm">
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <div class="row">
+                <label  class="col-sm-2 col-lg-1 control-label">广告标题</label>
+                <div class="col-sm-6">
+                  <label class="form-control">{{advertising.title}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12">
+              <div class="row">
+                <label  class="col-sm-2 col-lg-1 control-label">广告类型</label>
+                <div class="col-sm-6">
+                  <label class="form-control" dict-trans [key]="'ADVERTISING_ADTYPE'" [value]="advertising.adType"></label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12">
+              <div class="row">
+                <label  class="col-sm-2 col-lg-1 control-label">投放平台</label>
+                <div class="col-sm-6">
+                  <label class="form-control" dict-trans [key]="'ADVERTISING_PUTENV'" [value]="advertising.putEnv"></label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12">
+              <div class="row">
+                <label  class="col-sm-2 col-lg-1 control-label">开始时间</label>
+                <div class="col-sm-6">
+                  <label class="form-control">{{advertising.effectTime | date:'yyyy-MM-dd HH:mm:ss'}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12">
+              <div class="row">
+                <label  class="col-sm-2 col-lg-1 control-label">结束时间</label>
+                <div class="col-sm-6">
+                  <label class="form-control">{{advertising.expiryTime | date:'yyyy-MM-dd HH:mm:ss'}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12">
+              <div class="row">
+                <label  class="col-sm-2 col-lg-1 control-label">修改时间</label>
+                <div class="col-sm-6">
+                  <label class="form-control">{{advertising.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12">
+              <div class="row">
+                <label  class="col-sm-2 col-lg-1 control-label">修改用户</label>
+                <div class="col-sm-6">
+                  <label class="form-control">{{advertising.updateUser}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12">
+              <div class="row">
+                <label class="col-sm-2 col-lg-1 control-label">访问链接</label>
+                <div class="col-sm-6">
+                  <label class="form-control">{{advertising.url}}</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-sm-12">
+              <div class="row">
+                <label  class="col-sm-2 col-lg-1 control-label">广告图片</label>
+                <div class="col-sm-6">
+                  <img src="{{advertising.icon}}"
+                       style="display:block;max-width:450px;margin-bottom: 10px"
+                       *ngIf="advertising.icon"
+                       (click)="openModal(image)"
+                  >
+                  <ng-template #image>
+                    <div class="modal-body">
+                      <img src="{{advertising.icon}}" style="width:100%">
+                    </div>
+                  </ng-template>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </seer-collapse-card>
+    </div>
+  </div>
+</div>

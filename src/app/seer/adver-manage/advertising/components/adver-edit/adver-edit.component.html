@@ -38,7 +38,7 @@
             </div>
             <div class="form-group col-sm-12">
               <div class="row">
-                <label for="putEnv" class="col-sm-2 col-lg-1 control-label">投放端</label>
+                <label for="putEnv" class="col-sm-2 col-lg-1 control-label">投放平台</label>
                 <div class="col-sm-6">
                   <select  class="form-control" id="putEnv" name="putEnv"  #putEnv="ngModel" required
                            dict-select
@@ -54,28 +54,60 @@
             </div>
             <div class="form-group col-sm-12">
               <div class="row">
-                <label for="url" class="col-sm-2 col-lg-1 control-label">广告链接</label>
+                <label for="url" class="col-sm-2 col-lg-1 control-label">开始时间</label>
+                <div class="col-sm-6">
+                  <seer-datepicker
+                    [(date)]="advertising.effectTime"
+                    [name]="effectTime"
+                    [dateFormatingRules]="'yyyy-MM-dd hh:mm:ss'"
+                    [disabled]="allowChange"
+                    [readonly]="readonly"
+                  >
+                  </seer-datepicker>
+
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12">
+              <div class="row">
+                <label for="url" class="col-sm-2 col-lg-1 control-label">结束时间</label>
+                <div class="col-sm-6">
+                  <seer-datepicker
+                    [(date)]="advertising.expiryTime"
+                    [name]="expiryTime"
+                    [dateFormatingRules]="'yyyy-MM-dd hh:mm:ss'"
+                    [disabled]="allowChange"
+                    [readonly]="readonly"
+                  >
+                  </seer-datepicker>
+
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12">
+              <div class="row">
+                <label for="url" class="col-sm-2 col-lg-1 control-label">访问链接</label>
                 <div class="col-sm-6">
                   <input type="text" class="form-control" name="url" id="url" [(ngModel)]="advertising.url" #url="ngModel" url />
                   <p *ngIf="url.errors?.url&&!url.pristine" class="text-danger">请输入正确的网址</p>
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-12">
-              <div class="row">
-                <label for="url" class="col-sm-2 col-lg-1 control-label">时间</label>
-                <div class="col-sm-6">
 
-                  <!--<timepicker [(ngModel)]="myTime" [showMinutes]="showMin" [showSeconds]="showSec"></timepicker>-->
-                  <seer-timepicker></seer-timepicker>
-                </div>
-              </div>
-            </div>
             <div class="form-group col-sm-12">
               <div class="row">
                 <label  class="col-sm-2 col-lg-1 control-label">广告图片</label>
                 <div class="col-sm-6">
-                  <img src="{{advertising.icon}}" style="display:block;width:200px;margin-bottom: 10px" *ngIf="advertising.icon">
+                  <img src="{{advertising.icon}}"
+                       style="display:block;max-width:450px;margin-bottom: 10px"
+                       *ngIf="advertising.icon"
+                       (click)="openModal(image)"
+                  >
+                  <ng-template #image>
+                    <div class="modal-body">
+                      <img src="{{advertising.icon}}" style="width:100%">
+                    </div>
+                  </ng-template>
                   <input type="file" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)" [disabled]="uploadDisabled">
                 </div>
               </div>

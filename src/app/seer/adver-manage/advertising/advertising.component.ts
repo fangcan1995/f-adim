@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import * as _ from 'lodash';
 import {SeerDialogService, SeerMessageService,} from '../../../theme/services';
 import {AdvertisingService} from "./advertising.service";
-import {UPDATE,DELETE,ENABLE,DISABLE} from "../../common/seer-table/seer-table.actions";
+import {PREVIEW,UPDATE,DELETE,ENABLE,DISABLE} from "../../common/seer-table/seer-table.actions";
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
 @Component({
   templateUrl: './advertising.component.html',
@@ -13,25 +13,27 @@ export class AdvertisingComponent implements OnInit {
   hasGlobalFilter = true;
   filters = [
     {
-      key: 'adType', label: '广告类型', type: 'select',
-      options: [
-        {content: '请选择'},
-        {value: '0', content: 'banner'},
-        {value: '1', content: '分享邀请'}
-      ]
+      key: 'title',
+      label: '广告标题',
+      type: 'input.text',
     },
     {
-      key: 'putEnv', label: '投放端', type: 'select',
-      options: [
-        {content: '请选择'},
-        {value: '0', content: 'PC端'},
-        {value: '1', content: '移动端'},
-        {value: '1', content: '全平台'}
-      ]
+      key: 'adType',
+      label: '广告类型',
+      type: 'select',
+      isDict: true,
+      category: 'ADVERTISING_ADTYPE'
     },
     {
-      key: 'createTime',
-      label: '添加时间',
+      key: 'putEnv',
+      label: '投放平台',
+      type: 'select',
+      isDict: true,
+      category: 'ADVERTISING_PUTENV'
+    },
+    {
+      key: 'effectTime',
+      label: '开始时间',
       groups: [
         {
           type: 'datepicker',
@@ -41,13 +43,33 @@ export class AdvertisingComponent implements OnInit {
         },
       ],
       groupSpaces: ['至']
-    }
+    },{
+      key: 'expiryTime',
+      label: '结束时间',
+      groups: [
+        {
+          type: 'datepicker',
+        },
+        {
+          type: 'datepicker',
+        },
+      ],
+      groupSpaces: ['至']
+    },
+    {
+      key: 'putStatus',
+      label: '投放状态',
+      type: 'select',
+      isDict: true,
+      category: 'ADVERTISING_PUTSTATUS'
+    },
+
   ];
   ads = [];
   titles = [
     {key: 'title', label: '广告标题'},
     {key: 'adType', label: '广告类型',isDict:true,category:"ADVERTISING_ADTYPE"},
-    {key: 'putEnv', label: '投放端',isDict:true,category:"ADVERTISING_PUTENV"},
+    {key: 'putEnv', label: '投放平台',isDict:true,category:"ADVERTISING_PUTENV"},
     {key: 'icon', label: '广告图片',type:'image'},
     {key: 'url', label: '广告链接',type:'link'},
     /*{key: 'createTime', label: '添加时间',type:'date-time'},*/
@@ -64,8 +86,10 @@ export class AdvertisingComponent implements OnInit {
     "globalSearch": "",
     "adType": "",
     "putEnv": "",
-    "createTimeStart": "",
-    "createTimeEnd": "",
+    "effectTimeStart": "",
+    "effectTimeEnd": "",
+    "expiryTimeStart": "",
+    "expiryTimeEnd": "",
   };
 
   constructor(
@@ -83,7 +107,6 @@ export class AdvertisingComponent implements OnInit {
   getList() {
     this._advertisingService.getList(this.pageInfo)
       .then(res => {
-        //console.log(res);
         this.pageInfo.pageNum = res.data.pageNum;  //当前页
         this.pageInfo.pageSize = res.data.pageSize; //每页记录数
         this.pageInfo.total = res.data.total; //记录总数
@@ -91,11 +114,11 @@ export class AdvertisingComponent implements OnInit {
         //this.ads=_.map(this.ads,t =>_.set(t, 'actions', [DISABLE, UPDATE, DELETE]));
         this.ads = _.map(this.ads, t => {
            if(t.status==0){
-             return _.set(t, 'actions', [DISABLE, UPDATE, DELETE]);
+             return _.set(t, 'actions', [PREVIEW,UPDATE, DELETE]);
           }else if(t.status ==1){
-             return _.set(t, 'actions', [ENABLE, UPDATE, DELETE]);
+             return _.set(t, 'actions', [PREVIEW,UPDATE, DELETE]);
            }else{
-             return _.set(t, 'actions', [UPDATE, DELETE]);
+             return _.set(t, 'actions', [PREVIEW,UPDATE, DELETE]);
            }
         })
       }).catch(err=>{
@@ -116,6 +139,9 @@ export class AdvertisingComponent implements OnInit {
       case 'update':
         this._router.navigate([`edit/${message.data.id}`], {relativeTo: this._activatedRoute});
         break;
+      case 'preview':
+        this._router.navigate([`detail/${message.data.id}`], {relativeTo: this._activatedRoute});
+        break;
       case 'delete':
         this._dialogService.confirm('确定删除吗？')
           .subscribe(action => {
@@ -129,7 +155,8 @@ export class AdvertisingComponent implements OnInit {
             }
           });
         break;
-      case 'enable':
+
+      /*case 'enable':
         this._advertisingService.patchOne(message.data.id,{"id":message.data.id,"status":0}).then(res=>{
           this.showSuccess(data.message || '设置成功');
           this.getList();
@@ -144,9 +171,9 @@ export class AdvertisingComponent implements OnInit {
         }).catch(err => {
           this.showError(err.json().message || '设置失败');
         });
-        break;
+        break;*/
       case 'export':
-        console.log(this.pageInfo);
+        console.log('11111111111111111111111');
         for (let p in this.pageInfo) {
           if(this.pageInfo[p] == '' || undefined || null) {
             delete this.pageInfo[p];
@@ -173,17 +200,23 @@ export class AdvertisingComponent implements OnInit {
   //高级检索
   handleFiltersChanged($event) {
     let params=$event;
-    let { createTime,...otherParams } = params;
-    let createTimeStart,
-      createTimeEnd;
-    if ( _.isArray(createTime) ) {
-      createTimeStart = createTime[0] ? (formatDate(createTime[0],'YYYY-MM-DD 00:00:00')) : null;
-      createTimeEnd = createTime[1] ? (formatDate(createTime[1],'YYYY-MM-DD 23:59:59')) : null;
+    let { effectTime,expiryTime,...otherParams } = params;
+    let effectTimeStart,
+      effectTimeEnd,
+      expiryTimeStart,
+      expiryTimeEnd;
+    if ( _.isArray(expiryTime) ) {
+      effectTimeStart = effectTime[0] ? (formatDate(effectTime[0],'YYYY-MM-DD 00:00:00')) : null;
+      effectTimeEnd = effectTime[1] ? (formatDate(effectTime[1],'YYYY-MM-DD 23:59:59')) : null;
+      expiryTimeStart = effectTime[0] ? (formatDate(expiryTime[0],'YYYY-MM-DD 00:00:00')) : null;
+      expiryTimeEnd = expiryTime[1] ? (formatDate(expiryTime[1],'YYYY-MM-DD 23:59:59')) : null;
     }
     params = {
       ...otherParams,
-      createTimeStart,
-      createTimeEnd,
+      effectTimeStart,
+      effectTimeEnd,
+      expiryTimeStart,
+      expiryTimeEnd,
     }
     //console.log(params);
     this.pageInfo = params;
@@ -195,8 +228,7 @@ export class AdvertisingComponent implements OnInit {
     this.pageInfo.pageNum=$event.pageNum;
     this.getList();
   }
-  /*handleSearchBtnClicked($event) {
-  }*/
+
   showSuccess(message: string) {
     return this._messageService.open({
       message,
