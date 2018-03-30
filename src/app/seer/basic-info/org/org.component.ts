@@ -149,12 +149,10 @@ export class OrgComponent implements OnDestroy{
         console.log(result.data)
         result.data.some((x, i) => {
           if(x.pids === '') {
-            console.log(i);
             result.data[i].isRoot = true;
             return this.root = x;
           }
         });
-        console.log(result.data);
         this.info.departmentName =this.root.departmentName;
         let nodes = json2Tree(result.data, {parentId:'pid',children:'children', id: 'departmentId'},[{origin:'departmentName',replace:'name'}, {origin: 'departmentId', replace: 'id'}]);
         function addIcon (param) {
@@ -388,12 +386,28 @@ export class OrgComponent implements OnDestroy{
     /* 移动组织机构*/
     if ( $event.eventName == TREE_EVENTS.onMoveNode ) {
       console.log($event)
-      this.info.departmentName = $event.node.data.name;
-      this.info.departmentId = $event.node.data.departmentId;
-      this.info.departmentLeader = $event.node.data.departmentLeader ? $event.node.data.departmentLeader : '';
-      this.info.departLeaderId = $event.node.data.departLeaderId ? $event.node.data.departLeaderId : '';
-      this.info.pid = $event.to.parent.data.departmentId;
-      this.info.pids = $event.to.parent.data.pids + ',' + $event.to.parent.data.departmentId;
+      console.log(this.info)
+      if(!($event.to.parent.data.departmentId == $event.node.data.departmentId)){
+        const pids= $event.to.parent.data.pids.split(',')
+          pids.some(x=>{
+            if(x==$event.node.data.departmentId){
+              this.getOrganizations();
+              return this.alertError('不能移动到自己子的机构中')
+            }
+          })
+          
+          this.info.departmentName = $event.node.data.name;
+          this.info.departmentId = $event.node.data.departmentId;
+          this.info.departmentLeader = $event.node.data.departmentLeader ? $event.node.data.departmentLeader : '';
+          this.info.departLeaderId = $event.node.data.departLeaderId ? $event.node.data.departLeaderId : '';
+          this.info.pid = $event.to.parent.data.departmentId;
+          this.info.pids = $event.to.parent.data.pids + ',' + $event.to.parent.data.departmentId;
+      }
+      else{
+        this.getOrganizations();
+        return this.alertError('不能移动到自身上')
+      }
+      console.log(22222) 
       this.service.editOrganization(this.info).then((result) => {
         if(result.code == 0) {
           this.alertSuccess(result.message);
