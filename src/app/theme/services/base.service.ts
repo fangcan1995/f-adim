@@ -13,31 +13,53 @@ const BASE_PORT = 8020;
 const BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export const BASE_URL = `http://${BASE_SERVER}`;
 
+const TEST_DOMAIN = '172.16.1.234';
+const TEST_PORT = 9080;
+const TEST_SERVER = `${TEST_DOMAIN}:${TEST_PORT}`;
+export const TEST_URL = `http://${TEST_SERVER}`;
 
 
-const dictUrl = 'http://172.16.1.242:9080/dicts';
-const categoryUrl = 'http://172.16.1.242:9080/dicts/category';
 
 
-export const API = {
+export const BACKUP_API = {
   'LOGIN': 'uaa/login',
   'LOGOUT': 'uaa/oauth/logout',
   'PASSWORD': 'uaa/password',
   'SIGNUP': 'signup',
   'MEMBERS': 'member',    //会员
   'USER': 'uaa/oauth/system/info',
-  'USERS': 'permission/users',
-  'RESOURCES': 'permission/resources',
-  'DICTS': 'system/dicts',
-  'ROLES': 'permission/roles',
-  'ORGS': 'organizations',
-  'TASKS':'subject',//任务
-  'STAFFS':'permission/staffs',  //员工
-  'MESSAGES':'tool/messages',  //消息
-  'RECORDS':'tool/records', //消息发送记录
-  'TEMPLATES':'tool/templates',  //消息模版
-  'ADVERTISINGS':'notice/advertising' //广告管理
+  'USERS': 'admin/users',
+  'RESOURCES': 'admin/resources',
+  'DICTS': 'admin/dicts',
+  'ROLES': 'admin/roles',
+  'ORGS': 'admin/organizations',
+  'TASKS':'admin/subject',//任务
+  'STAFFS':'admin/staffs',  //员工
+  'MESSAGES':'admin/messages',  //消息
+  'RECORDS':'admin/records', //消息发送记录
+  'TEMPLATES':'admin/templates',  //消息模版
+  'ADVERTISINGS':'admin/advertising' //广告管理
 }
+
+export const API = {
+    'LOGIN': 'uaa/login',
+    'LOGOUT': 'uaa/oauth/logout',
+    'PASSWORD': 'uaa/password',
+    'SIGNUP': 'signup',
+    'MEMBERS': 'member',    //会员
+    'USER': 'uaa/oauth/system/info',
+    'USERS': 'users',
+    'RESOURCES': 'resources',
+    'DICTS': 'dicts',
+    'ROLES': 'roles',
+    'ORGS': 'organizations',
+    'TASKS':'subject',//任务
+    'STAFFS':'staffs',  //员工
+    'MESSAGES':'messages',  //消息
+    'RECORDS':'records', //消息发送记录
+    'TEMPLATES':'templates',  //消息模版
+    'ADVERTISINGS':'advertising' //广告管理
+  }
 
 // 此服务用于继承，请不要注入使用；如果想用更灵活的http服务请使用HttpInterceptorService，最灵活的是angular2自带的Http服务；
 @Injectable()
@@ -52,37 +74,37 @@ export class BaseService<T> {
   }
   // 获取列表
   public getList(params?: any): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${this._api}`, params).toPromise();
+    return this._httpInterceptorService.request('GET', `${TEST_URL}/${this._api}`, params).toPromise();
   }
   // 获取一条记录
   public getOne(id: string | number): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${this._api}/${id}`).toPromise();
+    return this._httpInterceptorService.request('GET', `${TEST_URL}/${this._api}/${id}`).toPromise();
     //return this._httpInterceptorService.request('GET', `${dictUrl}/${id}`).toPromise();
   }
   // 新增一条记录
   public postOne(params: any): Promise<ResModel> {
-    return this._httpInterceptorService.request('POST', `${BASE_URL}/${this._api}`, params).toPromise();
+    return this._httpInterceptorService.request('POST', `${TEST_URL}/${this._api}`, params).toPromise();
     //return this._httpInterceptorService.request('POST', `${dictUrl}`, params).toPromise();
   }
   // 修改一条记录，提供全部字段
   public putOne(id: string | number, params: any): Promise<ResModel> {
-    return this._httpInterceptorService.request('PUT', `${BASE_URL}/${this._api}/${id}`, params).toPromise();
+    return this._httpInterceptorService.request('PUT', `${TEST_URL}/${this._api}/${id}`, params).toPromise();
     //return this._httpInterceptorService.request('PUT', `${dictUrl}/${id}`, params).toPromise();
   }
   // 修改一条记录，提供部分字段
   public patchOne(id: string | number, params: any): Promise<ResModel> {
-    return this._httpInterceptorService.request('PATCH', `${BASE_URL}/${this._api}/${id}`, params).toPromise();
+    return this._httpInterceptorService.request('PATCH', `${TEST_URL}/${this._api}/${id}`, params).toPromise();
   }
   // 删除一条记录
   public deleteOne(id: string | number): Promise<ResModel> {
-    return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${this._api}/${id}`).toPromise();
+    return this._httpInterceptorService.request('DELETE', `${TEST_URL}/${this._api}/${id}`).toPromise();
     //return this._httpInterceptorService.request('DELETE', `${dictUrl}/${id}`).toPromise();
   }
 
 
 
   public getDictsFromServer(params?): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['DICTS']}`, params).toPromise();
+    return this._httpInterceptorService.request('GET', `${TEST_URL}/${API['DICTS']}`, params).toPromise();
     //return this._httpInterceptorService.request('GET', `${dictUrl}`, params).toPromise();
   }
   // 拉取字典数据

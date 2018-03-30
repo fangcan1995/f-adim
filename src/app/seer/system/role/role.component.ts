@@ -40,7 +40,7 @@ export class RoleComponent {
     this.getList();
   }
   getList() {
-    this._roleService.getList(this.params)
+    this._roleService.getRoleList(this.params)
     .then(res => {
       let data = res.data || {};
       this.roles = _.map(data.list, r => _.set(r, 'actions', [ UPDATE, DELETE ]));
@@ -49,6 +49,8 @@ export class RoleComponent {
       this.showError( err.msg || '获取角色失败' );
     });
   }
+
+
   showSuccess(message: string) {
     return this._messageService.open({
       message,
@@ -56,6 +58,7 @@ export class RoleComponent {
       autoHideDuration: 3000,
     })
   }
+
   showError(message: string) {
     return this._messageService.open({
       message,
@@ -63,6 +66,8 @@ export class RoleComponent {
       autoHideDuration: 3000,
     })
   }
+
+
   handleNotify({ type, data }): void {
     switch ( type ) {
       case 'create':
@@ -96,6 +101,8 @@ export class RoleComponent {
         break;
     }
   }
+
+  
   handleFiltersChanged($event) {
     this.tableFilters = $event;
   }
