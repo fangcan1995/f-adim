@@ -21,7 +21,10 @@ export class StaffComponent {
   filters = [
     {key: 'empName', label: '姓名', type: 'input.text'},
     {key: 'emCode', label: '员工编号', type: 'input.text'},
-    {key: 'departmentName', label: '公司团队', type: 'select'},
+    {
+      key: 'departmentName', label: '公司团队', type: 'select',
+      options: [{value: '', content: '请选择'}]
+    },
     {key: 'inviteNumStart', label: '邀请人数', type: 'input.text'},
     {key: 'inviteNumEnd', label: '-', type: 'input.text'},
     {key: 'position', label: '职位', type: 'input.text'},
@@ -49,7 +52,8 @@ export class StaffComponent {
       "empState": "",
       "entryTimeStart": "",
       "entryTimeEnd": ""
-    }
+    },
+    "Organization":[{value:'',content:''}]
   }; //分页、排序、检索
   staffs = [];// 数据
   errorMessage;
@@ -63,6 +67,7 @@ export class StaffComponent {
 
   ngOnInit() {
     this.getStaffs();
+    this.getAllOrganizations();
   }
 
   //获取列表
@@ -78,6 +83,24 @@ export class StaffComponent {
       error => this.errorMessage = <any>error);
   }
 
+  //获取所有部门信息
+  getAllOrganizations():void {
+    this.staffManageService.getAllOrganizations().then(
+      res => {
+        console.log(res)
+        // res.data.map((item,index)=>{
+        //   this.pageInfo.Organization[index].value=item.departmentId;
+        //   this.pageInfo.Organization[index].content=item.departmentName
+        // })
+        // console.log(this.pageInfo.Organization)
+        // this.pageInfo.pageNum = res.data.pageNum;  //当前页
+        // this.pageInfo.pageSize = res.data.pageSize; //每页记录数
+        // this.pageInfo.total = res.data.total; //记录总数
+        // this.staffs = res.data.list;
+        // this.staffs = _.map(this.staffs, r => _.set(r, 'actions', [UPDATE, DELETE]));
+      },
+      error => this.errorMessage = <any>error);
+  }
   //增删改
   onChange(message): void {
     let type = message.type;

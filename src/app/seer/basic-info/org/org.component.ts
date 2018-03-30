@@ -154,6 +154,7 @@ export class OrgComponent implements OnDestroy{
           }
         });
         this.info.departmentName =this.root.departmentName;
+        // this.info.departmentLeader = this.root.departmentLeader
         let nodes = json2Tree(result.data, {parentId:'pid',children:'children', id: 'departmentId'},[{origin:'departmentName',replace:'name'}, {origin: 'departmentId', replace: 'id'}]);
         function addIcon (param) {
           param.map( org => {
