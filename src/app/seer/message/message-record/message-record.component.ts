@@ -4,12 +4,30 @@ import {Router,ActivatedRoute} from "@angular/router";
 import {SeerDialogService, SeerMessageService,} from '../../../theme/services';
 import * as _ from 'lodash'
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
+/*function getNowFormatDate() {
+  let date = new Date();
+  let seperator1 = "-";
+  let seperator2 = ":";
+  let month = date.getMonth() + 1;
+  let strDate = date.getDate();
+  if (month >= 1 && month <= 9) {
+    let newMonth = "0" + month;
+  }
+  if (strDate >= 0 && strDate <= 9) {
+    let newStrDate = "0" + strDate;
+  }
+  let currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+    + " " + date.getHours() + seperator2 + date.getMinutes()
+    + seperator2 + date.getSeconds();
+  return currentdate;
+}*/
 @Component({
   selector: 'message-record',
   templateUrl: './message-record.component.html',
   providers: [messageRecordService],
   encapsulation: ViewEncapsulation.None
 })
+
 export class MessageRecordComponent {
   hasGlobalFilter = true;
   filters = [
@@ -53,9 +71,11 @@ export class MessageRecordComponent {
       groups: [
         {
           type: 'datepicker',
+          defaultValue:'2018-04-01 00:00:00'
         },
         {
           type: 'datepicker',
+          defaultValue:'2018-04-02 23:59:59'
         },
       ],
       groupSpaces: ['至']

@@ -35,7 +35,7 @@
             <div class="row">
               <label  class="col-sm-4 col-md-2 control-label">显示范围</label>
               <div class="col-sm-8 col-md-10">
-                <label class="form-control">
+                <!--<label class="form-control">
                   <ng-container *ngIf="message.sendMail">
                     消息中心&nbsp;
                   </ng-container>
@@ -45,7 +45,22 @@
                   <ng-container *ngIf="message.sendMessage">
                     短信通知
                   </ng-container>
-              </label>
+              </label>-->
+                <seer-cool-checkbox
+                  name="sendMail"
+                  [(checked)]="message.sendMail"
+                  [disabled]="true"
+                ></seer-cool-checkbox> 消息中心
+                <seer-cool-checkbox
+                  name="sendNotify"
+                  [(checked)]="message.sendNotify"
+                  [disabled]="true"
+                ></seer-cool-checkbox> 推送通知
+                <seer-cool-checkbox
+                  name="sendMessage"
+                  [(checked)]="message.sendMessage"
+                  [disabled]="true"
+                ></seer-cool-checkbox> 短信通知
               </div>
             </div>
           </div>
@@ -57,7 +72,22 @@
               </div>
             </div>
           </div>
-
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
+            <div class="row">
+              <label  class="col-sm-4 col-md-2 control-label">修改时间</label>
+              <div class="col-sm-8 col-md-10">
+                <label class="form-control">{{message.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
+            <div class="row">
+              <label  class="col-sm-4 col-md-2 control-label">修改人</label>
+              <div class="col-sm-8 col-md-10">
+                <label class="form-control">{{message.updateUser}}</label>
+              </div>
+            </div>
+          </div>
         </div>
       </seer-collapse-card>
       <seer-collapse-card cardTitle="消息内容">

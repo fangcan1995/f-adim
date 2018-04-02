@@ -92,10 +92,15 @@
           <div class="row">
             <div class="form-group col-sm-12 col-md-12">
               <div class="row">
-                <label  class="col-sm-4 col-md-2 col-lg-1 control-label">模板简介</label>
+                <label  class="col-sm-4 col-md-2 col-lg-1 control-label">消息简介</label>
                 <div class="col-sm-8 col-md-10 col-lg-11">
-                  <input type="text" class="form-control" name="tempProfile"   [(ngModel)]="template.tempProfile" #tempProfile="ngModel" [rangeLength]="[0,50]" required />
-                  <p class="text-danger" *ngIf="tempProfile.errors?.required">*</p>
+                  <input type="text" class="form-control" name="tempProfile"   [(ngModel)]="template.tempProfile" #tempProfile="ngModel" [rangeLength]="[0,50]" required maxlength="50" />
+                  <p class="text-danger"  style="margin-right: 20px">
+                    <ng-container *ngIf="tempProfile.errors?.required">
+                      *&nbsp;
+                    </ng-container>
+                    消息简介将用于列表展示、推送提醒、短信提醒，建议长度不要超过50字；
+                  </p>
                   <p class="text-danger" *ngIf="tempProfile.errors?.rangeLength">请输入50个以内字符</p>
                 </div>
               </div>
@@ -104,7 +109,7 @@
           <div class="row">
             <div class="form-group col-sm-12">
               <div class="row">
-                <label  class="col-sm-4 col-md-2 col-lg-1 control-label">模板内容</label>
+                <label  class="col-sm-4 col-md-2 col-lg-1 control-label">消息正文</label>
                 <div class="col-sm-8 col-md-10 col-lg-11">
                   <seer-editor [(data)]="template.tempContent" name="tempContent" ></seer-editor>
                   <p class="readMe">模板占位符说明: #uname(账户), #name(人名),#date(时间), #date1(时间1), #project_name(项目名称), #money(金额), #money(金额1),  在需要填写占位符的位置，直接选择对应的占位符即可在对应的位置显示</p>

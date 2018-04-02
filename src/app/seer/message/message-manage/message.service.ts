@@ -49,7 +49,8 @@ export class MessageService extends BaseService<ResModel>{
     if(usersType=='members'){
        url = `${BASE_URL}/${API['MEMBERS']}/members/members/messages`
     }else if(usersType=='users'){
-       url = `${BASE_URL}/${API['STAFFS']}`
+      url=`http://172.16.1.234:9080/staffs`;
+       //url = `${BASE_URL}/${API['STAFFS']}`
     }
     return this._httpInterceptorService.request('GET', url,params).toPromise();
   }
@@ -65,7 +66,8 @@ export class MessageService extends BaseService<ResModel>{
     if(usersType=='members'){
       url = `${BASE_URL}/${API['MEMBERS']}/members/members/ids`
     }else if(usersType=='users'){
-      url = `${BASE_URL}/${API['STAFFS']}/ids`
+      url=`http://172.16.1.234:9080/staffs/ids`;
+      //url = `${BASE_URL}/${API['STAFFS']}/ids`
     }
     return this._httpInterceptorService.request('GET', url,params).toPromise();
 
