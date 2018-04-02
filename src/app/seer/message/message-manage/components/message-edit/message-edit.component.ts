@@ -186,7 +186,7 @@ export class MessageEditComponent {
       this.message.sendNotify=this.Cint(this.message.sendNotify);
       this.message.sendMessage=this.Cint(this.message.sendMessage);
       this.message.receivers=this.ids;
-      //console.log(this.message);
+      console.log(this.message);
       this.service.postOne(this.message).then((data:any) => {
         this.showSuccess(data.msg || '保存成功')
           .onClose()

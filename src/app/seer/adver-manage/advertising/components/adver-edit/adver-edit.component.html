@@ -1,6 +1,6 @@
 <seer-content-top>
   <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
-  <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn || !validationForm.form.valid || !advertising.icon" (click)="handleSaveBtnClick()">保存</button>
+  <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn || !validationForm.form.valid || !advertising.icon || !advertising.expiryTime" (click)="handleSaveBtnClick()">保存</button>
 </seer-content-top>
 <div class="widgets">
   <div class="row justify-content-center">
@@ -80,7 +80,7 @@
                     [readonly]="readonly"
                   >
                   </seer-datepicker>
-
+                  <p class="text-danger" *ngIf="!advertising.expiryTime">*</p>
                 </div>
               </div>
             </div>
