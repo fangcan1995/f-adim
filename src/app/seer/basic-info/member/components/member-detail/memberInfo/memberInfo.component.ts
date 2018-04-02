@@ -91,9 +91,7 @@ export class MemberInfoComponent implements OnInit {
           this.memberId=params.id;
           this._memberService.getOne(params.id).then(res => {
             this.member = res.data || {};
-            console.log(this.member);
             this.baseInfo=this.member.baseInfo|| {};
-
             this.emergencyContact=this.member.contactList|| [];
             this.workInfo=this.member.workInfo|| {};
             this.accountInfo=this.member.acBank|| {};
