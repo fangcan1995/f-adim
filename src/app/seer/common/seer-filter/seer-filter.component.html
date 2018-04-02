@@ -81,6 +81,25 @@
             (keyup)="handleFilterChange()"
             [disabled]="filter.disabled"
             />
+          <!-- <input type="text" class="form-control" id="departmentId"
+            *ngIf="filter.type && filter.type.indexOf('input') != -1 && !filter.groups"
+            [(ngModel)]="staff.sysEmployer.departmentName"
+            [ngModelOptions]="{standalone: true}" (click)="openModal(template)">
+            <template #template>
+              <div class="modal-body">
+                <seer-tree
+                  [permissions]="treePermissions"
+                  (notify)="onNotice($event) "
+                  [nodes]="treeNode"
+                  [defaultNodeName]="'新建部门'"
+                  [loadingText]="''">
+                </seer-tree>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-sx btn-info" (click)="save(); modalRef.hide()">确定</button>
+                <button type="button" class="btn btn-default" (click)="modalRef.hide()">取消</button>
+              </div>
+            </template> -->
         </div>
       </div>
     </div>

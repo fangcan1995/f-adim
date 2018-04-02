@@ -22,15 +22,15 @@ export class StaffComponent {
     {key: 'empName', label: '姓名', type: 'input.text'},
     {key: 'emCode', label: '员工编号', type: 'input.text'},
     {
-      key: 'departmentName', label: '公司团队', type: 'select',
-      options: [{value: '', content: '请选择'}]
+      key: 'departmentName', label: '公司团队', type: 'input.text',
+     
     },
     {key: 'inviteNumStart', label: '邀请人数', type: 'input.text'},
     {key: 'inviteNumEnd', label: '-', type: 'input.text'},
     {key: 'position', label: '职位', type: 'input.text'},
     {
       key: 'empState', label: '员工状态', type: 'select',
-      options: [{value: '', content: '请选择'}]
+      options: [{value: '', content: '请选择'},{value: '0', content: '试用'},{value: '1', content: '在职'},{value: '2', content: '离职'}]
     },
     {key: 'entryTimeStart', label: '入职时间', type: 'input.date'},
     {key: 'entryTimeEnd', label: '至', type: 'input.date'},
