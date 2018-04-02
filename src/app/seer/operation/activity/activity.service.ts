@@ -114,11 +114,14 @@ export class ActivityService extends BaseService<ResModel>{
       "activityStatus": "4",
     },
   ];
-  accessToken = getStorage({ key: 'token' }).access_token;
+  //accessToken = getStorage({ key: 'token' }).access_token;
+  accessToken=`1596d41c-3a90-4115-ba5c-f9d8bce2f576`;
+  //http://172.16.1.221:9080/activities?access_token=1596d41c-3a90-4115-ba5c-f9d8bce2f576
+  url=`http://172.16.1.221:9080/activities`;
   // 1 获取数据列表
   getList(params?):Promise<ResModel> {
-    console.log(this.accessToken);
-    return this._httpInterceptorService.request('GET', `http://172.16.1.221:9080/activities?access_token=${this.accessToken}`,params).toPromise();
+
+    return this._httpInterceptorService.request('GET', `${this.url}?access_token=${this.accessToken}`,params).toPromise();
     //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ACTIVITIES']}`,params).toPromise();
     /*return new Promise((resolve, reject) => {
       resolve(
@@ -137,7 +140,7 @@ export class ActivityService extends BaseService<ResModel>{
   }
 //2 获取一条数据
   getOne(id):Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `http://172.16.1.221:9080/activities/${id}?access_token=${this.accessToken}`,{}, true).toPromise();
+    return this._httpInterceptorService.request('GET', `${this.url}/${id}?access_token=${this.accessToken}`,{}, true).toPromise();
     //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ACTIVITIES']}/${id}`,{}, true).toPromise();
     /*return new Promise((resolve, reject) => {
       resolve(
@@ -236,7 +239,7 @@ export class ActivityService extends BaseService<ResModel>{
 // 3添加一条数据
   postOne(params):Promise<ResModel> {
     //let fileId=params.fileId;
-    return this._httpInterceptorService.request('POST', `http://172.16.1.221:9080/activities?access_token=${this.accessToken}`, params).toPromise();
+    return this._httpInterceptorService.request('POST', `${this.url}?access_token=${this.accessToken}`, params).toPromise();
 
     /*let fileId=params.fileId;
     return this._httpInterceptorService.request('POST', `${BASE_URL}/${API['ACTIVITIES']}/${fileId}`, params).toPromise();*/
@@ -256,7 +259,7 @@ export class ActivityService extends BaseService<ResModel>{
 
   // 4 修改一条数据，提供所有字段
   putOne(id,params):Promise<any> {
-    return this._httpInterceptorService.request('PUT', `http://172.16.1.221:9080/activities?access_token=${this.accessToken}`, params).toPromise();
+    return this._httpInterceptorService.request('PUT', `${this.url}?access_token=${this.accessToken}`, params).toPromise();
     //return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['ACTIVITIES']}`, params).toPromise();
     /*let index = _.findIndex(this.mockData, t => t.id === id);
     if (index != -1) {
@@ -275,12 +278,12 @@ export class ActivityService extends BaseService<ResModel>{
 
   //5 停止终止活动
   stop(id,params): Promise<ResModel> {
-    return this._httpInterceptorService.request('POST', `http://172.16.1.221:9080/activities/${id}/stop?access_token=${this.accessToken}`,params).toPromise();
+    return this._httpInterceptorService.request('POST', `${this.url}/${id}/stop?access_token=${this.accessToken}`,params).toPromise();
   }
 
   // 6 删除一条数据
   deleteOne(id):Promise<any> {
-    return this._httpInterceptorService.request('DELETE', `http://172.16.4.62:9080/activities/${id}?access_token=${this.accessToken}`).toPromise();
+    return this._httpInterceptorService.request('DELETE', `${this.url}/${id}?access_token=${this.accessToken}`).toPromise();
     /*let data = _.remove(this.mockData, x => x.id === id);
     return new Promise((resolve, reject) => {
       resolve(
@@ -300,7 +303,7 @@ export class ActivityService extends BaseService<ResModel>{
 
   //8 查询会员id数组中的会员列表
   getIdsMembers(params):Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `http://172.16.1.221:9080/activities/scope?access_token=${this.accessToken}`, params).toPromise();
+    return this._httpInterceptorService.request('GET', `${this.url}/scope?access_token=${this.accessToken}`, params).toPromise();
 
     //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ACTIVITIES']}/{id}/scopes`,ids).toPromise();
     //console.log(ids);

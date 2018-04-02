@@ -3,7 +3,7 @@ import {Router, ActivatedRoute} from "@angular/router";
 import * as _ from 'lodash';
 import {RiskRatingService} from "./risk-rating.service";
 import {SeerDialogService} from '../../../theme/services/seer-dialog.service';
-import {UPDATE, DELETE} from '../../common/seer-table/seer-table.actions';
+import {PREVIEW,UPDATE, DELETE} from '../../common/seer-table/seer-table.actions';
 import {SeerMessageService} from "app/theme/services";
 
 @Component({
@@ -61,7 +61,7 @@ export class RiskRatingComponent implements OnInit {
       this.pageInfo.pageSize = res.data.pageSize; //每页记录数
       this.pageInfo.total = res.data.total; //记录总数
       this.riskRatings = res.data.list;
-      this.riskRatings = _.map(this.riskRatings, r => _.set(r, 'actions', [UPDATE, DELETE]));
+      this.riskRatings = _.map(this.riskRatings, r => _.set(r, 'actions', [PREVIEW,UPDATE, DELETE]));
     });
   }
 
@@ -75,6 +75,9 @@ export class RiskRatingComponent implements OnInit {
         break;
       case 'update':
         this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
+        break;
+      case 'preview':
+        this._router.navigate([`detail/${data.id}`], {relativeTo: this._route});
         break;
       case 'delete':
         this._dialogService.confirm('确定删除吗？').subscribe(action => {

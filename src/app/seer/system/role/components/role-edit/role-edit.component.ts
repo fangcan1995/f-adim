@@ -51,7 +51,7 @@ export class RoleEditComponent implements OnInit {
     this.editType = this._route.snapshot.url[0].path;
     this.id = this._route.snapshot.params.id;
     if ( this.editType === 'edit' ) {
-      this._roleService.getOne(this.id)
+      this._roleService.getRoleOne(this.id)
       .then(res => {
         let data = res.data || {};
         this.role = data.roleInfo || { roleName: '', roleStatus: '0' };

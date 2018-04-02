@@ -26,11 +26,11 @@ export class InfoPublishComponent {
   source = [];
   data=[];
   titles = [
-    {key:'affTypeName',label:'栏目'},
-    {key:'title',label:'文章标题',isDict:true},
-    {key:'updateUser',label:'发布者'},
+    {key:'affTypeName',label:'所属栏目', isDict: true},
+    {key:'title',label:'文章标题'},
+    {key:'updateUser',label:'发布用户'},
     {key:'updateTime',label:'更新时间',type:'date-time'},
-    {key:'status',label:'状态'},
+    {key:'status',label:'发布状态'},
     {key:'viewCounts',label:'浏览次数'},
   ];
   filters = [

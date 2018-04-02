@@ -1,4 +1,4 @@
-import {Component, OnInit,OnChanges,Input, ViewChild} from '@angular/core';
+import {Component, OnInit,OnChanges,Input, ViewChild,TemplateRef} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
 import {AdvertisingService} from "../../advertising.service";
@@ -6,6 +6,11 @@ import {Location} from "@angular/common";
 import {FileUploader, ParsedResponseHeaders, FileItem} from "ng2-file-upload";
 import {getStorage} from "../../../../../theme/libs/utils";
 import {BASE_URL,API} from "../../../../../theme/services/base.service";
+import {BsModalRef, BsModalService} from "ngx-bootstrap";//edit by lily
+/*import { TimepickerModule } from 'ngx-bootstrap';*/
+import {formatDate} from "ngx-bootstrap/bs-moment/format";
+
+
 
 import * as _ from 'lodash';
 @Component({
@@ -18,9 +23,14 @@ export class AdverEditComponent implements OnInit{
   public _editType: string = 'add';
   public uploadDisabled:boolean=false;
   public forbidSaveBtn: boolean = true;
-  //上传图片相关
 
-  fileApi=`${BASE_URL}/${API['ADVERTISINGS']}`; //上传接口
+  effectTime;//开始时间
+  expiryTime; //结束时间
+  //putStatus; //投放状态
+  //上传图片相关
+  fileApi=`http://172.16.1.221:9080/advertisings`; //上传接口
+  //fileApi=`${BASE_URL}/${API['ADVERTISINGS']}`; //上传接口
+
   token = getStorage({ key: 'token' });
   tokenType = this.token.token_type;
   accessToken =this.token.access_token;
@@ -32,14 +42,10 @@ export class AdverEditComponent implements OnInit{
               private _messageService: SeerMessageService,
               private _activatedRoute: ActivatedRoute,
               private _router: Router,
+              private modalService: BsModalService,
               private _location: Location) {
     //表单验证
-   /* this.form = new FormGroup({
-      title: new FormControl('', Validators.required),
-      adType: new FormControl('', Validators.required),
-      putEnv: new FormControl('', Validators.required),
-      url: new FormControl('', Validators.required),
-    });*/
+
   }
   ngOnInit() {
 
@@ -53,7 +59,10 @@ export class AdverEditComponent implements OnInit{
           this._advertisingService.getOne(params.id)
             .then(res => {
               this.advertising = res.data || {};
-              //console.log(this.advertising);
+              console.log(this.advertising);
+              this.advertising.effectTime = this.advertising.effectTime ? new Date(this.advertising.effectTime.replace(/-/g, "/")) : '';
+              this.advertising.expiryTime = this.advertising.expiryTime ? new Date(this.advertising.expiryTime.replace(/-/g, "/")) : '';
+
               this.forbidSaveBtn = false;
               // 初始化定义uploader变量,用来配置input中的uploader属性
               let headers = [{name: 'Authorization', value: `${this.tokenType} ${this.accessToken}`}];
@@ -69,6 +78,7 @@ export class AdverEditComponent implements OnInit{
             this.showError(err.msg || '获取失败');
           });
         } else if (this._editType === 'add') {
+
           this.forbidSaveBtn = false;
           // 初始化定义uploader变量,用来配置input中的uploader属性
           let headers = [{name: 'Authorization', value: `${this.tokenType} ${this.accessToken}`}];
@@ -131,8 +141,11 @@ export class AdverEditComponent implements OnInit{
     //let requestStream$;
     if (this._editType === 'edit') {
       this.forbidSaveBtn=true;
-      console.log(this.advertising);
-      this._advertisingService.putOne(this.advertising.id, this.advertising).then(data=>{
+      let advertisingNew=_.cloneDeep(this.advertising);
+      advertisingNew.effectTime=formatDate(advertisingNew.effectTime,'YYYY-MM-DD hh:mm:ss');
+      advertisingNew.expiryTime=formatDate(advertisingNew.expiryTime,'YYYY-MM-DD hh:mm:ss');
+
+      this._advertisingService.putOne(advertisingNew.id, advertisingNew).then(data=>{
         this.forbidSaveBtn = true;
         this.showSuccess(data.msg || '更新成功').onClose()
           .subscribe(() => {
@@ -143,8 +156,13 @@ export class AdverEditComponent implements OnInit{
         this.showError(err.msg || '更新失败');
       });
     } else if (this._editType === 'add') {
+
       this.forbidSaveBtn=true;
-      this._advertisingService.postOne(this.advertising).then((data:any) => {
+      let advertisingNew=_.cloneDeep(this.advertising);
+      advertisingNew.effectTime=formatDate(advertisingNew.effectTime,'YYYY-MM-DD hh:mm:ss');
+      advertisingNew.expiryTime=formatDate(advertisingNew.expiryTime,'YYYY-MM-DD hh:mm:ss');
+
+      this._advertisingService.postOne(advertisingNew).then((data:any) => {
         this.showSuccess(data.msg || '保存成功').onClose()
           .subscribe(() => {
             this._router.navigate(['/adver-manage/advertising/']);
@@ -172,5 +190,9 @@ export class AdverEditComponent implements OnInit{
       icon: 'fa fa-times-circle',
       autoHideDuration: 3000,
     })
+  }
+  public modalRef: BsModalRef;
+  public openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 }

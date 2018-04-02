@@ -61,8 +61,8 @@ export class MessageTemplateComponent {
       category: 'SEND_MAIL'
     },
     {
-      key:'tempTitle',
-      label:'模版标题',
+      key:'tempProfile',
+      label:'消息简介',
       type: 'input.text',
     },
   ];
@@ -90,7 +90,7 @@ export class MessageTemplateComponent {
     {key:'tempCode', label:'KEY'},
     {key:'adaptationUser', label:'适配用户',isDict:true,category:"ADAPTATION_USER"},
     {key:'businessType', label:'消息类型',isDict:true,category:"BUSINESS_TYPE"},
-    {key:'tempTitle', label:'模板标题'},
+    {key:'tempProfile', label:'消息简介'},
     {key:'sendMail', label:'消息中心',isDict:true,category:"SEND_MAIL"},
     {key:'sendMessage', label:'短信通知',isDict:true,category:"SEND_MESSAGE"},
     {key:'sendNotify', label:'推送通知',isDict:true,category:"SEND_NOTIFY"},
@@ -134,7 +134,7 @@ export class MessageTemplateComponent {
         this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
         break;
       case 'delete':
-        this._dialogService.confirm('确定删除吗？')
+        this._dialogService.confirm(`确定删除#${data.tempName}#吗？`)
           .subscribe(action => {
             if ( action === 1 ) {
               this.service.deleteTemplate(message.data.id)

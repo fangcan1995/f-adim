@@ -1,35 +1,47 @@
 import {Injectable} from "@angular/core";
-import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel} from "../../../theme/services"
-
+import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel} from "../../../theme/services";
+import { parseJson2URL, getStorage } from '../../../theme/libs/utils';
 @Injectable()
 export class MessageService extends BaseService<ResModel>{
   constructor(protected _httpInterceptorService: HttpInterceptorService,) {
     super(_httpInterceptorService);
     //this.setApi('MESSAGES');
   }
+  accessToken = getStorage({ key: 'token' }).access_token;
+
+  url=`http://172.16.1.234:9080/messages`  //临时
+
   // 1 获取消息列表
   getDatas(params:any): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MESSAGES']}`,params).toPromise();
+    console.log(this.accessToken);
+    return this._httpInterceptorService.request('GET', `${this.url}`,params).toPromise();
+    //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MESSAGES']}`,params).toPromise();
   }
   //2 获取一条消息
   getMessageById(id: string): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MESSAGES']}/${id}`).toPromise();
+
+    return this._httpInterceptorService.request('GET', `${this.url}/${id}`).toPromise();
+    //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MESSAGES']}/${id}`).toPromise();
   }
  //3 新增
   postOne(params): Promise<ResModel> {
-    return this._httpInterceptorService.request('POST', `${BASE_URL}/${API['MESSAGES']}`, params).toPromise();
+    return this._httpInterceptorService.request('POST', `${this.url}`,params).toPromise();
+    //return this._httpInterceptorService.request('POST', `${BASE_URL}/${API['MESSAGES']}`, params).toPromise();
   }
   //4 修改
   putOne(params):  Promise<ResModel> {
-    return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['MESSAGES']}`, params).toPromise();
+    return this._httpInterceptorService.request('PUT', `${this.url}`,params).toPromise();
+    //return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['MESSAGES']}`, params).toPromise();
   }
   //5 删除
   deleteMessage(id: string): Promise<ResModel> {
-    return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${API['MESSAGES']}/${id}`).toPromise();
+    return this._httpInterceptorService.request('DELETE', `${this.url}/${id}`).toPromise();
+    //return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${API['MESSAGES']}/${id}`).toPromise();
   }
   //6 逻辑删除
   deleteLogicalMessage(id: string): Promise<ResModel> {
-    return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${API['MESSAGES']}/logical/${id}`).toPromise();
+    return this._httpInterceptorService.request('DELETE', `${this.url}/logical/${id}`).toPromise();
+    //return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${API['MESSAGES']}/logical/${id}`).toPromise();
   }
   //7 获取人员列表
   getUsers(usersType:string,params:any): Promise<ResModel> {
@@ -37,7 +49,8 @@ export class MessageService extends BaseService<ResModel>{
     if(usersType=='members'){
        url = `${BASE_URL}/${API['MEMBERS']}/members/members/messages`
     }else if(usersType=='users'){
-       url = `${BASE_URL}/${API['STAFFS']}`
+      url=`http://172.16.1.234:9080/staffs`;
+       //url = `${BASE_URL}/${API['STAFFS']}`
     }
     return this._httpInterceptorService.request('GET', url,params).toPromise();
   }
@@ -53,7 +66,8 @@ export class MessageService extends BaseService<ResModel>{
     if(usersType=='members'){
       url = `${BASE_URL}/${API['MEMBERS']}/members/members/ids`
     }else if(usersType=='users'){
-      url = `${BASE_URL}/${API['STAFFS']}/ids`
+      url=`http://172.16.1.234:9080/staffs/ids`;
+      //url = `${BASE_URL}/${API['STAFFS']}/ids`
     }
     return this._httpInterceptorService.request('GET', url,params).toPromise();
 
