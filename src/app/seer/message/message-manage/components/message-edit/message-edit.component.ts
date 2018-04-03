@@ -16,13 +16,13 @@ import {formatDate} from "ngx-bootstrap/bs-moment/format";
   /*encapsulation: ViewEncapsulation.None*/
 })
 export class MessageEditComponent {
-
   message:any = {};
   expectSendTime;
   title : string;
   isAdd: boolean;
   editId: string;
   isPickUsersAble:boolean=true;  //选择用户按钮无效
+  receivers=[];//接收用户
   usersType: string; //用户类型
   //IsChecked={"sendMail":false,"sendNotify":false,"sendMessage":false,"now":false};//checkbox初始状态
   disabled={"sendMail":true,"sendNotify":true,"sendMessage":true,"now":true}; //checkbox是否可用
@@ -40,6 +40,12 @@ export class MessageEditComponent {
       'className': 'btn btn-xs btn-info',
       icon: 'fa fa-check'
     },
+    'CANCEL': {
+      'type': 'cancel',
+      'name': '取消',
+      'className': 'btn btn-xs btn-info',
+      icon: 'fa fa-remove'
+    },
     'OK': {
       'type': 'ok',
       'name': '确定',
@@ -53,7 +59,7 @@ export class MessageEditComponent {
       icon: 'fa fa-check'
     }
   };
-  modalhasGlobalFilter = false;
+  //modalhasGlobalFilter = false;
   modalfilters =[];
   formGroupColNum='col-sm-12 col-md-6 col-lg-6';
   modalTitles=[];
@@ -80,8 +86,10 @@ export class MessageEditComponent {
   selectedUserId=[]; //选中的用户id
   ids='';//选中的用户id
   chooseResult:string='选择用户';  //选择人员按钮中文提示
+
+
   public modalRef: BsModalRef;
-  cardActions2 = [this.modalActionSet.All,this.modalActionSet.OK];
+  cardActions2 = [this.modalActionSet.All,this.modalActionSet.OK,this.modalActionSet.CANCEL];
 
   @ViewChild('validationForm') validationForm;
 
@@ -106,11 +114,12 @@ export class MessageEditComponent {
     this.forbidSaveBtn=false;
     if(!this.isAdd) {
       this._editType='edit';
+      this.chooseResult='重新选择';
       this.isPickUsersAble=false;
       this.service.getMessageById(this.editId).then((data) => {
         this.message = data.data;
-        this.message.expectSendTime=new Date(this.message.expectSendTime);
-
+        this.message.expectSendTime = this.message.expectSendTime ? new Date(this.message.expectSendTime.replace(/-/g, "/")) : '';
+        this.receivers = this.message.receivers.split(',');
         if(this.message.adaptationUser=="1"){
           this.usersType="users";
           //后台用户
@@ -138,6 +147,8 @@ export class MessageEditComponent {
       this.disabled.sendMail=true;
       this.disabled.sendNotify=true;
       this.disabled.sendMessage=false;
+      this.message.sendMail=0;
+      this.message.sendNotify=0;
       this.usersType="users"
     }else{
       this.isPickUsersAble=true;
@@ -147,7 +158,9 @@ export class MessageEditComponent {
     }
 
     this.ids='';
+
     this.chooseResult='选择用户';
+
   }
 
   //即刻下发事件处理方法
@@ -164,14 +177,20 @@ export class MessageEditComponent {
   //保存
   handleSaveBtnClick(){
     if ( this.forbidSaveBtn ) return;
-    this.forbidSaveBtn = true;
+    //this.forbidSaveBtn = true;
     if ( this._editType === 'edit' ) {
       /*this.message.sendMail=this.Cint(this.message.sendMail);
       this.message.sendNotify=this.Cint(this.message.sendNotify);
       this.message.sendMessage=this.Cint(this.message.sendMessage);*/
+      this.forbidSaveBtn=true;
       this.message.receivers=this.ids;
+      console.log(this.message);
+      let messageNew=_.cloneDeep(this.message);
+      messageNew.expectSendTime=formatDate(messageNew.expectSendTime,'YYYY-MM-DD hh:mm:ss');
 
-      this.service.putOne(this.message).then((data:any) => {
+      console.log(messageNew);
+
+      this.service.putOne(messageNew).then((data:any) => {
         this.showSuccess(data.msg || '更新成功')
           .onClose()
           .subscribe(() => {
@@ -182,12 +201,16 @@ export class MessageEditComponent {
         this.showError(err.msg || '更新失败');
       });
     } else if ( this._editType === 'add' ) {
+      this.forbidSaveBtn=true;
       this.message.sendMail=this.Cint(this.message.sendMail);
       this.message.sendNotify=this.Cint(this.message.sendNotify);
       this.message.sendMessage=this.Cint(this.message.sendMessage);
       this.message.receivers=this.ids;
-      //console.log(this.message);
-      this.service.postOne(this.message).then((data:any) => {
+      let messageNew=_.cloneDeep(this.message);
+      messageNew.expectSendTime=formatDate(messageNew.expectSendTime,'YYYY-MM-DD hh:mm:ss');
+
+      console.log(messageNew);
+      this.service.postOne(messageNew).then((data:any) => {
         this.showSuccess(data.msg || '保存成功')
           .onClose()
           .subscribe(() => {
@@ -235,9 +258,15 @@ export class MessageEditComponent {
             key: 'sex',
             label: '性别',
             type: 'select',
-            options:[{value:'', content: '全部'},{value:'1', content: '男'},{value:'2', content: '女'}]
+            isDict:true,category:"M_SEX"
           },
           {
+            key: 'mage',
+            label: '年龄',
+            type: 'select',
+            options:[{value:'0', content: '全部'},{value:'1', content: '25以下'},{value:'2', content: '25-30'},{value:'3', content: '31-40'},{value:'4', content: '41-50'},{value:'5', content: '50以上'}]
+          },
+          /*{
             key: 'mage',
             label: '年龄',
             groups: [
@@ -249,7 +278,7 @@ export class MessageEditComponent {
               },
             ],
             groupSpaces: ['至']
-          },
+          },*/
           {
             key: 'investDate',
             label: '投资时间',
@@ -311,6 +340,21 @@ export class MessageEditComponent {
         ];
         break;
       case 'users':
+
+        /*this.modalfilters=[
+          {
+            key: 'memberType',
+            label: '用户身份',
+            type: 'select',
+            options:[{value:'', content: '全部'},{value:'1', content: '注册理财师'},{value:'2', content: '财富合伙人'}]
+          },
+          {
+            key: 'department',
+            label: '区域',
+            type: 'select',
+            options:[{value:'', content: '全部'},{value:'1', content: '龙区'},{value:'2', content: '辽区'}]
+          },
+        ];*/
         this.modalTitles= [
           {key: 'emCode', label: '用户名', hidden: false},
           {key: 'empName', label: '真实姓名', hidden: false},
@@ -321,10 +365,9 @@ export class MessageEditComponent {
       default:
         break;
     }
-
     this.modalRef = this.modalService.show(template,this.modalClass);
     this.getUsersList();
-    this.selectedUserId=[];   //清空已选择id数组
+    //this.selectedUserId=[];   //清空已选择id数组
   }
 
   //获取列表
@@ -334,8 +377,14 @@ export class MessageEditComponent {
       this.modalPageInfo.pageSize=res.data.pageSize; //每页记录数
       this.modalPageInfo.total=res.data.total; //记录总数
       this.modalUsers = res.data.list;
+      let keyId;
+      if(this.usersType=='members'){
+        keyId='memberId';
+      }else if(this.usersType=='users'){
+        keyId='id';
+      }
       this.modalUsers = _.map(this.modalUsers, r =>{
-        let idIndex=this.selectedUserId.findIndex(x => x == r.id);
+        let idIndex=this.selectedUserId.findIndex(x => x == r[keyId]);
         if(idIndex!=-1){
           return _.set(r, 'selected', 1)
         }else{
@@ -364,6 +413,9 @@ export class MessageEditComponent {
         this.chooseResult=`已选定${this.ids.split(',').length}人`;
         this.modalService.hide(1);
         break;
+      case 'cancel':
+        this.modalService.hide(1);
+        break;
       case 'all':
         this.ids='';
         this.service.getIds(this.usersType,this.modalPageInfo).then(data=>{
@@ -384,9 +436,10 @@ export class MessageEditComponent {
   }
 
   //模态框选择用户id
-  modalChangeTable(message){
-    const type = message.type;
-    let data = message.data;
+  modalChangeTable(e){
+    const type = e.type;
+    let data = e.data;
+
     let keyId;
     if(this.usersType=='members'){
       keyId='memberId';
@@ -395,7 +448,6 @@ export class MessageEditComponent {
     }
     switch (type){
       case 'select_one':
-
         //选中追加到数组中，否则从数组中删除
         let idIndex=this.selectedUserId.findIndex(x => x == data[keyId]);
         if(data.selected){
@@ -405,7 +457,8 @@ export class MessageEditComponent {
         }else{
           this.selectedUserId.splice(idIndex,1);
         }
-
+        console.log('-----------');
+        console.log(this.selectedUserId);
         break;
       case 'select_all':
         //遍历数组，选中追加到数组中，否则从数组中删除
@@ -435,9 +488,40 @@ export class MessageEditComponent {
       investAllMix,investAllMax,
       investOneMix,investOneMax,
       inviteMembersMix,inviteMembersMax;
-    if ( _.isArray(mage)) {
+    /*if ( _.isArray(mage)) {
       mageMix = mage[0] || null;
       mageMax = mage[1] || null;
+    }*/
+    console.log(mage);
+    switch (mage){
+      case `0`:
+        mageMix =  null;
+        mageMax =  null;
+        break;
+      case `1`:
+        mageMix=0;
+        mageMax =  24;
+        break;
+      case `2`:
+        mageMix=25;
+        mageMax =  30;
+        break;
+      case `3`:
+        mageMix=31;
+        mageMax =  40;
+        break;
+      case `4`:
+        mageMix=0;
+        mageMax =  25;
+        break;
+      case `5`:
+        mageMix=41;
+        mageMax =  50;
+        break;
+      case `6`:
+        mageMix=50;
+        mageMax = 150;
+        break;
     }
     if ( _.isArray(investDate)) {
       investDateBefore = investDate[0] ? (formatDate(investDate[0],'YYYY-MM-DD 00:00:00')) : null;

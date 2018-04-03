@@ -19,37 +19,46 @@ export class MessageService extends BaseService<ResModel>{
   }
   //2 获取一条消息
   getMessageById(id: string): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MESSAGES']}/${id}`).toPromise();
+
+    return this._httpInterceptorService.request('GET', `${this.url}/${id}`).toPromise();
+    //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MESSAGES']}/${id}`).toPromise();
   }
  //3 新增
   postOne(params): Promise<ResModel> {
-    return this._httpInterceptorService.request('POST', `${BASE_URL}/${API['MESSAGES']}`, params).toPromise();
+    return this._httpInterceptorService.request('POST', `${this.url}`,params).toPromise();
+    //return this._httpInterceptorService.request('POST', `${BASE_URL}/${API['MESSAGES']}`, params).toPromise();
   }
   //4 修改
   putOne(params):  Promise<ResModel> {
-    return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['MESSAGES']}`, params).toPromise();
+    return this._httpInterceptorService.request('PUT', `${this.url}`,params).toPromise();
+    //return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['MESSAGES']}`, params).toPromise();
   }
   //5 删除
   deleteMessage(id: string): Promise<ResModel> {
-    return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${API['MESSAGES']}/${id}`).toPromise();
+    return this._httpInterceptorService.request('DELETE', `${this.url}/${id}`).toPromise();
+    //return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${API['MESSAGES']}/${id}`).toPromise();
   }
   //6 逻辑删除
   deleteLogicalMessage(id: string): Promise<ResModel> {
-    return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${API['MESSAGES']}/logical/${id}`).toPromise();
+    return this._httpInterceptorService.request('DELETE', `${this.url}/logical/${id}`).toPromise();
+    //return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${API['MESSAGES']}/logical/${id}`).toPromise();
   }
   //7 获取人员列表
   getUsers(usersType:string,params:any): Promise<ResModel> {
     let url:string;
     if(usersType=='members'){
-       url = `${BASE_URL}/${API['MEMBERS']}/members/members/messages`
+      // url = `${BASE_URL}/${API['MEMBERS']}/members/members/messages`
+      url=`http://172.16.1.225:9080/members/memberMessagesList?access_token=84b41b07-9061-4c98-906d-4bbf17bcd7d1`;
     }else if(usersType=='users'){
-       url = `${BASE_URL}/${API['STAFFS']}`
+      url=`http://172.16.1.234:9080/staffs`;
+       //url = `${BASE_URL}/${API['STAFFS']}`
     }
     return this._httpInterceptorService.request('GET', url,params).toPromise();
   }
   //8 获取一条已经发送的消息对应的发送记录
   getRecords(id:string,params:any): Promise<ResModel> {
-    let url = `${BASE_URL}/${API['RECORDS']}/${id}/message`;
+    //let url = `${BASE_URL}/${API['RECORDS']}/${id}/message`;
+    let url=`http://172.16.1.234:9080/records/${id}/message`;
     return this._httpInterceptorService.request('GET', url,params).toPromise();
   }
 // 获取接收消息的人员id字符串
@@ -58,8 +67,10 @@ export class MessageService extends BaseService<ResModel>{
     let url:string;
     if(usersType=='members'){
       url = `${BASE_URL}/${API['MEMBERS']}/members/members/ids`
+
     }else if(usersType=='users'){
-      url = `${BASE_URL}/${API['STAFFS']}/ids`
+      url=`http://172.16.1.225:9080/members/memberMessagesIds?access_token=84b41b07-9061-4c98-906d-4bbf17bcd7d1`;
+      //url = `${BASE_URL}/${API['STAFFS']}/ids`
     }
     return this._httpInterceptorService.request('GET', url,params).toPromise();
 

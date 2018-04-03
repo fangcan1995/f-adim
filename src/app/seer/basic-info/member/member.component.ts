@@ -62,7 +62,7 @@ export class MemberComponent implements OnInit {
   pageInfo={
     "pageNum":1,
     "pageSize":10,
-    "sort":"-createTime",
+    "sortBy":"",
     "total":"",
     "globalSearch":"",
     "userName":"",
@@ -120,8 +120,8 @@ export class MemberComponent implements OnInit {
           return _.set(t, 'actions', actions)
         });
       }).catch(err => {
-        this._dialogService.alert(err.json().message);
-        this.showError(err.json().message || "连接失败");
+        // this._dialogService.alert("ee!");
+        this.showError("连接失败!");
     });
   }//获取列表
   onChange(message) {

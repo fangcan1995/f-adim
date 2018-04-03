@@ -39,6 +39,8 @@ export class SeerFilterComponent implements OnInit {
   @Input() globalFilterValue: string;
   @Input() filters: Array<FilterModel>;
   @Input() translate;
+
+
   @Input() formGroupColNum:string='col-sm-12 col-md-6 col-lg-6 col-lg-4' //查询向一行显示的列数，edit by lily
 
   @Output() onInit: EventEmitter<any> = new EventEmitter<any>();

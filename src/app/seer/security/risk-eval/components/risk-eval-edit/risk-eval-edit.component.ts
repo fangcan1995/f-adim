@@ -85,7 +85,7 @@ export class RiskEvalEditComponent implements OnInit {
 
   alertSuccess(info: string) {
     this._messageService.open({
-      icon: 'fa fa-times-circle',
+      icon: 'fa fa-check',
       message: info,
       autoHideDuration: 3000,
     }).onClose().subscribe(() => {

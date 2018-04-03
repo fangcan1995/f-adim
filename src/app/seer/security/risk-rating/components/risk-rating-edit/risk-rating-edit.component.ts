@@ -29,6 +29,8 @@ export class RiskRatingEditComponent implements OnInit {
       if (this._editType === 'edit') {
         this._riskRatingService.getOne(params.id).then(res => {
           this.riskRating = res.data || {};
+          console.log('----------------------');
+          console.log(res.data);
           this.forbidSaveBtn = false;
         }).catch(err => {
           this.alertError(err.json().message);
