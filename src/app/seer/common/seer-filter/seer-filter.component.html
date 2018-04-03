@@ -82,11 +82,10 @@
             [disabled]="filter.disabled"
             />
             <!-- 引入树组件 -->
-          <!-- <input type="text" class="form-control" id="departmentId"
-            *ngIf="filter.type && filter.type.indexOf('input') != -1 && !filter.groups"
-            [type]="filter.type.split('.')[1] || 'seer'"
+          <input type="text" class="form-control" id="departmentId"
+            *ngIf="filter.type ==='table' && !filter.groups"
             [(ngModel)]="staff.sysEmployer.departmentName"
-            [ngModelOptions]="{standalone: true}" (click)="openModal(template)">
+            [ngModelOptions]="{standalone: true}" (click)="openModal(template)" (input)="present()">
             <template #template>
               <div class="modal-body">
                 <seer-tree
@@ -101,7 +100,7 @@
                 <button type="button" class="btn btn-sx btn-info" (click)="save(); modalRef.hide()">确定</button>
                 <button type="button" class="btn btn-default" (click)="modalRef.hide()">取消</button>
               </div>
-            </template> -->
+            </template>
             <!-- <input type="text" class="form-control" id="departmentId"
             [(ngModel)]="staff.sysEmployer.departmentName"
             [ngModelOptions]="{standalone: true}" (click)="openModal(template)">

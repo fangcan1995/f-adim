@@ -186,9 +186,6 @@ export class StaffEditComponent implements OnInit {
     if (data.sysEmployer.empBirth != null && data.sysEmployer.empBirth != "") {
       data.sysEmployer.empBirth = data.sysEmployer.empBirth.getTime();
     }
-    if (data.sysEmployer.empBirth != null && data.sysEmployer.empBirth != "") {
-      data.sysEmployer.empBirth = data.sysEmployer.empBirth.getTime();
-    }
   }
 
   /*时间戳转化为Date*/
