@@ -1,6 +1,6 @@
 <seer-content-top>
   <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
-  <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn || !validationForm.form.valid || !(message.sendMail || message.sendNotify || message.sendMessage) || !(message.expectSendTime || allowChange)  || !(receivers.length>0)" (click)="handleSaveBtnClick()">保存</button>
+  <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn || !validationForm.form.valid || !(message.sendMail || message.sendNotify || message.sendMessage) || !(message.expectSendTime || allowChange)  || !(ids.length>0)" (click)="handleSaveBtnClick()">保存</button>
 </seer-content-top>
 <div class="widgets">
   <form #validationForm="ngForm">
@@ -122,9 +122,10 @@
         <seer-collapse-card cardTitle="接收用户"  >
           <div class="row">
             <!--已选择{{receivers.length}}人-->
-            {{this.ids}}
+            <!--{{this.ids}}-->
             <button type="button"  class="btn btn-primary" (click)="openModal(members)" [disabled]="isPickUsersAble">{{chooseResult}}</button>
-            <p class="text-danger" *ngIf="receivers.length == 0">*</p>
+            <p class="text-danger" *ngIf="ids.length === 0 ">*</p>
+            <!--this.ids-->
             <ng-template #members >
               <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
                 <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">选择人员</h4>
@@ -262,7 +263,8 @@
                 ></seer-filter>
                   <seer-filter
                     [hasGlobalFilter]="true"
-                    [filters]="false"
+                    [filters]=""
+                    (onFiltersChanged)=modalFiltersChanged($event)
                     *ngIf="usersType=='users'"
                   ></seer-filter>
                   <seer-table

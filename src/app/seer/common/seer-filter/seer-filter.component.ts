@@ -33,6 +33,7 @@ export interface FilterModel {
   dateFormatingRules?: string,
   disabled?: boolean,
   groups?: Array<any>,
+  maxLength:  string | number,  //限制长度add by lily 20180403
 }
 
 @Component({

@@ -53,9 +53,9 @@
                     [disabled]="group.disabled"
                     />
                 </div>
-                
+
               </ng-container>
-              
+
             </div>
           </ng-container>
           <select
@@ -80,6 +80,7 @@
             [(ngModel)]="filter.value"
             (keyup)="handleFilterChange()"
             [disabled]="filter.disabled"
+            [maxlength]="filter.maxLength"
             />
             <!-- 引入树组件 -->
           <input type="text" class="form-control" id="departmentId"

@@ -12,6 +12,7 @@ const routes: Routes = [
       { path: 'activity', loadChildren:'./activity/activity.module#ActivityModule' },
       { path: 'red-packet', loadChildren:'./red-packet/red-packet.module#RedPacketModule' },
       { path: 'coupon', loadChildren:'./coupon/coupon.module#CouponModule' },
+
       /*{ path: 'adver-manage', loadChildren:'./adver-manage/adver-manage.module#AdvertisingModule' }*/
     ]
   }
