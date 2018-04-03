@@ -13,7 +13,7 @@ const BASE_PORT = 8020;
 const BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export const BASE_URL = `http://${BASE_SERVER}`;
 
-const TEST_DOMAIN = '172.16.1.234';
+const TEST_DOMAIN = '172.16.1.221';
 const TEST_PORT = 9080;
 const TEST_SERVER = `${TEST_DOMAIN}:${TEST_PORT}`;
 export const TEST_URL = `http://${TEST_SERVER}`;
@@ -58,7 +58,8 @@ export const API = {
     'MESSAGES':'messages',  //消息
     'RECORDS':'records', //消息发送记录
     'TEMPLATES':'templates',  //消息模版
-    'ADVERTISINGS':'advertising' //广告管理
+    'ADVERTISINGS':'advertising', //广告管理
+    'AFFICHE':'affiche', //广告管理
   }
 
 // 此服务用于继承，请不要注入使用；如果想用更灵活的http服务请使用HttpInterceptorService，最灵活的是angular2自带的Http服务；

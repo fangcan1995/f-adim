@@ -34,7 +34,7 @@ export class RiskEvalDetailComponent implements OnInit {
       this._editType = url[0].path
       return this._route.params
     }).subscribe(params => {
-      if (this._editType === 'edit') {
+      if (this._editType === 'detail') {
         this.riskEvalId = params.id;
         this._riskEvalService.getOne(params.id)
           .then(res => {
@@ -45,53 +45,18 @@ export class RiskEvalDetailComponent implements OnInit {
             this.alertError(err.json().message);
           })
 
-      } else if (this._editType === 'add') {
-        this.forbidSaveBtn = false;
       }
     })
   }
 
-  //修改题目
-  handleSaveBtnClick() {
-    if (this.forbidSaveBtn) return;
-    this.forbidSaveBtn = true;
-    if (this._editType === 'edit') {
-      //编辑题目保存的处理
-      this._riskEvalService.putOne(this.riskEval).then(data => {
-        if (data.code == "0") {
-          this.alertSuccess(data.message);
-        } else {
-          this.alertError(data.message);
-        }
-      });
-    } else if (this._editType === 'add') {
-      //新增题目保存的处理
-      this._riskEvalService.postOne(this.riskEval).then(data => {
-        if (data.code == "0") {
-          this.alertSuccess(data.message);
-        } else {
-          this.alertError(data.message);
-        }
-      })
-    } else {
-      return;
-    }
-  }
+
 
   //返回
   handleBackBtnClick() {
     this._location.back()
   }
 
-  alertSuccess(info: string) {
-    this._messageService.open({
-      icon: 'fa fa-times-circle',
-      message: info,
-      autoHideDuration: 3000,
-    }).onClose().subscribe(() => {
-      this._router.navigate(['/security/risk-eval/'])
-    });
-  }
+
 
   alertError(errMsg: string) {
     this.forbidSaveBtn = false;

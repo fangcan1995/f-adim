@@ -20,9 +20,10 @@ const routes: Routes = [
     		component: RiskEvalEditComponent,
     	},
       {
-        path: 'edit/:id',
+        path: 'detail/:id',
         component: RiskEvalDetailComponent,
       },
+
     ]
   }
 ];

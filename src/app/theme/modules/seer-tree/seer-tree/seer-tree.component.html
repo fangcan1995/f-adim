@@ -41,7 +41,7 @@
           <div class="tree-node-actions">
             <span>···</span>
             <div class="tree-node-action-list">
-              <button *ngIf="!node.isInEditing && node.children && checkPermissions(treePermissions.ADD)" (click)="addNode($event, node)" class="options-button"><i class="ion-android-add" style="margin-left:-1px"></i></button>
+              <button *ngIf="!node.isInEditing && node.children && checkPermissions(treePermissions.ADD) && !node.data.isLast" (click)="addNode($event, node)" class="options-button"><i class="ion-android-add" style="margin-left:-1px"></i></button>
               <button *ngIf="!node.isInEditing && checkPermissions(treePermissions.EDIT)" (click)="edit($event, node)" class="options-button"><i class="ion-edit" style="margin-left:-3px"></i></button>
               <button *ngIf="!node.isInEditing && checkPermissions(treePermissions.DELETE) && !node.isRoot" (click)="deleteNode($event, node)" class="options-button"><i class="ion-android-delete" style="margin-left:-1px"></i></button>
             </div>

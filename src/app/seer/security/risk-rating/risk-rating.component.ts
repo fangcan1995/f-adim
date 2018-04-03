@@ -18,9 +18,9 @@ export class RiskRatingComponent implements OnInit {
   riskRatings = [];
 
   titles = [
-    {key: 'riskLevel', label: '风险等级', isDict: true, category: 'RISK_LEVEL'},
+    {key: 'name', label: '风险等级'/*, isDict: true, category: 'RISK_LEVEL'*/},
     {key: 'riskScore', label: '对应分值'},
-    {key: 'investGrade', label: '推荐投资等级'},
+    {key: 'investGrade', label: '推荐投资等级',isDict: true, category: 'INVEST_GRADE'},
     {key: 'investTotal', label: '投资总额上线'}
   ];
 
@@ -61,7 +61,7 @@ export class RiskRatingComponent implements OnInit {
       this.pageInfo.pageSize = res.data.pageSize; //每页记录数
       this.pageInfo.total = res.data.total; //记录总数
       this.riskRatings = res.data.list;
-      this.riskRatings = _.map(this.riskRatings, r => _.set(r, 'actions', [PREVIEW,UPDATE, DELETE]));
+      this.riskRatings = _.map(this.riskRatings, r => _.set(r, 'actions', [PREVIEW,UPDATE]));
     });
   }
 

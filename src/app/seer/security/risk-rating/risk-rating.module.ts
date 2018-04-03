@@ -6,6 +6,7 @@ import { routing } from './risk-rating.routing';
 import { RiskRatingService } from "./risk-rating.service";
 import { RiskRatingComponent } from './risk-rating.component';
 import { RiskRatingEditComponent } from './components/risk-rating-edit/risk-rating-edit.component';
+import { RiskRatingDetailComponent } from './components/risk-rating-detail/risk-rating-detail.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { RiskRatingEditComponent } from './components/risk-rating-edit/risk-rati
   declarations: [
     RiskRatingComponent,
     RiskRatingEditComponent,
+    RiskRatingDetailComponent
   ],
   providers: [
     RiskRatingService,
