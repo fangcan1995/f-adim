@@ -9,6 +9,7 @@ import {BsModalRef} from 'ngx-bootstrap/modal/modal-options.class';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {json2Tree} from "../../../../../theme/libs";
 import {TREE_PERMISSIONS} from "../../../../../theme/modules/seer-tree/constants/permissions";
+import { formatDate } from "ngx-bootstrap/bs-moment/format";
 import {UPDATE, DELETE, SAVE} from '../../../../common/seer-table/seer-table.actions';
 
 @Component({
@@ -63,11 +64,10 @@ export class StaffEditComponent implements OnInit {
         this._staffService.getOne(params.id).then(res => {
           // console.log(res.data.sysEmployer);
           this.staff = res.data || {};
-
           this.dateFormat();
           this.staffStateChange(this.staff.sysEmployer.empStatus);
 
-          this.educationsData = this.staff.sysEduExperList;
+          this.educationsData = this.staff.sysEduExperList;          
           this.educationsData = _.map(this.educationsData, r => _.set(r, 'actions', [UPDATE, DELETE]));
 
           this.relationsData = this.staff.sysEmployContactList;
@@ -75,6 +75,7 @@ export class StaffEditComponent implements OnInit {
 
           this.experiencesData = this.staff.sysWorkExperList;
           this.experiencesData = _.map(this.experiencesData, r => _.set(r, 'actions', [UPDATE, DELETE]));
+          
 
           this.forbidSaveBtn = false;
         }, errMsg => {
@@ -185,6 +186,9 @@ export class StaffEditComponent implements OnInit {
     if (data.sysEmployer.empBirth != null && data.sysEmployer.empBirth != "") {
       data.sysEmployer.empBirth = data.sysEmployer.empBirth.getTime();
     }
+    if (data.sysEmployer.empBirth != null && data.sysEmployer.empBirth != "") {
+      data.sysEmployer.empBirth = data.sysEmployer.empBirth.getTime();
+    }
   }
 
   /*时间戳转化为Date*/
@@ -212,9 +216,16 @@ export class StaffEditComponent implements OnInit {
     let editData = this.educationView.getFormatDataByKey(key).editData;
     switch (type) {
       case 'save':
-        if (editData.id) {
-          this._staffService.putOneEdu(this.staffId, editData).then((result) => {
+        const newData = _.cloneDeep(editData);
+        console.log(newData);
+        newData.endTime = formatDate(newData.endTime, 'YYYY-MM-DD hh:mm:ss');
+        console.log(newData);
+        if (editData.id) {          
+          this._staffService.putOneEdu(this.staffId, newData).then((result) => {
             if (result.code == 0) {
+              // this.educationView.getFormatDataByKey(key).copy.endTime = formatDate(this.educationView.getFormatDataByKey(key).copy.endTime, 'YYYY-MM-DD hh:mm:ss');
+               console.log(this.educationView);
+              this.educationsData[key].endTime = formatDate(this.educationsData[key].endTime, 'YYYY-MM-DD hh:mm:ss');
               this.educationView.save(key);
               this.alertSuccess("修改成功");
             } else {
@@ -222,7 +233,7 @@ export class StaffEditComponent implements OnInit {
             }
           });//修改
         } else {
-          this._staffService.postOneEdu(this.staffId, editData).then((result) => {
+          this._staffService.postOneEdu(this.staffId, newData).then((result) => {
             if (result.code == 0) {
               this.educationView.save(key);
               this.alertSuccess("添加成功");
@@ -254,7 +265,7 @@ export class StaffEditComponent implements OnInit {
         if (editData.id) {
           this._staffService.putOneRelations(this.staffId, editData).then((result) => {
             if (result.code == 0) {
-              this.educationView.save(key);
+              this.relationView.save(key);
               this.alertSuccess("修改成功");
             } else {
               this.alertError("添加失败");
@@ -263,7 +274,7 @@ export class StaffEditComponent implements OnInit {
         } else {
           this._staffService.postOneRelations(this.staffId, editData).then((result) => {
             if (result.code == 0) {
-              this.educationView.save(key);
+              this.relationView.save(key);
               this.alertSuccess("添加成功");
             } else {
               this.alertError("添加失败");
@@ -275,7 +286,7 @@ export class StaffEditComponent implements OnInit {
       case 'delete':
         this._staffService.deleteRelations(this.staffId, editData.id).then((result) => {
           if (result.code == 0) {
-            this.educationView.delete(key);
+            this.relationView.delete(key);
             this.alertSuccess("删除成功");
           } else {
             this.alertError("删除失败");
@@ -291,19 +302,25 @@ export class StaffEditComponent implements OnInit {
     let editData = this.experienceView.getFormatDataByKey(key).editData;
     switch (type) {
       case 'save':
-        if (editData.id) {
-          this._staffService.putOneExperiences(this.staffId, editData).then((result) => {
+        const newData = _.cloneDeep(editData);
+        console.log(newData);
+        newData.endTime = formatDate(newData.endTime, 'YYYY-MM-DD hh:mm:ss');
+        newData.startTime = formatDate(newData.startTime, 'YYYY-MM-DD hh:mm:ss');
+        console.log(newData);
+        if (newData.id) {
+          this._staffService.putOneExperiences(this.staffId, newData).then((result) => {
             if (result.code == 0) {
-              this.educationView.save(key);
+              console.log(key)
+              this.experienceView.save(key);
               this.alertSuccess("修改成功");
             } else {
               this.alertError("添加失败");
             }
           });//修改
         } else {
-          this._staffService.postOneExperiences(this.staffId, editData).then((result) => {
+          this._staffService.postOneExperiences(this.staffId, newData).then((result) => {
             if (result.code == 0) {
-              this.educationView.save(key);
+              this.experienceView.save(key);
               this.alertSuccess("添加成功");
             } else {
               this.alertError("添加失败");
@@ -314,7 +331,7 @@ export class StaffEditComponent implements OnInit {
       case 'delete':
         this._staffService.deleteExperiences(this.staffId, editData.id).then((result) => {
           if (result.code == 0) {
-            this.educationView.delete(key);
+            this.experienceView.delete(key);
             this.alertSuccess("删除成功");
           } else {
             this.alertError("删除失败");

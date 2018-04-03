@@ -5,7 +5,8 @@ import {
 	HttpInterceptorService,
 	API,
 	BASE_URL,
-	ResModel,
+    ResModel,
+    TEST_URL
 } from '../../../theme/services';
 import { ResourceService } from '../resource/resource.service';
 
@@ -30,10 +31,10 @@ export class UserService extends BaseService<any> {
   }
   getUsersWithStaffsWithOrgs(): Promise<ResModel> {
     //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ROLES']}/userTree`).toPromise();
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ROLES']}/userTree`).toPromise();
+    return this._httpInterceptorService.request('GET', `${TEST_URL}/${API['ROLES']}/userTree`).toPromise();
   }
   resetPassword(params): Promise<ResModel> {
     //return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['USERS']}/password`, params).toPromise();
-    return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['USERS']}/password`, params).toPromise();
+    return this._httpInterceptorService.request('PUT', `${TEST_URL}/${API['USERS']}/password`, params).toPromise();
   }
 }

@@ -97,10 +97,6 @@ export class UserComponent implements OnInit {
       type: 'date-time',
     },
     {
-      key: 'createUser',
-      label: '创建人',
-    },
-    {
       key: 'createTime',
       label: '创建时间',
       type: 'date-time',

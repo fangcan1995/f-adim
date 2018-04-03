@@ -22,13 +22,26 @@
       <td *ngIf="showSeq" class="table-seq">{{ i + 1 }}</td>
       <td *ngFor="let title of titles" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}" [style.padding]="item.editState ? '4px 0': null">
         <input
-          *ngIf="item.editState === 'EDIT' || item.editState === 'CREATE'"
+          *ngIf="(item.editState === 'EDIT' || item.editState === 'CREATE')&&(title.key != 'endTime' && title.key != 'startTime')"
           class="form-control" 
           style="width: auto; max-width: 90%; padding-right: 4px; padding-left: 4px"
           type="text"
           [(ngModel)]="item.editData[title.key]"
           />
-
+            <!-- <input
+            *ngIf="item.editState === 'EDIT' || item.editState === 'CREATE'&&(title.key=='endTime' || title.key=='startTime' || title.key=='endTime');else elseBlock"
+            class="form-control" 
+            style="width: auto; max-width: 90%; padding-right: 4px; padding-left: 4px"
+            type="text"
+            [(ngModel)]="item.editData[title.key]"
+            /> -->
+            <!-- [(data)]="item.editData[title.key]" -->
+            <!-- title.key=='college' || title.key=='eduMajor' || title.key=='eduLevel'||title.key=='contRelation' || title.key=='contName' || title.key=='jobInfo'||title.key=='contPhone' || title.key=='companyName' || title.key=='jobType'|| title.key=='proveName' || title.key=='proveTel' -->
+        <seer-datepicker 
+        *ngIf="(item.editState === 'EDIT' || item.editState === 'CREATE')&&(title.key=='endTime' || title.key=='startTime')"
+        
+        [(date)]="item.editData[title.key]"
+        ></seer-datepicker>
         <a
           *ngIf="title.type == 'link' && item.editState != 'EDIT' && item.editState != 'CREATE'"
           (click)="openLink(item)"

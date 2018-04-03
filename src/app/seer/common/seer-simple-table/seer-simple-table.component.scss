@@ -13,6 +13,9 @@
       border-style: solid;
       border-color: $border;
       border-width: 0 1px;
+      .input-group {
+          margin-bottom: 0;
+      }
     }
   }
   

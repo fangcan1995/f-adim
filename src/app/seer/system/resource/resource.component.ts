@@ -82,15 +82,17 @@ export class ResourceComponent implements OnInit {
             this._dialogService.confirm('确定删除吗？')
               .subscribe(action => {
                 if ( action === 1 ) {
+                    console.log(data);
                   this._resourceService
-                  .deleteOne(data)
+                  .deleteOne(data.menuId)
                   .then((res) => {
                     // 如果编辑的菜单正好是用户有权查看的菜单，那么刷新用户信息
                     let resourcesInLocal = this._manageService.getResourcesFromLocal() || [];
                     if ( _.find(resourcesInLocal, t => t['menuId']) == data['menuId'] ) {
                       this._manageService.refreshLocalDataAndNotify();
                     }
-                    this.showSuccess(res.msg || '删除资源成功')
+                    this.showSuccess(res.msg || '删除资源成功');
+                    this.getList();
                     
                   })
                   .catch(err => {
