@@ -10,4 +10,5 @@ export class ResourceModel {
     public  menuStatus: string;
     public  remarks: string;
     public  hrefUrl: string;
+    public  systemId: string;
 }

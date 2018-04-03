@@ -50,6 +50,7 @@ export class ResourceEditComponent implements OnInit {
       this._resourceService.getOne(this.id)
       .then(res => {
         this.resource = res.data || {};
+        console.log(this.resource.systemId);
         this.forbidSaveBtn = false;
       })
       .catch(err => {
@@ -86,6 +87,9 @@ export class ResourceEditComponent implements OnInit {
           this.showError(err.msg || '更新失败')
         })
       } else {
+          if(!this.resource.menuStatus) {
+            this.resource.menuStatus = '0';
+          }
         this._resourceService.postOne(this.resource)
         .then(res => {
           this.showSuccess(res.msg || '保存成功')
