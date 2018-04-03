@@ -22,7 +22,7 @@ export class MessageEditComponent {
   isAdd: boolean;
   editId: string;
   isPickUsersAble:boolean=true;  //选择用户按钮无效
-  receivers=[];//接收用户
+  //receivers=``;//接收用户
   usersType: string; //用户类型
   //IsChecked={"sendMail":false,"sendNotify":false,"sendMessage":false,"now":false};//checkbox初始状态
   disabled={"sendMail":true,"sendNotify":true,"sendMessage":true,"now":true}; //checkbox是否可用
@@ -119,7 +119,7 @@ export class MessageEditComponent {
       this.service.getMessageById(this.editId).then((data) => {
         this.message = data.data;
         this.message.expectSendTime = this.message.expectSendTime ? new Date(this.message.expectSendTime.replace(/-/g, "/")) : '';
-        this.receivers = this.message.receivers.split(',');
+        this.ids = this.message.receivers;
         if(this.message.adaptationUser=="1"){
           this.usersType="users";
           //后台用户
@@ -366,6 +366,7 @@ export class MessageEditComponent {
         break;
     }
     this.modalRef = this.modalService.show(template,this.modalClass);
+    this.modalfilters=[];
     this.getUsersList();
     //this.selectedUserId=[];   //清空已选择id数组
   }
@@ -373,6 +374,7 @@ export class MessageEditComponent {
   //获取列表
   getUsersList():void{
     this.service.getUsers(this.usersType,this.modalPageInfo).then(res => {
+      console.log();
       this.modalPageInfo.pageNum=res.data.pageNum;  //当前页
       this.modalPageInfo.pageSize=res.data.pageSize; //每页记录数
       this.modalPageInfo.total=res.data.total; //记录总数
@@ -383,6 +385,7 @@ export class MessageEditComponent {
       }else if(this.usersType=='users'){
         keyId='id';
       }
+      console.log(this.modalUsers);
       this.modalUsers = _.map(this.modalUsers, r =>{
         let idIndex=this.selectedUserId.findIndex(x => x == r[keyId]);
         if(idIndex!=-1){
@@ -410,7 +413,7 @@ export class MessageEditComponent {
       case 'ok':
         this.ids='';
         this.ids=this.selectedUserId.join(",");
-        this.chooseResult=`已选定${this.ids.split(',').length}人`;
+        //this.chooseResult=`已选定${this.ids.split(',').length}人`;
         this.modalService.hide(1);
         break;
       case 'cancel':
@@ -421,10 +424,15 @@ export class MessageEditComponent {
         this.service.getIds(this.usersType,this.modalPageInfo).then(data=>{
           if(this.usersType=='members'){
             this.ids=data.message || null;
+            console.log('---');
+            console.log(this.ids);
           }else if(this.usersType=='users'){
+
             this.ids=data.data.ids || null;
+            console.log('---');
+            console.log(this.ids);
           }
-          this.chooseResult=`已选定${this.modalPageInfo.total}人`
+          //this.chooseResult=`已选定${this.modalPageInfo.total}人`
         }).catch(err=>{
           this.showError(err.msg || '连接错误');
         });
@@ -492,7 +500,7 @@ export class MessageEditComponent {
       mageMix = mage[0] || null;
       mageMax = mage[1] || null;
     }*/
-    console.log(mage);
+
     switch (mage){
       case `0`:
         mageMix =  null;
@@ -579,3 +587,5 @@ export class MessageEditComponent {
     })
   }
 }
+
+
