@@ -1,6 +1,5 @@
 <seer-content-top>
   <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
-  <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
 </seer-content-top>
 <div class="widgets">
   <div class="row">
@@ -10,10 +9,9 @@
           <div class="row">
             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
               <div class="row">
-                <label for="examName" class="col-sm-2 control-label">测评题目:</label>
+                <label  class="col-sm-2 control-label">测评题目:</label>
                 <div class="col-sm-10">
-                <textarea class="form-control" id="examName" [(ngModel)]="riskEval.examName"
-                          [ngModelOptions]="{standalone: true}"></textarea>
+                  <label >{{riskEval.examName}}</label>
                 </div>
               </div>
             </div>
@@ -21,15 +19,9 @@
           <div class="row">
             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
               <div class="row">
-                <label for="examType" class="col-sm-2 control-label">题目类型:</label>
+                <label  class="col-sm-2 control-label">题目类型:</label>
                 <div class="col-sm-4">
-                  <select type="email" class="form-control" name="examType" id="examType" dict-select
-                          [(ngModel)]="riskEval.examType"
-                          [key]="'EXAM_TYPE'"
-                          [topOption]="{itemId:'',itemName:'请选择'}"
-                          [selected]="riskEval.examType"
-                  >
-                  </select>
+                  <label  dict-trans [key]="'EXAM_TYPE'" [value]="riskEval.examType"></label>
                 </div>
               </div>
             </div>
@@ -37,15 +29,13 @@
           <div class="row">
             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
               <div class="row">
-                <label for="examType" class="col-sm-2 control-label">题目答案A:</label>
+                <label class="col-sm-2 control-label">题目答案A:</label>
                 <div class="col-sm-4">
-                  <input type="text" class="form-control" id="examA" [(ngModel)]="riskEval.examA"
-                         [ngModelOptions]="{standalone: true}">
+                  {{riskEval.examA}}
                 </div>
-                <label for="examType" class="col-sm-2 control-label">分数:</label>
+                <label class="col-sm-2 control-label">分数:</label>
                 <div class="col-sm-4">
-                  <input type="text" class="form-control" id="examAScores" [(ngModel)]="riskEval.examAScores"
-                         [ngModelOptions]="{standalone: true}">
+                  {{riskEval.examAScores}}
                 </div>
               </div>
             </div>
@@ -55,13 +45,11 @@
               <div class="row">
                 <label for="examType" class="col-sm-2 control-label">题目答案B:</label>
                 <div class="col-sm-4">
-                  <input type="text" class="form-control" id="examB" [(ngModel)]="riskEval.examB"
-                         [ngModelOptions]="{standalone: true}">
+                  {{riskEval.examB}}
                 </div>
                 <label for="examType" class="col-sm-2 control-label">分数:</label>
                 <div class="col-sm-4">
-                  <input type="text" class="form-control" id="examBScores" [(ngModel)]="riskEval.examBScores"
-                         [ngModelOptions]="{standalone: true}">
+                  {{riskEval.examBScores}}
                 </div>
               </div>
             </div>
@@ -71,13 +59,11 @@
               <div class="row">
                 <label for="examType" class="col-sm-2 control-label">题目答案C:</label>
                 <div class="col-sm-4">
-                  <input type="text" class="form-control" id="examC" [(ngModel)]="riskEval.examC"
-                         [ngModelOptions]="{standalone: true}">
+                  {{riskEval.examC}}
                 </div>
                 <label for="examType" class="col-sm-2 control-label">分数:</label>
                 <div class="col-sm-4">
-                  <input type="text" class="form-control" id="examCScores" [(ngModel)]="riskEval.examCScores"
-                         [ngModelOptions]="{standalone: true}">
+                  {{riskEval.examCScores}}
                 </div>
               </div>
             </div>
@@ -87,13 +73,25 @@
               <div class="row">
                 <label for="examType" class="col-sm-2 control-label">题目答案D:</label>
                 <div class="col-sm-4">
-                  <input type="text" class="form-control" id="examD" [(ngModel)]="riskEval.examD"
-                         [ngModelOptions]="{standalone: true}">
+                  {{riskEval.examD}}
                 </div>
                 <label for="examType" class="col-sm-2 control-label">分数:</label>
                 <div class="col-sm-4">
-                  <input type="text" class="form-control" id="examDScores" [(ngModel)]="riskEval.examDScores"
-                         [ngModelOptions]="{standalone: true}">
+                  {{riskEval.examDScores}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
+              <div class="row">
+                <label for="examType" class="col-sm-2 control-label">题目答案D:</label>
+                <div class="col-sm-4">
+                  {{riskEval.examE}}
+                </div>
+                <label for="examType" class="col-sm-2 control-label">分数:</label>
+                <div class="col-sm-4">
+                  {{riskEval.examEScores}}
                 </div>
               </div>
             </div>

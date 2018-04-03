@@ -78,8 +78,8 @@ export class RiskEvalComponent implements OnInit {
       case 'update':
         this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
         break;
-      case 'update':
-        this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
+      case 'preview':
+        this._router.navigate([`detail/${data.id}`], {relativeTo: this._route});
         break;
       case 'delete':
         this._dialogService.confirm('确定删除吗？').subscribe(action => {
