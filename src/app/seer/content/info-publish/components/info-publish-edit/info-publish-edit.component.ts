@@ -5,7 +5,7 @@ import { InfoPublishService } from '../../info-publish.service';
 import { Location } from '@angular/common';
 import { FileUploader, ParsedResponseHeaders, FileItem } from 'ng2-file-upload';
 import { getStorage } from '../../../../../theme/libs/utils';
-import { BASE_URL } from '../../../../../theme/services/base.service';
+import { BASE_URL, TEST_URL } from '../../../../../theme/services/base.service';
 import * as _ from 'lodash';
 
 import { GlobalState } from "../../../../../global.state";
@@ -44,7 +44,8 @@ export class InfoPublishEditComponent implements OnInit, OnChanges {
 
     /* 上传图片相关 */
     /*fileApi = 'http://172.16.7.4:8020/notice/affiche';*/
-    fileApi = `${BASE_URL}/notice/affiche`;
+    //fileApi = `${TEST_URL}/notice/affiche`;
+    fileApi = `${TEST_URL}/affiche`;
     token = getStorage({ key: 'token' });
     tokenType = this.token.token_type;
     accessToken = this.token.access_token;
@@ -116,7 +117,7 @@ export class InfoPublishEditComponent implements OnInit, OnChanges {
                     this.infoPublishSource = res.data || {};
                     this.cacheMemory = _.cloneDeep(this.infoPublishSource);
                     this.saveButtonState = false;
-                    console.log(this.infoPublishSource);
+                    console.log(this.infoPublishSource.affContent);
                     //初始化uploader变量，用来配置input 中的uploader属性
                     let headers = [{ name: 'Authorization', value: `${this.tokenType} ${this.accessToken}` }];
                     this.uploader = new FileUploader({
@@ -193,6 +194,7 @@ export class InfoPublishEditComponent implements OnInit, OnChanges {
                 });
             }
             else if (this._editType === 'add') {
+                console.log(this.infoPublishSource);
                 this._infoPublishService.addNewArticle(this.infoPublishSource).then((res: any) => {
                     this.saveButtonState = false;
                     this.showSuccess(res.msg || '保存成功').onClose()

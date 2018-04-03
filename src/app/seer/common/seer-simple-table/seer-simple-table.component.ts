@@ -56,7 +56,7 @@ export class SeerSimpleTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.titles = _.clone(this.titles);
-    
+    console.log(this.titles)
     if ( _.isArray(this.titles) && this.titles.length ) {
       this.sortBy = this.titles[0].key;
     }
@@ -94,14 +94,22 @@ export class SeerSimpleTableComponent implements OnInit {
   }
   handleActionsClick($event) {
     let { action, item } = $event;
+    
     switch ( action.type ) {
+
       case UPDATE.type:
+        console.log(item.data.endTime)
+        item.data.endTime = item.data.endTime != 'undefined' ? new Date(item.data.endTime.replace(/-/g, "/")) : '';
+        item.data.startTime = item.data.startTime != 'undefined' ? new Date(item.data.startTime.replace(/-/g, "/")) : '';              
         this.edit(item.key);
+    
         break;
       case DELETE.type:
         this.notify.emit({type: action.type, key: item.key});
         break;
       case SAVE.type:
+      console.log(item)
+        // item.data.endTime = item.data.endTime !== 'undefined' ? new Date(item.data.endTime.replace(/-/g, "/")) : ''; 
         this.notify.emit({type: action.type, key: item.key});
         break;
       case CANCEL.type:
@@ -234,6 +242,46 @@ export class SeerSimpleTableComponent implements OnInit {
       pageNumber: $event.pageNumber,
     })
   }
+  onChange(e){
+    console.log(e)
+  }
+  //  /*Date类型转化为时间戳*/
+  //  timestampFormat(data) {
+  //   if (data.sysEmployer.entryTime != null && data.sysEmployer.entryTime != "") {
+  //     data.sysEmployer.entryTime = data.sysEmployer.entryTime.getTime();
+  //   }
+  //   if (data.sysEmployer.exitTime != null && data.sysEmployer.exitTime != "") {
+  //     data.sysEmployer.exitTime = data.sysEmployer.exitTime.getTime();
+  //   }
+  //   if (data.sysEmployer.contractStartDate != null && data.sysEmployer.contractStartDate != "") {
+  //     data.sysEmployer.contractStartDate = data.sysEmployer.contractStartDate.getTime();
+  //   }
+  //   if (data.sysEmployer.contractEndDate != null && data.sysEmployer.contractEndDate != "") {
+  //     data.sysEmployer.contractEndDate = data.sysEmployer.contractEndDate.getTime();
+  //   }
+  //   if (data.sysEmployer.empBirth != null && data.sysEmployer.empBirth != "") {
+  //     data.sysEmployer.empBirth = data.sysEmployer.empBirth.getTime();
+  //   }
+  // }
+
+  // /*时间戳转化为Date*/
+  // dateFormat() {
+  //   if (this.staff.sysEmployer.entryTime != null && this.staff.sysEmployer.entryTime != "") {
+  //     this.staff.sysEmployer.entryTime = new Date(this.staff.sysEmployer.entryTime);
+  //   }
+  //   if (this.staff.sysEmployer.exitTime != null && this.staff.sysEmployer.exitTime != "") {
+  //     this.staff.sysEmployer.exitTime = new Date(this.staff.sysEmployer.exitTime);
+  //   }
+  //   if (this.staff.sysEmployer.contractStartDate != null && this.staff.sysEmployer.contractStartDate != "") {
+  //     this.staff.sysEmployer.contractStartDate = new Date(this.staff.sysEmployer.contractStartDate);
+  //   }
+  //   if (this.staff.sysEmployer.contractEndDate != null && this.staff.sysEmployer.contractEndDate != "") {
+  //     this.staff.sysEmployer.contractEndDate = new Date(this.staff.sysEmployer.contractEndDate);
+  //   }
+  //   if (this.staff.sysEmployer.empBirth != null && this.staff.sysEmployer.empBirth != "") {
+  //     this.staff.sysEmployer.empBirth = new Date(this.staff.sysEmployer.empBirth);
+  //   }
+  // }
 }
 
 

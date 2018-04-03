@@ -13,12 +13,27 @@ import {formatDate} from "ngx-bootstrap/bs-moment/format";
 export class ActivityComponent implements OnInit {
   hasGlobalFilter = true;
   filters = [
-    {key: 'activityCode', label: '活动编号', type: 'input.text'},
-    {key: 'trigMode', label: '触发方式', type: 'select', isDict: true, category: 'TRIG_MODE'},
-    {key: 'activityName', label: '活动主题', type: 'input.text'},
+    {key: 'activityCode', label: '活动编号', type: 'input.text',maxLength:'11'},
+    {key: 'trigMode', label: '活动类型', type: 'select', isDict: true, category: 'TRIG_MODE'},
+    {key: 'activityName', label: '活动主题', type: 'input.text',maxLength:'30'},
+    {key: 'productCategory', label: '适用产品', type: 'select', isDict: true, category: 'PRODUCT_CATEGORY'}, //add
+
     {
       key: 'beginTime',
-      label: '活动时间',
+      label: '开始时间',
+        groups: [
+        {
+          type: 'datepicker',
+        },
+        {
+          type: 'datepicker',
+        },
+      ],
+      groupSpaces: ['至']
+    },
+    {
+      key: 'endTime',
+      label: '结束时间',
       groups: [
         {
           type: 'datepicker',
@@ -33,11 +48,13 @@ export class ActivityComponent implements OnInit {
   ];
   titles = [
     {key: 'activityCode', label: '活动编号'},
-    {key: 'trigMode', label: '触发方式',isDict: true, category: 'TRIG_MODE'},
+    {key: 'trigMode', label: '活动类型',isDict: true, category: 'TRIG_MODE'},
     {key: 'activityName', label: '活动主题'},
-    {key: 'awardSentSum', label: '已发奖品数'},
-    {key: 'awardSum', label: '奖品总数'},
-    {key: 'beginTime', label: '活动开始时间',type:'date'},
+    {key: 'productCategory', label: '适用产品',isDict: true, category: 'PRODUCT_CATEGORY'},  //add
+    /*{key: 'awardSentSum', label: '已发奖品数'},
+    {key: 'awardSum', label: '奖品总数'},*/
+    {key: 'beginTime', label: '开始时间',type:'date'},
+    {key: 'endTime', label: '结束时间',type:'date'}, //add
     {key: 'activityStatus', label: '活动状态',isDict: true, category: 'ACTIVITY_STATUS'}
   ];
   //分页、排序、检索
@@ -154,17 +171,26 @@ export class ActivityComponent implements OnInit {
   //条件过滤
   handleFiltersChanged($event) {
     let params=$event;
-    let { beginTime, ...otherParams } = params;
+    let { beginTime,endTime, ...otherParams } = params;
     let beginStartTime,
-      beginEndTime;
+      beginEndTime,
+      endStartTime,
+      endEndTime
+    ;
     if ( _.isArray(beginTime)) {
       beginStartTime = beginTime[0] ? (formatDate(beginTime[0],'YYYY-MM-DD 00:00:00')) : null;
       beginEndTime = beginTime[1] ? (formatDate(beginTime[1],'YYYY-MM-DD 23:59:59')) : null;
+    }
+    if ( _.isArray(endTime)) {
+      endStartTime = endTime[0] ? (formatDate(endTime[0],'YYYY-MM-DD 00:00:00')) : null;
+      endEndTime = endTime[1] ? (formatDate(endTime[1],'YYYY-MM-DD 23:59:59')) : null;
     }
     params = {
       ...otherParams,
       beginStartTime,
       beginEndTime,
+      endStartTime,
+      endEndTime,
     }
     this.pageInfo = params;
     this.getList();

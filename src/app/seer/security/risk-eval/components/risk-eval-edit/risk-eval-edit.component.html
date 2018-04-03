@@ -98,6 +98,22 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
+              <div class="row">
+                <label for="examType" class="col-sm-2 control-label">题目答案E:</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="examE" [(ngModel)]="riskEval.examE"
+                         [ngModelOptions]="{standalone: true}">
+                </div>
+                <label for="examType" class="col-sm-2 control-label">分数:</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="examEScores" [(ngModel)]="riskEval.examEScores"
+                         [ngModelOptions]="{standalone: true}">
+                </div>
+              </div>
+            </div>
+          </div>
         </seer-collapse-card>
       </form>
     </div>

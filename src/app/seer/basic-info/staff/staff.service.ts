@@ -13,13 +13,13 @@ export class StaffService extends BaseService<StaffModule> {
     this.setApi("staffs");
   }
 
-  private staffsAPI = "http://172.16.1.242:9080/staffs";
+  private staffsAPI = "http://172.16.1.252:9080/staffs";
   // private staffsAPI = "http://172.16.1.27:8090/staffs";
   private educationsAPI = "educations";
   private relationsAPI = "relations";
   private businessAPI = "experiences";
 
-  private organizationsAPI = "http://172.16.1.242:9080/organizations/all";
+  private organizationsAPI = "http://172.16.1.252:9080/organizations/all";
 
 
   // 1、获取数据列表
@@ -73,13 +73,13 @@ export class StaffService extends BaseService<StaffModule> {
 
   // 7、修改教育经历
   putOneEdu(staffId, params): Promise<any> {
-    const url = `${this.staffsAPI}/${staffId}/${this.educationsAPI}/${params.id}`;
+    const url = `${this.staffsAPI}/${this.educationsAPI}/${params.id}`;
     return this._httpInterceptorService.request('PUT', `${url}`, params).toPromise();
   }
 
   //8、删除教育经理
   deleteEdu(staffId, eduId): Promise<any> {
-    const url = `${this.staffsAPI}/${staffId}/${this.educationsAPI}/${eduId}`;
+    const url = `${this.staffsAPI}/${this.educationsAPI}/${eduId}`;
     return this._httpInterceptorService.request('DELETE', `${url}`).toPromise();
   }
 
@@ -91,13 +91,13 @@ export class StaffService extends BaseService<StaffModule> {
 
   // 10、修改工作经验
   putOneRelations(staffId, params): Promise<any> {
-    const url = `${this.staffsAPI}/${staffId}/${this.relationsAPI}/${params.id}`;
+    const url = `${this.staffsAPI}/${this.relationsAPI}/${params.id}`;
     return this._httpInterceptorService.request('PUT', `${url}`, params).toPromise();
   }
 
   //11、删除工作经验
   deleteRelations(staffId, familyId): Promise<any> {
-    const url = `${this.staffsAPI}/${staffId}/${this.relationsAPI}/${familyId}`;
+    const url = `${this.staffsAPI}/${this.relationsAPI}/${familyId}`;
     return this._httpInterceptorService.request('DELETE', `${url}`).toPromise();
   }
 
@@ -109,13 +109,13 @@ export class StaffService extends BaseService<StaffModule> {
 
   // 13、修改联系人
   putOneExperiences(staffId, params): Promise<any> {
-    const url = `${this.staffsAPI}/${staffId}/${this.businessAPI}/${params.id}`;
+    const url = `${this.staffsAPI}/${this.businessAPI}/${params.id}`;
     return this._httpInterceptorService.request('PUT', `${url}`, params).toPromise();
   }
 
   //14、删除联系人
   deleteExperiences(staffId, businessId): Promise<any> {
-    const url = `${this.staffsAPI}/${staffId}/${this.businessAPI}/${businessId}`;
+    const url = `${this.staffsAPI}/${this.businessAPI}/${businessId}`;
     return this._httpInterceptorService.request('DELETE', `${url}`).toPromise();
   }
 
@@ -125,7 +125,7 @@ export class StaffService extends BaseService<StaffModule> {
 
   // 15、得到所有部门信息
   getAllOrganizations(): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET','http://172.16.1.242:9080/organizations/all',{}, false).toPromise();
+    return this._httpInterceptorService.request('GET','http://172.16.1.252:9080/organizations/all',{}, false).toPromise();
   }
 
   private extractData(res: Response) {
