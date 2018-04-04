@@ -41,7 +41,7 @@ export interface FilterModel {
   templateUrl: './seer-filter.component.html',
   styleUrls: [ './seer-filter.component.scss' ],
   animations: [ Animations.slideInOut ],
-  providers: [ManageService],
+  providers: [ManageService,StaffService],
 })
 export class SeerFilterComponent implements OnInit {
   @Input() hasGlobalFilter: boolean; // 是否有全局搜索输入框
