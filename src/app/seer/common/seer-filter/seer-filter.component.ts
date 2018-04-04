@@ -4,7 +4,8 @@ import {
   Input,
   Output,
   EventEmitter,
-  ViewChild
+  ViewChild,
+  TemplateRef
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -13,6 +14,13 @@ import * as _ from 'lodash';
 import { trim } from '../../../theme/libs/utils'
 import { Animations } from '../../../theme/animations/animations';
 import { ManageService } from "../../../theme/services";
+import {BsModalRef} from 'ngx-bootstrap/modal/modal-options.class';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {SeerMessageService} from '../../../theme/services/seer-message.service';
+import {Router, ActivatedRoute} from '@angular/router';
+import {TREE_PERMISSIONS} from "../../../theme/modules/seer-tree/constants/permissions";
+import {StaffService} from '../../basic-info/staff/staff.service';
+import {json2Tree} from "../../../theme/libs";
 
 export interface FilterModel {
   key: string | number,
@@ -33,7 +41,7 @@ export interface FilterModel {
   templateUrl: './seer-filter.component.html',
   styleUrls: [ './seer-filter.component.scss' ],
   animations: [ Animations.slideInOut ],
-  providers: [ManageService]
+  providers: [ManageService],
 })
 export class SeerFilterComponent implements OnInit {
   @Input() hasGlobalFilter: boolean; // 是否有全局搜索输入框
@@ -48,13 +56,19 @@ export class SeerFilterComponent implements OnInit {
   @Output() onFiltersChanged: EventEmitter<any> = new EventEmitter<any>();
   @Output() onSearchBtnClicked: EventEmitter<any> = new EventEmitter<any>();
   private isFiltersShown: boolean = false;
-
+  index=null;
+  
   filters$ = new Subject();
   @ViewChild('searchBtn') searchBtn;
   constructor(
     private service: ManageService,
+    private modalService: BsModalService,
+    private _messageService: SeerMessageService,
+    private _router: Router,
+    private _staffService: StaffService,
   ) { }
   ngOnInit() {
+    this.getOrganizations();
     this.onInit.emit({
       ...this.getFilterParams(this.filters),
       globalSearch: this.globalFilterValue
@@ -159,7 +173,15 @@ export class SeerFilterComponent implements OnInit {
     })
 
   }
+  
   handleComplexBtnClick() {
+    console.log(this.filters)
+    _.each(this.filters,(x,index)=>{
+      if(x.label==='公司团队'){
+        return this.index=index
+      }
+    })
+    this.filters[2].type='table'
     this.isFiltersShown = !this.isFiltersShown
   }
   isFilterShown() {
@@ -201,5 +223,90 @@ export class SeerFilterComponent implements OnInit {
   getGroupCol(groupsLength, groupSpacesLength) {
     return Math.floor((12 - groupSpacesLength * 2) / groupsLength);
   }
+  
+  //添加了一个树形结构，用于选择机构
+  treePermissions = TREE_PERMISSIONS.NOTIFY | TREE_PERMISSIONS.ADD | TREE_PERMISSIONS.EDIT | TREE_PERMISSIONS.DELETE | TREE_PERMISSIONS.DRAG | TREE_PERMISSIONS.SHOW_FILTER | TREE_PERMISSIONS.SHOW_ADD_ROOT;
+  treeNode = []; //组织树
 
+    /* 获取全部组织机构 */
+    getOrganizations() {
+      this._staffService.getOrganizations().then((result) => {
+        console.log(result);
+        let nodes = json2Tree(result.data,
+          {parentId: 'pid', children: 'children', id: 'departmentId'},
+          [
+            {origin: 'departmentName', replace: 'name'},
+            {origin: 'departmentId', replace: 'id'}
+          ]
+        );
+  
+        function addIcon(param) {
+          param.map(org => {
+            if (org.children) {
+              org.customIcon = 'ion-ios-people';
+              addIcon(org.children);
+            }
+            else {
+              org.customIcon = 'ion-android-people';
+              org.children = [];
+            }
+          })
+        }
+  
+        addIcon(nodes);
+        nodes.map(rootNode => rootNode['expanded'] = true);
+        this.treeNode = nodes;
+        console.log(this.treeNode);
+      }).catch(err => {
+        console.log(err);
+      });
+    }
+
+  public staff: any = {
+    sysEmployer: {}
+  };
+  public forbidSaveBtn: boolean = true;
+  /* 模态层 */
+  public modalRef: BsModalRef;
+  
+    public openModal(template: TemplateRef<any>) {
+      this.modalRef = this.modalService.show(template);
+    }
+  
+    private nodeId: string;
+    private nodeName: string;
+    onNotice ($event) {
+      console.log($event);
+      let node = $event.node;
+      if($event.eventName == "onFocus") {
+        this.nodeName = node.data.name;
+        this.nodeId = node.data.id;
+      }
+    }
+  
+    save () {
+      this.staff.sysEmployer.departmentId = this.nodeId;
+      this.staff.sysEmployer.departmentName = this.nodeName;
+      this.filters[this.index].value=this.staff.sysEmployer.departmentName
+    }
+  
+    alertSuccess(info: string) {
+      this._messageService.open({
+        icon: 'fa fa-times-circle',
+        message: info,
+        autoHideDuration: 3000,
+      }).onClose().subscribe(() => {
+        this._router.navigate(['/basic-info/staff-manage/'])
+      });
+    }
+  
+    alertError(errMsg: string) {
+      this.forbidSaveBtn = false;
+      // 错误处理的正确打开方式
+      this._messageService.open({
+        icon: 'fa fa-times-circle',
+        message: errMsg,
+        autoHideDuration: 3000,
+      })
+    }
 }

@@ -227,7 +227,7 @@
                 <div class="row">
                   <label  class="col-sm-4 control-label">职务</label>
                   <div class="col-sm-8 ">
-                    <input type="text" class="form-control" name="jobPost"  [(ngModel)]="baseInfo.jobPost" maxlength="10">
+                    <input type="text" class="form-control" name="jobPost"  [(ngModel)]="workInfo.jobPost" maxlength="10">
                   </div>
                 </div>
               </div>
@@ -235,7 +235,7 @@
                 <div class="row">
                   <label  class="col-sm-4 control-label">工作年限</label>
                   <div class="col-sm-8 ">
-                    <input type="text" class="form-control" name="workYear"  [(ngModel)]="baseInfo.workYear" maxlength="3"
+                    <input type="text" class="form-control" name="workYear"  [(ngModel)]="workInfo.workYear" maxlength="3"
                            currencyMask [options]="{ prefix: '',suffix:'年',thousands:'', allowZero: false,precision:0,allowNegative:false}"
                     >
                   </div>
@@ -245,7 +245,7 @@
                 <div class="row">
                   <label  class="col-sm-4 control-label">工作电话</label>
                   <div class="col-sm-8 ">
-                    <input type="text" class="form-control"  name="workTel" [(ngModel)]="baseInfo.workTel" maxlength="20">
+                    <input type="text" class="form-control"  name="workTel" [(ngModel)]="workInfo.workTel" maxlength="20">
                   </div>
                 </div>
               </div>
@@ -253,7 +253,7 @@
                 <div class="row">
                   <label class="col-sm-4 control-label">月净收入</label>
                   <div class="col-sm-8 ">
-                    <input type="text" class="form-control"  name="monthIncome" [(ngModel)]="baseInfo.monthIncome" maxlength="13"
+                    <input type="text" class="form-control"  name="monthIncome" [(ngModel)]="workInfo.monthIncome" maxlength="13"
                            #monthIncome="ngModel"  [range]="[0,999999999]"
                            currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}"
                     >
@@ -265,7 +265,7 @@
                 <div class="row">
                   <label  class="col-sm-4 control-label">详细地址</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control"  name="workAddress" [(ngModel)]="baseInfo.workAddress" maxlength="30">
+                    <input type="text" class="form-control"  name="workAddress" [(ngModel)]="workInfo.workAddress" maxlength="30">
                   </div>
                 </div>
               </div>
@@ -323,7 +323,7 @@
               <div class="row">
                 <label  class="col-sm-4 control-label">月无抵押货款还款额</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="carRepayMonth" [(ngModel)]="baseInfo.unsecuredRepayMonth" maxlength="13"
+                  <input type="text" class="form-control" name="carRepayMonth" [(ngModel)]="financialInfo.unsecuredRepayMonth" maxlength="13"
                          #carRepayMonth="ngModel"  [range]="[0,999999999]"
                          currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}">
                 </div>
@@ -334,7 +334,7 @@
               <div class="row">
                 <label  class="col-sm-4 control-label">月信用卡还款金额</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="cardRepayMonth" [(ngModel)]="baseInfo.cardRepayMonth" maxlength="13"
+                  <input type="text" class="form-control" name="cardRepayMonth" [(ngModel)]="financialInfo.cardRepayMonth" maxlength="13"
                          #cardRepayMonth="ngModel"  [range]="[0,999999999]"
                          currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}">
                   <p class="text-danger" *ngIf="cardRepayMonth.errors?.range">请输入小于1000000000的数值</p>
@@ -345,7 +345,7 @@
               <div class="row">
                 <label  class="col-sm-4 control-label">月房屋按揭金额</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="houseRepayMonth" [(ngModel)]="baseInfo.houseRepayMonth" maxlength="13"
+                  <input type="text" class="form-control" name="houseRepayMonth" [(ngModel)]="financialInfo.houseRepayMonth" maxlength="13"
                          #houseRepayMonth="ngModel"  [range]="[0,999999999]"
                          currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}">
                   <p class="text-danger" *ngIf="houseRepayMonth.errors?.range">请输入小于1000000000的数值</p>
@@ -356,7 +356,7 @@
               <div class="row">
                 <label class="col-sm-4 control-label">月汽车按揭金额</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="unsecuredRepayMonth" [(ngModel)]="baseInfo.carRepayMonth" maxlength="13"
+                  <input type="text" class="form-control" name="unsecuredRepayMonth" [(ngModel)]="financialInfo.carRepayMonth" maxlength="13"
                          #unsecuredRepayMonth="ngModel"  [range]="[0,999999999]"
                          currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}">
                   <p class="text-danger" *ngIf="unsecuredRepayMonth.errors?.range">请输入小于1000000000的数值</p>
@@ -367,7 +367,7 @@
               <div class="row">
                 <label class="col-sm-4 control-label">自有汽车</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="hasCar"  [(ngModel)]="baseInfo.hasCar"  maxlength="4"
+                  <input type="text" class="form-control" name="hasCar"  [(ngModel)]="financialInfo.hasCar"  maxlength="4"
                          currencyMask [options]="{ prefix: '',suffix:'台',thousands:'', allowZero: false,precision:0,allowNegative:false}">
                 </div>
               </div>
@@ -376,7 +376,7 @@
               <div class="row">
                 <label  class="col-sm-4 control-label">自有房产</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="hasHouse"  [(ngModel)]="baseInfo.hasHouse"  maxlength="4"
+                  <input type="text" class="form-control" name="hasHouse"  [(ngModel)]="financialInfo.hasHouse"  maxlength="4"
                          currencyMask [options]="{ prefix: '',suffix:'套',thousands:'', allowZero: false,precision:0,allowNegative:false}">
                 </div>
               </div>
@@ -594,6 +594,7 @@
     <button type="button"  class="btn btn-default" (click)="modalRef.hide()">关闭</button>
   </div>
 </ng-template>
+
 <ng-template #houseTemplate>
   <div class="modal-header">
     <h5 class="modal-title pull-left">

@@ -4,10 +4,10 @@ import {getStorage} from "../../../theme/libs/utils"
 @Injectable()
 export class MemberService extends BaseService<ResModel>{
   // MembersUrl=`${BASE_URL}/${API['MEMBERS']}/members`; //会员接口
-  MembersUrl=`http://172.16.1.245:9080/members`; //会员接口
+  MembersUrl=`http://172.16.1.225:9080/members`; //会员接口
   emergencyContactUrl=`emergencyContact`;//联系人
-  VehicleContactUrl=`vehicleInfo`;//车辆
-  HouseContactUrl=`houseInfo`;//车辆
+  VehicleContactUrl=`car`;//车辆
+  HouseContactUrl=`house`;//车辆
   accessToken = getStorage({ key: 'token' }).access_token;
 
   constructor(
@@ -27,7 +27,7 @@ export class MemberService extends BaseService<ResModel>{
   }
   //3 修改基本信息,OK
   putBasicInfo(id,params): Promise<ResModel> {
-    return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/baseInfo`,params).toPromise();
+    return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/personBaseInfo`,params).toPromise();
   }
   //4-1 增加联系人,OK
   postContact(id, params): Promise<ResModel> {
@@ -43,11 +43,13 @@ export class MemberService extends BaseService<ResModel>{
   }
   //5 修改工作信息，OK
   putWorkInfo(id, params): Promise<ResModel> {
+    console.log(params);
     return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/workInfo`, params).toPromise();
   }
   //6修改账户信息，因不可修改，暂无
   //7 修改财务状况信息,OK
   putFinancialInfo(id, params): Promise<ResModel> {
+    console.log(params);
     return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/financialInfo`, params).toPromise();
   }
   //8-1 增加车辆，OK
