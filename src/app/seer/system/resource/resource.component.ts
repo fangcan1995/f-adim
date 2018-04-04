@@ -52,7 +52,6 @@ export class ResourceComponent implements OnInit {
         pageNum: 1,
         pageSize: 100000,
         total: 1000,
-        typeId: 1,
         globalSearch: '',
         sortBy: '',
     }
@@ -88,33 +87,44 @@ export class ResourceComponent implements OnInit {
                 this._router.navigate([`/system/resource/edit/${data.menuId}`]);
                 break;
             case DELETE.type:
-                this._dialogService.confirm('确定删除吗？')
-                    .subscribe(action => {
-                        if (action === 1) {
-                            console.log(data);
-                            this._resourceService
-                                .deleteOne(data.menuId)
-                                .then((res) => {
-                                    // 如果编辑的菜单正好是用户有权查看的菜单，那么刷新用户信息
-                                    let resourcesInLocal = this._manageService.getResourcesFromLocal() || [];
-                                    if (_.find(resourcesInLocal, t => t['menuId']) == data['menuId']) {
-                                        this._manageService.refreshLocalDataAndNotify();
-                                    }
-                                    this.showSuccess(res.msg || '删除资源成功');
-                                    this.getList(this.pageInfo);
+                this._dialogService.confirm(
+                    `确定删除菜单  #${data.menuName}#  吗？`,
+                    [
+                        {
+                            type: 1,
+                            text: '确认删除'
+                        },
+                        {
+                            type: 0,
+                            text: '暂不删除'
+                        },
+                    ]
+                ).subscribe(action => {
+                    if (action === 1) {
+                        console.log(data);
+                        this._resourceService
+                            .deleteOne(data.menuId)
+                            .then((res) => {
+                                // 如果编辑的菜单正好是用户有权查看的菜单，那么刷新用户信息
+                                let resourcesInLocal = this._manageService.getResourcesFromLocal() || [];
+                                if (_.find(resourcesInLocal, t => t['menuId']) == data['menuId']) {
+                                    this._manageService.refreshLocalDataAndNotify();
+                                }
+                                this.showSuccess(res.msg || '删除资源成功');
+                                this.getList(this.pageInfo);
 
-                                })
-                                .catch(err => {
-                                    this.showError(err.msg || '删除资源失败')
-                                });
-                        }
-                    })
+                            })
+                            .catch(err => {
+                                this.showError(err.msg || '删除资源失败')
+                            });
+                    }
+                });
                 break;
             case DELETE_MULTIPLE.type:
                 let ids = _(data).map(t => t.id).value();
                 break;
             case 'export':
-                this._resourceService.exportForm().then(res => {
+                this._resourceService.exportForm(this.pageInfo).then(res => {
                     let blob = res.blob();
                     let a = document.createElement('a');
                     let url = window.URL.createObjectURL(blob);
@@ -146,10 +156,10 @@ export class ResourceComponent implements OnInit {
     }
     handleFiltersChanged($event) {
         console.log($event);
-        const newPageInfo = {
+        this.pageInfo = {
             ...this.pageInfo,
             globalSearch: $event.globalSearch
         }
-        this.getList(newPageInfo);
+        this.getList(this.pageInfo);
     }
 }
