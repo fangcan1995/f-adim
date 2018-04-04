@@ -85,17 +85,19 @@
                     <label  class="col-sm-4 col-md-2 control-label">投资金额</label>
                     <div class="col-sm-8 col-md-10 group">
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" [(ngModel)]="baseInfoDTO.investMinMoney"
+                        <input type="text" class="form-control" [(ngModel)]="baseInfoDTO.investMinMoney" style="padding-right: 30px"
                                name="investMinMoney" #investMinMoney="ngModel" required [range]="[1,999999999]"
-                               currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}"  />
+                                maxlength="9"  />
+                        <span class="unit">元</span>
                         <p class="text-danger" *ngIf="investMinMoney.errors?.required">*</p>
                         <p class="text-danger" *ngIf="investMinMoney.errors?.range">请输入小于1000000000的数值</p>
                       </div>
                       <label class="col-sm-2">至</label>
                       <div class="col-sm-5" style="position: relative">
-                        <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.investMaxMoney"
-                               name="investMaxMoney" #investMaxMoney="ngModel" required [range]="[1, 999999999]"
-                               currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}"  />
+                        <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.investMaxMoney" style="padding-right: 30px"
+                               name="investMaxMoney" #investMaxMoney="ngModel" required [range]="[1, 999999999]" maxlength="9"
+                                 />
+                        <span class="unit">元</span>
                         <p class="text-danger" *ngIf="investMaxMoney.errors?.required">*</p>
                         <p class="text-danger" *ngIf="investMaxMoney.errors?.range">请输入小于1000000000的数值</p>
                       </div>
@@ -108,20 +110,20 @@
                     <div class="col-sm-8 col-md-10 group">
                       <div class="col-sm-5">
                         <input  class="form-control"  [(ngModel)]="baseInfoDTO.investMinNum" style="padding-right: 30px"
-                                name="investMinNum" #investMinNum="ngModel" required [range]="[1, 99]"
-                                currencyMask [options]="{ prefix: '',suffix: '', allowZero: false,precision:0,allowNegative:false,thousands:'' }" />
+                                name="investMinNum" #investMinNum="ngModel" required [range]="[1, 999]" maxlength="3"
+                        />
                         <span class="unit">次</span>
                         <p class="text-danger" *ngIf="investMinNum.errors?.required">*</p>
-                        <p class="text-danger" *ngIf="investMinNum.errors?.range">请输入小于100的数值</p>
+                        <p class="text-danger" *ngIf="investMinNum.errors?.range">请输入小于1000的数值</p>
                       </div>
                       <label class="col-sm-2">至</label>
                       <div class="col-sm-5">
                         <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.investMaxNum" style="padding-right: 30px"
-                               name="investMaxNum" #investMaxNum="ngModel" required [range]="[1, 99]"
-                               currencyMask [options]="{ prefix: '',suffix: '', allowZero: false,precision:0,allowNegative:false,thousands:''}" />
+                               name="investMaxNum" #investMaxNum="ngModel" required [range]="[1, 999]" maxlength="3"
+                        />
                         <span class="unit">次</span>
                         <p class="text-danger" *ngIf="investMaxNum.errors?.required">*</p>
-                        <p class="text-danger" *ngIf="investMaxNum.errors?.range">请输入小于100的数值</p>
+                        <p class="text-danger" *ngIf="investMaxNum.errors?.range">请输入小于1000的数值</p>
                       </div>
                     </div>
                   </div>
@@ -156,18 +158,16 @@
                   <div class="col-sm-8 col-md-10 group" >
                     <div class="col-sm-5">
                       <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.participateNum1" style="padding-right: 30px"
-                             name="participateNum1" #participateNum1="ngModel" required [range]="[1, 99]"
-                             currencyMask [options]="{ prefix: '',suffix: ' ', allowZero: false,precision:0,allowNegative:false,thousands:''}"
+                             name="participateNum1" #participateNum1="ngModel" required [range]="[1, 999]" maxlength="3"
                       />
                       <span class="unit">次</span>
                       <p class="text-danger" *ngIf="participateNum1.errors?.required">*</p>
-                      <p class="text-danger" *ngIf="participateNum1.errors?.range">请输入小于100的数值</p>
+                      <p class="text-danger" *ngIf="participateNum1.errors?.range">请输入小于1000的数值</p>
                     </div>
                     <label class="col-sm-2">/</label>
                     <div class="col-sm-5">
                       <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.participateNum2" style="padding-right: 30px"
-                             name="participateNum2" #participateNum2="ngModel" required [range]="[1, 999]"
-                             currencyMask [options]="{ prefix: '',suffix: ' ', allowZero: false,precision:0,allowNegative:false,thousands:''}"
+                             name="participateNum2" #participateNum2="ngModel" required [range]="[1, 999]" maxlength="3"
                       />
                       <p class="text-danger" *ngIf="participateNum2.errors?.required">*</p>
                       <p class="text-danger" *ngIf="participateNum2.errors?.range">请输入小于1000的数值</p>
@@ -195,7 +195,7 @@
                 <div class="row">
                   <label class="col-sm-4 col-md-2 col-lg-1 control-label">活动链接</label>
                   <div class="col-sm-8 col-md-10 col-lg-11">
-                    <input type="text" class="form-control" name="activityPageUrl" [(ngModel)]="baseInfoDTO.activityPageUrl" />
+                    <input type="text" class="form-control" name="activityPageUrl" [(ngModel)]="baseInfoDTO.activityPageUrl" maxlength="50"  />
                   </div>
                 </div>
               </div>

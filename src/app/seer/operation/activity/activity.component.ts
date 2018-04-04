@@ -14,7 +14,7 @@ export class ActivityComponent implements OnInit {
   hasGlobalFilter = true;
   filters = [
     {key: 'activityCode', label: '活动编号', type: 'input.text',maxLength:'11'},
-    {key: 'trigMode', label: '活动类型', type: 'select', isDict: true, category: 'TRIG_MODE'},
+    {key: 'trigMode', label: '触发方式', type: 'select', isDict: true, category: 'TRIG_MODE'},
     {key: 'activityName', label: '活动主题', type: 'input.text',maxLength:'30'},
     {key: 'productCategory', label: '适用产品', type: 'select', isDict: true, category: 'PRODUCT_CATEGORY'}, //add
 
@@ -48,7 +48,7 @@ export class ActivityComponent implements OnInit {
   ];
   titles = [
     {key: 'activityCode', label: '活动编号'},
-    {key: 'trigMode', label: '活动类型',isDict: true, category: 'TRIG_MODE'},
+    {key: 'trigMode', label: '触发方式',isDict: true, category: 'TRIG_MODE'},
     {key: 'activityName', label: '活动主题'},
     {key: 'productCategory', label: '适用产品',isDict: true, category: 'PRODUCT_CATEGORY'},  //add
     /*{key: 'awardSentSum', label: '已发奖品数'},
