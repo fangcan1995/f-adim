@@ -146,7 +146,8 @@ export class ActivityComponent implements OnInit {
           })
         break;
       case 'stop':
-        this._dialogService.confirm('确定提前停止吗？<input type="text">')
+        //console.log(message.data);
+        this._dialogService.confirm(`确定要提前终止#${message.data.activityName}#吗？<input type="text">`)
           .subscribe(action => {
             if (action === 1) {
               let reason={
