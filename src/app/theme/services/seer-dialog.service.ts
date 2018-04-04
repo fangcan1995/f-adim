@@ -63,20 +63,19 @@ export class SeerDialogService {
     return _action$;
 
   }
-  public confirm(msg) {
+  public confirm(msg: string, action?:Array<object>) {
     this.show({
       header: '提示',
       content: msg,
-      actions: [
-        {
-          type: 0,
-          text: '取消',
-        },
+      actions: action ? action : [
         {
           type: 1,
           text: '确定',
         },
-
+        {
+          type: 0,
+          text: '取消',
+        },
       ]
     })
     let _action$ = new Subject();

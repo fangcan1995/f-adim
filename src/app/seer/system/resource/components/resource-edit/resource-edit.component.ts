@@ -63,7 +63,7 @@ export class ResourceEditComponent implements OnInit {
                 .then(res => {
                     this.resource.systemId.forEach((x, i) => {
                         this.systemList.forEach((y, t) => {
-                            if(x === y.systemId) {
+                            if (x === y.systemId) {
                                 y.isChecked = true;
                             }
                         })
@@ -85,7 +85,7 @@ export class ResourceEditComponent implements OnInit {
     present() {
         this.uploadSys = [];
         this.systemList.forEach(x => {
-            if(x.isChecked === true) {
+            if (x.isChecked === true) {
                 this.uploadSys.push(x.systemId);
             }
         });
@@ -108,12 +108,24 @@ export class ResourceEditComponent implements OnInit {
 
 
     handleBackBtnClick() {
-        this._dialogService.confirm('还未保存确认要离开么?')
-            .subscribe(action => {
-                if(action === 1) {
-                    this._location.back();
-                }
-            })
+        this._dialogService.confirm(
+            '还未保存确认要离开么?',
+            [
+                {
+                    type: 1,
+                    text: '立即离开',
+                },
+                {
+                    type: 0,
+                    text: '继续编辑',
+                },
+                
+            ]
+        ).subscribe(action => {
+            if (action === 1) {
+                this._location.back();
+            }
+        })
     }
 
     handleSaveBtnClick() {
@@ -146,7 +158,7 @@ export class ResourceEditComponent implements OnInit {
                 if (!this.resource.menuStatus) {
                     this.resource.menuStatus = '0';
                 }
-                if(!this.resource.menuType) {
+                if (!this.resource.menuType) {
                     this.resource.menuType = '0';
                 }
                 this.resource.systemId = this.uploadSys;
