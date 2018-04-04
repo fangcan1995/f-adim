@@ -99,8 +99,8 @@ export class SeerSimpleTableComponent implements OnInit {
 
       case UPDATE.type:
         console.log(item.data.endTime)
-        item.data.endTime = item.data.endTime != 'undefined' ? new Date(item.data.endTime.replace(/-/g, "/")) : '';
-        item.data.startTime = item.data.startTime != 'undefined' ? new Date(item.data.startTime.replace(/-/g, "/")) : '';              
+        item.data.endTime = item.data.endTime  ? new Date(item.data.endTime.replace(/-/g, "/")) : '';
+        item.data.startTime = item.data.startTime  ? new Date(item.data.startTime.replace(/-/g, "/")) : '';              
         this.edit(item.key);
     
         break;

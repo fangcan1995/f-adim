@@ -6,6 +6,7 @@ import {UPDATE, DELETE} from '../../common/seer-table/seer-table.actions';
 import {SeerDialogService} from "../../../theme/services/seer-dialog.service"
 import {titles} from './staff.config';
 import {SeerMessageService} from "../../../theme/services/seer-message.service";
+import { formatDate } from "ngx-bootstrap/bs-moment/format";
 
 @Component({
   templateUrl: './staff.component.html',
@@ -29,7 +30,7 @@ export class StaffComponent {
     {key: 'inviteNumEnd', label: '-', type: 'input.text'},
     {key: 'position', label: '职位', type: 'input.text'},
     {
-      key: 'empState', label: '员工状态', type: 'select',
+      key: 'empStatus', label: '员工状态', type: 'select',
       options: [{value: '', content: '请选择'},{value: '0', content: '试用'},{value: '1', content: '在职'},{value: '2', content: '离职'}]
     },
     {key: 'entryTimeStart', label: '入职时间', type: 'input.date'},
@@ -49,7 +50,7 @@ export class StaffComponent {
       "inviteNumStart": "",
       "inviteNumEnd": "",
       "position": "",
-      "empState": "",
+      "empStatus": "",
       "entryTimeStart": "",
       "entryTimeEnd": ""
     },
@@ -72,6 +73,7 @@ export class StaffComponent {
 
   //获取列表
   getStaffs(): void {
+    console.log(this.pageInfo)
     this.staffManageService.getLists(this.pageInfo).then(
       res => {
         this.pageInfo.pageNum = res.data.pageNum;  //当前页
@@ -92,12 +94,12 @@ export class StaffComponent {
         //   this.pageInfo.Organization[index].value=item.departmentId;
         //   this.pageInfo.Organization[index].content=item.departmentName
         // })
-        // console.log(this.pageInfo.Organization)
-        // this.pageInfo.pageNum = res.data.pageNum;  //当前页
-        // this.pageInfo.pageSize = res.data.pageSize; //每页记录数
-        // this.pageInfo.total = res.data.total; //记录总数
-        // this.staffs = res.data.list;
-        // this.staffs = _.map(this.staffs, r => _.set(r, 'actions', [UPDATE, DELETE]));
+        console.log(this.pageInfo.Organization)
+        this.pageInfo.pageNum = res.data.pageNum;  //当前页
+        this.pageInfo.pageSize = res.data.pageSize; //每页记录数
+        this.pageInfo.total = res.data.total; //记录总数
+        this.staffs = res.data.list;
+        this.staffs = _.map(this.staffs, r => _.set(r, 'actions', [UPDATE, DELETE]));
       },
       error => this.errorMessage = <any>error);
   }
@@ -152,13 +154,24 @@ export class StaffComponent {
 
   //多条件查询
   handleFiltersChanged($event) {
-    let params = $event;
-    this.pageInfo.query = params;
+    // let params = $event;
+    const newData = _.cloneDeep($event);
+    console.log(newData);
+    newData.entryTimeEnd = newData.entryTimeEnd?newData.entryTimeEnd+' 08:00:00':''
+    newData.entryTimeStart = newData.entryTimeStart?newData.entryTimeStart+' 08:00:00':''
+    console.log(newData); 
+    this.pageInfo.query = newData;
     this.getStaffs();
   }
+
   handleSearchBtnClicked($event) {
-    let params = $event;
-    this.pageInfo.query = params;
+    // let params = $event;
+    const newData = _.cloneDeep($event);
+    console.log(newData);
+    newData.entryTimeEnd = newData.entryTimeEnd?newData.entryTimeEnd+' 08:00:00':''
+    newData.entryTimeStart = newData.entryTimeStart?newData.entryTimeStart+' 08:00:00':''
+    console.log(newData);
+    this.pageInfo.query = newData;
     this.getStaffs();
   }
 

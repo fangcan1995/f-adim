@@ -66,10 +66,10 @@ export class MessageService extends BaseService<ResModel>{
     //根据userType调用不同接口
     let url:string;
     if(usersType=='members'){
-      url = `${BASE_URL}/${API['MEMBERS']}/members/members/ids`
-
-    }else if(usersType=='users'){
+      //url = `${BASE_URL}/${API['MEMBERS']}/members/members/ids`
       url=`http://172.16.1.225:9080/members/memberMessagesIds?access_token=84b41b07-9061-4c98-906d-4bbf17bcd7d1`;
+    }else if(usersType=='users'){
+      url=`http://172.16.1.234:9080/staffs/ids`;
       //url = `${BASE_URL}/${API['STAFFS']}/ids`
     }
     return this._httpInterceptorService.request('GET', url,params).toPromise();
