@@ -138,8 +138,10 @@ export class ActivityEditComponent {
               this.baseInfoDTO=this.activity.baseInfoDTO;
               (this.baseInfoDTO.trigMode=='4')?this.isInvestMode=false:this.isInvestMode=true; //投资奖励的特殊处理
               (this.baseInfoDTO.activityScope=='3')?this.hideChooseMembers=false:this.hideChooseMembers=true; //指定用户的特殊处理
-              this.baseInfoDTO.beginTime=new Date(this.baseInfoDTO.beginTime);  //格式化时间
-              this.baseInfoDTO.endTime=new Date(this.baseInfoDTO.endTime);  //格式化时间
+              //this.baseInfoDTO.beginTime=new Date(this.baseInfoDTO.beginTime);  //格式化时间
+              this.baseInfoDTO.beginTime = this.baseInfoDTO.beginTime ? new Date(this.baseInfoDTO.beginTime.replace(/-/g, "/")) : '';
+              this.baseInfoDTO.endTime = this.baseInfoDTO.endTime ? new Date(this.baseInfoDTO.endTime.replace(/-/g, "/")) : '';
+              //this.baseInfoDTO.endTime=new Date(this.baseInfoDTO.endTime);  //格式化时间
 
               this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[0]:'';//频率字段拆分出次数
               this.baseInfoDTO.participateNum2=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[1]:'';//频率字段拆分出时间间隔
@@ -149,7 +151,7 @@ export class ActivityEditComponent {
               //console.log(this.baseInfoDTO);
               this.awardsDTO=this.activity.awardsDTO;
 
-              this.scopesPageInfo.total=this.activity.scopesDTO.length;
+              this.scopesPageInfo.total=this.activity.scopesDTO.length;//报错
 
               this.scopesDTO=this.activity.scopesDTO;  //范围列表
               this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
@@ -585,12 +587,17 @@ export class ActivityEditComponent {
     delete baseInfo.participateNum1;
     delete baseInfo.participateNum2;
     //处理日期
-    baseInfo.beginTime=(baseInfo.beginTime.getTime())|| null;
-    baseInfo.endTime=(baseInfo.endTime.getTime())|| null;
+    //baseInfo.beginTime=(baseInfo.beginTime.getTime())|| null;
+    //baseInfo.endTime=(baseInfo.endTime.getTime())|| null;
+    let baseInfoNew=_.cloneDeep(baseInfo);
+    baseInfoNew.beginTime=formatDate(baseInfoNew.beginTime,'YYYY-MM-DD hh:mm:ss');
+    baseInfoNew.endTime=formatDate(baseInfoNew.endTime,'YYYY-MM-DD hh:mm:ss');
+
+
 
     this.activitySubmit={
       "activityId":this.activity.activityId,
-      "baseInfoPOJO":baseInfo,
+      "baseInfoPOJO":baseInfoNew,
       "awardsPOJO":{
         "redEnvelopesPOJOs":this.activity.awardsDTO.redEnvelopesDTOs,
         "rateCouponsPOJOs":this.activity.awardsDTO.rateCouponsDTOs,

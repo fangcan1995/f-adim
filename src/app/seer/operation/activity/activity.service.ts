@@ -298,7 +298,9 @@ export class ActivityService extends BaseService<ResModel>{
 
   //7 查询会员列表
   getMembers(params:any): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MEMBERS']}/members/members/messages`,params).toPromise();
+    let url=`http://172.16.1.225:9080/members/memberMessagesList?access_token=84b41b07-9061-4c98-906d-4bbf17bcd7d1`;
+    return this._httpInterceptorService.request('GET', `${url}`,params).toPromise();
+    //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MEMBERS']}/members/members/messages`,params).toPromise();
   }
 
   //8 查询会员id数组中的会员列表

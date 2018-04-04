@@ -178,7 +178,7 @@
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
                 <div class="row">
-                  <label  class="col-sm-4 col-md-2 control-label">结算方式</label>
+                  <label  class="col-sm-4 col-md-2 control-label">派发时间</label>
                   <div class="col-sm-8 col-md-10" >
                     <select class="form-control" name="issueTime" [(ngModel)]="baseInfoDTO.issueTime" #issueTime="ngModel" required
                             dict-select
@@ -192,7 +192,7 @@
               </div>
               <div class="form-group col-sm-12">
                 <div class="row">
-                  <label class="col-sm-4 col-md-2 col-lg-1 control-label">页面链接</label>
+                  <label class="col-sm-4 col-md-2 col-lg-1 control-label">活动链接</label>
                   <div class="col-sm-8 col-md-10 col-lg-11">
                     <input type="text" class="form-control" name="activityPageUrl" [(ngModel)]="baseInfoDTO.activityPageUrl" />
                   </div>
@@ -202,7 +202,9 @@
                 <div class="row">
                   <label class="col-sm-4 col-md-2 col-lg-1 control-label">活动备注</label>
                   <div class="col-sm-8 col-md-10 col-lg-11">
-                    <input type="text" class="form-control" name="activityRemark" [(ngModel)]="baseInfoDTO.activityRemark" />
+                    <textarea class="form-control" name="activityRemark" [(ngModel)]="baseInfoDTO.activityRemark"
+                               #baseInfoDTO="ngModel" [rangeLength]="[0,200]" ></textarea>
+                    <p class="text-danger" *ngIf="baseInfoDTO.errors?.rangeLength">请输入200个以内字符</p>
                   </div>
                 </div>
               </div>
