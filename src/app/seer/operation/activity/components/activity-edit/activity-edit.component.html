@@ -13,7 +13,7 @@
                 <div class="row">
                   <label class="col-sm-4 col-md-2 control-label">活动主题</label>
                   <div class="col-sm-8 col-md-10">
-                    <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.activityName" name="activityName" #activityName="ngModel" [rangeLength]="[0,20]" required />
+                    <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.activityName" name="activityName" #activityName="ngModel" [rangeLength]="[0,20]" maxlength="50" required />
                      <p class="text-danger" *ngIf="activityName.errors?.required">*</p>
                     <p class="text-danger" *ngIf="activityName.errors?.rangeLength">请输入20个以内字符</p>
                   </div>
@@ -23,7 +23,7 @@
                 <div class="row">
                   <label class="col-sm-4 col-md-2 control-label">活动编号</label>
                   <div class="col-sm-8 col-md-10">
-                    <input type="text" class="form-control" [(ngModel)]="baseInfoDTO.activityCode" name="activityCode" [disabled]="true"  />
+                    <input type="text" class="form-control" [(ngModel)]="baseInfoDTO.activityCode" name="activityCode" [disabled]="true" maxlength="50" />
                   </div>
                 </div>
               </div>
@@ -31,7 +31,8 @@
                 <div class="row">
                   <label  class="col-sm-4 col-md-2 control-label">关联活动</label>
                   <div class="col-sm-8 col-md-10">
-                    <input type="text" class="form-control" name="parentId" [(ngModel)]="baseInfoDTO.parentId" />
+                    <input type="text" class="form-control" name="parentId" [(ngModel)]="baseInfoDTO.parentId" #parentId="ngModel" [rangeLength]="[0,20]" maxlength="50" />
+                    <p class="text-danger" *ngIf="parentId.errors?.rangeLength">请输入20个以内字符</p>
                   </div>
                 </div>
               </div>
@@ -814,9 +815,9 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">关联活动</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.activityId" name="activityId" [rangeLength]="[0,20]"
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.activityId" name="activityId" #activityId="ngModel" [rangeLength]="[0,20]"
             />
-            <p class="text-danger" *ngIf="rtName.errors?.rangeLength">请输入20个以内字符</p>
+            <p class="text-danger" *ngIf="activityId.errors?.rangeLength">请输入20个以内字符</p>
           </div>
         </div>
       </div>
@@ -825,10 +826,10 @@
           <label  class="col-sm-4 col-md-2 control-label">单券次数</label>
           <div class="col-sm-8 col-md-10">
             <input  class="form-control"  [(ngModel)]="awardCurr.perNumber"
-                    name="perNumber" #perNumber="ngModel" required [range]="[1, 99]"
+                    name="perNumber" #perNumber="ngModel" required [range]="[1, 999]" maxlength="4"
                     currencyMask [options]="{ prefix: '',suffix: '次', allowZero: false,precision:0,allowNegative:false,thousands:'' }" />
             <p class="text-danger" *ngIf="perNumber.errors?.required">*</p>
-            <p class="text-danger" *ngIf="perNumber.errors?.range">请输入小于100的数值</p>
+            <p class="text-danger" *ngIf="perNumber.errors?.range">请输入小于1000的数值</p>
           </div>
         </div>
       </div>
@@ -837,7 +838,7 @@
           <label  class="col-sm-4 col-md-2 control-label">获奖概率</label>
           <div class="col-sm-8 col-md-10">
             <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardPersents"
-                   name="awardPersents" #awardPersents="ngModel" required [range]="[0,100]"
+                   name="awardPersents" #awardPersents="ngModel" required [range]="[0,100]" maxlength="8"
                    currencyMask [options]="{ prefix: '',suffix: '% ', allowZero: false,precision:2,allowNegative:false}"
             />
             <p class="text-danger" *ngIf="awardPersents.errors?.required">*</p>
@@ -851,7 +852,7 @@
           <div class="col-sm-8 col-md-10">
             <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardSum"
                    name="awardSum" #awardSum="ngModel" required [range]="[1,99999999]"
-                   currencyMask [options]="{ prefix: '', allowZero: false,precision:0,allowNegative:false}"
+                   currencyMask [options]="{ prefix: '', allowZero: false,precision:0,allowNegative:false}" maxlength="10"
             />
             <p class="text-danger" *ngIf="awardSum.errors?.required">*</p>
             <p class="text-danger" *ngIf="awardSum.errors?.range">请输入小于100000000的数值</p>
@@ -862,7 +863,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-sx btn-info" [disabled]="!form5.form.valid" (click)="saveAward('raffleTicketsDTOs',awardCurr,1)">确定</button>
+    <button type="button" class="btn btn-sx btn-info" [disabled]="!form5.form.valid" (click)="saveAward('raffleTicketsDTOs',awardCurr,1)">保存</button>
     <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
   </div>
 </ng-template>

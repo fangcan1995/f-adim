@@ -176,6 +176,7 @@ export class ActivityEditComponent {
           this.baseInfoDTO= this.activity.baseInfoDTO;
           this.awardsDTO=this.activity.awardsDTO;
           this.scopesDTO=this.activity.scopesDTO;
+
           //console.log(this.awardsDTO.length);
 
         }
@@ -205,6 +206,7 @@ export class ActivityEditComponent {
     }else{
       this.awardCurr={};
       this.awardCurrIndex=-1;
+      this.awardCurr.awardPersents=`100`;
     }
   }
   //2 增改奖励
