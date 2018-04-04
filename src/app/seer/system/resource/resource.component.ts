@@ -8,120 +8,148 @@ import { SeerMessageService } from '../../../theme/services/seer-message.service
 import { ManageService } from '../../../theme/services';
 import { GlobalState } from '../../../global.state';
 @Component({
-  templateUrl: './resource.component.html',
-  styleUrls: [ './resource.component.scss' ],
+    templateUrl: './resource.component.html',
+    styleUrls: ['./resource.component.scss'],
 })
 export class ResourceComponent implements OnInit {
     hasGlobalFilter = true;
     titles = [
         {
-          key:'menuId',
-          label:'菜单编号'
+            key: 'menuId',
+            label: '菜单编号'
         },
-      {
-        key:'menuPid',
-        label:'菜单父编号'
-      },
-      {
-        key:'menuName',
-        label:'菜单名'
-      },
-      {
-        key:'menuType',
-        label:'菜单类型',
-        isDict: true,
-        category: 'MENU_TYPE'
-      },
-      {
-        key:'menuDesc',
-        label:'菜单说明',
-      },
-      {
-        key:'sortNum',
-        label:'菜单顺序',
-      },
-      {
-        key:'menuStatus',
-        label:'有效状态',
-        isDict: true,
-        category: 'MENU_STATUS'
-      }
+        {
+            key: 'menuPid',
+            label: '菜单父编号'
+        },
+        {
+            key: 'menuName',
+            label: '菜单名'
+        },
+        {
+            key: 'menuType',
+            label: '菜单类型',
+            isDict: true,
+            category: 'MENU_TYPE'
+        },
+        {
+            key: 'menuDesc',
+            label: '菜单说明',
+        },
+        {
+            key: 'sortNum',
+            label: '菜单顺序',
+        },
+        {
+            key: 'menuStatus',
+            label: '有效状态',
+            isDict: true,
+            category: 'MENU_STATUS'
+        }
     ];
+
+    pageInfo = {
+        pageNum: 1,
+        pageSize: 100000,
+        total: 1000,
+        typeId: 1,
+        globalSearch: '',
+        sortBy: '',
+    }
     resources = [];
     tableFilters = {};
     constructor(
-      private _resourceService: ResourceService,
-      private _dialogService: SeerDialogService,
-      private _messageService: SeerMessageService,
-      private _manageService: ManageService,
-      private _state: GlobalState,
-      private _router: Router,
-      ){}
+        private _resourceService: ResourceService,
+        private _dialogService: SeerDialogService,
+        private _messageService: SeerMessageService,
+        private _manageService: ManageService,
+        private _state: GlobalState,
+        private _router: Router,
+    ) { }
     ngOnInit() {
-      this.getList();
+        this.getList(this.pageInfo);
     }
-    getList() {
-        this._resourceService.getList({ pageSize: 10000 })
-        .then(res => {
-            this.resources = _.map(res.data ? res.data.list || [] : [], r => _.set(r, 'actions', [ UPDATE, DELETE ]));
-        })
-        .catch(err => {
-            this.showError( err.msg || '获取资源失败' );
-        })
+    getList(params?) {
+        this._resourceService.getList(params)
+            .then(res => {
+                this.resources = _.map(res.data ? res.data.list || [] : [], r => _.set(r, 'actions', [UPDATE, DELETE]));
+            })
+            .catch(err => {
+                this.showError(err.msg || '获取资源失败');
+            })
     }
     handleNotify(message): void {
         const { type, data } = message;
-        switch ( type ) {
-          case CREATE.type:
-            this._router.navigate(['/system/resource/add']);
-            break;
-          case UPDATE.type:
-            this._router.navigate([`/system/resource/edit/${data.menuId}`]);
-            break;
-          case DELETE.type:
-            this._dialogService.confirm('确定删除吗？')
-              .subscribe(action => {
-                if ( action === 1 ) {
-                    console.log(data);
-                  this._resourceService
-                  .deleteOne(data.menuId)
-                  .then((res) => {
-                    // 如果编辑的菜单正好是用户有权查看的菜单，那么刷新用户信息
-                    let resourcesInLocal = this._manageService.getResourcesFromLocal() || [];
-                    if ( _.find(resourcesInLocal, t => t['menuId']) == data['menuId'] ) {
-                      this._manageService.refreshLocalDataAndNotify();
-                    }
-                    this.showSuccess(res.msg || '删除资源成功');
-                    this.getList();
-                    
-                  })
-                  .catch(err => {
-                    this.showError(err.msg || '删除资源失败')
-                  });
-                }
-              })
-            break;
-          case DELETE_MULTIPLE.type:
-            let ids = _(data).map(t => t.id).value();
-            break;
+        switch (type) {
+            case CREATE.type:
+                this._router.navigate(['/system/resource/add']);
+                break;
+            case UPDATE.type:
+                this._router.navigate([`/system/resource/edit/${data.menuId}`]);
+                break;
+            case DELETE.type:
+                this._dialogService.confirm('确定删除吗？')
+                    .subscribe(action => {
+                        if (action === 1) {
+                            console.log(data);
+                            this._resourceService
+                                .deleteOne(data.menuId)
+                                .then((res) => {
+                                    // 如果编辑的菜单正好是用户有权查看的菜单，那么刷新用户信息
+                                    let resourcesInLocal = this._manageService.getResourcesFromLocal() || [];
+                                    if (_.find(resourcesInLocal, t => t['menuId']) == data['menuId']) {
+                                        this._manageService.refreshLocalDataAndNotify();
+                                    }
+                                    this.showSuccess(res.msg || '删除资源成功');
+                                    this.getList(this.pageInfo);
+
+                                })
+                                .catch(err => {
+                                    this.showError(err.msg || '删除资源失败')
+                                });
+                        }
+                    })
+                break;
+            case DELETE_MULTIPLE.type:
+                let ids = _(data).map(t => t.id).value();
+                break;
+            case 'export':
+                this._resourceService.exportForm().then(res => {
+                    let blob = res.blob();
+                    let a = document.createElement('a');
+                    let url = window.URL.createObjectURL(blob);
+                    a.href = url;
+                    a.download = '资源管理' + '.xls';
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    console.log(res);
+                }).catch(err => {
+                    console.log(err);
+                });
+                break;
         }
     }
 
     showSuccess(message: string) {
-      return this._messageService.open({
-        message,
-        icon: 'fa fa-check',
-        autoHideDuration: 3000,
-      })
+        return this._messageService.open({
+            message,
+            icon: 'fa fa-check',
+            autoHideDuration: 3000,
+        })
     }
     showError(message: string) {
-      return this._messageService.open({
-        message,
-        icon: 'fa fa-times-circle',
-        autoHideDuration: 3000,
-      })
+        return this._messageService.open({
+            message,
+            icon: 'fa fa-times-circle',
+            autoHideDuration: 3000,
+        })
     }
     handleFiltersChanged($event) {
-      this.tableFilters = $event;
+        console.log($event);
+        const newPageInfo = {
+            ...this.pageInfo,
+            globalSearch: $event.globalSearch
+        }
+        this.getList(newPageInfo);
     }
 }
