@@ -256,6 +256,10 @@ export class SeerTableComponent implements OnInit {
 
     });
     this.multiColumnArray = multiColumnArray;
+    this.notify.emit({
+        type: 'hideColumn',
+        column:this.multiColumnArray
+    });
   }
   transferKeyWithDict(obj: any, translate_copy: any, direction?: boolean | number): void {
     if ( direction ) {

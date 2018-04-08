@@ -48,12 +48,21 @@ export class ResourceComponent implements OnInit {
         }
     ];
 
-    pageInfo = {
+    pageInfo: any = {
         pageNum: 1,
         pageSize: 100000,
         total: 1000,
         globalSearch: '',
         sortBy: '',
+        excelmaps: {
+            menuId: '菜单编号',
+            menuPid: '菜单父编号',
+            menuName: '菜单名',
+            menuType: '菜单类型',
+            menuDesc: '菜单说明',
+            sortNum: '菜单顺序',
+            menuStatus: '有效状态'
+        }
     }
     resources = [];
     tableFilters = {};
@@ -77,9 +86,19 @@ export class ResourceComponent implements OnInit {
                 this.showError(err.msg || '获取资源失败');
             })
     }
+
+    
+
     handleNotify(message): void {
-        const { type, data } = message;
+        console.log(message);
+        const { type, data, column } = message;
         switch (type) {
+            case 'hideColumn':
+                let newMap = {};
+                this.changeColumnMap(column, newMap);
+                this.pageInfo.excelmaps = newMap;
+                console.log(this.pageInfo);
+                break;
             case CREATE.type:
                 this._router.navigate(['/system/resource/add']);
                 break;
@@ -124,6 +143,7 @@ export class ResourceComponent implements OnInit {
                 let ids = _(data).map(t => t.id).value();
                 break;
             case 'export':
+                console.log(this.pageInfo);
                 this._resourceService.exportForm(this.pageInfo).then(res => {
                     let blob = res.blob();
                     let a = document.createElement('a');
@@ -161,5 +181,35 @@ export class ResourceComponent implements OnInit {
             globalSearch: $event.globalSearch
         }
         this.getList(this.pageInfo);
+    }
+
+
+
+    changeColumnMap (columns:Array<string>, newColumnMap:Object) {
+        columns.forEach(column => {
+            switch(column) {
+                case 'menuId':
+                    newColumnMap[column] = '菜单编号';
+                    break;
+                case 'menuPid':
+                    newColumnMap[column] = '菜单父编号';
+                    break;
+                case 'menuName':
+                    newColumnMap[column] = '菜单名';
+                    break;
+                case 'menuType':
+                    newColumnMap[column] = '菜单类型';
+                    break;
+                case 'menuDesc':
+                    newColumnMap[column] = '菜单说明';
+                    break;
+                case 'sortNum':
+                    newColumnMap[column] = '菜单顺序';
+                    break;
+                case 'menuStatus':
+                    newColumnMap[column] = '有效状态';
+                    break;
+            }
+        })
     }
 }

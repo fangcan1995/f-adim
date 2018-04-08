@@ -30,9 +30,29 @@ export class UserComponent implements OnInit {
     hasGlobalFilter: boolean = true;
     filters: any = [
         {
-            key: 'updateUser',
-            label: '更新人',
-            type: 'input.text',
+            key: 'loginName',
+            label: '用户账户',
+            type: 'input.text'
+        },
+        {
+            key: 'empName',
+            label: '用户姓名',
+            type: 'input.text'
+        },
+        {
+            key: 'phone',
+            label: '联系电话',
+            type: 'input.text'
+        },
+        {
+            key: 'departmentName',
+            label: '所属机构',
+            type: 'input.text'
+        },
+        {
+            key: 'roleName',
+            label: '用户角色',
+            type: 'input.text'
         },
         {
             key: 'loginStatus',
@@ -42,21 +62,8 @@ export class UserComponent implements OnInit {
             category: 'USER_STATUS',
         },
         {
-            key: 'loginDate',
-            label: '最后登录时间',
-            groups: [
-                {
-                    type: 'datepicker',
-                },
-                {
-                    type: 'datepicker',
-                },
-            ],
-            groupSpaces: ['至']
-        },
-        {
-            key: 'updateTime',
-            label: '更新时间',
+            key: 'createTime',
+            label: '创建时间',
             groups: [
                 {
                     type: 'datepicker',
@@ -74,12 +81,16 @@ export class UserComponent implements OnInit {
             label: '用户账号',
         },
         {
-            key: 'loginName',
+            key: 'empName',
             label: '用户名称',
         },
         {
+            key: 'phone',
+            label: '联系电话',
+        },
+        {
             key: 'departmentName',
-            label: '所属部门'
+            label: '所属机构'
         },
         {
             key: 'loginStatus',
@@ -90,31 +101,32 @@ export class UserComponent implements OnInit {
         {
             key: 'loginIp',
             label: '最后登录IP',
+            hidden: true
         },
         {
             key: 'loginDate',
             label: '最后登录时间',
             type: 'date-time',
+            hidden: true
         },
         {
             key: 'createTime',
             label: '创建时间',
             type: 'date-time',
-            hidden: true,
-        },
-        {
-            key: 'updateUser',
-            label: '更新人',
         },
         {
             key: 'updateTime',
             label: '更新时间',
             type: 'date-time',
-            hidden: true,
+        },
+        {
+            key: 'updateUser',
+            label: '更新用户',
         },
         {
             key: 'roleName',
             label: '用户角色',
+            hidden: true
         }
     ];
     total = 0;
@@ -226,3 +238,4 @@ export class UserComponent implements OnInit {
         })
     }
 }
+
