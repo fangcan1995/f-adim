@@ -5,7 +5,7 @@ import * as _ from "lodash";
 
 @Injectable()
 export class CouponService {
-  accessToken=`7fbb40a8-64a1-4a44-94ae-4eee6f3d4625`;
+  accessToken=`dafee4ef-6717-4de2-801b-23b55bf25a83`;
   url=`http://172.16.1.221:9080/activities/sendRecords`;
   constructor(private _httpInterceptorService: HttpInterceptorService) {
   }

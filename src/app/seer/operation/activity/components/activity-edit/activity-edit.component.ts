@@ -155,8 +155,7 @@ export class ActivityEditComponent {
               }
               //console.log(this.baseInfoDTO);
               this.awardsDTO=this.activity.awardsDTO;
-              console.log('员工人数');
-              console.log(this.activity);
+
               this.scopesPageInfo.total=this.activity.scopesDTO.length;//报错
 
               this.scopesDTO=this.activity.scopesDTO;  //范围列表
@@ -180,6 +179,8 @@ export class ActivityEditComponent {
             "scopesDTO":[],
           }
           this.baseInfoDTO= this.activity.baseInfoDTO;
+          this.baseInfoDTO.issueTime=1;//派发时间，默认实时
+          this.baseInfoDTO.productCategory=0;//适用产品：通用
           this.awardsDTO=this.activity.awardsDTO;
           this.scopesDTO=this.activity.scopesDTO;
 
@@ -207,22 +208,16 @@ export class ActivityEditComponent {
     this.modalRef = this.modalService.show(template);
 
     if(index >=0){
-      //预览
-      //awardCurrReadOnly
-      if(readonly){
-        this.awardCurrReadOnly=true;
-      }else{
-        this.awardCurrReadOnly=false;
-      }
-      //this.awardCurrReadOnly=readonly;
-
-      console.log(this.awardCurrReadOnly);
+      this.awardCurrReadOnly=readonly;
       this.awardCurr=_.cloneDeep(this.awardsDTO[type][index]);//克隆当前奖励,防止同步更新
       this.awardCurrIndex=index;
     }else{
       //新增
       this.awardCurrReadOnly=false;
       this.awardCurr={};
+      this.awardCurr.productCategory=0;//适用产品：通用
+      this.awardCurr.isStacking=2; //不可叠加
+      this.awardCurr.useLimit=1//激活方式，开户激活
       this.awardCurrIndex=-1;
       this.awardCurr.awardPersents=`100`;
     }
