@@ -59,6 +59,7 @@ export class UserEditComponent implements OnInit {
       this._userService.getOne(this.id)
       .then(res => {
         this.user = res.data || {};
+        console.log(this.user);
         return this.getRoles()
       })
       .then(res => {
@@ -152,6 +153,7 @@ export class UserEditComponent implements OnInit {
       let data = res.data || {};
       this.roles = data.list || [];
       let activeRoles = this.user.roles || [];
+      console.log(this.user.roles)
       activeRoles.forEach((t, i) => {
         this.roles.forEach((rt, ri) => {
           if ( rt.roleId == t.roleId ) {

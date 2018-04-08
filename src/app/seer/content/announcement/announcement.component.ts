@@ -53,6 +53,10 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
         "total": ''
     };
 
+    map = {
+
+    }
+
     constructor(private _announcementService: AnnouncementService, private _dialogService: SeerDialogService,
         private _router: Router, private _activatedRoute: ActivatedRoute) {
 
@@ -121,17 +125,9 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
                     });
                 break;
             case 'export':
-                console.log(this.pageInfo);
-                for (let p in this.pageInfo) {
-                    console.log(`${p}:${this.pageInfo[p]}`);
-                    /* if(this.pageInfo[p] == '' || undefined || null) {
-                      delete this.pageInfo[p];
-                      console.log(1);
-                    } */
-
-                }
-                console.log(this.pageInfo);
-                this._announcementService.exportForm(this.pageInfo).then(res => {
+                this._announcementService.exportForm({
+                    pageInfo:this.pageInfo
+                }).then(res => {
                     let blob = res.blob();
                     let a = document.createElement('a');
                     let url = window.URL.createObjectURL(blob);

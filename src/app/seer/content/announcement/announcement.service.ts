@@ -25,9 +25,9 @@ export class AnnouncementService extends BaseService<any>{
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
 
-    apiUrl = 'http://172.16.1.242:9080/announcements';
-    exportFile = 'http://172.16.1.242:9080/announcements/export';
-    SPExportFile = 'http://172.16.1.242:9080/announcements/specialExport';
+    apiUrl = 'http://172.16.1.252:9080/announcements';
+    exportFile = 'http://172.16.1.252:9080/announcements/export';
+    SPExportFile = 'http://172.16.1.252:9080/announcements/specialExport';
 
 
 
@@ -68,6 +68,14 @@ export class AnnouncementService extends BaseService<any>{
     exportForm(params): Promise<any> {
         const access_token = getStorage({key: 'token'}).access_token;
         return this.http.get(`${this.exportFile}?access_token=${access_token}`, new RequestOptions({
+            responseType: ResponseContentType.Blob,
+            search: params
+        })).toPromise();
+    }
+
+    specialExportForm(params): Promise<any> {
+        const access_token = getStorage({key: 'token'}).access_token;
+        return this.http.get(`${this.SPExportFile}?access_token=${access_token}`, new RequestOptions({
             responseType: ResponseContentType.Blob,
             search: params
         })).toPromise();

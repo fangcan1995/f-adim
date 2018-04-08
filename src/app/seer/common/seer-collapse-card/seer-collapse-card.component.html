@@ -7,7 +7,13 @@
     >
     <h3 class="card-title pull-left">{{cardTitle}}<i *ngIf="canCollapse" class="icon-angle-double-down cardTitle__icon"></i></h3>
     <div class="card-header-actions pull-right">
-      <button class="pull-right btnGroup__item {{action.className}}" [disabled]="!saveDistabled" *ngFor="let action of headerActions" (click)="handleHeaderActionsClick($event, action)" >{{ action.name }}</button>
+      <!-- <ng-content select="[name=button]"></ng-content> -->
+      <!-- <div *ngIf='forbidBaseSaveBtn.name=="staffAdd" else other'>
+        <button class="pull-right btnGroup__item {{action.className}}" [disabled]="!saveDistabled" *ngFor="let action of headerActions" (click)="handleHeaderActionsClick($event, action)" >保存并完善</button>
+      </div> -->
+      <!-- <ng-template #other></ng-template> -->
+        <button class="pull-right btnGroup__item {{action.className}}" [disabled]="!saveDistabled" *ngFor="let action of headerActions" (click)="handleHeaderActionsClick($event, action)" >{{ action.name }}</button>
+      
     </div>
   </div>
   <div class="card-body" [style.overflow]="canCollapse ? 'hidden': 'visible'" [@slideInOut]="isExpanded()">

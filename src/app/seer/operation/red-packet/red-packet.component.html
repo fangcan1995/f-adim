@@ -1,18 +1,27 @@
 <!--<seer-collapse-card>-->
-<seer-content-top [fixedTop]="false">
+<seer-collapse-card>
   <seer-filter
     [hasGlobalFilter]="hasGlobalFilter"
     [filters]="filters"
     (onFiltersChanged)=handleFiltersChanged($event)
-    (onSearchBtnClicked)=handleSearchBtnClicked($event)
+    (onSearchBtnClicked)=handleFiltersChanged($event)
   ></seer-filter>
-</seer-content-top>
-<!--</seer-collapse-card>-->
-<seer-collapse-card>
   <seer-table
     [data]="redPackets"
     [titles]="titles"
     [translate]="dict"
+    [pageNum]="pageInfo.pageNum"
+    [pageSize]="pageInfo.pageSize"
+    [total]="pageInfo.total"
     (notify)="onChange($event)"
+    (changePage)="handlePageChange($event)"
+    [showSeq]="true"
+    [hideExport]="true"
+    [hideRemoveAll]="true"
+    [hideCheckbox]="true"
+    [hidePrint]="true"
+    [hideColumns]="true"
+    [hideAddButton]="true"
+    [hideActions]="true"
   ></seer-table>
 </seer-collapse-card>

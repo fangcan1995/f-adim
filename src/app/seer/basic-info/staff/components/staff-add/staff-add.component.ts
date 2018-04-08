@@ -10,6 +10,7 @@ import {BsModalService} from 'ngx-bootstrap/modal';
 import {UPDATE, DELETE, SAVE} from '../../../../common/seer-table/seer-table.actions';
 import {json2Tree} from "../../../../../theme/libs/json2Tree";
 import {TREE_PERMISSIONS} from "../../../../../theme/modules/seer-tree/constants/permissions";
+import { formatDate } from "ngx-bootstrap/bs-moment/format";
 
 @Component({
   templateUrl: './staff-add.component.html',
@@ -28,16 +29,19 @@ export class StaffAddComponent implements OnInit {
   educationsData = [];
   relationsData = [];
   experiencesData = [];
-
   public titlesEducation = titlesEducation;
   public titlesRelation = titlesRelation;
   public titlesExperience = titlesExperience;
-
+  
+  @ViewChild('validationForm') form1;
+  @ViewChild('validationForm') form2;
   @ViewChild('educationView') educationView; //学历技能信息表格
   @ViewChild('relationView') relationView; //家庭主要关系表格
   @ViewChild('experienceView') experienceView; //主要工作经历表格
 
-  collapseCardActions = [SAVE];
+  forbidBaseSaveBtn: boolean = false;//传给表单的对象
+
+  collapseCardActions = _.cloneDeep([SAVE]);
   simpleTableActions = [UPDATE, DELETE];
 
   treeNode = [];//组织树
@@ -53,11 +57,14 @@ export class StaffAddComponent implements OnInit {
 
   ngOnInit() {
     this.getOrganizations();
+    this.forbidBaseSaveBtn=true;
+    console.log(this.form1)
     this._route.url.mergeMap(url => {
       this._editType = url[0].path;
       return this._route.params
     }).subscribe(params => {
       if (this._editType === 'add') {
+        this.collapseCardActions[0].name='保存并完善'
         this.forbidSaveBtn = false;
       }
     })
@@ -80,10 +87,12 @@ export class StaffAddComponent implements OnInit {
   //职位保存基本信息
   jobInfoNotify() {
     let staffinfo = _.cloneDeep(this.staff);
+    console.log(staffinfo)
     this.timestampFormat(staffinfo);
-    this._staffService.putOne(staffinfo.sysEmployer.id, staffinfo.sysEmployer).then((result) => {
+    this._staffService.postOne(staffinfo.sysEmployer).then((result) => {
       console.log(this.staff.sysEmployer);
       if (result.code == 0) {
+        this.staffId=result.data
         this.alertSuccess("添加成功");
       } else {
         this.alertError("添加失败");
@@ -164,8 +173,11 @@ export class StaffAddComponent implements OnInit {
     let editData = this.educationView.getFormatDataByKey(key).editData;
     switch (type) {
       case 'save':
+      const newData = _.cloneDeep(editData);
+      console.log(newData);
+      newData.endTime = formatDate(newData.endTime, 'YYYY-MM-DD hh:mm:ss');
         if (editData.id) {
-          this._staffService.putOneEdu(this.staffId, editData).then((result) => {
+          this._staffService.putOneEdu(this.staffId, newData).then((result) => {
             if (result.code == 0) {
               this.educationView.save(key);
               this.alertSuccess("修改成功");
@@ -174,7 +186,7 @@ export class StaffAddComponent implements OnInit {
             }
           });//修改
         } else {
-          this._staffService.postOneEdu(this.staffId, editData).then((result) => {
+          this._staffService.postOneEdu(this.staffId, newData).then((result) => {
             if (result.code == 0) {
               this.educationView.save(key);
               this.alertSuccess("添加成功");
@@ -206,7 +218,7 @@ export class StaffAddComponent implements OnInit {
         if (editData.id) {
           this._staffService.putOneRelations(this.staffId, editData).then((result) => {
             if (result.code == 0) {
-              this.educationView.save(key);
+              this.relationView.save(key);
               this.alertSuccess("修改成功");
             } else {
               this.alertError("添加失败");
@@ -215,7 +227,7 @@ export class StaffAddComponent implements OnInit {
         } else {
           this._staffService.postOneRelations(this.staffId, editData).then((result) => {
             if (result.code == 0) {
-              this.educationView.save(key);
+              this.relationView.save(key);
               this.alertSuccess("添加成功");
             } else {
               this.alertError("添加失败");
@@ -226,7 +238,7 @@ export class StaffAddComponent implements OnInit {
       case 'delete':
         this._staffService.deleteRelations(this.staffId, editData.id).then((result) => {
           if (result.code == 0) {
-            this.educationView.delete(key);
+            this.relationView.delete(key);
             this.alertSuccess("删除成功");
           } else {
             this.alertError("删除失败");
@@ -242,19 +254,23 @@ export class StaffAddComponent implements OnInit {
     let editData = this.experienceView.getFormatDataByKey(key).editData;
     switch (type) {
       case 'save':
+      const newData = _.cloneDeep(editData);
+      console.log(newData);
+      newData.endTime = formatDate(newData.endTime, 'YYYY-MM-DD hh:mm:ss');
+      newData.startTime = formatDate(newData.startTime, 'YYYY-MM-DD hh:mm:ss');
         if (editData.id) {
-          this._staffService.putOneExperiences(this.staffId, editData).then((result) => {
+          this._staffService.putOneExperiences(this.staffId, newData).then((result) => {
             if (result.code == 0) {
-              this.educationView.save(key);
+              this.experienceView.save(key);
               this.alertSuccess("修改成功");
             } else {
               this.alertError("添加失败");
             }
           });//修改
         } else {
-          this._staffService.postOneExperiences(this.staffId, editData).then((result) => {
+          this._staffService.postOneExperiences(this.staffId, newData).then((result) => {
             if (result.code == 0) {
-              this.educationView.save(key);
+              this.experienceView.save(key);
               this.alertSuccess("添加成功");
             } else {
               this.alertError("添加失败");
@@ -265,7 +281,7 @@ export class StaffAddComponent implements OnInit {
       case 'delete':
         this._staffService.deleteExperiences(this.staffId, editData.id).then((result) => {
           if (result.code == 0) {
-            this.educationView.delete(key);
+            this.experienceView.delete(key);
             this.alertSuccess("删除成功");
           } else {
             this.alertError("删除失败");
@@ -305,8 +321,9 @@ export class StaffAddComponent implements OnInit {
       icon: 'fa fa-times-circle',
       message: info,
       autoHideDuration: 3000,
-    }).onClose().subscribe(() => {
-      this._router.navigate(['/basic-info/staff-manage/'])
+    }).onClose().subscribe((e) => {
+      e=this.staffId
+      this._router.navigate([`/basic-info/staff-manage/edit/${e}`])
     });
   }
 
@@ -320,4 +337,9 @@ export class StaffAddComponent implements OnInit {
     })
   }
 
+  handleSaveBtnClick($event, save) {
+    console.log($event,save)
+    $event.stopPropagation();
+    // this.notify.emit({ type })
+  }
 }

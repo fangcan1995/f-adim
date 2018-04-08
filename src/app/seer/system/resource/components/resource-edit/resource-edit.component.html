@@ -37,6 +37,7 @@
                     name="menuName"
                     placeholder="菜单名称"
                     [required]=true
+                    maxlength="10"
                     [(ngModel)]="resource.menuName"
                     />
                 </div>
@@ -66,8 +67,9 @@
                   <select
                     class="form-control"
                     id="menuType"
-                    [(ngModel)]="resource.menuType"
+                    [(ngModel)]="resource.menuType || defaultMenuType"
                     name="menuType"
+                    [required]=true
                     dict-select
                     [key]="'MENU_TYPE'"
                     >
@@ -88,6 +90,7 @@
                     placeholder="链接地址"
                     [required]=true
                     [(ngModel)]="resource.hrefUrl"
+                    maxlength="50"
                     />
                 </div>
               </div>
@@ -103,7 +106,9 @@
                     id="sortNum"
                     name="sortNum"
                     placeholder="菜单顺序"
+                    [required]=true
                     [(ngModel)]="resource.sortNum"
+                    maxlength="3"
                     />
                 </div>
               </div>
@@ -116,9 +121,10 @@
                   <select
                     class="form-control"
                     id="menuStatus"
-                    [(ngModel)]="resource.menuStatus"
+                    [(ngModel)]="resource.menuStatus || defaultMenuStatus"
                     name="menuStatus"
                     dict-select
+                    [required]=true
                     [key]="'MENU_STATUS'"
                     >
                   </select>
@@ -137,6 +143,7 @@
                     name="icon"
                     placeholder="菜单图标"
                     [(ngModel)]="resource.icon"
+                    maxlength="20"
                     />
                 </div>
               </div>
@@ -153,42 +160,45 @@
                     name="menuDesc"
                     placeholder="菜单说明"
                     [(ngModel)]="resource.menuDesc"
+                    maxlength="200"
                     />
                 </div>
               </div>
             </div>
+
+
             <div class="col-sm-12 col-md-6 form-group">
                 <div class="row">
-                    <label for="menuType" class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">系统列表</label>
+                    <label for="remarks" class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">备注</label>
                     <div class="col-sm-8 col-md-7 col-lg-6">
-                    <select
+                    <input
+                        type="text"
                         class="form-control"
-                        id="sys_list"
-                        name="sys_list"
-                        [(ngModel)]="resource.systemId"
-                        dict-select
-                        [key]="'SYSTEM_LIST'"
-                    >
-                    </select>
+                        id="remarks"
+                        name="remarks"
+                        placeholder="备注"
+                        [(ngModel)]="resource.remarks"
+                        />
                     </div>
                 </div>
             </div>
 
             <div class="col-sm-12 col-md-6 form-group">
-              <div class="row">
-                <label for="remarks" class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">备注</label>
-                <div class="col-sm-8 col-md-7 col-lg-6">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="remarks"
-                    name="remarks"
-                    placeholder="备注"
-                    [(ngModel)]="resource.remarks"
-                    />
+                <div class="row">
+                    <label for="systemList" class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">所属系统</label>
+                    <div class="col-sm-8 col-md-7 col-lg-6" >
+                        <label *ngFor="let system of systemList" style="margin-right: 14px;"  >
+                            <seer-cool-checkbox
+                                [class]="form-control"
+                                [(checked)]="system.isChecked"
+                                (change)="present()"
+                            ></seer-cool-checkbox> {{ system.systemName }}
+                        </label>
+                    </div>
                 </div>
-              </div>
             </div>
+
+            
 
 
           </div>
