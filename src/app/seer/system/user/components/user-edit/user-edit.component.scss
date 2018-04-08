@@ -4,8 +4,10 @@
 .user-role-list {
 	height: auto;
 	min-height: 30px;
-	label {
-		display: block;
+	.outLabel {
+        /* display: block; */
+        width: 110px;
+        margin-right: 50px;
 		cursor: pointer;
 	}
 }

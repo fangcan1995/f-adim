@@ -3,9 +3,9 @@ import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel} from "../../..
 import {getStorage} from "../../../theme/libs/utils"
 @Injectable()
 export class MemberService extends BaseService<ResModel>{
-  // MembersUrl=`${BASE_URL}/${API['MEMBERS']}/members`; //会员接口
-  MembersUrl=`http://172.16.1.225:9080/members`; //会员接口
-  emergencyContactUrl=`emergencyContact`;//联系人
+  MembersUrl=`${BASE_URL}/${API['MEMBERS']}/members`; //会员接口
+  // MembersUrl=`http://172.16.1.225:9080/members`; //会员接口
+  emergencyContactUrl=`contact`;//联系人
   VehicleContactUrl=`car`;//车辆
   HouseContactUrl=`house`;//车辆
   accessToken = getStorage({ key: 'token' }).access_token;
@@ -57,24 +57,24 @@ export class MemberService extends BaseService<ResModel>{
     return this._httpInterceptorService.request('POST', `${this.MembersUrl}/${id}/${this.VehicleContactUrl}`, params).toPromise();
   }
   //8-2 修改车辆，OK
-  putVehicle(id, params): Promise<ResModel> {
-    return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/${this.VehicleContactUrl}`, params).toPromise();
+  putVehicle(memberid,carId, params): Promise<ResModel> {
+    return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${memberid}/${this.VehicleContactUrl}/${carId}`, params).toPromise();
   }
   //8-3 删除车辆,OK
-  deleteVehicle(id): Promise<ResModel> {
-    return this._httpInterceptorService.request('DELETE', `${this.MembersUrl}/${this.VehicleContactUrl}/${id}`).toPromise();
+  deleteVehicle(memberId, cid): Promise<ResModel> {
+    return this._httpInterceptorService.request('DELETE', `${this.MembersUrl}/${memberId}/${this.VehicleContactUrl}/${cid}`).toPromise();
   }
   //9-1 增加房屋，OK
   postHouse(id, params): Promise<ResModel> {
     return this._httpInterceptorService.request('POST', `${this.MembersUrl}/${id}/${this.HouseContactUrl}`, params).toPromise();
   }
   //9-2 修改房屋，OK
-  putHouse(id, params): Promise<ResModel> {
-    return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/${this.HouseContactUrl}`, params).toPromise();
+  putHouse(memberId, houseId, params): Promise<ResModel> {
+    return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${memberId}/${this.HouseContactUrl}/${houseId}`, params).toPromise();
   }
   //9-3 删除房屋,OK
-  deleteHouse(id): Promise<ResModel> {
-    return this._httpInterceptorService.request('DELETE', `${this.MembersUrl}/${this.HouseContactUrl}/${id}`).toPromise();
+  deleteHouse(memberId, id): Promise<ResModel> {
+    return this._httpInterceptorService.request('DELETE', `${this.MembersUrl}/${memberId}/${this.HouseContactUrl}/${id}`).toPromise();
   }
   //10 修改会员登录密码,OK
   putPasswords(id, params?): Promise<ResModel> {
@@ -170,5 +170,24 @@ export class MemberService extends BaseService<ResModel>{
   patchOne(id,params): Promise<ResModel> {
     console.log(this.accessToken);
     return this._httpInterceptorService.request('PATCH', `${this.MembersUrl}/${id}/status`, params).toPromise();
+  }
+
+  //验证电话号码
+  validatePhone(phone){
+    let mobileRegex =  /^(((1[3456789][0-9]{1})|(15[0-9]{1}))+\d{8})$/;
+         if(mobileRegex.test(phone)){
+             return true;
+         }else{
+             return false;
+         }
+  }
+  //验证身份证号码
+  validateIdCard(idCard){
+    let mobileRegex =  /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+         if(mobileRegex.test(idCard)){
+             return true;
+         }else{
+             return false;
+         }
   }
 }

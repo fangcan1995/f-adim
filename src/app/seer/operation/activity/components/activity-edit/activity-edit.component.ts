@@ -8,6 +8,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { BsModalService} from 'ngx-bootstrap/modal';
 import {SeerDialogService, SeerMessageService,} from '../../../../../theme/services';
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
+import {ENABLE} from "../../../../common/seer-table/seer-table.actions"
 
 @Component({
   templateUrl: './activity-edit.component.html',
@@ -104,8 +105,28 @@ export class ActivityEditComponent {
   }; //分页、排序、检索
   selectedUserId=[]; //选中的用户id,
   ids='';//选中的用户id
+
+  type=`0`; //活动关联活动0，抽奖券关联活动1
+
+  modalParents=[];//相关活动列表
+  modalParentsTitles=[
+    {key: 'activityCode', label: '活动编号'},
+    {key: 'activityName', label: '活动主题'},
+    {key: 'beginTime', label: '开始时间'},
+    {key: 'endTime', label: '结束时间'},
+    {key: 'activityStatus', label: '活动状态', type: 'select',isDict: true, category: 'ACTIVITY_STATUS'},
+  ];
+  modalParentsPageInfo={
+    "pageNum":1,
+    "pageSize":10,
+    "sort":"",
+    "total":"",
+    "globalSearch":"",
+  }; //分页、排序、检索
+
   chooseResult:string='选择用户';  //选择人员按钮中文提示
   public modalRef: BsModalRef;
+  public modalParentsRef: BsModalRef;
   cardActions2 = [this.modalActionSet.All,this.modalActionSet.OK,this.modalActionSet.CANCEL,];
   @ViewChild('validationForm') validationForm;
   @ViewChild('validationForm') form1;
@@ -122,12 +143,10 @@ export class ActivityEditComponent {
               private _router: Router,
               private _location: Location,
               private modalService: BsModalService,
+              private modalService2: BsModalService,
               ) {}
 
   ngOnInit() {
-
-    //this.forbidSaveBtn = false;
-
     this._activatedRoute.url.mergeMap(url => {
       this._editType = url[0].path;
       return this._activatedRoute.params
@@ -138,8 +157,7 @@ export class ActivityEditComponent {
           this._activityService.getOne(params.id)
             .then(res => {
               this.activity = res.data || {};
-              console.log('请求的数据');
-              console.log(res.data);
+
               this.baseInfoDTO=this.activity.baseInfoDTO;
               (this.baseInfoDTO.trigMode=='4')?this.isInvestMode=false:this.isInvestMode=true; //投资奖励的特殊处理
               (this.baseInfoDTO.activityScope=='3')?this.hideChooseMembers=false:this.hideChooseMembers=true; //指定用户的特殊处理
@@ -153,7 +171,6 @@ export class ActivityEditComponent {
               if(this.baseInfoDTO.trigMode){
                 this.isAddaward=false;
               }
-              //console.log(this.baseInfoDTO);
               this.awardsDTO=this.activity.awardsDTO;
 
               this.scopesPageInfo.total=this.activity.scopesDTO.length;//报错
@@ -338,7 +355,7 @@ export class ActivityEditComponent {
     }
   }
   //模态框相关
-  //1 打开会员模态框
+  //1-1 打开会员模态框
   openMemberModal(template: TemplateRef<any>) {
       this.modalfilters=[
       {
@@ -442,7 +459,7 @@ export class ActivityEditComponent {
       this.selectedUserId=_.cloneDeep(this.scopesDTO);   //防止没确定前更新数据
 
   }
-  //2 获取会员列表
+  //1-2 获取会员列表
   modalGetMembersList():void{
     this._activityService.getMembers(this.modalPageInfo).then(res => {
       this.modalPageInfo.pageNum=res.data.pageNum;  //当前页
@@ -450,6 +467,8 @@ export class ActivityEditComponent {
       this.modalPageInfo.total=res.data.total; //记录总数
       this.modalUsers = res.data.list;
       //渲染已经被选择的会员
+      console.log('选中的会员');
+      console.log(this.modalUsers);
       this.modalUsers = _.map(this.modalUsers, r =>{
           let idIndex=this.scopesDTO.findIndex(x => x == r.memberId);
           if(idIndex!=-1){
@@ -461,7 +480,7 @@ export class ActivityEditComponent {
       );
     });
   }
-  //3 会员模态框事件绑定
+  //1-3 会员模态框事件绑定
   modalChangeCard(message){
     switch ( message.type ) {
       case 'search':
@@ -470,7 +489,6 @@ export class ActivityEditComponent {
       case 'ok':
         //1 将选中的会员id加入参加范围数组中
         this.scopesDTO=this.selectedUserId;
-
         this.activity.scopesDTO=this.scopesDTO;
         //2 重新新获取会员信息
         this.hidePagination=false;
@@ -486,22 +504,25 @@ export class ActivityEditComponent {
       case 'all':
         //1 将后台返回会员id加入参加范围数组中
         this._activityService.getIds(this.modalPageInfo).then(data=>{
-          this.scopesDTO=data.data.sparticipateNumit(",")||[];  //转成数组
+          this.scopesDTO=data.data.split(",")||[];  //转成数组
           this.activity.scopesDTO=this.scopesDTO;
+          //2 重新新获取会员信息
+          this.hidePagination=false;
+          console.log(this.scopesPageInfo.pageSize);
+          this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //重新读活动范围中对应的第一页会员信息
+          this.scopesPageInfo.total=this.scopesDTO.length.toString();
+          this.isSelectedMember=true;
         }).catch(err=>{
           this.showError(err.msg || '连接错误');
         });
-        //2 重新新获取会员信息
-        this.hidePagination=false;
-        this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //重新读活动范围中对应的第一页会员信息
-        //this.isSelectedMember=true;
+
         this.modalService.hide(1);
         break;
       default:
         break;
     }
   }
-  //4 会员模态框选择用户id
+  //1-4 会员模态框选择用户id
   modalChangeTable(message){
     const type = message.type;
     let data = message.data;
@@ -539,13 +560,13 @@ export class ActivityEditComponent {
         break;
     }
   }
-  //5 会员模态框分页事件
+  //1-5 会员模态框分页事件
   modalPageChange($event){
     this.modalPageInfo.pageSize = $event.pageSize;
     this.modalPageInfo.pageNum=$event.pageNum;
     this.modalGetMembersList();
   }
-  //6 格式化查询参数
+  //1-6 格式化查询参数
   modalFiltersChanged($event){
     let params=$event;
     let { mage,investDate,investAll,investOne,inviteMembers,...otherParams } = params;
@@ -591,6 +612,51 @@ export class ActivityEditComponent {
     this.modalGetMembersList();
   }
 
+  //2-1 打开关联活动模态框
+  openParentIdModal(template: TemplateRef<any>,type) {
+    this.type=type;
+    this.modalParentsRef = this.modalService2.show(template,this.modalClass);
+    this.modalGetParentsList();
+  }
+  //2-2 获取活动列表
+  modalGetParentsList():void{
+    this._activityService.getList(this.modalParentsPageInfo).then(res => {
+      this.modalParentsPageInfo.pageNum=res.data.pageNum;  //当前页
+      this.modalParentsPageInfo.pageSize=res.data.pageSize; //每页记录数
+      this.modalParentsPageInfo.total=res.data.total; //记录总数
+      this.modalParents = res.data.list;
+      this.modalParents = _.map(this.modalParents, r =>{
+        let actions;
+        actions = [ENABLE];
+        return _.set(r, 'actions', actions)
+        }
+      );
+    });
+  }
+  //2-3 关联活动模态框事件绑定
+  modalParentsChangeTable(event,type){
+
+    switch ( event.type ) {
+      case 'enable':
+        // 用选中的活动id渲染关联活动
+        if(type=='0'){
+          this.baseInfoDTO.parentId=event.data.activityCode;
+        }else if(type=='1'){
+          this.awardCurr.activityId=event.data.activityCode;
+        }
+        this.modalParentsRef.hide();
+        break;
+      default:
+        break;
+    }
+  }
+  //2-4 活动模态框分页事件
+  modalParentsPageChange($event){
+    this.modalParentsPageInfo.pageSize = $event.pageSize;
+    this.modalParentsPageInfo.pageNum=$event.pageNum;
+    this.modalGetParentsList();
+  }
+
   /************公共********************/
   //返回
   handleBackBtnClick() {
@@ -621,15 +687,8 @@ export class ActivityEditComponent {
     delete baseInfo.participateNum1;
     delete baseInfo.participateNum2;
     //处理日期
-    //baseInfo.beginTime=(baseInfo.beginTime.getTime())|| null;
-    //baseInfo.endTime=(baseInfo.endTime.getTime())|| null;
     baseInfo.beginTime=formatDate(baseInfo.beginTime,'YYYY-MM-DD hh:mm:ss');
     baseInfo.endTime=formatDate(baseInfo.endTime,'YYYY-MM-DD hh:mm:ss');
-    /*let baseInfoNew=_.cloneDeep(baseInfo);
-    baseInfoNew.beginTime=formatDate(baseInfoNew.beginTime,'YYYY-MM-DD hh:mm:ss');
-    baseInfoNew.endTime=formatDate(baseInfoNew.endTime,'YYYY-MM-DD hh:mm:ss');*/
-    console.log('接收会员');
-    console.log(this.activity.scopesDTO);
     this.activitySubmit={
       "activityId":this.activity.activityId,
       "baseInfoPOJO":baseInfo,
@@ -643,9 +702,6 @@ export class ActivityEditComponent {
     }
 
     if (this._editType === 'edit') {
-      console.log('编辑的数据');
-      console.log(this.activitySubmit);
-
       this._activityService.putOne(this.activity.id, this.activitySubmit)
         .then(res=>{
           this.showSuccess(res.msg || '更新成功')
@@ -659,9 +715,7 @@ export class ActivityEditComponent {
         this.showError(err.msg || '更新失败')
       });
     } else if (this._editType === 'add') {
-      console.log('添加的数据');
       this.activitySubmit.activityId=null;
-      console.log(this.activitySubmit);
       this._activityService.postOne(this.activitySubmit)
         .then((data:any) => {
           this.showSuccess(data.msg || '保存成功')

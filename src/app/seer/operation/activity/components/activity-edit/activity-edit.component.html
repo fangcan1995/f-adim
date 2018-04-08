@@ -23,7 +23,7 @@
                 <div class="row">
                   <label class="col-sm-4 col-md-2 control-label">活动编号</label>
                   <div class="col-sm-8 col-md-10">
-                    <input type="text" class="form-control" [(ngModel)]="baseInfoDTO.activityCode" name="activityCode" [disabled]="true" maxlength="50" />
+                    <input type="text" class="form-control" [(ngModel)]="baseInfoDTO.activityCode" name="activityCode" [disabled]="true" maxlength="50"  />
                   </div>
                 </div>
               </div>
@@ -31,7 +31,7 @@
                 <div class="row">
                   <label  class="col-sm-4 col-md-2 control-label">关联活动</label>
                   <div class="col-sm-8 col-md-10">
-                    <input type="text" class="form-control" name="parentId" [(ngModel)]="baseInfoDTO.parentId" #parentId="ngModel" [rangeLength]="[0,20]" maxlength="50" />
+                    <input type="text" class="form-control" name="parentId" [(ngModel)]="baseInfoDTO.parentId" #parentId="ngModel" [rangeLength]="[0,20]" maxlength="20" (click)="openParentIdModal(parentId,'0')" />
                     <p class="text-danger" *ngIf="parentId.errors?.rangeLength">请输入20个以内字符</p>
                   </div>
                 </div>
@@ -345,7 +345,6 @@
       cardTitle="人员列表"
       cardClass="with-scroll"
       [headerActions]="cardActions2"
-      [saveDistabled]="true"
       (notify)="modalChangeCard($event)"
     >
       <seer-filter
@@ -370,6 +369,42 @@
         [hideActions]="true"
         (notify)="modalChangeTable($event)"
         (changePage)="modalPageChange($event)"
+      ></seer-table>
+    </seer-collapse-card>
+  </div>
+</ng-template>
+<ng-template #parentId >
+  <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
+    <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">选择关联活动</h4>
+  </div>
+  <div class="modal-body">
+    <seer-collapse-card
+      cardTitle="活动列表"
+      cardClass="with-scroll"
+      (notify)="modalChangeCard($event)"
+    >
+      <seer-filter
+        [hasGlobalFilter]="true"
+        [filters]=""
+        (onFiltersChanged)=modalFiltersChanged($event)
+      ></seer-filter>
+      <seer-table
+        [data]="modalParents"
+        [titles]="modalParentsTitles"
+        [pageNum]="modalParentsPageInfo.pageNum"
+        [pageSize]="modalParentsPageInfo.pageSize"
+        [total]="modalParentsPageInfo.total"
+        [paginationRules]="0"
+        [translate]="translate"
+        [hideExport]="true"
+        [hidePrint]="true"
+        [hideRemoveAll]="true"
+        [hideColumns]="true"
+        [hideAddButton]="true"
+        [hideActions]="false"
+        [hideCheckbox]="true"
+        (notify)="modalParentsChangeTable($event,type)"
+        (changePage)="modalParentsPageChange($event)"
       ></seer-table>
     </seer-collapse-card>
   </div>
@@ -850,7 +885,10 @@
           <div class="col-sm-8 col-md-10">
             <input type="text" class="form-control"  [(ngModel)]="awardCurr.activityId" name="activityId" #activityId="ngModel" [rangeLength]="[0,20]"
                    maxlength="20" [disabled]="awardCurrReadOnly"
+                   required
+                   (click)="openParentIdModal(parentId,'1')"
             />
+            <p class="text-danger" *ngIf="activityId.errors?.required">*</p>
             <p class="text-danger" *ngIf="activityId.errors?.rangeLength">请输入20个以内字符</p>
           </div>
         </div>
