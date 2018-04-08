@@ -11,6 +11,7 @@ import {
 } from '../../../theme/services';
 import { GlobalState } from '../../../global.state';
 import { UPDATE, DELETE, CREATE } from '../../common/seer-table';
+import { CouponService } from "../../operation/coupon/coupon.service";
 @Component({
     templateUrl: './user.component.html',
     styleUrls: ['./user.component.scss'],
@@ -59,7 +60,7 @@ export class UserComponent implements OnInit {
             label: '账号状态',
             type: 'select',
             isDict: true,
-            category: 'USER_STATUS',
+            category: 'USER_STATUS_2',
         },
         {
             key: 'createTime',
@@ -96,18 +97,7 @@ export class UserComponent implements OnInit {
             key: 'loginStatus',
             label: '账号状态',
             isDict: true,
-            category: 'USER_STATUS',
-        },
-        {
-            key: 'loginIp',
-            label: '最后登录IP',
-            hidden: true
-        },
-        {
-            key: 'loginDate',
-            label: '最后登录时间',
-            type: 'date-time',
-            hidden: true
+            category: 'USER_STATUS_2',
         },
         {
             key: 'createTime',
@@ -127,8 +117,21 @@ export class UserComponent implements OnInit {
             key: 'roleName',
             label: '用户角色',
             hidden: true
-        }
+        },
+        {
+            key: 'loginIp',
+            label: '最后登录IP',
+            hidden: true
+        },
+        {
+            key: 'loginDate',
+            label: '最后登录时间',
+            type: 'date-time',
+            hidden: true
+        },
     ];
+
+    
     total = 0;
     users = [];
     pageSize: 10;
@@ -139,11 +142,29 @@ export class UserComponent implements OnInit {
         pageNum: 1,
         sortBy: '',
     };
-    ngOnInit() {
-        this.getList();
+
+    pageInfo: any = {
+        pageSize: 10,
+        pageNum: 1,
+        sortBy: '',
+        GlobalSearch: '',
+        excelmaps: {
+            loginName: '用户账号',
+            empName: '用户名称',
+            phone: '联系电话',
+            departmentName: '所属机构',
+            loginStatus: '账号状态',
+            createTime: '创建时间',
+            updateTime: '更新时间',
+            updateUser: 'updateUser',
+        }
     }
-    getList(): void {
-        this._userService.getList(this.params)
+
+    ngOnInit() {
+        this.getList(this.pageInfo);
+    }
+    getList(params): void {
+        this._userService.getList(params)
             .then(res => {
                 let data = res.data || {};
                 this.users = _.map(data.list, t => _.set(t, 'actions', [UPDATE, DELETE]))
@@ -158,43 +179,62 @@ export class UserComponent implements OnInit {
             })
     }
     handleFiltersChanged(params) {
-        let { loginDate, updateTime, ...otherParams } = params;
+        console.log(params);
+        let { loginDate, createTime, ...otherParams } = params;
         let loginDateStart,
             loginDateEnd,
-            updateTimeStart,
-            updateTimeEnd;
+            createTimeStart,
+            createTimeEnd;
         if (_.isArray(loginDate)) {
             loginDateStart = loginDate[0] ? this._datePipe.transform(loginDate[0], "yyyy-MM-dd HH:mm:ss") : undefined;
             loginDateEnd = loginDate[1] ? this._datePipe.transform(new Date(loginDate[1].getTime() + 86400000), "yyyy-MM-dd HH:mm:ss") : undefined;
         }
-        if (_.isArray(updateTime)) {
-            updateTimeStart = updateTime[0] ? this._datePipe.transform(updateTime[0], "yyyy-MM-dd HH:mm:ss") : undefined;
-            updateTimeEnd = updateTime[1] ? this._datePipe.transform(new Date(updateTime[1].getTime() + 86400000), "yyyy-MM-dd HH:mm:ss") : undefined;
+        if (_.isArray(createTime)) {
+            createTimeStart = createTime[0] ? this._datePipe.transform(createTime[0], "yyyy-MM-dd HH:mm:ss") : undefined;
+            createTimeEnd = createTime[1] ? this._datePipe.transform(new Date(createTime[1].getTime() + 86400000), "yyyy-MM-dd HH:mm:ss") : undefined;
         }
-        this.params = {
-            ...this.params,
+        this.pageInfo = {
+            ...this.pageInfo,
             ...otherParams,
             loginDateStart,
             loginDateEnd,
-            updateTimeStart,
-            updateTimeEnd,
+            createTimeStart,
+            createTimeEnd,
         }
-        this.getList();
+        this.getList(this.pageInfo);
     }
 
     handleChangePage({ pageNum, pageSize }) {
-        this.params.pageNum = pageNum;
-        this.params.pageSize = pageSize;
-        this.getList();
+        this.pageInfo.pageNum = pageNum;
+        this.pageInfo.pageSize = pageSize;
+        this.getList(this.pageInfo);
     }
 
-    handleNotify({ type, data }): void {
+    handleNotify({ type, data, column }): void {
         switch (type) {
+            case 'hideColumn':
+                this.pageInfo.excelmaps = column;
+                break;
             case CREATE.type:
                 this._router.navigate(['/system/user/add']);
                 break;
             case UPDATE.type:
                 this._router.navigate(['/system/user/edit', data.userId]);
+                break;
+            case 'export': 
+                this._userService.exportForm(this.pageInfo)
+                    .then(res => {
+                        let blob = res.blob();
+                        let a = document.createElement('a');
+                        let url = window.URL.createObjectURL(blob);
+                        a.href = url;
+                        a.download = '用户管理' + '.xls';
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        console.log(res);
+                    }).catch(err => {
+                        console.log(err);
+                    })
                 break;
             case DELETE.type:
                 this._dialogService.confirm('确定删除吗？')
@@ -211,7 +251,7 @@ export class UserComponent implements OnInit {
                                             this._router.navigate(['/login'])
                                         })
                                     } else {
-                                        this.getList();
+                                        this.getList(this.pageInfo);
                                     }
 
                                 })
@@ -237,5 +277,6 @@ export class UserComponent implements OnInit {
             autoHideDuration: 3000,
         })
     }
+
 }
 
