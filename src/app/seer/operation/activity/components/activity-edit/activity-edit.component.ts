@@ -106,6 +106,8 @@ export class ActivityEditComponent {
   selectedUserId=[]; //选中的用户id,
   ids='';//选中的用户id
 
+  type=`0`; //活动关联活动0，抽奖券关联活动1
+
   modalParents=[];//相关活动列表
   modalParentsTitles=[
     {key: 'activityCode', label: '活动编号'},
@@ -611,7 +613,8 @@ export class ActivityEditComponent {
   }
 
   //2-1 打开关联活动模态框
-  openParentIdModal(template: TemplateRef<any>) {
+  openParentIdModal(template: TemplateRef<any>,type) {
+    this.type=type;
     this.modalParentsRef = this.modalService2.show(template,this.modalClass);
     this.modalGetParentsList();
   }
@@ -631,15 +634,17 @@ export class ActivityEditComponent {
     });
   }
   //2-3 关联活动模态框事件绑定
-  modalParentsChangeTable(event){
-    console.log('-----------');
-    console.log(event);
-    console.log(this.modalService2);
+  modalParentsChangeTable(event,type){
+
     switch ( event.type ) {
       case 'enable':
         // 用选中的活动id渲染关联活动
-        this.baseInfoDTO.parentId=event.data.activityCode;
-        this.modalService2.hide(1);
+        if(type=='0'){
+          this.baseInfoDTO.parentId=event.data.activityCode;
+        }else if(type=='1'){
+          this.awardCurr.activityId=event.data.activityCode;
+        }
+        this.modalParentsRef.hide();
         break;
       default:
         break;
