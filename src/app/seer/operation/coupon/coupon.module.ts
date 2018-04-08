@@ -5,7 +5,6 @@ import { SharedModule } from "../../common/shared.module";
 import { routing } from './coupon.routing';
 import { CouponService } from "./coupon.service";
 import { CouponComponent } from './coupon.component';
-import { CouponEditComponent } from './components/coupon-edit/coupon-edit.component';
 @NgModule({
   imports: [
     NgaModule,
@@ -14,7 +13,6 @@ import { CouponEditComponent } from './components/coupon-edit/coupon-edit.compon
   ],
   declarations: [
     CouponComponent,
-    CouponEditComponent,
   ],
   providers: [
     CouponService,
