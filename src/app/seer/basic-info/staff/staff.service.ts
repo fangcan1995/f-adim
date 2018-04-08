@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Http, Response, Headers, RequestOptions} from '@angular/http';
+import {Http, Response, Headers, RequestOptions,ResponseContentType} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {HttpInterceptorService, ResModel} from "../../../theme/services/http-interceptor.service"
 import {StaffModule} from "./staff.module"
-import {BaseService} from "../../../theme/services/base.service";
+import {BaseService,BASE_URL} from "../../../theme/services/base.service";
+import { getStorage } from "../../../theme/libs/utils"
 
 @Injectable()
 export class StaffService extends BaseService<StaffModule> {
@@ -13,7 +14,7 @@ export class StaffService extends BaseService<StaffModule> {
     this.setApi("staffs");
   }
 
-  private staffsAPI = "http://172.16.1.252:9080/staffs";
+  private staffsAPI = `${BASE_URL}/staffs`;
   // private staffsAPI = "http://172.16.1.27:8090/staffs";
   private educationsAPI = "educations";
   private relationsAPI = "relations";
@@ -23,19 +24,19 @@ export class StaffService extends BaseService<StaffModule> {
 
 
   // 1、获取数据列表
-  getLists(pageInfo: any): Promise<any> {
-    const page = `?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
-    const sort = `&sortBy=${pageInfo.sort}`;
-    const jsonQueryObj = pageInfo.query;
-    console.log(jsonQueryObj)
-    let query: string = "";
-    for (var prop in jsonQueryObj) {
-      if (jsonQueryObj[prop]) {
-        query += `&${prop}=${jsonQueryObj[prop]}`;
-      }
-    }
-    const url = `${this.staffsAPI}${page}${sort}${query}`;
-    return this._httpInterceptorService.request("GET", `${url}`).toPromise();
+  getLists(params?): Promise<any> {
+    // const page = `?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
+    // const sort = `&sortBy=${pageInfo.sort}`;
+    // const jsonQueryObj = pageInfo.query;
+    // console.log(jsonQueryObj)
+    // let query: string = "";
+    // for (var prop in jsonQueryObj) {
+    //   if (jsonQueryObj[prop]) {
+    //     query += `&${prop}=${jsonQueryObj[prop]}`;
+    //   }
+    // }
+    // const url = `${this.staffsAPI}${page}${sort}${query}`;
+    return this._httpInterceptorService.request("GET", `${this.staffsAPI}`,params).toPromise();
   }
 
   //2、根据id获取员工信息
@@ -157,6 +158,15 @@ export class StaffService extends BaseService<StaffModule> {
       .catch(this.handleError);
   }
 
+  //16导出表格
+
+  exportForm(params): Promise<any> {
+    const access_token = getStorage({ key: 'token' }).access_token;
+      return this.http.get(`${this.staffsAPI}/export?access_token=${access_token}`, new RequestOptions({
+          responseType: ResponseContentType.Blob,
+          search: params
+      })).toPromise();
+  }
 }
 
 

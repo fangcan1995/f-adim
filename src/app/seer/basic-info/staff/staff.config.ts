@@ -11,10 +11,10 @@ export const titles = [
   {key: 'departmentName', label: '团队'},
   {key: 'position', label: '职位'},
   {key: 'entryTime', label: '入职时间', type: 'date'},
-  {key: 'inviteNum', label: '邀请人数'},
+  {key: 'inviteNum', label: '邀请人数', hidden:true},
   {key: 'loginTimes', label: '登录次数'},
-  {key: 'lastLoginTime', label: '最后登录时间', type: 'date-time'},
-  {key: 'loginIp', label: '最后登录IP'}
+  {key: 'lastLoginTime', label: '最后登录时间', type: 'date-time', hidden:true},
+  {key: 'loginIp', label: '最后登录IP' , hidden:true}
 ];
 export const titlesEducation = [
   {key: 'college', label: '毕业院校'},

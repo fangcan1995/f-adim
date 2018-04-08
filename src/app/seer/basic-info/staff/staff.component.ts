@@ -7,6 +7,7 @@ import {SeerDialogService} from "../../../theme/services/seer-dialog.service"
 import {titles} from './staff.config';
 import {SeerMessageService} from "../../../theme/services/seer-message.service";
 import { formatDate } from "ngx-bootstrap/bs-moment/format";
+import { concat } from 'rxjs/observable/concat';
 
 @Component({
   templateUrl: './staff.component.html',
@@ -37,7 +38,7 @@ export class StaffComponent {
     {key: 'entryTimeEnd', label: '至', type: 'input.date'},
   ];
   public titles = titles;
-  pageInfo = {
+  pageInfo:any = {
     "pageNum": 1,
     "pageSize": 10,
     "sort": "-entryTime",
@@ -54,7 +55,16 @@ export class StaffComponent {
       "entryTimeStart": "",
       "entryTimeEnd": ""
     },
-    "Organization":[{value:'',content:''}]
+    "Organization":[{value:'',content:''}],
+    excelmaps: {
+        emCode: '员工编号',
+        empName: '姓名',
+        pDepartmentName:'分公司',
+        departmentName: '团队',
+        position: '职位',
+        entryTime: '入职时间',
+        loginTimes:'登录次数'
+    }
   }; //分页、排序、检索
   staffs = [];// 数据
   errorMessage;
@@ -70,6 +80,7 @@ export class StaffComponent {
     this.getStaffs();
     this.getAllOrganizations();
   }
+
 
   //获取列表
   getStaffs(): void {
@@ -105,9 +116,27 @@ export class StaffComponent {
   }
   //增删改
   onChange(message): void {
-    let type = message.type;
-    let data = message.data;
+    let { type, data, column} = message;
     switch (type) {
+      case 'hideColumn':
+        this.pageInfo.excelmaps = column;
+        break;
+      case 'export': 
+        console.log(this.pageInfo);
+        this.staffManageService.exportForm(this.pageInfo)
+            .then(res => {
+                let blob = res.blob();
+                let a = document.createElement('a');
+                let url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = '用户管理' + '.xls';
+                a.click();
+                window.URL.revokeObjectURL(url);
+                console.log(res);
+            }).catch(err => {
+                console.log(err);
+            })
+        break;
       case 'create':
         this._router.navigate(['add'], {relativeTo: this._route});
         break;
