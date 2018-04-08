@@ -1,333 +1,387 @@
 <seer-content-top>
-  <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
-  <!--<button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>-->
-</seer-content-top>
-<div class="widgets">
-  <div class="row">
-    <div class="col-md-12">
-      <form class="form-horizontal">
-        <seer-collapse-card
-          cardTitle="职位基本信息"
-          [canCollapse]=true
-          [headerActions]="collapseCardActions"
-          (notify)="jobInfoNotify($event)"
-        >
-          <div class="row">
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+    <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
+    <!-- <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button> -->
+  </seer-content-top>
+  <div class="widgets">
+    <div class="row">
+      <div class="col-md-12">
+        <form class="form-horizontal">
+          <seer-collapse-card
+            cardTitle="职位基本信息"
+            [canCollapse]=true
+            [saveDistabled]="forbidBaseSaveBtn && form1.form.valid"
+            [headerActions]="collapseCardActions"
+            (notify)="jobInfoNotify($event)"
+          >
+            <form class="form-horizontal"  #form1="ngForm">
               <div class="row">
-                <label for="emCode" class="col-sm-4 control-label">员工编号</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="emCode" [(ngModel)]="staff.sysEmployer.emCode"
-                         [ngModelOptions]="{standalone: true}" disabled>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="emCode" class="col-sm-4 control-label">员工编号</label>
+                    <div class="col-sm-8 ">
+                      <input type="text" class="form-control" [(ngModel)]="staff.sysEmployer.emCode"
+                              required name='emCode' #emCode='ngModel' [rangeLength] ='[9,9]' title="员工编号" disabled>
+                      <!-- <span class="tips"></span> -->
+                      <p class="text-danger tips" *ngIf="emCode.errors?.required">*请认真填写，保存后不可修改</p>
+                      <p class="text-danger tips" *ngIf="emCode.errors?.rangeLength">请输入9个纯数字</p>
+                    </div>              
+                  </div>
                 </div>
-              </div>
-              
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="departmentId" class="col-sm-4 control-label">公司团队</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="departmentId"
-                         [(ngModel)]="staff.sysEmployer.departmentName"
-                         [ngModelOptions]="{standalone: true}" (click)="openModal(template)">
-                  <template #template>
-                    <div class="modal-body">
-                      <seer-tree
-                        [permissions]="treePermissions"
-                        (notify)="onNotice($event) "
-                        [nodes]="treeNode"
-                        [defaultNodeName]="'新建部门'"
-                        [loadingText]="''">
-                      </seer-tree>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="departmentId" class="col-sm-4 control-label">公司团队</label>
+                    <div class="col-sm-8 ">
+                      <input type="text" class="form-control" id="departmentId"
+                            [(ngModel)]="staff.sysEmployer.departmentName"
+                            (click)="openModal(template)"
+                            required name='company' #company='ngModel' title="点击选择公司团队">
+                      <p class="text-danger tips" *ngIf="company.errors?.required">*必填项</p>
+                      <template #template>
+                        <div class="modal-body">
+                          <seer-tree
+                            [permissions]="treePermissions"
+                            (notify)="onNotice($event) "
+                            [nodes]="treeNode"
+                            [defaultNodeName]="'新建部门'"
+                            [loadingText]="''">
+                          </seer-tree>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-sx btn-info" (click)="save(); modalRef.hide()">确定</button>
+                          <button type="button" class="btn btn-default" (click)="modalRef.hide()">取消</button>
+                        </div>
+                      </template>
                     </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-sx btn-info" (click)="save(); modalRef.hide()">确定</button>
-                      <button type="button" class="btn btn-default" (click)="modalRef.hide()">取消</button>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="position" class="col-sm-4 control-label">职位</label>
+                    <div class="col-sm-8 ">
+                      <input type="text" class="form-control" id="position" [(ngModel)]="staff.sysEmployer.position"
+                                                      required name='position' #position='ngModel' title="职位">
+                      <p class="text-danger tips" *ngIf="position.errors?.required">*必填项</p>
                     </div>
-                  </template>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="salaryBankNo" class="col-sm-4 control-label">工资卡号</label>
+                    <div class="col-sm-8 ">
+                      <input type="text" class="form-control" id="salaryBankNo" [(ngModel)]="staff.sysEmployer.salaryBankNo"
+                            title="工资卡号" name='salaryBankNo' #salaryBankNo='ngModel' [rangeLength]='[20,20]'>
+                      <p class="text-danger tips" *ngIf="salaryBankNo.errors?.rangeLength">限制长度20个字符</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="staffState" class="col-sm-4 control-label">员工状态</label>
+                    <div class="col-sm-8 ">
+                      <select type="email" class="form-control" name="contractType" id="staffState"
+                              (change)="staffStateChange($event.target.value)" [(ngModel)]="staff.sysEmployer.empStatus"
+                              dict-select
+                              required
+                              [key]="'EMP_STATES'"
+                              [topOption]="{itemId:'',itemName:'请选择'}"
+                              [selected]="staff.sysEmployer.empStatus"
+                              title="员工状态">
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label class="col-sm-4 control-label">入职时间</label>
+                    <div class="col-sm-8 ">
+                      <input required name='entryTime' #entryTime='ngModel' type="hidden" class="form-control" [(ngModel)]="staff.sysEmployer.entryTime" >
+                      <seer-datepicker
+                        [(date)]="staff.sysEmployer.entryTime"
+                        >
+                      </seer-datepicker>
+                      <p class="text-danger tips" *ngIf="entryTime.errors?.required">*必填项</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label class="col-sm-4 control-label">离职时间</label>
+                    <div class="col-sm-8 ">
+                      <seer-datepicker
+                        [(date)]="staff.sysEmployer.exitTime"
+                        [disabled]="!isDimission"
+                        [name]="exitTime">
+                      </seer-datepicker>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="contractType" class="col-sm-4 control-label">合同类型</label>
+                    <div class="col-sm-8 ">
+                      <select type="email" class="form-control" name="contractType" id="contractType" #contractType='ngModel'
+                              [(ngModel)]="staff.sysEmployer.contractType" dict-select required
+                              [key]="'STAFF_CONTRACT_TYPE'"
+                              [topOption]="{itemId:'',itemName:'请选择'}"
+                              [selected]="staff.contractType"
+                              title="合同类型">
+                      </select>
+                      <p class="text-danger tips" *ngIf="contractType.errors?.required">*必填项</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="contractNo" class="col-sm-4 control-label">合同编号</label>
+                    <div class="col-sm-8 ">
+                      <input type="text" class="form-control" id="contractNo" [(ngModel)]="staff.sysEmployer.contractNo"
+                                                      name ='contractNo' #contractNo='ngModel' required title="合同编号">
+                            <p class="text-danger tips" *ngIf="contractNo.errors?.required">*必填项</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label class="col-sm-4 control-label">合同签订日期</label>
+                    <div class="col-sm-8 ">
+                      <input required name='contractStartDate' #contractStartDate='ngModel' type="hidden" class="form-control" [(ngModel)]="staff.sysEmployer.contractStartDate" >
+                      <seer-datepicker
+                        [(date)]="staff.sysEmployer.contractStartDate">
+                      </seer-datepicker>
+                      <p class="text-danger tips" *ngIf="contractStartDate.errors?.required">*必填项</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label class="col-sm-4 control-label">合同结束日期</label>
+                    <div class="col-sm-8 ">
+                      <input required name='contractEndDate' #contractEndDate='ngModel' type="hidden" class="form-control" [(ngModel)]="staff.sysEmployer.contractEndDate" >
+                      <seer-datepicker
+                        [(date)]="staff.sysEmployer.contractEndDate">
+                      </seer-datepicker>
+                      <p class="text-danger tips" *ngIf="contractEndDate.errors?.required">*必填项</p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="position" class="col-sm-4 control-label">职位</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="position" [(ngModel)]="staff.sysEmployer.position"
-                         [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="salaryBankNo" class="col-sm-4 control-label">工资卡号</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="salaryBankNo" [(ngModel)]="staff.sysEmployer.salaryBankNo"
-                         [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="staffState" class="col-sm-4 control-label">员工状态</label>
-                <div class="col-sm-8 ">
-                  <select type="email" class="form-control" name="contractType" id="staffState"
-                          (change)="staffStateChange($event.target.value)" [(ngModel)]="staff.sysEmployer.empStatus"
-                          dict-select
-                          required
-                          [key]="'EMP_STATES'"
-                          [topOption]="{itemId:'',itemName:'请选择'}"
-                          [selected]="staff.sysEmployer.empStatus">
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label class="col-sm-4 control-label">入职时间</label>
-                <div class="col-sm-8 ">
-                  <seer-datepicker
-                    [(date)]="staff.sysEmployer.entryTime">
-                  </seer-datepicker>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label class="col-sm-4 control-label">离职时间</label>
-                <div class="col-sm-8 ">
-                  <seer-datepicker
-                    [(date)]="staff.sysEmployer.exitTime"
-                    [disabled]="!isDimission"
-                    [name]="exitTime">
-                  </seer-datepicker>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="contractType" class="col-sm-4 control-label">合同类型</label>
-                <div class="col-sm-8 ">
-                  <select type="email" class="form-control" name="contractType" id="contractType"
-                          [(ngModel)]="staff.sysEmployer.contractType" dict-select required
-                          [key]="'STAFF_CONTRACT_TYPE'"
-                          [topOption]="{itemId:'',itemName:'请选择'}"
-                          [selected]="staff.contractType">
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="contractNo" class="col-sm-4 control-label">合同编号</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="contractNo" [(ngModel)]="staff.sysEmployer.contractNo"
-                         [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label class="col-sm-4 control-label">合同签订日期</label>
-                <div class="col-sm-8 ">
-                  <seer-datepicker
-                    [(date)]="staff.sysEmployer.contractStartDate">
-                  </seer-datepicker>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label class="col-sm-4 control-label">合同结束日期</label>
-                <div class="col-sm-8 ">
-                  <seer-datepicker
-                    [(date)]="staff.sysEmployer.contractEndDate">
-                  </seer-datepicker>
-                </div>
-              </div>
-            </div>
-          </div>
-        </seer-collapse-card>
-        <seer-collapse-card
-          cardTitle="个人基本信息"
-          [canCollapse]=true
-          [headerActions]="collapseCardActions"
-          (notify)="staffInfoNotify($event)"
-        >
-          <div class="row">
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="empName" class="col-sm-4 control-label">姓名</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="empName"
-                         [(ngModel)]="staff.sysEmployer.empName" [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="empSex" class="col-sm-4 control-label">性别</label>
-                <div class="col-sm-8 ">
-                  <select type="email" class="form-control" name="empSex" id="empSex"
-                          [(ngModel)]="staff.sysEmployer.empSex"
-                          dict-select required
-                          [key]="'M_SEX'"
-                          [topOption]="{itemId:'',itemName:'请选择'}"
-                          [selected]="staff.sysEmployer.empSex">
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label class="col-sm-4 control-label">出生日期</label>
-                <div class="col-sm-8 ">
-                  <seer-datepicker
-                    [(date)]="staff.sysEmployer.empBirth">
-                  </seer-datepicker>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="originArea" class="col-sm-4 control-label">籍贯</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="originArea" [(ngModel)]="staff.sysEmployer.originArea"
-                         [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="nation" class="col-sm-4 control-label">民族</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="nation" [(ngModel)]="staff.sysEmployer.nation"
-                         [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="registeredArea" class="col-sm-4 control-label">户籍地</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="registeredArea"
-                         [(ngModel)]="staff.sysEmployer.registeredArea"
-                         [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="maritaStatus" class="col-sm-4 control-label">婚否</label>
-                <div class="col-sm-8 ">
-                  <select type="email" class="form-control" name="maritaStatus" id="maritaStatus"
-                          [(ngModel)]="staff.sysEmployer.maritaStatus"
-                          dict-select required
-                          [key]="'MARRAGE_STATUS'"
-                          [topOption]="{itemId:'',itemName:'请选择'}"
-                          [selected]="staff.sysEmployer.maritaStatus">
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="politicalStatus" class="col-sm-4 control-label">政治面貌</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="politicalStatus"
-                         [(ngModel)]="staff.sysEmployer.politicalStatus"
-                         [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="healthStatus" class="col-sm-4 control-label">健康状况</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="healthStatus" [(ngModel)]="staff.sysEmployer.healthStatus"
-                         [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="phone" class="col-sm-4 control-label">手机号码</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="phone" [(ngModel)]="staff.sysEmployer.phone"
-                         [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="idNum" class="col-sm-4 control-label">身份证号</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="idNum" [(ngModel)]="staff.sysEmployer.idNum"
-                         [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="papers" class="col-sm-4 control-label">证件</label>
-                <div class="col-sm-8 ">
-                  <input type="text" class="form-control" id="papers" [(ngModel)]="staff.sysEmployer.papers"
-                         [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
-              <div class="row">
-                <label for="liveArea" class="col-sm-2 control-label">现居住地</label>
-                <div class="col-sm-10 ">
-                  <input type="text" class="form-control" id="liveArea" [(ngModel)]="staff.sysEmployer.liveArea"
-                         [ngModelOptions]="{standalone: true}">
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </seer-collapse-card>
-
-        <seer-collapse-card cardTitle="学历技能信息" [canCollapse]="true">
-          <seer-simple-table
-            #educationView
-            [data]="educationsData"
-            [titles]="titlesEducation"
-            [primaryKey]="id"
-            [hidePagination]="true"
-            [actions]="simpleTableActions"
-            (notify)="educationsNotify($event)"
+            </form>
+          </seer-collapse-card>
+          <seer-collapse-card
+            cardTitle="个人基本信息"
+            [canCollapse]=false
+            [defaultExpand]="false"
+            [saveDistabled]="forbidBaseSaveBtn && form2.form.valid"
+            [headerActions]="collapseCardActions"
+            (notify)="staffInfoNotify($event)"
           >
-          </seer-simple-table>
-        </seer-collapse-card>
-
-        <seer-collapse-card cardTitle="家庭主要关系" cardClass="with-scroll" [canCollapse]=true>
-          <seer-simple-table
-            #relationView
-            [data]="relationsData"
-            [titles]="titlesRelation"
-            [hidePagination]="true"
-            [actions]="simpleTableActions"
-            (notify)="relationsNotify($event)"
-          >
-          </seer-simple-table>
-        </seer-collapse-card>
-
-        <seer-collapse-card cardTitle="主要工作经历" cardClass="with-scroll" [canCollapse]=true>
-          <seer-simple-table
-            #experienceView
-            [data]="experiencesData"
-            [titles]="titlesExperience"
-            [hidePagination]="true"
-            [actions]="simpleTableActions"
-            (notify)="experiencesNotify($event)"
-          >
-          </seer-simple-table>
-        </seer-collapse-card>
-
-      </form>
+            <form class="form-horizontal"  #form2="ngForm">
+              <div class="row">
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="empName" class="col-sm-4 control-label">姓名</label>
+                    <div class="col-sm-8 ">
+                      <input type="text" class="form-control" id="empName"
+                            [(ngModel)]="staff.sysEmployer.empName"                           
+                            name='empName' #empName='ngModel' required  [rangeLength]='[1,6]'>
+                            <p class="text-danger tips" *ngIf="empName.errors?.required">*必填项</p>
+                            <p class="text-danger tips" *ngIf="empName.errors?.rangeLength">六个字符以内</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="empSex" class="col-sm-4 control-label">性别</label>
+                    <div class="col-sm-8 ">
+                      <select type="email" class="form-control" name="empSex" id="empSex"
+                              [(ngModel)]="staff.sysEmployer.empSex"
+                              dict-select required
+                              [key]="'M_SEX'"
+                              [topOption]="{itemId:'',itemName:'请选择'}"
+                              [selected]="staff.sysEmployer.empSex"
+                              name='empSex' #empSex='ngModel'>
+                      </select>
+                      <p class="text-danger tips" *ngIf="empSex.errors?.required">*必填项</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label class="col-sm-4 control-label">出生日期</label>
+                    <div class="col-sm-8 ">
+                        <input required name='empBirth' #empBirth='ngModel' type="hidden" class="form-control" [(ngModel)]="staff.sysEmployer.empBirth" >
+                      <seer-datepicker
+                        [(date)]="staff.sysEmployer.empBirth">
+                      </seer-datepicker>
+                      <p class="text-danger tips" *ngIf="empBirth.errors?.required">*必填项</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="originArea" class="col-sm-4 control-label">籍贯</label>
+                    <div class="col-sm-8 ">
+                      <input type="text" class="form-control" id="originArea" [(ngModel)]="staff.sysEmployer.originArea"
+                                                      name='originArea' #originArea='ngModel' [rangeLength]='[1,30]'>
+                            <p class="text-danger tips" *ngIf="originArea.errors?.rangeLength">限制长度30个字符</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="nation" class="col-sm-4 control-label">民族</label>
+                    <div class="col-sm-8 ">
+                      <input type="text" class="form-control" id="nation" [(ngModel)]="staff.sysEmployer.nation"
+                                                      name='nation' #nation='ngModel' [rangeLength]='[1,10]'>
+                            <p class="text-danger tips" *ngIf="nation.errors?.rangeLength">限制长度10个字符</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="registeredArea" class="col-sm-4 control-label">户籍地</label>
+                    <div class="col-sm-8 ">
+                      <input type="text" class="form-control" id="registeredArea"
+                            [(ngModel)]="staff.sysEmployer.registeredArea"
+                                                      name='registeredArea' #registeredArea='ngModel' [rangeLength]='[1,30]'>
+                            <p class="text-danger tips" *ngIf="registeredArea.errors?.rangeLength">限制长度30个字符</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="maritaStatus" class="col-sm-4 control-label">婚否</label>
+                    <div class="col-sm-8 ">
+                      <!-- <input type="text" class="form-control" id="maritaStatus" [(ngModel)]="staff.sysEmployer.maritaStatus"> -->
+                            
+                            <select type="email" class="form-control" name="maritaStatus" id="maritaStatus"
+                            [(ngModel)]="staff.sysEmployer.maritaStatus"
+                            dict-select required
+                            [key]="'MARRAGE_STATUS'"
+                            [topOption]="{itemId:'',itemName:'请选择'}"
+                            [selected]="staff.sysEmployer.maritaStatus"
+                            name='maritaStatus' #maritaStatus='ngModel' >
+                    </select>
+                    <p class="text-danger tips" *ngIf="maritaStatus.errors?.required">*必填项</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="politicalStatus" class="col-sm-4 control-label">政治面貌</label>
+                    <div class="col-sm-8 ">
+                     <!--  <input type="text" class="form-control" id="politicalStatus"
+                      [ngModelOptions]="{standalone: true}"
+                      [(ngModel)]="staff.sysEmployer.politicalStatus"> -->
+                      <select 
+                        type="email" class="form-control" id="politicalStatus"
+                        [(ngModel)]="staff.sysEmployer.politicalStatus"
+                        dict-select 
+                        [key]="'POLITICAL_STATUS'"
+                        [selected]="staff.sysEmployer.politicalStatus"
+                        name='politicalStatus' #politicalStatus='ngModel'
+                      ></select>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="healthStatus" class="col-sm-4 control-label">健康状况</label>
+                    <div class="col-sm-8 ">
+                      <input type="text" class="form-control" id="healthStatus" [(ngModel)]="staff.sysEmployer.healthStatus"
+                                                      name='healthStatus' #healthStatus='ngModel' [rangeLength]='[1,20]'>
+                            <p class="text-danger tips" *ngIf="healthStatus.errors?.rangeLength">限制长度20个字符</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="phone" class="col-sm-4 control-label">手机号码</label>
+                    <div class="col-sm-8 ">
+                      <input type="text" class="form-control" id="phone" [(ngModel)]="staff.sysEmployer.phone"
+                                                      name='phone' #phone='ngModel' [rangeLength]='[11,11]' required>
+                            <p class="text-danger tips" *ngIf="phone.errors?.required">*必填项</p>
+                            <p class="text-danger tips" *ngIf="phone.errors?.rangeLength">限制纯数字11位</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="idNum" class="col-sm-4 control-label">身份证号</label>
+                    <div class="col-sm-8 ">
+                      <input type="text" class="form-control" id="idNum" [(ngModel)]="staff.sysEmployer.idNum"
+                                                      name='idNum' #idNum='ngModel' [rangeLength]='[18,18]' required>
+                            <p class="text-danger tips" *ngIf="idNum.errors?.required">*必填项</p>
+                            <p class="text-danger tips" *ngIf="idNum.errors?.rangeLength">限制纯数字18位</p>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="papers" class="col-sm-4 control-label">证件</label>
+                    <div class="col-sm-8 ">
+                      <input type="text" class="form-control" id="papers" [(ngModel)]="staff.sysEmployer.papers"
+                                                      name='papers' #papers='ngModel' [rangeLength]='[1,20]'>
+                            <p class="text-danger tips" *ngIf="papers.errors?.rangeLength">限制长度20个字符</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
+                  <div class="row">
+                    <label for="liveArea" class="col-sm-2 control-label">现居住地</label>
+                    <div class="col-sm-10 ">
+                      <input type="text" class="form-control" id="liveArea" [(ngModel)]="staff.sysEmployer.liveArea"
+                                                      name='liveArea' #liveArea='ngModel' [rangeLength]='[1,50]'>
+                            <p class="text-danger tips" *ngIf="liveArea.errors?.rangeLength">限制长度50个字符</p>
+                    </div>
+                  </div>
+                </div>
+  
+              </div>
+            </form>
+          </seer-collapse-card>
+  
+          <seer-collapse-card cardTitle="学历技能信息" [canCollapse]="true" [defaultExpand]="false">
+            <seer-simple-table
+              #educationView
+              [data]="educationsData"
+              [titles]="titlesEducation"
+              [primaryKey]="id"
+              [hidePagination]="true"
+              [actions]="simpleTableActions"
+              (notify)="educationsNotify($event)"
+            >
+            </seer-simple-table>
+          </seer-collapse-card>
+  
+          <seer-collapse-card cardTitle="家庭主要关系" cardClass="with-scroll" [canCollapse]=true [defaultExpand]="false">
+            <seer-simple-table
+              #relationView
+              [data]="relationsData"
+              [titles]="titlesRelation"
+              [hidePagination]="true"
+              [actions]="simpleTableActions"
+              (notify)="relationsNotify($event)"
+            >
+            </seer-simple-table>
+          </seer-collapse-card>
+  
+          <seer-collapse-card cardTitle="主要工作经历" cardClass="with-scroll" [canCollapse]=true [defaultExpand]="false">
+            <seer-simple-table
+              #experienceView
+              [data]="experiencesData"
+              [titles]="titlesExperience"
+              [hidePagination]="true"
+              [actions]="simpleTableActions"
+              (notify)="experiencesNotify($event)"
+            >
+            </seer-simple-table>
+          </seer-collapse-card>
+  
+        </form>
+      </div>
     </div>
+    <div dynamic-component></div>
   </div>
-  <div dynamic-component></div>
-</div>
+  
