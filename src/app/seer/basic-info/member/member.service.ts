@@ -3,8 +3,8 @@ import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel} from "../../..
 import {getStorage} from "../../../theme/libs/utils"
 @Injectable()
 export class MemberService extends BaseService<ResModel>{
-  // MembersUrl=`${BASE_URL}/${API['MEMBERS']}/members`; //会员接口
-  MembersUrl=`http://172.16.1.225:9080/members`; //会员接口
+  MembersUrl=`${BASE_URL}/${API['MEMBERS']}/members`; //会员接口
+  // MembersUrl=`http://172.16.1.225:9080/members`; //会员接口
   emergencyContactUrl=`contact`;//联系人
   VehicleContactUrl=`car`;//车辆
   HouseContactUrl=`house`;//车辆
