@@ -459,7 +459,9 @@ export class ActivityService extends BaseService<ResModel>{
 
   //11 获取参与活动的会员id拼接的字符串
   getIds(params?): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MEMBERS']}/members/members/ids`,params).toPromise();
+    let url=`http://172.16.1.225:9080/members/memberMessagesIds?access_token=84b41b07-9061-4c98-906d-4bbf17bcd7d1`;
+    return this._httpInterceptorService.request('GET', `${url}`,params).toPromise();
+    //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MEMBERS']}/members/members/ids`,params).toPromise();
   }
 
 }
