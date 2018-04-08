@@ -241,7 +241,7 @@ export class UserComponent implements OnInit {
                     .subscribe(action => {
                         if (action === 1) {
                             this._userService
-                                .deleteOne(data.userId)
+                                .deleteUser(data)
                                 .then((res) => {
                                     this.showSuccess(res.msg || '删除用户成功');
                                     // 如果删除的用户正好是自己，那么退出到登录页
