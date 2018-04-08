@@ -63,13 +63,17 @@
       </td>
       <td class="table-actions" *ngIf="!hideActions">
         <ng-container *ngIf="item.actions">
-          <i
-            *ngFor="let action of item.actions"
+          <!-- <button 
+          class="submit"
+          ></button> -->
+            <i
             class="table-action {{ action.icon }}"
+            *ngFor="let action of item.actions"
             (click)="handleActionsClick({action: action, item: item})"
             popover="{{ action.name }}"
             triggers="mouseenter:mouseleave"
             ></i>
+          
         </ng-container>
       </td>
     </tr>
