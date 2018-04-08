@@ -205,11 +205,23 @@ export class ActivityEditComponent {
   //1 打开奖励模态框
   openAwardsModal(type,template: TemplateRef<any>,index,readonly) {
     this.modalRef = this.modalService.show(template);
+
     if(index >=0){
-      this.awardCurrReadOnly=readonly;
+      //预览
+      //awardCurrReadOnly
+      if(readonly){
+        this.awardCurrReadOnly=true;
+      }else{
+        this.awardCurrReadOnly=false;
+      }
+      //this.awardCurrReadOnly=readonly;
+
+      console.log(this.awardCurrReadOnly);
       this.awardCurr=_.cloneDeep(this.awardsDTO[type][index]);//克隆当前奖励,防止同步更新
       this.awardCurrIndex=index;
     }else{
+      //新增
+      this.awardCurrReadOnly=false;
       this.awardCurr={};
       this.awardCurrIndex=-1;
       this.awardCurr.awardPersents=`100`;
@@ -255,7 +267,15 @@ export class ActivityEditComponent {
   }
   //3 删除奖励
   delAward(type,index){
-    this.awardsDTO[type].splice(index,1);
+    this._dialogService.confirm('确定删除吗？')
+      .subscribe(action => {
+        if (action === 1) {
+          this.awardsDTO[type].splice(index,1);
+        }
+      })
+
+
+
   }
   //4 奖品名称自动生成-红包
   redEnvelopeNameChange(type){

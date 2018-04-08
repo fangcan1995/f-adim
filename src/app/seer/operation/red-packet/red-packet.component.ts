@@ -11,12 +11,13 @@ import {RedPacketService} from "./red-packet.service";
 export class RedPacketComponent {
   hasGlobalFilter = true;
   filters = [
-    {key: 'redPacketTheme', label: '红包主题', type: 'input.text'},
-    {key: 'activityTheme', label: '所属活动', type: 'input.text'},
+    {key: 'name', label: '红包主题', type: 'input.text'},
+    {key: 'activityName', label: '所属活动', type: 'input.text'},
    /* {key: 'aaa', label: '状态', type: 'select',options:[{value:'', content: '全部'},{value:'1', content: '失败'},{value:'2', content: '成功'}]},*/
     {key: 'acSendStatus', label: '活动状态', type: 'select',isDict: true, category: 'ACTIVITY_STATUS'},
+    {key: 'userName', label: '发送用户'},
     {
-      key: 'issueDate',
+      key: 'createTime',
       label: '发放日期',
       groups: [
         {
@@ -31,13 +32,14 @@ export class RedPacketComponent {
   ];
   redPackets = [];
   titles = [
-    {key: 'redPacketTheme', label: '红包主题'},
-    {key: 'activityTheme', label: '所属活动'},
-    {key: 'redPacketRates', label: '红包金额(元)'},
-    {key: 'startSum', label: '起用金额(元)'},
-    {key: 'issueDate', label: '发放日期'},
-    {key: 'expirationDate', label: '截止日期'},
-    {key: 'acSendStatus', label: '状态'}
+    {key: 'name', label: '红包主题'},
+    {key: 'activityName', label: '所属活动'},
+    {key: 'memberId', label: '发送用户'},
+    {key: 'reAmount', label: '红包金额(元)'},
+    {key: 'useMinAmount', label: '起用金额(元)'},
+    {key: 'createTime', label: '发放日期'},
+    /*{key: 'expirationDate', label: '截止日期'},*/
+    {key: 'acSendStatus', label: '状态',isDict: true, category: 'AC_SEND_STATUS'}
   ];
   //分页、排序、检索
   pageInfo={
