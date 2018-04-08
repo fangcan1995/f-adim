@@ -2,6 +2,7 @@ import { Component, OnInit,ViewChild,TemplateRef } from '@angular/core';
 import { Router, ActivatedRoute,} from '@angular/router';
 import { Location } from '@angular/common';
 import * as _ from 'lodash';
+import {SeerDialogService} from '../../../../../theme/services';
 import { MemberService } from '../../member.service';
 import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
@@ -59,7 +60,8 @@ export class MemberEditComponent implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private _location: Location,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private _dialogService:SeerDialogService
   ) {}
   ngOnInit() {
     this.forbidBaseSaveBtn=true;
@@ -123,7 +125,7 @@ export class MemberEditComponent implements OnInit {
     });
     this.forbidFinancialSaveBtn=true;
   }
-  //联系人增删改
+  //联系人增删改(需要添加电话和身份证号码验证！)
   contactModifyNotify($event){
     let { type, key } = $event;
     let editData=this.contactTable.getFormatDataByKey(key).editData;
@@ -132,6 +134,14 @@ export class MemberEditComponent implements OnInit {
       //修改
       switch ( type ) {
         case 'save':
+          if(!this._memberService.validatePhone(editData.contPhone)){
+            this.showError('电话格式错误！');
+            return;
+          }
+          if(!this._memberService.validateIdCard(editData.contIdnum)){
+            this.showError('身份证号码格式错误！');
+            return;
+          }
           if(editData.id){
             if(editData.contName && editData.contName!='' ){
               this._memberService.putContact(this.memberId,editData).then((data:any)=>{
@@ -155,12 +165,17 @@ export class MemberEditComponent implements OnInit {
           this.contactTable.save(key);
           break;
         case 'delete':
-          this._memberService.deleteContact(editData.id).then((result) => {
-            this.contactTable.delete(key);
-            this.showSuccess(result.message || '删除成功');
-          }).catch(err=>{
-            this.showSuccess(err.json().message || '删除失败');
-          });
+        this._dialogService.confirm('确定删除吗？')
+          .subscribe(action => {
+              if (action === 1) {
+                this._memberService.deleteContact(editData.id).then((result) => {
+                  this.contactTable.delete(key);
+                  this.showSuccess(result.message || '删除成功');
+                }).catch(err=>{
+                  this.showSuccess(err.json().message || '删除失败');
+                });
+              }
+            });
           break;
       }
     }else{
@@ -180,20 +195,21 @@ export class MemberEditComponent implements OnInit {
     vehicle.memberId=this.memberId;
     if(vehicle.id){
       //修改
-      this._memberService.putVehicle(this.memberId,vehicle).then((result) => {
+      this._memberService.putVehicle(this.memberId,vehicle.id, vehicle).then((result) => {
         //更新页面显示
         let idIndex=this.vehicleInfo.findIndex(x => x.id == vehicle.id);
         this.vehicleInfo[idIndex]=vehicle;
         this.modalRef.hide();
+        this.showSuccess(result.message || '修改成功');
       }).catch(err=>{
         this.showError(err.msg || '修改失败');
       });
     }else{
       //新增
-
         this._memberService.postVehicle(this.memberId,vehicle).then((result) => {
           this.vehicleInfo.push(vehicle);
           this.modalRef.hide();
+          this.showSuccess(result.message || '新增成功');
         }).catch(err=>{
           this.showError(err.msg || '新增失败');
         });
@@ -206,11 +222,12 @@ export class MemberEditComponent implements OnInit {
     house.memberId=this.memberId;
     if(house.id){
       //修改
-      this._memberService.putHouse(this.memberId,house).then((result) => {
+      this._memberService.putHouse(this.memberId, house.id, house).then((result) => {
         //更新页面显示
         let idIndex=this.houseInfo.findIndex(x => x.id == house.id);
         this.houseInfo[idIndex]=house;
         this.modalRef.hide();
+        this.showSuccess(result.message || '修改成功');
       }).catch(err=>{
         this.showError(err.msg || '修改失败');
       });
@@ -219,6 +236,7 @@ export class MemberEditComponent implements OnInit {
       this._memberService.postHouse(this.memberId,house).then((result) => {
         this.houseInfo.push(house);
         this.modalRef.hide();
+        this.showSuccess(result.message || '新增成功');
       }).catch(err=>{
         this.showError(err.msg || '新增失败');
       });
@@ -226,23 +244,33 @@ export class MemberEditComponent implements OnInit {
   }
   //车辆删除
   delVehicle(id){
-    let idIndex=this.vehicleInfo.findIndex(x => x.id == id);
-    this._memberService.deleteVehicle(id).then((result) => {
-      this.vehicleInfo.splice(idIndex,1);
-      this.showSuccess(result.message || '删除成功');
-    }).catch(err=>{
-      this.showSuccess(err.json().message || '删除失败');
-    });
+    this._dialogService.confirm('确定删除吗？')
+    .subscribe(action => {
+        if (action === 1) {
+          let idIndex=this.vehicleInfo.findIndex(x => x.id == id);
+          this._memberService.deleteVehicle(this.memberId, id).then((result) => {
+            this.vehicleInfo.splice(idIndex,1);
+            this.showSuccess(result.message || '删除成功');
+          }).catch(err=>{
+            this.showSuccess(err.json().message || '删除失败');
+          });
+        }
+      });
   }
   //房屋删除
   delHouse(id){
-    let idIndex=this.houseInfo.findIndex(x => x.id == id);
-    this._memberService.deleteHouse(id).then((result) => {
-      this.houseInfo.splice(idIndex,1);
-      this.showSuccess(result.message || '删除成功');
-    }).catch(err=>{
-      this.showSuccess(err.json().message || '删除失败');
-    });
+    this._dialogService.confirm('确定删除吗？')
+    .subscribe(action => {
+        if (action === 1) {
+          let idIndex=this.houseInfo.findIndex(x => x.id == id);
+          this._memberService.deleteHouse(this.memberId, id).then((result) => {
+            this.houseInfo.splice(idIndex,1);
+            this.showSuccess(result.message || '删除成功');
+          }).catch(err=>{
+            this.showSuccess(err.json().message || '删除失败');
+          });
+        }
+      });
   }
   //修改户籍所在地
   domicilePlaceChanged($event) {

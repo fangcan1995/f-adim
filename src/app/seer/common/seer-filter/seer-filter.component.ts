@@ -175,7 +175,6 @@ export class SeerFilterComponent implements OnInit {
   }
   
   handleComplexBtnClick() {
-    console.log(this.filters)
     _.each(this.filters,(x,index)=>{
       if(x.label==='公司团队'){
         console.log(index)
