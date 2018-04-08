@@ -178,10 +178,12 @@ export class SeerFilterComponent implements OnInit {
     console.log(this.filters)
     _.each(this.filters,(x,index)=>{
       if(x.label==='公司团队'){
+        console.log(index)
         return this.index=index
       }
     })
-    this.filters[2].type='table'
+    this.index?this.filters[this.index].type='table':''
+    // this.filters[this.index].type='table'
     this.isFiltersShown = !this.isFiltersShown
   }
   isFilterShown() {

@@ -15,21 +15,27 @@ export class SeerCollapseCardComponent implements OnInit, OnChanges {
   @Input() headerActions;
   @Input() saveDistabled: boolean = true;
   @Output() notify = new EventEmitter();
-  public _isExpanded: boolean = false;
+  @Input() validationForm:String;
+  @Input() forbidBaseSaveBtn:any;
+  public _isExpanded: boolean = true;
   constructor() {}
   ngOnInit() {
-  	this._isExpanded = this.canCollapse ? this.defaultExpand : true;
+    console.log(this.forbidBaseSaveBtn)
+    console.log(this.headerActions)
+    this._isExpanded = this.canCollapse ? this.defaultExpand : true;
   }
   ngOnChanges() {
-  	this._isExpanded = this.canCollapse ? this.defaultExpand : true;
+    this._isExpanded = this.canCollapse ? this.defaultExpand : true;
   }
   isExpanded() {
+    // console.log(this.headerActions)
     return this._isExpanded.toString()
   }
   handleHeaderClick() {
   	this._isExpanded = this.canCollapse ? !this._isExpanded : true;
   }
   handleHeaderActionsClick($event, { type }) {
+    console.log($event,type)
     $event.stopPropagation();
     this.notify.emit({ type })
   }
