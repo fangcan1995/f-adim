@@ -13,7 +13,7 @@ import { Headers, Http, RequestOptions, ResponseContentType } from '@angular/htt
 import { getStorage } from "../../../theme/libs/utils"
 
 
-const exportFile = `${BASE_URL}/${API['ROLES']}/specialExport`;
+const exportFile = `${BASE_URL}/${API['USERS']}/specialExport`;
 
 
 @Injectable()
@@ -41,10 +41,6 @@ export class UserService extends BaseService<any> {
         return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['USERS']}/password`, params).toPromise();
     }
 
-
-    deleteUser (params) {
-        return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${API['USERS']}`, params).toPromise();
-    }
 
     exportForm(params): Promise<any> {
         const access_token = getStorage({ key: 'token' }).access_token;
