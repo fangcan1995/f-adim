@@ -202,7 +202,7 @@
                 <div class="row">
                   <label  class="col-sm-4 control-label">公司名称</label>
                   <div class="col-sm-8 ">
-                    <input type="text" class="form-control" name="companyName"  maxlength="20" [(ngModel)]="baseInfo.companyName" >
+                    <input type="text" class="form-control" name="companyName"  maxlength="20" [(ngModel)]="workInfo.companyName" >
                   </div>
                 </div>
               </div>
@@ -210,7 +210,7 @@
                 <div class="row">
                   <label  class="col-sm-4 control-label">公司性质</label>
                   <div class="col-sm-8 ">
-                    <input type="text" class="form-control" name="companyType"  maxlength="10" [(ngModel)]="baseInfo.companyType" >
+                    <input type="text" class="form-control" name="companyType"  maxlength="10" [(ngModel)]="workInfo.companyType" >
                   </div>
                 </div>
               </div>
@@ -283,7 +283,7 @@
                     <option value="">巴巴汇</option>
                     <option value="">汇信贷</option>
                   </select>-->
-                  <input type="text" class="form-control" [value]="accountInfo.accountSource" disabled>
+                  <input type="text" class="form-control" [(ngModel)]="accountInfo.accountSource" disabled>
                 </div>
               </div>
             </div>
@@ -291,7 +291,7 @@
               <div class="row">
                 <label  class="col-sm-4 control-label">账户用户名</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" [value]="baseInfo.trueName"  disabled>
+                  <input type="text" class="form-control" [(ngModel)]="baseInfo.trueName"  disabled>
                 </div>
               </div>
             </div>
@@ -300,7 +300,7 @@
                 <label  class="col-sm-4 control-label">开户行</label>
                 <div class="col-sm-8 ">
 
-                  <input type="text" class="form-control"  [value]="accountInfo.bankName"  disabled>
+                  <input type="text" class="form-control"  [(ngModel)]="accountInfo.bankName"  disabled>
                 </div>
               </div>
             </div>
@@ -308,7 +308,7 @@
               <div class="row">
                 <label class="col-sm-4 control-label">银行账户</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control"  [value]="accountInfo.bankNo" disabled>
+                  <input type="text" class="form-control"  [(ngModel)]="accountInfo.bankNo" disabled>
                 </div>
               </div>
             </div>
@@ -609,11 +609,11 @@
       <div class="row">
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label class="col-sm-4 control-label text-right">房产地址</label>
-            <div class="col-sm-8">
-              <input class="form-control"  [(ngModel)]="house.houseAdress" name="houseAdress" maxlength="30" #houseAdress="ngModel" required>
-              <p class="text-danger" *ngIf="houseAdress.errors?.required">*</p>
-            </div>
+            <label for="housePlace" class="col-sm-4 control-label text-right">房产地址</label>
+              <div class="col-sm-8">
+                <input class="form-control"  [(ngModel)]="house.houseAdress" name="houseAdress" maxlength="30" #houseAdress="ngModel" required>
+                <p class="text-danger" *ngIf="houseAdress.errors?.required">*</p>
+              </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">

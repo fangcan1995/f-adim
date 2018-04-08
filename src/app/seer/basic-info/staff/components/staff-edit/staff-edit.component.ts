@@ -32,15 +32,21 @@ export class StaffEditComponent implements OnInit {
   educationsData = [];
   relationsData = [];
   experiencesData = [];
+  educationId;
+  relationId;
+  experienceId;
 
   public titlesEducation = titlesEducation;
   public titlesRelation = titlesRelation;
   public titlesExperience = titlesExperience;
 
+  @ViewChild('validationForm') form1;
+  @ViewChild('validationForm') form2;
   @ViewChild('educationView') educationView;
   @ViewChild('relationView') relationView;
   @ViewChild('experienceView') experienceView;
 
+  forbidBaseSaveBtn: boolean = false;//传给表单的对象
   collapseCardActions = [SAVE];
   simpleTableActions = [UPDATE, DELETE];
 
@@ -55,6 +61,7 @@ export class StaffEditComponent implements OnInit {
   ngOnInit() {
     this.getOrganizations();
     this.isDimission=false;
+    this.forbidBaseSaveBtn=true;
     this._route.url.mergeMap(url => {
       this._editType = url[0].path;
       return this._route.params
@@ -222,6 +229,7 @@ export class StaffEditComponent implements OnInit {
             if (result.code == 0) {
               // this.educationView.getFormatDataByKey(key).copy.endTime = formatDate(this.educationView.getFormatDataByKey(key).copy.endTime, 'YYYY-MM-DD hh:mm:ss');
                console.log(this.educationView);
+              
               this.educationsData[key].endTime = formatDate(this.educationsData[key].endTime, 'YYYY-MM-DD hh:mm:ss');
               this.educationView.save(key);
               this.alertSuccess("修改成功");
@@ -232,6 +240,7 @@ export class StaffEditComponent implements OnInit {
         } else {
           this._staffService.postOneEdu(this.staffId, newData).then((result) => {
             if (result.code == 0) {
+              this.educationId=result.data;
               this.educationView.save(key);
               this.alertSuccess("添加成功");
             } else {
@@ -241,6 +250,8 @@ export class StaffEditComponent implements OnInit {
         }
         break;
       case 'delete':
+      console.log(this.educationId)
+        editData.id=editData.id?editData.id:this.educationId
         this._staffService.deleteEdu(this.staffId, editData.id).then((result) => {
           if (result.code == 0) {
             this.educationView.delete(key);
@@ -271,6 +282,7 @@ export class StaffEditComponent implements OnInit {
         } else {
           this._staffService.postOneRelations(this.staffId, editData).then((result) => {
             if (result.code == 0) {
+              this.relationId=result.data
               this.relationView.save(key);
               this.alertSuccess("添加成功");
             } else {
@@ -281,6 +293,8 @@ export class StaffEditComponent implements OnInit {
         alert('保存');
         break;
       case 'delete':
+        console.log(editData)
+        editData.id=editData.id?editData.id:this.relationId
         this._staffService.deleteRelations(this.staffId, editData.id).then((result) => {
           if (result.code == 0) {
             this.relationView.delete(key);
@@ -317,6 +331,7 @@ export class StaffEditComponent implements OnInit {
         } else {
           this._staffService.postOneExperiences(this.staffId, newData).then((result) => {
             if (result.code == 0) {
+              this.experienceId=result.data
               this.experienceView.save(key);
               this.alertSuccess("添加成功");
             } else {
@@ -326,6 +341,7 @@ export class StaffEditComponent implements OnInit {
         }
         break;
       case 'delete':
+        editData.id=editData.id?editData.id:this.experienceId
         this._staffService.deleteExperiences(this.staffId, editData.id).then((result) => {
           if (result.code == 0) {
             this.experienceView.delete(key);
@@ -367,7 +383,7 @@ export class StaffEditComponent implements OnInit {
       message: info,
       autoHideDuration: 3000,
     }).onClose().subscribe(() => {
-      this._router.navigate(['/basic-info/staff-manage/'])
+      // this._router.navigate(['/basic-info/staff-manage/'])
     });
   }
 

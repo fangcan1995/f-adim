@@ -68,6 +68,7 @@ export class MessageEditComponent {
     "pageSize":10,
     "sort":"",
     "total":"",
+    "globalSearch":"",
     "memberType":"",
     "department":"",
     "mageMix":"",

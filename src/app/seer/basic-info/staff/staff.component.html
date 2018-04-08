@@ -15,11 +15,11 @@
     [paginationRules]="0"
     (notify)="onChange($event)"
     (changePage)="handlePageChange($event)"
-    [hideExport]="true"
     [hidePrint]="true"
     [hideRemoveAll]="true"
-    [hideColumns]="true"
+    [hideColumns]="false"
     [customActions]="OPEN_USER"
+    [hideCheckbox]="true"
   ></seer-table>
 </seer-collapse-card>
 
