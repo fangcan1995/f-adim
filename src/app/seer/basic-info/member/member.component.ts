@@ -43,7 +43,7 @@ export class MemberComponent implements OnInit {
       ],
       groupSpaces: ['至']
     },
-    {key: 'invitedMember', label: '邀请人', type: 'input.text'},
+    // {key: 'invitedMember', label: '邀请人', type: 'input.text'},
   ];
   members = [];
   titles = [
@@ -56,7 +56,7 @@ export class MemberComponent implements OnInit {
     {key: 'status', label: '会员状态',isDict: true, category: 'MEMBER_STATUS'},
     {key: 'lastLoginTime', label: '最后登录时间'},
     {key: 'loginIp', label: '最后登录IP'},
-    {key: 'invitedMember', label: '邀请人'},
+    // {key: 'invitedMember', label: '邀请人'},
     {key: 'loginTimes', label: '登录次数'},
   ];
   pageInfo={
@@ -147,22 +147,22 @@ export class MemberComponent implements OnInit {
     let { registTime,age, ...otherParams } = params;
     let registTimeStart,
       registTimeEnd,
-      ageStart,
-      ageEnd;
+      mAgeStart,
+      mAgeEnd;
     if ( _.isArray(registTime)) {
       registTimeStart = registTime[0] ? (formatDate(registTime[0],'YYYY-MM-DD 00:00:00')) : null;
       registTimeEnd = registTime[1] ? (formatDate(registTime[1],'YYYY-MM-DD 23:59:59')) : null;
     }
     if ( _.isArray(age)) {
-      ageStart = age[0] ? age[0] : null;
-      ageEnd = age[1] ? age[1] : null;
+      mAgeStart = age[0] ? age[0] : null;
+      mAgeEnd = age[1] ? age[1] : null;
     }
     params = {
       ...otherParams,
       registTimeStart,
       registTimeEnd,
-      ageStart,
-      ageEnd,
+      mAgeStart,
+      mAgeEnd,
     }
     //console.log(params);
     this.pageInfo = params;
