@@ -12,7 +12,7 @@ export class RedPacketService extends BaseService<ResModel>{
 
   // 获取数据列表
   getList(params?):Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/activities/sendRecords?awardType=1`, params).toPromise();;
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/activities/sendRecords?awardType=1`, params).toPromise();
     //return this._httpInterceptorService.request('GET', `${this.url}?access_token=${this.accessToken}&awardType=1`, params);
   }
 }

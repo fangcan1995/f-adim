@@ -10,7 +10,7 @@ export class CouponService extends BaseService<ResModel>{
   url=`http://172.16.1.221:9080/activities/sendRecords`;
   // 获取数据列表
   getList(params?):Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/activities/sendRecords?awardType=2`, params).toPromise();;
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/activities/sendRecords?awardType=2`,params).toPromise();
     //return this._httpInterceptorService.request('GET', `${this.url}?access_token=${this.accessToken}&awardType=2`, params);
   }
 }
