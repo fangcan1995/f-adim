@@ -13,7 +13,7 @@ const BASE_PORT = 8020;
 const BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export const BASE_URL = `http://${BASE_SERVER}`;
 
-const TEST_DOMAIN = '172.16.1.252';
+const TEST_DOMAIN = '172.16.1.234';
 const TEST_PORT = 9080;
 const TEST_SERVER = `${TEST_DOMAIN}:${TEST_PORT}`;
 export const TEST_URL = `http://${TEST_SERVER}`;

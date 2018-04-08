@@ -39,6 +39,8 @@ export class StaffAddComponent implements OnInit {
   @ViewChild('relationView') relationView; //家庭主要关系表格
   @ViewChild('experienceView') experienceView; //主要工作经历表格
 
+  forbidBaseSaveBtn: any = {};//传给表单的对象
+
   collapseCardActions = [SAVE];
   simpleTableActions = [UPDATE, DELETE];
 
@@ -55,6 +57,10 @@ export class StaffAddComponent implements OnInit {
 
   ngOnInit() {
     this.getOrganizations();
+    this.forbidBaseSaveBtn={
+      name:'staffAdd',
+
+    }
     this._route.url.mergeMap(url => {
       this._editType = url[0].path;
       return this._route.params
@@ -315,7 +321,7 @@ export class StaffAddComponent implements OnInit {
       message: info,
       autoHideDuration: 3000,
     }).onClose().subscribe(() => {
-      // this._router.navigate(['/basic-info/staff-manage/'])
+      this._router.navigate(['/basic-info/staff-manage/edit/08f2d414d348462f9a7797b7822a8f65'])
     });
   }
 
@@ -329,4 +335,9 @@ export class StaffAddComponent implements OnInit {
     })
   }
 
+  handleSaveBtnClick($event, save) {
+    console.log($event,save)
+    $event.stopPropagation();
+    // this.notify.emit({ type })
+  }
 }
