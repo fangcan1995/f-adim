@@ -13,7 +13,7 @@
                 <div class="row">
                   <label class="col-sm-4 col-md-2 control-label">活动主题</label>
                   <div class="col-sm-8 col-md-10">
-                    <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.activityName" name="activityName" #activityName="ngModel" [rangeLength]="[0,20]" required />
+                    <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.activityName" name="activityName" #activityName="ngModel" [rangeLength]="[0,20]" maxlength="50" required />
                      <p class="text-danger" *ngIf="activityName.errors?.required">*</p>
                     <p class="text-danger" *ngIf="activityName.errors?.rangeLength">请输入20个以内字符</p>
                   </div>
@@ -23,7 +23,7 @@
                 <div class="row">
                   <label class="col-sm-4 col-md-2 control-label">活动编号</label>
                   <div class="col-sm-8 col-md-10">
-                    <input type="text" class="form-control" [(ngModel)]="baseInfoDTO.activityCode" name="activityCode" [disabled]="true"  />
+                    <input type="text" class="form-control" [(ngModel)]="baseInfoDTO.activityCode" name="activityCode" [disabled]="true" maxlength="50" />
                   </div>
                 </div>
               </div>
@@ -31,7 +31,8 @@
                 <div class="row">
                   <label  class="col-sm-4 col-md-2 control-label">关联活动</label>
                   <div class="col-sm-8 col-md-10">
-                    <input type="text" class="form-control" name="parentId" [(ngModel)]="baseInfoDTO.parentId" />
+                    <input type="text" class="form-control" name="parentId" [(ngModel)]="baseInfoDTO.parentId" #parentId="ngModel" [rangeLength]="[0,20]" maxlength="50" />
+                    <p class="text-danger" *ngIf="parentId.errors?.rangeLength">请输入20个以内字符</p>
                   </div>
                 </div>
               </div>
@@ -84,17 +85,19 @@
                     <label  class="col-sm-4 col-md-2 control-label">投资金额</label>
                     <div class="col-sm-8 col-md-10 group">
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" [(ngModel)]="baseInfoDTO.investMinMoney"
+                        <input type="text" class="form-control" [(ngModel)]="baseInfoDTO.investMinMoney" style="padding-right: 30px"
                                name="investMinMoney" #investMinMoney="ngModel" required [range]="[1,999999999]"
-                               currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}"  />
+                                maxlength="9"  />
+                        <span class="unit">元</span>
                         <p class="text-danger" *ngIf="investMinMoney.errors?.required">*</p>
                         <p class="text-danger" *ngIf="investMinMoney.errors?.range">请输入小于1000000000的数值</p>
                       </div>
                       <label class="col-sm-2">至</label>
                       <div class="col-sm-5" style="position: relative">
-                        <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.investMaxMoney"
-                               name="investMaxMoney" #investMaxMoney="ngModel" required [range]="[1, 999999999]"
-                               currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}"  />
+                        <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.investMaxMoney" style="padding-right: 30px"
+                               name="investMaxMoney" #investMaxMoney="ngModel" required [range]="[1, 999999999]" maxlength="9"
+                                 />
+                        <span class="unit">元</span>
                         <p class="text-danger" *ngIf="investMaxMoney.errors?.required">*</p>
                         <p class="text-danger" *ngIf="investMaxMoney.errors?.range">请输入小于1000000000的数值</p>
                       </div>
@@ -107,20 +110,20 @@
                     <div class="col-sm-8 col-md-10 group">
                       <div class="col-sm-5">
                         <input  class="form-control"  [(ngModel)]="baseInfoDTO.investMinNum" style="padding-right: 30px"
-                                name="investMinNum" #investMinNum="ngModel" required [range]="[1, 99]"
-                                currencyMask [options]="{ prefix: '',suffix: '', allowZero: false,precision:0,allowNegative:false,thousands:'' }" />
+                                name="investMinNum" #investMinNum="ngModel" required [range]="[1, 999]" maxlength="3"
+                        />
                         <span class="unit">次</span>
                         <p class="text-danger" *ngIf="investMinNum.errors?.required">*</p>
-                        <p class="text-danger" *ngIf="investMinNum.errors?.range">请输入小于100的数值</p>
+                        <p class="text-danger" *ngIf="investMinNum.errors?.range">请输入小于1000的数值</p>
                       </div>
                       <label class="col-sm-2">至</label>
                       <div class="col-sm-5">
                         <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.investMaxNum" style="padding-right: 30px"
-                               name="investMaxNum" #investMaxNum="ngModel" required [range]="[1, 99]"
-                               currencyMask [options]="{ prefix: '',suffix: '', allowZero: false,precision:0,allowNegative:false,thousands:''}" />
+                               name="investMaxNum" #investMaxNum="ngModel" required [range]="[1, 999]" maxlength="3"
+                        />
                         <span class="unit">次</span>
                         <p class="text-danger" *ngIf="investMaxNum.errors?.required">*</p>
-                        <p class="text-danger" *ngIf="investMaxNum.errors?.range">请输入小于100的数值</p>
+                        <p class="text-danger" *ngIf="investMaxNum.errors?.range">请输入小于1000的数值</p>
                       </div>
                     </div>
                   </div>
@@ -155,18 +158,16 @@
                   <div class="col-sm-8 col-md-10 group" >
                     <div class="col-sm-5">
                       <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.participateNum1" style="padding-right: 30px"
-                             name="participateNum1" #participateNum1="ngModel" required [range]="[1, 99]"
-                             currencyMask [options]="{ prefix: '',suffix: ' ', allowZero: false,precision:0,allowNegative:false,thousands:''}"
+                             name="participateNum1" #participateNum1="ngModel" required [range]="[1, 999]" maxlength="3"
                       />
                       <span class="unit">次</span>
                       <p class="text-danger" *ngIf="participateNum1.errors?.required">*</p>
-                      <p class="text-danger" *ngIf="participateNum1.errors?.range">请输入小于100的数值</p>
+                      <p class="text-danger" *ngIf="participateNum1.errors?.range">请输入小于1000的数值</p>
                     </div>
                     <label class="col-sm-2">/</label>
                     <div class="col-sm-5">
                       <input type="text" class="form-control"  [(ngModel)]="baseInfoDTO.participateNum2" style="padding-right: 30px"
-                             name="participateNum2" #participateNum2="ngModel" required [range]="[1, 999]"
-                             currencyMask [options]="{ prefix: '',suffix: ' ', allowZero: false,precision:0,allowNegative:false,thousands:''}"
+                             name="participateNum2" #participateNum2="ngModel" required [range]="[1, 999]" maxlength="3"
                       />
                       <p class="text-danger" *ngIf="participateNum2.errors?.required">*</p>
                       <p class="text-danger" *ngIf="participateNum2.errors?.range">请输入小于1000的数值</p>
@@ -194,7 +195,7 @@
                 <div class="row">
                   <label class="col-sm-4 col-md-2 col-lg-1 control-label">活动链接</label>
                   <div class="col-sm-8 col-md-10 col-lg-11">
-                    <input type="text" class="form-control" name="activityPageUrl" [(ngModel)]="baseInfoDTO.activityPageUrl" />
+                    <input type="text" class="form-control" name="activityPageUrl" [(ngModel)]="baseInfoDTO.activityPageUrl" maxlength="50"  />
                   </div>
                 </div>
               </div>
@@ -202,8 +203,7 @@
                 <div class="row">
                   <label class="col-sm-4 col-md-2 col-lg-1 control-label">活动备注</label>
                   <div class="col-sm-8 col-md-10 col-lg-11">
-                    <textarea class="form-control" name="activityRemark" [(ngModel)]="baseInfoDTO.activityRemark"
-                               #baseInfoDTO="ngModel" [rangeLength]="[0,200]" ></textarea>
+                    <input type="text" class="form-control" name="activityRemark" [(ngModel)]="baseInfoDTO.activityRemark" maxlength="200"  />
                     <p class="text-danger" *ngIf="baseInfoDTO.errors?.rangeLength">请输入200个以内字符</p>
                   </div>
                 </div>
@@ -377,7 +377,8 @@
   <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
     <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">
       <ng-container *ngIf="(awardCurrIndex==-1)">添加现金红包</ng-container>
-      <ng-container *ngIf="(awardCurrIndex!=-1)">修改现金红包</ng-container>
+      <ng-container *ngIf="(awardCurrIndex!=-1)&& !awardCurrReadOnly">修改现金红包</ng-container>
+      <ng-container *ngIf="(awardCurrIndex!=-1) &&awardCurrReadOnly">查看现金红包</ng-container>
     </h4>
   </div>
   <div class="modal-body">
@@ -396,9 +397,10 @@
             <label  class="col-sm-4 col-md-2 control-label">红包金额</label>
             <div class="col-sm-8 col-md-10">
               <input type="text" class="form-control"  [(ngModel)]="awardCurr.reAmount" (keyup)="redEnvelopeNameChange('现金红包')"
-                     name="reAmount" #reAmount="ngModel" required [range]="[1, 999999999]"
-                     currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}"
+                     name="reAmount" #reAmount="ngModel" required [range]="[1, 999999999]" maxlength="9"
+                     [disabled]="awardCurrReadOnly"
               />
+              <span class="unit" style="position: absolute;right: 30px;top:7px;font-size: 12px;">元</span>
               <p class="text-danger" *ngIf="reAmount.errors?.required">*</p>
               <p class="text-danger" *ngIf="reAmount.errors?.range">请输入小于1000000000的数值</p>
             </div>
@@ -409,7 +411,8 @@
             <label  class="col-sm-4 col-md-2 control-label">获奖概率</label>
             <div class="col-sm-8 col-md-10">
               <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardPersents"
-                     name="awardPersents" #awardPersents="ngModel" required [range]="[0,100]"
+                     name="awardPersents" #awardPersents="ngModel" required [range]="[0,100]" maxlength="6"
+                     [disabled]="awardCurrReadOnly"
                      currencyMask [options]="{ prefix: '',suffix: '% ', allowZero: false,precision:2,allowNegative:false}"
               />
               <p class="text-danger" *ngIf="awardPersents.errors?.required">*</p>
@@ -422,8 +425,8 @@
             <label  class="col-sm-4 col-md-2 control-label">奖品总数</label>
             <div class="col-sm-8 col-md-10">
               <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardSum"
-                     name="awardSum" #awardSum="ngModel" required [range]="[1,99999999]"
-                     currencyMask [options]="{ prefix: '', allowZero: false,precision:0,allowNegative:false}"
+                     name="awardSum" #awardSum="ngModel" required [range]="[1,99999999]" maxlength="9"
+                     [disabled]="awardCurrReadOnly"
               />
               <p class="text-danger" *ngIf="awardSum.errors?.required">*</p>
               <p class="text-danger" *ngIf="awardSum.errors?.range">请输入小于100000000的数值</p>
@@ -434,15 +437,15 @@
     </form>
   </div>
   <div class="modal-footer" >
-    <button type="button" class="btn btn-sx btn-info" (click)="saveAward('redEnvelopesDTOs',awardCurr,'1')" *ngIf="!awardCurrReadOnly" [disabled]="!form1.form.valid">确定</button>
+    <button type="button" class="btn btn-sx btn-info" (click)="saveAward('redEnvelopesDTOs',awardCurr,'1')" *ngIf="!awardCurrReadOnly" [disabled]="!form1.form.valid">保存</button>
     <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
   </div>
 </ng-template>
 <ng-template #award2 >
   <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
     <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">
-      <ng-container *ngIf="(awardCurrIndex==-1)">添加返现红包</ng-container>
-      <ng-container *ngIf="(awardCurrIndex!=-1)">修改返现红包</ng-container>
+      <ng-container *ngIf="(awardCurrIndex==-1&& !awardCurrReadOnly)">添加返现红包</ng-container>
+      <ng-container *ngIf="(awardCurrIndex!=-1&& awardCurrReadOnly)">修改返现红包</ng-container>
     </h4>
   </div>
   <div class="modal-body">
@@ -461,9 +464,10 @@
             <label  class="col-sm-4 col-md-2 control-label">红包金额</label>
             <div class="col-sm-8 col-md-10">
               <input type="text" class="form-control"  [(ngModel)]="awardCurr.reAmount" (keyup)="redEnvelopeNameChange('返现红包')"
-                     name="reAmount" #reAmount="ngModel" required [range]="[1, 999999999]"
-                     currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}"
+                     name="reAmount" #reAmount="ngModel" required [range]="[1, 999999999]" maxlength="9"
+                     [disabled]="awardCurrReadOnly"
               />
+              <span class="unit" style="position: absolute;right: 30px;top:7px;font-size: 12px;">元</span>
               <p class="text-danger" *ngIf="reAmount.errors?.required">*</p>
               <p class="text-danger" *ngIf="reAmount.errors?.range">请输入小于1000000000的数值</p>
             </div>
@@ -477,7 +481,9 @@
                       dict-select
                       [key]="'PRODUCT_CATEGORY'"
                       [selected]="awardCurr.productCategory"
-                      [topOption]="{itemid:'',itemName:'请选择'}" required>
+                      [topOption]="{itemid:'',itemName:'请选择'}" required
+                      [disabled]="awardCurrReadOnly"
+              >
               </select>
               <p class="text-danger" *ngIf="productCategory.errors?.required">*</p>
             </div>
@@ -491,7 +497,9 @@
                       dict-select
                       [key]="'USE_LIMIT'"
                       [selected]="awardCurr.useLimit"
-                      [topOption]="{itemid:'',itemName:'请选择'}" required>
+                      [topOption]="{itemid:'',itemName:'请选择'}" required
+                      [disabled]="awardCurrReadOnly"
+              >
               </select>
               <p class="text-danger" *ngIf="useLimit.errors?.required">*</p>
             </div>
@@ -502,9 +510,10 @@
             <label  class="col-sm-4  control-label">启用限额</label>
             <div class="col-sm-8">
               <input type="text" class="form-control"  [(ngModel)]="awardCurr.useMinAmount"
-                     name="useMinAmount" #useMinAmount="ngModel" required [range]="[1, 999999999]"
-                     currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}"
+                     name="useMinAmount" #useMinAmount="ngModel" required [range]="[1, 999999999]" maxlength="9"
+                     [disabled]="awardCurrReadOnly"
               >
+              <span class="unit" style="position: absolute;right: 30px;top:7px;font-size: 12px;">元</span>
               <p class="text-danger" *ngIf="useMinAmount.errors?.required">*</p>
               <p class="text-danger" *ngIf="useMinAmount.errors?.range">请输入小于1000000000的数值</p>
             </div>
@@ -515,9 +524,10 @@
             <label  class="col-sm-4  control-label">有效期限</label>
             <div class="col-sm-8">
               <input type="text" class="form-control"  [(ngModel)]="awardCurr.expiryDate"
-                     name="expiryDate" #expiryDate="ngModel" required [range]="[1, 999]"
-                     currencyMask [options]="{ prefix: '',suffix: '天', allowZero: false,precision:0,allowNegative:false,thousands:''}"
+                     name="expiryDate" #expiryDate="ngModel" required [range]="[1, 999]" maxlength="3"
+                     [disabled]="awardCurrReadOnly"
               />
+              <span class="unit" style="position: absolute;right: 30px;top:7px;font-size: 12px;">天</span>
               <p class="text-danger" *ngIf="expiryDate.errors?.required">*</p>
               <p class="text-danger" *ngIf="expiryDate.errors?.range">请输入小于1000的数值</p>
             </div>
@@ -531,7 +541,9 @@
                       dict-select
                       [key]="'IS_STACKING'"
                       [selected]="awardCurr.isStacking"
-                      [topOption]="{itemid:'',itemName:'请选择'}" required>
+                      [topOption]="{itemid:'',itemName:'请选择'}" required
+                      [disabled]="awardCurrReadOnly"
+              >
               </select>
               <p class="text-danger" *ngIf="isStacking.errors?.required">*</p>
             </div>
@@ -542,8 +554,9 @@
             <label  class="col-sm-4 control-label">获奖概率</label>
             <div class="col-sm-8">
               <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardPersents"
-                     name="awardPersents" #awardPersents="ngModel" required [range]="[0,100]"
-                     currencyMask [options]="{ prefix: '',suffix: '% ', allowZero: false,precision:2,allowNegative:false}"
+                     name="awardPersents" #awardPersents="ngModel" required [range]="[0,100]" maxlength="6"
+                     currencyMask [options]="{ prefix: '',suffix: '%', allowZero: false,precision:2,allowNegative:false}"
+                     [disabled]="awardCurrReadOnly"
               />
               <p class="text-danger" *ngIf="awardPersents.errors?.required">*</p>
               <p class="text-danger" *ngIf="awardPersents.errors?.range">请输入0-100之间的数值</p>
@@ -555,8 +568,8 @@
             <label  class="col-sm-4 col-md-2 control-label">奖品总数</label>
             <div class="col-sm-8 col-md-10">
               <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardSum"
-                     name="awardSum" #awardSum="ngModel" required [range]="[1,99999999]"
-                     currencyMask [options]="{ prefix: '', allowZero: false,precision:0,allowNegative:false}"
+                     name="awardSum" #awardSum="ngModel" required [range]="[1, 999999999]" maxlength="9"
+                     [disabled]="awardCurrReadOnly"
               />
               <p class="text-danger" *ngIf="awardSum.errors?.required">*</p>
               <p class="text-danger" *ngIf="awardSum.errors?.range">请输入小于100000000的数值</p>
@@ -814,9 +827,9 @@
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">关联活动</label>
           <div class="col-sm-8 col-md-10">
-            <input type="text" class="form-control"  [(ngModel)]="awardCurr.activityId" name="activityId" [rangeLength]="[0,20]"
+            <input type="text" class="form-control"  [(ngModel)]="awardCurr.activityId" name="activityId" #activityId="ngModel" [rangeLength]="[0,20]"
             />
-            <p class="text-danger" *ngIf="rtName.errors?.rangeLength">请输入20个以内字符</p>
+            <p class="text-danger" *ngIf="activityId.errors?.rangeLength">请输入20个以内字符</p>
           </div>
         </div>
       </div>
@@ -825,10 +838,10 @@
           <label  class="col-sm-4 col-md-2 control-label">单券次数</label>
           <div class="col-sm-8 col-md-10">
             <input  class="form-control"  [(ngModel)]="awardCurr.perNumber"
-                    name="perNumber" #perNumber="ngModel" required [range]="[1, 99]"
+                    name="perNumber" #perNumber="ngModel" required [range]="[1, 999]" maxlength="4"
                     currencyMask [options]="{ prefix: '',suffix: '次', allowZero: false,precision:0,allowNegative:false,thousands:'' }" />
             <p class="text-danger" *ngIf="perNumber.errors?.required">*</p>
-            <p class="text-danger" *ngIf="perNumber.errors?.range">请输入小于100的数值</p>
+            <p class="text-danger" *ngIf="perNumber.errors?.range">请输入小于1000的数值</p>
           </div>
         </div>
       </div>
@@ -837,7 +850,7 @@
           <label  class="col-sm-4 col-md-2 control-label">获奖概率</label>
           <div class="col-sm-8 col-md-10">
             <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardPersents"
-                   name="awardPersents" #awardPersents="ngModel" required [range]="[0,100]"
+                   name="awardPersents" #awardPersents="ngModel" required [range]="[0,100]" maxlength="8"
                    currencyMask [options]="{ prefix: '',suffix: '% ', allowZero: false,precision:2,allowNegative:false}"
             />
             <p class="text-danger" *ngIf="awardPersents.errors?.required">*</p>
@@ -851,7 +864,7 @@
           <div class="col-sm-8 col-md-10">
             <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardSum"
                    name="awardSum" #awardSum="ngModel" required [range]="[1,99999999]"
-                   currencyMask [options]="{ prefix: '', allowZero: false,precision:0,allowNegative:false}"
+                   currencyMask [options]="{ prefix: '', allowZero: false,precision:0,allowNegative:false}" maxlength="10"
             />
             <p class="text-danger" *ngIf="awardSum.errors?.required">*</p>
             <p class="text-danger" *ngIf="awardSum.errors?.range">请输入小于100000000的数值</p>
@@ -862,7 +875,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-sx btn-info" [disabled]="!form5.form.valid" (click)="saveAward('raffleTicketsDTOs',awardCurr,1)">确定</button>
+    <button type="button" class="btn btn-sx btn-info" [disabled]="!form5.form.valid" (click)="saveAward('raffleTicketsDTOs',awardCurr,1)">保存</button>
     <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
   </div>
 </ng-template>

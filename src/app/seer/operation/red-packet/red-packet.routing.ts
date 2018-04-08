@@ -1,7 +1,6 @@
 import { Routes, RouterModule }  from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 import { RedPacketComponent } from './red-packet.component';
-import { RedPacketEditComponent } from './components/red-packet-edit/red-packet-edit.component';
 
 const routes: Routes = [
   {
@@ -10,10 +9,6 @@ const routes: Routes = [
     	{
     		path: '',
     		component: RedPacketComponent,
-    	},
-    	{
-    		path: 'add',
-    		component: RedPacketEditComponent,
     	},
     ]
   }
