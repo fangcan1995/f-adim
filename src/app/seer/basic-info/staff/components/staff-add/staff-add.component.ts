@@ -29,19 +29,19 @@ export class StaffAddComponent implements OnInit {
   educationsData = [];
   relationsData = [];
   experiencesData = [];
-
   public titlesEducation = titlesEducation;
   public titlesRelation = titlesRelation;
   public titlesExperience = titlesExperience;
   
-  @ViewChild('validationForm') validationForm;
+  @ViewChild('validationForm') form1;
+  @ViewChild('validationForm') form2;
   @ViewChild('educationView') educationView; //学历技能信息表格
   @ViewChild('relationView') relationView; //家庭主要关系表格
   @ViewChild('experienceView') experienceView; //主要工作经历表格
 
-  forbidBaseSaveBtn: any = {};//传给表单的对象
+  forbidBaseSaveBtn: boolean = false;//传给表单的对象
 
-  collapseCardActions = [SAVE];
+  collapseCardActions = _.cloneDeep([SAVE]);
   simpleTableActions = [UPDATE, DELETE];
 
   treeNode = [];//组织树
@@ -57,15 +57,14 @@ export class StaffAddComponent implements OnInit {
 
   ngOnInit() {
     this.getOrganizations();
-    this.forbidBaseSaveBtn={
-      name:'staffAdd',
-
-    }
+    this.forbidBaseSaveBtn=true;
+    console.log(this.form1)
     this._route.url.mergeMap(url => {
       this._editType = url[0].path;
       return this._route.params
     }).subscribe(params => {
       if (this._editType === 'add') {
+        this.collapseCardActions[0].name='保存并完善'
         this.forbidSaveBtn = false;
       }
     })
@@ -88,10 +87,12 @@ export class StaffAddComponent implements OnInit {
   //职位保存基本信息
   jobInfoNotify() {
     let staffinfo = _.cloneDeep(this.staff);
+    console.log(staffinfo)
     this.timestampFormat(staffinfo);
-    this._staffService.putOne(staffinfo.sysEmployer.id, staffinfo.sysEmployer).then((result) => {
+    this._staffService.postOne(staffinfo.sysEmployer).then((result) => {
       console.log(this.staff.sysEmployer);
       if (result.code == 0) {
+        this.staffId=result.data
         this.alertSuccess("添加成功");
       } else {
         this.alertError("添加失败");
@@ -320,8 +321,9 @@ export class StaffAddComponent implements OnInit {
       icon: 'fa fa-times-circle',
       message: info,
       autoHideDuration: 3000,
-    }).onClose().subscribe(() => {
-      this._router.navigate(['/basic-info/staff-manage/edit/08f2d414d348462f9a7797b7822a8f65'])
+    }).onClose().subscribe((e) => {
+      e=this.staffId
+      this._router.navigate([`/basic-info/staff-manage/edit/${e}`])
     });
   }
 
