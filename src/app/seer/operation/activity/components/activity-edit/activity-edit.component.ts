@@ -14,7 +14,6 @@ import {formatDate} from "ngx-bootstrap/bs-moment/format";
   styleUrls: ['./activity-edit.component.scss']
 })
 export class ActivityEditComponent {
-
   _editType: string = 'add';
   forbidSaveBtn: boolean = true;
   isInvestMode:boolean = true;
@@ -39,9 +38,9 @@ export class ActivityEditComponent {
     "total":'',
   };//会员信息列表分页信息
   membersTitles = [
-    {key: 'userName', label: '用户名'},
-    {key: 'trueName', label: '真实姓名'},
-    {key: 'phoneNumber', label: '手机号'},
+    {key: 'userName', label: '用户帐号'},
+    {key: 'trueName', label: '用户姓名'},
+    {key: 'phoneNumber', label: '手机号码'},
     {key: 'idNumber', label: '身份证号'},
   ];
 
@@ -54,6 +53,12 @@ export class ActivityEditComponent {
       'name': '查询',
       'className': 'btn btn-xs btn-info',
       icon: 'fa fa-check'
+    },
+    'CANCEL': {
+      'type': 'cancel',
+      'name': '取消',
+      'className': 'btn btn-xs btn-info',
+      icon: 'fa fa-remove'
     },
     'OK': {
       'type': 'ok',
@@ -72,9 +77,9 @@ export class ActivityEditComponent {
   modalfilters =[];
   formGroupColNum='col-sm-12 col-md-6 col-lg-6';
   modalTitles=[
-    {key: 'userName', label: '用户名'},
-    {key: 'trueName', label: '真实姓名'},
-    {key: 'phoneNumber', label: '手机号'},
+    {key: 'userName', label: '用户帐号'},
+    {key: 'trueName', label: '用户姓名'},
+    {key: 'phoneNumber', label: '手机号码'},
     {key: 'idNumber', label: '身份证号'},
   ];
   modalPageInfo={
@@ -101,7 +106,7 @@ export class ActivityEditComponent {
   ids='';//选中的用户id
   chooseResult:string='选择用户';  //选择人员按钮中文提示
   public modalRef: BsModalRef;
-  cardActions2 = [this.modalActionSet.All,this.modalActionSet.OK];
+  cardActions2 = [this.modalActionSet.All,this.modalActionSet.OK,this.modalActionSet.CANCEL,];
   @ViewChild('validationForm') validationForm;
   @ViewChild('validationForm') form1;
   @ViewChild('validationForm') form2;
@@ -138,10 +143,10 @@ export class ActivityEditComponent {
               this.baseInfoDTO=this.activity.baseInfoDTO;
               (this.baseInfoDTO.trigMode=='4')?this.isInvestMode=false:this.isInvestMode=true; //投资奖励的特殊处理
               (this.baseInfoDTO.activityScope=='3')?this.hideChooseMembers=false:this.hideChooseMembers=true; //指定用户的特殊处理
-              //this.baseInfoDTO.beginTime=new Date(this.baseInfoDTO.beginTime);  //格式化时间
-              this.baseInfoDTO.beginTime = this.baseInfoDTO.beginTime ? new Date(this.baseInfoDTO.beginTime.replace(/-/g, "/")) : '';
-              this.baseInfoDTO.endTime = this.baseInfoDTO.endTime ? new Date(this.baseInfoDTO.endTime.replace(/-/g, "/")) : '';
-              //this.baseInfoDTO.endTime=new Date(this.baseInfoDTO.endTime);  //格式化时间
+              this.baseInfoDTO.beginTime=new Date(this.baseInfoDTO.beginTime);  //格式化时间
+              /*this.baseInfoDTO.beginTime = this.baseInfoDTO.beginTime ? new Date(this.baseInfoDTO.beginTime.replace(/-/g, "/")) : '';
+              this.baseInfoDTO.endTime = this.baseInfoDTO.endTime ? new Date(this.baseInfoDTO.endTime.replace(/-/g, "/")) : '';*/
+              this.baseInfoDTO.endTime=new Date(this.baseInfoDTO.endTime);  //格式化时间
 
               this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[0]:'';//频率字段拆分出次数
               this.baseInfoDTO.participateNum2=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[1]:'';//频率字段拆分出时间间隔
@@ -150,7 +155,8 @@ export class ActivityEditComponent {
               }
               //console.log(this.baseInfoDTO);
               this.awardsDTO=this.activity.awardsDTO;
-
+              console.log('员工人数');
+              console.log(this.activity);
               this.scopesPageInfo.total=this.activity.scopesDTO.length;//报错
 
               this.scopesDTO=this.activity.scopesDTO;  //范围列表
@@ -176,6 +182,7 @@ export class ActivityEditComponent {
           this.baseInfoDTO= this.activity.baseInfoDTO;
           this.awardsDTO=this.activity.awardsDTO;
           this.scopesDTO=this.activity.scopesDTO;
+
           //console.log(this.awardsDTO.length);
 
         }
@@ -205,6 +212,7 @@ export class ActivityEditComponent {
     }else{
       this.awardCurr={};
       this.awardCurrIndex=-1;
+      this.awardCurr.awardPersents=`100`;
     }
   }
   //2 增改奖励
@@ -318,96 +326,102 @@ export class ActivityEditComponent {
   //1 打开会员模态框
   openMemberModal(template: TemplateRef<any>) {
       this.modalfilters=[
-        {
-          key: 'memberType',
-          label: '用户身份',
-          type: 'select',
-          options:[{value:'', content: '全部'},{value:'1', content: '注册理财师'},{value:'2', content: '财富合伙人'}]
-        },
-        {
-          key: 'department',
-          label: '区域',
-          type: 'select',
-          options:[{value:'', content: '全部'},{value:'1', content: '龙区'},{value:'2', content: '辽区'}]
-        },
-        {
-          key: 'investOrNot',
-          label: '投资状态',
-          type: 'select',
-          options:[{value:'', content: '全部'},{value:'0', content: '未投资'},{value:'1', content: '已投资'}]
-        },
-        {
-          key: 'sex',
-          label: '性别',
-          type: 'select',
-          options:[{value:'', content: '全部'},{value:'1', content: '男'},{value:'2', content: '女'}]
-        },
-        {
-          key: 'mage',
-          label: '年龄',
-          groups: [
-            {
-              type: 'input.text',
-            },
-            {
-              type: 'input.text',
-            },
-          ],
-          groupSpaces: ['至']
-        },
-        {
-          key: 'investDate',
-          label: '投资时间',
-          groups: [
-            {
-              type: 'datepicker',
-            },
-            {
-              type: 'datepicker',
-            },
-          ],
-          groupSpaces: ['至']
-        },
-        {
-          key: 'investAll',
-          label: '累计投资',
-          groups: [
-            {
-              type: 'input.text',
-            },
-            {
-              type: 'input.text',
-            },
-          ],
-          groupSpaces: ['至']
-        },
-        {
-          key: 'investOne',
-          label: '单笔投资',
-          groups: [
-            {
-              type: 'input.text',
-            },
-            {
-              type: 'input.text',
-            },
-          ],
-          groupSpaces: ['至']
-        },
-        {
-          key: 'inviteMembers',
-          label: '邀请人数',
-          groups: [
-            {
-              type: 'input.text',
-            },
-            {
-              type: 'input.text',
-            },
-          ],
-          groupSpaces: ['至']
-        }
-      ];
+      {
+        key: 'memberType',
+        label: '用户身份',
+        type: 'select',
+        options:[{value:'', content: '全部'},{value:'1', content: '注册理财师'},{value:'2', content: '财富合伙人'}]
+      },
+      {
+        key: 'department',
+        label: '区域',
+        type: 'select',
+        options:[{value:'', content: '全部'},{value:'1', content: '龙区'},{value:'2', content: '辽区'}]
+      },
+      {
+        key: 'investOrNot',
+        label: '投资状态',
+        type: 'select',
+        options:[{value:'', content: '全部'},{value:'0', content: '未投资'},{value:'1', content: '已投资'}]
+      },
+      {
+        key: 'sex',
+        label: '性别',
+        type: 'select',
+        isDict:true,category:"M_SEX"
+      },
+      {
+        key: 'mage',
+        label: '年龄',
+        type: 'select',
+        options:[{value:'0', content: '全部'},{value:'1', content: '25以下'},{value:'2', content: '25-30'},{value:'3', content: '31-40'},{value:'4', content: '41-50'},{value:'5', content: '50以上'}]
+      },
+      /*{
+        key: 'mage',
+        label: '年龄',
+        groups: [
+          {
+            type: 'input.text',
+          },
+          {
+            type: 'input.text',
+          },
+        ],
+        groupSpaces: ['至']
+      },*/
+      {
+        key: 'investDate',
+        label: '投资时间',
+        groups: [
+          {
+            type: 'datepicker',
+          },
+          {
+            type: 'datepicker',
+          },
+        ],
+        groupSpaces: ['至']
+      },
+      {
+        key: 'investAll',
+        label: '累计投资',
+        groups: [
+          {
+            type: 'input.text',
+          },
+          {
+            type: 'input.text',
+          },
+        ],
+        groupSpaces: ['至']
+      },
+      {
+        key: 'investOne',
+        label: '单笔投资',
+        groups: [
+          {
+            type: 'input.text',
+          },
+          {
+            type: 'input.text',
+          },
+        ],
+        groupSpaces: ['至']
+      },
+      {
+        key: 'inviteMembers',
+        label: '邀请人数',
+        groups: [
+          {
+            type: 'input.text',
+          },
+          {
+            type: 'input.text',
+          },
+        ],
+        groupSpaces: ['至']
+      }
+    ];
       this.modalRef = this.modalService.show(template,this.modalClass);
       this.modalGetMembersList();
       this.selectedUserId=_.cloneDeep(this.scopesDTO);   //防止没确定前更新数据
@@ -449,6 +463,9 @@ export class ActivityEditComponent {
         this.scopesPageInfo.total=this.scopesDTO.length.toString();
         this.isSelectedMember=true;
 
+        this.modalService.hide(1);
+        break;
+      case 'cancel':
         this.modalService.hide(1);
         break;
       case 'all':
@@ -568,6 +585,7 @@ export class ActivityEditComponent {
   handleSaveBtnClick() {
     if ( this.forbidSaveBtn ) return;
     this.forbidSaveBtn = true;
+
     let baseInfo=_.cloneDeep(this.activity.baseInfoDTO);
     //如果不是投资奖励，删除相关属性
     if(baseInfo.trigMode!='4'){
@@ -582,6 +600,7 @@ export class ActivityEditComponent {
     if(baseInfo.activityScope!='3'){
       this.activity.scopesDTO=[];
     }
+
     //拼接参加频率
     baseInfo.participateNum=baseInfo.participateNum1+'/'+baseInfo.participateNum2;
     delete baseInfo.participateNum1;
@@ -589,15 +608,16 @@ export class ActivityEditComponent {
     //处理日期
     //baseInfo.beginTime=(baseInfo.beginTime.getTime())|| null;
     //baseInfo.endTime=(baseInfo.endTime.getTime())|| null;
-    let baseInfoNew=_.cloneDeep(baseInfo);
+    baseInfo.beginTime=formatDate(baseInfo.beginTime,'YYYY-MM-DD hh:mm:ss');
+    baseInfo.endTime=formatDate(baseInfo.endTime,'YYYY-MM-DD hh:mm:ss');
+    /*let baseInfoNew=_.cloneDeep(baseInfo);
     baseInfoNew.beginTime=formatDate(baseInfoNew.beginTime,'YYYY-MM-DD hh:mm:ss');
-    baseInfoNew.endTime=formatDate(baseInfoNew.endTime,'YYYY-MM-DD hh:mm:ss');
-
-
-
+    baseInfoNew.endTime=formatDate(baseInfoNew.endTime,'YYYY-MM-DD hh:mm:ss');*/
+    console.log('接收会员');
+    console.log(this.activity.scopesDTO);
     this.activitySubmit={
       "activityId":this.activity.activityId,
-      "baseInfoPOJO":baseInfoNew,
+      "baseInfoPOJO":baseInfo,
       "awardsPOJO":{
         "redEnvelopesPOJOs":this.activity.awardsDTO.redEnvelopesDTOs,
         "rateCouponsPOJOs":this.activity.awardsDTO.rateCouponsDTOs,
