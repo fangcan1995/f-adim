@@ -13,7 +13,7 @@ import { Headers, Http, RequestOptions, ResponseContentType } from '@angular/htt
 import { getStorage } from "../../../theme/libs/utils"
 
 
-const exportFile = 'http://172.16.1.234:9080/users/specialExport';
+const exportFile = `${BASE_URL}/${API['ROLES']}/specialExport`;
 
 
 @Injectable()
@@ -34,11 +34,16 @@ export class UserService extends BaseService<any> {
     }
     getUsersWithStaffsWithOrgs(): Promise<ResModel> {
         //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ROLES']}/userTree`).toPromise();
-        return this._httpInterceptorService.request('GET', `${TEST_URL}/${API['ROLES']}/userTree`).toPromise();
+        return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ROLES']}/userTree`).toPromise();
     }
     resetPassword(params): Promise<ResModel> {
         //return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['USERS']}/password`, params).toPromise();
-        return this._httpInterceptorService.request('PUT', `${TEST_URL}/${API['USERS']}/password`, params).toPromise();
+        return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['USERS']}/password`, params).toPromise();
+    }
+
+
+    deleteUser (params) {
+        return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${API['USERS']}`, params).toPromise();
     }
 
     exportForm(params): Promise<any> {
