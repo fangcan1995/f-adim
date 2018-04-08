@@ -3,13 +3,17 @@
     [hasGlobalFilter]="hasGlobalFilter"
     [filters]="filters"
     (onFiltersChanged)=handleFiltersChanged($event)
-    (onSearchBtnClicked)=handleSearchBtnClicked($event)
+    (onSearchBtnClicked)=handleFiltersChanged($event)
   ></seer-filter>
   <seer-table
     [data]="coupons"
     [titles]="titles"
     [translate]="dict"
+    [pageNum]="pageInfo.pageNum"
+    [pageSize]="pageInfo.pageSize"
+    [total]="pageInfo.total"
     (notify)="onChange($event)"
+    (changePage)="handlePageChange($event)"
     [showSeq]="true"
     [hideExport]="true"
     [hideRemoveAll]="true"

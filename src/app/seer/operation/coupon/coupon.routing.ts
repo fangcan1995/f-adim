@@ -1,7 +1,6 @@
 import { Routes, RouterModule }  from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 import { CouponComponent } from './coupon.component';
-import { CouponEditComponent } from './components/coupon-edit/coupon-edit.component';
 
 const routes: Routes = [
   {
@@ -10,11 +9,7 @@ const routes: Routes = [
     	{
     		path: '',
     		component: CouponComponent,
-    	},
-    	{
-    		path: 'add',
-    		component: CouponEditComponent,
-    	},
+    	}
     ]
   }
 ];

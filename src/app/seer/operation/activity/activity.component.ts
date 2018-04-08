@@ -80,8 +80,6 @@ export class ActivityComponent implements OnInit {
   };
   activities = [];
 
-
-
   ngOnInit() {
     this.getList();
   }

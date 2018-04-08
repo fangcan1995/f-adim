@@ -4,17 +4,8 @@
     [hasGlobalFilter]="hasGlobalFilter"
     [filters]="filters"
     (onFiltersChanged)=handleFiltersChanged($event)
-    (onSearchBtnClicked)=handleSearchBtnClicked($event)
+    (onSearchBtnClicked)=handleFiltersChanged($event)
   ></seer-filter>
-<!--  <seer-content-top [fixedTop]="false">
-    <seer-filter
-      [hasGlobalFilter]="hasGlobalFilter"
-      [filters]="filters"
-      (onFiltersChanged)=handleFiltersChanged($event)
-      (onSearchBtnClicked)=handleSearchBtnClicked($event)
-    ></seer-filter>
-</seer-content-top>-->
-<!--</seer-collapse-card>-->
   <seer-table
     [data]="redPackets"
     [titles]="titles"
@@ -23,6 +14,7 @@
     [pageSize]="pageInfo.pageSize"
     [total]="pageInfo.total"
     (notify)="onChange($event)"
+    (changePage)="handlePageChange($event)"
     [showSeq]="true"
     [hideExport]="true"
     [hideRemoveAll]="true"
