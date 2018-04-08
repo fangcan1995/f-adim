@@ -17,7 +17,6 @@ export class ActivityComponent implements OnInit {
     {key: 'trigMode', label: '触发方式', type: 'select', isDict: true, category: 'TRIG_MODE'},
     {key: 'activityName', label: '活动主题', type: 'input.text',maxLength:'30'},
     {key: 'productCategory', label: '适用产品', type: 'select', isDict: true, category: 'PRODUCT_CATEGORY'}, //add
-
     {
       key: 'beginTime',
       label: '开始时间',
@@ -79,8 +78,6 @@ export class ActivityComponent implements OnInit {
     }
   };
   activities = [];
-
-
 
   ngOnInit() {
     this.getList();

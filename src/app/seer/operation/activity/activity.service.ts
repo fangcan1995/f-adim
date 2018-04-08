@@ -115,7 +115,7 @@ export class ActivityService extends BaseService<ResModel>{
     },
   ];
   //accessToken = getStorage({ key: 'token' }).access_token;
-  accessToken=`7fbb40a8-64a1-4a44-94ae-4eee6f3d4625`;
+  accessToken=`dafee4ef-6717-4de2-801b-23b55bf25a83`;
   //http://172.16.1.221:9080/activities?access_token=1596d41c-3a90-4115-ba5c-f9d8bce2f576
   url=`http://172.16.1.221:9080/activities`;
   // 1 获取数据列表
