@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import {Http} from "@angular/http";
-import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel} from "../../../theme/services";
+import {BaseService,HttpInterceptorService,API,ResModel} from "../../../theme/services";
+let BASE_URL=`http://172.16.1.234:9080`;
 @Injectable()
 export class RiskRatingService extends BaseService<any> {
 
