@@ -18,7 +18,7 @@ export class ActivityService extends BaseService<ResModel>{
 //2 获取一条数据
   getOne(id):Promise<ResModel> {
     //return this._httpInterceptorService.request('GET', `${this.url}/${id}?access_token=${this.accessToken}`).toPromise();
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/activities/${id}`,{}, true).toPromise();
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/activities/${id}`,{}).toPromise();
 
   }
 
