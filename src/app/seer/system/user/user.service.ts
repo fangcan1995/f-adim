@@ -13,7 +13,7 @@ import { Headers, Http, RequestOptions, ResponseContentType } from '@angular/htt
 import { getStorage } from "../../../theme/libs/utils"
 
 
-const exportFile = `${BASE_URL}/${API['USERS']}/specialExport`;
+const exportFile = `${TEST_URL}/${API['USERS']}/specialExport`;
 
 
 @Injectable()
@@ -34,11 +34,11 @@ export class UserService extends BaseService<any> {
     }
     getUsersWithStaffsWithOrgs(): Promise<ResModel> {
         //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ROLES']}/userTree`).toPromise();
-        return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ROLES']}/userTree`).toPromise();
+        return this._httpInterceptorService.request('GET', `${TEST_URL}/${API['ROLES']}/userTree`).toPromise();
     }
     resetPassword(params): Promise<ResModel> {
         //return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['USERS']}/password`, params).toPromise();
-        return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['USERS']}/password`, params).toPromise();
+        return this._httpInterceptorService.request('PUT', `${TEST_URL}/${API['USERS']}/password`, params).toPromise();
     }
 
 

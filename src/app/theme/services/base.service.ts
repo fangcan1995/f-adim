@@ -8,7 +8,7 @@ import {
 
 import { getStorage, setStorage, castDict2Translate } from '../libs';
 
-const BASE_DOMAIN = '172.16.7.4';
+const BASE_DOMAIN = '172.16.7.3';
 const BASE_PORT = 8020;
 const BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export const BASE_URL = `http://${BASE_SERVER}`;
@@ -76,37 +76,37 @@ export class BaseService<T> {
   }
   // 获取列表
   public getList(params?: any): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${this._api}`, params).toPromise();
+    return this._httpInterceptorService.request('GET', `${TEST_URL}/${this._api}`, params).toPromise();
   }
   // 获取一条记录
   public getOne(id: string | number): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${this._api}/${id}`).toPromise();
+    return this._httpInterceptorService.request('GET', `${TEST_URL}/${this._api}/${id}`).toPromise();
     //return this._httpInterceptorService.request('GET', `${dictUrl}/${id}`).toPromise();
   }
   // 新增一条记录
   public postOne(params: any): Promise<ResModel> {
-    return this._httpInterceptorService.request('POST', `${BASE_URL}/${this._api}`, params).toPromise();
+    return this._httpInterceptorService.request('POST', `${TEST_URL}/${this._api}`, params).toPromise();
     //return this._httpInterceptorService.request('POST', `${dictUrl}`, params).toPromise();
   }
   // 修改一条记录，提供全部字段
   public putOne(id: string | number, params: any): Promise<ResModel> {
-    return this._httpInterceptorService.request('PUT', `${BASE_URL}/${this._api}/${id}`, params).toPromise();
+    return this._httpInterceptorService.request('PUT', `${TEST_URL}/${this._api}/${id}`, params).toPromise();
     //return this._httpInterceptorService.request('PUT', `${dictUrl}/${id}`, params).toPromise();
   }
   // 修改一条记录，提供部分字段
   public patchOne(id: string | number, params: any): Promise<ResModel> {
-    return this._httpInterceptorService.request('PATCH', `${BASE_URL}/${this._api}/${id}`, params).toPromise();
+    return this._httpInterceptorService.request('PATCH', `${TEST_URL}/${this._api}/${id}`, params).toPromise();
   }
   // 删除一条记录
   public deleteOne(id: string | number): Promise<ResModel> {
-    return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${this._api}/${id}`).toPromise();
+    return this._httpInterceptorService.request('DELETE', `${TEST_URL}/${this._api}/${id}`).toPromise();
     //return this._httpInterceptorService.request('DELETE', `${dictUrl}/${id}`).toPromise();
   }
 
 
 
   public getDictsFromServer(params?): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['DICTS']}`, params).toPromise();
+    return this._httpInterceptorService.request('GET', `${TEST_URL}/${API['DICTS']}`, params).toPromise();
     //return this._httpInterceptorService.request('GET', `${dictUrl}`, params).toPromise();
   }
   // 拉取字典数据
