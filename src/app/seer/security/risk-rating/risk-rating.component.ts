@@ -61,7 +61,7 @@ export class RiskRatingComponent implements OnInit {
       this.pageInfo.pageSize = res.data.pageSize; //每页记录数
       this.pageInfo.total = res.data.total; //记录总数
       this.riskRatings = res.data.list;
-      this.riskRatings = _.map(this.riskRatings, r => _.set(r, 'actions', [PREVIEW,UPDATE]));
+      this.riskRatings = _.map(this.riskRatings, r => _.set(r, 'actions', [PREVIEW]));
     });
   }
 
