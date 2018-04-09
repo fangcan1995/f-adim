@@ -354,6 +354,8 @@ export class ActivityEditComponent {
       this.hideChooseMembers=true;
     }
   }
+
+
   //模态框相关
   //1-1 打开会员模态框
   openMemberModal(template: TemplateRef<any>) {
@@ -656,6 +658,13 @@ export class ActivityEditComponent {
     this.modalParentsPageInfo.pageNum=$event.pageNum;
     this.modalGetParentsList();
   }
+  //2-5模糊查询
+  modalParentsFiltersChanged($event){
+    let params=$event;
+    this.modalParentsPageInfo = params;
+    this.modalGetParentsList();
+  }
+
 
   /************公共********************/
   //返回

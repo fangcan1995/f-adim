@@ -5,13 +5,13 @@ import {AdvertisingService} from "../../advertising.service";
 import {Location} from "@angular/common";
 import {FileUploader, ParsedResponseHeaders, FileItem} from "ng2-file-upload";
 import {getStorage} from "../../../../../theme/libs/utils";
-import {BASE_URL,API} from "../../../../../theme/services/base.service";
+import {API} from "../../../../../theme/services/base.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";//edit by lily
 /*import { TimepickerModule } from 'ngx-bootstrap';*/
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
 
 
-
+let BASE_URL=`http://172.16.1.234:9080`;//临时
 import * as _ from 'lodash';
 @Component({
   templateUrl: './adver-edit.component.html',
@@ -28,8 +28,8 @@ export class AdverEditComponent implements OnInit{
   expiryTime; //结束时间
   //putStatus; //投放状态
   //上传图片相关
-  fileApi=`http://172.16.1.221:9080/advertisings`; //上传接口
-  //fileApi=`${BASE_URL}/${API['ADVERTISINGS']}`; //上传接口
+  //fileApi=`http://172.16.1.221:9080/advertisings`; //上传接口
+  fileApi=`${BASE_URL}/advertisings`; //上传接口
 
   token = getStorage({ key: 'token' });
   tokenType = this.token.token_type;
