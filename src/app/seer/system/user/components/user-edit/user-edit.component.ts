@@ -86,6 +86,7 @@ export class UserEditComponent implements OnInit {
             if (this.editType === 'edit') {
                 let params = {
                     userId: this.user.userId,
+                    emCode: this.user.emCode,
                     roleIds,
                 }
                 this._userService.putOne('', params)
@@ -109,7 +110,7 @@ export class UserEditComponent implements OnInit {
                     .catch(err => {
                         this.forbidSaveBtn = false;
                         this.showError(err.msg || '更新失败')
-                    })
+                    });
             } else {
                 let params = {
                     ...this.user,

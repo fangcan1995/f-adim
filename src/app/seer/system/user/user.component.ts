@@ -10,7 +10,7 @@ import {
     AuthService,
 } from '../../../theme/services';
 import { GlobalState } from '../../../global.state';
-import { UPDATE, DELETE, CREATE } from '../../common/seer-table';
+import { UPDATE, DELETE, CREATE, ENABLE, DISABLE } from '../../common/seer-table';
 import { CouponService } from "../../operation/coupon/coupon.service";
 @Component({
     templateUrl: './user.component.html',
@@ -167,7 +167,20 @@ export class UserComponent implements OnInit {
         this._userService.getList(params)
             .then(res => {
                 let data = res.data || {};
-                this.users = _.map(data.list, t => _.set(t, 'actions', [UPDATE, DELETE]))
+                this.users = data.list;
+                this.users = _.map(this.users, t => {
+                    let status = t.loginStatus;
+                    let actions;
+                    switch (status) {
+                        case '0':
+                            actions = [UPDATE, DISABLE];
+                            break;
+                        case '1':
+                            actions = [UPDATE, ENABLE];
+                            break;
+                    }
+                    return _.set(t, 'actions', actions);
+                });
                 this.total = data.total || 0;
 
                 this.pageSize = data.pageSize || this.params.pageSize;
@@ -236,14 +249,14 @@ export class UserComponent implements OnInit {
                         console.log(err);
                     })
                 break;
-            case DELETE.type:
-                this._dialogService.confirm('确定删除吗？')
+            case DISABLE.type:
+                this._dialogService.confirm('确定停用该用户吗？')
                     .subscribe(action => {
                         if (action === 1) {
                             this._userService
-                                .deleteUser(data)
+                                .deleteOne(data.userId)
                                 .then((res) => {
-                                    this.showSuccess(res.msg || '删除用户成功');
+                                    this.showSuccess(res.msg || '停用用户成功');
                                     // 如果删除的用户正好是自己，那么退出到登录页
                                     let userInLocal = this._manageService.getUserFromLocal() || {};
                                     if (userInLocal.userId == data.userId) {
@@ -256,7 +269,32 @@ export class UserComponent implements OnInit {
 
                                 })
                                 .catch(err => {
-                                    this.showError(err.msg || '删除用户失败')
+                                    this.showError(err.msg || '停用用户失败')
+                                });
+                        }
+                    })
+                break;
+            case ENABLE.type:
+                this._dialogService.confirm('确定启用该用户吗？')
+                    .subscribe(action => {
+                        if (action === 1) {
+                            this._userService
+                                .deleteOne(data.userId)
+                                .then((res) => {
+                                    this.showSuccess(res.msg || '启用用户成功');
+                                    // 如果删除的用户正好是自己，那么退出到登录页
+                                    let userInLocal = this._manageService.getUserFromLocal() || {};
+                                    if (userInLocal.userId == data.userId) {
+                                        this._authService.logout().subscribe(res => {
+                                            this._router.navigate(['/login'])
+                                        })
+                                    } else {
+                                        this.getList(this.pageInfo);
+                                    }
+
+                                })
+                                .catch(err => {
+                                    this.showError(err.msg || '启用用户失败')
                                 });
                         }
                     })

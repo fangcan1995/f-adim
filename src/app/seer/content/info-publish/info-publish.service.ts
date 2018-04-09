@@ -48,7 +48,7 @@ export class InfoPublishService extends BaseService<any>{
      * 查询全部栏目树
      * */
     getAllColumnTree(): Promise<ResModel> {
-        return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['AFFICHE']}/type`, {}).toPromise();
+        return this._httpInterceptorService.request('GET', `${TEST_URL}/${API['AFFICHE']}/type`, {}).toPromise();
       }
 
 
@@ -56,17 +56,17 @@ export class InfoPublishService extends BaseService<any>{
 
     /* 添加栏目     params: {}  */
     addColumn (params): Promise<ResModel> {
-      return this._httpInterceptorService.request('POST', `${BASE_URL}/${API['AFFICHE']}/type`, params).toPromise();
+      return this._httpInterceptorService.request('POST', `${TEST_URL}/${API['AFFICHE']}/type`, params).toPromise();
     }
 
     /* 通过栏目id删除栏目   params: id */
     deleteColumn (id): Promise<ResModel> {
-      return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${API['AFFICHE']}/type/${id}`).toPromise();
+      return this._httpInterceptorService.request('DELETE', `${TEST_URL}/${API['AFFICHE']}/type/${id}`).toPromise();
     }
 
     /* 通过栏目id修改栏目   params: {} */
     editColumn (params):Promise<ResModel> {
-      return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['AFFICHE']}/type`, params).toPromise();
+      return this._httpInterceptorService.request('PUT', `${TEST_URL}/${API['AFFICHE']}/type`, params).toPromise();
     }
 
 
@@ -78,33 +78,33 @@ export class InfoPublishService extends BaseService<any>{
 
   /*根据栏目id获取新闻*/
   getColumnListById(col_Id): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['AFFICHE']}/info/${col_Id}`, {}).toPromise();
+    return this._httpInterceptorService.request('GET', `${TEST_URL}/${API['AFFICHE']}/info/${col_Id}`, {}).toPromise();
   }
 
   /* 点击新增按钮，添加一条新的数据  params: {}*/
   addNewArticle (params): Promise<ResModel> {
     let fileId = params.fileId;
-    return this._httpInterceptorService.request('POST', `${BASE_URL}/${API['AFFICHE']}/info`, params).toPromise();
+    return this._httpInterceptorService.request('POST', `${TEST_URL}/${API['AFFICHE']}/info`, params).toPromise();
   }
 
   /* 点击删除按钮，根据文章id 删除文章  params: id */
   deleteArticle (id): Promise<ResModel> {
-    return this._httpInterceptorService.request('DELETE', `${BASE_URL}/${API['AFFICHE']}/info/${id}`).toPromise();
+    return this._httpInterceptorService.request('DELETE', `${TEST_URL}/${API['AFFICHE']}/info/${id}`).toPromise();
   }
 
   /* 点击 params: {} */
   editArticle (params): Promise<ResModel> {
-    return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['AFFICHE']}/info`, params).toPromise();
+    return this._httpInterceptorService.request('PUT', `${TEST_URL}/${API['AFFICHE']}/info`, params).toPromise();
   }
 
   /* 点击修改按钮，查询对应id的文章 */
   getArticle (id): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['AFFICHE']}/info/${id}`, {}).toPromise();
+    return this._httpInterceptorService.request('GET', `${TEST_URL}/${API['AFFICHE']}/info/${id}`, {}).toPromise();
   }
 
   /* 点击修改状态按钮，更改对应id文章的状态 */
   patch (params): Promise<ResModel> {
-    return this._httpInterceptorService.request('PATCH', `${BASE_URL}/${API['AFFICHE']}/info`, params).toPromise();
+    return this._httpInterceptorService.request('PATCH', `${TEST_URL}/${API['AFFICHE']}/info`, params).toPromise();
   }
 
 
@@ -114,7 +114,7 @@ export class InfoPublishService extends BaseService<any>{
      **/
   getColumnList (params): Promise<ResModel> {
     console.log(params);
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['AFFICHE']}/typetoinfo`, params).toPromise();
+    return this._httpInterceptorService.request('GET', `${TEST_URL}/${API['AFFICHE']}/typetoinfo`, params).toPromise();
   }
 
 

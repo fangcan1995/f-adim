@@ -35,8 +35,8 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
     titles = [
         { key: 'noticeName', label: '公告名称' },
         { key: 'title', label: '公告标题' },
-        { key: 'effectTime', label: '生效时间', type: 'date' },
-        { key: 'updateTime', label: '最后修改时间', type: 'date' },
+        { key: 'effectTime', label: '生效时间', type: 'date-time' },
+        { key: 'updateTime', label: '最后修改时间', type: 'date-time' },
         { key: 'updateUser', label: '最后修改人' },
     ];
 

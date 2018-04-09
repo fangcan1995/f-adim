@@ -25,9 +25,9 @@ export class AnnouncementService extends BaseService<any>{
     }
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
-    apiUrl = `${BASE_URL}/${API['ANNOUNCE']}`;
-    exportFile = `${BASE_URL}/${API['ANNOUNCE']}/export`;
-    SPExportFile = `${BASE_URL}/${API['ANNOUNCE']}/specialExport`;
+    apiUrl = `${TEST_URL}/${API['ANNOUNCE']}`;
+    exportFile = `${TEST_URL}/${API['ANNOUNCE']}/export`;
+    SPExportFile = `${TEST_URL}/${API['ANNOUNCE']}/specialExport`;
 
 
 

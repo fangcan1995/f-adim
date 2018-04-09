@@ -27,7 +27,7 @@ export class RoleService extends BaseService<any> {
   getRoleList(params): Promise<ResModel> {
     return this._httpInterceptorService.request(
         'GET',
-        `${BASE_URL}/${API['ROLES']}`,
+        `${TEST_URL}/${API['ROLES']}`,
         params
     ).toPromise();
   }
@@ -35,12 +35,12 @@ export class RoleService extends BaseService<any> {
   getRoleOne(id): Promise<ResModel> {
     return this._httpInterceptorService.request(
         'GET',
-        `${BASE_URL}/${API['ROLES']}/${id}`,
+        `${TEST_URL}/${API['ROLES']}/${id}`,
     ).toPromise();
   }
 
   getUsersWithStaffsWithOrgs(): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['ROLES']}/userTree`).toPromise();
+    return this._httpInterceptorService.request('GET', `${TEST_URL}/${API['ROLES']}/userTree`).toPromise();
   }
 
   getResources(params?): Promise<ResModel> {
