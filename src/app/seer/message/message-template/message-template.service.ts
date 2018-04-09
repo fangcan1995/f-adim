@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
-import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel} from "../../../theme/services"
+import {BaseService,HttpInterceptorService,API,ResModel} from "../../../theme/services"
 import {getStorage} from "../../../theme/libs/utils"
+let BASE_URL=`http://172.16.1.234:9080`;
 @Injectable()
 export class messageTplManageService extends BaseService<ResModel>{
   url=`http://172.16.1.234:9080/templates`  //临时
