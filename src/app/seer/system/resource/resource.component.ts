@@ -94,10 +94,7 @@ export class ResourceComponent implements OnInit {
         const { type, data, column } = message;
         switch (type) {
             case 'hideColumn':
-                let newMap = {};
-                this.changeColumnMap(column, newMap);
-                this.pageInfo.excelmaps = newMap;
-                console.log(this.pageInfo);
+                this.pageInfo.excelmaps = column;
                 break;
             case CREATE.type:
                 this._router.navigate(['/system/resource/add']);
@@ -143,7 +140,6 @@ export class ResourceComponent implements OnInit {
                 let ids = _(data).map(t => t.id).value();
                 break;
             case 'export':
-                console.log(this.pageInfo);
                 this._resourceService.exportForm(this.pageInfo).then(res => {
                     let blob = res.blob();
                     let a = document.createElement('a');

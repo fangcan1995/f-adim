@@ -13,7 +13,7 @@ export class ResourceService extends BaseService<ResourceModel> {
         this.setApi(API['RESOURCES']);
     }
 
-    exportFile = 'http://172.16.1.252:9080/resources/export';
+    exportFile = `${TEST_URL}/${API['RESOURCES']}/export`;
 
     getSystemList(): Promise<ResModel> {
         return this._httpInterceptorService.request('GET', `${TEST_URL}/${API['RESOURCES']}/systemList`).toPromise();

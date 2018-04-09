@@ -5,6 +5,7 @@ import {
     API,
     BASE_URL,
     ResModel,
+    TEST_URL
 } from "../../../theme/services";
 import { Observable } from "rxjs/Observable";
 
@@ -24,10 +25,9 @@ export class AnnouncementService extends BaseService<any>{
     }
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
-
-    apiUrl = 'http://172.16.1.252:9080/announcements';
-    exportFile = 'http://172.16.1.252:9080/announcements/export';
-    SPExportFile = 'http://172.16.1.252:9080/announcements/specialExport';
+    apiUrl = `${TEST_URL}/${API['ANNOUNCE']}`;
+    exportFile = `${TEST_URL}/${API['ANNOUNCE']}/export`;
+    SPExportFile = `${TEST_URL}/${API['ANNOUNCE']}/specialExport`;
 
 
 

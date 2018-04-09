@@ -13,7 +13,7 @@ import { Headers, Http, RequestOptions, ResponseContentType } from '@angular/htt
 import { getStorage } from "../../../theme/libs/utils"
 
 
-const exportFile = 'http://172.16.1.234:9080/users/specialExport';
+const exportFile = `${TEST_URL}/${API['USERS']}/specialExport`;
 
 
 @Injectable()
@@ -40,6 +40,7 @@ export class UserService extends BaseService<any> {
         //return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['USERS']}/password`, params).toPromise();
         return this._httpInterceptorService.request('PUT', `${TEST_URL}/${API['USERS']}/password`, params).toPromise();
     }
+
 
     exportForm(params): Promise<any> {
         const access_token = getStorage({ key: 'token' }).access_token;

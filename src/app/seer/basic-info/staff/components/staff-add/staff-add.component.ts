@@ -89,15 +89,22 @@ export class StaffAddComponent implements OnInit {
     let staffinfo = _.cloneDeep(this.staff);
     console.log(staffinfo)
     this.timestampFormat(staffinfo);
-    this._staffService.postOne(staffinfo.sysEmployer).then((result) => {
-      console.log(this.staff.sysEmployer);
-      if (result.code == 0) {
-        this.staffId=result.data
-        this.alertSuccess("添加成功");
-      } else {
-        this.alertError("添加失败");
-      }
-    });
+    this._staffService.postOne(staffinfo.sysEmployer)
+      .then((result) => {
+        console.log(this.staff.sysEmployer);
+        if (result.code == 0) {
+          this.staffId=result.data
+          this.alertSuccess("添加成功");
+        } else {
+          this.alertError("添加失败");
+        }
+      }).catch(err => {
+        console.log(err);
+        if(err.code === 406) {
+          let message = JSON.parse(err.msg).message;
+          this.alertError(message);
+        }
+      });
   }
 
   //职位个人基本信息

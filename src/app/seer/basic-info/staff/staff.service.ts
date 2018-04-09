@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Http, Response, Headers, RequestOptions} from '@angular/http';
+import {Http, Response, Headers, RequestOptions,ResponseContentType} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {HttpInterceptorService, ResModel} from "../../../theme/services/http-interceptor.service"
 import {StaffModule} from "./staff.module"
-import {BaseService} from "../../../theme/services/base.service";
+import { BaseService,BASE_URL,TEST_URL } from "../../../theme/services/base.service";
+import { getStorage } from "../../../theme/libs/utils"
 
 @Injectable()
 export class StaffService extends BaseService<StaffModule> {
@@ -13,13 +14,13 @@ export class StaffService extends BaseService<StaffModule> {
     this.setApi("staffs");
   }
 
-  private staffsAPI = "http://172.16.1.252:9080/staffs";
+  private staffsAPI = `${TEST_URL}/staffs`;
   // private staffsAPI = "http://172.16.1.27:8090/staffs";
   private educationsAPI = "educations";
   private relationsAPI = "relations";
   private businessAPI = "experiences";
 
-  private organizationsAPI = "http://172.16.1.252:9080/organizations/all";
+  private organizationsAPI = `${TEST_URL}/organizations/all`;
 
 
   // 1、获取数据列表
@@ -157,6 +158,15 @@ export class StaffService extends BaseService<StaffModule> {
       .catch(this.handleError);
   }
 
+  //16导出表格
+
+  exportForm(params): Promise<any> {
+    const access_token = getStorage({ key: 'token' }).access_token;
+      return this.http.get(`${this.staffsAPI}/export?access_token=${access_token}`, new RequestOptions({
+          responseType: ResponseContentType.Blob,
+          search: params
+      })).toPromise();
+  }
 }
 
 

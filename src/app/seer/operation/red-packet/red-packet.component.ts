@@ -73,8 +73,8 @@ export class RedPacketComponent {
   }
 
   getList() {
-    this._redPacketService.getList(this.pageInfo)
-      .subscribe(res => {
+    /* this._redPacketService.getList(this.pageInfo)
+      .then(res => {
         this.redPackets = res.data;
         this.pageInfo.pageNum=res.data.pageNum;  //当前页
         this.pageInfo.pageSize=res.data.pageSize; //每页记录数
@@ -93,7 +93,7 @@ export class RedPacketComponent {
           return _.set(t, 'actions', actions);
 
         })
-      })
+      }) */
   }
 
   //多条件查询

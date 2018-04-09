@@ -31,7 +31,7 @@
                 <div class="row">
                   <label  class="col-sm-4 col-md-2 control-label">关联活动</label>
                   <div class="col-sm-8 col-md-10">
-                    <input type="text" class="form-control" name="parentId" [(ngModel)]="baseInfoDTO.parentId" #parentId="ngModel" [rangeLength]="[0,20]" maxlength="20" (click)="openParentIdModal(parentId)" />
+                    <input type="text" class="form-control" name="parentId" [(ngModel)]="baseInfoDTO.parentId" #parentId="ngModel" [rangeLength]="[0,20]" maxlength="20" (click)="openParentIdModal(parentId,'0')" />
                     <p class="text-danger" *ngIf="parentId.errors?.rangeLength">请输入20个以内字符</p>
                   </div>
                 </div>
@@ -403,7 +403,7 @@
         [hideAddButton]="true"
         [hideActions]="false"
         [hideCheckbox]="true"
-        (notify)="modalParentsChangeTable($event)"
+        (notify)="modalParentsChangeTable($event,type)"
         (changePage)="modalParentsPageChange($event)"
       ></seer-table>
     </seer-collapse-card>
@@ -886,7 +886,7 @@
             <input type="text" class="form-control"  [(ngModel)]="awardCurr.activityId" name="activityId" #activityId="ngModel" [rangeLength]="[0,20]"
                    maxlength="20" [disabled]="awardCurrReadOnly"
                    required
-                   (click)="openParentIdModal(parentId)"
+                   (click)="openParentIdModal(parentId,'1')"
             />
             <p class="text-danger" *ngIf="activityId.errors?.required">*</p>
             <p class="text-danger" *ngIf="activityId.errors?.rangeLength">请输入20个以内字符</p>
