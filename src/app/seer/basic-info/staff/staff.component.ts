@@ -101,10 +101,6 @@ export class StaffComponent {
     this.staffManageService.getAllOrganizations().then(
       res => {
         console.log(res)
-        // res.data.map((item,index)=>{
-        //   this.pageInfo.Organization[index].value=item.departmentId;
-        //   this.pageInfo.Organization[index].content=item.departmentName
-        // })
         console.log(this.pageInfo.Organization)
         this.pageInfo.pageNum = res.data.pageNum;  //当前页
         this.pageInfo.pageSize = res.data.pageSize; //每页记录数

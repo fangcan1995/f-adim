@@ -20,7 +20,7 @@ export class StaffService extends BaseService<StaffModule> {
   private relationsAPI = "relations";
   private businessAPI = "experiences";
 
-  private organizationsAPI = "http://172.16.1.252:9080/organizations/all";
+  private organizationsAPI = `${BASE_URL}/organizations/all`;
 
 
   // 1、获取数据列表
