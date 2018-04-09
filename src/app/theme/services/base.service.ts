@@ -46,7 +46,7 @@ export const API = {
     'LOGOUT': 'uaa/oauth/logout',
     'PASSWORD': 'uaa/password',
     'SIGNUP': 'signup',
-    'MEMBERS': 'member',    //会员
+    'MEMBERS': 'members',    //会员
     'USER': 'uaa/oauth/system/info',
     'USERS': 'users',
     'RESOURCES': 'resources',

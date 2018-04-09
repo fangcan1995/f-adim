@@ -3,7 +3,7 @@ import {Http, Response, Headers, RequestOptions,ResponseContentType} from '@angu
 import {Observable} from 'rxjs/Observable';
 import {HttpInterceptorService, ResModel} from "../../../theme/services/http-interceptor.service"
 import {StaffModule} from "./staff.module"
-import {BaseService,BASE_URL} from "../../../theme/services/base.service";
+import { BaseService,BASE_URL,TEST_URL } from "../../../theme/services/base.service";
 import { getStorage } from "../../../theme/libs/utils"
 
 @Injectable()
@@ -14,29 +14,29 @@ export class StaffService extends BaseService<StaffModule> {
     this.setApi("staffs");
   }
 
-  private staffsAPI = `${BASE_URL}/staffs`;
+  private staffsAPI = `${TEST_URL}/staffs`;
   // private staffsAPI = "http://172.16.1.27:8090/staffs";
   private educationsAPI = "educations";
   private relationsAPI = "relations";
   private businessAPI = "experiences";
 
-  private organizationsAPI = `${BASE_URL}/organizations/all`;
+  private organizationsAPI = `${TEST_URL}/organizations/all`;
 
 
   // 1、获取数据列表
-  getLists(params?): Promise<any> {
-    // const page = `?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
-    // const sort = `&sortBy=${pageInfo.sort}`;
-    // const jsonQueryObj = pageInfo.query;
-    // console.log(jsonQueryObj)
-    // let query: string = "";
-    // for (var prop in jsonQueryObj) {
-    //   if (jsonQueryObj[prop]) {
-    //     query += `&${prop}=${jsonQueryObj[prop]}`;
-    //   }
-    // }
-    // const url = `${this.staffsAPI}${page}${sort}${query}`;
-    return this._httpInterceptorService.request("GET", `${this.staffsAPI}`,params).toPromise();
+  getLists(pageInfo: any): Promise<any> {
+    const page = `?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
+    const sort = `&sortBy=${pageInfo.sort}`;
+    const jsonQueryObj = pageInfo.query;
+    console.log(jsonQueryObj)
+    let query: string = "";
+    for (var prop in jsonQueryObj) {
+      if (jsonQueryObj[prop]) {
+        query += `&${prop}=${jsonQueryObj[prop]}`;
+      }
+    }
+    const url = `${this.staffsAPI}${page}${sort}${query}`;
+    return this._httpInterceptorService.request("GET", `${url}`).toPromise();
   }
 
   //2、根据id获取员工信息

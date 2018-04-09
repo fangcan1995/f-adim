@@ -74,7 +74,19 @@ export class MemberComponent implements OnInit {
     "ageEnd":"",
     "registTimeStart":"",
     "registTimeEnd":"",
-    "invitedMember":""
+    "invitedMember":"",
+    "excelmaps": {
+      "userName": '用户名',
+      "trueName": '真实名',
+      "phoneNumber": '手机号',
+      "idNumber": '身份证号',
+      "sex": '性别',
+      "registTime": '注册时间',
+      "status": '会员状态',
+      "lastLoginTime": '最后登录时间',
+      "loginIp": '最后登录IP',
+      "loginTimes": '登录次数'
+  }
 
   }; //分页、排序、检索
   customActions = [
@@ -127,14 +139,32 @@ export class MemberComponent implements OnInit {
   onChange(message) {
     const type = message.type;
     let data = message.data;
+    let column = message.column;
     switch (type) {
+      case 'hideColumn':
+        this.pageInfo.excelmaps = column;
+        break;
       case 'preview':
         this._router.navigate([`detail/${data.id}`], {relativeTo: this._route});
         break;
       case 'update':
         this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
         break;
-
+      case 'export': 
+        // this._userService.exportForm(this.pageInfo)
+        //     .then(res => {
+        //         let blob = res.blob();
+        //         let a = document.createElement('a');
+        //         let url = window.URL.createObjectURL(blob);
+        //         a.href = url;
+        //         a.download = '用户管理' + '.xls';
+        //         a.click();
+        //         window.URL.revokeObjectURL(url);
+        //         console.log(res);
+        //     }).catch(err => {
+        //         console.log(err);
+        //     })
+        break;
     }
   }//增删改
   handlePageChange($event) {

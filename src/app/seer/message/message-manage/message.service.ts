@@ -1,7 +1,12 @@
 import {Injectable} from "@angular/core";
-import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel} from "../../../theme/services";
+import {BaseService,HttpInterceptorService,API,ResModel} from "../../../theme/services";
 import { parseJson2URL, getStorage } from '../../../theme/libs/utils';
+
+let BASE_URL=`http://172.16.1.234:9080`;
+
 @Injectable()
+
+
 export class MessageService extends BaseService<ResModel>{
   constructor(protected _httpInterceptorService: HttpInterceptorService,) {
     super(_httpInterceptorService);
