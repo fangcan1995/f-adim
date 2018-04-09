@@ -78,7 +78,7 @@ export class InfoPublishComponent {
         pageNum: 1,
         pageSize: 100000,
         total: 1000,
-        typeId: 1,
+        typeId: '',
         globalSearch: '',
         sortBy: '',
         isRoot: 1,
@@ -302,11 +302,11 @@ export class InfoPublishComponent {
                     .subscribe(action => {
                         if (action === 1) {
                             console.log({ id: data.id, status: data.status === '未发布' ? '1' : '0' });
-                            /* this.service.patch({id: data.id, status: data.status === '未发布' ? '1' : '0'}).then( result =>{
+                            this.service.patch({id: data.id, status: data.status === '未发布' ? '1' : '0'}).then( result =>{
                               this.alertSuccess(result.message);
                               console.log(this.pageInfo);
                               this.getColumnList(this.pageInfo);
-                            }) */
+                            })
                         }
                     });
                 break;
