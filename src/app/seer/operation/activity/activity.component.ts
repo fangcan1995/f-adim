@@ -68,6 +68,7 @@ export class ActivityComponent implements OnInit {
     "beginStartTime":"",
     "beginEndTime":"",
     "activityStatus":"",
+    "sortBy":"-startTime",
   };
   actionSet = {
     'STOP': {
