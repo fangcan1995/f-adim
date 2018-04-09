@@ -102,7 +102,8 @@ export class StaffEditComponent implements OnInit {
   }
 
   handleBackBtnClick() {
-    this._location.back()
+    // this._location.back()
+    this._router.navigate(['/basic-info/staff-manage/'])
   }
 
   /*离职处理,员工状态选中离职后，激活离职时间按钮*/
