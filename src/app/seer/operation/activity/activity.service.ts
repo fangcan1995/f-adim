@@ -1,14 +1,19 @@
 import {Injectable} from "@angular/core";
 import {BaseService,HttpInterceptorService,API,ResModel} from "../../../theme/services"
-
+import {Http, Response, Headers, RequestOptions,ResponseContentType} from '@angular/http';
 import * as _ from 'lodash';
 import {getStorage} from "../../../theme/libs/utils";
+
 let BASE_URL=`http://172.16.1.234:9080`;
 @Injectable()
 
 export class ActivityService extends BaseService<ResModel>{
-  accessToken=`dafee4ef-6717-4de2-801b-23b55bf25a83`;
-  url=`http://172.16.1.221:9080/activities`;
+  constructor(protected _httpInterceptorService: HttpInterceptorService, protected http?: Http) {
+    super(_httpInterceptorService);
+    //this.setApi("staffs");
+  }
+  //accessToken=`dafee4ef-6717-4de2-801b-23b55bf25a83`;
+  //url=`http://172.16.1.221:9080/activities`;
   // 1 获取数据列表
   getList(params?):Promise<ResModel> {
 
@@ -65,8 +70,8 @@ export class ActivityService extends BaseService<ResModel>{
 
   //9 根据活动ID查询发放记录
   getSendRecords(id,params): Promise<ResModel> {
-    //return this._httpInterceptorService.request('GET', `${BASE_URL}/activities/${id}/sendRecords`, params).toPromise();
-    return new Promise((resolve, reject) => {
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/activities/${id}/sendRecords`, params).toPromise();
+    /*return new Promise((resolve, reject) => {
       resolve(
         {
           "data": {
@@ -161,7 +166,7 @@ export class ActivityService extends BaseService<ResModel>{
         }
 
       )
-    })
+    })*/
   }
 
   //10 补发奖励
@@ -183,6 +188,14 @@ export class ActivityService extends BaseService<ResModel>{
     //let url=`http://172.16.1.225:9080/members/memberMessagesIds?access_token=84b41b07-9061-4c98-906d-4bbf17bcd7d1`;
     //return this._httpInterceptorService.request('GET', `${url}`,params).toPromise();
     return this._httpInterceptorService.request('GET', `${BASE_URL}/members/memberMessagesIds`,params).toPromise();
+  }
+  //12 导出表格
+  exportForm(params): Promise<any> {
+    const access_token = getStorage({ key: 'token' }).access_token;
+    return this.http.get(`${BASE_URL}/activities/export?access_token=${access_token}`, new RequestOptions({
+      responseType: ResponseContentType.Blob,
+      search: params
+    })).toPromise();
   }
 
 }

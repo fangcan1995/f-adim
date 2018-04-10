@@ -134,22 +134,22 @@
                   <label  class="col-sm-4 col-md-2 control-label">活动时间</label>
                   <div class="col-sm-8 col-md-10 group" >
                     <div class="col-sm-5">
-                      <!--<seer-datepicker
+                      <seer-datepicker
                         [(date)]="baseInfoDTO.beginTime"
-                        [dateFormatingRules]="'yyyy-MM-dd'"
+                        [dateFormatingRules]="'yyyy-MM-dd '"
                       >
-                      </seer-datepicker>-->
-                      <seer-datetime-picker id="beginTime" [myTime]="baseInfoDTO.beginTime" (dateChange)="dateChange($event)"></seer-datetime-picker>
+                      </seer-datepicker>
+                      <!--<seer-datetime-picker id="beginTime" [myTime]="baseInfoDTO.beginTime" (dateChange)="dateChange($event)"></seer-datetime-picker>-->
                       <p class="text-danger" *ngIf="!baseInfoDTO.beginTime">* 必填项</p>
                     </div>
                     <label class="col-sm-2">至</label>
                     <div class="col-sm-5">
-                      <!--<seer-datepicker
+                      <seer-datepicker
                         [(date)]="baseInfoDTO.endTime"
                         [dateFormatingRules]="'yyyy-MM-dd'"
                       >
-                      </seer-datepicker>-->
-                      <seer-datetime-picker id="endTime" [myTime]="baseInfoDTO.endTime" (dateChange)="dateChange($event)"></seer-datetime-picker>
+                      </seer-datepicker>
+                      <!--<seer-datetime-picker id="endTime" [myTime]="baseInfoDTO.endTime" (dateChange)="dateChange($event)"></seer-datetime-picker>-->
                       <p class="text-danger" *ngIf="!baseInfoDTO.endTime">* 必填项</p>
                     </div>
                   </div>
@@ -312,10 +312,12 @@
           <div class="row"  *ngIf="!hideChooseMembers">
             <div class="form-group col-sm-12">
               <div style="margin-top: 10px">
-                <button class="btn btn-primary left-button"  (click)="openMemberModal(members)">选择</button>
+                <button class="btn btn-primary left-button"  (click)="openMemberModal(members)">
+                  <span  *ngIf="scopesPageInfo.total == 0 ">选择</span>
+                  <span  *ngIf="scopesPageInfo.total > 0 ">重新选择</span>
+                </button>
                 <button class="btn btn-primary left-button"  (click)="clearScopes()">清空</button>
               </div>
-
               <seer-table
                 [data]="memberScopes"
                 [titles]="membersTitles"
