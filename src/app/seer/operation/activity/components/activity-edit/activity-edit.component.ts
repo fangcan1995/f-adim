@@ -172,9 +172,8 @@ export class ActivityEditComponent {
                 this.isAddaward=false;
               }
               this.awardsDTO=this.activity.awardsDTO;
-
-              this.scopesPageInfo.total=this.activity.scopesDTO.length;//报错
-
+              //选定会员列表
+              this.scopesPageInfo.total=this.activity.scopesDTO.length;
               this.scopesDTO=this.activity.scopesDTO;  //范围列表
               this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
 
