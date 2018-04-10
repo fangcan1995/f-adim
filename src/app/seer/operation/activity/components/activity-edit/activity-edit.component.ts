@@ -161,10 +161,10 @@ export class ActivityEditComponent {
               this.baseInfoDTO=this.activity.baseInfoDTO;
               (this.baseInfoDTO.trigMode=='4')?this.isInvestMode=false:this.isInvestMode=true; //投资奖励的特殊处理
               (this.baseInfoDTO.activityScope=='3')?this.hideChooseMembers=false:this.hideChooseMembers=true; //指定用户的特殊处理
-              this.baseInfoDTO.beginTime=new Date(this.baseInfoDTO.beginTime);  //格式化时间
+              //this.baseInfoDTO.beginTime=new Date(this.baseInfoDTO.beginTime);  //格式化时间
               /*this.baseInfoDTO.beginTime = this.baseInfoDTO.beginTime ? new Date(this.baseInfoDTO.beginTime.replace(/-/g, "/")) : '';
               this.baseInfoDTO.endTime = this.baseInfoDTO.endTime ? new Date(this.baseInfoDTO.endTime.replace(/-/g, "/")) : '';*/
-              this.baseInfoDTO.endTime=new Date(this.baseInfoDTO.endTime);  //格式化时间
+              //this.baseInfoDTO.endTime=new Date(this.baseInfoDTO.endTime);  //格式化时间
 
               this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[0]:'';//频率字段拆分出次数
               this.baseInfoDTO.participateNum2=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[1]:'';//频率字段拆分出时间间隔
