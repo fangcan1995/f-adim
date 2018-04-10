@@ -1,31 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
 
+.hidden {
+  display: none;
+}
+
 //edit by lily 20180410
-.info{
-  .form-group{
+.info {
+  .form-group {
     //label右对齐
-    .control-label{
+    .control-label {
       padding-top: 8px;
       text-align: right;
-    }
-    //金额数字等设置右对齐
-    .form-control{
-      &.number{
+    } //金额数字等设置右对齐
+    .form-control {
+      &.number {
         text-align: right;
         position: relative;
-        &.addUnit{
+        &.addUnit {
           padding-right: 30px;
         }
       }
-      + .unit{
+      +.unit {
         position: absolute;
         right: 10px;
-        top:7px;
-        //color:#000;
+        top: 7px; //color:#000;
         font-size: 12px
       }
     }
+  }
 }
-
-}
-

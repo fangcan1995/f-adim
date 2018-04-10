@@ -31,7 +31,8 @@
         "../node_modules/ng2-slim-loading-bar/style.css",
         "../node_modules/bootstrap/dist/css/bootstrap.css",
         "app/theme/theme.scss",
-        "styles.scss"
+        "styles.scss",
+        "assets/theme/default/laydate.css"
       ],
       "scripts": [
         "../node_modules/tinymce/tinymce.js",
@@ -78,7 +79,8 @@
         "../node_modules/popper.js/dist/umd/popper.js",
         "../node_modules/bootstrap/dist/js/bootstrap.js",
         "../node_modules/handsontable/dist/handsontable.full.js",
-        "../node_modules/chroma-js/chroma.js"
+        "../node_modules/chroma-js/chroma.js",
+        "assets/laydate.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

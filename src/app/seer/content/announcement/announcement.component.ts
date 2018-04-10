@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { AnnouncementService } from "./announcement.service";
 import { SeerDialogService } from "../../../theme/services/seer-dialog.service";
+import { SeerMessageService } from "../../../theme/services/seer-message.service";
 import { UPDATE, DELETE, ENABLE, DISABLE } from "../../common/seer-table/seer-table.actions";
 import { ActivatedRoute, Router } from "@angular/router";
 import { formatDate } from "ngx-bootstrap/bs-moment/format";
@@ -58,6 +59,7 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
     }
 
     constructor(private _announcementService: AnnouncementService, private _dialogService: SeerDialogService,
+        private _messageService: SeerMessageService,
         private _router: Router, private _activatedRoute: ActivatedRoute) {
 
     }
@@ -104,25 +106,15 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
                         if (action === 1) {
                             this._announcementService.deleteOne(data.id)
                                 .then(data => {
-                                    this.getList(this.pageInfo);
+                                    this.alertSuccess(data.message)
+                                        .onClose()
+                                        .subscribe(() => {
+                                            this.getList(this.pageInfo);
+                                        });
                                 });
                         }
                     });
 
-                break;
-            case 'delete_multiple':
-                let ids = _(data).map(t => t.id).value();
-                this._dialogService.confirm('确定删除么？')
-                    .subscribe(action => {
-                        if (action === 1) {
-                            ids.map(id => {
-                                this._announcementService.deleteOne(id)
-                                    .then(data => {
-                                        this.getList(this.pageInfo);
-                                    })
-                            })
-                        }
-                    });
                 break;
             case 'export':
                 this._announcementService.exportForm({
@@ -178,5 +170,21 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         // throw new Error("Method not implemented.");
     }
+
+    alertSuccess(info: string) {
+        return this._messageService.open({
+            icon: 'fa fa-check',
+            message: info,
+            autoHideDuration: 3000,
+        })
+    };
+    alertError(errMsg: string) {
+        // 错误处理的正确打开方式
+        this._messageService.open({
+            icon: 'fa fa-times-circle',
+            message: errMsg,
+            autoHideDuration: 3000,
+        })
+    };
 
 }
