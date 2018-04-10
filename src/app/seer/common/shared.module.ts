@@ -40,6 +40,7 @@ import { SeerTimepickerComponent } from './seer-timepicker';
 import { SeerPaginationComponent } from './seer-pagination';
 import { SeerCoolCheckboxComponent } from './seer-cool-checkbox';
 import { SeerAddressPickerComponent } from './seer-address-picker';
+import { SeerDateTimePickerComponent } from './seer-datetime-picker';
 
 
 @NgModule({
@@ -59,6 +60,7 @@ import { SeerAddressPickerComponent } from './seer-address-picker';
     SeerPaginationComponent,
     SeerCoolCheckboxComponent,
     SeerAddressPickerComponent,
+    SeerDateTimePickerComponent
 
   ],
   imports: [
@@ -113,6 +115,7 @@ import { SeerAddressPickerComponent } from './seer-address-picker';
     SeerPaginationComponent,
     SeerCoolCheckboxComponent,
     SeerAddressPickerComponent,
+    SeerDateTimePickerComponent
   ],
 })
 export class SharedModule {
