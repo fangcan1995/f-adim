@@ -1,17 +1,18 @@
 import {Injectable} from "@angular/core";
 import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel,TEST_URL} from "../../../theme/services"
+import {Http, Response, Headers, RequestOptions,ResponseContentType} from '@angular/http';
 import {getStorage} from "../../../theme/libs/utils"
 @Injectable()
 export class MemberService extends BaseService<ResModel>{
-   MembersUrl=`${TEST_URL}/${API['MEMBERS']}`; //会员接口
-  //MembersUrl=`http://172.16.1.225:9080/members`; //会员接口
+  //  MembersUrl=`${TEST_URL}/${API['MEMBERS']}`; //会员接口
+  MembersUrl=`http://172.16.1.225:9080/members`; //会员接口
   emergencyContactUrl=`contact`;//联系人
   VehicleContactUrl=`car`;//车辆
   HouseContactUrl=`house`;//车辆
   accessToken = getStorage({ key: 'token' }).access_token;
 
   constructor(
-    protected _httpInterceptorService:HttpInterceptorService
+    protected _httpInterceptorService:HttpInterceptorService,private http:Http
   ) {
     super(_httpInterceptorService);
 
@@ -189,5 +190,14 @@ export class MemberService extends BaseService<ResModel>{
          }else{
              return false;
          }
+  }
+
+  //导出表格
+  exportForm(params): Promise<any> {
+    const access_token = getStorage({ key: 'token' }).access_token;
+      return this.http.get(`${this.MembersUrl}/export?access_token=${access_token}`, new RequestOptions({
+          responseType: ResponseContentType.Blob,
+          search: params
+      })).toPromise();
   }
 }
