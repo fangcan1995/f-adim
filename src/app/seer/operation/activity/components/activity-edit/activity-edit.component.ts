@@ -311,7 +311,10 @@ export class ActivityEditComponent {
     }
     this.awardCurr.rcName=tempName2+tempName1;
   }
-
+  dateChange(event){
+    console.log(event);
+    this.baseInfoDTO.beginTime = event;
+  }
 
   /*选择会员相关********************************/
   //获取会员id被包含在ids数组中的会员信息列表
