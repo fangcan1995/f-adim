@@ -154,7 +154,7 @@ export class OrgComponent implements OnDestroy{
           }
         });
         this.info.departmentName =this.root.departmentName;
-        // this.info.departmentLeader = this.root.departmentLeader
+        this.info.departmentLeader = this.root.empName
         let nodes = json2Tree(result.data, {parentId:'pid',children:'children', id: 'departmentId'},[{origin:'departmentName',replace:'name'}, {origin: 'departmentId', replace: 'id'}]);
         function addIcon (param) {
           param.map( org => {
@@ -234,6 +234,7 @@ export class OrgComponent implements OnDestroy{
               this.service.deleteOne(message.data.id).then( result => {
                 if(result.code == 0) {
                   this.alertSuccess(result.message);
+                  this.ngOnInit();
                 }
                 else {
                   this.alertError(result.message);
@@ -266,8 +267,8 @@ export class OrgComponent implements OnDestroy{
     this.service.configDepartLeader(params).then( result => {
       if(result.code == 0) {
         this.alertSuccess(result.message);
-        this.getOrganizations();
         this.info.departmentLeader = this.cacheLeader;
+        // this.getOrganizations();
       }
       else {
         this.alertError(result.message);
@@ -290,11 +291,11 @@ export class OrgComponent implements OnDestroy{
         this.cacheMemory = $event.node.data.departmentId;
         this.service.getOrganizationsById($event.node.data.departmentId).then( result => {
           this.info.departmentName = result.data.departmentName;
-          if(result.data.departmentLeader) {
-            this.info.departLeaderId = result.data.departmentLeader;
+          if(result.data.empName) {
+            this.info.departmentLeader = result.data.empName;
           }
           else {
-            this.info.departLeaderId = undefined;
+            this.info.departmentLeader = undefined;
           }
         }).catch( err => {
           console.log(err);

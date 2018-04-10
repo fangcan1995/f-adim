@@ -78,7 +78,7 @@
                   <div class="row">
                     <label for="staffState" class="col-sm-4 control-label">员工状态</label>
                     <div class="col-sm-8 ">
-                      <select type="email" class="form-control" name="contractType" id="staffState"
+                      <select type="email" class="form-control" name="empStatus" id="staffState"  #empStatus='ngModel'
                               (change)="staffStateChange($event.target.value)" [(ngModel)]="staff.sysEmployer.empStatus"
                               dict-select
                               required
@@ -87,6 +87,7 @@
                               [selected]="staff.sysEmployer.empStatus"
                               title="员工状态">
                       </select>
+                      <p class="text-danger tips" *ngIf="empStatus.errors?.required">*必填项</p>
                     </div>
                   </div>
                 </div>
@@ -123,7 +124,7 @@
                               [(ngModel)]="staff.sysEmployer.contractType" dict-select required
                               [key]="'STAFF_CONTRACT_TYPE'"
                               [topOption]="{itemId:'',itemName:'请选择'}"
-                              [selected]="staff.contractType"
+                              [selected]="staff.sysEmployer.contractType"
                               title="合同类型">
                       </select>
                       <p class="text-danger tips" *ngIf="contractType.errors?.required">*必填项</p>

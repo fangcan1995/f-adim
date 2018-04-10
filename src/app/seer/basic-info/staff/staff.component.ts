@@ -145,7 +145,7 @@ export class StaffComponent {
             if (action === 1) {
               this.staffManageService.deleteOne(data.id).then((data) => {
                 if (data.code == '0') {
-                  this.alertSuccess(data.message);
+                  this.alertSuccess(data.data);
                   this.getStaffs();
                 } else {
                   this.alertError(data.message);
@@ -211,7 +211,7 @@ export class StaffComponent {
 
   alertSuccess(info: string) {
     this._messageService.open({
-      icon: 'fa fa-times-circle',
+      icon: 'fa fa-check',
       message: info,
       autoHideDuration: 3000,
     }).onClose().subscribe(() => {

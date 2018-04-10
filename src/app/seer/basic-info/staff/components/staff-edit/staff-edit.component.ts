@@ -23,7 +23,7 @@ export class StaffEditComponent implements OnInit {
   isDimission = false;
   staffId;
 
-  treePermissions = TREE_PERMISSIONS.NOTIFY | TREE_PERMISSIONS.ADD | TREE_PERMISSIONS.EDIT | TREE_PERMISSIONS.DELETE | TREE_PERMISSIONS.DRAG | TREE_PERMISSIONS.SHOW_FILTER | TREE_PERMISSIONS.SHOW_ADD_ROOT;
+  treePermissions = TREE_PERMISSIONS.NOTIFY | TREE_PERMISSIONS.SHOW_FILTER | TREE_PERMISSIONS.SHOW_ADD_ROOT;
   treeNode = []; //组织树
 
   public staff: any = {
@@ -102,8 +102,8 @@ export class StaffEditComponent implements OnInit {
   }
 
   handleBackBtnClick() {
-    // this._location.back()
-    this._router.navigate(['/basic-info/staff-manage/'])
+    this._location.back()
+    // this._router.navigate(['/basic-info/staff-manage/'])
   }
 
   /*离职处理,员工状态选中离职后，激活离职时间按钮*/
@@ -153,12 +153,15 @@ export class StaffEditComponent implements OnInit {
   jobInfoNotify() {
     let staffinfo = _.cloneDeep(this.staff);
     this.timestampFormat(staffinfo);
+    this.forbidBaseSaveBtn=false;
     this._staffService.putOne(staffinfo.sysEmployer.id, staffinfo.sysEmployer).then((result) => {
       console.log(this.staff.sysEmployer);
       if (result.code == 0) {
-        this.alertSuccess("添加成功");
+        this.forbidBaseSaveBtn=true;
+        this.alertSuccess(result.message);
       } else {
-        this.alertError("添加失败");
+        this.forbidBaseSaveBtn=true
+        this.alertError(result.message);
       }
     });
   }
@@ -167,12 +170,15 @@ export class StaffEditComponent implements OnInit {
   staffInfoNotify() {
     let staffinfo = _.cloneDeep(this.staff);
     this.timestampFormat(staffinfo);
+    this.forbidBaseSaveBtn=false;
     this._staffService.putOne(staffinfo.sysEmployer.id, staffinfo.sysEmployer).then((result) => {
       console.log(this.staff.sysEmployer);
       if (result.code == 0) {
-        this.alertSuccess("添加成功");
+        this.alertSuccess(result.message);
+        this.forbidBaseSaveBtn=true;
       } else {
-        this.alertError("添加失败");
+        this.alertError(result.message);
+        this.forbidBaseSaveBtn=true;
       }
     });
   }
@@ -219,33 +225,35 @@ export class StaffEditComponent implements OnInit {
   educationsNotify($event) {
     let {type, key} = $event;
     let editData = this.educationView.getFormatDataByKey(key).editData;
+    const newData = _.cloneDeep(editData);
+    console.log(newData);
+    newData.endTime = formatDate(newData.endTime, 'YYYY-MM-DD hh:mm:ss');
+    console.log(newData);
     switch (type) {
       case 'save':
-        const newData = _.cloneDeep(editData);
-        console.log(newData);
-        newData.endTime = formatDate(newData.endTime, 'YYYY-MM-DD hh:mm:ss');
-        console.log(newData);
+        
         if (editData.id) {          
           this._staffService.putOneEdu(this.staffId, newData).then((result) => {
             if (result.code == 0) {
-              // this.educationView.getFormatDataByKey(key).copy.endTime = formatDate(this.educationView.getFormatDataByKey(key).copy.endTime, 'YYYY-MM-DD hh:mm:ss');
-               console.log(this.educationView);
               
-              this.educationsData[key].endTime = formatDate(this.educationsData[key].endTime, 'YYYY-MM-DD hh:mm:ss');
-              this.educationView.save(key);
-              this.alertSuccess("修改成功");
+              this.educationView.save(key, newData);
+              this.alertSuccess(result.message);
             } else {
-              this.alertError("添加失败");
+              this.alertError(result.message);
             }
+          }).catch((err)=>{
+            this.alertSuccess(err.msg);
           });//修改
         } else {
           this._staffService.postOneEdu(this.staffId, newData).then((result) => {
             if (result.code == 0) {
               this.educationId=result.data;
-              this.educationView.save(key);
-              this.alertSuccess("添加成功");
+              
+              this.educationView.save(key,newData);
+              this.ngOnInit();
+              this.alertSuccess(result.message);
             } else {
-              this.alertError("添加失败");
+              this.alertError(result.message);
             }
           });//新增
         }
@@ -256,11 +264,15 @@ export class StaffEditComponent implements OnInit {
         this._staffService.deleteEdu(this.staffId, editData.id).then((result) => {
           if (result.code == 0) {
             this.educationView.delete(key);
-            this.alertSuccess("删除成功");
+            this.alertSuccess(result.message);
           } else {
-            this.alertError("删除失败");
+            this.alertError(result.message);
           }
         });
+        break;
+      case 'cancel': 
+        console.log(this.educationView)
+        this.educationView.cancel(key,newData);
         break;
     }
   }
@@ -275,9 +287,9 @@ export class StaffEditComponent implements OnInit {
           this._staffService.putOneRelations(this.staffId, editData).then((result) => {
             if (result.code == 0) {
               this.relationView.save(key);
-              this.alertSuccess("修改成功");
+              this.alertSuccess(result.message);
             } else {
-              this.alertError("添加失败");
+              this.alertError(result.message);
             }
           });//修改
         } else {
@@ -285,13 +297,13 @@ export class StaffEditComponent implements OnInit {
             if (result.code == 0) {
               this.relationId=result.data
               this.relationView.save(key);
-              this.alertSuccess("添加成功");
+              this.ngOnInit();
+              this.alertSuccess(result.message);
             } else {
-              this.alertError("添加失败");
+              this.alertError(result.message);
             }
           });//新增
         }
-        alert('保存');
         break;
       case 'delete':
         console.log(editData)
@@ -299,9 +311,9 @@ export class StaffEditComponent implements OnInit {
         this._staffService.deleteRelations(this.staffId, editData.id).then((result) => {
           if (result.code == 0) {
             this.relationView.delete(key);
-            this.alertSuccess("删除成功");
+            this.alertSuccess(result.message);
           } else {
-            this.alertError("删除失败");
+            this.alertError(result.message);
           }
         });
         break;
@@ -323,20 +335,21 @@ export class StaffEditComponent implements OnInit {
           this._staffService.putOneExperiences(this.staffId, newData).then((result) => {
             if (result.code == 0) {
               console.log(key)
-              this.experienceView.save(key);
-              this.alertSuccess("修改成功");
+              this.experienceView.save(key,newData);
+              this.alertSuccess(result.message);
             } else {
-              this.alertError("添加失败");
+              this.alertError(result.message);
             }
           });//修改
         } else {
           this._staffService.postOneExperiences(this.staffId, newData).then((result) => {
             if (result.code == 0) {
               this.experienceId=result.data
-              this.experienceView.save(key);
-              this.alertSuccess("添加成功");
+              this.experienceView.save(key,newData);
+              this.ngOnInit();
+              this.alertSuccess(result.message);
             } else {
-              this.alertError("添加失败");
+              this.alertError(result.message);
             }
           });//新增
         }
@@ -346,9 +359,9 @@ export class StaffEditComponent implements OnInit {
         this._staffService.deleteExperiences(this.staffId, editData.id).then((result) => {
           if (result.code == 0) {
             this.experienceView.delete(key);
-            this.alertSuccess("删除成功");
+            this.alertSuccess(result.message);
           } else {
-            this.alertError("删除失败");
+            this.alertError(result.message);
           }
         });
         break;
@@ -380,7 +393,7 @@ export class StaffEditComponent implements OnInit {
 
   alertSuccess(info: string) {
     this._messageService.open({
-      icon: 'fa fa-times-circle',
+      icon: 'fa fa fa-check',
       message: info,
       autoHideDuration: 3000,
     }).onClose().subscribe(() => {
