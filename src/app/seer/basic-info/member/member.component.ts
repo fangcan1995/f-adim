@@ -151,19 +151,19 @@ export class MemberComponent implements OnInit {
         this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
         break;
       case 'export': 
-        // this._userService.exportForm(this.pageInfo)
-        //     .then(res => {
-        //         let blob = res.blob();
-        //         let a = document.createElement('a');
-        //         let url = window.URL.createObjectURL(blob);
-        //         a.href = url;
-        //         a.download = '用户管理' + '.xls';
-        //         a.click();
-        //         window.URL.revokeObjectURL(url);
-        //         console.log(res);
-        //     }).catch(err => {
-        //         console.log(err);
-        //     })
+        this._memberService.exportForm(this.pageInfo)
+            .then(res => {
+                let blob = res.blob();
+                let a = document.createElement('a');
+                let url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = '会员管理' + '.xls';
+                a.click();
+                window.URL.revokeObjectURL(url);
+                console.log(res);
+            }).catch(err => {
+                console.log(err);
+            })
         break;
     }
   }//增删改
