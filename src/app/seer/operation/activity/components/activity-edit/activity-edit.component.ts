@@ -172,10 +172,10 @@ export class ActivityEditComponent {
                 this.isAddaward=false;
               }
               this.awardsDTO=this.activity.awardsDTO;
-
-              this.scopesPageInfo.total=this.activity.scopesDTO.length;//报错
-
+              //选定会员列表
+              this.scopesPageInfo.total=this.activity.scopesDTO.length;
               this.scopesDTO=this.activity.scopesDTO;  //范围列表
+              console.log(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize));
               this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
 
             })
@@ -312,7 +312,10 @@ export class ActivityEditComponent {
     }
     this.awardCurr.rcName=tempName2+tempName1;
   }
-
+  dateChange(event){
+    console.log(event);
+    this.baseInfoDTO.beginTime = event;
+  }
 
   /*选择会员相关********************************/
   //获取会员id被包含在ids数组中的会员信息列表
@@ -354,6 +357,8 @@ export class ActivityEditComponent {
       this.hideChooseMembers=true;
     }
   }
+
+
   //模态框相关
   //1-1 打开会员模态框
   openMemberModal(template: TemplateRef<any>) {
@@ -469,7 +474,7 @@ export class ActivityEditComponent {
       //渲染已经被选择的会员
       console.log('选中的会员');
       console.log(this.modalUsers);
-      this.modalUsers = _.map(this.modalUsers, r =>{
+      /*this.modalUsers = _.map(this.modalUsers, r =>{
           let idIndex=this.scopesDTO.findIndex(x => x == r.memberId);
           if(idIndex!=-1){
             return _.set(r, 'selected', 1)
@@ -477,7 +482,7 @@ export class ActivityEditComponent {
             return _.set(r, 'selected', 0)
           }
         }
-      );
+      );*/
     });
   }
   //1-3 会员模态框事件绑定
@@ -656,6 +661,13 @@ export class ActivityEditComponent {
     this.modalParentsPageInfo.pageNum=$event.pageNum;
     this.modalGetParentsList();
   }
+  //2-5模糊查询
+  modalParentsFiltersChanged($event){
+    let params=$event;
+    this.modalParentsPageInfo = params;
+    this.modalGetParentsList();
+  }
+
 
   /************公共********************/
   //返回
@@ -702,6 +714,8 @@ export class ActivityEditComponent {
     }
 
     if (this._editType === 'edit') {
+      console.log('----------');
+      console.log(this.activitySubmit);
       this._activityService.putOne(this.activity.id, this.activitySubmit)
         .then(res=>{
           this.showSuccess(res.msg || '更新成功')

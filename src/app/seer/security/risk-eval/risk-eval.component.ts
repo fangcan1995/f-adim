@@ -63,7 +63,7 @@ export class RiskEvalComponent implements OnInit {
       this.pageInfo.pageSize = res.data.pageSize; //每页记录数
       this.pageInfo.total = res.data.total; //记录总数
       this.riskEvals = res.data.list;
-      this.riskEvals = _.map(this.riskEvals, r => _.set(r, 'actions', [PREVIEW,UPDATE, DELETE]));
+      this.riskEvals = _.map(this.riskEvals, r => _.set(r, 'actions', [PREVIEW ]));
     }, error => this.errorMessage = <any>error);
   }
 

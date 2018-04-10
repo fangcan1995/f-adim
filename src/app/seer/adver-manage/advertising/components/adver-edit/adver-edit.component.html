@@ -10,12 +10,13 @@
           <div class="row">
             <div class="form-group col-sm-12">
               <div class="row">
-                <label  class="col-sm-2 col-lg-1 control-label">广告标题</label>
+                <label  class="col-sm-2 col-lg-1 control-label">
+                  广告标题（元）</label>
                 <div class="col-sm-6">
                   <!--<input type="text" class="form-control" name="title" id="title" [(ngModel)]="advertising.title" formControlName="title" required />
                   <p *ngIf="form.controls.title.errors?.required" class="text-danger">*</p>-->
                   <input class="form-control"  type="text"  name="title" [(ngModel)]="advertising.title" #title="ngModel" [rangeLength]="[2,100]" required />
-                  <p class="text-danger" *ngIf="title.errors?.required">*</p>
+
                   <p class="text-danger" *ngIf="title.errors?.rangeLength">输入字符长度在2-100之间</p>
                  <!-- <p class="text-danger" *ngIf="!form.controls.oldPassword.pristine && form.controls.oldPassword.errors?.required">请输入原密码</p>-->
                 </div>

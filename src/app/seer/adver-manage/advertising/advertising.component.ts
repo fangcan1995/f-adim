@@ -90,6 +90,7 @@ export class AdvertisingComponent implements OnInit {
     "effectTimeEnd": "",
     "expiryTimeStart": "",
     "expiryTimeEnd": "",
+    "sortBy":"-effectTime",
   };
 
   constructor(

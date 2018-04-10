@@ -19,8 +19,16 @@
               </div>
               <div class="form-group">
                 <label for="effectTime" class="col-sm-4 col-md-2 col-xlg-1 control-label text-center">生效时间</label>
-                <div class="col-sm-2">
+                <!-- <div class="col-sm-2">
                   <seer-datepicker id="effectTime" [(date)]="announcement.effectTime" ></seer-datepicker>
+                </div> -->
+                <!-- <div class="col-sm-2">
+                    <seer-timepicker 
+                        [myTime]="time"
+                    ></seer-timepicker>
+                </div> -->
+                <div class="col-sm-2">
+                    <seer-datetime-picker id="test" [myTime]="announcement.effectTime" (dateChange)="dateChange($event)"></seer-datetime-picker>
                 </div>
               </div>
             </div>

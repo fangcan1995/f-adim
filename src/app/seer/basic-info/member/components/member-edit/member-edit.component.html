@@ -90,11 +90,10 @@
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label  class="col-sm-4 control-label">年均收入</label>
+                  <label  class="col-sm-4 control-label">年均收入（元）</label>
                   <div class="col-sm-8">
                     <input type="text" class="form-control"  name="yearIncome"  [(ngModel)]="baseInfo.yearIncome"
-                           #yearIncome="ngModel"  [range]="[0,999999999]"
-                           currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}"  />
+                           #yearIncome="ngModel" number  [range]="[0,999999999]"/>
                     <p class="text-danger" *ngIf="yearIncome.errors?.range">请输入小于1000000000的数值</p>
                   </div>
                 </div>
@@ -103,9 +102,9 @@
                 <div class="row">
                   <label  class="col-sm-4 control-label">社保账号</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" name="socialNo"  [(ngModel)]="baseInfo.socialNo" maxlength="18"
-                           currencyMask [options]="{ prefix: '',thousands:'', allowZero: false,precision:0,allowNegative:false}"
-                    >
+                    <input type="text" class="form-control" name="socialNo"  [(ngModel)]="baseInfo.socialNo" maxlength="18" minlength="18"
+                            #socialNo="ngModel" number/>
+                     <p class="text-danger" *ngIf="socialNo.errors?.number||socialNo.errors?.minlength">请输入18位数值</p>
                   </div>
                 </div>
               </div>
@@ -121,7 +120,8 @@
                 <div class="row">
                   <label  class="col-sm-4 control-label">电子邮件</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" name="eMail " [(ngModel)]="baseInfo.eMail" maxlength="30">
+                    <input type="text" class="form-control" name="eMail " [(ngModel)]="baseInfo.eMail" maxlength="30"  #email="ngModel" email>
+                    <p class="text-danger" *ngIf="email.errors?.email">请输入正确邮箱</p>
                   </div>
                 </div>
               </div>
@@ -233,11 +233,10 @@
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label  class="col-sm-4 control-label">工作年限</label>
+                  <label  class="col-sm-4 control-label">工作年限（年）</label>
                   <div class="col-sm-8 ">
-                    <input type="text" class="form-control" name="workYear"  [(ngModel)]="workInfo.workYear" maxlength="3"
-                           currencyMask [options]="{ prefix: '',suffix:'年',thousands:'', allowZero: false,precision:0,allowNegative:false}"
-                    >
+                    <input type="text" class="form-control" name="workYear"  [(ngModel)]="workInfo.workYear"  #workYear="ngModel" maxlength="3" [range]="[0,100]" >
+                    <p class="text-danger" *ngIf="workYear.errors?.range">请输入数值</p>
                   </div>
                 </div>
               </div>
@@ -245,18 +244,16 @@
                 <div class="row">
                   <label  class="col-sm-4 control-label">工作电话</label>
                   <div class="col-sm-8 ">
-                    <input type="text" class="form-control"  name="workTel" [(ngModel)]="workInfo.workTel" maxlength="20">
+                    <input type="text" class="form-control"  name="workTel" [(ngModel)]="workInfo.workTel" #workTel="ngModel" number maxlength="13">
+                    <p class="text-danger" *ngIf="workTel.errors?.number">请输入正确格式电话号码</p>
                   </div>
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label class="col-sm-4 control-label">月净收入</label>
+                  <label class="col-sm-4 control-label">月净收入（元）</label>
                   <div class="col-sm-8 ">
-                    <input type="text" class="form-control"  name="monthIncome" [(ngModel)]="workInfo.monthIncome" maxlength="13"
-                           #monthIncome="ngModel"  [range]="[0,999999999]"
-                           currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}"
-                    >
+                    <input type="text" class="form-control"  name="monthIncome" [(ngModel)]="workInfo.monthIncome" #monthIncome="ngModel" [range]="[0,999999999]">
                     <p class="text-danger" *ngIf="monthIncome.errors?.range">请输入小于1000000000的数值</p>
                   </div>
                 </div>
@@ -321,63 +318,60 @@
           <div class="row">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label  class="col-sm-4 control-label">月无抵押货款还款额</label>
+                <label  class="col-sm-4 control-label">月无抵押货款还款额（元）</label>
                 <div class="col-sm-8 ">
                   <input type="text" class="form-control" name="carRepayMonth" [(ngModel)]="financialInfo.unsecuredRepayMonth" maxlength="13"
-                         #carRepayMonth="ngModel"  [range]="[0,999999999]"
-                         currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}">
+                         #carRepayMonth="ngModel"  [range]="[0,999999999]">
+                         <p class="text-danger" *ngIf="carRepayMonth.errors?.range">请输入小于1000000000的数值</p>
                 </div>
-                <p class="text-danger" *ngIf="carRepayMonth.errors?.range">请输入小于1000000000的数值</p>
+                
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label  class="col-sm-4 control-label">月信用卡还款金额</label>
+                <label  class="col-sm-4 control-label">月信用卡还款金额（元）</label>
                 <div class="col-sm-8 ">
                   <input type="text" class="form-control" name="cardRepayMonth" [(ngModel)]="financialInfo.cardRepayMonth" maxlength="13"
-                         #cardRepayMonth="ngModel"  [range]="[0,999999999]"
-                         currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}">
+                         #cardRepayMonth="ngModel"  [range]="[0,999999999]">
                   <p class="text-danger" *ngIf="cardRepayMonth.errors?.range">请输入小于1000000000的数值</p>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label  class="col-sm-4 control-label">月房屋按揭金额</label>
+                <label  class="col-sm-4 control-label">月房屋按揭金额（元）</label>
                 <div class="col-sm-8 ">
                   <input type="text" class="form-control" name="houseRepayMonth" [(ngModel)]="financialInfo.houseRepayMonth" maxlength="13"
-                         #houseRepayMonth="ngModel"  [range]="[0,999999999]"
-                         currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}">
+                         #houseRepayMonth="ngModel"  [range]="[0,999999999]">
                   <p class="text-danger" *ngIf="houseRepayMonth.errors?.range">请输入小于1000000000的数值</p>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label class="col-sm-4 control-label">月汽车按揭金额</label>
+                <label class="col-sm-4 control-label">月汽车按揭金额（元）</label>
                 <div class="col-sm-8 ">
                   <input type="text" class="form-control" name="unsecuredRepayMonth" [(ngModel)]="financialInfo.carRepayMonth" maxlength="13"
-                         #unsecuredRepayMonth="ngModel"  [range]="[0,999999999]"
-                         currencyMask [options]="{ prefix: '￥', allowZero: false,precision:0,allowNegative:false}">
+                         #unsecuredRepayMonth="ngModel"   [range]="[0,999999999]">
                   <p class="text-danger" *ngIf="unsecuredRepayMonth.errors?.range">请输入小于1000000000的数值</p>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label class="col-sm-4 control-label">自有汽车</label>
+                <label class="col-sm-4 control-label">自有汽车（台）</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="hasCar"  [(ngModel)]="financialInfo.hasCar"  maxlength="4"
-                         currencyMask [options]="{ prefix: '',suffix:'台',thousands:'', allowZero: false,precision:0,allowNegative:false}">
+                  <input type="text" class="form-control" name="hasCar"  [(ngModel)]="financialInfo.hasCar" #hasCar="ngModel"  maxlength="4" number>
+                  <p class="text-danger" *ngIf="hasCar.errors?.number">请输入数值</p>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label  class="col-sm-4 control-label">自有房产</label>
+                <label  class="col-sm-4 control-label">自有房产（套）</label>
                 <div class="col-sm-8 ">
-                  <input type="text" class="form-control" name="hasHouse"  [(ngModel)]="financialInfo.hasHouse"  maxlength="4"
-                         currencyMask [options]="{ prefix: '',suffix:'套',thousands:'', allowZero: false,precision:0,allowNegative:false}">
+                  <input type="text" class="form-control" name="hasHouse"  [(ngModel)]="financialInfo.hasHouse" #hasHouse="ngModel"  maxlength="4">
+                  <p class="text-danger" *ngIf="hasHouse.errors?.number">请输入数值</p>
                 </div>
               </div>
             </div>

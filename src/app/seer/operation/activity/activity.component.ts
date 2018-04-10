@@ -50,10 +50,8 @@ export class ActivityComponent implements OnInit {
     {key: 'trigMode', label: '触发方式',isDict: true, category: 'TRIG_MODE'},
     {key: 'activityName', label: '活动主题'},
     {key: 'productCategory', label: '适用产品',isDict: true, category: 'PRODUCT_CATEGORY'},  //add
-    /*{key: 'awardSentSum', label: '已发奖品数'},
-    {key: 'awardSum', label: '奖品总数'},*/
-    {key: 'beginTime', label: '开始时间',type:'date'},
-    {key: 'endTime', label: '结束时间',type:'date'}, //add
+    {key: 'beginTime', label: '开始时间',type:'date-time'},
+    {key: 'endTime', label: '结束时间',type:'date-time'}, //add
     {key: 'activityStatus', label: '活动状态',isDict: true, category: 'ACTIVITY_STATUS'}
   ];
   //分页、排序、检索
@@ -68,6 +66,16 @@ export class ActivityComponent implements OnInit {
     "beginStartTime":"",
     "beginEndTime":"",
     "activityStatus":"",
+    "sortBy":"-beginTime",
+    "excelmaps": {
+      activityCode: '活动编号',
+      trigMode: '触发方式',
+      activityName:'活动主题',
+      productCategory: '适用产品',
+      beginTime: '开始时间',
+      endTime: '结束时间',
+      activityStatus:'活动状态'
+    }
   };
   actionSet = {
     'STOP': {
@@ -117,8 +125,7 @@ export class ActivityComponent implements OnInit {
       })
   }
   onChange(message) {
-    const type = message.type;
-    let data = message.data;
+    let { type, data, column} = message;
     switch (type) {
       case 'create':
         this._router.navigate(['add'], {relativeTo: this._activatedRoute});
@@ -163,6 +170,23 @@ export class ActivityComponent implements OnInit {
           })
         //this.openModal('stop');
         //this.modalService.show('<div>123</div>')
+        break;
+      case 'hideColumn':
+        this.pageInfo.excelmaps = column;
+        break;
+      case 'export':
+        this._activityService.exportForm(this.pageInfo)
+          .then(res => {
+            let blob = res.blob();
+            let a = document.createElement('a');
+            let url = window.URL.createObjectURL(blob);
+            a.href = url;
+            a.download = '活动管理' + '.xls';
+            a.click();
+            window.URL.revokeObjectURL(url);
+          }).catch(err => {
+            this.showError(err.msg);
+        })
         break;
     }
   }

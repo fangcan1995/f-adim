@@ -104,7 +104,7 @@ export class InfoPublishService extends BaseService<any>{
 
   /* 点击修改状态按钮，更改对应id文章的状态 */
   patch (params): Promise<ResModel> {
-    return this._httpInterceptorService.request('PATCH', `${TEST_URL}/${API['AFFICHE']}/info`, params).toPromise();
+    return this._httpInterceptorService.request('PUT', `${TEST_URL}/${API['AFFICHE']}/info`, params).toPromise();
   }
 
 
