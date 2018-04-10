@@ -52,8 +52,8 @@ export class ActivityComponent implements OnInit {
     {key: 'productCategory', label: '适用产品',isDict: true, category: 'PRODUCT_CATEGORY'},  //add
     /*{key: 'awardSentSum', label: '已发奖品数'},
     {key: 'awardSum', label: '奖品总数'},*/
-    {key: 'beginTime', label: '开始时间',type:'date'},
-    {key: 'endTime', label: '结束时间',type:'date'}, //add
+    {key: 'beginTime', label: '开始时间',type:'date-time'},
+    {key: 'endTime', label: '结束时间',type:'date-time'}, //add
     {key: 'activityStatus', label: '活动状态',isDict: true, category: 'ACTIVITY_STATUS'}
   ];
   //分页、排序、检索
