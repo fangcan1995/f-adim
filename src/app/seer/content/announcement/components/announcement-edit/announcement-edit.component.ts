@@ -90,7 +90,7 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
                 .then(data => {
                     this.alertSuccess(data.message);
                 }).catch(err => {
-                    console.log(err);
+                    this.alertError(err.msg);
                 });
         }
 
