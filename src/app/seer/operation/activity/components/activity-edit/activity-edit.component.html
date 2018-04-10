@@ -3,9 +3,9 @@
   <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn || !(validationForm.form.valid && (baseInfoDTO.activityScope==1 ||baseInfoDTO.activityScope==2 ||(baseInfoDTO.activityScope==3 && scopesDTO.length>0))  && (awardsDTO.redEnvelopesDTOs.length>0 || awardsDTO.rateCouponsDTOs.length>0 ||awardsDTO.physicalRewardsDTOs.length>0||awardsDTO.raffleTicketsDTOs.length>0))" (click)="handleSaveBtnClick()">保存</button>
 </seer-content-top>
 
-<div class="widgets">
+<div class="widgets info">
   <form  #validationForm="ngForm">
-    <div class="row justify-content-center info">
+    <div class="row justify-content-center">
       <div class="col-md-12">
         <seer-collapse-card cardTitle="活动基本信息" cardClass="with-scroll" [canCollapse]=true>
             <div class="row">
@@ -82,22 +82,22 @@
                 </div>
                 <div class="form-group col-sm-12 col-md-12 col-lg-6 col-xlg-6" >
                   <div class="row">
-                    <label  class="col-sm-4 col-md-2 control-label">投资金额（元）</label>
+                    <label  class="col-sm-4 col-md-2 control-label">投资金额</label>
                     <div class="col-sm-8 col-md-10 group">
                       <div class="col-sm-5">
-                        <input type="text" class="form-control number" [(ngModel)]="baseInfoDTO.investMinMoney"
+                        <input type="text" class="form-control number addUnit" [(ngModel)]="baseInfoDTO.investMinMoney"
                                name="investMinMoney" #investMinMoney="ngModel" required [range]="[1,999999999]"
                                 maxlength="9"  />
-                        <!--<span class="unit">元</span>-->
+                        <span class="unit">元</span>
                         <p class="text-danger" *ngIf="investMinMoney.errors?.required">* 必填项</p>
                         <p class="text-danger" *ngIf="investMinMoney.errors?.range">请输入小于1000000000的数值</p>
                       </div>
                       <label class="col-sm-2">至</label>
                       <div class="col-sm-5" style="position: relative">
-                        <input type="text" class="form-control number"  [(ngModel)]="baseInfoDTO.investMaxMoney"
+                        <input type="text" class="form-control number addUnit"  [(ngModel)]="baseInfoDTO.investMaxMoney"
                                name="investMaxMoney" #investMaxMoney="ngModel" required [range]="[1, 999999999]" maxlength="9"
                                  />
-                        <!--<span class="unit">元</span>-->
+                        <span class="unit">元</span>
                         <p class="text-danger" *ngIf="investMaxMoney.errors?.required">* 必填项</p>
                         <p class="text-danger" *ngIf="investMaxMoney.errors?.range">请输入小于1000000000的数值</p>
                       </div>
@@ -134,20 +134,22 @@
                   <label  class="col-sm-4 col-md-2 control-label">活动时间</label>
                   <div class="col-sm-8 col-md-10 group" >
                     <div class="col-sm-5">
-                      <seer-datepicker
+                      <!--<seer-datepicker
                         [(date)]="baseInfoDTO.beginTime"
                         [dateFormatingRules]="'yyyy-MM-dd'"
                       >
-                      </seer-datepicker>
+                      </seer-datepicker>-->
+                      <seer-datetime-picker [myTime]="baseInfoDTO.beginTime" (dateChange)="dateChange($event)"></seer-datetime-picker>
                       <p class="text-danger" *ngIf="!baseInfoDTO.beginTime">* 必填项</p>
                     </div>
                     <label class="col-sm-2">至</label>
                     <div class="col-sm-5">
-                      <seer-datepicker
+                      <!--<seer-datepicker
                         [(date)]="baseInfoDTO.endTime"
                         [dateFormatingRules]="'yyyy-MM-dd'"
                       >
-                      </seer-datepicker>
+                      </seer-datepicker>-->
+                      <seer-datetime-picker [myTime]="baseInfoDTO.endTime" (dateChange)="dateChange($event)"></seer-datetime-picker>
                       <p class="text-danger" *ngIf="!baseInfoDTO.endTime">* 必填项</p>
                     </div>
                   </div>
@@ -422,7 +424,7 @@
   </div>
   <div class="modal-body">
     <form #form1="ngForm">
-      <div class="row">
+      <div class="row info">
         <div class="form-group col-sm-12">
           <div class="row">
             <label  class="col-sm-4 col-md-2 control-label">奖品名称</label>
@@ -435,11 +437,11 @@
           <div class="row">
             <label  class="col-sm-4 col-md-2 control-label">红包金额</label>
             <div class="col-sm-8 col-md-10">
-              <input type="text" class="form-control"  [(ngModel)]="awardCurr.reAmount" (keyup)="redEnvelopeNameChange('现金红包')"
+              <input type="text" class="form-control number addUnit"  [(ngModel)]="awardCurr.reAmount" (keyup)="redEnvelopeNameChange('现金红包')"
                      name="reAmount" #reAmount="ngModel" required [range]="[1, 999999999]" maxlength="9"
                      [disabled]="awardCurrReadOnly"
               />
-              <span class="unit" style="position: absolute;right: 30px;top:7px;font-size: 12px;">元</span>
+              <span class="unit">元</span>
               <p class="text-danger" *ngIf="reAmount.errors?.required">* 必填项</p>
               <p class="text-danger" *ngIf="reAmount.errors?.range">请输入小于1000000000的数值</p>
             </div>
@@ -449,7 +451,7 @@
           <div class="row">
             <label  class="col-sm-4 col-md-2 control-label">获奖概率</label>
             <div class="col-sm-8 col-md-10">
-              <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardPersents"
+              <input type="text" class="form-control number"  [(ngModel)]="awardCurr.awardPersents"
                      name="awardPersents" #awardPersents="ngModel" required [range]="[0,100]" maxlength="7"
                      [disabled]="awardCurrReadOnly"
                      currencyMask [options]="{ prefix: '',suffix: '% ', allowZero: false,precision:2,allowNegative:false}"
@@ -463,7 +465,7 @@
           <div class="row">
             <label  class="col-sm-4 col-md-2 control-label">奖品总数</label>
             <div class="col-sm-8 col-md-10">
-              <input type="text" class="form-control"  [(ngModel)]="awardCurr.awardSum"
+              <input type="text" class="form-control number"  [(ngModel)]="awardCurr.awardSum"
                      name="awardSum" #awardSum="ngModel" required [range]="[1,99999999]" maxlength="9"
                      [disabled]="awardCurrReadOnly"
               />

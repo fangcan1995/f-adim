@@ -18,6 +18,7 @@ export class ActivityService extends BaseService<ResModel>{
 //2 获取一条数据
   getOne(id):Promise<ResModel> {
     //return this._httpInterceptorService.request('GET', `${this.url}/${id}?access_token=${this.accessToken}`).toPromise();
+    console.log(`${BASE_URL}/activities/${id}`);
     return this._httpInterceptorService.request('GET', `${BASE_URL}/activities/${id}`,{}).toPromise();
 
   }
@@ -64,17 +65,17 @@ export class ActivityService extends BaseService<ResModel>{
 
   //9 根据活动ID查询发放记录
   getSendRecords(id,params): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/activities/${id}/sendRecords`, params).toPromise();
-    /*return new Promise((resolve, reject) => {
+    //return this._httpInterceptorService.request('GET', `${BASE_URL}/activities/${id}/sendRecords`, params).toPromise();
+    return new Promise((resolve, reject) => {
       resolve(
         {
           "data": {
             "pageNum": 1,
             "pageSize": 10,
-            "total": 13,
+            "total": 10,
             "list":[
               {
-                "sendTime": "2017/12/12 18:12:12",
+                "sendTime": "2017-12-12 18:12:12",
                 "userName": "xiaowei",
                 "trueName": "陈二狗",
                 "phoneNumber":"12345678",
@@ -82,7 +83,7 @@ export class ActivityService extends BaseService<ResModel>{
                 "sendStatus":"1"
               },
               {
-                "sendTime": "2017/12/12 18:12:12",
+                "sendTime": "2017-12-12 18:12:12",
                 "userName": "user",
                 "trueName": "小张",
                 "phoneNumber":"138868686",
@@ -90,7 +91,7 @@ export class ActivityService extends BaseService<ResModel>{
                 "sendStatus":"1"
               },
               {
-                "sendTime": "2017/12/12 18:12:12",
+                "sendTime": "2017-12-12 18:12:12",
                 "userName": "ssssdfdfds",
                 "trueName": "小李",
                 "phoneNumber":"13588886666",
@@ -98,7 +99,7 @@ export class ActivityService extends BaseService<ResModel>{
                 "sendStatus":"2"
               },
               {
-                "sendTime": "2017/12/12 18:12:12",
+                "sendTime": "2017-12-12 18:12:12",
                 "userName": "ssssdfdfds",
                 "trueName": "小李",
                 "phoneNumber":"13588886666",
@@ -106,7 +107,7 @@ export class ActivityService extends BaseService<ResModel>{
                 "sendStatus":"2"
               },
               {
-                "sendTime": "2017/12/12 18:12:12",
+                "sendTime": "2017-12-12 18:12:12",
                 "userName": "ssssdfdfds",
                 "trueName": "小李",
                 "phoneNumber":"13588886666",
@@ -114,7 +115,7 @@ export class ActivityService extends BaseService<ResModel>{
                 "sendStatus":"2"
               },
               {
-                "sendTime": "2017/12/12 18:12:12",
+                "sendTime": "2017-12-12 18:12:12",
                 "userName": "ssssdfdfds",
                 "trueName": "小李",
                 "phoneNumber":"13588886666",
@@ -122,7 +123,7 @@ export class ActivityService extends BaseService<ResModel>{
                 "sendStatus":"2"
               },
               {
-                "sendTime": "2017/12/12 18:12:12",
+                "sendTime": "2017-12-12 18:12:12",
                 "userName": "ssssdfdfds",
                 "trueName": "小李",
                 "phoneNumber":"13588886666",
@@ -130,7 +131,7 @@ export class ActivityService extends BaseService<ResModel>{
                 "sendStatus":"2"
               },
               {
-                "sendTime": "2017/12/12 18:12:12",
+                "sendTime": "2017-12-12 18:12:12",
                 "userName": "ssssdfdfds",
                 "trueName": "小李",
                 "phoneNumber":"13588886666",
@@ -138,7 +139,7 @@ export class ActivityService extends BaseService<ResModel>{
                 "sendStatus":"2"
               },
               {
-                "sendTime": "2017/12/12 18:12:12",
+                "sendTime": "2017-12-12 18:12:12",
                 "userName": "ssssdfdfds",
                 "trueName": "小李",
                 "phoneNumber":"13588886666",
@@ -146,7 +147,7 @@ export class ActivityService extends BaseService<ResModel>{
                 "sendStatus":"2"
               },
               {
-                "sendTime": "2017/12/12 18:12:12",
+                "sendTime": "2017-12-12 18:12:12",
                 "userName": "ssssdfdfds",
                 "trueName": "小李",
                 "phoneNumber":"13588886666",
@@ -160,7 +161,7 @@ export class ActivityService extends BaseService<ResModel>{
         }
 
       )
-    })*/
+    })
   }
 
   //10 补发奖励
