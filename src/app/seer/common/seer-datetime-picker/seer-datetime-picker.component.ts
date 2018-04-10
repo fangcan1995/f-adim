@@ -26,6 +26,7 @@ export class SeerDateTimePickerComponent implements OnInit {
         })
 
     } 
+    @Input() id: string;
     dateValue: Date;
     @Output() dateChange = new EventEmitter();
 
