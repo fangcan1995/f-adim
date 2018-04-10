@@ -86,12 +86,12 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
             const newAnnouncement = _.cloneDeep(this.announcement);
             //newAnnouncement.effectTime = formatDate(newAnnouncement.effectTime, 'YYYY-MM-DD hh:mm:ss');
             console.log(this.announcement.effectTime);
-            /* this._announcementService.putOne(newAnnouncement)
+            this._announcementService.putOne(newAnnouncement)
                 .then(data => {
                     this.alertSuccess(data.message);
                 }).catch(err => {
                     console.log(err);
-                }); */
+                });
         }
 
 
