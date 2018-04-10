@@ -50,6 +50,22 @@ export class ActivityDetailComponent implements OnInit {
   //选择用户模态框相关
   modalClass={"class":"modal-lg"};
 
+  memberScopes=[];  //会员信息列表
+  hideChooseMembers:boolean=true;
+  hidePagination=false;//会员信息列表是否分页
+  scopesPageInfo={
+    "pageNum":1,
+    "pageSize":10,
+    "total":'',
+  };//会员信息列表分页信息
+  membersTitles = [
+    {key: 'userName', label: '用户帐号'},
+    {key: 'trueName', label: '用户姓名'},
+    {key: 'phoneNumber', label: '手机号码'},
+    {key: 'idNumber', label: '身份证号'},
+  ];
+
+
   public modalRef: BsModalRef;
 
   constructor(private _activityService: ActivityService,
@@ -79,15 +95,27 @@ export class ActivityDetailComponent implements OnInit {
               (this.baseInfoDTO.trigMode=='4')?this.isInvestMode=false:this.isInvestMode=true; //投资奖励的特殊处理
               this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[0]:'';//频率字段拆分出次数
               this.baseInfoDTO.participateNum2=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[1]:'';//频率字段拆分出时间间隔
-              //查字典
-              /*this.getDicts("trigMode","TRIG_MODE","baseInfoDTO");
-              this.getDicts("productCategory","PRODUCT_CATEGORY","baseInfoDTO");
-              this.getDicts("investLimit","INVEST_LIMIT","baseInfoDTO");
-              this.getDicts("issueTime","ISSUE_TIME","baseInfoDTO");*/
-              this.awardsDTO=this.activity.awardsDTO;
+              this.awardsDTO=this.activity.awardsDTO;//奖品列表
 
-              //获取发放记录
-              //this.getRecordsList();
+
+              /*根据活动状态获取待发放记录或已发放记录*/
+              //如果活动进行中或已结束
+              if(this.baseInfoDTO.activityStatus!=1){
+                //获取发放记录
+                this.getRecordsList();
+              }else{
+                //活动未开始并且指定会员
+                if(this.baseInfoDTO.activityScope=='3'){
+                  this.scopesPageInfo.total=this.activity.scopesDTO.length;
+                  this.scopesPageInfo.total=this.awardsDTO.length;
+                  this.getMembersList(this.activity.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
+                }
+              }
+
+
+              //this.scopesDTO=this.activity.scopesDTO;  //范围列表
+
+
             })
             .catch(err => {
               this.showError(err.msg || '获取失败');
@@ -138,12 +166,36 @@ export class ActivityDetailComponent implements OnInit {
       }
     );
   }
+
   //发放记录翻页
   recordsPageChange($event){
     if($event){
       this.recordsPageInfo.pageSize = $event.pageSize;
       this.recordsPageInfo.pageNum=$event.pageNum;
       this.getRecordsList();
+    }
+  }
+  //获取待发放记录
+  getMembersList(ids){
+    if(ids.toString()!=''){
+      let params={
+        "scopesDTO":ids.toString()
+      };
+      this._activityService.getIdsMembers(params)
+        .then(res=>{
+          this.memberScopes = res.data;
+        }).catch(err=>{
+          this.showError(err.msg || '获取失败');
+        }
+      );
+    }
+  }
+  //待发放记录列表翻页
+  membersPageChange($event){
+    if($event){
+      this.scopesPageInfo.pageSize = $event.pageSize;
+      this.scopesPageInfo.pageNum=$event.pageNum;
+      this.getMembersList(this.activity.scopesDTO.slice((this.scopesPageInfo.pageNum-1)*this.scopesPageInfo.pageSize,this.scopesPageInfo.pageNum*this.scopesPageInfo.pageSize));
     }
   }
   //用字典过滤数据,fieldName字段名，category字典key，obj输出到哪个对象

@@ -172,9 +172,8 @@ export class ActivityEditComponent {
                 this.isAddaward=false;
               }
               this.awardsDTO=this.activity.awardsDTO;
-
-              this.scopesPageInfo.total=this.activity.scopesDTO.length;//报错
-
+              //选定会员列表
+              this.scopesPageInfo.total=this.activity.scopesDTO.length;
               this.scopesDTO=this.activity.scopesDTO;  //范围列表
               this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
 
@@ -354,6 +353,8 @@ export class ActivityEditComponent {
       this.hideChooseMembers=true;
     }
   }
+
+
   //模态框相关
   //1-1 打开会员模态框
   openMemberModal(template: TemplateRef<any>) {
@@ -656,6 +657,13 @@ export class ActivityEditComponent {
     this.modalParentsPageInfo.pageNum=$event.pageNum;
     this.modalGetParentsList();
   }
+  //2-5模糊查询
+  modalParentsFiltersChanged($event){
+    let params=$event;
+    this.modalParentsPageInfo = params;
+    this.modalGetParentsList();
+  }
+
 
   /************公共********************/
   //返回

@@ -22,7 +22,7 @@ export class AdvertisingService extends BaseService<ResModel>{
   //2 获取一条数据
   getOne(id):Promise<ResModel> {
     //return this._httpInterceptorService.request('GET', `${this.url}/${id}?access_token=${this.accessToken}`,{}, true).toPromise();
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/advertisings/${id}`,{}, true).toPromise();
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/advertisings/${id}`,{}).toPromise();
   }
   // 3添加一条数据
   postOne(params):Promise<ResModel> {

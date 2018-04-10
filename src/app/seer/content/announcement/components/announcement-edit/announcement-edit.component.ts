@@ -15,6 +15,7 @@ import * as _ from 'lodash';
 export class AnnouncementEditComponent implements OnInit, OnDestroy {
 
     public announcement: any = {};
+    time = new Date();
     private _editType: string = 'add';
     public forbidSaveBtn: boolean = true;
     form: FormGroup;
@@ -44,7 +45,7 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
                     this._announcementService.getOne(params.id)
                         .then(res => {
                             this.announcement = res.data;
-                            this.announcement.effectTime = new Date(this.announcement.effectTime);
+                            //this.announcement.effectTime = new Date(this.announcement.effectTime);
                             this.forbidSaveBtn = false;
                         }, errMsg => {
                             // 错误处理的正确打开方式
@@ -60,6 +61,9 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
                     this.forbidSaveBtn = false;
                 }
             })
+    }
+    dateChange(event){
+        this.announcement.effectTime = event;
     }
 
     handleBackBtnClick() {
@@ -80,13 +84,14 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
         }
         else {
             const newAnnouncement = _.cloneDeep(this.announcement);
-            newAnnouncement.effectTime = formatDate(newAnnouncement.effectTime, 'YYYY-MM-DD hh:mm:ss');
-            this._announcementService.putOne(newAnnouncement)
-              .then(data => {
-                this.alertSuccess(data.message);
-              }).catch(err => {
-              console.log(err);
-            });
+            //newAnnouncement.effectTime = formatDate(newAnnouncement.effectTime, 'YYYY-MM-DD hh:mm:ss');
+            console.log(this.announcement.effectTime);
+            /* this._announcementService.putOne(newAnnouncement)
+                .then(data => {
+                    this.alertSuccess(data.message);
+                }).catch(err => {
+                    console.log(err);
+                }); */
         }
 
 
