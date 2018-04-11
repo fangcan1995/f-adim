@@ -225,7 +225,7 @@ export class ActivityDetailComponent implements OnInit {
             this.getRecordsList();
           })
           .catch(err => {
-            this.showError(err.json().message || '补发失败');
+            this.showError(err.msg || '补发失败');
           });
         break;
     }
