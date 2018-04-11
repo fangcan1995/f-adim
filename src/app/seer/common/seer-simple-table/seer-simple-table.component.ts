@@ -12,6 +12,8 @@ import * as _ from 'lodash';
 
 import { CREATE, UPDATE, DELETE, SAVE, CANCEL, DOWNLOAD, PREVIEW } from '../seer-table/seer-table.actions';
 import { ManageService } from '../../../theme/services';
+import { formatDate } from "ngx-bootstrap/bs-moment/format";
+
 @Component({
   selector: 'seer-simple-table',
   templateUrl: './seer-simple-table.component.html',
@@ -94,11 +96,14 @@ export class SeerSimpleTableComponent implements OnInit {
   }
   handleActionsClick($event) {
     let { action, item } = $event;
+
     
     switch ( action.type ) {
 
       case UPDATE.type:
         console.log(item.data.endTime)
+        // item.data.startTime = formatDate(item.data.startTime, 'YYYY-MM-DD hh:mm:ss');
+        // item.data.endTime = formatDate(item.data.endTime, 'YYYY-MM-DD hh:mm:ss');
         item.data.endTime = item.data.endTime  ? new Date(item.data.endTime.replace(/-/g, "/")) : '';
         item.data.startTime = item.data.startTime  ? new Date(item.data.startTime.replace(/-/g, "/")) : '';              
         this.edit(item.key);
@@ -113,6 +118,8 @@ export class SeerSimpleTableComponent implements OnInit {
         this.notify.emit({type: action.type, key: item.key});
         break;
       case CANCEL.type:
+        console.log(item)
+        this.notify.emit({type: action.type, key: item.key});
         this.cancel(item.key)
         break;
       case CREATE.type:

@@ -259,7 +259,8 @@ export class SeerFilterComponent implements OnInit {
         this.treeNode = nodes;
         console.log(this.treeNode);
       }).catch(err => {
-        console.log(err);
+        console.log(err)
+        this.alertError(err.msg)
       });
     }
 

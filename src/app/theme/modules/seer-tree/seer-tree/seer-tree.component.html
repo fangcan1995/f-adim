@@ -39,7 +39,7 @@
             <span *ngIf="childrenCount(node)" class="children-count">{{ childrenCount(node) }}</span>
           </div>
           <div class="tree-node-actions">
-            <span>···</span>
+            <span *ngIf="checkPermissions(treePermissions.EDIT)">···</span>
             <div class="tree-node-action-list">
               <button *ngIf="!node.isInEditing && node.children && checkPermissions(treePermissions.ADD) && !node.data.isLast" (click)="addNode($event, node)" class="options-button"><i class="ion-android-add" style="margin-left:-1px"></i></button>
               <button *ngIf="!node.isInEditing && checkPermissions(treePermissions.EDIT)" (click)="edit($event, node)" class="options-button"><i class="ion-edit" style="margin-left:-3px"></i></button>

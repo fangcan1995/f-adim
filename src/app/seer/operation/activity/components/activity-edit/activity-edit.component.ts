@@ -161,10 +161,10 @@ export class ActivityEditComponent {
               this.baseInfoDTO=this.activity.baseInfoDTO;
               (this.baseInfoDTO.trigMode=='4')?this.isInvestMode=false:this.isInvestMode=true; //投资奖励的特殊处理
               (this.baseInfoDTO.activityScope=='3')?this.hideChooseMembers=false:this.hideChooseMembers=true; //指定用户的特殊处理
-              //this.baseInfoDTO.beginTime=new Date(this.baseInfoDTO.beginTime);  //格式化时间
+              this.baseInfoDTO.beginTime=new Date(this.baseInfoDTO.beginTime);  //格式化时间
               /*this.baseInfoDTO.beginTime = this.baseInfoDTO.beginTime ? new Date(this.baseInfoDTO.beginTime.replace(/-/g, "/")) : '';
               this.baseInfoDTO.endTime = this.baseInfoDTO.endTime ? new Date(this.baseInfoDTO.endTime.replace(/-/g, "/")) : '';*/
-              //this.baseInfoDTO.endTime=new Date(this.baseInfoDTO.endTime);  //格式化时间
+              this.baseInfoDTO.endTime=new Date(this.baseInfoDTO.endTime);  //格式化时间
 
               this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[0]:'';//频率字段拆分出次数
               this.baseInfoDTO.participateNum2=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[1]:'';//频率字段拆分出时间间隔
@@ -175,6 +175,7 @@ export class ActivityEditComponent {
               //选定会员列表
               this.scopesPageInfo.total=this.activity.scopesDTO.length;
               this.scopesDTO=this.activity.scopesDTO;  //范围列表
+              console.log(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize));
               this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
 
             })
@@ -311,7 +312,10 @@ export class ActivityEditComponent {
     }
     this.awardCurr.rcName=tempName2+tempName1;
   }
-
+  dateChange(event){
+    console.log(event);
+    this.baseInfoDTO.beginTime = event;
+  }
 
   /*选择会员相关********************************/
   //获取会员id被包含在ids数组中的会员信息列表
@@ -470,7 +474,7 @@ export class ActivityEditComponent {
       //渲染已经被选择的会员
       console.log('选中的会员');
       console.log(this.modalUsers);
-      this.modalUsers = _.map(this.modalUsers, r =>{
+      /*this.modalUsers = _.map(this.modalUsers, r =>{
           let idIndex=this.scopesDTO.findIndex(x => x == r.memberId);
           if(idIndex!=-1){
             return _.set(r, 'selected', 1)
@@ -478,7 +482,7 @@ export class ActivityEditComponent {
             return _.set(r, 'selected', 0)
           }
         }
-      );
+      );*/
     });
   }
   //1-3 会员模态框事件绑定
@@ -710,6 +714,8 @@ export class ActivityEditComponent {
     }
 
     if (this._editType === 'edit') {
+      console.log('----------');
+      console.log(this.activitySubmit);
       this._activityService.putOne(this.activity.id, this.activitySubmit)
         .then(res=>{
           this.showSuccess(res.msg || '更新成功')
