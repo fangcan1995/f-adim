@@ -1,28 +1,28 @@
-import { Component, OnInit, EventEmitter, Input, Output, OnChanges } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output, OnChanges,SimpleChanges } from '@angular/core';
 import { cityJson, overlayOpt } from '../../../theme/libs';
 import * as _ from 'lodash';
 
 export class AddressModel {
-  public item_code?: string;
-  public item_name?: string;
+    public item_code?: string;
+    public item_name?: string;
 }
 
 
 export interface AddressPickerClassNamesModel {
-  containerClass?: string,
-  provinceContainerClass?: string,
-  provinceClass?: string,
-  cityContainerClass?: string,
-  cityClass?: string,
-  districtContainerClass?: string,
-  districtClass?: string,
-  addressContainerClass?: string,
-  addressClass?: string,
+    containerClass?: string,
+    provinceContainerClass?: string,
+    provinceClass?: string,
+    cityContainerClass?: string,
+    cityClass?: string,
+    districtContainerClass?: string,
+    districtClass?: string,
+    addressContainerClass?: string,
+    addressClass?: string,
 }
 
 @Component({
-  selector: 'seer-address-picker',
-  template: `
+    selector: 'seer-address-picker',
+    template: `
     <div class="{{ classNames.containerClass }}">
       <div class="{{ classNames.provinceContainerClass }}">
         <select class="{{ classNames.provinceClass }}" [value]="curProvince.item_code" (change)="handleProvinceChange($event)" [disabled]="disabled">
@@ -31,7 +31,8 @@ export interface AddressPickerClassNamesModel {
       </div>
       <div class="{{ classNames.cityContainerClass }}">
           <select class="{{ classNames.cityClass }}" [value]="curCity.item_code" (change)="handleCityChange($event)" [disabled]="disabled">
-            <option *ngFor="let c of getCitys()" value="{{ c['item_code'] }}">{{ c.item_name }}</option>
+            <!-- <option *ngFor="let c of getCitys()" value="{{ c['item_code'] }}">{{ c.item_name }}</option> -->
+            <option *ngFor="let c of curCityList" value="{{ c['item_code'] }}">{{ c.item_name }}</option>
           </select>
       </div>
       <div class="{{ classNames.districtContainerClass }}">
@@ -110,13 +111,21 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
     this.curDistrict = this.getCurDistrict(this.getDistricts(), this.defaultItemCode);
     this.address = this.defaultAddress;
   }
-  ngOnChanges() {
-    this.classNames = overlayOpt(this.classNames, this._defaultClassNames);
-
-    this.curProvince = this.getCurProvince(this.getProvinces(), this.defaultItemCode);
-    this.curCity = this.getCurCity(this.getCitys(), this.defaultItemCode);
-    this.curDistrict = this.getCurDistrict(this.getDistricts(), this.defaultItemCode);
-    this.address = this.defaultAddress;
+  ngOnChanges(changes: SimpleChanges) {
+    for (let propName in changes) {  
+      if(propName == "defaultItemCode"){
+        let change = changes[propName];
+        let curVal  = change.currentValue;
+              if(curVal !== "0" && curVal !== undefined){
+                this.classNames = overlayOpt(this.classNames, this._defaultClassNames);
+                this.curProvince = this.getCurProvince(this.getProvinces(), this.defaultItemCode);
+                this.curCity = this.getCurCity(this.getCitys(), this.defaultItemCode);
+                this.curDistrict = this.getCurDistrict(this.getDistricts(), this.defaultItemCode);
+                this.address = this.defaultAddress;
+              }
+           }
+      }
+    
   }
   public getCurProvince(provinces, itemCode?) {
     let curProvince;

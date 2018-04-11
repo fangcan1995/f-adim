@@ -672,7 +672,16 @@ export class ActivityEditComponent {
   /************公共********************/
   //返回
   handleBackBtnClick() {
-    this._location.back()
+    if(this._editType === 'add'){
+      this._dialogService.confirm('还未保存确认要离开吗？')
+        .subscribe(action => {
+          if(action === 1) {
+            this._location.back();
+          }
+        }) ;
+    }else{
+      this._location.back();
+    }
   }
   //保存
   handleSaveBtnClick() {

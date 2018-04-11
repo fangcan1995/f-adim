@@ -8,6 +8,9 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { CustomValidators } from "ng2-validation";
 import * as _ from 'lodash';
 
+
+declare let laydate;
+
 @Component({
     templateUrl: './announcement-edit.component.html',
     styleUrls: ['./announcement-edit.component.scss']
@@ -15,7 +18,6 @@ import * as _ from 'lodash';
 export class AnnouncementEditComponent implements OnInit, OnDestroy {
 
     public announcement: any = {};
-    time = new Date();
     private _editType: string = 'add';
     public forbidSaveBtn: boolean = true;
     form: FormGroup;
@@ -28,6 +30,7 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
         this.form = new FormGroup({
             announcementName: new FormControl('', Validators.required),
             announcementTitle: new FormControl('', Validators.required),
+            effectTime: new FormControl('', Validators.required),
         });
 
     }
@@ -39,32 +42,39 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
         this._activatedRoute.url.mergeMap(url => {
             this._editType = url[0].path;
             return this._activatedRoute.params
-        })
-            .subscribe(params => {
-                if (this._editType === 'edit') {
-                    this._announcementService.getOne(params.id)
-                        .then(res => {
-                            this.announcement = res.data;
-                            //this.announcement.effectTime = new Date(this.announcement.effectTime);
-                            this.forbidSaveBtn = false;
-                        }, errMsg => {
-                            // 错误处理的正确打开方式
-                            this._messageService.open({
-                                icon: 'fa fa-times-circle',
-                                message: errMsg,
-                                autoHideDuration: 3000,
-                            }).onClose().subscribe(() => {
-                                this._location.back()
-                            })
+        }).subscribe(params => {
+            if (this._editType === 'edit') {
+                this._announcementService.getOne(params.id)
+                    .then(res => {
+                        this.announcement = res.data;
+                        //this.announcement.effectTime = new Date(this.announcement.effectTime);
+                        this.forbidSaveBtn = false;
+                    }, errMsg => {
+                        // 错误处理的正确打开方式
+                        this._messageService.open({
+                            icon: 'fa fa-times-circle',
+                            message: errMsg,
+                            autoHideDuration: 3000,
+                        }).onClose().subscribe(() => {
+                            this._location.back()
                         })
-                } else if (this._editType === 'add') {
-                    this.forbidSaveBtn = false;
-                }
-            })
+                    })
+            } else if (this._editType === 'add') {
+                this.forbidSaveBtn = false;
+            }
+        });
+
+        laydate.render({
+            elem: '#test',
+            type: 'datetime',
+            done: (value, date, endDate) => {
+                this.announcement.effectTime = value;
+                console.log(this.announcement.effectTime);
+            }
+        })
     }
-    dateChange(event){
-        this.announcement.effectTime = event;
-    }
+
+
 
     handleBackBtnClick() {
         this._location.back()
