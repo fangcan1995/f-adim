@@ -3,3 +3,10 @@
 .text-danger {
   text-align: left;
 }
+
+:host /deep/ {
+    .info .form-group .form-control + .unit {
+        right: 22px;
+    }
+    
+}
