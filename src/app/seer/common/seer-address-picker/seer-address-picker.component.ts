@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Input, Output, OnChanges } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output, OnChanges,SimpleChanges } from '@angular/core';
 import { cityJson, overlayOpt } from '../../../theme/libs';
 import * as _ from 'lodash';
 
@@ -110,13 +110,21 @@ export class SeerAddressPickerComponent implements OnInit, OnChanges {
     this.curDistrict = this.getCurDistrict(this.getDistricts(), this.defaultItemCode);
     this.address = this.defaultAddress;
   }
-  ngOnChanges() {
-    this.classNames = overlayOpt(this.classNames, this._defaultClassNames);
-
-    this.curProvince = this.getCurProvince(this.getProvinces(), this.defaultItemCode);
-    this.curCity = this.getCurCity(this.getCitys(), this.defaultItemCode);
-    this.curDistrict = this.getCurDistrict(this.getDistricts(), this.defaultItemCode);
-    this.address = this.defaultAddress;
+  ngOnChanges(changes: SimpleChanges) {
+    for (let propName in changes) {  
+      if(propName == "defaultItemCode"){
+        let change = changes[propName];
+        let curVal  = change.currentValue;
+              if(curVal !== "0" && curVal !== undefined){
+                this.classNames = overlayOpt(this.classNames, this._defaultClassNames);
+                this.curProvince = this.getCurProvince(this.getProvinces(), this.defaultItemCode);
+                this.curCity = this.getCurCity(this.getCitys(), this.defaultItemCode);
+                this.curDistrict = this.getCurDistrict(this.getDistricts(), this.defaultItemCode);
+                this.address = this.defaultAddress;
+              }
+           }
+      }
+    
   }
   public getCurProvince(provinces, itemCode?) {
     let curProvince;
