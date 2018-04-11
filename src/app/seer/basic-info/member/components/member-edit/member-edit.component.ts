@@ -331,13 +331,13 @@ export class MemberEditComponent implements OnInit {
   }
   //解锁/锁定
   lock(status){
-    console.log(status);
-    let params={
-      "memberId":this.memberId,
-      "status":'1'
-    }
-    this._memberService.patchOne(this.memberId,params).then((data:any)=>{
+    // let params={
+    //   "memberId":this.memberId,
+    //   "status":'1'
+    // }
+    this._memberService.patchOne(this.memberId,status).then((data:any)=>{
       this.showSuccess(data.msg || '设置成功');
+      this.baseInfo.status = status;
     }).catch(err => {
       this.showError(err.msg || '设置失败');
     });
