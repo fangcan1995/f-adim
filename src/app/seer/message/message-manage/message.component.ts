@@ -76,7 +76,7 @@ export class MessageComponent {
   pageInfo={
     "pageNum":1,
     "pageSize":10,
-    "sort":"-createTime",
+    "sortBy":"-expectSendTime,-updateTime",
     "total":"",
     "globalSearch":"",
     "msgTitle":"",
@@ -86,8 +86,7 @@ export class MessageComponent {
     "sendMessage":"",
     "beginTime":"",
     "endTime":"",
-    "msgProfile":""
-
+    "msgProfile":"",
   }; //分页、排序、检索
   source = [];
   titles = [

@@ -21,17 +21,17 @@
         <div class="row">
           <label for="idNumber" class="col-sm-0 control-label" style="text-align:center; height:35px; line-height:35px;"></label>
 
-          <div class="col-sm-3">
+          <div class="col-sm-6">
             <!-- <input type="text" class="form-control department" id="department" placeholder="部门"  [(ngModel)]="info.departmentName" disabled> -->
             <!-- <h3 clasa='department'>{{info.departmentName}}</h3> -->
-            <div class='department'>{{info.departmentName}}</div>
+            <div class='department' *ngIf='info.departmentName'>{{info.departmentName}}<span>(负责人:{{info.departmentLeader}})</span></div>
           </div>
           <!-- <h3 [(ngModel)]="info.departmentName" ></h3> -->
           <!-- <label for="idNumber" class="col-sm-2  col-md-2 control-label" style="text-align:center; height:35px; line-height:35px;">机构负责人:</label> -->
-          <div class="col-sm-4 departmentLeader">
-            <!-- <input type="text" class="form-control" id="departmentLeader" placeholder="机构负责人" [(ngModel)]="info.departmentLeader" disabled> -->
+          <!-- <div class="col-sm-4 departmentLeader">
+            <input type="text" class="form-control" id="departmentLeader" placeholder="机构负责人" [(ngModel)]="info.departmentLeader" disabled>
             负责人:{{info.departmentLeader}}
-          </div>
+          </div> -->
         </div>
       </div>
 

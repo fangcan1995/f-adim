@@ -6,6 +6,7 @@ import {
     EventEmitter,
     ViewChild,
 } from '@angular/core';
+import { typeSourceSpan } from '@angular/compiler';
 
 declare let laydate;
 
@@ -15,17 +16,20 @@ declare let laydate;
     styleUrls: ['./seer-datetime-picker.component.scss'],
 })
 export class SeerDateTimePickerComponent implements OnInit {
+    @Input() id: string;
+
     ngOnInit() {
         laydate.render({
-            elem: '#datetimePicker',
+            elem: '#test',// + this.id,
             type: 'datetime',
             done: (value, date, endDate) => {
                 this.myTime = value;
-                console.log(this.myTime)
+                console.log(this.myTime);
             }
         })
 
     } 
+
     dateValue: Date;
     @Output() dateChange = new EventEmitter();
 
@@ -38,7 +42,5 @@ export class SeerDateTimePickerComponent implements OnInit {
         this.dateChange.emit(this.dateValue);
     }
 
-
-    
 
 }

@@ -6,29 +6,27 @@
   <div class="row justify-content-center">
     <div class="col-md-12">
       <seer-collapse-card cardTitle="公告基本信息" cardClass="with-scroll" [canCollapse]=true>
-        <form class="form-horizontal" [formGroup]="form">
+        <form class="form-horizontal info" [formGroup]="form">
           <div class="form-group col-sm-12">
             <div class="row">
               <div class="form-group">
                 <label for="announcementName" class="col-sm-4 col-md-2 col-xlg-1 control-label text-center">公告名称</label>
-                <div class="col-sm-2">
+                <div class="col-sm-4 col-md-3">
                   <input type="text" class="form-control" id="announcementName" placeholder="公告名称"
                          [(ngModel)]="announcement.noticeName" formControlName="announcementName">
                   <p *ngIf="form.controls.announcementName.errors?.required" class="text-danger">*</p>
                 </div>
               </div>
               <div class="form-group">
-                <label for="effectTime" class="col-sm-4 col-md-2 col-xlg-1 control-label text-center">生效时间</label>
-                <!-- <div class="col-sm-2">
-                  <seer-datepicker id="effectTime" [(date)]="announcement.effectTime" ></seer-datepicker>
-                </div> -->
-                <!-- <div class="col-sm-2">
-                    <seer-timepicker 
-                        [myTime]="time"
-                    ></seer-timepicker>
-                </div> -->
-                <div class="col-sm-2">
-                    <seer-datetime-picker [myTime]="announcement.effectTime" (dateChange)="dateChange($event)"></seer-datetime-picker>
+                <label for="effectTime" class="col-sm-4 col-md-2 col-xlg-1 control-label">生效时间</label>
+                <div class="col-sm-4 col-md-3">
+                    <input
+                        id="test"
+                        class="form-control  addUnit"
+                        [(ngModel)]="announcement.effectTime"
+                        formControlName="effectTime"
+                    />
+                    <span class="icon-operation unit"></span>
                 </div>
               </div>
             </div>

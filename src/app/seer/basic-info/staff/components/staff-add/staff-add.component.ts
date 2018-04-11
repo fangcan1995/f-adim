@@ -45,7 +45,7 @@ export class StaffAddComponent implements OnInit {
   simpleTableActions = [UPDATE, DELETE];
 
   treeNode = [];//组织树
-  treePermissions = TREE_PERMISSIONS.NOTIFY | TREE_PERMISSIONS.ADD | TREE_PERMISSIONS.EDIT | TREE_PERMISSIONS.DELETE | TREE_PERMISSIONS.DRAG | TREE_PERMISSIONS.SHOW_FILTER | TREE_PERMISSIONS.SHOW_ADD_ROOT;
+  treePermissions = TREE_PERMISSIONS.NOTIFY | TREE_PERMISSIONS.SHOW_FILTER | TREE_PERMISSIONS.SHOW_ADD_ROOT;
 
   constructor(private _staffService: StaffService,
               private _messageService: SeerMessageService,
@@ -64,8 +64,8 @@ export class StaffAddComponent implements OnInit {
       return this._route.params
     }).subscribe(params => {
       if (this._editType === 'add') {
-        this.collapseCardActions[0].name='保存并完善'
-        this.forbidSaveBtn = false;
+        // this.collapseCardActions[0].name='保存并完善'
+        this.forbidBaseSaveBtn = true;
       }
     })
   }
@@ -93,10 +93,11 @@ export class StaffAddComponent implements OnInit {
       .then((result) => {
         console.log(this.staff.sysEmployer);
         if (result.code == 0) {
+          this.forbidBaseSaveBtn = false;
           this.staffId=result.data
-          this.alertSuccess("添加成功");
+          this.alertSuccess(result.message);
         } else {
-          this.alertError("添加失败");
+          this.alertError(result.message);
         }
       }).catch(err => {
         console.log(err);
@@ -325,7 +326,7 @@ export class StaffAddComponent implements OnInit {
 
   alertSuccess(info: string) {
     this._messageService.open({
-      icon: 'fa fa-times-circle',
+      icon: 'fa fa fa-check',
       message: info,
       autoHideDuration: 3000,
     }).onClose().subscribe((e) => {

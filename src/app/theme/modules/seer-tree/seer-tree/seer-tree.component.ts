@@ -302,7 +302,8 @@ export class SeerTree implements OnInit {
         });
         return `(${activatedChildrenCount}/${node.children.length})`;
       }else {
-        return `(${node.children.length})`;
+        // return `(${node.children.length})`;
+        return ''
       }
     }
     return '';
