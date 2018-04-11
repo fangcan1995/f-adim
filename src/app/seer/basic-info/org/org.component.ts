@@ -153,8 +153,8 @@ export class OrgComponent implements OnDestroy{
             return this.root = x;
           }
         });
-        this.info.departmentName =this.root.departmentName;
-        this.info.departmentLeader = this.root.empName
+        // this.info.departmentName =this.root.departmentName;
+        // this.info.departmentLeader = this.root.empName
         let nodes = json2Tree(result.data, {parentId:'pid',children:'children', id: 'departmentId'},[{origin:'departmentName',replace:'name'}, {origin: 'departmentId', replace: 'id'}]);
         function addIcon (param) {
           param.map( org => {
@@ -175,6 +175,7 @@ export class OrgComponent implements OnDestroy{
         
     }).catch(err => {
         console.log(err);
+        this.alertError(err.msg)
     });
   }
 
@@ -228,13 +229,14 @@ export class OrgComponent implements OnDestroy{
         this.configDepartLeader({departmentId: this.cacheMemory, departmentLeader: message.data.id});
         break;
       case 'delete':
-        this._dialogService.confirm('确定删除吗？')
+        this._dialogService.confirm('确定要把该员工从该机构移除吗？')
           .subscribe(action => {
             if ( action === 1 ) {
               this.service.deleteOne(message.data.id).then( result => {
                 if(result.code == 0) {
                   this.alertSuccess(result.message);
-                  this.ngOnInit();
+                  // this.getOrganizations();
+                  // this.getlist(this.pageInfo);
                 }
                 else {
                   this.alertError(result.message);
@@ -266,9 +268,11 @@ export class OrgComponent implements OnDestroy{
   configDepartLeader(params) {
     this.service.configDepartLeader(params).then( result => {
       if(result.code == 0) {
+        console.log(result)
         this.alertSuccess(result.message);
         this.info.departmentLeader = this.cacheLeader;
         // this.getOrganizations();
+        // this.ngOnInit()
       }
       else {
         this.alertError(result.message);
@@ -283,24 +287,31 @@ export class OrgComponent implements OnDestroy{
    * 组织树通知
    * */
   onNotify($event){
-   
     if($event.eventName == "onFocus"){
-
+      this.getOrganizations();
       /* 获取组织的名称及其领导 */
       if($event.node.data.departmentId) {
+        console.log($event.node.data)
         this.cacheMemory = $event.node.data.departmentId;
-        this.service.getOrganizationsById($event.node.data.departmentId).then( result => {
-          this.info.departmentName = result.data.departmentName;
-          if(result.data.empName) {
-            this.info.departmentLeader = result.data.empName;
-          }
-          else {
-            this.info.departmentLeader = undefined;
-          }
-        }).catch( err => {
-          console.log(err);
-        });
-
+        // this.service.getOrganizationsById($event.node.data.departmentId).then( result => {
+        //   console.log(result)
+        //   this.info.departmentName = result.data.departmentName;
+        //   if(result.data.empName) {
+        //     this.info.departmentLeader = result.data.empName;
+        //   }
+        //   else {
+        //     this.info.departmentLeader = undefined;
+        //   }
+        // }).catch( err => {
+        //   console.log(err);
+        //   this.alertError(err.msg)
+        // });
+        this.info.departmentName=$event.node.data.departmentName
+        if($event.node.data.empName){
+          this.info.departmentLeader=$event.node.data.empName
+        }else{
+          this.info.departmentLeader=''
+        }
 
         /* 获取右侧表格信息 */
         this.pageInfo.departmentId = $event.node.data.departmentId;
@@ -314,23 +325,23 @@ export class OrgComponent implements OnDestroy{
           this.tableSource = result.data.list;
         });
 
-        if($event.node.data.departmentLeader) {
-          console.log($event.node.data.departmentLeader);
-          this.service.getStaffInfo($event.node.data.departmentLeader)
-            .then( result => {
+        // if($event.node.data.departmentLeader) {
+        //   console.log($event.node.data.departmentLeader);
+        //   this.service.getStaffInfo($event.node.data.departmentLeader)
+        //     .then( result => {
           
-              console.log(result);
-              if(result.data.sysEmployer && result.data.sysEmployer.empName) {
-                this.info.departmentLeader = result.data.sysEmployer.empName;
-              }
-              else {
-                this.info.departmentLeader = undefined;
-              }
-            });
-        }
-        else {
-          this.info.departmentLeader = undefined;
-        }
+        //       console.log(result);
+        //       if(result.data.sysEmployer && result.data.sysEmployer.empName) {
+        //         this.info.departmentLeader = result.data.sysEmployer.empName;
+        //       }
+        //       else {
+        //         this.info.departmentLeader = undefined;
+        //       }
+        //     });
+        // }
+        // else {
+        //   this.info.departmentLeader = undefined;
+        // }
 
       }
     }
