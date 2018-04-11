@@ -132,28 +132,31 @@
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
                 <div class="row">
                   <label  class="col-sm-4 col-md-2 control-label">活动时间</label>
-                  <div class="col-sm-8 col-md-10 group" >
-                    <div class="col-sm-5">
-                      <seer-datepicker
-                        [(date)]="baseInfoDTO.beginTime"
-                        [dateFormatingRules]="'yyyy-MM-dd '"
-                      >
-                      </seer-datepicker>
-                      <!--<seer-datetime-picker id="beginTime" [myTime]="baseInfoDTO.beginTime" (dateChange)="dateChange($event)"></seer-datetime-picker>-->
+                  <div class="col-sm-8 col-md-10 group " >
+                    <div class="col-sm-5 form-group">
+                      <input
+                        name="beginTime"
+                        id="beginTime"
+                        class="form-control  addUnit"
+                        [(ngModel)]="baseInfoDTO.beginTime"
+                        #beginTime="ngModel"
+                      />
+                      <span class="icon-operation unit"></span>
                       <p class="text-danger" *ngIf="!baseInfoDTO.beginTime">* 必填项</p>
                     </div>
                     <label class="col-sm-2">至</label>
                     <div class="col-sm-5">
-                      <seer-datepicker
-                        [(date)]="baseInfoDTO.endTime"
-                        [dateFormatingRules]="'yyyy-MM-dd'"
-                      >
-                      </seer-datepicker>
-                      <!--<seer-datetime-picker id="endTime" [myTime]="baseInfoDTO.endTime" (dateChange)="dateChange($event)"></seer-datetime-picker>-->
+                      <input
+                        name="endTime"
+                        id="endTime"
+                        class="form-control addUnit"
+                        [(ngModel)]="baseInfoDTO.endTime"
+                        #endTime="ngModel"
+                      />
+                      <span class="icon-operation unit"></span>
                       <p class="text-danger" *ngIf="!baseInfoDTO.endTime">* 必填项</p>
                     </div>
                   </div>
-                  <!--<p class="text-danger" *ngIf="productCategory.errors?.required">* 必填项</p>-->
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">

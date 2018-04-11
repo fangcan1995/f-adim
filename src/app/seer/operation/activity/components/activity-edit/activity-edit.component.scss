@@ -1,11 +1,13 @@
 @import '../../../../../theme/sass/conf/conf';
 :host /deep/ {
   .group {
+    height:30px;
     div {
       border: 0 solid rgba(0, 0, 0, 0.15);
       appearance: none;
       padding-right: 0;
       padding-left: 0;
+      
       /*position: relative;
       .unit{
         position: absolute;
@@ -26,7 +28,7 @@
     color:#f00;
     font-size: 12px
   }*/
-  .text-danger{ text-align: left}
+  
 
 
 }

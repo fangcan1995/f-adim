@@ -37,14 +37,15 @@ export class ActivityDetailComponent implements OnInit {
     "pageNum":1,
     "pageSize":10,
     "total":'',
+    "sortBy":'-createTime'
   };//会员信息列表分页信息
   recordsTitles = [
-    {key: 'sendTime', label: '领奖时间'},
+    {key: 'createTime', label: '领奖时间'},
     {key: 'userName', label: '用户名'},
     {key: 'trueName', label: '真实姓名'},
     {key: 'phoneNumber', label: '手机号'},
-    {key: 'awardName', label: '奖品名称'},
-    {key: 'sendStatus', label: '派奖结果',isDict: true, category: 'AC_SEND_STATUS'},
+    {key: 'name', label: '奖品名称'},
+    {key: 'acSendStatus', label: '派奖结果',isDict: true, category: 'AC_SEND_STATUS'},
   ];
 
   //选择用户模态框相关

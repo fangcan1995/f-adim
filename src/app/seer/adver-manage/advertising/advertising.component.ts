@@ -22,7 +22,7 @@ export class AdvertisingComponent implements OnInit {
       label: '广告类型',
       type: 'select',
       isDict: true,
-      category: 'ADVERTISING_ADTYPE'
+      category: 'ADVERTISING_ADTYPE',
     },
     {
       key: 'putEnv',
@@ -68,14 +68,14 @@ export class AdvertisingComponent implements OnInit {
   ads = [];
   titles = [
     {key: 'title', label: '广告标题'},
-    {key: 'adType', label: '广告类型',isDict:true,category:"ADVERTISING_ADTYPE"},
-    {key: 'putEnv', label: '投放平台',isDict:true,category:"ADVERTISING_PUTENV"},
-    {key: 'icon', label: '广告图片',type:'image'},
+    {key: 'adType', label: '广告类型',isDict:true,category:"ADVERTISING_ADTYPE",textAlign:'center'},
+    {key: 'putEnv', label: '投放平台',isDict:true,category:"ADVERTISING_PUTENV",textAlign:'center'},
+    {key: 'icon', label: '广告图片',type:'image',textAlign:'center'},
     {key: 'url', label: '广告链接',type:'link'},
     /*{key: 'createTime', label: '添加时间',type:'date-time'},*/
-    {key: 'effectTime', label: '开始时间',type:'date-time'},
-    {key: 'expiryTime', label: '结束时间',type:'date-time'},
-    {key: 'putStatus', label: '投放状态',isDict:true,category:"ADVERTISING_PUTSTATUS"},
+    {key: 'effectTime', label: '开始时间',type:'date-time',textAlign:'center'},
+    {key: 'expiryTime', label: '结束时间',type:'date-time',textAlign:'center'},
+    {key: 'putStatus', label: '投放状态',isDict:true,category:"ADVERTISING_PUTSTATUS",textAlign:'center'},
 
   ];
   pageInfo = {

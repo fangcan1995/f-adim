@@ -46,6 +46,7 @@ export class CouponComponent implements OnInit{
     "pageNum":1,
     "pageSize":10,
     "total":"",
+    "sortBy":"-createTime",
     "globalSearch":"",
     "name":"",
     "activityName":"",

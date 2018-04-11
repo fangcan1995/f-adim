@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {BaseService,HttpInterceptorService,API,ResModel} from "../../../theme/services"
 import { Headers, Http, RequestOptions, ResponseContentType } from '@angular/http';
-let BASE_URL=`http://172.16.1.234:9080`;
+let BASE_URL=`http://172.16.1.221:9080`;
 
 @Injectable()
 export class AdvertisingService extends BaseService<ResModel>{
@@ -9,9 +9,6 @@ export class AdvertisingService extends BaseService<ResModel>{
     super(_httpInterceptorService);
 
   }
-
-  url=`http://172.16.1.221:9080/advertisings`  //临时
-  accessToken=`7fbb40a8-64a1-4a44-94ae-4eee6f3d4625`;
   // 1 获取数据列表
   getList(params?):Promise<ResModel> {
 

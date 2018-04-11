@@ -10,6 +10,8 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap";//edit by lily
 /*import { TimepickerModule } from 'ngx-bootstrap';*/
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
 
+declare let laydate;
+
 
 let BASE_URL=`http://172.16.1.234:9080`;//临时
 import * as _ from 'lodash';

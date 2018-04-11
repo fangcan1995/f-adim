@@ -66,7 +66,7 @@ export class ActivityComponent implements OnInit {
     "beginStartTime":"",
     "beginEndTime":"",
     "activityStatus":"",
-    "sortBy":"-beginTime",
+    "sortBy":"-beginTime,-endTime",
     "excelmaps": {
       activityCode: '活动编号',
       trigMode: '触发方式',

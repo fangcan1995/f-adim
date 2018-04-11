@@ -47,6 +47,7 @@ export class RedPacketComponent {
     "pageNum":1,
     "pageSize":10,
     "total":"",
+    "sortBy":"-createTime",
     "globalSearch":"",
     "name":"",
     "activityName":"",
