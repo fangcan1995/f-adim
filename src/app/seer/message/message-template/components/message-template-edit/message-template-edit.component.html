@@ -13,7 +13,7 @@
                 <div class="col-sm-8 col-md-10">
                   <input type="hidden" name="message.id" [(ngModel)]="template.id">
                   <input type="text" class="form-control"  name="tempName" [(ngModel)]="template.tempName" #tempName="ngModel" [rangeLength]="[0,20]" required />
-                  <p class="text-danger" *ngIf="tempName.errors?.required">*</p>
+                  <p class="text-danger" *ngIf="tempName.errors?.required">* 必填项
                   <p class="text-danger" *ngIf="tempName.errors?.rangeLength">请输入20个以内字符</p>
                 </div>
               </div>
@@ -23,7 +23,7 @@
                 <label  class="col-sm-4 col-md-2 control-label" >KEY</label>
                 <div class="col-sm-8 col-md-10">
                   <input type="text" class="form-control" name="tempCode"  [(ngModel)]="template.tempCode" #tempCode="ngModel" [rangeLength]="[0,20]" required />
-                  <p class="text-danger" *ngIf="tempCode.errors?.required">*</p>
+                  <p class="text-danger" *ngIf="tempCode.errors?.required">* 必填项
                   <p class="text-danger" *ngIf="tempCode.errors?.rangeLength">请输入20个以内字符</p>
                 </div>
               </div>
@@ -42,7 +42,7 @@
                           [disabled]="!isAdd"
                           >
                   </select>
-                  <p class="text-danger" *ngIf="adaptationUser.errors?.required">*</p>
+                  <p class="text-danger" *ngIf="adaptationUser.errors?.required">* 必填项
                 </div>
               </div>
             </div>
@@ -59,7 +59,7 @@
                           [selected]="template.businessType"
                           >
                   </select>
-                  <p class="text-danger" *ngIf="businessType.errors?.required">*</p>
+                  <p class="text-danger" *ngIf="businessType.errors?.required">* 必填项
                 </div>
               </div>
             </div>
@@ -82,7 +82,7 @@
                     [(checked)]="template.sendMessage"
                     [disabled]="disabled.sendMessage"
                   ></seer-cool-checkbox> 短信通知
-                  <p class="text-danger" *ngIf="!template.sendMail && !template.sendNotify && !template.sendMessage">*</p>
+                  <p class="text-danger" *ngIf="!template.sendMail && !template.sendNotify && !template.sendMessage">* 必填项
                 </div>
               </div>
             </div>

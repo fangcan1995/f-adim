@@ -18,10 +18,10 @@ export class RiskRatingComponent implements OnInit {
   riskRatings = [];
 
   titles = [
-    {key: 'name', label: '风险等级'/*, isDict: true, category: 'RISK_LEVEL'*/},
-    {key: 'riskScore', label: '对应分值'},
-    {key: 'investGrade', label: '推荐投资等级',isDict: true, category: 'INVEST_GRADE'},
-    {key: 'investTotal', label: '投资总额上线'}
+    {key: 'name', label: '风险等级',textAlign:'center'},
+    {key: 'riskScore', label: '对应分值',textAlign:'center'},
+    {key: 'investGrade', label: '推荐投资等级',isDict: true, category: 'INVEST_GRADE',textAlign:'center'},
+    {key: 'investTotal', label: '投资总额上线',textAlign:'center'}
   ];
 
   pageInfo = {

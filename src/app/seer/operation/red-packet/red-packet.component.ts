@@ -34,13 +34,12 @@ export class RedPacketComponent {
   titles = [
     {key: 'name', label: '红包主题'},
     {key: 'activityName', label: '所属活动'},
-    {key: 'trueName', label: '发送用户'},
-    {key: 'phoneNumber', label: '手机号'},
-    {key: 'reAmount', label: '红包金额(元)'},
-    {key: 'useMinAmount', label: '起用金额(元)'},
-    {key: 'createTime', label: '发放日期'},
-    /*{key: 'expirationDate', label: '截止日期'},*/
-    {key: 'acSendStatus', label: '状态',isDict: true, category: 'AC_SEND_STATUS'}
+    {key: 'trueName', label: '发送用户',textAlign:'center'},
+    {key: 'phoneNumber', label: '手机号',textAlign:'center'},
+    {key: 'reAmount', label: '红包金额(元)',textAlign:'right'},
+    {key: 'useMinAmount', label: '起用金额(元)',textAlign:'right'},
+    {key: 'createTime', label: '发放日期',textAlign:'center'},
+    {key: 'acSendStatus', label: '状态',isDict: true, category: 'AC_SEND_STATUS',textAlign:'center'}
   ];
   //分页、排序、检索
   pageInfo={

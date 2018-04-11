@@ -58,14 +58,6 @@
               <div class="row">
                 <label for="url" class="col-sm-4 col-md-4 col-lg-2 control-label">开始时间</label>
                 <div class="col-sm-8 col-md-8 col-lg-10">
-                  <!--<seer-datepicker
-                    [(date)]="advertising.effectTime"
-                    [name]="effectTime"
-                    [dateFormatingRules]="'yyyy-MM-dd hh:mm:ss'"
-                    [disabled]="allowChange"
-                    [readonly]="readonly"
-                  >
-                  </seer-datepicker>-->
                   <input
                         name="effectTime"
                         id="effectTime"
@@ -73,7 +65,7 @@
                         [(ngModel)]="advertising.effectTime"
                         #effectTime="ngModel"
                       />
-                      <span class="icon-operation unit"></span>
+                     <!-- <span class="icon-operation unit"></span>-->
                   <p class="text-danger" *ngIf="!advertising.effectTime">* 必填项</p>
                 </div>
               </div>
@@ -84,14 +76,6 @@
               <div class="row">
                 <label for="url" class="col-sm-4 col-md-4 col-lg-2 control-label">结束时间</label>
                 <div class="col-sm-8 col-md-8 col-lg-10">
-                  <!--<seer-datepicker
-                    [(date)]="advertising.expiryTime"
-                    [name]="expiryTime"
-                    [dateFormatingRules]="'yyyy-MM-dd hh:mm:ss'"
-                    [disabled]="allowChange"
-                    [readonly]="readonly"
-                  >
-                  </seer-datepicker>-->
                   <input
                         name="expiryTime"
                         id="expiryTime"
@@ -99,7 +83,7 @@
                         [(ngModel)]="advertising.expiryTime"
                         #expiryTime="ngModel"
                       />
-                      <span class="icon-operation unit"></span>
+                      <!--<span class="icon-operation unit"></span>-->
                   <p class="text-danger" *ngIf="!advertising.expiryTime">* 必填项</p>
                 </div>
               </div>

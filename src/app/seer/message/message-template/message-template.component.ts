@@ -69,7 +69,7 @@ export class MessageTemplateComponent {
   pageInfo={
     "pageNum":1,
     "pageSize":10,
-    "sort":"",
+    "sortBy":"-updateTime",
     "total":"",
     "globalSearch":"",
     "tempName":"",
@@ -88,14 +88,14 @@ export class MessageTemplateComponent {
   titles = [
     {key:'tempName', label:'模板名称'},
     {key:'tempCode', label:'KEY'},
-    {key:'adaptationUser', label:'适配用户',isDict:true,category:"ADAPTATION_USER"},
-    {key:'businessType', label:'消息类型',isDict:true,category:"BUSINESS_TYPE"},
+    {key:'adaptationUser', label:'适配用户',isDict:true,category:"ADAPTATION_USER",textAlign:'center'},
+    {key:'businessType', label:'消息类型',isDict:true,category:"BUSINESS_TYPE",textAlign:'center'},
     {key:'tempProfile', label:'消息简介'},
-    {key:'sendMail', label:'消息中心',isDict:true,category:"SEND_MAIL"},
-    {key:'sendMessage', label:'短信通知',isDict:true,category:"SEND_MESSAGE"},
-    {key:'sendNotify', label:'推送通知',isDict:true,category:"SEND_NOTIFY"},
-    {key:'updateTime', label:'最后修改时间',type:'date-time'},
-    {key:'updateUser', label:'最后修改人'},
+    {key:'sendMail', label:'消息中心',isDict:true,category:"SEND_MAIL",textAlign:'center'},
+    {key:'sendMessage', label:'短信通知',isDict:true,category:"SEND_MESSAGE",textAlign:'center'},
+    {key:'sendNotify', label:'推送通知',isDict:true,category:"SEND_NOTIFY",textAlign:'center'},
+    {key:'updateTime', label:'最后修改时间',type:'date-time',textAlign:'center'},
+    {key:'updateUser', label:'最后修改人',textAlign:'center'},
   ];
   ngOnInit() {
     this.allTplsList();

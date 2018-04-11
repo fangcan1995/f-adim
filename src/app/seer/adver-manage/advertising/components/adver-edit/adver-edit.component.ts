@@ -1,6 +1,6 @@
 import {Component, OnInit,OnChanges,Input, ViewChild,TemplateRef} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {SeerMessageService} from "../../../../../theme/services/seer-message.service";
+import {SeerDialogService, SeerMessageService,} from '../../../../../theme/services';
 import {AdvertisingService} from "../../advertising.service";
 import {Location} from "@angular/common";
 import {FileUploader, ParsedResponseHeaders, FileItem} from "ng2-file-upload";
@@ -42,6 +42,7 @@ export class AdverEditComponent implements OnInit{
   @ViewChild('validationForm') validationForm;
   constructor(private _advertisingService: AdvertisingService,
               private _messageService: SeerMessageService,
+              private _dialogService: SeerDialogService,
               private _activatedRoute: ActivatedRoute,
               private _router: Router,
               private modalService: BsModalService,
@@ -62,8 +63,8 @@ export class AdverEditComponent implements OnInit{
             .then(res => {
               this.advertising = res.data || {};
               console.log(this.advertising);
-              this.advertising.effectTime = this.advertising.effectTime ? new Date(this.advertising.effectTime.replace(/-/g, "/")) : '';
-              this.advertising.expiryTime = this.advertising.expiryTime ? new Date(this.advertising.expiryTime.replace(/-/g, "/")) : '';
+              //this.advertising.effectTime = this.advertising.effectTime ? new Date(this.advertising.effectTime.replace(/-/g, "/")) : '';
+              //this.advertising.expiryTime = this.advertising.expiryTime ? new Date(this.advertising.expiryTime.replace(/-/g, "/")) : '';
 
               this.forbidSaveBtn = false;
               // 初始化定义uploader变量,用来配置input中的uploader属性
@@ -93,6 +94,22 @@ export class AdverEditComponent implements OnInit{
           this.uploader.onCompleteAll = this.onCompleteAll.bind(this);
           //end
         }
+        //渲染日期时间组件
+          laydate.render({
+            elem: '#effectTime',
+            type: 'datetime',
+            done: (value, date, effectTime) => {
+              this.advertising.effectTime = value;
+              
+            }
+          })
+          laydate.render({
+            elem: '#expiryTime',
+            type: 'datetime',
+            done: (value, date, expiryTime) => {
+              this.advertising.expiryTime = value;
+            }
+          })
       });
 
   }
@@ -114,7 +131,6 @@ export class AdverEditComponent implements OnInit{
       this.progress += Math.round(100/fileLength);
 
       //唯一图片场景下
-
       let attachmentsNum=this.attachments.length-1;
       if(!this.attachments[attachmentsNum]){
         this.showError('上传失败');
@@ -134,8 +150,18 @@ export class AdverEditComponent implements OnInit{
     this.uploader.clearQueue();
     this.progress = 0;
   }
+  //返回
   handleBackBtnClick() {
-    this._location.back()
+    if(this._editType === 'add'){
+      this._dialogService.confirm('还未保存确认要离开吗？')
+        .subscribe(action => {
+          if(action === 1) {
+            this._location.back();
+          }
+        }) ;
+    }else{
+      this._location.back();
+    }
   }
   handleSaveBtnClick() {
     if (this.forbidSaveBtn) return;
@@ -161,8 +187,8 @@ export class AdverEditComponent implements OnInit{
 
       this.forbidSaveBtn=true;
       let advertisingNew=_.cloneDeep(this.advertising);
-      advertisingNew.effectTime=formatDate(advertisingNew.effectTime,'YYYY-MM-DD hh:mm:ss');
-      advertisingNew.expiryTime=formatDate(advertisingNew.expiryTime,'YYYY-MM-DD hh:mm:ss');
+      //advertisingNew.effectTime=formatDate(advertisingNew.effectTime,'YYYY-MM-DD hh:mm:ss');
+      //advertisingNew.expiryTime=formatDate(advertisingNew.expiryTime,'YYYY-MM-DD hh:mm:ss');
 
       this._advertisingService.postOne(advertisingNew).then((data:any) => {
         this.showSuccess(data.msg || '保存成功').onClose()

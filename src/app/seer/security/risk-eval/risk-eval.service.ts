@@ -1,33 +1,21 @@
-import {Http} from "@angular/http";
 import {Injectable} from "@angular/core";
-import {BaseService,HttpInterceptorService,API,ResModel} from "../../../theme/services";
-let BASE_URL=`http://172.16.1.234:9080`;
+import {BaseService,HttpInterceptorService,API,ResModel} from "../../../theme/services"
+import {Http, Response, Headers, RequestOptions,ResponseContentType} from '@angular/http';
+import * as _ from 'lodash';
+import {getStorage} from "../../../theme/libs/utils";
+
+let BASE_URL=`http://172.16.1.221:9080`;
 
 @Injectable()
-export class RiskEvalService extends BaseService<any> {
-
+export class RiskEvalService extends BaseService<ResModel>{
   constructor(protected _httpInterceptorService: HttpInterceptorService, protected http?: Http) {
     super(_httpInterceptorService);
     this.setApi("riskEvals");
   }
 
-  //private riskEvalsAPI = "http://172.16.7.4:8070/riskEvals";
-  private url =`http://172.16.1.221:9080/security/riskEvals`  //临时
-  accessToken=`7fbb40a8-64a1-4a44-94ae-4eee6f3d4625`;
   //1 获取数据列表
-  getLists(params: any): Promise<any> {
-    /*const page = `&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
-    const sort = `&sortBy=${pageInfo.sort}`;
-    const jsonQueryObj = pageInfo.query;
-    let query: string = "";
-    for (var prop in jsonQueryObj) {
-      if (jsonQueryObj[prop]) {
-        query += `&${prop}=${jsonQueryObj[prop]}`;
-      }
-    }*/
-    //const url = `${this.riskEvalsAPI}${page}${sort}${query}`;
-    //return this._httpInterceptorService.request('GET', `${this.url}?access_token=${this.accessToken}`,params).toPromise();
-    return this._httpInterceptorService.request("GET", `${BASE_URL}/security/riskEvals`).toPromise();
+  getLists(params?): Promise<any> {
+    return this._httpInterceptorService.request("GET", `${BASE_URL}/security/riskEvals`,params).toPromise();
   }
 
   //2 获取一条数据

@@ -34,12 +34,12 @@ export class CouponComponent implements OnInit{
   titles = [
     {key: 'name', label: '加息券主题'},
     {key: 'activityName', label: '所属活动'},
-    {key: 'trueName', label: '发送用户'},
-    {key: 'phoneNumber', label: '手机号'},
-    {key: 'rcAmount', label: '加息额度(%)'},
-    {key: 'useMinAmount', label: '起用金额(元)'},
-    {key: 'createTime', label: '发放日期'},
-    {key: 'acSendStatus', label: '状态',isDict: true, category: 'AC_SEND_STATUS'}
+    {key: 'trueName', label: '发送用户',textAlign:'center'},
+    {key: 'phoneNumber', label: '手机号',textAlign:'center'},
+    {key: 'rcAmount', label: '加息额度(%)',textAlign:'right'},
+    {key: 'useMinAmount', label: '起用金额(元)',textAlign:'right'},
+    {key: 'createTime', label: '发放日期',textAlign:'center'},
+    {key: 'acSendStatus', label: '状态',isDict: true, category: 'AC_SEND_STATUS',textAlign:'center'}
   ];
   //分页、排序、检索
   pageInfo={

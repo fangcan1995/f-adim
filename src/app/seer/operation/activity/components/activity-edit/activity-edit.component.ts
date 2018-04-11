@@ -41,10 +41,10 @@ export class ActivityEditComponent {
     "total":'',
   };//会员信息列表分页信息
   membersTitles = [
-    {key: 'userName', label: '用户帐号'},
-    {key: 'trueName', label: '用户姓名'},
-    {key: 'phoneNumber', label: '手机号码'},
-    {key: 'idNumber', label: '身份证号'},
+    {key: 'userName', label: '用户帐号',textAlign:'center'},
+    {key: 'trueName', label: '用户姓名',textAlign:'center'},
+    {key: 'phoneNumber', label: '手机号码',textAlign:'center'},
+    {key: 'idNumber', label: '身份证号',textAlign:'center'},
   ];
 
   //选择用户模态框相关
@@ -80,10 +80,10 @@ export class ActivityEditComponent {
   modalfilters =[];
   formGroupColNum='col-sm-12 col-md-6 col-lg-6';
   modalTitles=[
-    {key: 'userName', label: '用户帐号'},
-    {key: 'trueName', label: '用户姓名'},
-    {key: 'phoneNumber', label: '手机号码'},
-    {key: 'idNumber', label: '身份证号'},
+    {key: 'userName', label: '用户帐号',textAlign:'center'},
+    {key: 'trueName', label: '用户姓名',textAlign:'center'},
+    {key: 'phoneNumber', label: '手机号码',textAlign:'center'},
+    {key: 'idNumber', label: '身份证号',textAlign:'center'},
   ];
   modalPageInfo={
     "pageNum":1,
@@ -112,16 +112,16 @@ export class ActivityEditComponent {
 
   modalParents=[];//相关活动列表
   modalParentsTitles=[
-    {key: 'activityCode', label: '活动编号'},
+    {key: 'activityCode', label: '活动编号',textAlign:'center'},
     {key: 'activityName', label: '活动主题'},
-    {key: 'beginTime', label: '开始时间'},
-    {key: 'endTime', label: '结束时间'},
-    {key: 'activityStatus', label: '活动状态', type: 'select',isDict: true, category: 'ACTIVITY_STATUS'},
+    {key: 'beginTime', label: '开始时间',textAlign:'center'},
+    {key: 'endTime', label: '结束时间',textAlign:'center'},
+    {key: 'activityStatus', label: '活动状态', type: 'select',isDict: true, category: 'ACTIVITY_STATUS',textAlign:'center'},
   ];
   modalParentsPageInfo={
     "pageNum":1,
     "pageSize":10,
-    "sort":"",
+    "sortBy":"-beginTime,-endTime",
     "total":"",
     "globalSearch":"",
   }; //分页、排序、检索

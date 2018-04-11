@@ -72,7 +72,6 @@ export class AdvertisingComponent implements OnInit {
     {key: 'putEnv', label: '投放平台',isDict:true,category:"ADVERTISING_PUTENV",textAlign:'center'},
     {key: 'icon', label: '广告图片',type:'image',textAlign:'center'},
     {key: 'url', label: '广告链接',type:'link'},
-    /*{key: 'createTime', label: '添加时间',type:'date-time'},*/
     {key: 'effectTime', label: '开始时间',type:'date-time',textAlign:'center'},
     {key: 'expiryTime', label: '结束时间',type:'date-time',textAlign:'center'},
     {key: 'putStatus', label: '投放状态',isDict:true,category:"ADVERTISING_PUTSTATUS",textAlign:'center'},
@@ -81,7 +80,6 @@ export class AdvertisingComponent implements OnInit {
   pageInfo = {
     "pageNum": 1,
     "pageSize": 10,
-    "sort": "",
     "total": "",
     "globalSearch": "",
     "adType": "",
@@ -91,6 +89,16 @@ export class AdvertisingComponent implements OnInit {
     "expiryTimeStart": "",
     "expiryTimeEnd": "",
     "sortBy":"-effectTime",
+    "excelmaps": {
+      title: '广告标题',
+      adType: '广告类型',
+      putEnv:'投放平台',
+      icon: '广告图片',
+      url: '广告链接',
+      effectTime: '开始时间',
+      expiryTime:'结束时间',
+      putStatus:'投放状态'
+    }
   };
 
   constructor(
@@ -123,16 +131,14 @@ export class AdvertisingComponent implements OnInit {
            }
         })
       }).catch(err=>{
-      this.showError(err.json().message || '连接失败');
+      this.showError(err.msg || '连接失败');
     })
 
 
   }
   //编辑
   onChange(message) {
-    //console.log(message)
-    const type = message.type;
-    let data = message.data;
+    let { type, data, column} = message;
     switch (type) {
       case 'create':
         this._router.navigate(['add'], {relativeTo: this._activatedRoute});
@@ -173,28 +179,23 @@ export class AdvertisingComponent implements OnInit {
           this.showError(err.json().message || '设置失败');
         });
         break;*/
-
-      /*case 'export':
-        console.log('11111111111111111111111');
-        for (let p in this.pageInfo) {
-          if(this.pageInfo[p] == '' || undefined || null) {
-            delete this.pageInfo[p];
-          }
-        }
-         this._advertisingService.exportPersonalForm(this.pageInfo).then(res => {
-          let blob = res.blob();
-          let a = document.createElement('a');
-          let url = window.URL.createObjectURL(blob);
-          a.href = url;
-          a.download = '广告列表' + '.xls';
-          a.click();
-          window.URL.revokeObjectURL(url);
-          console.log(res);
-        }).catch(err => {
-          console.log(err);
-        });
-
-        break;*/
+      case 'hideColumn':
+        this.pageInfo.excelmaps = column;
+        break;
+      case 'export':
+        this._advertisingService.exportForm(this.pageInfo)
+          .then(res => {
+            let blob = res.blob();
+            let a = document.createElement('a');
+            let url = window.URL.createObjectURL(blob);
+            a.href = url;
+            a.download = '广告管理' + '.xls';
+            a.click();
+            window.URL.revokeObjectURL(url);
+          }).catch(err => {
+            this.showError(err.msg);
+        })
+        break;
 
 
     }
@@ -229,8 +230,10 @@ export class AdvertisingComponent implements OnInit {
   }
   //分页
   handlePageChange($event) {
+    console.log(this.pageInfo);
     this.pageInfo.pageSize = $event.pageSize;
     this.pageInfo.pageNum=$event.pageNum;
+    console.log(this.pageInfo);
     this.getList();
   }
 

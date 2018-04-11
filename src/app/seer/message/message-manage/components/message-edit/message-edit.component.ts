@@ -5,10 +5,11 @@ import { MessageService } from "../../message.service";
 import { GlobalState } from "../../../../../global.state";
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { BsModalService} from 'ngx-bootstrap/modal';
-import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
+import { SeerMessageService,SeerDialogService } from '../../../../../theme/services';
 import * as _ from 'lodash';
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
 
+declare let laydate;
 @Component({
   selector: 'message-edit',
   templateUrl: './message-edit.component.html',
@@ -66,7 +67,7 @@ export class MessageEditComponent {
   modalPageInfo={
     "pageNum":1,
     "pageSize":10,
-    "sort":"",
+    "sortBy":"",
     "total":"",
     "globalSearch":"",
     "memberType":"",
@@ -92,6 +93,22 @@ export class MessageEditComponent {
   public modalRef: BsModalRef;
   cardActions2 = [this.modalActionSet.All,this.modalActionSet.OK,this.modalActionSet.CANCEL];
 
+  memberScopes=[];  //会员信息列表
+  hideChooseMembers:boolean=true;
+  hidePagination=false;//会员信息列表是否分页
+  scopesPageInfo={
+    "pageNum":1,
+    "pageSize":10,
+    "total":'',
+  };//会员信息列表分页信息
+  membersTitles = [
+    {key: 'userName', label: '用户帐号',textAlign:'center'},
+    {key: 'trueName', label: '用户姓名',textAlign:'center'},
+    {key: 'phoneNumber', label: '手机号码',textAlign:'center'},
+    {key: 'idNumber', label: '身份证号',textAlign:'center'},
+  ];
+  scopesDTO= []; //发送范围
+
   @ViewChild('validationForm') validationForm;
 
   constructor(
@@ -100,6 +117,7 @@ export class MessageEditComponent {
     private _router: Router,
     private service: MessageService,
     private _messageService: SeerMessageService,
+    private _dialogService: SeerDialogService,
     private gs:GlobalState,
     private modalService: BsModalService){
   }
@@ -119,8 +137,9 @@ export class MessageEditComponent {
       this.isPickUsersAble=false;
       this.service.getMessageById(this.editId).then((data) => {
         this.message = data.data;
-        this.message.expectSendTime = this.message.expectSendTime ? new Date(this.message.expectSendTime.replace(/-/g, "/")) : '';
+        //this.message.expectSendTime = this.message.expectSendTime ? new Date(this.message.expectSendTime.replace(/-/g, "/")) : '';
         this.ids = this.message.receivers;
+
         if(this.message.adaptationUser=="1"){
           this.usersType="users";
           //后台用户
@@ -128,11 +147,27 @@ export class MessageEditComponent {
         }else if(this.message.adaptationUser=="0"){
           //前台用户
           this.usersType="members";
+          //选定会员列表
+              
+              this.scopesDTO=this.ids.split(","); ;  //范围列表
+              
+              this.scopesPageInfo.total=this.scopesDTO.length.toString();
+              console.log(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize));
+              this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
         }
       });
     }else {
       this.isPickUsersAble=true;
     };
+    //渲染日期时间组件
+          laydate.render({
+            elem: '#expectSendTime',
+            type: 'datetime',
+            done: (value, date, expectSendTime) => {
+              this.message.expectSendTime = value;
+              
+            }
+          })
   }
   //激活选择用户按钮
   selectUsersType(userTypeId){
@@ -185,11 +220,11 @@ export class MessageEditComponent {
       this.message.sendMessage=this.Cint(this.message.sendMessage);*/
       this.forbidSaveBtn=true;
       this.message.receivers=this.ids;
-      console.log(this.message);
+      
       let messageNew=_.cloneDeep(this.message);
-      messageNew.expectSendTime=formatDate(messageNew.expectSendTime,'YYYY-MM-DD hh:mm:ss');
+      //messageNew.expectSendTime=formatDate(messageNew.expectSendTime,'YYYY-MM-DD hh:mm:ss');
 
-      console.log(messageNew);
+      
 
       this.service.putOne(messageNew).then((data:any) => {
         this.showSuccess(data.msg || '更新成功')
@@ -208,7 +243,7 @@ export class MessageEditComponent {
       this.message.sendMessage=this.Cint(this.message.sendMessage);
       this.message.receivers=this.ids;
       let messageNew=_.cloneDeep(this.message);
-      messageNew.expectSendTime=formatDate(messageNew.expectSendTime,'YYYY-MM-DD hh:mm:ss');
+      //messageNew.expectSendTime=formatDate(messageNew.expectSendTime,'YYYY-MM-DD hh:mm:ss');
 
       console.log(messageNew);
       this.service.postOne(messageNew).then((data:any) => {
@@ -424,14 +459,17 @@ export class MessageEditComponent {
         this.ids='';
         this.service.getIds(this.usersType,this.modalPageInfo).then(data=>{
           if(this.usersType=='members'){
-            this.ids=data.message || null;
-            console.log('---');
-            console.log(this.ids);
+            this.ids=data.data || null;
+            this.scopesDTO=this.ids.split(","); ;  //范围列表
+            
+              this.scopesPageInfo.total=this.scopesDTO.length.toString();
+              console.log(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize));
+              this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
+          
           }else if(this.usersType=='users'){
 
             this.ids=data.data.ids || null;
-            console.log('---');
-            console.log(this.ids);
+            
           }
           //this.chooseResult=`已选定${this.modalPageInfo.total}人`
         }).catch(err=>{
@@ -567,7 +605,16 @@ export class MessageEditComponent {
 
   //返回
   handleBackBtnClick() {
-    this.location.back()
+    if(this._editType === 'add'){
+      this._dialogService.confirm('还未保存确认要离开吗？')
+        .subscribe(action => {
+          if(action === 1) {
+            this.location.back();
+          }
+        }) ;
+    }else{
+      this.location.back();
+    }
   }
 
   //成功提示
@@ -586,6 +633,34 @@ export class MessageEditComponent {
       icon: 'fa fa-times-circle',
       autoHideDuration: 3000,
     })
+  }
+  //获取会员id被包含在ids数组中的会员信息列表
+  getMembersList(ids){
+    if(ids.toString()!=''){
+      let params={
+        "scopesDTO":ids.toString()
+      };
+      console.log('----------//------');
+          console.log(params);
+      this.service.getIdsMembers(params)
+        .then(res=>{
+          
+          this.memberScopes = res.data;
+          console.log(this.memberScopes);
+        }).catch(err=>{
+          this.showError(err.msg || '获取失败');
+        }
+      );
+    }
+  }
+  //已选会员列表翻页
+  membersPageChange($event){
+    if($event){
+      this.scopesPageInfo.pageSize = $event.pageSize;
+      this.scopesPageInfo.pageNum=$event.pageNum;
+      //this.scopes=this.activity.scopes.slice((this.scopesPageInfo.pageNum-1)*this.scopesPageInfo.pageSize,this.scopesPageInfo.pageNum*this.scopesPageInfo.pageSize);
+      this.getMembersList(this.scopesDTO.slice((this.scopesPageInfo.pageNum-1)*this.scopesPageInfo.pageSize,this.scopesPageInfo.pageNum*this.scopesPageInfo.pageSize));
+    }
   }
 }
 
