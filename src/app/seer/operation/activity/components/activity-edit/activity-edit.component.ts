@@ -379,7 +379,7 @@ export class ActivityEditComponent {
   //1-1 打开会员模态框
   openMemberModal(template: TemplateRef<any>) {
       this.modalfilters=[
-      {
+      /*{
         key: 'memberType',
         label: '用户身份',
         type: 'select',
@@ -409,7 +409,7 @@ export class ActivityEditComponent {
         type: 'select',
         options:[{value:'0', content: '全部'},{value:'1', content: '25以下'},{value:'2', content: '25-30'},{value:'3', content: '31-40'},{value:'4', content: '41-50'},{value:'5', content: '50以上'}]
       },
-      /*{
+      /!*{
         key: 'mage',
         label: '年龄',
         groups: [
@@ -421,7 +421,7 @@ export class ActivityEditComponent {
           },
         ],
         groupSpaces: ['至']
-      },*/
+      },*!/
       {
         key: 'investDate',
         label: '投资时间',
@@ -473,7 +473,7 @@ export class ActivityEditComponent {
           },
         ],
         groupSpaces: ['至']
-      }
+      }*/
     ];
       this.modalRef = this.modalService.show(template,this.modalClass);
       this.modalGetMembersList();
