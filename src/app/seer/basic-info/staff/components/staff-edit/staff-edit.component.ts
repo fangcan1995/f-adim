@@ -272,7 +272,7 @@ export class StaffEditComponent implements OnInit {
         break;
       case 'cancel': 
         console.log(this.educationView)
-        this.educationView.cancel(key,newData);
+        this.ngOnInit();
         break;
     }
   }

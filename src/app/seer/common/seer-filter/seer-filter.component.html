@@ -86,7 +86,7 @@
           <input type="text" class="form-control" id="departmentId"
             *ngIf="filter.type ==='table' && !filter.groups"
             [(ngModel)]="staff.sysEmployer.departmentName"
-            [ngModelOptions]="{standalone: true}" (click)="openModal(template)" (input)="present()">
+            [ngModelOptions]="{standalone: true}" (click)="openModal(template)" (input)="handleFilterChange()" (change)='handleFilterChange()'>
             <template #template>
               <div class="modal-body">
                 <seer-tree

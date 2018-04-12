@@ -11,6 +11,7 @@ import {UPDATE, DELETE, SAVE} from '../../../../common/seer-table/seer-table.act
 import {json2Tree} from "../../../../../theme/libs/json2Tree";
 import {TREE_PERMISSIONS} from "../../../../../theme/modules/seer-tree/constants/permissions";
 import { formatDate } from "ngx-bootstrap/bs-moment/format";
+import {SeerDialogService} from "../../../../../theme/services/seer-dialog.service"
 
 @Component({
   templateUrl: './staff-add.component.html',
@@ -52,7 +53,8 @@ export class StaffAddComponent implements OnInit {
               private _route: ActivatedRoute,
               private _router: Router,
               private _location: Location,
-              private modalService: BsModalService) {
+              private modalService: BsModalService,
+              private _dialogService: SeerDialogService) {
   }
 
   ngOnInit() {
@@ -95,7 +97,23 @@ export class StaffAddComponent implements OnInit {
         if (result.code == 0) {
           this.forbidBaseSaveBtn = false;
           this.staffId=result.data
-          this.alertSuccess(result.message);
+          // this.alertSuccess(result.message);
+          this._dialogService.confirm(result.message+'继续完善新增的员工信息？')
+          .subscribe(action => {
+            if (action === 1) {
+              // this.staffManageService.deleteOne(data.id).then((data) => {
+              //   if (data.code == '0') {
+              //     this.alertSuccess(data.message);
+              //     this.getStaffs();
+              //   } else {
+              //     this.alertError(data.msg);
+              //   }
+              // });
+              this._router.navigate([`/basic-info/staff-manage/edit/${this.staffId}`])
+            }else{
+              this._location.back()
+            }
+          });
         } else {
           this.alertError(result.message);
         }
@@ -172,6 +190,7 @@ export class StaffAddComponent implements OnInit {
       console.log(this.treeNode);
     }).catch(err => {
       console.log(err);
+      this.alertError(err.msg)
     });
   }
 
@@ -331,7 +350,7 @@ export class StaffAddComponent implements OnInit {
       autoHideDuration: 3000,
     }).onClose().subscribe((e) => {
       e=this.staffId
-      this._router.navigate([`/basic-info/staff-manage/edit/${e}`])
+      // this._router.navigate([`/basic-info/staff-manage/edit/${e}`])
     });
   }
 
@@ -345,9 +364,9 @@ export class StaffAddComponent implements OnInit {
     })
   }
 
-  handleSaveBtnClick($event, save) {
-    console.log($event,save)
-    $event.stopPropagation();
-    // this.notify.emit({ type })
-  }
+  // handleSaveBtnClick() {
+  //   if (this.form1.form.valid) {
+  //     this.forbidSaveBtn=false
+  //   }
+  // }
 }

@@ -3,6 +3,7 @@
   type="button"
   *ngIf="!hideAddButton"
   (click)="create()"
+  [disabled]='!createDistabled'
   >
   新增
 </button>
