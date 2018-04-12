@@ -175,6 +175,7 @@ export class SeerSimpleTableComponent implements OnInit {
   }
   public cancel(key) {
     let item = _.find(this.data, t => t.key === key);
+    console.log(item)
     this.createDistabled = true
     if ( item.editState === 'CREATE' ) {
       _.remove(this.data, t => t.key === key);

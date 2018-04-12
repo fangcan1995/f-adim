@@ -226,12 +226,24 @@ export class StaffEditComponent implements OnInit {
     let {type, key} = $event;
     let editData = this.educationView.getFormatDataByKey(key).editData;
     const newData = _.cloneDeep(editData);
-    console.log(newData);
-    newData.endTime = formatDate(newData.endTime, 'YYYY-MM-DD hh:mm:ss');
-    console.log(newData);
+    
     switch (type) {
       case 'save':
-        
+      newData.endTime = formatDate(newData.endTime, 'YYYY-MM-DD hh:mm:ss');
+      let err:string=''
+      if(newData.college.length>20){
+        err='学历长度不能超过20个字符'
+        this.alertError(err)
+        return
+      }else if(newData.eduMajor.length>10){
+        err='所学专业长度不能超过10个字符'
+        this.alertError(err)
+        return
+      }else if(newData.eduLevel.length>10){
+        err='学历长度不能超过10个字符'
+        this.alertError(err)
+        return
+      }
         if (editData.id) {          
           this._staffService.putOneEdu(this.staffId, newData).then((result) => {
             if (result.code == 0) {
@@ -283,6 +295,21 @@ export class StaffEditComponent implements OnInit {
     let editData = this.relationView.getFormatDataByKey(key).editData;
     switch (type) {
       case 'save':
+      console.log(editData)
+      let err:string=''
+      if(editData.contName.length>6){
+        err='姓名长度不能超过6个字符'
+        this.alertError(err)
+        return
+      }else if(editData.contPhone.length>13){
+        err='联系电话长度不能超过13个字符'
+        this.alertError(err)
+        return
+      }else if(editData.jobInfo.length>30){
+        err='工作单位及职务长度不能超过30个字符'
+        this.alertError(err)
+        return
+      }
         if (editData.id) {
           this._staffService.putOneRelations(this.staffId, editData).then((result) => {
             if (result.code == 0) {
@@ -331,6 +358,24 @@ export class StaffEditComponent implements OnInit {
         newData.endTime = formatDate(newData.endTime, 'YYYY-MM-DD hh:mm:ss');
         newData.startTime = formatDate(newData.startTime, 'YYYY-MM-DD hh:mm:ss');
         console.log(newData);
+        let err:string=''
+        if(newData.companyName.length>20){
+          err='工作单位长度不能超过20个字符'
+          this.alertError(err)
+          return
+        }else if(newData.jobType.length>10){
+          err='职务长度不能超过10个字符'
+          this.alertError(err)
+          return
+        }else if(newData.proveName.length>10){
+          err='证明人长度不能超过10个字符'
+          this.alertError(err)
+          return
+        }else if(newData.proveTel.length>13){
+          err='证明人电话长度不能超过13个字符'
+          this.alertError(err)
+          return
+        }
         if (newData.id) {
           this._staffService.putOneExperiences(this.staffId, newData).then((result) => {
             if (result.code == 0) {
@@ -364,6 +409,9 @@ export class StaffEditComponent implements OnInit {
             this.alertError(result.message);
           }
         });
+        break;
+      case 'cancel': 
+        this.ngOnInit();
         break;
     }
   }
