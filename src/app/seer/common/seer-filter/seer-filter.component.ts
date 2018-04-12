@@ -58,6 +58,8 @@ export class SeerFilterComponent implements OnInit {
   private isFiltersShown: boolean = false;
   index=null;
   
+  departmentName=null;
+
   filters$ = new Subject();
   @ViewChild('searchBtn') searchBtn;
   constructor(
@@ -284,6 +286,7 @@ export class SeerFilterComponent implements OnInit {
         this.nodeName = node.data.name;
         this.nodeId = node.data.id;
         this.filters[this.index].value=node.data.name
+        this.departmentName=node.data.name
       }
     }
   

@@ -32,7 +32,7 @@ export class StaffComponent {
     {key: 'position', label: '职位', type: 'input.text'},
     {
       key: 'empStatus', label: '员工状态', type: 'select',
-      options: [{value: '', content: '请选择'},{value: '0', content: '正常'},{value: '1', content: '实习'},{value: '2', content: '离职'}]
+      options: [{value: '', content: '请选择'},{value: '0', content: '试用'},{value: '1', content: '在职'},{value: '2', content: '离职'}]
     },
     {key: 'entryTimeStart', label: '入职时间', type: 'input.date'},
     {key: 'entryTimeEnd', label: '至', type: 'input.date'},
@@ -168,8 +168,8 @@ export class StaffComponent {
     // let params = $event;
     const newData = _.cloneDeep($event);
     console.log(newData);
-    newData.entryTimeEnd = newData.entryTimeEnd?newData.entryTimeEnd+' 08:00:00':''
-    newData.entryTimeStart = newData.entryTimeStart?newData.entryTimeStart+' 08:00:00':''
+    newData.entryTimeEnd = newData.entryTimeEnd?newData.entryTimeEnd+' 23:59:59':''
+    newData.entryTimeStart = newData.entryTimeStart?newData.entryTimeStart+' 00:00:00':''
     console.log(newData); 
     this.pageInfo.query = newData;
     this.pageInfo = {
@@ -183,8 +183,8 @@ export class StaffComponent {
     // let params = $event;
     const newData = _.cloneDeep($event);
     console.log(newData);
-    newData.entryTimeEnd = newData.entryTimeEnd?newData.entryTimeEnd+' 08:00:00':''
-    newData.entryTimeStart = newData.entryTimeStart?newData.entryTimeStart+' 08:00:00':''
+    newData.entryTimeEnd = newData.entryTimeEnd?newData.entryTimeEnd+' 23:59:59':''
+    newData.entryTimeStart = newData.entryTimeStart?newData.entryTimeStart+' 00:00:00':''
     console.log(newData);
     this.pageInfo.query = newData;
     this.pageInfo = {

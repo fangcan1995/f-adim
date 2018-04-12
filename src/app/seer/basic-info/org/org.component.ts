@@ -194,6 +194,7 @@ export class OrgComponent implements OnDestroy{
        this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE,CONFIG_LEADER]));
      }).catch(err => {
        console.log(err);
+       this.alertError(err.msg)
      });
 
   }
@@ -235,13 +236,15 @@ export class OrgComponent implements OnDestroy{
               this.service.deleteOne(message.data.id).then( result => {
                 if(result.code == 0) {
                   this.alertSuccess(result.message);
-                  // this.getOrganizations();
+                  this.getOrganizations();
+                  this.info.departmentName='',
+                  this.info.departmentLeader=''
                   // this.getlist(this.pageInfo);
                 }
                 else {
                   this.alertError(result.message);
                 }
-                this.getlist({pageNum: 1, pageSize: 10, departmentId: 1});
+                this.getlist(this.pageInfo);
               });
             }
           })
