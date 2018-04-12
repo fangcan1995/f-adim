@@ -9,7 +9,7 @@ import { BsModalService} from 'ngx-bootstrap/modal';
 import {SeerDialogService, SeerMessageService,} from '../../../../../theme/services';
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
 import {ENABLE} from "../../../../common/seer-table/seer-table.actions";
-
+declare var $: any;
 declare let laydate;
 
 @Component({
@@ -183,7 +183,7 @@ export class ActivityEditComponent {
             }).catch(err => {
               this.showError(err.msg || '获取失败');
             });
-          
+
 
         } else if (this._editType === 'add') {
           this.forbidSaveBtn = false;
@@ -203,7 +203,7 @@ export class ActivityEditComponent {
           this.awardsDTO=this.activity.awardsDTO;
           this.scopesDTO=this.activity.scopesDTO;
 
-          
+
 
         }
         //渲染日期时间组件
@@ -212,7 +212,7 @@ export class ActivityEditComponent {
             type: 'datetime',
             done: (value, date, endDate) => {
               this.baseInfoDTO.beginTime = value;
-              
+
             }
           })
           laydate.render({
@@ -294,6 +294,7 @@ export class ActivityEditComponent {
       this.awardsDTO[type][this.awardCurrIndex]= award;
     }
     this.modalRef.hide();
+    $('body').removeClass('modal-open');
   }
   //3 删除奖励
   delAward(type,index){
@@ -517,9 +518,11 @@ export class ActivityEditComponent {
         this.isSelectedMember=true;
 
         this.modalService.hide(1);
+        $('body').removeClass('modal-open');
         break;
       case 'cancel':
         this.modalService.hide(1);
+        $('body').removeClass('modal-open');
         break;
       case 'all':
         //1 将后台返回会员id加入参加范围数组中
@@ -537,6 +540,7 @@ export class ActivityEditComponent {
         });
 
         this.modalService.hide(1);
+        $('body').removeClass('modal-open');
         break;
       default:
         break;
@@ -665,6 +669,7 @@ export class ActivityEditComponent {
           this.awardCurr.activityId=event.data.activityCode;
         }
         this.modalParentsRef.hide();
+        $('body').removeClass('modal-open');
         break;
       default:
         break;

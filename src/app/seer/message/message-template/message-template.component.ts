@@ -79,7 +79,19 @@ export class MessageTemplateComponent {
     "sendMessage":"",
     "sendNotify":"",
     "sendMail":"",
-    "tempTitle":""
+    "tempTitle":"",
+    "excelmaps": {
+      tempName: '模板名称',
+      tempCode: 'KEY',
+      adaptationUser: '适配用户',
+      businessType: '消息类型',
+      tempProfile: '消息简介',
+      sendMail:'消息中心',
+      sendMessage:'短信通知',
+      sendNotify:'推送通知',
+      updateTime:'最后修改时间',
+      updateUser:'最后修改人',
+    }
 
   }; //分页、排序、检索
   title = '消息模板';
@@ -121,8 +133,7 @@ export class MessageTemplateComponent {
     });
   }
   onChange(message):void {
-    const type = message.type;
-    let data = message.data;
+    let { type, data, column} = message;
     switch ( type ) {
       case 'create':
         this._router.navigate([`add`], {relativeTo: this._route});
@@ -148,7 +159,23 @@ export class MessageTemplateComponent {
           })
 
         break;
-      case 'delete_all':
+      case 'hideColumn':
+        this.pageInfo.excelmaps = column;
+        break;
+      case 'export':
+        this.service.exportForm(this.pageInfo)
+          .then(res => {
+            let blob = res.blob();
+            let a = document.createElement('a');
+            let url = window.URL.createObjectURL(blob);
+            a.href = url;
+            a.download = '消息管理' + '.xls';
+            a.click();
+            window.URL.revokeObjectURL(url);
+          }).catch(err => {
+          this.showError(err.msg);
+        })
+        break;
 
     }
   }
