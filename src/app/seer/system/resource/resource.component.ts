@@ -16,11 +16,13 @@ export class ResourceComponent implements OnInit {
     titles = [
         {
             key: 'menuId',
-            label: '菜单编号'
+            label: '菜单编号',
+            textAlign: 'center'
         },
         {
             key: 'menuPid',
-            label: '菜单父编号'
+            label: '菜单父编号',
+            textAlign: 'center'
         },
         {
             key: 'menuName',
@@ -30,7 +32,8 @@ export class ResourceComponent implements OnInit {
             key: 'menuType',
             label: '菜单类型',
             isDict: true,
-            category: 'MENU_TYPE'
+            category: 'MENU_TYPE',
+            textAlign: 'center'
         },
         {
             key: 'menuDesc',
@@ -39,12 +42,14 @@ export class ResourceComponent implements OnInit {
         {
             key: 'sortNum',
             label: '菜单顺序',
+            textAlign: 'center'
         },
         {
             key: 'menuStatus',
             label: '有效状态',
             isDict: true,
-            category: 'MENU_STATUS'
+            category: 'MENU_STATUS',
+            textAlign: 'center'
         }
     ];
 

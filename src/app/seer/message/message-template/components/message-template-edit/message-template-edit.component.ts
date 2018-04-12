@@ -34,6 +34,7 @@ export class MessageTemplateEditComponent implements OnInit {
     private location: Location,
     private service: messageTplManageService,
     private _messageService: SeerMessageService,
+    private _dialogService: SeerDialogService,
   ){
   };
   ngOnInit(){
@@ -117,7 +118,16 @@ export class MessageTemplateEditComponent implements OnInit {
   }
   //返回
   handleBackBtnClick() {
-    this.location.back()
+    if(this._editType === 'add'){
+      this._dialogService.confirm('还未保存确认要离开吗？')
+        .subscribe(action => {
+          if(action === 1) {
+            this.location.back();
+          }
+        }) ;
+    }else{
+      this.location.back();
+    }
   }
   showSuccess(message: string) {
     return this._messageService.open({

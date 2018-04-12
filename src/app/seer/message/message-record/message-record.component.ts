@@ -91,7 +91,7 @@ export class MessageRecordComponent {
   pageInfo={
     "pageNum":1,
     "pageSize":10,
-    "sort":"",
+    "sortBy":"-sendTime",
     "total":"",
     "globalSearch":"",
     "trueName":"",
@@ -107,14 +107,14 @@ export class MessageRecordComponent {
   }; //分页、排序、检索
   title = '消息发送记录';
   titles = [
-    {key:'trueName', label:'会员姓名'},
-    {key:'userName', label:'会员账户'},
-    {key:'phoneNumber', label:'联系方式'},
+    {key:'trueName', label:'会员姓名',textAlign:'center'},
+    {key:'userName', label:'会员账户',textAlign:'center'},
+    {key:'phoneNumber', label:'联系方式',textAlign:'center'},
     {key:'msgType', label:'推送方式',isDict:true,category: 'MSG_TYPE'},
-    {key:'businessType', label:'消息类型',isDict:true,category: 'BUSINESS_TYPE'},
+    {key:'businessType', label:'消息类型',isDict:true,category: 'BUSINESS_TYPE',textAlign:'center'},
     {key:'msgContent', label:'消息内容'},
-    {key:'sendTime', label:'推送时间',type:'date-time'},
-    {key:'msgStatus', label:'推送结果',isDict:true,category: 'MSG_STATUS'},
+    {key:'sendTime', label:'推送时间',type:'date-time',textAlign:'center'},
+    {key:'msgStatus', label:'推送结果',isDict:true,category: 'MSG_STATUS',textAlign:'center'},
   ];
   source = [];
   constructor(

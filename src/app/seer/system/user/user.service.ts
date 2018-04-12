@@ -13,7 +13,7 @@ import { Headers, Http, RequestOptions, ResponseContentType } from '@angular/htt
 import { getStorage } from "../../../theme/libs/utils"
 
 
-const exportFile = `${TEST_URL}/${API['USERS']}/specialExport`;
+const exportFile = `${TEST_URL}/${API['USERS']}/specialExport1`;
 
 
 @Injectable()

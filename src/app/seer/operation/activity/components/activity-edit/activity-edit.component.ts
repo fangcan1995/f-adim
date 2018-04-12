@@ -8,7 +8,9 @@ import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { BsModalService} from 'ngx-bootstrap/modal';
 import {SeerDialogService, SeerMessageService,} from '../../../../../theme/services';
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
-import {ENABLE} from "../../../../common/seer-table/seer-table.actions"
+import {ENABLE} from "../../../../common/seer-table/seer-table.actions";
+
+declare let laydate;
 
 @Component({
   templateUrl: './activity-edit.component.html',
@@ -39,10 +41,10 @@ export class ActivityEditComponent {
     "total":'',
   };//会员信息列表分页信息
   membersTitles = [
-    {key: 'userName', label: '用户帐号'},
-    {key: 'trueName', label: '用户姓名'},
-    {key: 'phoneNumber', label: '手机号码'},
-    {key: 'idNumber', label: '身份证号'},
+    {key: 'userName', label: '用户帐号',textAlign:'center'},
+    {key: 'trueName', label: '用户姓名',textAlign:'center'},
+    {key: 'phoneNumber', label: '手机号码',textAlign:'center'},
+    {key: 'idNumber', label: '身份证号',textAlign:'center'},
   ];
 
   //选择用户模态框相关
@@ -78,10 +80,10 @@ export class ActivityEditComponent {
   modalfilters =[];
   formGroupColNum='col-sm-12 col-md-6 col-lg-6';
   modalTitles=[
-    {key: 'userName', label: '用户帐号'},
-    {key: 'trueName', label: '用户姓名'},
-    {key: 'phoneNumber', label: '手机号码'},
-    {key: 'idNumber', label: '身份证号'},
+    {key: 'userName', label: '用户帐号',textAlign:'center'},
+    {key: 'trueName', label: '用户姓名',textAlign:'center'},
+    {key: 'phoneNumber', label: '手机号码',textAlign:'center'},
+    {key: 'idNumber', label: '身份证号',textAlign:'center'},
   ];
   modalPageInfo={
     "pageNum":1,
@@ -110,16 +112,16 @@ export class ActivityEditComponent {
 
   modalParents=[];//相关活动列表
   modalParentsTitles=[
-    {key: 'activityCode', label: '活动编号'},
+    {key: 'activityCode', label: '活动编号',textAlign:'center'},
     {key: 'activityName', label: '活动主题'},
-    {key: 'beginTime', label: '开始时间'},
-    {key: 'endTime', label: '结束时间'},
-    {key: 'activityStatus', label: '活动状态', type: 'select',isDict: true, category: 'ACTIVITY_STATUS'},
+    {key: 'beginTime', label: '开始时间',textAlign:'center'},
+    {key: 'endTime', label: '结束时间',textAlign:'center'},
+    {key: 'activityStatus', label: '活动状态', type: 'select',isDict: true, category: 'ACTIVITY_STATUS',textAlign:'center'},
   ];
   modalParentsPageInfo={
     "pageNum":1,
     "pageSize":10,
-    "sort":"",
+    "sortBy":"-beginTime,-endTime",
     "total":"",
     "globalSearch":"",
   }; //分页、排序、检索
@@ -161,10 +163,10 @@ export class ActivityEditComponent {
               this.baseInfoDTO=this.activity.baseInfoDTO;
               (this.baseInfoDTO.trigMode=='4')?this.isInvestMode=false:this.isInvestMode=true; //投资奖励的特殊处理
               (this.baseInfoDTO.activityScope=='3')?this.hideChooseMembers=false:this.hideChooseMembers=true; //指定用户的特殊处理
-              this.baseInfoDTO.beginTime=new Date(this.baseInfoDTO.beginTime);  //格式化时间
-              /*this.baseInfoDTO.beginTime = this.baseInfoDTO.beginTime ? new Date(this.baseInfoDTO.beginTime.replace(/-/g, "/")) : '';
-              this.baseInfoDTO.endTime = this.baseInfoDTO.endTime ? new Date(this.baseInfoDTO.endTime.replace(/-/g, "/")) : '';*/
-              this.baseInfoDTO.endTime=new Date(this.baseInfoDTO.endTime);  //格式化时间
+              //this.baseInfoDTO.beginTime=new Date(this.baseInfoDTO.beginTime);  //格式化时间
+              //this.baseInfoDTO.beginTime = this.baseInfoDTO.beginTime ? new Date(this.baseInfoDTO.beginTime.replace(/-/g, "/")) : '';
+              //this.baseInfoDTO.endTime = this.baseInfoDTO.endTime ? new Date(this.baseInfoDTO.endTime.replace(/-/g, "/")) : '';
+              //this.baseInfoDTO.endTime=new Date(this.baseInfoDTO.endTime);  //格式化时间
 
               this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[0]:'';//频率字段拆分出次数
               this.baseInfoDTO.participateNum2=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[1]:'';//频率字段拆分出时间间隔
@@ -178,10 +180,10 @@ export class ActivityEditComponent {
               console.log(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize));
               this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
 
-            })
-            /*.catch(err => {
+            }).catch(err => {
               this.showError(err.msg || '获取失败');
-            });*/
+            });
+          
 
         } else if (this._editType === 'add') {
           this.forbidSaveBtn = false;
@@ -201,9 +203,25 @@ export class ActivityEditComponent {
           this.awardsDTO=this.activity.awardsDTO;
           this.scopesDTO=this.activity.scopesDTO;
 
-          //console.log(this.awardsDTO.length);
+          
 
         }
+        //渲染日期时间组件
+          laydate.render({
+            elem: '#beginTime',
+            type: 'datetime',
+            done: (value, date, endDate) => {
+              this.baseInfoDTO.beginTime = value;
+              
+            }
+          })
+          laydate.render({
+            elem: '#endTime',
+            type: 'datetime',
+            done: (value, date, endDate) => {
+              this.baseInfoDTO.endTime = value;
+            }
+          })
       })
 
   }
@@ -312,10 +330,7 @@ export class ActivityEditComponent {
     }
     this.awardCurr.rcName=tempName2+tempName1;
   }
-  dateChange(event){
-    console.log(event);
-    this.baseInfoDTO.beginTime = event;
-  }
+
 
   /*选择会员相关********************************/
   //获取会员id被包含在ids数组中的会员信息列表
@@ -708,8 +723,8 @@ export class ActivityEditComponent {
     delete baseInfo.participateNum1;
     delete baseInfo.participateNum2;
     //处理日期
-    baseInfo.beginTime=formatDate(baseInfo.beginTime,'YYYY-MM-DD hh:mm:ss');
-    baseInfo.endTime=formatDate(baseInfo.endTime,'YYYY-MM-DD hh:mm:ss');
+    //baseInfo.beginTime=formatDate(baseInfo.beginTime,'YYYY-MM-DD hh:mm:ss');
+    //baseInfo.endTime=formatDate(baseInfo.endTime,'YYYY-MM-DD hh:mm:ss');
     this.activitySubmit={
       "activityId":this.activity.activityId,
       "baseInfoPOJO":baseInfo,

@@ -14,34 +14,21 @@ export class RiskEvalComponent implements OnInit {
 
   hasGlobalFilter = false;
   public forbidSaveBtn: boolean = true;
-  /*filters = [
-    {key: 'examName', label: '测评题目', type: 'input.text'}
-  ];*/
+
   riskEvals = [];
   titles = [
     {key: 'examName', label: '测评题目'},
-    {key: 'examType', label: '题目类型', isDict: true, category: 'EXAM_TYPE'},
-    {key: 'createTime', label: '添加时间', type: 'date-time'}
+    {key: 'examType', label: '题目类型', isDict: true, category: 'EXAM_TYPE',textAlign:'center'},
+    {key: 'createTime', label: '添加时间', type: 'date-time',textAlign:'center'}
   ];
 
   pageInfo = {
     "pageNum": 1,
     "pageSize": 10,
-    "sort": "-entryTime",
     "total": "",
-    "query": {
-      "globalSearch": "",
-      "empName": "",
-      "emCode": "",
-      "departmentName": "",
-      "inviteNumStart": "",
-      "inviteNumEnd": "",
-      "position": "",
-      "empState": "",
-      "entryTimeStart": "",
-      "entryTimeEnd": ""
-    }
+    "sortBy": "createTime",
   }; //分页、排序、检索
+  
   errorMessage;
 
   constructor(private riskEvalService: RiskEvalService,
@@ -52,6 +39,7 @@ export class RiskEvalComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('11111111111111');
     this.getRiskEvals();
 
   }
@@ -64,7 +52,9 @@ export class RiskEvalComponent implements OnInit {
       this.pageInfo.total = res.data.total; //记录总数
       this.riskEvals = res.data.list;
       this.riskEvals = _.map(this.riskEvals, r => _.set(r, 'actions', [PREVIEW ]));
-    }, error => this.errorMessage = <any>error);
+    }).catch(err=>{
+      this.alertError(err.msg || '连接失败');
+    })
   }
 
   /*更新*/
@@ -100,15 +90,17 @@ export class RiskEvalComponent implements OnInit {
 
   //分页
   handlePageChange($event) {
+    
     this.pageInfo.pageSize = $event.pageSize;
     this.pageInfo.pageNum = $event.pageNum;
+    console.log(this.pageInfo);
     this.getRiskEvals();
   }
 
   //多条件查询
   handleFiltersChanged($event) {
     let params = $event;
-    this.pageInfo.query = params;
+    //this.pageInfo.query = params;
     this.getRiskEvals();
   }
 

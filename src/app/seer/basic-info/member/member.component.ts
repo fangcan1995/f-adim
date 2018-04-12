@@ -62,7 +62,7 @@ export class MemberComponent implements OnInit {
   pageInfo = {
     "pageNum": 1,
     "pageSize": 10,
-    "sortBy": "",
+    "sortBy": "-registTime",
     "total": "",
     "globalSearch": "",
     "userName": "",
@@ -179,12 +179,12 @@ export class MemberComponent implements OnInit {
       mAgeStart,
       mAgeEnd;
     if (_.isArray(registTime)) {
-      registTimeStart = registTime[0] ? (formatDate(registTime[0], 'YYYY-MM-DD 00:00:00')) : null;
-      registTimeEnd = registTime[1] ? (formatDate(registTime[1], 'YYYY-MM-DD 23:59:59')) : null;
+      registTimeStart = registTime[0] ? (formatDate(registTime[0], 'YYYY-MM-DD 00:00:00')) : "";
+      registTimeEnd = registTime[1] ? (formatDate(registTime[1], 'YYYY-MM-DD 23:59:59')) : "";
     }
     if (_.isArray(age)) {
-      mAgeStart = age[0] ? age[0] : null;
-      mAgeEnd = age[1] ? age[1] : null;
+      mAgeStart = age[0] ? age[0] : "";
+      mAgeEnd = age[1] ? age[1] : "";
     }
     params = {
       ...otherParams,
@@ -193,8 +193,11 @@ export class MemberComponent implements OnInit {
       mAgeStart,
       mAgeEnd,
     }
-    //console.log(params);
-    this.pageInfo = params;
+    // Object.assign(this.pageInfo,params);
+    this.pageInfo={
+      ...this.pageInfo,
+      ...params
+    }
     this.getList();
   }//全局搜索
   showSuccess(message: string) {
