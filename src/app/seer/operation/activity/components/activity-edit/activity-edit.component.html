@@ -92,7 +92,7 @@
                         <p class="text-danger" *ngIf="investMinMoney.errors?.required">* 必填项</p>
                         <p class="text-danger" *ngIf="investMinMoney.errors?.range">请输入小于1000000000的数值</p>
                       </div>
-                      <label class="col-sm-2">至</label>
+                      <label class="col-sm-2 interval">至</label>
                       <div class="col-sm-5" style="position: relative">
                         <input type="text" class="form-control number addUnit"  [(ngModel)]="baseInfoDTO.investMaxMoney"
                                name="investMaxMoney" #investMaxMoney="ngModel" required [range]="[1, 999999999]" maxlength="9"
@@ -116,7 +116,7 @@
                         <p class="text-danger" *ngIf="investMinNum.errors?.required">* 必填项</p>
                         <p class="text-danger" *ngIf="investMinNum.errors?.range">请输入小于1000的数值</p>
                       </div>
-                      <label class="col-sm-2">至</label>
+                      <label class="col-sm-2 interval">至</label>
                       <div class="col-sm-5">
                         <input type="text" class="form-control number addUnit"  [(ngModel)]="baseInfoDTO.investMaxNum"
                                name="investMaxNum" #investMaxNum="ngModel" required [range]="[1, 999]" maxlength="3"
@@ -132,28 +132,31 @@
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
                 <div class="row">
                   <label  class="col-sm-4 col-md-2 control-label">活动时间</label>
-                  <div class="col-sm-8 col-md-10 group" >
-                    <div class="col-sm-5">
-                      <seer-datepicker
-                        [(date)]="baseInfoDTO.beginTime"
-                        [dateFormatingRules]="'yyyy-MM-dd '"
-                      >
-                      </seer-datepicker>
-                      <!--<seer-datetime-picker id="beginTime" [myTime]="baseInfoDTO.beginTime" (dateChange)="dateChange($event)"></seer-datetime-picker>-->
+                  <div class="col-sm-8 col-md-10 group " >
+                    <div class="col-sm-5 form-group">
+                      <input
+                        name="beginTime"
+                        id="beginTime"
+                        class="form-control  addUnit"
+                        [(ngModel)]="baseInfoDTO.beginTime"
+                        #beginTime="ngModel"
+                      />
+                      <span class="icon-operation unit"></span>
                       <p class="text-danger" *ngIf="!baseInfoDTO.beginTime">* 必填项</p>
                     </div>
-                    <label class="col-sm-2">至</label>
+                    <label class="col-sm-2 interval">至</label>
                     <div class="col-sm-5">
-                      <seer-datepicker
-                        [(date)]="baseInfoDTO.endTime"
-                        [dateFormatingRules]="'yyyy-MM-dd'"
-                      >
-                      </seer-datepicker>
-                      <!--<seer-datetime-picker id="endTime" [myTime]="baseInfoDTO.endTime" (dateChange)="dateChange($event)"></seer-datetime-picker>-->
+                      <input
+                        name="endTime"
+                        id="endTime"
+                        class="form-control addUnit"
+                        [(ngModel)]="baseInfoDTO.endTime"
+                        #endTime="ngModel"
+                      />
+                      <span class="icon-operation unit"></span>
                       <p class="text-danger" *ngIf="!baseInfoDTO.endTime">* 必填项</p>
                     </div>
                   </div>
-                  <!--<p class="text-danger" *ngIf="productCategory.errors?.required">* 必填项</p>-->
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
@@ -168,7 +171,7 @@
                       <p class="text-danger" *ngIf="participateNum1.errors?.required">* 必填项</p>
                       <p class="text-danger" *ngIf="participateNum1.errors?.range">请输入小于1000的数值</p>
                     </div>
-                    <label class="col-sm-2">/</label>
+                    <label class="col-sm-2 interval">/</label>
                     <div class="col-sm-5">
                       <input type="text" class="form-control number addUnit"  [(ngModel)]="baseInfoDTO.participateNum2" style="padding-right: 30px;text-align: right"
                              name="participateNum2" #participateNum2="ngModel" required [range]="[1, 999]" maxlength="3"
@@ -229,20 +232,20 @@
           <table class="table table-hover" >
             <thead>
             <th>奖品名称</th>
-            <th>奖品类型</th>
-            <th>已抽数量</th>
-            <th>奖品数量</th>
-            <th>发放概率(%)</th>
-            <th>操作</th>
+            <th class="t-a-center">奖品类型</th>
+            <th class="t-a-right">已抽数量</th>
+            <th class="t-a-right">奖品数量</th>
+            <th class="t-a-right">发放概率(%)</th>
+            <th class="t-a-center">操作</th>
             </thead>
             <tbody>
             <tr *ngFor="let redEnvelope of awardsDTO.redEnvelopesDTOs;let i=index">
               <td>{{redEnvelope.reName}}</td>
-              <td>{{redEnvelope.awardTitle}}</td>
-              <td>{{redEnvelope.awardSentSum}}</td>
-              <td>{{redEnvelope.awardSum}}</td>
-              <td>{{redEnvelope.awardPersents}}</td>
-              <td>
+              <td class="t-a-center">{{redEnvelope.awardTitle}}</td>
+              <td class="t-a-right">{{redEnvelope.awardSentSum}}</td>
+              <td class="t-a-right">{{redEnvelope.awardSum}}</td>
+              <td class="t-a-right">{{redEnvelope.awardPersents}}</td>
+              <td class="t-a-center">
                 <i class="table-action icon-preview" title="预览" (click)="openAwardsModal('redEnvelopesDTOs',award1,i,true)" *ngIf="redEnvelope.awardTitle=='现金红包'"></i>
                 <i class="table-action icon-preview" title="预览" (click)="openAwardsModal('redEnvelopesDTOs',award2,i,true)" *ngIf="redEnvelope.awardTitle=='返现红包'"></i>
                 <i class="table-action icon-edit" title="编辑" (click)="openAwardsModal('redEnvelopesDTOs',award1,i,false)" *ngIf="redEnvelope.awardTitle=='现金红包'"></i>
@@ -252,11 +255,11 @@
             </tr>
             <tr *ngFor="let rateCoupon of awardsDTO.rateCouponsDTOs;let i=index">
               <td>{{rateCoupon.rcName}}</td>
-              <td>{{rateCoupon.awardTitle}}</td>
-              <td>{{rateCoupon.awardSentSum}}</td>
-              <td>{{rateCoupon.awardSum}}</td>
-              <td>{{rateCoupon.awardPersents}}</td>
-              <td>
+              <td class="t-a-center">{{rateCoupon.awardTitle}}</td>
+              <td class="t-a-right">{{rateCoupon.awardSentSum}}</td>
+              <td class="t-a-right">{{rateCoupon.awardSum}}</td>
+              <td class="t-a-right">{{rateCoupon.awardPersents}}</td>
+              <td class="t-a-center">
                 <i class="table-action icon-preview" title="预览" (click)="openAwardsModal('rateCouponsDTOs',award3,i,true)"></i>
                 <i class="table-action icon-edit" title="编辑" (click)="openAwardsModal('rateCouponsDTOs',award3,i,false)" ></i>
                 <i class="table-action icon-delete" title="删除" (click)="delAward('rateCouponsDTOs',i)"></i>
@@ -264,11 +267,11 @@
             </tr>
             <tr *ngFor="let physicalReward of awardsDTO.physicalRewardsDTOs;let i=index">
               <td>{{physicalReward.prName}}</td>
-              <td>{{physicalReward.awardTitle}}</td>
-              <td>{{physicalReward.awardSentSum}}</td>
-              <td>{{physicalReward.awardSum}}</td>
-              <td>{{physicalReward.awardPersents}}</td>
-              <td>
+              <td class="t-a-center">{{physicalReward.awardTitle}}</td>
+              <td class="t-a-right">{{physicalReward.awardSentSum}}</td>
+              <td class="t-a-right">{{physicalReward.awardSum}}</td>
+              <td class="t-a-right">{{physicalReward.awardPersents}}</td>
+              <td class="t-a-center">
                 <i class="table-action icon-preview" title="预览" (click)="openAwardsModal('physicalRewardsDTOs',award4,i,true)"></i>
                 <i class="table-action icon-edit" title="编辑" (click)="openAwardsModal('physicalRewardsDTOs',award4,i,false)" ></i>
                 <i class="table-action icon-delete" title="删除" (click)="delAward('physicalRewardsDTOs',i)"></i>
@@ -276,11 +279,11 @@
             </tr>
             <tr *ngFor="let raffleTicket of awardsDTO.raffleTicketsDTOs;let i=index">
               <td>{{raffleTicket.rtName}}</td>
-              <td>{{raffleTicket.awardTitle}}</td>
-              <td>{{raffleTicket.awardSentSum}}</td>
-              <td>{{raffleTicket.awardSum}}</td>
-              <td>{{raffleTicket.awardPersents}}</td>
-              <td>
+              <td class="t-a-center">{{raffleTicket.awardTitle}}</td>
+              <td class="t-a-right">{{raffleTicket.awardSentSum}}</td>
+              <td class="t-a-right">{{raffleTicket.awardSum}}</td>
+              <td class="t-a-right">{{raffleTicket.awardPersents}}</td>
+              <td class="t-a-center">
                 <i class="table-action icon-preview" title="预览" (click)="openAwardsModal('raffleTicketsDTOs',award5,i,true)"></i>
                 <i class="table-action icon-edit" title="编辑" (click)="openAwardsModal('raffleTicketsDTOs',award5,i,false)" ></i>
                 <i class="table-action icon-delete" title="删除" (click)="delAward('raffleTicketsDTOs',i)"></i>

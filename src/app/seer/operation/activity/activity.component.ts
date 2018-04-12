@@ -46,13 +46,13 @@ export class ActivityComponent implements OnInit {
     {key: 'activityStatus', label: '活动状态', type: 'select',isDict: true, category: 'ACTIVITY_STATUS'}
   ];
   titles = [
-    {key: 'activityCode', label: '活动编号'},
-    {key: 'trigMode', label: '触发方式',isDict: true, category: 'TRIG_MODE'},
+    {key: 'activityCode', label: '活动编号',textAlign:'center'},
+    {key: 'trigMode', label: '触发方式',isDict: true, category: 'TRIG_MODE',textAlign:'center'},
     {key: 'activityName', label: '活动主题'},
-    {key: 'productCategory', label: '适用产品',isDict: true, category: 'PRODUCT_CATEGORY'},  //add
-    {key: 'beginTime', label: '开始时间',type:'date-time'},
-    {key: 'endTime', label: '结束时间',type:'date-time'}, //add
-    {key: 'activityStatus', label: '活动状态',isDict: true, category: 'ACTIVITY_STATUS'}
+    {key: 'productCategory', label: '适用产品',isDict: true, category: 'PRODUCT_CATEGORY',textAlign:'center'},  //add
+    {key: 'beginTime', label: '开始时间',type:'date-time',textAlign:'center'},
+    {key: 'endTime', label: '结束时间',type:'date-time',textAlign:'center'}, //add
+    {key: 'activityStatus', label: '活动状态',isDict: true, category: 'ACTIVITY_STATUS',textAlign:'center'}
   ];
   //分页、排序、检索
   pageInfo={
@@ -66,7 +66,7 @@ export class ActivityComponent implements OnInit {
     "beginStartTime":"",
     "beginEndTime":"",
     "activityStatus":"",
-    "sortBy":"-beginTime",
+    "sortBy":"-beginTime,-endTime",
     "excelmaps": {
       activityCode: '活动编号',
       trigMode: '触发方式',

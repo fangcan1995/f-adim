@@ -37,14 +37,15 @@ export class ActivityDetailComponent implements OnInit {
     "pageNum":1,
     "pageSize":10,
     "total":'',
+    "sortBy":'-createTime'
   };//会员信息列表分页信息
   recordsTitles = [
-    {key: 'sendTime', label: '领奖时间'},
-    {key: 'userName', label: '用户名'},
-    {key: 'trueName', label: '真实姓名'},
-    {key: 'phoneNumber', label: '手机号'},
-    {key: 'awardName', label: '奖品名称'},
-    {key: 'sendStatus', label: '派奖结果',isDict: true, category: 'AC_SEND_STATUS'},
+    {key: 'createTime', label: '领奖时间',textAlign:'center'},
+    {key: 'userName', label: '用户名',textAlign:'center'},
+    {key: 'trueName', label: '真实姓名',textAlign:'center'},
+    {key: 'phoneNumber', label: '手机号',textAlign:'center'},
+    {key: 'name', label: '奖品名称',textAlign:'center'},
+    {key: 'acSendStatus', label: '派奖结果',isDict: true, category: 'AC_SEND_STATUS',textAlign:'center'},
   ];
 
   //选择用户模态框相关
@@ -59,10 +60,10 @@ export class ActivityDetailComponent implements OnInit {
     "total":'',
   };//会员信息列表分页信息
   membersTitles = [
-    {key: 'userName', label: '用户帐号'},
-    {key: 'trueName', label: '用户姓名'},
-    {key: 'phoneNumber', label: '手机号码'},
-    {key: 'idNumber', label: '身份证号'},
+    {key: 'userName', label: '用户帐号',textAlign:'center'},
+    {key: 'trueName', label: '用户姓名',textAlign:'center'},
+    {key: 'phoneNumber', label: '手机号码',textAlign:'center'},
+    {key: 'idNumber', label: '身份证号',textAlign:'center'},
   ];
 
 
@@ -107,7 +108,7 @@ export class ActivityDetailComponent implements OnInit {
                 //活动未开始并且指定会员
                 if(this.baseInfoDTO.activityScope=='3'){
                   this.scopesPageInfo.total=this.activity.scopesDTO.length;
-                  this.scopesPageInfo.total=this.awardsDTO.length;
+                  //this.scopesPageInfo.total=this.awardsDTO.length;
                   this.getMembersList(this.activity.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
                 }
               }

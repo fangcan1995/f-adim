@@ -2,30 +2,27 @@
   <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
   <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn || !validationForm.form.valid || !advertising.icon || !advertising.effectTime|| !advertising.expiryTime" (click)="handleSaveBtnClick()">保存</button>
 </seer-content-top>
-<div class="widgets">
+<div class="widgets info">
   <div class="row justify-content-center">
     <div class="col-sm-12">
       <seer-collapse-card cardTitle="广告基本信息" cardClass="with-scroll" [canCollapse]=false>
         <form class="form-horizontal" #validationForm="ngForm">
           <div class="row">
-            <div class="form-group col-sm-12">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6">
               <div class="row">
-                <label  class="col-sm-2 col-lg-1 control-label">
-                  广告标题（元）</label>
-                <div class="col-sm-6">
-                  <!--<input type="text" class="form-control" name="title" id="title" [(ngModel)]="advertising.title" formControlName="title" required />
-                  <p *ngIf="form.controls.title.errors?.required" class="text-danger">*</p>-->
+                <label  class="col-sm-4 col-md-4 col-lg-2 control-label">广告标题</label>
+                <div class="col-sm-8  col-md-8 col-lg-10">
                   <input class="form-control"  type="text"  name="title" [(ngModel)]="advertising.title" #title="ngModel" [rangeLength]="[2,100]" required />
-
                   <p class="text-danger" *ngIf="title.errors?.rangeLength">输入字符长度在2-100之间</p>
-                 <!-- <p class="text-danger" *ngIf="!form.controls.oldPassword.pristine && form.controls.oldPassword.errors?.required">请输入原密码</p>-->
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-12">
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6">
               <div class="row">
-                <label for="adType" class="col-sm-2 col-lg-1 control-label">广告类型</label>
-                <div class="col-sm-6">
+                <label for="adType" class="col-sm-4 col-md-4 col-lg-2 control-label">广告类型</label>
+                <div class="col-sm-8 col-md-8 col-lg-10">
                   <select type="email" class="form-control" name="adType" id="adType" #adType="ngModel" required
                           dict-select
                           [(ngModel)]="advertising.adType"
@@ -33,14 +30,16 @@
                           [topOption]="{itemId:'',itemName:'请选择'}"
                           [selected]="advertising.adType">
                   </select>
-                  <p class="text-danger" *ngIf="adType.errors?.required">*</p>
+                  <p class="text-danger" *ngIf="adType.errors?.required">* 必填项</p>
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-12">
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6">
               <div class="row">
-                <label for="putEnv" class="col-sm-2 col-lg-1 control-label">投放平台</label>
-                <div class="col-sm-6">
+                <label for="putEnv" class="col-sm-4 col-md-4 col-lg-2 control-label">投放平台</label>
+                <div class="col-sm-8 col-md-8 col-lg-10">
                   <select  class="form-control" id="putEnv" name="putEnv"  #putEnv="ngModel" required
                            dict-select
                            [(ngModel)]="advertising.putEnv"
@@ -49,56 +48,63 @@
                            [topOption]="{itemId:'',itemName:'请选择'}"
                   >
                   </select>
-                  <p class="text-danger" *ngIf="putEnv.errors?.required">*</p>
+                  <p class="text-danger" *ngIf="putEnv.errors?.required">* 必填项</p>
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-12">
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6">
               <div class="row">
-                <label for="url" class="col-sm-2 col-lg-1 control-label">开始时间</label>
-                <div class="col-sm-6">
-                  <seer-datepicker
-                    [(date)]="advertising.effectTime"
-                    [name]="effectTime"
-                    [dateFormatingRules]="'yyyy-MM-dd hh:mm:ss'"
-                    [disabled]="allowChange"
-                    [readonly]="readonly"
-                  >
-                  </seer-datepicker>
-                  <p class="text-danger" *ngIf="!advertising.effectTime">*</p>
+                <label for="url" class="col-sm-4 col-md-4 col-lg-2 control-label">开始时间</label>
+                <div class="col-sm-8 col-md-8 col-lg-10">
+                  <input
+                        name="effectTime"
+                        id="effectTime"
+                        class="form-control  addUnit"
+                        [(ngModel)]="advertising.effectTime"
+                        #effectTime="ngModel"
+                      />
+                     <!-- <span class="icon-operation unit"></span>-->
+                  <p class="text-danger" *ngIf="!advertising.effectTime">* 必填项</p>
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-12">
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6">
               <div class="row">
-                <label for="url" class="col-sm-2 col-lg-1 control-label">结束时间</label>
-                <div class="col-sm-6">
-                  <seer-datepicker
-                    [(date)]="advertising.expiryTime"
-                    [name]="expiryTime"
-                    [dateFormatingRules]="'yyyy-MM-dd hh:mm:ss'"
-                    [disabled]="allowChange"
-                    [readonly]="readonly"
-                  >
-                  </seer-datepicker>
-                  <p class="text-danger" *ngIf="!advertising.expiryTime">*</p>
+                <label for="url" class="col-sm-4 col-md-4 col-lg-2 control-label">结束时间</label>
+                <div class="col-sm-8 col-md-8 col-lg-10">
+                  <input
+                        name="expiryTime"
+                        id="expiryTime"
+                        class="form-control addUnit"
+                        [(ngModel)]="advertising.expiryTime"
+                        #expiryTime="ngModel"
+                      />
+                      <!--<span class="icon-operation unit"></span>-->
+                  <p class="text-danger" *ngIf="!advertising.expiryTime">* 必填项</p>
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-12">
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6">
               <div class="row">
-                <label for="url" class="col-sm-2 col-lg-1 control-label">访问链接</label>
-                <div class="col-sm-6">
+                <label for="url" class="col-sm-4 col-md-4 col-lg-2 control-label">访问链接</label>
+                <div class="col-sm-8 col-md-8 col-lg-10">
                   <input type="text" class="form-control" name="url" id="url" [(ngModel)]="advertising.url" #url="ngModel" url />
                   <p *ngIf="url.errors?.url&&!url.pristine" class="text-danger">请输入正确的网址</p>
                 </div>
               </div>
             </div>
-
-            <div class="form-group col-sm-12">
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6">
               <div class="row">
-                <label  class="col-sm-2 col-lg-1 control-label">广告图片</label>
-                <div class="col-sm-6">
+                <label  class="col-sm-4 col-md-4 col-lg-2 control-label">广告图片</label>
+                <div class="col-sm-8 col-md-8 col-lg-10">
                   <img src="{{advertising.icon}}"
                        style="display:block;max-width:450px;margin-bottom: 10px"
                        *ngIf="advertising.icon"
