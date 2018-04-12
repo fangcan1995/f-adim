@@ -33,6 +33,7 @@ export class SeerSimpleTableComponent implements OnInit {
   @Input() pageNumber:number = 1;
   @Input() hidePagination: boolean;
   @Input() hideAddButton;//隐藏新增按钮
+  @Input() createDistabled: boolean = true;//新增按钮不可用
   @Input() primaryKey;
   @Input() actions: Array<any> = [];
   @Input() showSeq:boolean;
@@ -145,6 +146,7 @@ export class SeerSimpleTableComponent implements OnInit {
   }
   public save(key, data?) {
     let item = _.find(this.data, t => t.key === key);
+    this.createDistabled = true
     if ( data ) {
       item.data = _.clone(data);
     } else {
@@ -156,6 +158,7 @@ export class SeerSimpleTableComponent implements OnInit {
   public create() {
     let keys = _.map(this.data, t => t['key']);
     let maxKey = isNaN(_.max(keys)) ? 0 : _.max(keys);
+    this.createDistabled = false
     let data = {};
      _.each(this.titles, t => {
       data[t.key] = null;
@@ -172,6 +175,7 @@ export class SeerSimpleTableComponent implements OnInit {
   }
   public cancel(key) {
     let item = _.find(this.data, t => t.key === key);
+    this.createDistabled = true
     if ( item.editState === 'CREATE' ) {
       _.remove(this.data, t => t.key === key);
     } else {
