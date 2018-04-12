@@ -1,9 +1,16 @@
 import {Injectable} from "@angular/core";
 import {BaseService,HttpInterceptorService,API,ResModel} from "../../../theme/services"
-import {getStorage} from "../../../theme/libs/utils"
+import {Http, Response, Headers, RequestOptions,ResponseContentType} from '@angular/http';
+import * as _ from 'lodash';
+import {getStorage} from "../../../theme/libs/utils";
+
 let BASE_URL=`http://172.16.1.234:9080`;
 @Injectable()
 export class messageTplManageService extends BaseService<ResModel>{
+  constructor(protected _httpInterceptorService: HttpInterceptorService, protected http?: Http) {
+    super(_httpInterceptorService);
+    //this.setApi("MESSAGES");
+  }
   url=`http://172.16.1.234:9080/templates`  //临时
   getTpls(params?): Promise<ResModel> {
     return this._httpInterceptorService.request('GET', `${BASE_URL}/templates`,params).toPromise();
@@ -29,5 +36,13 @@ export class messageTplManageService extends BaseService<ResModel>{
   deleteTemplate(id: string): Promise<ResModel> {
     return this._httpInterceptorService.request('DELETE', `${BASE_URL}/templates/${id}`).toPromise();
     //return this._httpInterceptorService.request('DELETE', `${this.url}/${id}`).toPromise();
+  }
+  //导出表格
+  exportForm(params): Promise<any> {
+    const access_token = getStorage({ key: 'token' }).access_token;
+    return this.http.get(`${BASE_URL}/templates/specialExport?access_token=${access_token}`, new RequestOptions({
+      responseType: ResponseContentType.Blob,
+      search: params
+    })).toPromise();
   }
 }

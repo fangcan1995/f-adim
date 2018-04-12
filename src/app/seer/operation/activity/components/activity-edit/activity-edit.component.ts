@@ -9,7 +9,7 @@ import { BsModalService} from 'ngx-bootstrap/modal';
 import {SeerDialogService, SeerMessageService,} from '../../../../../theme/services';
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
 import {ENABLE} from "../../../../common/seer-table/seer-table.actions";
-
+declare var $: any;
 declare let laydate;
 
 @Component({
@@ -183,7 +183,7 @@ export class ActivityEditComponent {
             }).catch(err => {
               this.showError(err.msg || '获取失败');
             });
-          
+
 
         } else if (this._editType === 'add') {
           this.forbidSaveBtn = false;
@@ -203,7 +203,7 @@ export class ActivityEditComponent {
           this.awardsDTO=this.activity.awardsDTO;
           this.scopesDTO=this.activity.scopesDTO;
 
-          
+
 
         }
         //渲染日期时间组件
@@ -212,7 +212,7 @@ export class ActivityEditComponent {
             type: 'datetime',
             done: (value, date, endDate) => {
               this.baseInfoDTO.beginTime = value;
-              
+
             }
           })
           laydate.render({
@@ -294,6 +294,7 @@ export class ActivityEditComponent {
       this.awardsDTO[type][this.awardCurrIndex]= award;
     }
     this.modalRef.hide();
+    $('body').removeClass('modal-open');
   }
   //3 删除奖励
   delAward(type,index){
@@ -476,7 +477,8 @@ export class ActivityEditComponent {
     ];
       this.modalRef = this.modalService.show(template,this.modalClass);
       this.modalGetMembersList();
-      this.selectedUserId=_.cloneDeep(this.scopesDTO);   //防止没确定前更新数据
+      this.selectedUserId.splice(0,this.selectedUserId.length);//清空已经选中的id
+      //this.selectedUserId=_.cloneDeep(this.scopesDTO);   //防止没确定前更新数据
 
   }
   //1-2 获取会员列表
@@ -487,17 +489,17 @@ export class ActivityEditComponent {
       this.modalPageInfo.total=res.data.total; //记录总数
       this.modalUsers = res.data.list;
       //渲染已经被选择的会员
-      console.log('选中的会员');
+      console.log('渲染选中的会员');
       console.log(this.modalUsers);
-      /*this.modalUsers = _.map(this.modalUsers, r =>{
-          let idIndex=this.scopesDTO.findIndex(x => x == r.memberId);
+      this.modalUsers = _.map(this.modalUsers, r =>{
+          let idIndex=this.selectedUserId.findIndex(x => x == r.memberId);
           if(idIndex!=-1){
             return _.set(r, 'selected', 1)
           }else{
             return _.set(r, 'selected', 0)
           }
         }
-      );*/
+      );
     });
   }
   //1-3 会员模态框事件绑定
@@ -517,9 +519,11 @@ export class ActivityEditComponent {
         this.isSelectedMember=true;
 
         this.modalService.hide(1);
+        $('body').removeClass('modal-open');
         break;
       case 'cancel':
         this.modalService.hide(1);
+        $('body').removeClass('modal-open');
         break;
       case 'all':
         //1 将后台返回会员id加入参加范围数组中
@@ -537,6 +541,7 @@ export class ActivityEditComponent {
         });
 
         this.modalService.hide(1);
+        $('body').removeClass('modal-open');
         break;
       default:
         break;
@@ -550,6 +555,8 @@ export class ActivityEditComponent {
     switch (type){
       case 'select_one':
         //选中追加到数组中，否则从数组中删除
+        console.log('选中的用户');
+        console.log(this.selectedUserId);
         let idIndex=this.selectedUserId.findIndex(x => x == data[keyId]);
         if(data.selected){
           if(idIndex<0){
@@ -585,6 +592,7 @@ export class ActivityEditComponent {
     this.modalPageInfo.pageSize = $event.pageSize;
     this.modalPageInfo.pageNum=$event.pageNum;
     this.modalGetMembersList();
+
   }
   //1-6 格式化查询参数
   modalFiltersChanged($event){
@@ -665,6 +673,7 @@ export class ActivityEditComponent {
           this.awardCurr.activityId=event.data.activityCode;
         }
         this.modalParentsRef.hide();
+        $('body').removeClass('modal-open');
         break;
       default:
         break;
