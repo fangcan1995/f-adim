@@ -87,18 +87,30 @@ export class MessageComponent {
     "beginTime":"",
     "endTime":"",
     "msgProfile":"",
+    "excelmaps": {
+      msgTitle: '消息名称',
+      adaptationUser: '适配用户',
+      businessType: '消息类型',
+      sendMail: '消息中心',
+      sendNotify: '推送通知',
+      sendMessage:'短信通知',
+      msgProfile:'消息简介',
+      expectSendTime:'下发时间',
+      updateTime:'最后修改时间',
+      updateUser:'最后修改人',
+    }
   }; //分页、排序、检索
   source = [];
   titles = [
     {key:'msgTitle',label:'消息名称'},
-    {key:'adaptationUser', label:'适配用户',isDict:true,category:"ADAPTATION_USER"},
-    {key:'businessType',label:'消息类型',isDict:true,category:"BUSINESS_TYPE"},
-    {key:'sendMail',label:'消息中心',isDict:true,category:"SEND_MAIL"},
-    {key:'sendNotify',label:'推送通知',isDict:true,category:"SEND_NOTIFY"},
-    {key:'sendMessage',label:'短信通知',isDict:true,category:"SEND_MESSAGE"},
+    {key:'adaptationUser', label:'适配用户',isDict:true,category:"ADAPTATION_USER",textAlign:'center'},
+    {key:'businessType',label:'消息类型',isDict:true,category:"BUSINESS_TYPE",textAlign:'center'},
+    {key:'sendMail',label:'消息中心',isDict:true,category:"SEND_MAIL",textAlign:'center'},
+    {key:'sendNotify',label:'推送通知',isDict:true,category:"SEND_NOTIFY",textAlign:'center'},
+    {key:'sendMessage',label:'短信通知',isDict:true,category:"SEND_MESSAGE",textAlign:'center'},
     {key:'msgProfile',label:'消息简介'},
-    {key:'expectSendTime',label:'下发时间',type:'date-time'},
-    {key:'updateTime',label:'最后修改时间',type:'date-time'},
+    {key:'expectSendTime',label:'下发时间',type:'date-time',textAlign:'center'},
+    {key:'updateTime',label:'最后修改时间',type:'date-time',textAlign:'center'},
     {key:'updateUser',label:'最后修改人'},
   ];
 
@@ -146,8 +158,7 @@ export class MessageComponent {
 
   //增删改预览
   onChange(message):void {
-      const type = message.type;
-      let data = message.data;
+      let { type, data, column} = message;
       switch (type) {
         case 'create':
           this._router.navigate([`add`], {relativeTo: this._route});
@@ -186,9 +197,26 @@ export class MessageComponent {
               }
             });
           break;
-        case 'delete_all':
+        
 
-      }
+        case 'hideColumn':
+          this.pageInfo.excelmaps = column;
+          break;
+        case 'export':
+          this.service.exportForm(this.pageInfo)
+            .then(res => {
+              let blob = res.blob();
+              let a = document.createElement('a');
+              let url = window.URL.createObjectURL(blob);
+              a.href = url;
+              a.download = '消息管理' + '.xls';
+              a.click();
+              window.URL.revokeObjectURL(url);
+            }).catch(err => {
+              this.showError(err.msg);
+          })
+          break;
+    }
     }
 
   //换页

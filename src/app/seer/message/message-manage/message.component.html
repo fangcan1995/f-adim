@@ -1,11 +1,12 @@
-<seer-collapse-card>
+<seer-content-top [fixedTop]=false>
   <seer-filter
     [hasGlobalFilter]="hasGlobalFilter"
     [filters]="filters"
     (onFiltersChanged)=handleFiltersChanged($event)
     (onSearchBtnClicked)=handleFiltersChanged($event)
   ></seer-filter>
-
+</seer-content-top>
+<seer-collapse-card>
   <seer-table
     [data]="source"
     [titles]="titles"
@@ -14,10 +15,10 @@
     [total]="pageInfo.total"
     [paginationRules]="0"
     [showSeq]="true"
-    [hideExport]="true"
+    [hideExport]="false"
     [hidePrint]="true"
     [hideRemoveAll]="true"
-    [hideColumns]="true"
+    [hideColumns]="false"
     [hideCheckbox]="true"
     (notify)="onChange($event)"
     (changePage)="handlePageChange($event)"

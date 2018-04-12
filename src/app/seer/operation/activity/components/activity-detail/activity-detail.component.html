@@ -63,7 +63,7 @@
                     <label class="form-control number addUnit">{{baseInfoDTO.investMinMoney}}</label>
                     <span class="unit">元</span>
                   </div>
-                  <label class="col-sm-2">至</label>
+                  <label class="col-sm-2 interval">至</label>
                   <div class="col-sm-5" style="position: relative">
                     <label class="form-control number addUnit">{{baseInfoDTO.investMaxMoney}}</label>
                     <span class="unit">元</span>
@@ -79,7 +79,7 @@
                     <label class="form-control number addUnit">{{baseInfoDTO.investMinNum}}</label>
                     <span class="unit">次</span>
                   </div>
-                  <label class="col-sm-2">至</label>
+                  <label class="col-sm-2 interval">至</label>
                   <div class="col-sm-5">
                     <label class="form-control number addUnit">{{baseInfoDTO.investMaxNum}}</label>
                     <span class="unit">次</span>
@@ -95,7 +95,7 @@
                 <div class="col-sm-5">
                   <label class="form-control">{{baseInfoDTO.beginTime| date:'yyyy-MM-dd'}}</label>
                 </div>
-                <label class="col-sm-2">至</label>
+                <label class="col-sm-2 interval">至</label>
                 <div class="col-sm-5">
                   <label class="form-control">{{baseInfoDTO.endTime| date:'yyyy-MM-dd'}}</label>
                 </div>
@@ -111,7 +111,7 @@
                   <label class="form-control number addUnit">{{baseInfoDTO.participateNum1}}</label>
                   <span class="unit">次</span>
                 </div>
-                <label class="col-sm-2">/</label>
+                <label class="col-sm-2 interval">/</label>
                 <div class="col-sm-5">
                   <label class="form-control number addUnit">{{baseInfoDTO.participateNum2}}</label>
                   <span class="unit">天</span>
@@ -152,51 +152,51 @@
         <table class="table table-hover" >
           <thead>
           <th>奖品名称</th>
-          <th>类型</th>
-          <th>已抽数量</th>
-          <th>奖品数量</th>
-          <th>发放概率(%)</th>
-          <th>操作</th>
+          <th class="t-a-center">类型</th>
+          <th class="t-a-right">已抽数量</th>
+          <th class="t-a-right">奖品数量</th>
+          <th class="t-a-right">发放概率(%)</th>
+          <th class="t-a-center">操作</th>
           </thead>
           <tbody>
           <tr *ngFor="let redEnvelope of awardsDTO.redEnvelopesDTOs;let i=index">
             <td>{{redEnvelope.reName}}</td>
-            <td>{{redEnvelope.awardTitle}}</td>
-            <td>{{redEnvelope.awardSentSum}}</td>
-            <td>{{redEnvelope.awardSum}}</td>
-            <td>{{redEnvelope.awardPersents}}</td>
-            <td>
+            <td class="t-a-center">{{redEnvelope.awardTitle}}</td>
+            <td class="t-a-right">{{redEnvelope.awardSentSum}}</td>
+            <td class="t-a-right">{{redEnvelope.awardSum}}</td>
+            <td class="t-a-right">{{redEnvelope.awardPersents}}</td>
+            <td class="t-a-center">
               <i class="table-action icon-preview" title="预览" (click)="openAwardsModal('redEnvelopesDTOs',award1,i,true)" *ngIf="redEnvelope.awardTitle=='现金红包'"></i>
               <i class="table-action icon-preview" title="预览" (click)="openAwardsModal('redEnvelopesDTOs',award2,i,true)" *ngIf="redEnvelope.awardTitle=='返现红包'"></i>
             </td>
           </tr>
           <tr *ngFor="let rateCoupon of awardsDTO.rateCouponsDTOs;let i=index">
             <td>{{rateCoupon.rcName}}</td>
-            <td>{{rateCoupon.awardTitle}}</td>
-            <td>{{rateCoupon.awardSentSum}}</td>
-            <td>{{rateCoupon.awardSum}}</td>
-            <td>{{rateCoupon.awardPersents}}</td>
-            <td>
+            <td class="t-a-center">{{rateCoupon.awardTitle}}</td>
+            <td class="t-a-right">{{rateCoupon.awardSentSum}}</td>
+            <td class="t-a-right">{{rateCoupon.awardSum}}</td>
+            <td class="t-a-right">{{rateCoupon.awardPersents}}</td>
+            <td class="t-a-center">
               <i class="table-action icon-preview" title="预览" (click)="openAwardsModal('rateCouponsDTOs',award3,i,true)"></i>
             </td>
           </tr>
           <tr *ngFor="let physicalReward of awardsDTO.physicalRewardsDTOs;let i=index">
             <td>{{physicalReward.prName}}</td>
-            <td>{{physicalReward.awardTitle}}</td>
-            <td>{{physicalReward.awardSentSum}}</td>
-            <td>{{physicalReward.awardSum}}</td>
-            <td>{{physicalReward.awardPersents}}</td>
-            <td>
+            <td class="t-a-center">{{physicalReward.awardTitle}}</td>
+            <td class="t-a-right">{{physicalReward.awardSentSum}}</td>
+            <td class="t-a-right">{{physicalReward.awardSum}}</td>
+            <td class="t-a-right">{{physicalReward.awardPersents}}</td>
+            <td class="t-a-center">
               <i class="table-action icon-preview" title="预览" (click)="openAwardsModal('physicalRewardsDTOs',award4,i,true)"></i>
             </td>
           </tr>
           <tr *ngFor="let raffleTicket of awardsDTO.raffleTicketsDTOs;let i=index">
             <td>{{raffleTicket.rtName}}</td>
-            <td>{{raffleTicket.awardTitle}}</td>
-            <td>{{raffleTicket.awardSentSum}}</td>
-            <td>{{raffleTicket.awardSum}}</td>
-            <td>{{raffleTicket.awardPersents}}</td>
-            <td>
+            <td class="t-a-center">{{raffleTicket.awardTitle}}</td>
+            <td class="t-a-right">{{raffleTicket.awardSentSum}}</td>
+            <td class="t-a-right">{{raffleTicket.awardSum}}</td>
+            <td class="t-a-right">{{raffleTicket.awardPersents}}</td>
+            <td class="t-a-center">
               <i class="table-action icon-preview" title="预览" (click)="openAwardsModal('raffleTicketsDTOs',award5,i,true)"></i>
             </td>
           </tr>
@@ -253,6 +253,7 @@
               [hideColumns]="true"
               [hideAddButton]="true"
               [hideCheckbox]="true"
+              [hideActions]="true"
               (notify)="onChange($event)"
               (changePage)="recordsPageChange($event)"
 

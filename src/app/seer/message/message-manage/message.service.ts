@@ -1,23 +1,26 @@
 import {Injectable} from "@angular/core";
-import {BaseService,HttpInterceptorService,API,ResModel} from "../../../theme/services";
-import { parseJson2URL, getStorage } from '../../../theme/libs/utils';
-
+import {BaseService,HttpInterceptorService,API,ResModel} from "../../../theme/services"
+import {Http, Response, Headers, RequestOptions,ResponseContentType} from '@angular/http';
+import * as _ from 'lodash';
+import {getStorage} from "../../../theme/libs/utils";
 let BASE_URL=`http://172.16.1.234:9080`;
 
 @Injectable()
 
 
 export class MessageService extends BaseService<ResModel>{
-  constructor(protected _httpInterceptorService: HttpInterceptorService,) {
+  constructor(protected _httpInterceptorService: HttpInterceptorService, protected http?: Http) {
     super(_httpInterceptorService);
-    //this.setApi('MESSAGES');
+    //this.setApi("MESSAGES");
   }
   accessToken = getStorage({ key: 'token' }).access_token;
 
   url=`http://172.16.1.234:9080/messages`  //临时
 
   // 1 获取消息列表
-  getDatas(params:any): Promise<ResModel> {
+  getDatas(params?): Promise<ResModel> {
+    console.log('列表');
+    console.log(params);
     return this._httpInterceptorService.request('GET', `${BASE_URL}/messages`,params).toPromise();
     //return this._httpInterceptorService.request('GET', `${this.url}`,params).toPromise();
     //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MESSAGES']}`,params).toPromise();
@@ -70,7 +73,7 @@ export class MessageService extends BaseService<ResModel>{
     //let url=`http://172.16.1.234:9080/records/${id}/message`;
     return this._httpInterceptorService.request('GET', url,params).toPromise();
   }
-// 获取接收消息的人员id字符串
+  //9 获取接收消息的人员id字符串
   getIds(usersType:string,params?): Promise<ResModel> {
     //根据userType调用不同接口
     let url:string;
@@ -83,5 +86,19 @@ export class MessageService extends BaseService<ResModel>{
     }
     return this._httpInterceptorService.request('GET', url,params).toPromise();
 
+  }
+  //10 导出表格
+  exportForm(params): Promise<any> {
+    const access_token = getStorage({ key: 'token' }).access_token;
+    return this.http.get(`${BASE_URL}/messages/specialExport?access_token=${access_token}`, new RequestOptions({
+      responseType: ResponseContentType.Blob,
+      search: params
+    })).toPromise();
+  }
+  //8 查询会员id数组中的会员列表
+  getIdsMembers(params):Promise<ResModel> {
+    //return this._httpInterceptorService.request('GET', `${this.url}/scope?access_token=${this.accessToken}`, params).toPromise();
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/activities/scope`,params).toPromise();
+    //console.log(ids);
   }
 }
