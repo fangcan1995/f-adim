@@ -12,7 +12,7 @@ export class ResModel {
     extras?: any;
 }
 let errorCode = new Map()
-errorCode.set('TimeoutError', '请求超时11111');
+errorCode.set('TimeoutError', '请求超时');
 
 @Injectable()
 export class HttpInterceptorService {

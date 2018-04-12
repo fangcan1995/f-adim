@@ -407,7 +407,6 @@ export class MessageEditComponent {
   //获取列表
   getUsersList():void{
     this.service.getUsers(this.usersType,this.modalPageInfo).then(res => {
-      console.log();
       this.modalPageInfo.pageNum=res.data.pageNum;  //当前页
       this.modalPageInfo.pageSize=res.data.pageSize; //每页记录数
       this.modalPageInfo.total=res.data.total; //记录总数
