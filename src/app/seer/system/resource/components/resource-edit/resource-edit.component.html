@@ -1,12 +1,15 @@
 <seer-content-top>
   <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
-  <button class="btn btn-primary left-button"[disabled]="(editType === 'edit' && !myForm.form.dirty) || !myForm.form.valid || forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
+  <button class="btn btn-primary left-button" 
+    [disabled]="(editType === 'edit' && !myForm.form.dirty) || !myForm.form.valid || uploadSys.length === defaultSysLength || forbidSaveBtn" 
+    (click)="handleSaveBtnClick()"
+    >保存</button>
 </seer-content-top>
 <div class="widgets">
   <div class="row justify-content-center">
     <div class="col-md-12">
       <seer-collapse-card cardTitle="资源管理" cardClass="with-scroll" [canCollapse]=false>
-        <form class="form-horizontal" #myForm="ngForm">
+        <form class="form-horizontal info" #myForm="ngForm">
           <div class="row">
 
             <div class="col-sm-12 col-md-6 form-group">
@@ -18,7 +21,7 @@
                     class="form-control"
                     id="menuId"
                     name="menuId"
-                    placeholder="菜单编号"
+                    placeholder="将自动生成"
                     [(ngModel)]="resource.menuId"
                     disabled
                     />
@@ -40,6 +43,7 @@
                     maxlength="10"
                     [(ngModel)]="resource.menuName"
                     />
+                    <p class="text-danger" *ngIf="menuName.errors.required">*必填项</p>
                 </div>
               </div>
             </div>
@@ -56,6 +60,7 @@
                     [(ngModel)]="resource.menuPid">
                     <option *ngFor="let resource of resourceList" [value]="resource.menuId">{{ resource.menuName }}</option>
                   </select>
+                  <p class="text-danger">*必填项</p>
                 </div>
               </div>
             </div>
@@ -67,13 +72,14 @@
                   <select
                     class="form-control"
                     id="menuType"
-                    [(ngModel)]="resource.menuType || defaultMenuType"
+                    [(ngModel)]="resource.menuType"
                     name="menuType"
                     [required]=true
                     dict-select
                     [key]="'MENU_TYPE'"
                     >
                   </select>
+                  <p class="text-danger">*必填项</p>
                 </div>
               </div>
             </div>
@@ -92,6 +98,7 @@
                     [(ngModel)]="resource.hrefUrl"
                     maxlength="50"
                     />
+                    <p class="text-danger">*必填项</p>
                 </div>
               </div>
             </div>
@@ -110,6 +117,7 @@
                     [(ngModel)]="resource.sortNum"
                     maxlength="3"
                     />
+                    <p class="text-danger">*必填项</p>
                 </div>
               </div>
             </div>
@@ -121,13 +129,14 @@
                   <select
                     class="form-control"
                     id="menuStatus"
-                    [(ngModel)]="resource.menuStatus || defaultMenuStatus"
+                    [(ngModel)]="resource.menuStatus"
                     name="menuStatus"
                     dict-select
                     [required]=true
                     [key]="'MENU_STATUS'"
                     >
                   </select>
+                  <p class="text-danger">*必填项</p>
                 </div>
               </div>
             </div>
@@ -194,7 +203,9 @@
                                 (change)="present()"
                             ></seer-cool-checkbox> {{ system.systemName }}
                         </label>
+                        <p class="text-danger">*必填项</p>
                     </div>
+                    
                 </div>
             </div>
 

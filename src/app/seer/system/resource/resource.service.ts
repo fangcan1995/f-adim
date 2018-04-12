@@ -21,6 +21,7 @@ export class ResourceService extends BaseService<ResourceModel> {
 
 
     exportForm(params): Promise<any> {
+        console.log(params);
         const access_token = getStorage({ key: 'token' }).access_token;
         return this.http.get(`${this.exportFile}?access_token=${access_token}`, new RequestOptions({
             responseType: ResponseContentType.Blob,
