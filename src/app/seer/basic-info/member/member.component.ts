@@ -49,15 +49,15 @@ export class MemberComponent implements OnInit {
   titles = [
     { key: 'userName', label: '用户名' },
     { key: 'trueName', label: '真实姓名' },
-    { key: 'phoneNumber', label: '手机号' },
-    { key: 'idNumber', label: '身份证号' },
-    { key: 'sex', label: '性别', isDict: true, category: 'M_SEX' },
-    { key: 'registTime', label: '注册时间' },
-    { key: 'status', label: '会员状态', isDict: true, category: 'MEMBER_STATUS' },
-    { key: 'lastLoginTime', label: '最后登录时间' },
-    { key: 'loginIp', label: '最后登录IP' },
+    { key: 'phoneNumber', label: '手机号',textAlign:'center' },
+    { key: 'idNumber', label: '身份证号',textAlign:'center' },
+    { key: 'sex', label: '性别', isDict: true, category: 'M_SEX',textAlign:'center' },
+    { key: 'registTime', label: '注册时间',textAlign:'center' },
+    { key: 'status', label: '会员状态', isDict: true, category: 'MEMBER_STATUS' ,textAlign:'center'  },
+    { key: 'lastLoginTime', label: '最后登录时间' ,textAlign:'center' },
+    { key: 'loginIp', label: '最后登录IP' ,textAlign:'center' },
     // {key: 'invitedMember', label: '邀请人'},
-    { key: 'loginTimes', label: '登录次数' },
+    { key: 'loginTimes', label: '登录次数' ,textAlign:'center' },
   ];
   pageInfo = {
     "pageNum": 1,
