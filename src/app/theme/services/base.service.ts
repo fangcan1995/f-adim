@@ -14,10 +14,9 @@ const BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export let BASE_URL = `http://${BASE_SERVER}`;
 
 //const TEST_DOMAIN = '172.16.1.252';
-const TEST_DOMAIN = 'http://172.16.1.234:9080';
-const TEST_DO = 'http://172.16.1.234';
+const TEST_DOMAIN = 'http://172.16.1.234';
 const TEST_PORT = 9080;
-const TEST_SERVER = `${TEST_DO}:${TEST_PORT}`;
+const TEST_SERVER = `${TEST_DOMAIN}:${TEST_PORT}`;
 export let TEST_URL = `http://${TEST_SERVER}`;
 
 
