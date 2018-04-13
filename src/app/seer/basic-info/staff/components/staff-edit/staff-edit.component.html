@@ -361,6 +361,7 @@
               #relationView
               [data]="relationsData"
               [titles]="titlesRelation"
+              [primaryKey]="id"
               [hidePagination]="true"
               [actions]="simpleTableActions"
               (notify)="relationsNotify($event)"
@@ -373,6 +374,7 @@
               #experienceView
               [data]="experiencesData"
               [titles]="titlesExperience"
+              [primaryKey]="id"
               [hidePagination]="true"
               [actions]="simpleTableActions"
               (notify)="experiencesNotify($event)"

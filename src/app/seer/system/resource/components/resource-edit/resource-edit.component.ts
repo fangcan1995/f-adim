@@ -29,6 +29,7 @@ export class ResourceEditComponent implements OnInit {
     systemList: any = [];
     copySys: any = [];
     uploadSys: any = [];
+    defaultSysLength : Number;
     defaultMenuStatus: string = '0';
     defaultMenuType: string = '0';
     @ViewChild('myForm') myForm;
@@ -58,6 +59,8 @@ export class ResourceEditComponent implements OnInit {
             this._resourceService.getOne(this.id)
                 .then(res => {
                     this.resource = res.data || {};
+                    this.uploadSys = this.resource.systemId;
+                    this.defaultSysLength = this.resource.systemId.length;
                     return this.getSystemList();
                 })
                 .then(res => {
@@ -89,6 +92,8 @@ export class ResourceEditComponent implements OnInit {
                 this.uploadSys.push(x.systemId);
             }
         });
+        console.log(this.uploadSys.length);
+        console.log(this.defaultSysLength);
     }
 
     getSystemList() {
@@ -129,8 +134,7 @@ export class ResourceEditComponent implements OnInit {
     }
 
     handleSaveBtnClick() {
-
-        if (this.myForm.form.valid) {
+        if (this.myForm.form.valid && this.uploadSys.length !== this.defaultSysLength) {
             this.forbidSaveBtn = true;
             if (this.editType === 'edit') {
                 this.resource.systemId = this.uploadSys;

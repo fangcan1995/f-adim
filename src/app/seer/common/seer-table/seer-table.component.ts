@@ -325,6 +325,18 @@ export class SeerTableComponent implements OnInit {
             pageSize: $event.rowsOnPage,
             pageNum: $event.pageNumber,
         })
+      //edit by lily 20180412
+      let data = this.getData();
+      _.each(data, item => {
+        //实际想实现当前页的所有记录都选中时，selectedAll就选中，没有实现
+        if(item.selected=false){
+          this.selectedAll=false;
+        }
+      })
+      //
+      this.selectedAll=false;
+
+
     }
     onCustomAction({ type }) {
         let data = _.filter(this.data, t => t['selected'])

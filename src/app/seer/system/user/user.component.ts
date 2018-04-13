@@ -91,23 +91,27 @@ export class UserComponent implements OnInit {
         },
         {
             key: 'departmentName',
-            label: '所属机构'
+            label: '所属机构',
+            textAlign: 'left'
         },
         {
             key: 'loginStatus',
             label: '账号状态',
             isDict: true,
             category: 'USER_STATUS_2',
+            textAlign: 'center'
         },
         {
             key: 'createTime',
             label: '创建时间',
             type: 'date-time',
+            textAlign: 'center'
         },
         {
             key: 'updateTime',
             label: '更新时间',
             type: 'date-time',
+            textAlign: 'center'
         },
         {
             key: 'updateUser',
@@ -127,7 +131,8 @@ export class UserComponent implements OnInit {
             key: 'loginDate',
             label: '最后登录时间',
             type: 'date-time',
-            hidden: true
+            hidden: true,
+            textAlign: 'center'
         },
     ];
 

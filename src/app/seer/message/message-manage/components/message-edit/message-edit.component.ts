@@ -8,7 +8,7 @@ import { BsModalService} from 'ngx-bootstrap/modal';
 import { SeerMessageService,SeerDialogService } from '../../../../../theme/services';
 import * as _ from 'lodash';
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
-
+declare var $: any;
 declare let laydate;
 @Component({
   selector: 'message-edit',
@@ -148,9 +148,9 @@ export class MessageEditComponent {
           //前台用户
           this.usersType="members";
           //选定会员列表
-              
+
               this.scopesDTO=this.ids.split(","); ;  //范围列表
-              
+
               this.scopesPageInfo.total=this.scopesDTO.length.toString();
               console.log(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize));
               this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
@@ -165,7 +165,7 @@ export class MessageEditComponent {
             type: 'datetime',
             done: (value, date, expectSendTime) => {
               this.message.expectSendTime = value;
-              
+
             }
           })
   }
@@ -194,6 +194,8 @@ export class MessageEditComponent {
     }
 
     this.ids='';
+    this.selectedUserId.splice(0,this.selectedUserId.length);//清空已经选中的id
+    //this.memberScopes.splice(0,this.memberScopes.length);
 
     this.chooseResult='选择用户';
 
@@ -215,16 +217,10 @@ export class MessageEditComponent {
     if ( this.forbidSaveBtn ) return;
     //this.forbidSaveBtn = true;
     if ( this._editType === 'edit' ) {
-      /*this.message.sendMail=this.Cint(this.message.sendMail);
-      this.message.sendNotify=this.Cint(this.message.sendNotify);
-      this.message.sendMessage=this.Cint(this.message.sendMessage);*/
       this.forbidSaveBtn=true;
       this.message.receivers=this.ids;
-      
       let messageNew=_.cloneDeep(this.message);
       //messageNew.expectSendTime=formatDate(messageNew.expectSendTime,'YYYY-MM-DD hh:mm:ss');
-
-      
 
       this.service.putOne(messageNew).then((data:any) => {
         this.showSuccess(data.msg || '更新成功')
@@ -243,9 +239,10 @@ export class MessageEditComponent {
       this.message.sendMessage=this.Cint(this.message.sendMessage);
       this.message.receivers=this.ids;
       let messageNew=_.cloneDeep(this.message);
-      //messageNew.expectSendTime=formatDate(messageNew.expectSendTime,'YYYY-MM-DD hh:mm:ss');
+      if(this.allowChange){
+        messageNew.expectSendTime='';
+      }
 
-      console.log(messageNew);
       this.service.postOne(messageNew).then((data:any) => {
         this.showSuccess(data.msg || '保存成功')
           .onClose()
@@ -369,10 +366,10 @@ export class MessageEditComponent {
           }
         ];
         this.modalTitles=[
-          {key: 'userName', label: '用户名', hidden: false},
-          {key: 'trueName', label: '真实姓名', hidden: false},
-          {key: 'phoneNumber', label: '手机号', hidden: false},
-          {key: 'idNumber', label: '身份证号', hidden: false},
+          {key: 'userName', label: '用户名',textAlign:'center'},
+          {key: 'trueName', label: '真实姓名',textAlign:'center'},
+          {key: 'phoneNumber', label: '手机号',textAlign:'center'},
+          {key: 'idNumber', label: '身份证号',textAlign:'center'},
         ];
         break;
       case 'users':
@@ -392,10 +389,10 @@ export class MessageEditComponent {
           },
         ];*/
         this.modalTitles= [
-          {key: 'emCode', label: '用户名', hidden: false},
-          {key: 'empName', label: '真实姓名', hidden: false},
-          {key: 'phone', label: '手机号', hidden: false},
-          {key: 'idNum', label: '身份证号', hidden: false},
+          {key: 'emCode', label: '用户名',textAlign:'center'},
+          {key: 'empName', label: '真实姓名',textAlign:'center'},
+          {key: 'phone', label: '手机号',textAlign:'center'},
+          {key: 'idNum', label: '身份证号',textAlign:'center'},
         ];
         break;
       default:
@@ -410,7 +407,6 @@ export class MessageEditComponent {
   //获取列表
   getUsersList():void{
     this.service.getUsers(this.usersType,this.modalPageInfo).then(res => {
-      console.log();
       this.modalPageInfo.pageNum=res.data.pageNum;  //当前页
       this.modalPageInfo.pageSize=res.data.pageSize; //每页记录数
       this.modalPageInfo.total=res.data.total; //记录总数
@@ -450,34 +446,45 @@ export class MessageEditComponent {
         this.ids='';
         this.ids=this.selectedUserId.join(",");
         //this.chooseResult=`已选定${this.ids.split(',').length}人`;
+        /*this.scopesDTO=this.ids.split(","); ;  //范围列表
+        this.scopesPageInfo.total=this.scopesDTO.length.toString();
+        console.log(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize));
+        if(this.usersType='members'){
+          this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
+        }else{
+
+        }*/
         this.modalService.hide(1);
+        $('body').removeClass('modal-open');
         break;
       case 'cancel':
         this.modalService.hide(1);
+        $('body').removeClass('modal-open');
         break;
       case 'all':
         this.ids='';
         this.service.getIds(this.usersType,this.modalPageInfo).then(data=>{
           if(this.usersType=='members'){
             this.ids=data.data || null;
-            this.scopesDTO=this.ids.split(","); ;  //范围列表
-            
-              this.scopesPageInfo.total=this.scopesDTO.length.toString();
-              console.log(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize));
-              this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
-          
+            /*this.scopesDTO=this.ids.split(","); ;  //范围列表
+            this.scopesPageInfo.total=this.scopesDTO.length.toString();
+            console.log(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize));
+            this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息*/
+
           }else if(this.usersType=='users'){
 
             this.ids=data.data.ids || null;
-            
+
           }
           //this.chooseResult=`已选定${this.modalPageInfo.total}人`
         }).catch(err=>{
           this.showError(err.msg || '连接错误');
         });
         this.modalService.hide(1);
+        $('body').removeClass('modal-open');
         break;
       default:
+        $('body').removeClass('modal-open');
         break;
     }
   }
@@ -486,7 +493,8 @@ export class MessageEditComponent {
   modalChangeTable(e){
     const type = e.type;
     let data = e.data;
-
+    console.log('-------------');
+    console.log(e);
     let keyId;
     if(this.usersType=='members'){
       keyId='memberId';
@@ -504,8 +512,6 @@ export class MessageEditComponent {
         }else{
           this.selectedUserId.splice(idIndex,1);
         }
-        console.log('-----------');
-        console.log(this.selectedUserId);
         break;
       case 'select_all':
         //遍历数组，选中追加到数组中，否则从数组中删除
@@ -644,7 +650,7 @@ export class MessageEditComponent {
           console.log(params);
       this.service.getIdsMembers(params)
         .then(res=>{
-          
+
           this.memberScopes = res.data;
           console.log(this.memberScopes);
         }).catch(err=>{

@@ -192,7 +192,7 @@ export class ActivityService extends BaseService<ResModel>{
   //12 导出表格
   exportForm(params): Promise<any> {
     const access_token = getStorage({ key: 'token' }).access_token;
-    return this.http.get(`${BASE_URL}/activities/export?access_token=${access_token}`, new RequestOptions({
+    return this.http.get(`${BASE_URL}/activities/specialExport?access_token=${access_token}`, new RequestOptions({
       responseType: ResponseContentType.Blob,
       search: params
     })).toPromise();

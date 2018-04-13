@@ -58,6 +58,8 @@ export class SeerFilterComponent implements OnInit {
   private isFiltersShown: boolean = false;
   index=null;
   
+  departmentName=null;
+
   filters$ = new Subject();
   @ViewChild('searchBtn') searchBtn;
   constructor(
@@ -226,7 +228,7 @@ export class SeerFilterComponent implements OnInit {
   }
   
   //添加了一个树形结构，用于选择机构
-  treePermissions = TREE_PERMISSIONS.NOTIFY | TREE_PERMISSIONS.ADD | TREE_PERMISSIONS.EDIT | TREE_PERMISSIONS.DELETE | TREE_PERMISSIONS.DRAG | TREE_PERMISSIONS.SHOW_FILTER | TREE_PERMISSIONS.SHOW_ADD_ROOT;
+  treePermissions = TREE_PERMISSIONS.NOTIFY | TREE_PERMISSIONS.SHOW_FILTER | TREE_PERMISSIONS.SHOW_ADD_ROOT;
   treeNode = []; //组织树
 
     /* 获取全部组织机构 */
@@ -283,6 +285,8 @@ export class SeerFilterComponent implements OnInit {
       if($event.eventName == "onFocus") {
         this.nodeName = node.data.name;
         this.nodeId = node.data.id;
+        this.filters[this.index].value=node.data.name
+        this.departmentName=node.data.name
       }
     }
   

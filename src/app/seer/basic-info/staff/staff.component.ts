@@ -78,7 +78,6 @@ export class StaffComponent {
 
   ngOnInit() {
     this.getStaffs();
-    this.getAllOrganizations();
   }
 
 
@@ -96,20 +95,6 @@ export class StaffComponent {
       error => this.errorMessage = <any>error);
   }
 
-  //获取所有部门信息
-  getAllOrganizations():void {
-    this.staffManageService.getAllOrganizations().then(
-      res => {
-        console.log(res)
-        console.log(this.pageInfo.Organization)
-        this.pageInfo.pageNum = res.data.pageNum;  //当前页
-        this.pageInfo.pageSize = res.data.pageSize; //每页记录数
-        this.pageInfo.total = res.data.total; //记录总数
-        this.staffs = res.data.list;
-        this.staffs = _.map(this.staffs, r => _.set(r, 'actions', [UPDATE, DELETE]));
-      },
-      error => this.errorMessage = <any>error);
-  }
   //增删改
   onChange(message): void {
     let { type, data, column} = message;
@@ -125,12 +110,13 @@ export class StaffComponent {
                 let a = document.createElement('a');
                 let url = window.URL.createObjectURL(blob);
                 a.href = url;
-                a.download = '用户管理' + '.xls';
+                a.download = '员工管理' + '.xls';
                 a.click();
                 window.URL.revokeObjectURL(url);
                 console.log(res);
             }).catch(err => {
                 console.log(err);
+                this.alertError(err.msg)  
             })
         break;
       case 'create':
@@ -140,15 +126,15 @@ export class StaffComponent {
         this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
         break;
       case 'delete':
-        this._dialogService.confirm('确定删除吗？')
+        this._dialogService.confirm('确定删除该员工吗，删除后不可恢复？')
           .subscribe(action => {
             if (action === 1) {
               this.staffManageService.deleteOne(data.id).then((data) => {
                 if (data.code == '0') {
-                  this.alertSuccess(data.data);
+                  this.alertSuccess(data.message);
                   this.getStaffs();
                 } else {
-                  this.alertError(data.message);
+                  this.alertError(data.msg);
                 }
               });
             }
@@ -182,10 +168,14 @@ export class StaffComponent {
     // let params = $event;
     const newData = _.cloneDeep($event);
     console.log(newData);
-    newData.entryTimeEnd = newData.entryTimeEnd?newData.entryTimeEnd+' 08:00:00':''
-    newData.entryTimeStart = newData.entryTimeStart?newData.entryTimeStart+' 08:00:00':''
+    newData.entryTimeEnd = newData.entryTimeEnd?newData.entryTimeEnd+' 23:59:59':''
+    newData.entryTimeStart = newData.entryTimeStart?newData.entryTimeStart+' 00:00:00':''
     console.log(newData); 
     this.pageInfo.query = newData;
+    this.pageInfo = {
+      ...this.pageInfo,
+      ...newData
+    }
     this.getStaffs();
   }
 
@@ -193,10 +183,14 @@ export class StaffComponent {
     // let params = $event;
     const newData = _.cloneDeep($event);
     console.log(newData);
-    newData.entryTimeEnd = newData.entryTimeEnd?newData.entryTimeEnd+' 08:00:00':''
-    newData.entryTimeStart = newData.entryTimeStart?newData.entryTimeStart+' 08:00:00':''
+    newData.entryTimeEnd = newData.entryTimeEnd?newData.entryTimeEnd+' 23:59:59':''
+    newData.entryTimeStart = newData.entryTimeStart?newData.entryTimeStart+' 00:00:00':''
     console.log(newData);
     this.pageInfo.query = newData;
+    this.pageInfo = {
+      ...this.pageInfo,
+      ...newData
+    }
     this.getStaffs();
   }
 

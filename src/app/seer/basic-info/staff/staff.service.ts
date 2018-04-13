@@ -167,6 +167,24 @@ export class StaffService extends BaseService<StaffModule> {
           search: params
       })).toPromise();
   }
+
+  // exportForm(pageInfo: any): Promise<any> {
+  //   const access_token = getStorage({ key: 'token' }).access_token;
+  //   const page = `?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
+  //   const sort = `&sortBy=${pageInfo.sort}`;
+  //   const jsonQueryObj = pageInfo.query;
+  //   let query: string = "";
+  //   for (var prop in jsonQueryObj) {
+  //     if (jsonQueryObj[prop]) {
+  //       query += `&${prop}=${jsonQueryObj[prop]}`;
+  //     }
+  //   }
+  //   const url = `${page}${sort}${query}`;
+  //     return this.http.get(`${this.staffsAPI}/export${url}&access_token=${access_token}`, new RequestOptions({
+  //         responseType: ResponseContentType.Blob,
+  //         search: ''
+  //     })).toPromise();
+  // }
 }
 
 

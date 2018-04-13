@@ -51,7 +51,14 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
         "title": '',
         "effectTimeStart": '',
         "effectTimeEnd": '',
-        "total": ''
+        "total": '',
+        excelmaps: {
+            noticeName: '公告名称',
+            title: '公告标题',
+            effectTime: '生效时间',
+            updateTime: '最后修改时间',
+            updateUser: '最后修改人',
+        }
     };
 
     map = {
@@ -117,9 +124,8 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
 
                 break;
             case 'export':
-                this._announcementService.exportForm({
-                    pageInfo:this.pageInfo
-                }).then(res => {
+                this._announcementService.specialExportForm(this.pageInfo)
+                    .then(res => {
                     let blob = res.blob();
                     let a = document.createElement('a');
                     let url = window.URL.createObjectURL(blob);
