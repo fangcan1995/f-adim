@@ -4,7 +4,7 @@ import {Http, Response, Headers, RequestOptions,ResponseContentType} from '@angu
 import * as _ from 'lodash';
 import {getStorage} from "../../../theme/libs/utils";
 
-let BASE_URL=`http://172.16.1.234:9080`;
+let BASE_URL=`http://172.16.1.234`;
 
 @Injectable()
 export class RiskEvalService extends BaseService<ResModel>{
