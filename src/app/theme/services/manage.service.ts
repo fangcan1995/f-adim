@@ -10,6 +10,7 @@ import {
   BASE_URL,
   API,
   BaseService,
+  BASE_LOGIN_URL
 } from './base.service';
 import * as _ from 'lodash';
 import { AuthService } from './auth.service';
@@ -27,7 +28,7 @@ export class ManageService extends BaseService<any> {
   //   return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['USER']}`).toPromise()
   // }
   public getDataFromServer(): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['USER']}?systemType=loan`).toPromise()
+    return this._httpInterceptorService.request('GET', `${BASE_LOGIN_URL}/${API['USER']}?system_type=loan`).toPromise()
   }
   public refreshLocalDataAndNotify() {
     return this.getDataFromServer()

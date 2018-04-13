@@ -35,7 +35,7 @@ export class LoginComponent {
   public verification: AbstractControl;
   public submitted: boolean = false;
  // public imgUrl:any="http://172.16.7.3:8060/uaa/code/image";
-  public imgUrl:any="http://172.16.1.234:9080/uaa/code/image";
+  public imgUrl:any="http://172.16.1.234:8060/uaa/code/image";
   errorMessage: string;
   loginInfo: Object;
   success: boolean;
@@ -78,7 +78,7 @@ export class LoginComponent {
   changeImg(){
     let data=new Date().getTime()
     //this.imgUrl="http://172.16.7.3:8060/uaa/code/image"+'?'+data;
-    this.imgUrl="http://172.16.1.234:9080/uaa/code/image"+'?'+data;
+    this.imgUrl="http://172.16.1.234:8060/uaa/code/image"+'?'+data;
 }
   login(account, password,verification) {
     this._authService.login(account, password,verification)
