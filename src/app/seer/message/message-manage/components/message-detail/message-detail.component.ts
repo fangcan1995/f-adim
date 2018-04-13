@@ -19,12 +19,12 @@ export class MessageDetailComponent {
 
   modalUsers=[];
   modelTitles= [
-    {key: 'name', label: '姓名', hidden: false},
-    {key: 'loginName', label: '账号', hidden: false},
-    {key: 'phone', label: '联系方式', hidden: false},
-    {key: 'mailResult', label: '消息中心',isDict:true,category:"MSG_STATUS"},
-    {key: 'notifyResult', label: '推送',isDict:true,category:"MSG_STATUS"},
-    {key: 'messageResult', label: '短信',isDict:true,category:"MSG_STATUS"},
+    {key: 'name', label: '姓名',textAlign:'center'},
+    {key: 'loginName', label: '账号',textAlign:'center'},
+    {key: 'phone', label: '联系方式',textAlign:'center'},
+    {key: 'mailResult', label: '消息中心',isDict:true,category:"MSG_STATUS",textAlign:'center'},
+    {key: 'notifyResult', label: '推送',isDict:true,category:"MSG_STATUS",textAlign:'center'},
+    {key: 'messageResult', label: '短信',isDict:true,category:"MSG_STATUS",textAlign:'center'},
   ];
   modalPageInfo={
     "pageNum":1,

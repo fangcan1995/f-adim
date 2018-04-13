@@ -197,8 +197,6 @@ export class MessageComponent {
               }
             });
           break;
-        
-
         case 'hideColumn':
           this.pageInfo.excelmaps = column;
           break;

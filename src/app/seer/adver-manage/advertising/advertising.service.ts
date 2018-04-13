@@ -50,7 +50,7 @@ export class AdvertisingService extends BaseService<ResModel>{
   //7 导出表格
   exportForm(params): Promise<any> {
     const access_token = getStorage({ key: 'token' }).access_token;
-    return this.http.get(`${BASE_URL}/advertisings/export?access_token=${access_token}`, new RequestOptions({
+    return this.http.get(`${BASE_URL}/advertisings/specialExport?access_token=${access_token}`, new RequestOptions({
       responseType: ResponseContentType.Blob,
       search: params
     })).toPromise();

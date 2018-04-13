@@ -38,12 +38,13 @@
                     class="form-control"
                     id="menuName"
                     name="menuName"
+                    #menuName='ngModel'
                     placeholder="菜单名称"
                     [required]=true
                     maxlength="10"
                     [(ngModel)]="resource.menuName"
                     />
-                    <p class="text-danger" *ngIf="menuName.errors.required">*必填项</p>
+                    <p class="text-danger" *ngIf="menuName.errors?.required">*必填项</p>
                 </div>
               </div>
             </div>
@@ -56,11 +57,13 @@
                     class="form-control"
                     id="menuPid"
                     name="menuPid"
+                    #menuPid='ngModel'
+                    required
                     [required]=true
                     [(ngModel)]="resource.menuPid">
                     <option *ngFor="let resource of resourceList" [value]="resource.menuId">{{ resource.menuName }}</option>
                   </select>
-                  <p class="text-danger">*必填项</p>
+                  <p class="text-danger" *ngIf="menuPid.errors?.required">*必填项</p>
                 </div>
               </div>
             </div>
@@ -74,12 +77,13 @@
                     id="menuType"
                     [(ngModel)]="resource.menuType"
                     name="menuType"
+                    #menuType='ngModel'
                     [required]=true
                     dict-select
                     [key]="'MENU_TYPE'"
                     >
                   </select>
-                  <p class="text-danger">*必填项</p>
+                  <p class="text-danger" *ngIf="menuType.errors?.required">*必填项</p>
                 </div>
               </div>
             </div>
@@ -93,12 +97,13 @@
                     class="form-control"
                     id="hrefUrl"
                     name="hrefUrl"
+                    #hrefUrl='ngModel'
                     placeholder="链接地址"
                     [required]=true
                     [(ngModel)]="resource.hrefUrl"
                     maxlength="50"
                     />
-                    <p class="text-danger">*必填项</p>
+                    <p class="text-danger" *ngIf="hrefUrl.errors?.required">*必填项</p>
                 </div>
               </div>
             </div>
@@ -112,12 +117,13 @@
                     class="form-control"
                     id="sortNum"
                     name="sortNum"
+                    #sortNum='ngModel'
                     placeholder="菜单顺序"
                     [required]=true
                     [(ngModel)]="resource.sortNum"
                     maxlength="3"
                     />
-                    <p class="text-danger">*必填项</p>
+                    <p class="text-danger" *ngIf="sortNum.errors?.required">*必填项</p>
                 </div>
               </div>
             </div>
@@ -131,12 +137,13 @@
                     id="menuStatus"
                     [(ngModel)]="resource.menuStatus"
                     name="menuStatus"
+                    #menuStatus='ngModel'
                     dict-select
                     [required]=true
                     [key]="'MENU_STATUS'"
                     >
                   </select>
-                  <p class="text-danger">*必填项</p>
+                  <p class="text-danger" *ngIf="menuStatus.errors?.required">*必填项</p>
                 </div>
               </div>
             </div>

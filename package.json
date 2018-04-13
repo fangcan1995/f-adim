@@ -6,7 +6,7 @@
     "ng": "ng",
     "rimraf": "rimraf",
     "changelog": "standard-changelog",
-    "start": "ng serve -host 172.16.6.2 --port 4400",
+    "start": "ng serve",
     "start:hmr": "ng serve --hmr",
     "start:aot": "ng serve --aot",
     "start:prod": "ng serve --prod",
