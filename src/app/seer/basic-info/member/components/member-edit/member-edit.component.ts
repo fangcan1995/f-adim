@@ -209,6 +209,7 @@ export class MemberEditComponent implements OnInit {
       this._memberService.putVehicle(this.memberId,vehicle.id, vehicle).then((result) => {
         //更新页面显示
         let idIndex=this.vehicleInfo.findIndex(x => x.id == vehicle.id);
+        vehicle.pricePotential = parseFloat(vehicle.pricePotential).toFixed(2);
         this.vehicleInfo[idIndex]=vehicle;
         this.modalRef.hide();
         this.showSuccess(result.message || '修改成功');
@@ -219,6 +220,7 @@ export class MemberEditComponent implements OnInit {
       //新增
         this._memberService.postVehicle(this.memberId,vehicle).then((result) => {
           vehicle.id = result.data.id;
+          vehicle.pricePotential = parseFloat(vehicle.pricePotential).toFixed(2);
           this.vehicleInfo.push(vehicle);
           this.modalRef.hide();
           this.showSuccess(result.message || '新增成功');
@@ -237,6 +239,7 @@ export class MemberEditComponent implements OnInit {
       this._memberService.putHouse(this.memberId, house.id, house).then((result) => {
         //更新页面显示
         let idIndex=this.houseInfo.findIndex(x => x.id == house.id);
+        house.pricePotential = parseFloat(house.pricePotential).toFixed(2);
         this.houseInfo[idIndex]=house;
         this.modalRef.hide();
         this.showSuccess(result.message || '修改成功');
@@ -247,6 +250,7 @@ export class MemberEditComponent implements OnInit {
       //新增
       this._memberService.postHouse(this.memberId,house).then((result) => {debugger;
         house.id=result.data.id;
+        house.pricePotential = parseFloat(house.pricePotential).toFixed(2);
         this.houseInfo.push(house);
         this.modalRef.hide();
         this.showSuccess(result.message || '新增成功');
