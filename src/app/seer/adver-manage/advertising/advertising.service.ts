@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
 import {BaseService,HttpInterceptorService,API,ResModel} from "../../../theme/services"
 import { Headers, Http, RequestOptions, ResponseContentType } from '@angular/http';
-import {getStorage} from "../../../theme/libs/utils";
-let BASE_URL=`http://172.16.1.221:9080`;
+import {getStorage,parseJson2URL} from "../../../theme/libs/utils";
+let BASE_URL=`http://172.16.1.234:9080`;
 
 @Injectable()
 export class AdvertisingService extends BaseService<ResModel>{
@@ -12,7 +12,6 @@ export class AdvertisingService extends BaseService<ResModel>{
   }
   // 1 获取数据列表
   getList(params?):Promise<ResModel> {
-
     //return this._httpInterceptorService.request('GET', `${this.url}?access_token=${this.accessToken}`,params).toPromise();
     return this._httpInterceptorService.request('GET', `${BASE_URL}/advertisings`,params).toPromise();
   }
@@ -49,10 +48,11 @@ export class AdvertisingService extends BaseService<ResModel>{
   }*/
   //7 导出表格
   exportForm(params): Promise<any> {
+    console.log(params);
     const access_token = getStorage({ key: 'token' }).access_token;
     return this.http.get(`${BASE_URL}/advertisings/specialExport?access_token=${access_token}`, new RequestOptions({
       responseType: ResponseContentType.Blob,
-      search: params
+      search: parseJson2URL(params)  //数据
     })).toPromise();
   }
 

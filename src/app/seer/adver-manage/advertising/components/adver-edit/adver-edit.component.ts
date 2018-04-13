@@ -30,7 +30,6 @@ export class AdverEditComponent implements OnInit{
   expiryTime; //结束时间
   //putStatus; //投放状态
   //上传图片相关
-  //fileApi=`http://172.16.1.221:9080/advertisings`; //上传接口
   fileApi=`${BASE_URL}/advertisings`; //上传接口
 
   token = getStorage({ key: 'token' });
@@ -100,7 +99,7 @@ export class AdverEditComponent implements OnInit{
             type: 'datetime',
             done: (value, date, effectTime) => {
               this.advertising.effectTime = value;
-              
+
             }
           })
           laydate.render({

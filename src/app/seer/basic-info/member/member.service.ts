@@ -4,8 +4,9 @@ import {Http, Response, Headers, RequestOptions,ResponseContentType} from '@angu
 import {getStorage} from "../../../theme/libs/utils"
 @Injectable()
 export class MemberService extends BaseService<ResModel>{
-  //  MembersUrl=`${TEST_URL}/${API['MEMBERS']}`; //会员接口
-  MembersUrl=`http://172.16.1.225:9080/members`; //会员接口
+    //MembersUrl=`${TEST_URL}/${API['MEMBERS']}`; //会员接口
+  //MembersUrl=`http://172.16.1.225:9080/members`; //会员接口
+  MembersUrl=`http://172.16.1.234:9080/members`; //会员接口
   emergencyContactUrl=`contact`;//联系人
   VehicleContactUrl=`car`;//车辆
   HouseContactUrl=`house`;//车辆

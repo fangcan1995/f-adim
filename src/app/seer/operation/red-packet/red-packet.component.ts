@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 /*import {SeerDialogService} from "../../../theme/services/seer-dialog.service";*/
 import {RedPacketService} from "./red-packet.service";
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
+import {SeerMessageService} from "../../../theme/services";
 
 @Component({
   templateUrl: './red-packet.component.html',
@@ -66,7 +67,11 @@ export class RedPacketComponent {
   };
 
   constructor(private _redPacketService: RedPacketService,
-              private _router: Router, private _activatedRoute: ActivatedRoute) {}
+              private _router: Router,
+              private _activatedRoute: ActivatedRoute,
+              private _messageService: SeerMessageService,
+
+  ){}
 
   ngOnInit(): void {
     this.getList();
@@ -89,11 +94,13 @@ export class RedPacketComponent {
             default:
               break;
           }
-          console.log(t.someStatus);
+          //console.log(t.someStatus);
           return _.set(t, 'actions', actions);
 
         })
-      })
+      }).catch(err=> {
+       this.showError(err.msg || '连接失败');
+     })
   }
 
   //多条件查询
@@ -129,6 +136,14 @@ export class RedPacketComponent {
     this.pageInfo.pageSize = $event.pageSize;
     this.pageInfo.pageNum=$event.pageNum;
     this.getList();
+  }
+  //失败提示
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
   }
 
 

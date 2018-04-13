@@ -26,40 +26,44 @@ export class MemberInfoComponent implements OnInit {
     {
       key:'contName',
       label:'姓名',
+      textAlign:'left',
     },
     {
       key:'contRelation',
       label:'关系',
+      textAlign:'center',
     },
     {
       key:'contPhone',
       label:'手机号',
+      textAlign:'center',
     },
     {
       key:'contIdnum',
       label:'身份证号',
+      textAlign:'center',
     }
   ];//关系人
 
   titlesVehicleInfo= [
-    { key:'carBrand', label:'车辆品牌' },
+    { key:'carBrand', label:'车辆品牌',textAlign:'center' },
     { key:'carModel', label:'车辆型号' },
-    { key:'viNumber', label:'车架号' },
-    { key:'carNumber', label:'车牌号'},
-    { key:'carRegNumber', label:'登记证号' },
-    { key:'carAge', label:'购车年份' },
-    { key:'mileage', label:'行驶里程' },
-    { key:'pricePotential', label:'评估价格' },
+    { key:'viNumber', label:'车架号',textAlign:'center' },
+    { key:'carNumber', label:'车牌号',textAlign:'center'},
+    { key:'carRegNumber', label:'登记证号',textAlign:'center' },
+    { key:'carAge', label:'购车年份',textAlign:'center' },
+    { key:'mileage', label:'行驶里程',textAlign:'right' },
+    { key:'pricePotential', label:'评估价格' ,textAlign:'right'},
   ]; //车
   titlesHouseInfo= [
     { key:'houseAdress', label:'房产地址' },
-    { key:'area', label:'建筑面积' },
-    { key:'houseType', label:'房屋类型', isDict: true, category: 'HOUSE_TYPE'  },
-    { key:'houseAge', label:'竣工年份'},
-    { key:'debtMoney', label:'尚欠贷余额' },
-    { key:'landNo', label:'土地所有证号' },
-    { key:'houseBelongNo', label:'房屋所有权证号' },
-    { key:'pricePotential', label:'评估价格' },
+    { key:'area', label:'建筑面积',textAlign:'right' },
+    { key:'houseType', label:'房屋类型', isDict: true, category: 'HOUSE_TYPE' ,textAlign:'center'  },
+    { key:'houseAge', label:'竣工年份',textAlign:'center'},
+    { key:'debtMoney', label:'尚欠贷余额',textAlign:'right' },
+    { key:'landNo', label:'土地所有证号' ,textAlign:'center'},
+    { key:'houseBelongNo', label:'房屋所有权证号',textAlign:'center' },
+    { key:'pricePotential', label:'评估价格' ,textAlign:'right'},
     { key:'loanYear', label:'贷款年限' },
     { key:'debtBank', label:'按揭银行' },
     { key:'houseScale', label:'产权份额' },

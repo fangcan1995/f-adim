@@ -21,7 +21,7 @@ export class InfoPublishService extends BaseService<any>{
 
     public uploader: FileUploader;
     private progress: number = 0;
-    
+
   constructor(
     protected _httpInterceptorService:HttpInterceptorService
   ) {
@@ -34,9 +34,9 @@ export class InfoPublishService extends BaseService<any>{
         return Promise.reject(error.message || error);
     }
 
-    apiTypeUrl = 'http://172.16.1.221:9080/affiche/type';
+    /*apiTypeUrl = 'http://172.16.1.221:9080/affiche/type';
     apiInfoUrl = 'http://172.16.1.221:9080/affiche/info';
-    typeToInfo = 'http://172.16.1.221:9080/affiche/typetoinfo';
+    typeToInfo = 'http://172.16.1.221:9080/affiche/typetoinfo';*/
 
     //access_token = getStorage({ key: 'token'}).access_token;
     access_token = '2c7cf0eb-0003-40c3-a6e7-b5d22a7492c5';

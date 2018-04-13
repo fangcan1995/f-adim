@@ -7,6 +7,7 @@ import { MemberService } from '../../member.service';
 import { SeerMessageService } from '../../../../../theme/services/seer-message.service';
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {UPDATE, DELETE,SAVE} from "../../../../common/seer-table/seer-table.actions"
+import { parseQueryString } from '../../../../../theme/libs';
 
 @Component({
   templateUrl: './member-edit.component.html',
@@ -38,9 +39,9 @@ export class MemberEditComponent implements OnInit {
   saveActionsDistabled=[false];
   titlesEmergencyContact=[
     {key:'contName', label:'姓名'},
-    {key:'contRelation', label:'关系'},
-    {key:'contPhone', label:'手机号',},
-    {key:'contIdnum', label:'身份证号',}
+    {key:'contRelation', label:'关系',textAlign:'center'},
+    {key:'contPhone', label:'手机号',textAlign:'center',},
+    {key:'contIdnum', label:'身份证号',textAlign:'center',}
   ];//关系人
 
   house={}; //房
@@ -82,12 +83,20 @@ export class MemberEditComponent implements OnInit {
       this.memberId=id;
       this.member = res.data || {};
       this.baseInfo=this.member.baseInfo|| {};
+      this.baseInfo.yearIncome = parseFloat(this.baseInfo.yearIncome).toFixed(2);
       this.emergencyContact=this.member.contactList|| [];
       this.workInfo=this.member.workInfo|| {};
+      this.workInfo.monthIncome = parseFloat(this.workInfo.monthIncome).toFixed(2);
       this.accountInfo=this.member.acBank|| {};
       this.financialInfo=this.member.financialInfo|| {};
+      this.financialInfo.unsecuredRepayMonth = parseFloat(this.financialInfo.unsecuredRepayMonth).toFixed(2);
+      this.financialInfo.cardRepayMonth = parseFloat(this.financialInfo.cardRepayMonth).toFixed(2);
+      this.financialInfo.houseRepayMonth = parseFloat(this.financialInfo.houseRepayMonth).toFixed(2);
+      this.financialInfo.carRepayMonth = parseFloat(this.financialInfo.carRepayMonth).toFixed(2);
       this.vehicleInfo=this.member.carMessageList|| [];
+      this.formatNum(this.vehicleInfo);
       this.houseInfo=this.member.houseMessageList|| [];
+      this.formatNum( this.houseInfo);
       this.forbidSaveBtn = false;
 
     })
@@ -156,7 +165,9 @@ export class MemberEditComponent implements OnInit {
           }else{
             if(editData.contName && editData.contName!='' ) {
               this._memberService.postContact(this.memberId, editData).then((result) => {
-                this.getMemberInfo(this.memberId);
+                editData.id = result.data.id;
+                this.emergencyContact.unshift(editData);
+                // this.getMemberInfo(this.memberId);
               });//新增
             }else{
               return false;
@@ -198,6 +209,7 @@ export class MemberEditComponent implements OnInit {
       this._memberService.putVehicle(this.memberId,vehicle.id, vehicle).then((result) => {
         //更新页面显示
         let idIndex=this.vehicleInfo.findIndex(x => x.id == vehicle.id);
+        vehicle.pricePotential = parseFloat(vehicle.pricePotential).toFixed(2);
         this.vehicleInfo[idIndex]=vehicle;
         this.modalRef.hide();
         this.showSuccess(result.message || '修改成功');
@@ -207,6 +219,8 @@ export class MemberEditComponent implements OnInit {
     }else{
       //新增
         this._memberService.postVehicle(this.memberId,vehicle).then((result) => {
+          vehicle.id = result.data.id;
+          vehicle.pricePotential = parseFloat(vehicle.pricePotential).toFixed(2);
           this.vehicleInfo.push(vehicle);
           this.modalRef.hide();
           this.showSuccess(result.message || '新增成功');
@@ -225,6 +239,7 @@ export class MemberEditComponent implements OnInit {
       this._memberService.putHouse(this.memberId, house.id, house).then((result) => {
         //更新页面显示
         let idIndex=this.houseInfo.findIndex(x => x.id == house.id);
+        house.pricePotential = parseFloat(house.pricePotential).toFixed(2);
         this.houseInfo[idIndex]=house;
         this.modalRef.hide();
         this.showSuccess(result.message || '修改成功');
@@ -234,6 +249,8 @@ export class MemberEditComponent implements OnInit {
     }else{
       //新增
       this._memberService.postHouse(this.memberId,house).then((result) => {
+        house.id=result.data.id;
+        house.pricePotential = parseFloat(house.pricePotential).toFixed(2);
         this.houseInfo.push(house);
         this.modalRef.hide();
         this.showSuccess(result.message || '新增成功');
@@ -361,5 +378,12 @@ export class MemberEditComponent implements OnInit {
       icon: 'fa fa-times-circle',
       autoHideDuration: 3000,
     })
+  }
+
+  //修改房子和车金钱格式
+  formatNum(lists){
+    for (let index = 0; index < lists.length; index++) {
+        lists[index].pricePotential = parseFloat(lists[index].pricePotential).toFixed(2);
+    }
   }
 }
