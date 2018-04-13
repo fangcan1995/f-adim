@@ -1,6 +1,6 @@
 import {Http} from "@angular/http";
 import {Injectable} from "@angular/core";
-import {HttpInterceptorService} from '../../../theme/services';
+import {HttpInterceptorService,BASE_URL} from '../../../theme/services';
 import {BaseService} from '../../../theme/services/base.service';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class PersonalInfoService extends BaseService<any> {
 
   //private personalInfoAPI = "http://172.16.1.27:8090/personalInfo";
   // private personalInfoAPI = "http://172.16.7.4:8090/personalInfo";
-  private personalInfoAPI = "http://172.16.1.234:9080";
+  private personalInfoAPI = `${BASE_URL}/personalInfo`;
   //1 获取数据列表
   getLists(pageInfo: any): Promise<any> {
     const page = `?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;

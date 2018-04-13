@@ -1,29 +1,21 @@
 import {Injectable} from "@angular/core";
-import {BaseService,HttpInterceptorService,API,ResModel} from "../../../theme/services"
+import {BaseService,HttpInterceptorService,API,ResModel,BASE_URL} from "../../../theme/services"
 import {Http, Response, Headers, RequestOptions,ResponseContentType} from '@angular/http';
 import * as _ from 'lodash';
-import {getStorage} from "../../../theme/libs/utils";
-let BASE_URL=`http://172.16.1.234:9080`;
+import {getStorage,} from "../../../theme/libs/utils";
 
+console.log(BASE_URL);
 @Injectable()
-
 
 export class MessageService extends BaseService<ResModel>{
   constructor(protected _httpInterceptorService: HttpInterceptorService, protected http?: Http) {
     super(_httpInterceptorService);
     //this.setApi("MESSAGES");
   }
-  accessToken = getStorage({ key: 'token' }).access_token;
-
-  url=`http://172.16.1.234:9080/messages`  //临时
 
   // 1 获取消息列表
   getDatas(params?): Promise<ResModel> {
-    console.log('列表');
-    console.log(params);
     return this._httpInterceptorService.request('GET', `${BASE_URL}/messages`,params).toPromise();
-    //return this._httpInterceptorService.request('GET', `${this.url}`,params).toPromise();
-    //return this._httpInterceptorService.request('GET', `${BASE_URL}/${API['MESSAGES']}`,params).toPromise();
   }
   //2 获取一条消息
   getMessageById(id: string): Promise<ResModel> {
