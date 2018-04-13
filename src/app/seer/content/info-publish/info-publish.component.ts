@@ -327,10 +327,11 @@ export class InfoPublishComponent {
                 this._dialogService.confirm('确定删除吗？')
                     .subscribe(action => {
                         if (action === 1) {
-                            this.pageInfo.typeId = data.typeId;
+                            //this.pageInfo.typeId = data.typeId;
                             this.service.deleteArticle(data.id).then(result => {
                                 console.log(result);
                                 this.alertSuccess(result.message);
+                                console.log(this.pageInfo);
                                 this.getColumnList(this.pageInfo);
                             }).catch(err => {
                                 console.log(err);
