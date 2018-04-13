@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import { CouponService } from "./coupon.service";
 import {SeerDialogService} from "../../../theme/services/seer-dialog.service";
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
+import {SeerMessageService} from "../../../theme/services";
 @Component({
   templateUrl: './coupon.component.html',
   styleUrls: ['./coupon.component.scss'],
@@ -68,7 +69,8 @@ export class CouponComponent implements OnInit{
   constructor(
     private _couponService: CouponService,
     private _router: Router,
-    private _activatedRoute: ActivatedRoute) {}
+    private _activatedRoute: ActivatedRoute,
+    private _messageService: SeerMessageService) {}
 
   ngOnInit(): void {
     this.getList();
@@ -91,11 +93,14 @@ export class CouponComponent implements OnInit{
             default:
               break;
           }
-          console.log(t.someStatus);
           return _.set(t, 'actions', actions);
 
         })
       })
+      .catch(err=> {
+        this.showError(err.msg || '连接失败');
+      })
+
   }
 
   //多条件查询
@@ -124,6 +129,13 @@ export class CouponComponent implements OnInit{
     this.pageInfo.pageNum=$event.pageNum;
     this.getList();
   }
-
+//失败提示
+  showError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
+  }
 }
 
