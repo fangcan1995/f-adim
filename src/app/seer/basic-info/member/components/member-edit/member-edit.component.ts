@@ -38,9 +38,9 @@ export class MemberEditComponent implements OnInit {
   saveActionsDistabled=[false];
   titlesEmergencyContact=[
     {key:'contName', label:'姓名'},
-    {key:'contRelation', label:'关系'},
-    {key:'contPhone', label:'手机号',},
-    {key:'contIdnum', label:'身份证号',}
+    {key:'contRelation', label:'关系',textAlign:'center'},
+    {key:'contPhone', label:'手机号',textAlign:'center',},
+    {key:'contIdnum', label:'身份证号',textAlign:'center',}
   ];//关系人
 
   house={}; //房
@@ -156,7 +156,9 @@ export class MemberEditComponent implements OnInit {
           }else{
             if(editData.contName && editData.contName!='' ) {
               this._memberService.postContact(this.memberId, editData).then((result) => {
-                this.getMemberInfo(this.memberId);
+                editData.id = result.data.id;
+                this.emergencyContact.unshift(editData);
+                // this.getMemberInfo(this.memberId);
               });//新增
             }else{
               return false;
@@ -207,6 +209,7 @@ export class MemberEditComponent implements OnInit {
     }else{
       //新增
         this._memberService.postVehicle(this.memberId,vehicle).then((result) => {
+          vehicle.id = result.data.id;
           this.vehicleInfo.push(vehicle);
           this.modalRef.hide();
           this.showSuccess(result.message || '新增成功');
@@ -233,7 +236,8 @@ export class MemberEditComponent implements OnInit {
       });
     }else{
       //新增
-      this._memberService.postHouse(this.memberId,house).then((result) => {
+      this._memberService.postHouse(this.memberId,house).then((result) => {debugger;
+        house.id=result.data.id;
         this.houseInfo.push(house);
         this.modalRef.hide();
         this.showSuccess(result.message || '新增成功');
