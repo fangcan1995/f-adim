@@ -94,7 +94,9 @@ export class MemberEditComponent implements OnInit {
       this.financialInfo.houseRepayMonth = parseFloat(this.financialInfo.houseRepayMonth).toFixed(2);
       this.financialInfo.carRepayMonth = parseFloat(this.financialInfo.carRepayMonth).toFixed(2);
       this.vehicleInfo=this.member.carMessageList|| [];
+      this.formatNum(this.vehicleInfo);
       this.houseInfo=this.member.houseMessageList|| [];
+      this.formatNum( this.houseInfo);
       this.forbidSaveBtn = false;
 
     })
@@ -372,5 +374,12 @@ export class MemberEditComponent implements OnInit {
       icon: 'fa fa-times-circle',
       autoHideDuration: 3000,
     })
+  }
+
+  //修改房子和车金钱格式
+  formatNum(lists){
+    for (let index = 0; index < lists.length; index++) {
+        lists[index].pricePotential = parseFloat(lists[index].pricePotential).toFixed(2);
+    }
   }
 }
