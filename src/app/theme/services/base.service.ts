@@ -7,13 +7,14 @@ import {
 } from './http-interceptor.service';
 
 import { getStorage, setStorage, castDict2Translate } from '../libs';
-
-const BASE_DOMAIN = '172.16.7.3';
+//const BASE_DOMAIN = '172.16.7.3';
+const BASE_DOMAIN = 'http://172.16.1.234:9080';
 const BASE_PORT = 8020;
 const BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export let BASE_URL = `http://${BASE_SERVER}`;
 
-const TEST_DOMAIN = '172.16.1.252';
+//const TEST_DOMAIN = '172.16.1.252';
+const TEST_DOMAIN = 'http://172.16.1.234:9080';
 const TEST_PORT = 9080;
 const TEST_SERVER = `${TEST_DOMAIN}:${TEST_PORT}`;
 export let TEST_URL = `http://${TEST_SERVER}`;
@@ -156,7 +157,7 @@ export class BaseService<T> {
         });
       });
     } else {
-        
+
       setStorage({
         key: isDictsInResponse,
         value: true,

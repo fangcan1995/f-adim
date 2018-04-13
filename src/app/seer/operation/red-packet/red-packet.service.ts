@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {BaseService,HttpInterceptorService,API,ResModel} from "../../../theme/services"
 import { Headers, Http, RequestOptions, ResponseContentType } from '@angular/http';
-let BASE_URL=`http://172.16.1.221:9080`;
+let BASE_URL=`http://172.16.1.234:9080`;
 @Injectable()
 
 export class RedPacketService extends BaseService<ResModel>{
