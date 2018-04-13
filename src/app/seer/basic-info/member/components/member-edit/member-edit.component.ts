@@ -248,7 +248,7 @@ export class MemberEditComponent implements OnInit {
       });
     }else{
       //新增
-      this._memberService.postHouse(this.memberId,house).then((result) => {debugger;
+      this._memberService.postHouse(this.memberId,house).then((result) => {
         house.id=result.data.id;
         house.pricePotential = parseFloat(house.pricePotential).toFixed(2);
         this.houseInfo.push(house);
