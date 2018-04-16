@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
       <div class="col-md-12">
         <seer-collapse-card cardTitle="基本信息" cardClass="with-scroll" >
-          <div class="row">
+          <div class="row info">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
                 <label  class="col-sm-4 control-label">用户名</label>
@@ -65,7 +65,7 @@
               <div class="row">
                 <label  class="col-sm-4 control-label">年均收入</label>
                 <div class="col-sm-8">
-                  <label  class="form-control">{{baseInfo.yearIncome}}</label>
+                  <label  class="form-control number">{{baseInfo.yearIncome | coinFormate}}</label>
                 </div>
               </div>
             </div>
@@ -169,19 +169,19 @@
                 自有房产:{{financialInfo.hasHouse}}套
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                月房屋按揭金额: {{financialInfo.houseRepayMonth}}元
+                月房屋按揭金额: {{financialInfo.houseRepayMonth | coinFormate}}元
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                月信用卡还款金额: {{financialInfo.cardRepayMonth}}元
+                月信用卡还款金额: {{financialInfo.cardRepayMonth | coinFormate}}元
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
                 自有汽车:{{financialInfo.hasCar}}辆
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                月汽车按揭金额: {{financialInfo.carRepayMonth}}元
+                月汽车按揭金额: {{financialInfo.carRepayMonth | coinFormate}}元
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                月无抵押货款还款额: {{financialInfo.unsecuredRepayMonth}}元
+                月无抵押货款还款额: {{financialInfo.unsecuredRepayMonth | coinFormate}}元
               </div>
             </div>
         </seer-collapse-card>
@@ -206,7 +206,7 @@
                 工作电话: {{workInfo.workTel}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                月净收入: {{workInfo.monthIncome}}
+                月净收入: {{workInfo.monthIncome | coinFormate}}
               </div>
               <div class="form-group col-sm-12">
                 详细地址: {{workInfo.workAddress}}

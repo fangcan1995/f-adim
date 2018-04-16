@@ -100,8 +100,16 @@ export class MemberInfoComponent implements OnInit {
             this.workInfo=this.member.workInfo|| {};
             this.accountInfo=this.member.acBank|| {};
             this.financialInfo=this.member.financialInfo|| {};
+            if(this.financialInfo.hasCar==""||this.financialInfo.hasCar==null){
+              this.financialInfo.hasCar = 0;
+            }
+            if(this.financialInfo.hasHouse==""||this.financialInfo.hasHouse==null){
+              this.financialInfo.hasHouse = 0;
+            }
             this.vehicleInfo=this.member.carMessageList|| [];
+            this.formatNum(this.vehicleInfo);
             this.houseInfo=this.member.houseMessageList|| [];
+            this.formatNum(this.houseInfo);
             this.creditInfo=this.member.creditInfo|| [];
             console.log(this.accountInfo);
           }).catch(err=>{
@@ -127,5 +135,19 @@ export class MemberInfoComponent implements OnInit {
   }
   change(){
     alert();
+  }
+    //修改房子和车金钱格式
+    formatNum(lists){
+      for (let index = 0; index < lists.length; index++) {
+          lists[index].pricePotential = this.formateCurrency(lists[index].pricePotential);
+      }
+    }
+   //格式金钱
+   formateCurrency(num){
+    if(num===null || num == undefined || num ===""){
+      return 0;
+    }else{
+      return parseFloat(num).toFixed(2);
+    }
   }
 }

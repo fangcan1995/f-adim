@@ -10,7 +10,8 @@ import { MemberService } from './member.service';
 import {MemberInfoComponent} from "./components/member-detail/memberInfo/memberInfo.component"
 import {LoansInfoComponent} from "./components/member-detail/loansInfo/loansInfo.component"
 import {InvestsInfoComponent} from "./components/member-detail/investsInfo/investsInfo.component";
-import {TradesInfoComponent} from "./components/member-detail/tradesInfo/tradesInfo.component"
+import {TradesInfoComponent} from "./components/member-detail/tradesInfo/tradesInfo.component";
+import {MemberCoinPip} from "./components/member-pip/memberCoin-pip"
 import { ReactiveFormsModule } from '@angular/forms';
 import { CustomFormsModule } from 'ng2-validation';
 import {NgxCurrencyModule} from "ngx-currency";
@@ -30,7 +31,8 @@ import {NgxCurrencyModule} from "ngx-currency";
     MemberInfoComponent,
     LoansInfoComponent,
     InvestsInfoComponent,
-    TradesInfoComponent
+    TradesInfoComponent,
+    MemberCoinPip
   ],
   providers: [
     MemberService
