@@ -83,16 +83,16 @@ export class MemberEditComponent implements OnInit {
       this.memberId=id;
       this.member = res.data || {};
       this.baseInfo=this.member.baseInfo|| {};
-      this.baseInfo.yearIncome = parseFloat(this.baseInfo.yearIncome).toFixed(2);
+      this.baseInfo.yearIncome =  this.formateCurrency(this.baseInfo.yearIncome);
       this.emergencyContact=this.member.contactList|| [];
       this.workInfo=this.member.workInfo|| {};
-      this.workInfo.monthIncome = parseFloat(this.workInfo.monthIncome).toFixed(2);
+      this.workInfo.monthIncome =  this.formateCurrency(this.workInfo.monthIncome);
       this.accountInfo=this.member.acBank|| {};
       this.financialInfo=this.member.financialInfo|| {};
-      this.financialInfo.unsecuredRepayMonth = parseFloat(this.financialInfo.unsecuredRepayMonth).toFixed(2);
-      this.financialInfo.cardRepayMonth = parseFloat(this.financialInfo.cardRepayMonth).toFixed(2);
-      this.financialInfo.houseRepayMonth = parseFloat(this.financialInfo.houseRepayMonth).toFixed(2);
-      this.financialInfo.carRepayMonth = parseFloat(this.financialInfo.carRepayMonth).toFixed(2);
+      this.financialInfo.unsecuredRepayMonth =  this.formateCurrency(this.financialInfo.unsecuredRepayMonth);
+      this.financialInfo.cardRepayMonth =  this.formateCurrency(this.financialInfo.cardRepayMonth);
+      this.financialInfo.houseRepayMonth =  this.formateCurrency(this.financialInfo.houseRepayMonth);
+      this.financialInfo.carRepayMonth =  this.formateCurrency(this.financialInfo.carRepayMonth);
       this.vehicleInfo=this.member.carMessageList|| [];
       this.formatNum(this.vehicleInfo);
       this.houseInfo=this.member.houseMessageList|| [];
@@ -209,7 +209,7 @@ export class MemberEditComponent implements OnInit {
       this._memberService.putVehicle(this.memberId,vehicle.id, vehicle).then((result) => {
         //更新页面显示
         let idIndex=this.vehicleInfo.findIndex(x => x.id == vehicle.id);
-        vehicle.pricePotential = parseFloat(vehicle.pricePotential).toFixed(2);
+        vehicle.pricePotential =  this.formateCurrency(vehicle.pricePotential);
         this.vehicleInfo[idIndex]=vehicle;
         this.modalRef.hide();
         this.showSuccess(result.message || '修改成功');
@@ -220,7 +220,7 @@ export class MemberEditComponent implements OnInit {
       //新增
         this._memberService.postVehicle(this.memberId,vehicle).then((result) => {
           vehicle.id = result.data.id;
-          vehicle.pricePotential = parseFloat(vehicle.pricePotential).toFixed(2);
+          vehicle.pricePotential =  this.formateCurrency(vehicle.pricePotential);
           this.vehicleInfo.push(vehicle);
           this.modalRef.hide();
           this.showSuccess(result.message || '新增成功');
@@ -239,7 +239,7 @@ export class MemberEditComponent implements OnInit {
       this._memberService.putHouse(this.memberId, house.id, house).then((result) => {
         //更新页面显示
         let idIndex=this.houseInfo.findIndex(x => x.id == house.id);
-        house.pricePotential = parseFloat(house.pricePotential).toFixed(2);
+        house.pricePotential =  this.formateCurrency(house.pricePotential);
         this.houseInfo[idIndex]=house;
         this.modalRef.hide();
         this.showSuccess(result.message || '修改成功');
@@ -250,7 +250,7 @@ export class MemberEditComponent implements OnInit {
       //新增
       this._memberService.postHouse(this.memberId,house).then((result) => {
         house.id=result.data.id;
-        house.pricePotential = parseFloat(house.pricePotential).toFixed(2);
+        house.pricePotential =  this.formateCurrency(house.pricePotential);
         this.houseInfo.push(house);
         this.modalRef.hide();
         this.showSuccess(result.message || '新增成功');
@@ -383,7 +383,16 @@ export class MemberEditComponent implements OnInit {
   //修改房子和车金钱格式
   formatNum(lists){
     for (let index = 0; index < lists.length; index++) {
-        lists[index].pricePotential = parseFloat(lists[index].pricePotential).toFixed(2);
+        lists[index].pricePotential = this.formateCurrency(lists[index].pricePotential);
+    }
+  }
+
+  //格式金钱
+  formateCurrency(num){
+    if(num===null || num == undefined || num ===""){
+      return 0;
+    }else{
+      return parseFloat(num).toFixed(2);
     }
   }
 }
