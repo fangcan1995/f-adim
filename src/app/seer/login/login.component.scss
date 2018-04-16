@@ -48,7 +48,7 @@
     width: 100%;
   }
   .form-group {
-    margin-bottom: 12px;
+    margin-bottom: 20px;
   }
 }
 
@@ -58,7 +58,9 @@
   cursor:pointer;
 }
 
-
+.text-danger{
+  text-align: left;
+}
 
 .page-bottom {
   position: absolute;
