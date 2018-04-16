@@ -11,7 +11,7 @@ import {log} from "util";
   templateUrl: './todo.component.html',
   styleUrls: [ '../../workspace.component.scss' ],
 })
-export class TodoComponent implements OnInit {
+export class EnddoComponent implements OnInit {
 
   processDefinition = _.cloneDeep(processDefinition);  //流程定义
 
@@ -25,10 +25,11 @@ export class TodoComponent implements OnInit {
 
   //初始化数据
   initialize() {
-    this.service.getTasks().then((res) => {
+    this.service.getDoneTasks().then((res) => {
       this.items = res.data;
       this.tasks = res.data;
       this.classStatistics();
+      console.log(this.tasks);
     }).catch(err => {
       this.showError(err.msg || '待办任务获取失败');
     });
@@ -64,53 +65,35 @@ export class TodoComponent implements OnInit {
 
   //页面跳转
   public loadForm(task) {
+
     let url = `/business/forms/`;
-
-    this._router.navigate([url + 'loan-first-audit', task.processInstance.businessKey], {relativeTo: this.route});
-
-
-    /*switch (formType) {
+    switch (task.processInstance.activityId) {
 
       //补填资料
-      case '10':
-        this._router.navigate([url + 'completion', id], {relativeTo: this.route});
+      case 'COMPLEMENT':
+        this._router.navigate([url + 'loan-complete-audit', task.processInstance.businessKey], {relativeTo: this.route});
         break;
 
       //初审
-      case '20':
-        this._router.navigate([url + 'firstAudit', id], {relativeTo: this.route});
+      case 'FIRST_AUDIT':
+        this._router.navigate([url + 'loan-first-audit', task.processInstance.businessKey], {relativeTo: this.route});
         break;
 
       //复审
-      case '30':
-        this._router.navigate([url + 'secondAudit', id], {relativeTo: this.route});
+      case 'SECOND_AUDIT':
+        this._router.navigate([url + 'loan-second-audit', task.processInstance.businessKey], {relativeTo: this.route});
         break;
 
       //发布
-      case '40':
-        this._router.navigate([url + 'release', id], {relativeTo: this.route});
+      case 'RELEASE':
+        this._router.navigate([url + 'project-release', task.processInstance.businessKey], {relativeTo: this.route});
         break;
 
-      //满标
-      case '60':
-        this._router.navigate([url + 'fillAudit', id], {relativeTo: this.route});
+      //满标审核
+      case 'FuLL_AUDIT':
+        this._router.navigate([url + 'project-full-audit', task.processInstance.businessKey], {relativeTo: this.route});
         break;
-
-      //提前还款审核
-      case '81':
-        this._router.navigate([url + 'fillAudit', id], {relativeTo: this.route});
-        break;
-
-      //详情
-      case 'preview':
-        this._router.navigate([url + 'detail', id], {relativeTo: this.route});
-        break;
-
-      //测试页面
-      case 'test':
-        this._router.navigate([url + 'fillAudit', id], {relativeTo: this.route});
-        break;
-    }*/
+    }
   }
 
 }

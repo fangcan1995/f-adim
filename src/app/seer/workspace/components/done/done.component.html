@@ -6,10 +6,10 @@
     <div class="row" >
       <table class="table table-hover" *ngIf="tasks.length>0">
         <tbody>
-          <tr *ngFor="let task of tasks">
-            <td><p (click)="loadForm(task)"><span class="label label-{{task.projectStatus}}"  >{{task.taskName}}</span> {{task.processInstance.instanceName}}</p></td>
-            <td>{{task.createTime}}</td>
-          </tr>
+        <tr *ngFor="let task of tasks">
+          <td><p (click)="loadForm(task)"><span class="label label-{{task.projectStatus}}"  >{{task.taskName}}</span> {{task.processInstance.instanceName}}</p></td>
+          <td>{{task.createTime}}</td>
+        </tr>
         </tbody>
       </table>
     </div>

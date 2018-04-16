@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import { IntentionService } from "./intention.service";
 import {CommonService} from "../common/common.service";
 import {SeerMessageService} from "../../../theme/services/seer-message.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   templateUrl: './intention.component.html',
@@ -85,6 +86,8 @@ export class IntentionComponent {
   source = [];
 
   constructor(
+    private _router: Router,
+    private route: ActivatedRoute,
     private service: IntentionService,
     private commonService: CommonService,
     private _messageService: SeerMessageService,) {}
@@ -125,9 +128,7 @@ export class IntentionComponent {
   }
 
   //操作
-  onChange($event) {
-    this.commonService.loadForm($event.type, $event.data.projectId);
-  }
+  onChange($event) {switch ($event.type) {case 'create': this._router.navigate(['/business/forms/loan-apply'], {relativeTo: this.route}); break;}}
 
   showSuccess(message: string) {
     return this._messageService.open({
