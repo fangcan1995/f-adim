@@ -26,40 +26,44 @@ export class MemberInfoComponent implements OnInit {
     {
       key:'contName',
       label:'姓名',
+      textAlign:'left',
     },
     {
       key:'contRelation',
       label:'关系',
+      textAlign:'center',
     },
     {
       key:'contPhone',
       label:'手机号',
+      textAlign:'center',
     },
     {
       key:'contIdnum',
       label:'身份证号',
+      textAlign:'center',
     }
   ];//关系人
 
   titlesVehicleInfo= [
-    { key:'carBrand', label:'车辆品牌' },
+    { key:'carBrand', label:'车辆品牌',textAlign:'center' },
     { key:'carModel', label:'车辆型号' },
-    { key:'viNumber', label:'车架号' },
-    { key:'carNumber', label:'车牌号'},
-    { key:'carRegNumber', label:'登记证号' },
-    { key:'carAge', label:'购车年份' },
-    { key:'mileage', label:'行驶里程' },
-    { key:'pricePotential', label:'评估价格' },
+    { key:'viNumber', label:'车架号',textAlign:'center' },
+    { key:'carNumber', label:'车牌号',textAlign:'center'},
+    { key:'carRegNumber', label:'登记证号',textAlign:'center' },
+    { key:'carAge', label:'购车年份',textAlign:'center' },
+    { key:'mileage', label:'行驶里程',textAlign:'right' },
+    { key:'pricePotential', label:'评估价格' ,textAlign:'right'},
   ]; //车
   titlesHouseInfo= [
     { key:'houseAdress', label:'房产地址' },
-    { key:'area', label:'建筑面积' },
-    { key:'houseType', label:'房屋类型', isDict: true, category: 'HOUSE_TYPE'  },
-    { key:'houseAge', label:'竣工年份'},
-    { key:'debtMoney', label:'尚欠贷余额' },
-    { key:'landNo', label:'土地所有证号' },
-    { key:'houseBelongNo', label:'房屋所有权证号' },
-    { key:'pricePotential', label:'评估价格' },
+    { key:'area', label:'建筑面积',textAlign:'right' },
+    { key:'houseType', label:'房屋类型', isDict: true, category: 'HOUSE_TYPE' ,textAlign:'center'  },
+    { key:'houseAge', label:'竣工年份',textAlign:'center'},
+    { key:'debtMoney', label:'尚欠贷余额',textAlign:'right' },
+    { key:'landNo', label:'土地所有证号' ,textAlign:'center'},
+    { key:'houseBelongNo', label:'房屋所有权证号',textAlign:'center' },
+    { key:'pricePotential', label:'评估价格' ,textAlign:'right'},
     { key:'loanYear', label:'贷款年限' },
     { key:'debtBank', label:'按揭银行' },
     { key:'houseScale', label:'产权份额' },
@@ -96,8 +100,16 @@ export class MemberInfoComponent implements OnInit {
             this.workInfo=this.member.workInfo|| {};
             this.accountInfo=this.member.acBank|| {};
             this.financialInfo=this.member.financialInfo|| {};
+            if(this.financialInfo.hasCar==""||this.financialInfo.hasCar==null){
+              this.financialInfo.hasCar = 0;
+            }
+            if(this.financialInfo.hasHouse==""||this.financialInfo.hasHouse==null){
+              this.financialInfo.hasHouse = 0;
+            }
             this.vehicleInfo=this.member.carMessageList|| [];
+            this.formatNum(this.vehicleInfo);
             this.houseInfo=this.member.houseMessageList|| [];
+            this.formatNum(this.houseInfo);
             this.creditInfo=this.member.creditInfo|| [];
             console.log(this.accountInfo);
           }).catch(err=>{
@@ -123,5 +135,19 @@ export class MemberInfoComponent implements OnInit {
   }
   change(){
     alert();
+  }
+    //修改房子和车金钱格式
+    formatNum(lists){
+      for (let index = 0; index < lists.length; index++) {
+          lists[index].pricePotential = this.formateCurrency(lists[index].pricePotential);
+      }
+    }
+   //格式金钱
+   formateCurrency(num){
+    if(num===null || num == undefined || num ===""){
+      return 0;
+    }else{
+      return parseFloat(num).toFixed(2);
+    }
   }
 }

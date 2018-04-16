@@ -130,6 +130,8 @@ export class MessageTemplateComponent {
       this.source = _.map(this.source, r => _.set(r, 'actions', [ PREVIEW,UPDATE, DELETE ]));
     }).catch(err => {
       this.showError(err.msg || '连接失败');
+      console.log(err);
+      //this.showError();
     });
   }
   onChange(message):void {

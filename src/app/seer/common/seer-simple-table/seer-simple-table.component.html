@@ -3,7 +3,6 @@
   type="button"
   *ngIf="!hideAddButton"
   (click)="create()"
-  [disabled]='!createDistabled'
   >
   新增
 </button>
@@ -23,7 +22,7 @@
       <td *ngIf="showSeq" class="table-seq">{{ i + 1 }}</td>
       <td *ngFor="let title of titles" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}" [style.padding]="item.editState ? '4px 0': null">
         <input
-          *ngIf="(item.editState === 'EDIT' || item.editState === 'CREATE')&&(title.key != 'endTime' && title.key != 'startTime')"
+          *ngIf="(item.editState === 'EDIT' || item.editState === 'CREATE')&&(title.key != 'endTime' && title.key != 'startTime' && title.key !='contRelation')"
           class="form-control" 
           style="width: auto; max-width: 90%; padding-right: 4px; padding-left: 4px"
           type="text"
@@ -50,23 +49,36 @@
           >
           {{item.data[title.key]}}
         </a>
-
+        <select type="email" class="form-control" name="maritaStatus" id="maritaStatus"
+          *ngIf="(item.editState === 'EDIT' || item.editState === 'CREATE')&&(title.key=='contRelation')"
+          [(ngModel)]="item.editData[title.key]"
+          style="width:200px"
+          dict-select required
+          [key]="'CONT_RELATION'"
+          [topOption]="{itemId:'',itemName:'请选择'}"
+          [selected]="item.editData[title.key]" >
+        </select>
+        <select type="email" class="form-control" name="maritaStatus" id="maritaStatus"
+          *ngIf="title.type != 'input_number' && title.type != 'link' && !displayOriginalData && item.editState != 'EDIT' && item.editState != 'CREATE' &&(title.key=='contRelation')"
+          [(ngModel)]="item.editData[title.key]"
+          dict-select disabled
+          [key]="'CONT_RELATION'"
+          [topOption]="{itemId:'',itemName:'请选择'}"
+          [selected]="item.editData[title.key]" >
+        </select>
         <input
           *ngIf="title.type == 'input_number' && item.editState != 'EDIT' && item.editState != 'CREATE'" type="number"
           class="form-control"
           [(ngModel)]="item.data[title.key]"
           />
           
-        <span *ngIf="title.type != 'input_number' && title.type != 'link' && !displayOriginalData && item.editState != 'EDIT' && item.editState != 'CREATE'" class="seer_font">{{renderValue(title,item.data[title.key])}}</span>
+        <span *ngIf="title.type != 'input_number' && title.type != 'link' && !displayOriginalData && item.editState != 'EDIT' && item.editState != 'CREATE' && title.key !='contRelation'" class="seer_font">{{renderValue(title,item.data[title.key])}}</span>
 
-        <span *ngIf="title.type != 'input_number' && title.type != 'link' && displayOriginalData && item.editState != 'EDIT' && item.editState != 'CREATE'" class="seer_font">{{item.data[title.key]}}</span>
+        <span *ngIf="title.type != 'input_number' && title.type != 'link' && displayOriginalData && item.editState != 'EDIT' && item.editState != 'CREATE' && title.key !='contRelation'" class="seer_font">{{item.data[title.key]}}</span>
 
       </td>
       <td class="table-actions" *ngIf="!hideActions">
         <ng-container *ngIf="item.actions">
-          <!-- <button 
-          class="submit"
-          ></button> -->
             <i
             class="table-action {{ action.icon }}"
             *ngFor="let action of item.actions"

@@ -127,7 +127,7 @@ export class StaffService extends BaseService<StaffModule> {
 
   // 15、得到所有部门信息
   getAllOrganizations(): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET','http://172.16.1.252:9080/organizations/all',{}, false).toPromise();
+    return this._httpInterceptorService.request('GET',`${BASE_URL}/organizations/all`,{}, false).toPromise();
   }
 
   private extractData(res: Response) {

@@ -28,6 +28,7 @@ export class SeerMessageService {
   private _onClose$: Subject<any> = new Subject();
   public messageNotices = [];
   public open(options: optionsModel) {
+    console.log(options)
     let messageNotice = new MessageNotice(options.icon, options.message);
     let key = this.messageNotices.push(messageNotice);
     messageNotice.key = key;

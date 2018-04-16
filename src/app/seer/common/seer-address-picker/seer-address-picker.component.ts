@@ -31,8 +31,7 @@ export interface AddressPickerClassNamesModel {
       </div>
       <div class="{{ classNames.cityContainerClass }}">
           <select class="{{ classNames.cityClass }}" [value]="curCity.item_code" (change)="handleCityChange($event)" [disabled]="disabled">
-            <!-- <option *ngFor="let c of getCitys()" value="{{ c['item_code'] }}">{{ c.item_name }}</option> -->
-            <option *ngFor="let c of curCityList" value="{{ c['item_code'] }}">{{ c.item_name }}</option>
+            <option *ngFor="let c of getCitys()" value="{{ c['item_code'] }}">{{ c.item_name }}</option>
           </select>
       </div>
       <div class="{{ classNames.districtContainerClass }}">

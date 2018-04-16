@@ -6,6 +6,7 @@ import { parseJson2URL } from '../libs/utils';
 import {
   BASE_URL,
   API,
+  BASE_LOGIN_URL
 } from './base.service';
 import { setStorage, delStorage, hex_md5 } from '../libs';
 
@@ -58,7 +59,7 @@ export class AuthService {
       search: parseJson2URL(params),
       withCredentials: true
     });
-    return this._http.post(`${BASE_URL}/${API.LOGIN}`, '?' + parseJson2URL(params), reqOpts)
+    return this._http.post(`${BASE_LOGIN_URL}/${API.LOGIN}`, '?' + parseJson2URL(params), reqOpts)
     .map(this.extractData)
     .do(res => {
       if ( res && !res.error ) {
@@ -72,10 +73,11 @@ export class AuthService {
       return body || { };
   }
   private handleError (error: Response | any) {
+    
     let errMsg: string;
     if (error instanceof Response) {
-      const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
+      var body = error.json() || '';
+      var err = body.error || JSON.stringify(body);
       errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
     } else {
       errMsg = error.message ? error.message : error.toString();
@@ -83,6 +85,7 @@ export class AuthService {
     return Observable.throw({
       code: -1,
       msg: errMsg,
+      content:body
     });
   }
   logout(): Observable<any> {

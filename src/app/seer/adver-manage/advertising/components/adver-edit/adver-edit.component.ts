@@ -1,6 +1,6 @@
 import {Component, OnInit,OnChanges,Input, ViewChild,TemplateRef} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {SeerDialogService, SeerMessageService,} from '../../../../../theme/services';
+import {SeerDialogService, SeerMessageService,BASE_URL} from '../../../../../theme/services';
 import {AdvertisingService} from "../../advertising.service";
 import {Location} from "@angular/common";
 import {FileUploader, ParsedResponseHeaders, FileItem} from "ng2-file-upload";
@@ -13,7 +13,7 @@ import {formatDate} from "ngx-bootstrap/bs-moment/format";
 declare let laydate;
 
 
-let BASE_URL=`http://172.16.1.234:9080`;//临时
+
 import * as _ from 'lodash';
 @Component({
   templateUrl: './adver-edit.component.html',
@@ -30,7 +30,6 @@ export class AdverEditComponent implements OnInit{
   expiryTime; //结束时间
   //putStatus; //投放状态
   //上传图片相关
-  //fileApi=`http://172.16.1.221:9080/advertisings`; //上传接口
   fileApi=`${BASE_URL}/advertisings`; //上传接口
 
   token = getStorage({ key: 'token' });
@@ -100,7 +99,7 @@ export class AdverEditComponent implements OnInit{
             type: 'datetime',
             done: (value, date, effectTime) => {
               this.advertising.effectTime = value;
-              
+
             }
           })
           laydate.render({
