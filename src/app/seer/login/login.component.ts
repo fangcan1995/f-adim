@@ -15,7 +15,7 @@ import  * as _ from 'lodash';
 import { GlobalState } from '../../global.state';
 import { parseQueryString, setStorage, getStorage } from '../../theme/libs';
 
-import { AuthService, ManageService, SeerMessageService } from '../../theme/services';
+import { AuthService, ManageService, SeerMessageService,BASE_LOGIN_URL } from '../../theme/services';
 
 import { DynamicComponentLoader } from '../../theme/directives/dynamicComponent/dynamic-component.directive';
 import { VersionInfoComponent } from './component/version-info.component';
@@ -34,7 +34,7 @@ export class LoginComponent {
   public password: AbstractControl;
   public verification: AbstractControl;
   public submitted: boolean = false;
-  public imgUrl:any="http://172.16.7.3:8060/uaa/code/image";
+  public imgUrl:any=BASE_LOGIN_URL+"/uaa/code/image";
   errorMessage: string;
   loginInfo: Object;
   success: boolean;
@@ -70,7 +70,7 @@ export class LoginComponent {
   }
   changeImg(){
     let data=new Date().getTime()
-    this.imgUrl="http://172.16.7.3:8060/uaa/code/image"+'?'+data;
+    this.imgUrl=BASE_LOGIN_URL+"/uaa/code/image"+'?'+data;
 } 
   login(account, password,verification) {
     this._authService.login(account, password,verification)
