@@ -103,14 +103,12 @@ export class LoginComponent {
         this._router.navigate([redirectUrl], navigationExtras);
       }
     }, err => {
-      console.log(err)
       this.imgError=err.content
       this.alertError(err.content.message)
     })
 
   }
   alertError(message: string) {
-    console.log(message)
     return this._messageService.open({
       message,
       icon: 'fa fa-times-circle',
