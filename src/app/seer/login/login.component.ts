@@ -13,9 +13,9 @@ import { Router, NavigationExtras } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import  * as _ from 'lodash';
 import { GlobalState } from '../../global.state';
-import { parseQueryString, setStorage, getStorage, } from '../../theme/libs';
+import { parseQueryString, setStorage, getStorage } from '../../theme/libs';
 
-import { AuthService, ManageService, SeerMessageService,BASE_LOGIN_URL } from '../../theme/services';
+import { AuthService, ManageService, SeerMessageService } from '../../theme/services';
 
 import { DynamicComponentLoader } from '../../theme/directives/dynamicComponent/dynamic-component.directive';
 import { VersionInfoComponent } from './component/version-info.component';
@@ -34,19 +34,12 @@ export class LoginComponent {
   public password: AbstractControl;
   public verification: AbstractControl;
   public submitted: boolean = false;
- // public imgUrl:any="http://172.16.7.3:8060/uaa/code/image";
-  public imgUrl:any=`${BASE_LOGIN_URL}/uaa/code/image`;
+  public imgUrl:any="http://172.16.7.3:8060/uaa/code/image";
   errorMessage: string;
   loginInfo: Object;
   success: boolean;
+  imgError={};
 
-  showError(message: string) {
-    return this._messageService.open({
-      message,
-      icon: 'fa fa-times-circle',
-      autoHideDuration: 3000,
-    })
-  }
 
   constructor(
     fb: FormBuilder,
@@ -57,9 +50,9 @@ export class LoginComponent {
     private _messageService: SeerMessageService,
     ) {
     this.form = fb.group({
-      'account': ['admin', Validators.compose([Validators.required, Validators.minLength(4)])],
-      'verification': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
-      'password': ['123456', Validators.compose([Validators.required, Validators.minLength(4)])]
+      'account': ['admin', Validators.compose([Validators.required])],
+      'verification': ['', Validators.compose([Validators.required])],
+      'password': ['123456', Validators.compose([Validators.required])]
     });
 
     this.account = this.form.controls['account'];
@@ -77,9 +70,8 @@ export class LoginComponent {
   }
   changeImg(){
     let data=new Date().getTime()
-    //this.imgUrl="http://172.16.7.3:8060/uaa/code/image"+'?'+data;
-    this.imgUrl="http://172.16.1.234:8060/uaa/code/image"+'?'+data;
-}
+    this.imgUrl="http://172.16.7.3:8060/uaa/code/image"+'?'+data;
+} 
   login(account, password,verification) {
     this._authService.login(account, password,verification)
     .mergeMap(res => {
@@ -107,17 +99,26 @@ export class LoginComponent {
           //preserveQueryParams: true,
           preserveFragment: true
         };
-
+        console.log(redirectUrl)
         this._router.navigate([redirectUrl], navigationExtras);
       }
     }, err => {
-      this.showError(err.msg)
+      this.imgError=err.content
+      this.alertError(err.content.message)
     })
 
   }
+  alertError(message: string) {
+    return this._messageService.open({
+      message,
+      icon: 'fa fa-times-circle',
+      autoHideDuration: 3000,
+    })
+  }
+
   versionShow() {
     this.dynamicComponentLoader.loadComponent(VersionInfoComponent, null);
   }
 
-
+  
 }
