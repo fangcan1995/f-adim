@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
-import {BaseService,HttpInterceptorService,API,ResModel} from "../../../theme/services"
+import {BaseService,HttpInterceptorService,API,ResModel,BASE_URL} from "../../../theme/services"
 import { Headers, Http, RequestOptions, ResponseContentType } from '@angular/http';
 import {getStorage,parseJson2URL} from "../../../theme/libs/utils";
-let BASE_URL=`http://172.16.1.221:9080`;
+//let BASE_URL=`http://172.16.1.234:9080`;
 
 @Injectable()
 export class AdvertisingService extends BaseService<ResModel>{

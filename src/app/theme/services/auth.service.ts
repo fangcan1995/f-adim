@@ -6,6 +6,7 @@ import { parseJson2URL } from '../libs/utils';
 import {
   BASE_URL,
   API,
+  BASE_LOGIN_URL
 } from './base.service';
 import { setStorage, delStorage, hex_md5 } from '../libs';
 
@@ -58,7 +59,7 @@ export class AuthService {
       search: parseJson2URL(params),
       withCredentials: true
     });
-    return this._http.post(`${BASE_URL}/${API.LOGIN}`, '?' + parseJson2URL(params), reqOpts)
+    return this._http.post(`${BASE_LOGIN_URL}/${API.LOGIN}`, '?' + parseJson2URL(params), reqOpts)
     .map(this.extractData)
     .do(res => {
       if ( res && !res.error ) {

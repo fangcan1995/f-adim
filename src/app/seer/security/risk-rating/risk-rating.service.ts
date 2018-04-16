@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import {Http} from "@angular/http";
-import {BaseService,HttpInterceptorService,API,ResModel} from "../../../theme/services";
-let BASE_URL=`http://172.16.1.221:9080`;
+import {BaseService,HttpInterceptorService,API,ResModel,BASE_URL} from "../../../theme/services";
+//let BASE_URL=`http://172.16.1.234:9080`;
 @Injectable()
 export class RiskRatingService extends BaseService<any> {
 
@@ -10,9 +10,7 @@ export class RiskRatingService extends BaseService<any> {
     this.setApi("riskRatings");
   }
 
-  //private riskRatingsAPI = "http://172.16.7.4:8070/riskRatings";
-  url=`http://172.16.1.221:9080/security/riskRatings`  //临时
-  accessToken=`7fbb40a8-64a1-4a44-94ae-4eee6f3d4625`;
+
   // 1 获取数据列表
   getLists(params: any): Promise<any> {
     return this._httpInterceptorService.request('GET', `${BASE_URL}/security/riskRatings`,params).toPromise();

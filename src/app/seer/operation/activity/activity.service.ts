@@ -1,10 +1,10 @@
 import {Injectable} from "@angular/core";
-import {BaseService,HttpInterceptorService,API,ResModel} from "../../../theme/services"
+import {BaseService,HttpInterceptorService,API,ResModel,BASE_URL} from "../../../theme/services"
 import {Http, Response, Headers, RequestOptions,ResponseContentType} from '@angular/http';
 import * as _ from 'lodash';
 import {getStorage} from "../../../theme/libs/utils";
 
-let BASE_URL=`http://172.16.1.221:9080`;
+//let BASE_URL=`http://172.16.1.234:9080`;
 @Injectable()
 
 export class ActivityService extends BaseService<ResModel>{
@@ -12,8 +12,7 @@ export class ActivityService extends BaseService<ResModel>{
     super(_httpInterceptorService);
     //this.setApi("staffs");
   }
-  //accessToken=`dafee4ef-6717-4de2-801b-23b55bf25a83`;
-  //url=`http://172.16.1.221:9080/activities`;
+
   // 1 获取数据列表
   getList(params?):Promise<ResModel> {
 

@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
-import {BaseService,HttpInterceptorService,API,ResModel} from "../../../theme/services"
-let BASE_URL=`http://172.16.1.234:9080`;
+import {BaseService,HttpInterceptorService,API,ResModel,BASE_URL} from "../../../theme/services"
+//let BASE_URL=`http://172.16.1.234:9080`;
 @Injectable()
 
 export class messageRecordService extends BaseService<ResModel>{
