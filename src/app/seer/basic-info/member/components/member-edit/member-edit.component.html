@@ -120,7 +120,7 @@
                 <div class="row">
                   <label  class="col-sm-4 control-label">电子邮件</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" name="eMail " [(ngModel)]="baseInfo.eMail" maxlength="30"  #email="ngModel" email>
+                    <input type="text" class="form-control" name="eMail" [(ngModel)]="baseInfo.eMail" maxlength="30"  #email="ngModel" email>
                     <p class="text-danger" *ngIf="email.errors?.email">请输入正确邮箱</p>
                   </div>
                 </div>
