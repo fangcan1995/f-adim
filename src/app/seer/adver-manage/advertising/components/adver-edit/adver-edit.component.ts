@@ -169,8 +169,8 @@ export class AdverEditComponent implements OnInit{
     if (this._editType === 'edit') {
       this.forbidSaveBtn=true;
       let advertisingNew=_.cloneDeep(this.advertising);
-      advertisingNew.effectTime=formatDate(advertisingNew.effectTime,'YYYY-MM-DD hh:mm:ss');
-      advertisingNew.expiryTime=formatDate(advertisingNew.expiryTime,'YYYY-MM-DD hh:mm:ss');
+      //advertisingNew.effectTime=formatDate(advertisingNew.effectTime,'YYYY-MM-DD hh:mm:ss');
+      //advertisingNew.expiryTime=formatDate(advertisingNew.expiryTime,'YYYY-MM-DD hh:mm:ss');
 
       this._advertisingService.putOne(advertisingNew.id, advertisingNew).then(data=>{
         this.forbidSaveBtn = true;
