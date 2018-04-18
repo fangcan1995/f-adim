@@ -6,11 +6,7 @@
     "ng": "ng",
     "rimraf": "rimraf",
     "changelog": "standard-changelog",
-<<<<<<< HEAD
     "start": "ng serve", 
-=======
-    "start": "ng serve -port 4400",
->>>>>>> f8cb5ff39ebc9bd1e0ea28a4c674ce8d49a05b58
     "start:hmr": "ng serve --hmr",
     "start:aot": "ng serve --aot",
     "start:prod": "ng serve --prod",
