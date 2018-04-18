@@ -1,6 +1,12 @@
 @import '../../sass/conf/conf';
 @import '../../components/baMsgCenter/baMsgCenter';
 
+
+
+.changePassWordModal {
+    min-width: 300px;
+}
+
 .page-top {
   position: fixed;
   z-index: 1000;

@@ -12,7 +12,7 @@
               <div class="form-group">
                 <label for="announcementName" class="col-sm-4 col-md-2 col-xlg-1 control-label text-center">公告名称</label>
                 <div class="col-sm-4 col-md-3">
-                  <input type="text" class="form-control" id="announcementName" placeholder="公告名称"
+                  <input type="text" class="form-control" id="announcementName" 
                          [(ngModel)]="announcement.noticeName" formControlName="announcementName">
                   <p *ngIf="form.controls.announcementName.errors?.required" class="text-danger">*</p>
                 </div>
@@ -26,7 +26,7 @@
                         [(ngModel)]="announcement.effectTime"
                         formControlName="effectTime"
                     />
-                    <span class="icon-operation unit"></span>
+                    <span class="unit"></span>
                 </div>
               </div>
             </div>
@@ -36,7 +36,7 @@
               <label for="announcementTitle" class="col-sm-4 col-md-2 col-xlg-1 control-label text-center">公告标题</label>
 
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="announcementTitle" placeholder="公告标题"
+                <input type="text" class="form-control" id="announcementTitle" 
                        [(ngModel)]="announcement.title" formControlName="announcementTitle">
                 <p *ngIf="form.controls.announcementTitle.errors?.required" class="text-danger">*</p>
               </div>

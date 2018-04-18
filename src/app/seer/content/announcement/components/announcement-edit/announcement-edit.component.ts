@@ -47,7 +47,7 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
                 this._announcementService.getOne(params.id)
                     .then(res => {
                         this.announcement = res.data;
-                        //this.announcement.effectTime = new Date(this.announcement.effectTime);
+                        this.announcement.effectTime = this.announcement.effectTime.replace(/-/g, '/')
                         this.forbidSaveBtn = false;
                     }, errMsg => {
                         // 错误处理的正确打开方式
@@ -67,6 +67,7 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
         laydate.render({
             elem: '#test',
             type: 'datetime',
+            format: 'yyyy/MM/dd HH:mm:ss',
             done: (value, date, endDate) => {
                 this.announcement.effectTime = value;
                 console.log(this.announcement.effectTime);
@@ -95,7 +96,7 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
         else {
             const newAnnouncement = _.cloneDeep(this.announcement);
             //newAnnouncement.effectTime = formatDate(newAnnouncement.effectTime, 'YYYY-MM-DD hh:mm:ss');
-            console.log(this.announcement.effectTime);
+            newAnnouncement.effectTime = newAnnouncement.effectTime.replace(/\//g, '-');
             this._announcementService.putOne(newAnnouncement)
                 .then(data => {
                     this.alertSuccess(data.message);

@@ -23,11 +23,12 @@ export class SeerDatepickerComponent implements OnInit {
 	@Input() minDate;
 	@Input() maxDate;
   @Input() disabled;
-	@Input() dateFormatingRules:string = 'yyyy/MM/dd';
+	@Input() dateFormatingRules:string = 'YYYY-MM-DD';
 	@Input() readonly:boolean=true; //edit by lily
 	bsConfig: Partial<BsDatepickerConfig> = {
 	  locale: 'zh-cn',
-	  showWeekNumbers: false,
+      showWeekNumbers: false,
+      dateInputFormat: 'YYYY-MM-DD'
 	};
 	ngOnInit() {
 	}

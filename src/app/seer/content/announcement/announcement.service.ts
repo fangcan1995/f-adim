@@ -26,6 +26,7 @@ export class AnnouncementService extends BaseService<any>{
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
     apiUrl = `${TEST_URL}/${API['ANNOUNCE']}`;
+    //apiUrl = `http://172.16.1.252:9080/announcements`;
     exportFile = `${TEST_URL}/${API['ANNOUNCE']}/export`;
     SPExportFile = `${TEST_URL}/${API['ANNOUNCE']}/specialExport`;
 
