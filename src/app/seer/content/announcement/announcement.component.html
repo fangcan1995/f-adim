@@ -4,6 +4,7 @@
     [filters]="filters"
     (onFiltersChanged)=handleFiltersChanged($event)
     (onSearchBtnClicked)=handleSearchBtnClicked($event)
+    [rowLength]='filterRowLength'
   ></seer-filter>
 </seer-collapse-card>
 <seer-collapse-card>

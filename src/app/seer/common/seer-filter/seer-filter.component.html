@@ -20,10 +20,10 @@
 
 <div [@slideInOut]="isFilterShown()" style="overflow: hidden;" *ngIf="filters">
   <div class="row filter__container form-horizontal">
-    <div class="col-sm-12 col-md-6 col-lg-6 col-xlg-4 form-group" *ngFor="let filter of filters">
+    <div class="col-sm-12 col-md-6 col-lg-6 col-xlg-4 form-group" *ngFor="let filter of filters" [ngClass]="{'col-xlg-4':rowLength==3,'col-xlg-6':rowLength==2}">
       <div class="row">
-        <label class="label-control col-sm-4 ">{{ filter.label }}</label>
-        <div class="col-sm-8">
+        <label class="label-control" [ngClass]="{'col-sm-4':rowLength==3,'col-sm-2':rowLength==2}">{{ filter.label }}</label>
+        <div [ngClass]="{'col-sm-8':rowLength==3,'col-sm-10':rowLength==2}">
           <ng-container *ngIf="filter.groups">
             <div class="row">
               <ng-container *ngFor="let group of filter.groups; let i = index">

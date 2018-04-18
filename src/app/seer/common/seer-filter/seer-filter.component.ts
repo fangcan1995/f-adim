@@ -49,6 +49,8 @@ export class SeerFilterComponent implements OnInit {
   @Input() filters: Array<FilterModel>;
   @Input() translate;
 
+  @Input() rowLength: any = 3;
+
 
   @Input() formGroupColNum:string='col-sm-12 col-md-6 col-lg-6 col-lg-4' //查询向一行显示的列数，edit by lily
 

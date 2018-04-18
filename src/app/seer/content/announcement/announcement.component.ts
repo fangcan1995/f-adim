@@ -14,6 +14,7 @@ import * as _ from 'lodash';
 export class AnnouncementComponent implements OnInit, OnDestroy {
 
     hasGlobalFilter = true;
+    filterRowLength = 2;
     filters = [
         { key: 'announceName', label: '公告名称', type: 'input.text' },
         { key: 'announceTitle', label: '公告标题', type: 'input.text' },
