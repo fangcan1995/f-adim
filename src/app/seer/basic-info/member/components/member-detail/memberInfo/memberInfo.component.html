@@ -93,14 +93,6 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label  class="col-sm-4 control-label">住房情况</label>
-                <div class="col-sm-8">
-                  <label  class="form-control">{{baseInfo.houseAbout}}</label>
-                </div>
-              </div>
-            </div>
             <div class="col-sm-12 col-md-12 col-lg-12 col-xlg-12">
               <div class="row">
                 <label for="domicilePlace" class="col-sm-4 col-md-2 col-xlg-1 control-label">户口所在地</label>
@@ -120,10 +112,19 @@
             </div>
 
             <div class="form-group col-sm-12">
+                <div class="row">
+                  <label  class="col-sm-4 col-md-2 col-xlg-1 control-label">住房情况</label>
+                  <div class="col-sm-8 col-md-10 col-xlg-11">
+                    <textarea  class="form-control"  rows="2" disabled>{{baseInfo.houseAbout}}</textarea>
+                  </div>
+                </div>
+              </div>
+
+            <div class="form-group col-sm-12">
               <div class="row">
                 <label  class="col-sm-4 col-md-2 col-xlg-1 control-label">资产介绍</label>
                 <div class="col-sm-8 col-md-10 col-xlg-11">
-                  <label class="form-control">{{baseInfo.assetDesc}}</label>
+                  <textarea class="form-control" disabled>{{baseInfo.assetDesc}}</textarea>
                 </div>
               </div>
             </div>
@@ -131,7 +132,7 @@
               <div class="row">
                 <label  class="col-sm-4 col-md-2 col-xlg-1 control-label">债务介绍</label>
                 <div class="col-sm-8 col-md-10 col-xlg-11">
-                  <label class="form-control">{{baseInfo.debtDesc}}</label>
+                  <textarea class="form-control" disabled>{{baseInfo.debtDesc}}</textarea>
                 </div>
               </div>
             </div>
