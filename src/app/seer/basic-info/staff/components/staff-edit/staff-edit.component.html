@@ -7,7 +7,7 @@
       <div class="col-md-12">
         <form class="form-horizontal">
           <seer-collapse-card
-            cardTitle="职位基本信息"
+            cardTitle="员工基本信息"
             [canCollapse]=true
             [saveDistabled]="forbidBaseSaveBtn && form1.form.valid"
             [headerActions]="collapseCardActions"
@@ -23,8 +23,20 @@
                               required name='emCode' #emCode='ngModel' [rangeLength] ='[9,9]' title="员工编号" disabled>
                       <!-- <span class="tips"></span> -->
                       <p class="text-danger tips" *ngIf="emCode.errors?.required">*请认真填写，保存后不可修改</p>
-                      <p class="text-danger tips" *ngIf="emCode.errors?.rangeLength">请输入9个纯数字</p>
+                      <p class="text-danger tips" *ngIf="emCode.errors?.rangeLength">请输入9个数字</p>
                     </div>              
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                  <div class="row">
+                    <label for="empName" class="col-sm-4 control-label">姓名</label>
+                    <div class="col-sm-8 ">
+                      <input type="text" class="form-control" id="empName"
+                            [(ngModel)]="staff.sysEmployer.empName"                           
+                            name='empName' #empName='ngModel' required  [rangeLength]='[1,6]'>
+                            <p class="text-danger tips" *ngIf="empName.errors?.required">*必填项</p>
+                            <p class="text-danger tips" *ngIf="empName.errors?.rangeLength">六个字符以内</p>
+                    </div>
                   </div>
                 </div>
                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
@@ -165,31 +177,8 @@
                     </div>
                   </div>
                 </div>
-              </div>
-            </form>
-          </seer-collapse-card>
-          <seer-collapse-card
-            cardTitle="个人基本信息"
-            [canCollapse]=false
-            [defaultExpand]="false"
-            [saveDistabled]="forbidBaseSaveBtn && form2.form.valid"
-            [headerActions]="collapseCardActions"
-            (notify)="staffInfoNotify($event)"
-          >
-            <form class="form-horizontal"  #form2="ngForm">
-              <div class="row">
-                <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                  <div class="row">
-                    <label for="empName" class="col-sm-4 control-label">姓名</label>
-                    <div class="col-sm-8 ">
-                      <input type="text" class="form-control" id="empName"
-                            [(ngModel)]="staff.sysEmployer.empName"                           
-                            name='empName' #empName='ngModel' required  [rangeLength]='[1,6]'>
-                            <p class="text-danger tips" *ngIf="empName.errors?.required">*必填项</p>
-                            <p class="text-danger tips" *ngIf="empName.errors?.rangeLength">六个字符以内</p>
-                    </div>
-                  </div>
-                </div>
+              
+                
                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                   <div class="row">
                     <label for="empSex" class="col-sm-4 control-label">性别</label>
@@ -302,7 +291,7 @@
                       <input type="text" class="form-control" id="phone" [(ngModel)]="staff.sysEmployer.phone"
                                                       name='phone' #phone='ngModel' [rangeLength]='[11,11]' required>
                             <p class="text-danger tips" *ngIf="phone.errors?.required">*必填项</p>
-                            <p class="text-danger tips" *ngIf="phone.errors?.rangeLength">限制纯数字11位</p>
+                            <p class="text-danger tips" *ngIf="phone.errors?.rangeLength">限制数字11位</p>
                     </div>
                   </div>
                 </div>
@@ -313,7 +302,7 @@
                       <input type="text" class="form-control" id="idNum" [(ngModel)]="staff.sysEmployer.idNum"
                                                       name='idNum' #idNum='ngModel' [rangeLength]='[18,18]' required>
                             <p class="text-danger tips" *ngIf="idNum.errors?.required">*必填项</p>
-                            <p class="text-danger tips" *ngIf="idNum.errors?.rangeLength">限制纯数字18位</p>
+                            <p class="text-danger tips" *ngIf="idNum.errors?.rangeLength">限制数字18位</p>
                     </div>
                   </div>
                 </div>
@@ -342,6 +331,7 @@
               </div>
             </form>
           </seer-collapse-card>
+          
   
           <seer-collapse-card cardTitle="学历技能信息" [canCollapse]="true" [defaultExpand]="false">
             <seer-simple-table
