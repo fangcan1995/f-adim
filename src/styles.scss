@@ -27,6 +27,28 @@
         font-size: 12px
       }
     }
+    .form-control {
+      &.needBtn {
+        text-align: right;
+        position: relative;
+        &.addBtn {
+          padding-right: 30px;
+        }
+      }
+      +.select_btn {
+        position: absolute;
+        right: 20px;
+        top: 4px;
+        .btn{
+          width: 70px;
+          height: 22px;
+          line-height: 20px;
+          &.btn-outline-dark{
+            background: #fff;
+          }
+        }
+      }
+    }
   }
   .text-danger{ text-align: left}
   .ng-touched:not(form),.ng-invalid:not(form) {
