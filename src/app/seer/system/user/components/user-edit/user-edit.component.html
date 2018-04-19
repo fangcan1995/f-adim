@@ -46,6 +46,7 @@
                             id="emCode"
                             name="emCode"
                             [(ngModel)]="user.emCode"
+                            (click)="handleModalShown()"
                         />
                     </div>
                 </div>
@@ -132,4 +133,44 @@
     </div>
   </div>
 </div> -->
+
+<div class="modal fade" bsModal #modal="bs-modal"
+    (onShown)="handleModalShown();"
+    (onHide)="handleModalHide()"
+>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="padding: 20px;">
+            <div class="modal-header">
+                <h3>请选择员工编号</h3>
+            </div>
+            <div class="modal-body">
+                <seer-filter
+                    [hasGlobalFilter]="hasGlobalFilter"
+                    (onFiltersChanged)=handleFiltersChanged($event)
+                ></seer-filter>
+                <seer-table
+                    [data]="modalStaffCode"
+                    [titles]="titles"
+                    [pageSize]=pageInfo.pageSize
+                    [pageNum]=pageInfo.pageNum
+                    [total]=pageInfo.total
+                    [paginationRules]="0"
+                    [translate]="translate"
+                    [hideExport]="true"
+                    [hidePrint]="true"
+                    [hideRemoveAll]="true"
+                    [hideColumns]="true"
+                    [hideAddButton]="true"
+                    [hideActions]="true"
+                    [hideHeaderCheckbox]="true"
+                    (notify)="staffSelected($event)"
+                    (changePage)="modalPageChange($event)"
+                ></seer-table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="modal.hide()">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
 

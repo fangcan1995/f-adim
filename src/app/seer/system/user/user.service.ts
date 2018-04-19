@@ -49,4 +49,11 @@ export class UserService extends BaseService<any> {
             search: params
         })).toPromise();
     }
+
+
+    getStaffCode(params): Promise<any> {
+        let tempUrl = `http://172.16.1.252:9080`;
+        let staffUrl = `${tempUrl}/${API['STAFFS']}`;
+        return this._httpInterceptorService.request('GET',staffUrl, params).toPromise();
+    }
 }
