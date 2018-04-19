@@ -25,6 +25,7 @@ export class BaPageTop implements OnInit {
 
     @ViewChild('pageTop') pageTop: ElementRef;
     @ViewChild('modal') modal: ModalDirective;
+    @ViewChild('personInfo') personInfo: ModalDirective;
     @ViewChild('myForm') myForm;
 
     public isScrolled: boolean = false;
@@ -36,6 +37,7 @@ export class BaPageTop implements OnInit {
     activePageIcon: string;
     isHidden: boolean;
     _offsetTop: number;
+    userStaffInfo: any = {};
 
     user: any = {};
 
@@ -71,10 +73,14 @@ export class BaPageTop implements OnInit {
             newPassword: newPassword,
             certainPassword: certainPassword
         });
+
     }
     ngOnInit(): void {
         this.user = this._manageService.getUserFromLocal() || {};
+        console.log(this.user);
     }
+
+
     private _getActivePageIcon(activeLink) {
         if (!activeLink.icon && !activeLink.parent) {
             return null;
@@ -104,9 +110,22 @@ export class BaPageTop implements OnInit {
         this._authService.logout().subscribe(this.redirectToLogin.bind(this));
     }
 
-    onOpenPersonalInfo() {
-        let id = this.user.userId;
-        this.router.navigate([`../../../basic-info/personal-info/${id}`]);
+    onOpenPersonalInfo($event) {
+        /* let id = this.user.userId;
+        this.router.navigate([`../../../basic-info/personal-info/${id}`]); */
+        $event.preventDefault();
+        this._manageService.getPersonInfo(this.user.userId)
+            .then(res => {
+                let { empName, emCode, position, departmentName } = res.data;
+                this.userStaffInfo = {
+                    empName, 
+                    emCode, 
+                    position,
+                    departmentName
+                };
+            })
+        
+        this.personInfo.show();
     }
 
     redirectToLogin() {

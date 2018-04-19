@@ -60,6 +60,7 @@
         <th *ngIf="!hideCheckbox" class="table-checkbox">
           <!-- 此处不能用 checkedChange -->
           <seer-cool-checkbox
+            *ngIf="!hideHeaderCheckbox"
             [(checked)]="selectedAll"
             (change)="selectAll()"
           ></seer-cool-checkbox>
