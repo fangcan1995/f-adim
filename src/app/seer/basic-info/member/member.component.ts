@@ -49,7 +49,7 @@ export class MemberComponent implements OnInit {
   members = [];
   titles = [
     { key: 'userName', label: '用户名' },
-    { key: 'trueName', label: '真实姓名' },
+    { key: 'trueName', label: '真实姓名',textAlign:'center' },
     { key: 'phoneNumber', label: '手机号',textAlign:'center' },
     { key: 'idNumber', label: '身份证号',textAlign:'center' },
     { key: 'sex', label: '性别', isDict: true, category: 'M_SEX',textAlign:'center' },

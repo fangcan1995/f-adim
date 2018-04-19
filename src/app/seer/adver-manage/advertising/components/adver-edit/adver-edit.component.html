@@ -116,6 +116,7 @@
                     </div>
                   </ng-template>
                   <input type="file" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)" [disabled]="uploadDisabled">
+                  <seer-loading [isLoading]="isLoading" [type]="'small'"></seer-loading>
                 </div>
               </div>
             </div>
