@@ -63,7 +63,7 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label  class="col-sm-4 control-label">年均收入</label>
+                <label  class="col-sm-4 control-label">年均收入（元）</label>
                 <div class="col-sm-8">
                   <label  class="form-control number">{{baseInfo.yearIncome | coinFormate}}</label>
                 </div>
@@ -201,13 +201,13 @@
                 职务: {{workInfo.jobPost}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                工作年限: {{workInfo.workYear}}年
+                工作年限: {{workInfo.workYear||0}}年
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 工作电话: {{workInfo.workTel}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                月净收入: {{workInfo.monthIncome | coinFormate}}
+                月净收入: {{workInfo.monthIncome | coinFormate}}元
               </div>
               <div class="form-group col-sm-12">
                 详细地址: {{workInfo.workAddress}}
