@@ -152,7 +152,7 @@ export class UserComponent implements OnInit {
         pageSize: 10,
         pageNum: 1,
         sortBy: '',
-        GlobalSearch: '',
+        globalSearch: '',
         excelmaps: {
             loginName: '用户账号',
             empName: '用户名称',

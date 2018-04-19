@@ -24,8 +24,10 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
             groups: [
                 {
                     type: 'datepicker',
+                    id: 'time1'
                 },
                 {
+                    id: 'time2',
                     type: 'datepicker',
                 },
             ],
@@ -101,7 +103,11 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
         console.log(message);
         const type = message.type;
         let data = message.data;
+        let column = message.column;
         switch (type) {
+            case 'hideColumn':
+                this.pageInfo.excelmaps = column;
+                break;
             case 'create':
                 this._router.navigate(['add'], { relativeTo: this._activatedRoute });
                 break;
@@ -109,8 +115,18 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
                 this._router.navigate([`edit/${message.data.id}`], { relativeTo: this._activatedRoute });
                 break;
             case 'delete':
-                this._dialogService.confirm('确定删除吗？')
-                    .subscribe(action => {
+                this._dialogService.confirm(
+                    `确定删除  #${data.title}#  吗？`,
+                    [
+                        {
+                            type: 1,
+                            text: '确认删除'
+                        },
+                        {
+                            type: 0,
+                            text: '暂不删除'
+                        },
+                    ]).subscribe(action => {
                         if (action === 1) {
                             this._announcementService.deleteOne(data.id)
                                 .then(data => {
@@ -127,17 +143,17 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
             case 'export':
                 this._announcementService.specialExportForm(this.pageInfo)
                     .then(res => {
-                    let blob = res.blob();
-                    let a = document.createElement('a');
-                    let url = window.URL.createObjectURL(blob);
-                    a.href = url;
-                    a.download = '公告管理' + '.xls';
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                    console.log(res);
-                }).catch(err => {
-                    console.log(err);
-                });
+                        let blob = res.blob();
+                        let a = document.createElement('a');
+                        let url = window.URL.createObjectURL(blob);
+                        a.href = url;
+                        a.download = '公告管理' + '.xls';
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        console.log(res);
+                    }).catch(err => {
+                        console.log(err);
+                    });
                 break;
         }
     }

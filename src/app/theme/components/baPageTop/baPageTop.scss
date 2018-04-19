@@ -2,10 +2,53 @@
 @import '../../components/baMsgCenter/baMsgCenter';
 
 
+:host /deep/ {
+    .modal .modal-dialog.changePassWordModal {
+        min-width: 600px;
+    }
 
-.changePassWordModal {
-    min-width: 300px;
+    .userImage {
+        width: 80px;
+        height: 80px;
+        margin: 20px auto;
+    
+        preload-image {
+            width: 80px;
+            height: 80px;
+
+            img {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+            }
+        }
+    }
+
+    .userinfo {
+        > div {
+            width: 300px; 
+            text-align: center; 
+            padding: 5px 0;
+            margin: 0 auto;
+
+            > * {
+                display: inline-block;
+            }
+
+            > label {
+                width: 126px; 
+                text-align: right; 
+                margin-right: 20px;
+            }
+
+            > span {
+                width: 150px; 
+                text-align: left;
+            }
+        }
+    }
 }
+
 
 .page-top {
   position: fixed;
@@ -206,3 +249,4 @@ a.collapse-menu-link {
     text-align: right;
   }
 }
+
