@@ -13,6 +13,7 @@ import {formatDate} from "ngx-bootstrap/bs-moment/format";
 })
 export class MessageComponent {
   hasGlobalFilter = true; //打开全局检索
+  isLoading:boolean = true;
   filters = [
     {
       key: 'msgTitle',
@@ -149,9 +150,11 @@ export class MessageComponent {
               actions = [PREVIEW];
               break;
           }
+          this.isLoading = false;
           return _.set(r, 'actions', actions)
         })
       }).catch(err => {
+        this.isLoading = false;
         this.showError(err.msg || '连接失败');
       });
   }

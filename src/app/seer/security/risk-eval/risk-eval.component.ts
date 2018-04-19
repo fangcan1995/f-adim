@@ -13,6 +13,7 @@ import {SeerMessageService} from "../../../theme/services/seer-message.service";
 export class RiskEvalComponent implements OnInit {
 
   hasGlobalFilter = false;
+  isLoading:boolean = true;
   public forbidSaveBtn: boolean = true;
 
   riskEvals = [];
@@ -52,7 +53,9 @@ export class RiskEvalComponent implements OnInit {
       this.pageInfo.total = res.data.total; //记录总数
       this.riskEvals = res.data.list;
       this.riskEvals = _.map(this.riskEvals, r => _.set(r, 'actions', [PREVIEW ]));
+      this.isLoading = false;
     }).catch(err=>{
+      this.isLoading = false;
       this.alertError(err.msg || '连接失败');
     })
   }

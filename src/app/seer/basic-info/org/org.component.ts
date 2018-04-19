@@ -38,6 +38,7 @@ import { colorHelper } from "app/theme/theme.constants";
 })
 export class OrgComponent implements OnDestroy{
 
+  isLoading:boolean = true;
   @ViewChild(DynamicComponentLoader)
   dynamicComponentLoader: DynamicComponentLoader;
 
@@ -192,7 +193,9 @@ export class OrgComponent implements OnDestroy{
        this.pageInfo.total = result.data.total; //记录总数
        this.datas = result.data.list;
        this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE,CONFIG_LEADER]));
+       this.isLoading = false;
      }).catch(err => {
+       this.isLoading = false;
        console.log(err);
        this.alertError(err.msg)
      });

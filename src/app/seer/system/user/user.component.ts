@@ -29,6 +29,7 @@ export class UserComponent implements OnInit {
         private _authService: AuthService
     ) { }
     hasGlobalFilter: boolean = true;
+    isLoading:boolean = true;
     filters: any = [
         {
             key: 'loginName',
@@ -190,8 +191,10 @@ export class UserComponent implements OnInit {
 
                 this.pageSize = data.pageSize || this.params.pageSize;
                 this.pageNum = data.pageNum || this.params.pageNum;
+                this.isLoading = false;
             })
             .catch(err => {
+                this.isLoading = false;
                 console.log(err);
                 this.showError(err.msg || '获取用户失败');
             })

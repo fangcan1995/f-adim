@@ -15,6 +15,7 @@ export class RiskRatingComponent implements OnInit {
 
   public forbidSaveBtn: boolean = true;
   hasGlobalFilter = false;
+  isLoading:boolean = true;
   riskRatings = [];
 
   titles = [
@@ -62,6 +63,9 @@ export class RiskRatingComponent implements OnInit {
       this.pageInfo.total = res.data.total; //记录总数
       this.riskRatings = res.data.list;
       this.riskRatings = _.map(this.riskRatings, r => _.set(r, 'actions', [PREVIEW]));
+      this.isLoading = false;
+    }).catch(error=>{
+      this.isLoading = false;
     });
   }
 
