@@ -691,6 +691,10 @@ export class ActivityEditComponent {
     this.modalParentsPageInfo = params;
     this.modalGetParentsList();
   }
+  //2-6清空关联活动id
+  clear(){
+    this.baseInfoDTO.parentId=``;
+  }
 
 
   /************公共********************/
