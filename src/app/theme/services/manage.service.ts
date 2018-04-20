@@ -88,11 +88,11 @@ export class ManageService extends BaseService<any> {
     public changePassword(params?) {
         console.log(params);
         //return this._httpInterceptorService.request('PUT', `${BASE_URL}/${API['CHANGE_PASSWORD']}`, params).toPromise();
-        return this._httpInterceptorService.request('POST', `http://172.16.1.234:8020/${API['CHANGE_PASSWORD']}?username=${params.username}&old_password=${params.old_password}&new_password=${params.new_password}&type=system`, {}, false).toPromise();
+        return this._httpInterceptorService.request('POST', `${BASE_URL}/${API['CHANGE_PASSWORD']}?username=${params.username}&old_password=${params.old_password}&new_password=${params.new_password}&type=system`, {}, false).toPromise();
     }
 
     public getPersonInfo(userId) {
-        let url = `http://172.16.1.252:9080/staffs/search/userId/${userId}`;
+        let url = `${BASE_URL}/${API['STAFFS']}/search/userId/${userId}`;
         return this._httpInterceptorService.request('GET', url, {}, false).toPromise();
     }
 
