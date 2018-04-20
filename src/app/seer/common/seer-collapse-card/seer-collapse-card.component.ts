@@ -13,6 +13,7 @@ export class SeerCollapseCardComponent implements OnInit, OnChanges {
   @Input() canCollapse: boolean = false;
   @Input() defaultExpand: boolean = true;
   @Input() headerActions;
+  @Input() editType;
   @Input() saveDistabled: boolean = true;
   @Output() notify = new EventEmitter();
   public _isExpanded: boolean = false;
@@ -29,8 +30,10 @@ export class SeerCollapseCardComponent implements OnInit, OnChanges {
   handleHeaderClick() {
   	this._isExpanded = this.canCollapse ? !this._isExpanded : true;
   }
-  handleHeaderActionsClick($event, { type }) {
+  handleHeaderActionsClick($event, { type },params?) {
     $event.stopPropagation();
-    this.notify.emit({ type })
+    console.log(params)
+    const newtype={...type,params}
+    this.notify.emit(newtype)
   }
 }

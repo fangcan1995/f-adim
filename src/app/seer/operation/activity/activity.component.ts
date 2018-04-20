@@ -12,6 +12,7 @@ import {formatDate} from "ngx-bootstrap/bs-moment/format";
 })
 export class ActivityComponent implements OnInit {
   hasGlobalFilter = true;
+  isLoading:boolean = true;
   filters = [
     {key: 'activityCode', label: '活动编号', type: 'input.text',maxLength:'11'},
     {key: 'trigMode', label: '触发方式', type: 'select', isDict: true, category: 'TRIG_MODE'},
@@ -117,10 +118,12 @@ export class ActivityComponent implements OnInit {
               actions = [PREVIEW];
               break;
           }
+          this.isLoading = false;
           return _.set(t, 'actions', actions);
         })
       })
       .catch(err=> {
+        this.isLoading = false;
         this.showError(err.msg || '连接失败');
       })
   }

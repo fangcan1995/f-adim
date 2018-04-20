@@ -10,7 +10,7 @@ import {SeerMessageService} from "../../../theme/services";
   styleUrls: ['./coupon.component.scss'],
 })
 export class CouponComponent implements OnInit{
-
+  isLoading:boolean = true;
   hasGlobalFilter = true;
   filters = [
     {key: 'name', label: '加息券主题', type: 'input.text'},
@@ -93,11 +93,13 @@ export class CouponComponent implements OnInit{
             default:
               break;
           }
+          this.isLoading = false;
           return _.set(t, 'actions', actions);
 
         })
       })
       .catch(err=> {
+        this.isLoading = false;
         this.showError(err.msg || '连接失败');
       })
 

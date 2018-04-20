@@ -24,7 +24,7 @@
         <input
           *ngIf="(item.editState === 'EDIT' || item.editState === 'CREATE')&&(title.key != 'endTime' && title.key != 'startTime' && title.key !='contRelation')"
           class="form-control" 
-          style="width: auto; max-width: 90%; padding-right: 4px; padding-left: 4px"
+          style="max-width: 90%; padding-right: 4px; padding-left: 4px"
           type="text"
           [(ngModel)]="item.editData[title.key]"
           />
@@ -52,7 +52,7 @@
         <select type="email" class="form-control" name="maritaStatus" id="maritaStatus"
           *ngIf="(item.editState === 'EDIT' || item.editState === 'CREATE')&&(title.key=='contRelation')"
           [(ngModel)]="item.editData[title.key]"
-          style="width:200px"
+          style="width:200px;margin: auto;"
           dict-select required
           [key]="'CONT_RELATION'"
           [topOption]="{itemId:'',itemName:'请选择'}"
@@ -61,6 +61,7 @@
         <select type="email" class="form-control" name="maritaStatus" id="maritaStatus"
           *ngIf="title.type != 'input_number' && title.type != 'link' && !displayOriginalData && item.editState != 'EDIT' && item.editState != 'CREATE' &&(title.key=='contRelation')"
           [(ngModel)]="item.editData[title.key]"
+          style="width:200px;margin: auto;"
           dict-select disabled
           [key]="'CONT_RELATION'"
           [topOption]="{itemId:'',itemName:'请选择'}"

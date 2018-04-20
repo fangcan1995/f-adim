@@ -5,8 +5,8 @@ import {getStorage} from "../../../theme/libs/utils"
 @Injectable()
 export class MemberService extends BaseService<ResModel>{
     //MembersUrl=`${TEST_URL}/${API['MEMBERS']}`; //会员接口
-  MembersUrl=`http://172.16.1.225:9080/members`; //会员接口
-  // MembersUrl=`${BASE_URL}/members`; //会员接口
+  // MembersUrl=`http://172.16.1.225:9080/members`; //会员接口
+  MembersUrl=`${BASE_URL}/members`; //会员接口
   emergencyContactUrl=`contact`;//联系人
   VehicleContactUrl=`car`;//车辆
   HouseContactUrl=`house`;//车辆
@@ -176,7 +176,7 @@ export class MemberService extends BaseService<ResModel>{
   //验证电话号码
   validatePhone(phone){
     let mobileRegex =  /^(((1[3456789][0-9]{1})|(15[0-9]{1}))+\d{8})$/;
-         if(mobileRegex.test(phone)){
+         if(mobileRegex.test(phone.trim())){
              return true;
          }else{
              return false;
@@ -185,7 +185,7 @@ export class MemberService extends BaseService<ResModel>{
   //验证身份证号码
   validateIdCard(idCard){
     let mobileRegex =  /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-         if(mobileRegex.test(idCard)){
+         if(mobileRegex.test(idCard.trim())){
              return true;
          }else{
              return false;

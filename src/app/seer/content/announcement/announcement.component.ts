@@ -14,6 +14,7 @@ import * as _ from 'lodash';
 export class AnnouncementComponent implements OnInit, OnDestroy {
 
     hasGlobalFilter = true;
+    isLoading = true;
     filterRowLength = 2;
     filters = [
         { key: 'announceName', label: '公告名称', type: 'input.text' },
@@ -96,6 +97,9 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
                     }
                     return _.set(t, 'actions', actions);
                 })
+                this.isLoading = false;
+            }).catch(err=>{
+                this.isLoading = false;
             })
     }
 

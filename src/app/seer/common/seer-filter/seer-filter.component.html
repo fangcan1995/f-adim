@@ -76,7 +76,7 @@
           </select>
           <seer-datepicker
             *ngIf="filter.type === 'datepicker' && !filter.groups"
-            [dateFormatingRules]="dateFormatingRules || 'yyyy/MM/dd'"
+            [dateFormatingRules]="dateFormatingRules || 'yyyy-MM-dd'"
             [(date)]="filter.value"
             (dateChange)="handleFilterChange()"
             [disabled]="filter.disabled"

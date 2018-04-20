@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { DatePipe } from "@angular/common";
 import { Router } from "@angular/router";
 import * as _ from 'lodash';
-import { UserService } from './user.service';
+import { UserService } from './plan.service';
 import {
     ManageService,
     SeerDialogService,
@@ -13,8 +13,8 @@ import { GlobalState } from '../../../global.state';
 import { UPDATE, DELETE, CREATE, ENABLE, DISABLE } from '../../common/seer-table';
 import { CouponService } from "../../operation/coupon/coupon.service";
 @Component({
-    templateUrl: './user.component.html',
-    styleUrls: ['./user.component.scss'],
+    templateUrl: './plan.component.html',
+    styleUrls: ['./plan.component.scss'],
     providers: [DatePipe],
 })
 export class UserComponent implements OnInit {
@@ -29,7 +29,6 @@ export class UserComponent implements OnInit {
         private _authService: AuthService
     ) { }
     hasGlobalFilter: boolean = true;
-    isLoading:boolean = true;
     filters: any = [
         {
             key: 'loginName',
@@ -153,7 +152,7 @@ export class UserComponent implements OnInit {
         pageSize: 10,
         pageNum: 1,
         sortBy: '',
-        globalSearch: '',
+        GlobalSearch: '',
         excelmaps: {
             loginName: '用户账号',
             empName: '用户名称',
@@ -191,10 +190,8 @@ export class UserComponent implements OnInit {
 
                 this.pageSize = data.pageSize || this.params.pageSize;
                 this.pageNum = data.pageNum || this.params.pageNum;
-                this.isLoading = false;
             })
             .catch(err => {
-                this.isLoading = false;
                 console.log(err);
                 this.showError(err.msg || '获取用户失败');
             })

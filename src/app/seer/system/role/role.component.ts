@@ -19,6 +19,7 @@ import { RoleService } from './role.service';
     styleUrls: ['./role.component.scss'],
 })
 export class RoleComponent {
+    isLoading:boolean = true;
     hasGlobalFilter = hasGlobalFilter;
     titles = tableTitles;
     tableFilters = {};
@@ -54,8 +55,10 @@ export class RoleComponent {
             .then(res => {
                 let data = res.data || {};
                 this.roles = _.map(data.list, r => _.set(r, 'actions', [UPDATE, DELETE]));
+                this.isLoading = false;
             })
             .catch(err => {
+                this.isLoading = false;
                 this.showError(err.msg || '获取角色失败');
             });
     }

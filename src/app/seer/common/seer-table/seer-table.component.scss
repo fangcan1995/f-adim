@@ -1,6 +1,6 @@
 @import '../../../theme/sass/conf/conf';
 :host /deep/ {
-    
+
   .table {
     border: 0;
     color: $default-text;
@@ -15,7 +15,7 @@
       border-width: 0 1px;
     }
   }
-  
+
   .seer_font{
     font-size: 11px;
     font-family: 'Microsoft Sans Serif' , Arial, Helvetica, Verdana;
@@ -39,9 +39,10 @@
       }
       &:hover {
         color: $primary;
-      } 
+      }
     }
   }
+
   .popover {
     font-size: 12px;
     line-height: 1.2;

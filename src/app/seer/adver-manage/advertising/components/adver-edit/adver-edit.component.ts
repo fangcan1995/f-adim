@@ -38,6 +38,7 @@ export class AdverEditComponent implements OnInit{
   public attachments = [];
   public uploader:FileUploader; //上传对象
   public progress: number = 0; //上传进度
+  isLoading:boolean = false;
   @ViewChild('validationForm') validationForm;
   constructor(private _advertisingService: AdvertisingService,
               private _messageService: SeerMessageService,
@@ -114,6 +115,7 @@ export class AdverEditComponent implements OnInit{
   }
   // 上传
   uploadFile() {
+    this.isLoading = true;
     _.forEach(this.uploader.queue, (t, i) => {
       this.uploader.queue[i].upload(); // 开始上传
 
@@ -122,6 +124,7 @@ export class AdverEditComponent implements OnInit{
   //上传成功回调
   successItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders):any{
     if (status == 200) {
+      this.isLoading = false;
       // 上传文件后获取服务器返回的数据
       console.log(response);
       let tempRes = JSON.parse(response);
@@ -140,6 +143,7 @@ export class AdverEditComponent implements OnInit{
 
       //
     }else {
+      this.isLoading = false;
       // 上传文件后获取服务器返回的数据错误
       this.showError("上传失败！")
     }
@@ -151,7 +155,7 @@ export class AdverEditComponent implements OnInit{
   }
   //返回
   handleBackBtnClick() {
-    if(this._editType === 'add'){
+    if(this.validationForm.dirty){
       this._dialogService.confirm('还未保存确认要离开吗？')
         .subscribe(action => {
           if(action === 1) {

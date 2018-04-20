@@ -131,11 +131,11 @@ export class ActivityEditComponent {
   public modalParentsRef: BsModalRef;
   cardActions2 = [this.modalActionSet.All,this.modalActionSet.OK,this.modalActionSet.CANCEL,];
   @ViewChild('validationForm') validationForm;
-  @ViewChild('validationForm') form1;
-  @ViewChild('validationForm') form2;
-  @ViewChild('validationForm') form3;
-  @ViewChild('validationForm') form4;
-  @ViewChild('validationForm') form5;
+  @ViewChild('form1') form1;
+  @ViewChild('form2') form2;
+  @ViewChild('form3') form3;
+  @ViewChild('form4') form4;
+  @ViewChild('form5') form5;
 
   isSelectedMember= false;
   constructor(private _activityService: ActivityService,
@@ -691,12 +691,16 @@ export class ActivityEditComponent {
     this.modalParentsPageInfo = params;
     this.modalGetParentsList();
   }
+  //2-6清空关联活动id
+  clear(){
+    this.baseInfoDTO.parentId=``;
+  }
 
 
   /************公共********************/
   //返回
   handleBackBtnClick() {
-    if(this._editType === 'add'){
+    if(this.validationForm.dirty||(this.form1&&this.form1.dirty)||(this.form2&&this.form2.dirty)||(this.form3&&this.form3.dirty)||(this.form4&&this.form4.dirty)||(this.form5&&this.form5.dirty)){
       this._dialogService.confirm('还未保存确认要离开吗？')
         .subscribe(action => {
           if(action === 1) {

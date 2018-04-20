@@ -7,95 +7,60 @@
       <form class="form-horizontal">
         <seer-collapse-card cardTitle="风险题目设置" [canCollapse]=false>
           <div class="row">
-            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
+            <div class="form-group col-sm-12 col-md-12 col-lg-6 col-xlg-6">
               <div class="row">
-                <label  class="col-sm-2 control-label">测评题目:</label>
-                <div class="col-sm-10">
-                  <label >{{riskEval.examName}}</label>
-                </div>
+                <label  class="col-sm-12 control-label">测评题目: &nbsp;&nbsp;{{riskEval.examName}}</label>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
               <div class="row">
-                <label  class="col-sm-2 control-label">题目类型:</label>
-                <div class="col-sm-4">
-                  <label  dict-trans [key]="'EXAM_TYPE'" [value]="riskEval.examType"></label>
-                </div>
+                <label  class="col-sm-12 control-label">题目类型: &nbsp;&nbsp;<span  dict-trans [key]="'EXAM_TYPE'" [value]="riskEval.examType"></span></label>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
+            <div class="form-group col-sm-12 col-md-12 col-lg-6 col-xlg-6">
               <div class="row">
-                <label class="col-sm-2 control-label">题目答案A:</label>
-                <div class="col-sm-4">
-                  {{riskEval.examA}}
-                </div>
-                <label class="col-sm-2 control-label">分数:</label>
-                <div class="col-sm-4">
-                  {{riskEval.examAScores}}
-                </div>
+                <label class="col-sm-6 control-label">题目答案A:&nbsp;&nbsp;{{riskEval.examA || '——'}}</label>
+                <label class="col-sm-6 control-label">分数:&nbsp;&nbsp;{{riskEval.examAScores || '——'}}</label>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
+            <div class="form-group col-sm-12 col-md-12 col-lg-6 col-xlg-6">
               <div class="row">
-                <label  class="col-sm-2 control-label">题目答案B:</label>
-                <div class="col-sm-4">
-                  {{riskEval.examB}}
-                </div>
-                <label class="col-sm-2 control-label">分数:</label>
-                <div class="col-sm-4">
-                  {{riskEval.examBScores}}
-                </div>
+                <label  class="col-sm-6 control-label">题目答案B:&nbsp;&nbsp;{{riskEval.examB || '——'}}</label>
+                <label class="col-sm-6 control-label">分数:&nbsp;&nbsp;{{riskEval.examBScores || '——'}}
+                </label>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
+            <div class="form-group col-sm-12 col-md-12 col-lg-6 col-xlg-6">
               <div class="row">
-                <label class="col-sm-2 control-label">题目答案C:</label>
-                <div class="col-sm-4">
-                  {{riskEval.examC}}
-                </div>
-                <label class="col-sm-2 control-label">分数:</label>
-                <div class="col-sm-4">
-                  {{riskEval.examCScores}}
-                </div>
+                <label class="col-sm-6 control-label">题目答案C:&nbsp;&nbsp;{{riskEval.examC || '——'}}</label>
+                <label class="col-sm-6 control-label">分数:&nbsp;&nbsp;{{riskEval.examCScores || '——'}}</label>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
+            <div class="form-group col-sm-12 col-md-12 col-lg-6 col-xlg-6">
               <div class="row">
-                <label for="examType" class="col-sm-2 control-label">题目答案D:</label>
-                <div class="col-sm-4">
-                  {{riskEval.examD}}
-                </div>
-                <label for="examType" class="col-sm-2 control-label">分数:</label>
-                <div class="col-sm-4">
-                  {{riskEval.examDScores}}
-                </div>
+                <label  class="col-sm-6 control-label">题目答案D:&nbsp;&nbsp;{{riskEval.examD || '——'}}</label>
+                <label  class="col-sm-6 control-label">分数:&nbsp;&nbsp;{{riskEval.examDScores || '——'}}</label>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-6">
+          <!--<div class="row">
+            <div class="form-group col-sm-12 col-md-12 col-lg-6 col-xlg-6">
               <div class="row">
-                <label class="col-sm-2 control-label">题目答案D:</label>
-                <div class="col-sm-4">
-                  {{riskEval.examE}}
-                </div>
-                <label class="col-sm-2 control-label">分数:</label>
-                <div class="col-sm-4">
-                  {{riskEval.examEScores}}
-                </div>
+                <label class="col-sm-6 control-label">题目答案E:&nbsp;&nbsp;{{riskEval.examE || '——'}}</label>
+                <label class="col-sm-6 control-label">分数:&nbsp;&nbsp;{{riskEval.examEScores || '——'}}</label>
               </div>
             </div>
-          </div>
+          </div>-->
         </seer-collapse-card>
       </form>
     </div>

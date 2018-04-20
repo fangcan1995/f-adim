@@ -12,6 +12,7 @@ import {SeerMessageService} from "../../../theme/services";
 })
 export class RedPacketComponent {
   hasGlobalFilter = true;
+  isLoading:boolean = true;
   filters = [
     {key: 'name', label: '红包主题', type: 'input.text'},
     {key: 'activityName', label: '所属活动', type: 'input.text'},
@@ -94,11 +95,13 @@ export class RedPacketComponent {
             default:
               break;
           }
+          this.isLoading = false;
           //console.log(t.someStatus);
           return _.set(t, 'actions', actions);
 
         })
       }).catch(err=> {
+        this.isLoading = false;
        this.showError(err.msg || '连接失败');
      })
   }

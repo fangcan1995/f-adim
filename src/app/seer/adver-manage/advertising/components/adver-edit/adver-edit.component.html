@@ -13,6 +13,7 @@
                 <label  class="col-sm-4 col-md-4 col-lg-2 control-label">广告标题</label>
                 <div class="col-sm-8  col-md-8 col-lg-10">
                   <input class="form-control"  type="text"  name="title" [(ngModel)]="advertising.title" #title="ngModel" [rangeLength]="[2,100]" required />
+                  <p class="text-danger" *ngIf="title.errors?.required">* 必填项</p>
                   <p class="text-danger" *ngIf="title.errors?.rangeLength">输入字符长度在2-100之间</p>
                 </div>
               </div>
@@ -116,6 +117,7 @@
                     </div>
                   </ng-template>
                   <input type="file" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)" [disabled]="uploadDisabled">
+                  <seer-loading [isLoading]="isLoading" [type]="'small'"></seer-loading>
                 </div>
               </div>
             </div>
