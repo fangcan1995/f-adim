@@ -10,7 +10,6 @@ import {
 import { ResourceService } from '../resource/resource.service';
 /* import { UserService } from '../user/user.service'; */
 
-const usersUrl = 'http://172.16.1.234:9080/roles';
 
 @Injectable()
 
