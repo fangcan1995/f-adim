@@ -13,10 +13,14 @@ import {
 
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import * as _ from 'lodash';
-
-import { CREATE, DELETE_MULTIPLE } from './seer-table.actions';
+import {TREE_PERMISSIONS} from "../../../theme/modules/seer-tree/constants/permissions";
+import { CREATE, DELETE_MULTIPLE, EXCHANGE_DEPARTMENT, PUT_LEADER } from './seer-table.actions';
 import { ManageService } from "../../../theme/services";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";//edit by lily
+import {StaffService} from '../../../seer/basic-info/staff/staff.service';
+import {json2Tree} from "../../../theme/libs/json2Tree";
+import {SeerMessageService} from '../../../theme/services/seer-message.service';
+import { concat } from 'rxjs/observable/concat';
 
 export interface TableTitleModel {
     key: string | number,
@@ -33,7 +37,7 @@ export interface TableTitleModel {
     selector: 'seer-table',
     templateUrl: './seer-table.component.html',
     styleUrls: ['./seer-table.component.scss'],
-    providers: [ManageService]
+    providers: [ManageService,StaffService]
 })
 export class SeerTableComponent implements OnInit {
     @Input() data: Array<any> = [];   //数据数组
@@ -45,6 +49,8 @@ export class SeerTableComponent implements OnInit {
     @Input() hideActions;//隐藏事件列
     @Input() hideExport;//隐藏导出
     @Input() hidePrint;//隐藏打印
+    @Input() showExchangeDepartment;//显示调换部门
+    @Input() showputLeader;//显示设置负责人
     @Input() hideRemoveButton; //隐藏删除按钮
     @Input() displayOriginalData;//翻译不破坏原始数据，但全局搜索不好使
     @Input() customActions: Array<any>;
@@ -80,6 +86,8 @@ export class SeerTableComponent implements OnInit {
     }
     @ViewChild('tr') tr: ElementRef
     constructor(
+        private _messageService: SeerMessageService,
+        private _staffService: StaffService,
         private service: ManageService,
         private modalService: BsModalService //edit by lily
     ) {
@@ -155,7 +163,22 @@ export class SeerTableComponent implements OnInit {
     renderSelectedNum() {
         return _.reduce(this.data, (result, n) => result = n['selected'] ? result + 1 : result, 0)
     }
-
+    //批量调换部门
+    exchangeDepartment(template): void {
+        let data: any  = _.filter(this.data, t => t['selected']);
+        console.log(template)
+        data = {
+            datas:data,
+            departmentId:template
+        };
+        this.notify.emit({ type: EXCHANGE_DEPARTMENT.type, data});
+    }
+    //设置部门领导人
+    putLeader(): void{
+        let data = _.filter(this.data, t => t['selected'])
+        console.log(data)
+        this.notify.emit({ type: PUT_LEADER.type, data });
+    }
     deleteMultiple(): void {
         let data = _.filter(this.data, t => t['selected'])
         this.notify.emit({ type: DELETE_MULTIPLE.type, data });
@@ -344,10 +367,78 @@ export class SeerTableComponent implements OnInit {
         this.notify.emit({ type: type, data });
     }
     //edit by lily 2017-11-8
+     /* 模态层 */
+
+     treeNode = [];//组织树
+     treePermissions = TREE_PERMISSIONS.NOTIFY | TREE_PERMISSIONS.SHOW_FILTER | TREE_PERMISSIONS.SHOW_ADD_ROOT;
+   
     public modalRef: BsModalRef;
+  
     public openModal(template: TemplateRef<any>) {
-        this.modalRef = this.modalService.show(template);
+      //console.log(template);
+      this.modalRef = this.modalService.show(template);
+      this.getOrganizations();
     }
+  
+    private nodeId: string;
+    private nodeName: string;
+  
+    onNotice($event) {
+      console.log($event);
+      let node = $event.node;
+      if ($event.eventName == "onFocus") {
+        this.nodeName = node.data.name;
+        this.nodeId = node.data.id;
+      }
+    }
+  
+    save() {
+        console.log(this.nodeId)
+        this.exchangeDepartment(this.nodeId)
+    }
+
+     /* 获取全部组织机构 */
+    getOrganizations() {
+        this._staffService.getOrganizations().then((result) => {
+        console.log(result);
+        let nodes = json2Tree(result.data,
+            {parentId: 'pid', children: 'children', id: 'departmentId'},
+            [
+            {origin: 'departmentName', replace: 'name'},
+            {origin: 'departmentId', replace: 'id'}
+            ]
+        );
+
+        function addIcon(param) {
+            param.map(org => {
+            if (org.children) {
+                org.customIcon = 'ion-ios-people';
+                addIcon(org.children);
+            }
+            else {
+                org.customIcon = 'ion-android-people';
+                org.children = [];
+            }
+            })
+        }
+
+        addIcon(nodes);
+        nodes.map(rootNode => rootNode['expanded'] = true);
+        this.treeNode = nodes;
+        console.log(this.treeNode);
+        }).catch(err => {
+        console.log(err);
+        this.alertError(err.msg)
+        });
+    }
+    alertError(errMsg: string) {
+        // 错误处理的正确打开方式
+        this._messageService.open({
+          icon: 'fa fa-times-circle',
+          message: errMsg,
+          autoHideDuration: 3000,
+        })
+      }
 }
 
 

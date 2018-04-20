@@ -15,6 +15,18 @@ export const DELETE_MULTIPLE = {
 	name: '批量删除',
 	className: 'btn btn-danger pull-right btnGroup__item',
 };
+export const EXCHANGE_DEPARTMENT = {
+	type: 'exchange_department',
+	name: '调换部门',
+	className: 'btn btn-default pull-right btnGroup__item',
+};
+
+export const PUT_LEADER = {
+	type: 'put_leader',
+	name: '设置领导人',
+	className: 'btn btn-danger pull-right btnGroup__item',
+};
+
 export const UPDATE = {
 	type: 'update',
 	name: '编辑',

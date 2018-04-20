@@ -151,8 +151,13 @@ export class MemberEditComponent implements OnInit {
   contactModifyNotify($event){
     let { type, key } = $event;
     let editData=this.contactTable.getFormatDataByKey(key).editData;
+    if(key <= this.emergencyContact.length-1){
+      editData.id = this.emergencyContact[key].id;
+    }
     editData.memberId=this.memberId;
     if(this.memberId){
+      editData.contPhone = editData.contPhone.trim();
+      editData.contIdnum = editData.contIdnum.trim();
       //修改
       switch ( type ) {
         case 'save':
@@ -164,7 +169,7 @@ export class MemberEditComponent implements OnInit {
             this.showError('身份证号码格式错误！');
             return;
           }
-          if(editData.id){
+          if(editData.id){  
             if(editData.contName && editData.contName!='' ){
               this._memberService.putContact(this.memberId,editData).then((data:any)=>{
                 this.showSuccess(data.msg || '更新成功');
@@ -177,11 +182,17 @@ export class MemberEditComponent implements OnInit {
             }
           }else{
             if(editData.contName && editData.contName!='' ) {
-              this._memberService.postContact(this.memberId, editData).then((result) => {
-                editData.id = result.data.id;
-                this.emergencyContact.unshift(editData);
+              this._memberService.postContact(this.memberId, editData).then((result) => {debugger;
+                editData.id = result.data;
+                this.emergencyContact.push(editData);
+                this.emergencyContact[key].id = result.data;
+                this.contactTable.getFormatDataByKey(key).editData.id = result.data;
                 // this.getMemberInfo(this.memberId);
-              });//新增
+                this.showSuccess(result.message || '更新成功');
+              }).catch(
+                err => {
+                  this.showError(err.msg || '修改失败');
+                });//新增
             }else{
               return false;
             }
