@@ -19,7 +19,7 @@ import { RoleService } from './role.service';
     styleUrls: ['./role.component.scss'],
 })
 export class RoleComponent {
-    isLoading:boolean = true;
+    isLoading: boolean = true;
     hasGlobalFilter = hasGlobalFilter;
     titles = tableTitles;
     tableFilters = {};
@@ -34,6 +34,14 @@ export class RoleComponent {
         total: 1000,
         globalSearch: '',
         sortBy: '',
+        excelmaps: {
+            roleName: '角色名称',
+            userCount: '用户数',
+            updateTime: '修改时间',
+            updateUser: '修改人',
+            createTime: '创建时间',
+            createUser: '创建者',
+        }
     }
 
     constructor(
@@ -81,8 +89,11 @@ export class RoleComponent {
     }
 
 
-    handleNotify({ type, data }): void {
+    handleNotify({ type, data, column }): void {
         switch (type) {
+            case 'hideColumn':
+                this.pageInfo.excelmaps = column;
+                break;
             case 'create':
                 this._router.navigate(['/system/role/add']);
                 break;
@@ -121,7 +132,19 @@ export class RoleComponent {
                     }
                 })
                 break;
-            case 'delete_multiple':
+            case 'export':
+                this._roleService.exportForm(this.pageInfo).then(res => {
+                    let blob = res.blob();
+                    let a = document.createElement('a');
+                    let url = window.URL.createObjectURL(blob);
+                    a.href = url;
+                    a.download = '角色管理' + '.xls';
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    console.log(res);
+                }).catch(err => {
+                    console.log(err);
+                });
                 break;
         }
     }

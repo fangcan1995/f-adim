@@ -20,7 +20,7 @@ import * as _ from 'lodash';
     styleUrls: ['./info-publish.component.scss'],
 })
 export class InfoPublishComponent {
-    isLoading:boolean = true;
+    isLoading: boolean = true;
     title = "栏目列表";
     tableTitle: string = "文章列表";
     hasGlobalFilter = true;
@@ -85,7 +85,15 @@ export class InfoPublishComponent {
         isRoot: 1,
         status: '',
         updateTimeStart: '',
-        updateTimeEnd: ''
+        updateTimeEnd: '',
+        excelmaps: {
+            affTypeName: '所属栏目',
+            title: '文章标题',
+            updateUser: '发布用户',
+            updateTime: '更新时间',
+            status: '发布状态',
+            viewCounts: '浏览次数',
+        }
     };
 
 
@@ -104,7 +112,7 @@ export class InfoPublishComponent {
         private _dialogService: SeerDialogService,
         private _messageService: SeerMessageService,
         private _router: Router,
-        private _state: GlobalState
+        private _state: GlobalState,
     ) {
         this._state.subscribe("orgStaffState", (a) => {
             this.getColumnListById(this.staffId);
@@ -139,7 +147,7 @@ export class InfoPublishComponent {
             result.data.map(org => org['children'] = []);
             result.data.map((x, i) => {
                 let parentIds = x.parentIds.split(',');
-                if(parentIds.length === 3) {
+                if (parentIds.length === 3) {
                     x.isLast = true;
                 }
             });
@@ -284,7 +292,7 @@ export class InfoPublishComponent {
                     return _.set(r, 'actions', actions);
                 });
                 this.isLoading = false;
-            }).catch(err=>{
+            }).catch(err => {
                 this.isLoading = false;
             });
     }
@@ -293,8 +301,12 @@ export class InfoPublishComponent {
     onChange(message): void {
         const type = message.type;
         let data = message.data;
+        let column = message.column;
         console.log(data);
         switch (type) {
+            case 'hideColumn':
+                this.pageInfo.excelmaps = column;
+                break;
             case 'create':
                 this._router.navigate(['/content/info-publish/add']);
                 break;
@@ -306,10 +318,10 @@ export class InfoPublishComponent {
                     .subscribe(action => {
                         if (action === 1) {
                             console.log({ id: data.id, status: data.status === '未发布' ? '1' : '0' });
-                            this.service.patch({id: data.id, status: data.status === '未发布' ? '1' : '0'}).then( result =>{
-                              this.alertSuccess(result.message);
-                              console.log(this.pageInfo);
-                              this.getColumnList(this.pageInfo);
+                            this.service.patch({ id: data.id, status: data.status === '未发布' ? '1' : '0' }).then(result => {
+                                this.alertSuccess(result.message);
+                                console.log(this.pageInfo);
+                                this.getColumnList(this.pageInfo);
                             })
                         }
                     });
@@ -347,6 +359,20 @@ export class InfoPublishComponent {
                 break;
             case 'delete_all':
                 let ids = _(data).map(t => t.id).value();
+                break;
+            case 'export':
+                this.service.exportForm(this.pageInfo).then(res => {
+                    let blob = res.blob();
+                    let a = document.createElement('a');
+                    let url = window.URL.createObjectURL(blob);
+                    a.href = url;
+                    a.download = '资源管理' + '.xls';
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    console.log(res);
+                }).catch(err => {
+                    console.log(err);
+                });
                 break;
         }
     }
