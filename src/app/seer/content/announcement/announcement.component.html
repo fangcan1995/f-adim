@@ -4,6 +4,7 @@
     [filters]="filters"
     (onFiltersChanged)=handleFiltersChanged($event)
     (onSearchBtnClicked)=handleSearchBtnClicked($event)
+    [rowLength]='filterRowLength'
   ></seer-filter>
 </seer-collapse-card>
 <seer-collapse-card>
@@ -16,10 +17,10 @@
     [paginationRules]="0"
     [showSeq]="true"
     [hideRemoveAll]="true"
-    [hideColumns]="true"
     [hidePrint]="true"
     [hideCheckbox]="true"
     (notify)="onChange($event)"
     (changePage)="handleChangePage($event)"
   ></seer-table>
 </seer-collapse-card>
+<seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>

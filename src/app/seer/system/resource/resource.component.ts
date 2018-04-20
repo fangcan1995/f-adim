@@ -13,6 +13,7 @@ import { GlobalState } from '../../../global.state';
 })
 export class ResourceComponent implements OnInit {
     hasGlobalFilter = true;
+    isLoading:boolean = true;
     titles = [
         {
             key: 'menuId',
@@ -86,8 +87,10 @@ export class ResourceComponent implements OnInit {
         this._resourceService.getList(params)
             .then(res => {
                 this.resources = _.map(res.data ? res.data.list || [] : [], r => _.set(r, 'actions', [UPDATE, DELETE]));
+                this.isLoading = false;
             })
             .catch(err => {
+                this.isLoading = true;
                 this.showError(err.msg || '获取资源失败');
             })
     }

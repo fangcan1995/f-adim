@@ -60,6 +60,7 @@ export class SeerTableComponent implements OnInit {
     @Input() showSeq: boolean;
     @Input() hideCheckbox: boolean;
     @Input() hidePagination: boolean;
+    @Input() hideHeaderCheckbox: boolean;
 
     @Input() paginationRules: number = 1; // 0后端分页 1前端分页
 

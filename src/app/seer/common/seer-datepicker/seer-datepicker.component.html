@@ -7,13 +7,13 @@
     type="text"
     [minDate]="minDate"
     [maxDate]="maxDate"
-    #dp="bsDatepicker"
-    bsDatepicker
-    value="{{ date | date: dateFormatingRules }}"
     [(bsValue)]="date"
-    [bsConfig]="bsConfig"
     [disabled]="disabled"
     [readonly]="readonly"
+    #dp="bsDatepicker"
+    bsDatepicker
+    [bsConfig]="bsConfig"
+    value="{{ date | date: dateFormatingRules }}"
     >
   <span class="input-group-btn">
     <button class="btn btn-default" (click)="dp.show()" [disabled]="disabled"><i class="fa fa-calendar"></i></button>

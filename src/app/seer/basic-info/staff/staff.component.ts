@@ -16,6 +16,7 @@ import { concat } from 'rxjs/observable/concat';
 export class StaffComponent {
 
   hasGlobalFilter = true;
+  isLoading:boolean = true;
   public forbidSaveBtn: boolean = true;
   OPEN_USER = [
     {type: 'open', name: '开通用户', className: 'btn btn-info'}
@@ -92,8 +93,11 @@ export class StaffComponent {
         this.staffs = res.data.list;
         console.log(this.staffs)
         this.staffs = _.map(this.staffs, r => _.set(r, 'actions', [PREVIEW,UPDATE, DELETE]));
+        this.isLoading = false;
       },
-      error => this.errorMessage = <any>error);
+      error => {
+        this.errorMessage = <any>error;
+        this.isLoading= false});
   }
 
   //增删改

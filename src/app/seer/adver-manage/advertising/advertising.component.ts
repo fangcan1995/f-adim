@@ -11,6 +11,7 @@ import {formatDate} from "ngx-bootstrap/bs-moment/format";
 })
 export class AdvertisingComponent implements OnInit {
   hasGlobalFilter = true;
+  isLoading:boolean = false;
   filters = [
     {
       key: 'title',
@@ -130,7 +131,9 @@ export class AdvertisingComponent implements OnInit {
              return _.set(t, 'actions', [PREVIEW,UPDATE, DELETE]);
            }
         })
+        this.isLoading = false;
       }).catch(err=>{
+        this.isLoading = false;
       this.showError(err.msg || '连接失败');
     })
 

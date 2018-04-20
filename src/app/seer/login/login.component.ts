@@ -84,6 +84,7 @@ export class LoginComponent {
       return Observable.fromPromise(this._manageService.refreshLocalDataAndNotify())
     })
     .subscribe(res => {
+      this.changeImg();
       if ( this._authService.isLoggedIn ) {
         let resources = getStorage({ key: 'resources' });
         let fullPaths = _.map(resources, r => r['fullPath']);
@@ -103,8 +104,8 @@ export class LoginComponent {
         this._router.navigate([redirectUrl], navigationExtras);
       }
     }, err => {
+      this.changeImg();
       this.imgError=err.content
-      this.alertError(err.content.message)
     })
 
   }

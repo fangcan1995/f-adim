@@ -120,16 +120,8 @@
                 <div class="row">
                   <label  class="col-sm-4 control-label">电子邮件</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" name="eMail" [(ngModel)]="baseInfo.eMail" maxlength="30"  #email="ngModel" email>
-                    <p class="text-danger" *ngIf="email.errors?.email">请输入正确邮箱</p>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label  class="col-sm-4 control-label">住房情况</label>
-                  <div class="col-sm-8">
-                    <input type="text" class="form-control" name="houseAbout"  [(ngModel)]="baseInfo.houseAbout" maxlength="50">
+                    <input type="text" class="form-control" name="eMail" [(ngModel)]="baseInfo.eMail" maxlength="30"  #email="ngModel" >
+                    <!-- <p class="text-danger" *ngIf="email.errors?.email">请输入正确邮箱</p> -->
                   </div>
                 </div>
               </div>
@@ -160,6 +152,17 @@
                   </div>
                 </div>
               </div>
+
+              <div class="form-group col-sm-12">
+                  <div class="row">
+                    <label  class="col-sm-4 col-md-2 col-xlg-1 control-label">住房情况</label>
+                    <div class="col-sm-8 col-md-10 col-xlg-11">
+                      <textarea type="text" class="form-control" name="houseAbout"  [(ngModel)]="baseInfo.houseAbout" #houseAbout="ngModel"  [rangeLength]="[0,50]"></textarea>
+                      <p class="text-danger" *ngIf="houseAbout.errors?.rangeLength">字符长度要求在50以内</p>
+                    </div>
+                  </div>
+              </div>
+
               <div class="form-group col-sm-12">
                 <div class="row">
                   <label  class="col-sm-4 col-md-2 col-xlg-1 control-label">资产介绍</label>
@@ -688,3 +691,4 @@
     <button type="button"  class="btn btn-default" (click)="modalRef.hide()">关闭</button>
   </div>
 </ng-template>
+<seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>

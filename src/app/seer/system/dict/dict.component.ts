@@ -15,6 +15,7 @@ import { SeerMessageService } from '../../../theme/services/seer-message.service
 })
 export class DictComponent implements OnInit {
   hasGlobalFilter = true;
+  isLoading:boolean = true;
   filters = [
     {
       key: 'category',
@@ -85,8 +86,10 @@ export class DictComponent implements OnInit {
       if ( res.code == 0 ) {
         this.dicts = res.data || [];
         this.dicts = _.map(this.dicts, r => _.set(r, 'actions', [ COPY_CREATE, UPDATE, DELETE ]));
+        this.isLoading = false;
       } else {
         this.showError( res.msg || '获取字典失败' );
+        this.isLoading = false;
       }
     });
   }

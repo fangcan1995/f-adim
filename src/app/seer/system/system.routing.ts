@@ -13,7 +13,7 @@ const routes: Routes = [
       { path: 'role', loadChildren:'./role/role.module#RoleModule' },
       { path: 'resource', loadChildren: './resource/resource.module#ResourceModule' },
       { path: 'dict', loadChildren: './dict/dict.module#DictModule' },
-      { path: 'plan', loadChildren: './plan/plan.module#PlanModule' },
+      /* { path: 'plan', loadChildren: './plan/plan.module#PlanModule' }, */
     ]
   }
 ];

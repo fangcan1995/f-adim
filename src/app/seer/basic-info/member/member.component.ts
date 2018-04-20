@@ -11,6 +11,7 @@ import { formatDate } from "ngx-bootstrap/bs-moment/format";
 })
 export class MemberComponent implements OnInit {
   hasGlobalFilter = true;
+  isLoading:boolean = true;
   filters = [
     { key: 'userName', label: '用户名', type: 'input.text' },
     { key: 'trueName', label: '真实姓名', type: 'input.text' },
@@ -48,7 +49,7 @@ export class MemberComponent implements OnInit {
   members = [];
   titles = [
     { key: 'userName', label: '用户名' },
-    { key: 'trueName', label: '真实姓名' },
+    { key: 'trueName', label: '真实姓名',textAlign:'center' },
     { key: 'phoneNumber', label: '手机号',textAlign:'center' },
     { key: 'idNumber', label: '身份证号',textAlign:'center' },
     { key: 'sex', label: '性别', isDict: true, category: 'M_SEX',textAlign:'center' },
@@ -106,6 +107,7 @@ export class MemberComponent implements OnInit {
     this.getList();
   }
   getList() {
+    this.isLoading = true;
     this._memberService.getList(this.pageInfo).then(res => {
       this.pageInfo.pageNum = res.data.pageNum;  //当前页
       this.pageInfo.pageSize = res.data.pageSize; //每页记录数
@@ -128,9 +130,11 @@ export class MemberComponent implements OnInit {
             //actions = [PREVIEW,UPDATE];//临时
             break;
         }
+        this.isLoading = false;
         return _.set(t, 'actions', actions)
       });
     }).catch(err => {
+      this.isLoading = false;
       // this._dialogService.alert("ee!");
       this.showError("连接失败!");
     });

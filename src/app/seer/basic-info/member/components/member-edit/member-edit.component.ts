@@ -15,11 +15,11 @@ import { parseQueryString } from '../../../../../theme/libs';
 })
 export class MemberEditComponent implements OnInit {
   @ViewChild('contactTable') contactTable;
-  @ViewChild('validationForm') form1;
-  @ViewChild('validationForm') form2;
-  @ViewChild('validationForm') form3;
-  @ViewChild('validationForm') form4;
-  @ViewChild('validationForm') form5;
+  @ViewChild('form1') form1;
+  @ViewChild('from2') form2;
+  @ViewChild('form3') form3;
+  @ViewChild('form4') form4;
+  @ViewChild('form5') form5;
   public member: any = {};
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
@@ -28,12 +28,14 @@ export class MemberEditComponent implements OnInit {
   forbidFinancialSaveBtn: boolean = true;
   memberId:any='';
   baseInfo: any = {};  // 基本信息
+  baseInfoSave: boolean = false;//判断是否保存过基本信息
   emergencyContact: any = [];  //紧急联系人
   workInfo: any = {}; //工作信息
   accountInfo: any = {}; //账号信息
   financialInfo: any = {}; //财务状况
   vehicleInfo: any = []; //车辆信息列表
   houseInfo: any = [];  //房屋信息列表
+  isLoading: boolean = false;
   simpleTableActions = [UPDATE, DELETE];
   saveActions=[SAVE];
   saveActionsDistabled=[false];
@@ -65,6 +67,8 @@ export class MemberEditComponent implements OnInit {
     private _dialogService:SeerDialogService
   ) {}
   ngOnInit() {
+    this.form1.valueChanges.subscribe(change=>{
+    })
     this.forbidBaseSaveBtn=true;
     this.forbidWorkSaveBtn= true;
     this. forbidFinancialSaveBtn= true;
@@ -104,10 +108,13 @@ export class MemberEditComponent implements OnInit {
   //保存基本信息
   basicInfoNotify() {
     this.forbidBaseSaveBtn=false;
+    this.isLoading = true;
     this._memberService.putBasicInfo(this.memberId,this.baseInfo).then((data:any)=>{
+        this.isLoading = false;
+        this.baseInfoSave = true;
         this.showSuccess(data.msg || '更新成功');
     }).catch(err => {
-
+      this.isLoading = false;
       this.showError(err.msg || '更新失败');
     });
     this.forbidBaseSaveBtn=true;
@@ -115,10 +122,13 @@ export class MemberEditComponent implements OnInit {
   //保存工作信息
   workInfoNotify() {
     this.forbidWorkSaveBtn=false;
+    this.isLoading = true;
     this.workInfo.memberId=this.memberId;
     this._memberService.putWorkInfo(this.memberId,this.workInfo).then((data:any)=>{
+      this.isLoading = false;
       this.showSuccess(data.msg || '更新成功');
     }).catch(err => {
+      this.isLoading = false;
       this.showError(err.msg || '更新失败');
     });
     this.forbidWorkSaveBtn=true;
@@ -127,9 +137,12 @@ export class MemberEditComponent implements OnInit {
   financialInfoNotify() {
     this.forbidFinancialSaveBtn=false;
     this.financialInfo.memberId=this.memberId;
+    this.isLoading = true;
     this._memberService.putFinancialInfo(this.memberId,this.financialInfo).then((data:any)=>{
+      this.isLoading = false;
       this.showSuccess(data.msg || '更新成功');
     }).catch(err => {
+      this.isLoading = false;
       this.showError(err.msg || '更新失败');
     });
     this.forbidFinancialSaveBtn=true;
@@ -138,8 +151,13 @@ export class MemberEditComponent implements OnInit {
   contactModifyNotify($event){
     let { type, key } = $event;
     let editData=this.contactTable.getFormatDataByKey(key).editData;
+    if(key <= this.emergencyContact.length-1){
+      editData.id = this.emergencyContact[key].id;
+    }
     editData.memberId=this.memberId;
     if(this.memberId){
+      editData.contPhone = editData.contPhone.trim();
+      editData.contIdnum = editData.contIdnum.trim();
       //修改
       switch ( type ) {
         case 'save':
@@ -151,7 +169,7 @@ export class MemberEditComponent implements OnInit {
             this.showError('身份证号码格式错误！');
             return;
           }
-          if(editData.id){
+          if(editData.id){  
             if(editData.contName && editData.contName!='' ){
               this._memberService.putContact(this.memberId,editData).then((data:any)=>{
                 this.showSuccess(data.msg || '更新成功');
@@ -164,11 +182,17 @@ export class MemberEditComponent implements OnInit {
             }
           }else{
             if(editData.contName && editData.contName!='' ) {
-              this._memberService.postContact(this.memberId, editData).then((result) => {
-                editData.id = result.data.id;
-                this.emergencyContact.unshift(editData);
+              this._memberService.postContact(this.memberId, editData).then((result) => {debugger;
+                editData.id = result.data;
+                this.emergencyContact.push(editData);
+                this.emergencyContact[key].id = result.data;
+                this.contactTable.getFormatDataByKey(key).editData.id = result.data;
                 // this.getMemberInfo(this.memberId);
-              });//新增
+                this.showSuccess(result.message || '更新成功');
+              }).catch(
+                err => {
+                  this.showError(err.msg || '修改失败');
+                });//新增
             }else{
               return false;
             }
@@ -361,7 +385,16 @@ export class MemberEditComponent implements OnInit {
   }
   //后退
   handleBackBtnClick() {
-    this._location.back()
+    if(this.form1.dirty && !this.baseInfoSave){
+      this._dialogService.confirm('你有编辑的内容还没有保存确认要返回吗？')
+      .subscribe(action => {
+        if (action === 1) {
+          this._location.back()
+          }
+        });
+    }else{
+      this._location.back()
+    }
   }
   //成功提示
   showSuccess(message: string) {

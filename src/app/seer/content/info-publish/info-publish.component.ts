@@ -20,6 +20,7 @@ import * as _ from 'lodash';
     styleUrls: ['./info-publish.component.scss'],
 })
 export class InfoPublishComponent {
+    isLoading:boolean = true;
     title = "栏目列表";
     tableTitle: string = "文章列表";
     hasGlobalFilter = true;
@@ -282,6 +283,9 @@ export class InfoPublishComponent {
                     }
                     return _.set(r, 'actions', actions);
                 });
+                this.isLoading = false;
+            }).catch(err=>{
+                this.isLoading = false;
             });
     }
 

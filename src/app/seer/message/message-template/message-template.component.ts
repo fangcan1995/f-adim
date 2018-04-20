@@ -14,6 +14,7 @@ import * as _ from 'lodash';
 })
 export class MessageTemplateComponent {
   hasGlobalFilter = true;
+  isLoading:boolean = true;
   filters = [
     {
       key: 'tempName',
@@ -128,7 +129,9 @@ export class MessageTemplateComponent {
       this.pageInfo.total=res.data.total; //记录总数
       this.source = res.data.list;
       this.source = _.map(this.source, r => _.set(r, 'actions', [ PREVIEW,UPDATE, DELETE ]));
+      this.isLoading = false;
     }).catch(err => {
+      this.isLoading = false;
       this.showError(err.msg || '连接失败');
       console.log(err);
       //this.showError();

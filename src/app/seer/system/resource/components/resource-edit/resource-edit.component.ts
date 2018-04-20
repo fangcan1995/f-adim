@@ -92,8 +92,6 @@ export class ResourceEditComponent implements OnInit {
                 this.uploadSys.push(x.systemId);
             }
         });
-        console.log(this.uploadSys.length);
-        console.log(this.defaultSysLength);
     }
 
     getSystemList() {
@@ -113,28 +111,32 @@ export class ResourceEditComponent implements OnInit {
 
 
     handleBackBtnClick() {
-        this._dialogService.confirm(
-            '还未保存确认要离开么?',
-            [
-                {
-                    type: 1,
-                    text: '立即离开',
-                },
-                {
-                    type: 0,
-                    text: '继续编辑',
-                },
-                
-            ]
-        ).subscribe(action => {
-            if (action === 1) {
-                this._location.back();
-            }
-        })
+        if(this.myForm.dirty){
+            this._dialogService.confirm(
+                '还未保存确认要离开么?',
+                [
+                    {
+                        type: 1,
+                        text: '立即离开',
+                    },
+                    {
+                        type: 0,
+                        text: '继续编辑',
+                    },
+                    
+                ]
+            ).subscribe(action => {
+                if (action === 1) {
+                    this._location.back();
+                }
+            })
+        }else{
+            this._location.back();
+        }
     }
 
     handleSaveBtnClick() {
-        if (this.myForm.form.valid && this.uploadSys.length !== this.defaultSysLength) {
+        if (this.myForm.form.valid) {
             this.forbidSaveBtn = true;
             if (this.editType === 'edit') {
                 this.resource.systemId = this.uploadSys;

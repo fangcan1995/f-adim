@@ -93,6 +93,7 @@
         <th *ngIf="!hideCheckbox" class="table-checkbox">
           <!-- 此处不能用 checkedChange -->
           <seer-cool-checkbox
+            *ngIf="!hideHeaderCheckbox"
             [(checked)]="selectedAll"
             (change)="selectAll()"
           ></seer-cool-checkbox>
@@ -119,7 +120,7 @@
         <a href *ngIf="title.type === 'clickable' "  class="seer_font seer_a_font" (click)="handleClick($event, item)"  title="{{item[title.key]}}">{{item[title.key]}}</a>
         <input  *ngIf="title.type=='input_number'" type="number" class="form-control" title="{{item[title.key]}}" [(ngModel)]="item[title.key]"/>
 
-        <span *ngIf="title.type != 'clickable' && title.type!='input_number' && title.type!='link' && title.type != 'html' && title.type!='image' && title.type != 'date' && title.type != 'date-time' && !displayOriginalData" class="seer_font" title="{{renderValue(title,item[title.key])}}">{{renderValue(title,item[title.key])}}</span>
+        <span *ngIf="title.type != 'clickable' && title.type!='input_number' && title.type!='link' && title.type != 'html' && title.type!='image' && title.type != 'date' && title.type != 'date-time' && !displayOriginalData" class="seer_font" title="{{renderValue(title,item[title.key])}}">{{renderValue(title,item[title.key]) || '--'}}</span>
 
         <span *ngIf="title.type != 'clickable' && title.type!='input_number' && title.type!='link' && title.type != 'html'  && title.type!='image' && title.type != 'date' && title.type != 'date-time' && displayOriginalData" class="seer_font" title="{{item[title.key]}}">{{item[title.key]}}</span>
         <div *ngIf="title.type === 'html'" [innerHTML]="item[title.key]"></div>
