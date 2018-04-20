@@ -12,7 +12,6 @@ import { getStorage } from "../../../theme/libs/utils"
 import { Headers, Http, RequestOptions, ResponseContentType } from '@angular/http';
 /* import { UserService } from '../user/user.service'; */
 
-const usersUrl = 'http://172.16.1.234:9080/roles';
 
 @Injectable()
 
