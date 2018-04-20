@@ -11,7 +11,7 @@ import {formatDate} from "ngx-bootstrap/bs-moment/format";
 })
 export class AdvertisingComponent implements OnInit {
   hasGlobalFilter = true;
-  isLoading:boolean = false;
+  isLoading:boolean = true;
   filters = [
     {
       key: 'title',
