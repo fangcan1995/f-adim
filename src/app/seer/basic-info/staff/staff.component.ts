@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Router, ActivatedRoute} from "@angular/router";
 import * as _ from 'lodash';
 import {StaffService} from "./staff.service";
-import {UPDATE, DELETE} from '../../common/seer-table/seer-table.actions';
+import {UPDATE, DELETE,  PREVIEW} from '../../common/seer-table/seer-table.actions';
 import {SeerDialogService} from "../../../theme/services/seer-dialog.service"
 import {titles} from './staff.config';
 import {SeerMessageService} from "../../../theme/services/seer-message.service";
@@ -90,7 +90,8 @@ export class StaffComponent {
         this.pageInfo.pageSize = res.data.pageSize; //每页记录数
         this.pageInfo.total = res.data.total; //记录总数
         this.staffs = res.data.list;
-        this.staffs = _.map(this.staffs, r => _.set(r, 'actions', [UPDATE, DELETE]));
+        console.log(this.staffs)
+        this.staffs = _.map(this.staffs, r => _.set(r, 'actions', [PREVIEW,UPDATE, DELETE]));
       },
       error => this.errorMessage = <any>error);
   }
@@ -124,6 +125,9 @@ export class StaffComponent {
         break;
       case 'update':
         this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
+        break;
+      case 'preview':
+        this._router.navigate([`detail/${data.id}`], { relativeTo: this._route });
         break;
       case 'delete':
         this._dialogService.confirm('确定删除该员工吗，删除后不可恢复？')

@@ -8,6 +8,7 @@
       <form class="form-horizontal">
         <seer-collapse-card
           cardTitle="员工基本信息"
+          [editType]='_editType'
           [canCollapse]=false
           [saveDistabled]="forbidBaseSaveBtn && form1.form.valid"
           [headerActions]="collapseCardActions"

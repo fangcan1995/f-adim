@@ -60,7 +60,6 @@ export class StaffAddComponent implements OnInit {
   ngOnInit() {
     this.getOrganizations();
     this.forbidBaseSaveBtn=true;
-    console.log(this.form1)
     this._route.url.mergeMap(url => {
       this._editType = url[0].path;
       return this._route.params
@@ -87,7 +86,8 @@ export class StaffAddComponent implements OnInit {
   }
 
   //职位保存基本信息
-  jobInfoNotify() {
+  jobInfoNotify($event) {
+    console.log($event)
     let staffinfo = _.cloneDeep(this.staff);
     console.log(staffinfo)
     this.timestampFormat(staffinfo);
@@ -97,31 +97,36 @@ export class StaffAddComponent implements OnInit {
         if (result.code == 0) {
           this.forbidBaseSaveBtn = false;
           this.staffId=result.data
-          // this.alertSuccess(result.message);
-          this._dialogService.confirm(result.message+'继续完善新增的员工信息？')
-          .subscribe(action => {
-            if (action === 1) {
-              // this.staffManageService.deleteOne(data.id).then((data) => {
-              //   if (data.code == '0') {
-              //     this.alertSuccess(data.message);
-              //     this.getStaffs();
-              //   } else {
-              //     this.alertError(data.msg);
-              //   }
-              // });
-              this._router.navigate([`/basic-info/staff-manage/edit/${this.staffId}`])
-            }else{
-              this._location.back()
-            }
-          });
+          this.alertSuccess(result.message);
+          // this._dialogService.confirm(result.message+'继续完善新增的员工信息？')
+          // .subscribe(action => {
+          //   if (action === 1) {
+          //     // this.staffManageService.deleteOne(data.id).then((data) => {
+          //     //   if (data.code == '0') {
+          //     //     this.alertSuccess(data.message);
+          //     //     this.getStaffs();
+          //     //   } else {
+          //     //     this.alertError(data.msg);
+          //     //   }
+          //     // });
+          //     this._router.navigate([`/basic-info/staff-manage/edit/${this.staffId}`])
+          //   }else{
+          //     this._location.back()
+          //   }
+          // });
+          if($event.params===1){
+            this._router.navigate([`/basic-info/staff-manage/edit/${this.staffId}`])
+          }else{
+            this._location.back()
+          }
         } else {
-          this.alertError(result.message);
+          this.alertError(result.msg);
         }
       }).catch(err => {
         console.log(err);
         if(err.code === 406) {
-          let message = JSON.parse(err.msg).message;
-          this.alertError(message);
+          // let message = JSON.parse(err.msg).message;
+          this.alertError(err.msg);
         }
       });
   }

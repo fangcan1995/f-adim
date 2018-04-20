@@ -12,7 +12,9 @@
         <button class="pull-right btnGroup__item {{action.className}}" [disabled]="!saveDistabled" *ngFor="let action of headerActions" (click)="handleHeaderActionsClick($event, action)" >保存并完善</button>
       </div> -->
       <!-- <ng-template #other></ng-template> -->
-        <button class="pull-right btnGroup__item {{action.className}}" [disabled]="!saveDistabled" *ngFor="let action of headerActions" (click)="handleHeaderActionsClick($event, action,1)" >保存并完善</button>
+      <div *ngIf="editType" class="saveandmore">
+        <button class="pull-right btnGroup__item btn btn-xs btn-primary" [disabled]="!saveDistabled"  *ngFor="let action of headerActions" (click)="handleHeaderActionsClick($event, action,1)" >保存并完善</button>
+      </div>
         <button class="pull-right btnGroup__item {{action.className}}" [disabled]="!saveDistabled" *ngFor="let action of headerActions" (click)="handleHeaderActionsClick($event, action)" >{{ action.name }}</button>
       
     </div>
