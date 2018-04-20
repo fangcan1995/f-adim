@@ -54,6 +54,7 @@ export class RoleEditComponent implements OnInit {
         if (this.editType === 'edit') {
             this._roleService.getRoleOne(this.id)
                 .then(res => {
+                    console.log(res);
                     let data = res.data || {};
                     this.role = data.roleInfo || { roleName: '', roleStatus: '0' };
                     this.activeResources = data.resourceInfo || [];
@@ -70,6 +71,7 @@ export class RoleEditComponent implements OnInit {
         } else if (this.editType === 'add') {
             Promise.all([this.getResources(), this.getUsersWithStaffsWithOrgs()])
                 .then(res => {
+                    console.log(res);
                     this.forbidSaveBtn = false;
                 })
                 .catch(err => {
@@ -115,8 +117,13 @@ export class RoleEditComponent implements OnInit {
                     return t;
                 }).value();
 
+
+
                 let accounts = departments.concat(staffs, users);
+                console.log(accounts);
+
                 this.accountTreeNodes = json2Tree(accounts);
+                console.log(this.accountTreeNodes);
 
                 // 要等tree渲染完才能执行，只要异步就行
                 setTimeout(() => {

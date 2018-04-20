@@ -110,14 +110,10 @@ $tree-node-height: 36px;
 
   .tree-node-active > .node-wrapper > .node-content-wrapper {
     //background: rgba(0, 0, 0, .2);
-    background: #00f;
   }
 
   .tree-node-active.tree-node-focused > .node-wrapper > .node-content-wrapper {
-    //background: rgba(0, 0, 0, .2)
-
-    background: #fff;
-    color:#f00
+    //background: rgba(0, 0, 0, .2);
   }
 
   .tree-node-focused > .node-wrapper > .node-content-wrapper {
@@ -283,9 +279,9 @@ $tree-node-height: 36px;
 
     }
   }
-  .tree-node-active > .node-wrapper > .node-content-wrapper{
+  /* .tree-node-active > .node-wrapper > .node-content-wrapper{
     background: #0f74a8;
-  }
+  } */
   treenodecontent {
 
     left:-10px;
