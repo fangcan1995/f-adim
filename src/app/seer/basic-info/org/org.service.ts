@@ -104,6 +104,11 @@ export class OrgService extends BaseService<any>{
     return this._httpInterceptorService.request('GET', url, {}).toPromise();
   }
 
+  //批量调换员工部门
+  putDepartment(id,ids): Promise<ResModel> {
+    let url = `${TEST_URL}/organizations/${id}/batchStaffs/${ids}`;
+    return this._httpInterceptorService.request('PUT', url, {}).toPromise();
+  }
 }
 
 

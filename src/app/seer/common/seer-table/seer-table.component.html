@@ -32,6 +32,39 @@
       >
       批量删除 {{renderSelectedNum()}}
     </button>
+    <button
+      class="btn btn-info pull-right btnGroup__item"
+      type="button"
+      *ngIf="showExchangeDepartment"
+      [disabled]="!renderSelectedNum()"
+      (click)="openModal(template)"
+      >
+      调换部门 {{renderSelectedNum()}}
+    </button>
+    <template #template>
+      <div class="modal-body">
+        <seer-tree
+          [permissions]="treePermissions"
+          (notify)="onNotice($event) "
+          [nodes]="treeNode"
+          [defaultNodeName]="'新建部门'"
+          [loadingText]="''">
+        </seer-tree>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sx btn-info" (click)="save(); modalRef.hide()">确定</button>
+        <button type="button" class="btn btn-default" (click)="modalRef.hide()">取消</button>
+      </div>
+    </template>
+    <button
+      class="btn btn-info pull-right btnGroup__item"
+      type="button"
+      *ngIf="showputLeader"
+      [disabled]="!renderSelectedNum()"
+      (click)="putLeader()"
+      >
+      设为负责人
+    </button>
     <div class="pull-right btnGroup__item" *ngIf="!hideColumns">
       <ss-multiselect-dropdown
         [options]="multiColumnOptions"

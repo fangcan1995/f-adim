@@ -192,7 +192,7 @@ export class OrgComponent implements OnDestroy{
        this.pageInfo.pageSize = result.data.pageSize; //每页记录数
        this.pageInfo.total = result.data.total; //记录总数
        this.datas = result.data.list;
-       this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE,CONFIG_LEADER]));
+      //  this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE,CONFIG_LEADER]));
        this.isLoading = false;
      }).catch(err => {
        this.isLoading = false;
@@ -213,7 +213,6 @@ export class OrgComponent implements OnDestroy{
       this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE,CONFIG_LEADER]));
     });
   }
-
 
 
 
@@ -256,6 +255,27 @@ export class OrgComponent implements OnDestroy{
       case 'delete_all':
         let ids = _(data).map(t => t.id).value();
         break;
+      case 'exchange_department':
+        let {datas,...rest}=data
+        console.log(data)
+        console.log(rest)
+        console.log(datas)
+        let exids = _(datas).map(t => t.id).value();
+        console.log(exids)
+        let batchStaffs=exids.join(',')
+        console.log(batchStaffs)
+        this.putDepartment(rest.departmentId,batchStaffs)
+        break;
+      case 'put_leader':
+        let empId = _(data).map(t => t.id).value();
+        console.log(empId)
+        if(empId.length>1){
+          return this.alertError('每个部门只能设置一个人为部门负责人')
+        }
+        this.cacheLeader = data[0].empName;
+        empId=empId[0]
+        this.configDepartLeader({departmentId: this.cacheMemory, departmentLeader: empId});
+        break;
     }
    }
 
@@ -268,6 +288,25 @@ export class OrgComponent implements OnDestroy{
     this.service.getStaffsByOrgId(orgId).then((result) => {this.tableSource = result.data});
   }
 
+/*
+   * 批量调换员工部门
+   * */
+  putDepartment(id,ids) {
+    this.service.putDepartment(id,ids).then((result) =>{
+      if(result.code == 0) {
+          console.log(result)
+          // this.getOrganizations();
+          // this.info.departmentName='',
+          this.info.departmentLeader=''
+          this.alertSuccess(result.message);
+          this.getlist(this.pageInfo);
+          // this.ngOnInit()
+        }
+        else {
+          this.alertError(result.message);
+        }
+      });
+  }
 
   /* 点击设置为负责人 */
 
