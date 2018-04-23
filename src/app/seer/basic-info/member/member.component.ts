@@ -130,9 +130,10 @@ export class MemberComponent implements OnInit {
             //actions = [PREVIEW,UPDATE];//临时
             break;
         }
-        this.isLoading = false;
+        
         return _.set(t, 'actions', actions)
       });
+      this.isLoading = false;
     }).catch(err => {
       this.isLoading = false;
       // this._dialogService.alert("ee!");
