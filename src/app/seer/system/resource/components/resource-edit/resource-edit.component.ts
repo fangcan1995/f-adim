@@ -29,6 +29,7 @@ export class ResourceEditComponent implements OnInit {
     systemList: any = [];
     copySys: any = [];
     uploadSys: any = [];
+    defaultCheck: boolean = true;
     defaultSysLength : Number;
     defaultMenuStatus: string = '0';
     defaultMenuType: string = '0';
@@ -60,6 +61,7 @@ export class ResourceEditComponent implements OnInit {
                 .then(res => {
                     this.resource = res.data || {};
                     this.uploadSys = this.resource.systemId;
+                    console.log(this.uploadSys.length);
                     this.defaultSysLength = this.resource.systemId.length;
                     return this.getSystemList();
                 })
@@ -81,6 +83,8 @@ export class ResourceEditComponent implements OnInit {
                 });
         } else if (this.editType === 'add') {
             this.getSystemList();
+            this.resource.menuStatus = '0';
+            this.resource.menuType = '0';
             this.forbidSaveBtn = false;
         }
     }
@@ -92,6 +96,7 @@ export class ResourceEditComponent implements OnInit {
                 this.uploadSys.push(x.systemId);
             }
         });
+        this.defaultCheck = this.checkArraySame(this.uploadSys, this.resource.systemId);
     }
 
     getSystemList() {
@@ -133,6 +138,15 @@ export class ResourceEditComponent implements OnInit {
         }else{
             this._location.back();
         }
+    }
+
+    checkArraySame (oldArray, newArray) {
+        console.log(oldArray);
+        let lengthMatch = oldArray.length === newArray.length;
+        let contentMatch = newArray.every((newItem, i) => {
+            return newItem === oldArray[i];
+        });
+        return lengthMatch && contentMatch;
     }
 
     handleSaveBtnClick() {

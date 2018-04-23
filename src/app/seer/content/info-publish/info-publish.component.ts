@@ -75,7 +75,7 @@ export class InfoPublishComponent {
 
     };
 
-    pageInfo = {
+    pageInfo : any = {
         pageNum: 1,
         pageSize: 100000,
         total: 1000,
@@ -84,8 +84,6 @@ export class InfoPublishComponent {
         sortBy: '',
         isRoot: 1,
         status: '',
-        updateTimeStart: '',
-        updateTimeEnd: '',
         excelmaps: {
             affTypeName: '所属栏目',
             title: '文章标题',
@@ -273,7 +271,6 @@ export class InfoPublishComponent {
                 this.pageInfo.pageSize = res.data.pageSize; //每页记录数
                 this.pageInfo.total = res.data.total; //记录总数
                 this.source = res.data.list;
-                console.log(this.source);
                 this.source.map(x => {
                     x.status = x.status === 0 ? '未发布' : '已发布';
                 });
@@ -302,7 +299,6 @@ export class InfoPublishComponent {
         const type = message.type;
         let data = message.data;
         let column = message.column;
-        console.log(data);
         switch (type) {
             case 'hideColumn':
                 this.pageInfo.excelmaps = column;
@@ -361,12 +357,13 @@ export class InfoPublishComponent {
                 let ids = _(data).map(t => t.id).value();
                 break;
             case 'export':
+                console.log(this.pageInfo);
                 this.service.exportForm(this.pageInfo).then(res => {
                     let blob = res.blob();
                     let a = document.createElement('a');
                     let url = window.URL.createObjectURL(blob);
                     a.href = url;
-                    a.download = '资源管理' + '.xls';
+                    a.download = '新闻管理' + '.xls';
                     a.click();
                     window.URL.revokeObjectURL(url);
                     console.log(res);
