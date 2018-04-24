@@ -333,7 +333,7 @@
           </seer-collapse-card>
           
   
-          <seer-collapse-card cardTitle="学历技能信息" [canCollapse]="true" [defaultExpand]="false">
+          <seer-collapse-card cardTitle="学历技能信息" [canCollapse]=true [defaultExpand]="true">
             <seer-simple-table
               #educationView
               [data]="educationsData"
@@ -346,7 +346,7 @@
             </seer-simple-table>
           </seer-collapse-card>
   
-          <seer-collapse-card cardTitle="家庭主要关系" cardClass="with-scroll" [canCollapse]=true [defaultExpand]="false">
+          <seer-collapse-card cardTitle="家庭主要关系" cardClass="with-scroll" [canCollapse]=true [defaultExpand]="true">
             <seer-simple-table
               #relationView
               [data]="relationsData"
@@ -359,7 +359,7 @@
             </seer-simple-table>
           </seer-collapse-card>
   
-          <seer-collapse-card cardTitle="主要工作经历" cardClass="with-scroll" [canCollapse]=true [defaultExpand]="false">
+          <seer-collapse-card cardTitle="主要工作经历" cardClass="with-scroll" [canCollapse]=true [defaultExpand]="true">
             <seer-simple-table
               #experienceView
               [data]="experiencesData"

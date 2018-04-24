@@ -12,7 +12,7 @@ export const titles = [
   {key: 'departmentName', label: '团队'},
   {key: 'position', label: '职位'},
   {key: 'entryTime', label: '入职时间', type: 'date'},
-  {key: 'inviteNum', label: '邀请人数', hidden:true},
+  {key: 'inviteNum', label: '邀请人数', hidden:false},
   // {key: 'loginTimes', label: '登录次数'},
   // {key: 'lastLoginTime', label: '最后登录时间', type: 'date-time', hidden:true},
   // {key: 'loginIp', label: '最后登录IP' , hidden:true}
