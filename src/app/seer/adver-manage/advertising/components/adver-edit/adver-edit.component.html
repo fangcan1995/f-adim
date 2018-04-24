@@ -116,7 +116,9 @@
                       <img src="{{advertising.icon}}" style="width:100%">
                     </div>
                   </ng-template>
-                  <input type="file" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)" [disabled]="uploadDisabled">
+                  <!--<input type="file" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)" [disabled]="uploadDisabled">-->
+                  <label class="btn btn_file" for="xFile">上传图片</label>
+                  <form><input type="file" id="xFile" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)" [disabled]="uploadDisabled" style="position:absolute;clip:rect(0 0 0 0);"></form>
                   <seer-loading [isLoading]="isLoading" [type]="'small'"></seer-loading>
                 </div>
               </div>

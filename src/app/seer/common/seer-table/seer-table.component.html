@@ -119,10 +119,9 @@
         <a *ngIf="title.type=='link'" class="seer_font seer_a_font" target="{{title.target || '_blank'}}" href="{{item[title.key]}}" title="{{item[title.key]}}">{{item[title.key]}}</a>
         <a href *ngIf="title.type === 'clickable' "  class="seer_font seer_a_font" (click)="handleClick($event, item)"  title="{{item[title.key]}}">{{item[title.key]}}</a>
         <input  *ngIf="title.type=='input_number'" type="number" class="form-control" title="{{item[title.key]}}" [(ngModel)]="item[title.key]"/>
-
-        <span *ngIf="title.type != 'clickable' && title.type!='input_number' && title.type!='link' && title.type != 'html' && title.type!='image' && title.type != 'date' && title.type != 'date-time' && !displayOriginalData" class="seer_font" title="{{renderValue(title,item[title.key])}}">{{renderValue(title,item[title.key]) || '--'}}</span>
-
-        <span *ngIf="title.type != 'clickable' && title.type!='input_number' && title.type!='link' && title.type != 'html'  && title.type!='image' && title.type != 'date' && title.type != 'date-time' && displayOriginalData" class="seer_font" title="{{item[title.key]}}">{{item[title.key]}}</span>
+        <span *ngIf="title.isDict != true && title.type != 'clickable' && title.type!='input_number' && title.type!='link' && title.type != 'html' && title.type!='image' && title.type != 'date' && title.type != 'date-time' && !displayOriginalData"  class="seer_font" title="{{renderValue(title,item[title.key])}}">{{renderValue(title,item[title.key]) || '--'}}</span>
+        <span *ngIf="title.isDict == true" class="seer_font color_{{renderClass(title,item[title.key])}}" title="{{renderValue(title,item[title.key])}}">{{renderValue(title,item[title.key]) || '--'}}</span>
+        <!--<span *ngIf="title.type != 'clickable' && title.type!='input_number' && title.type!='link' && title.type != 'html'  && title.type!='image' && title.type != 'date' && title.type != 'date-time' && displayOriginalData" class="seer_font" title="{{item[title.key]}}">{{item[title.key]}}</span>-->
         <div *ngIf="title.type === 'html'" [innerHTML]="item[title.key]"></div>
         <span *ngIf="title.type=='image'" class="seer_font"  title="{{item[title.key]}}"><img src="{{item[title.key]}}" style="width: 50px; height: 40px" (click)="openModal(image)" ></span>
         <ng-template #image>
@@ -146,7 +145,7 @@
       </td>
     </tr>
     </tbody>
-    
+
   </table>
 </div>
 
