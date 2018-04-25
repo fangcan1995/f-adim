@@ -5,34 +5,34 @@
 <div class="widgets">
   <div class="row justify-content-center">
     <div class="col-md-12">
-      <seer-collapse-card cardTitle="用户管理" cardClass="with-scroll" [canCollapse]=false>
+      <seer-collapse-card cardTitle="定时任务" cardClass="with-scroll" [canCollapse]=false>
         <form class="form-horizontal" #myForm="ngForm">
           <div class="row">
                         
             <div class="col-sm-12 col-md-12 form-group">
               <div class="row">
-                <label for="loginName" class="col-sm-3 col-md-1 col-lg-1 col-xlg-1 control-label required">账号名称</label>
+                <label for="jobGroup" class="col-sm-3 col-md-1 col-lg-1 col-xlg-1 control-label required">任务组名</label>
                 <div class="col-sm-8 col-md-7 col-lg-6">
                     <input
                         *ngIf="editType === 'edit'"
                         type="text"
                         class="form-control"
-                        id="loginName"
-                        name="loginName"
-                        placeholder="用户名称"
+                        id="jobGroup"
+                        name="jobGroup"
+                        placeholder="任务组名"
                         [required]=true
-                        [(ngModel)]="user.loginName"
+                        [(ngModel)]="user.jobGroup"
                         disabled
                     />
                     <input
                         *ngIf="editType === 'add'"
                         type="text"
                         class="form-control"
-                        id="loginName"
-                        name="loginName"
-                        placeholder="用户名称"
+                        id="jobGroup"
+                        name="jobGroup"
+                        placeholder="任务组名"
                         [required]=true
-                        [(ngModel)]="user.loginName"
+                        [(ngModel)]="user.jobGroup"
                     />
                 </div>
               </div>
@@ -40,50 +40,105 @@
 
             <div class="col-sm-12 col-md-12 form-group">
                 <div class="row">
-                    <label for="emCode" class="col-sm-3 col-md-1 col-lg-1 col-xlg-1 control-label required">员工编号</label>
+                    <label for="jobName" class="col-sm-3 col-md-1 col-lg-1 col-xlg-1 control-label required">任务名称</label>
                     <div class="col-sm-8 col-md-7 col-lg-6">
-                        <input
+                        <!-- <input
                             type="text"
                             class="form-control"
                             id="emCode"
                             name="emCode"
                             placeholder="员工编号"
                             [(ngModel)]="user.emCode"
+                        /> -->
+                        <input
+                            *ngIf="editType === 'edit'"
+                            type="text"
+                            class="form-control"
+                            id="jobName"
+                            name="jobName"
+                            placeholder="任务名称"
+                            [required]=true
+                            [(ngModel)]="user.jobName"
+                            disabled
+                        />
+                        <input
+                            *ngIf="editType === 'add'"
+                            type="text"
+                            class="form-control"
+                            id="jobName"
+                            name="jobName"
+                            placeholder="任务名称"
+                            [required]=true
+                            [(ngModel)]="user.jobName"
                         />
                     </div>
                 </div>
             </div>            
-            
-            <!-- <div class="col-sm-12 col-md-12 form-group" *ngIf="editType === 'add'">
+           
+            <div class="col-sm-12 col-md-12 form-group">
+                <div class="row">
+                    <label for="emCode" class="col-sm-3 col-md-1 col-lg-1 col-xlg-1 control-label required">corn表达式</label>
+                    <div class="col-sm-8 col-md-7 col-lg-6">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="emCode"
+                            name="emCode"
+                            [required]=true
+                            placeholder="corn表达式"
+                            [(ngModel)]="user.cornExpression"
+                        />
+                        <!-- <input
+                            *ngIf="editType === 'edit'"
+                            type="text"
+                            class="form-control"
+                            id="loginName"
+                            name="loginName"
+                            placeholder="corn表达式"
+                            [required]=true
+                            [(ngModel)]="user.jobName"
+                            disabled
+                        />
+                        <input
+                            *ngIf="editType === 'add'"
+                            type="text"
+                            class="form-control"
+                            id="loginName"
+                            name="loginName"
+                            placeholder="corn表达式"
+                            [required]=true
+                            [(ngModel)]="user.jobName"
+                        /> -->
+                    </div>
+                </div>
+            </div>  
+            <div class="col-sm-12 col-md-12 form-group" *ngIf="editType === 'add'">
               <div class="row">
-                <label for="staffs" class="col-sm-3 col-md-1 col-lg-1 col-xlg-1 control-label required">所属员工</label>
+                <label for="jobData" class="col-sm-3 col-md-1 col-lg-1 col-xlg-1 control-label">任务数据</label>
                 <div class="col-sm-8 col-md-7 col-lg-6">
                     <input
-                      type="text"
-                      class="form-control"
-                      id="staffs"
-                      name="staffs"
-                      placeholder="所属员工"
-                      readonly
-                      [required]=true
-                      [value]="activeStaff.name"
-                      (click)=showModal()
+                    type="text"
+                    class="form-control"
+                    id="jobData"
+                    name="jobData"
+                    placeholder="任务数据"
+                    [(ngModel)]="user.jobData"
                       />
                     
                 </div>
               </div>
-            </div> -->
+            </div>
             
-            <div class="col-sm-12 col-md-12 form-group" *ngIf="editType === 'edit'">
+            <!-- <div class="col-sm-12 col-md-12 form-group" *ngIf="editType === 'edit'">
               <div class="row">
                 <label class="col-sm-3 col-md-1 col-lg-1 col-xlg-1 control-label required">用户密码</label>
                 <div class="col-sm-8 col-md-7 col-lg-6">
                   <button type="button" class="btn btn-primary" [disabled]="forbidResetPasswordBtn" (click)="handleResetPasswordBtn()">密码重置</button>
                 </div>
               </div>
-            </div>
+            </div> -->
             
-            <div class="col-sm-12 col-md-12 form-group">
+            <!-- <div class="col-sm-12 col-md-12 form-group">
               <div class="row">
                 <label class="col-sm-3 col-md-1 col-lg-1 col-xlg-1 control-label required">用户角色</label>
                 <div class="col-sm-8 col-md-7 col-lg-6">
@@ -97,16 +152,16 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
-            <div class="col-sm-12 col-md-12 form-group" *ngIf="editType === 'add'" style="padding-bottom: 20px;">
+            <!-- <div class="col-sm-12 col-md-12 form-group" *ngIf="editType === 'add'" style="padding-bottom: 20px;">
                 <div class="row">
                     <label class="col-sm-3 col-md-3 col-lg-1 col-xlg-1 control-label"></label>
                     <div class="col-sm-8 col-md-7 col-lg-6">
                         <label class="col-sm-12 col-md-12 text-danger">* 初始密码为GH123456，请提示新用户及时修改；</label>
                     </div>
                 </div>
-            </div>
+            </div> -->
             
 
           </div>
