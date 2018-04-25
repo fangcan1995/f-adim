@@ -418,15 +418,15 @@ export class MessageEditComponent {
         keyId='id';
       }
       console.log(this.modalUsers);
-      this.modalUsers = _.map(this.modalUsers, r =>{
+      //反向渲染人员列表，原来选中的checkbox是勾选状态
+      /*this.modalUsers = _.map(this.modalUsers, r =>{
         let idIndex=this.selectedUserId.findIndex(x => x == r[keyId]);
         if(idIndex!=-1){
           return _.set(r, 'selected', 1)
         }else{
           return _.set(r, 'selected', 0)
         }
-      }
-      );
+      });*/
     });
   }
 
