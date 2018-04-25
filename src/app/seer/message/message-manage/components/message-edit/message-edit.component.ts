@@ -439,6 +439,8 @@ export class MessageEditComponent {
 
   //模态框用户事件绑定
   modalChangeCard(message){
+    console.log('模态框用户事件绑定');
+    console.log(message);
     switch ( message.type ) {
       case 'search':
         break;
