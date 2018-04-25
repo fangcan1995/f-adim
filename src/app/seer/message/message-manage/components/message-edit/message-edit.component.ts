@@ -439,7 +439,7 @@ export class MessageEditComponent {
 
   //模态框用户事件绑定
   modalChangeCard(message){
-    console.log('模态框用户事件绑定');
+    console.log('-------模态框用户事件绑定------');
     console.log(message);
     switch ( message.type ) {
       case 'search':
@@ -495,7 +495,7 @@ export class MessageEditComponent {
   modalChangeTable(e){
     const type = e.type;
     let data = e.data;
-    console.log('-------------');
+    console.log('-------模态框选择用户id------');
     console.log(e);
     let keyId;
     if(this.usersType=='members'){

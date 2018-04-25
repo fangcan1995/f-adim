@@ -96,21 +96,15 @@ export class AdverEditComponent implements OnInit{
           //end
         }
         //渲染日期时间组件
-          laydate.render({
-            elem: '#effectTime',
-            type: 'datetime',
-            done: (value, date, effectTime) => {
-              this.advertising.effectTime = value;
 
-            }
-          })
-          laydate.render({
+          /*laydate.render({
             elem: '#expiryTime',
             type: 'datetime',
+            trigger: 'click',
             done: (value, date, expiryTime) => {
               this.advertising.expiryTime = value;
             }
-          })
+          })*/
       });
 
   }
@@ -160,6 +154,31 @@ export class AdverEditComponent implements OnInit{
   onCompleteAll(): any {
     this.uploader.clearQueue();
     this.progress = 0;
+  }
+  aaa(e){
+    console.log('修改开始时间');
+
+    laydate.render({
+      elem: '#expiryTime',
+      type: 'datetime',
+      trigger: 'click',
+      done: (value, date, expiryTime) => {
+        console.log('回调了');
+        //this.advertising.expiryTime = value;
+      }
+    })
+  }
+  bbb(e){
+    console.log('修改结束时间');
+    laydate.render({
+      elem: '#expiryTime',
+      type: 'datetime',
+      trigger: 'click',
+      done: (value, date, expiryTime) => {
+        console.log('回调了');
+        //this.advertising.expiryTime = value;
+      }
+    })
   }
   //返回
   handleBackBtnClick() {
