@@ -33,7 +33,9 @@ export class SeerCollapseCardComponent implements OnInit, OnChanges {
   handleHeaderActionsClick($event, { type },params?) {
     $event.stopPropagation();
     console.log(params)
-    const newtype={...type,params}
-    this.notify.emit(newtype)
+    if(params){
+      type={...type,params}
+    }
+    this.notify.emit({type})
   }
 }

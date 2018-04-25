@@ -93,7 +93,7 @@
             <!-- 引入树组件 -->
           <input type="text" class="form-control" id="departmentId"
             *ngIf="filter.type ==='table' && !filter.groups"
-            [(ngModel)]="staff.sysEmployer.departmentName"
+            [(ngModel)]="filter.value"
             [ngModelOptions]="{standalone: true}" (click)="openModal(template)" (input)="handleFilterChange()" (change)='handleFilterChange()' readonly>
             <template #template>
               <div class="modal-body">
