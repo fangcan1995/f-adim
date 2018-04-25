@@ -120,12 +120,13 @@ export class SeerTableComponent implements OnInit {
 
         /** 增加的部分 */
         if (!this.translate) {
-            let transFields: { fieldName: string, category?: string }[] = [];
+            let transFields: { fieldName: string, category?: string,remarks?: string }[] = [];
             _.each(this.titles, title => {
                 if (title.isDict) {
                     transFields.push({
                         fieldName: title.key,
-                        category: title.category
+                        category: title.category,
+                        remarks: title.remarks  //lily
                     });
                 }
             });
@@ -342,6 +343,17 @@ export class SeerTableComponent implements OnInit {
         }
         return value;
     }
+    //edit by lily 20180424,
+    //该方法可以按照字典中设置的样式显示字段，如发送失败显示红色等
+    //说明：为提高效率其实应该改造renderValue方法
+    renderClass(title, value) {
+      if (this.translate && this.translate[title.key] && this.translate[title.key].length) {
+        _.each(this.translate[title.key], o => {
+          if (o.itemId == value) value = o.remarks;
+        })
+      }
+      return value;
+    }
     onPageChange($event) {
         this.rowsOnPage = $event.rowsOnPage;
         this.pageNum = $event.pageNumber;
@@ -371,18 +383,18 @@ export class SeerTableComponent implements OnInit {
 
      treeNode = [];//组织树
      treePermissions = TREE_PERMISSIONS.NOTIFY | TREE_PERMISSIONS.SHOW_FILTER | TREE_PERMISSIONS.SHOW_ADD_ROOT;
-   
+
     public modalRef: BsModalRef;
-  
+
     public openModal(template: TemplateRef<any>) {
       //console.log(template);
       this.modalRef = this.modalService.show(template);
       this.getOrganizations();
     }
-  
+
     private nodeId: string;
     private nodeName: string;
-  
+
     onNotice($event) {
       console.log($event);
       let node = $event.node;
@@ -391,7 +403,7 @@ export class SeerTableComponent implements OnInit {
         this.nodeId = node.data.id;
       }
     }
-  
+
     save() {
         console.log(this.nodeId)
         this.exchangeDepartment(this.nodeId)
