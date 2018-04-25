@@ -114,9 +114,13 @@
   color: #3b9ff3;
 }
 .t-a-left:first-of-type{
-  padding-left: 10px;
+  padding-left:20px;
 }
-
+.table{
+  th{
+    font-size: 12px;
+  }
+}
 
 :host /deep/ {
 

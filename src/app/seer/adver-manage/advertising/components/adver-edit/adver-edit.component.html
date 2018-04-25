@@ -12,9 +12,9 @@
               <div class="row">
                 <label  class="col-sm-4 col-md-4 col-lg-2 control-label">广告标题</label>
                 <div class="col-sm-8  col-md-8 col-lg-10">
-                  <input class="form-control"  type="text"  name="title" [(ngModel)]="advertising.title" #title="ngModel" [rangeLength]="[2,100]" required />
+                  <input class="form-control"  type="text"  name="title" [(ngModel)]="advertising.title" #title="ngModel" [rangeLength]="[0,30]" required maxlength="30" />
                   <p class="text-danger" *ngIf="title.errors?.required">* 必填项</p>
-                  <p class="text-danger" *ngIf="title.errors?.rangeLength">输入字符长度在2-100之间</p>
+                  <p class="text-danger" *ngIf="title.errors?.rangeLength">请输入30个以内字符</p>
                 </div>
               </div>
             </div>
@@ -65,6 +65,7 @@
                         class="form-control  addUnit"
                         [(ngModel)]="advertising.effectTime"
                         #effectTime="ngModel"
+                        (click)="aaa(e)"
                       />
                      <!-- <span class="icon-operation unit"></span>-->
                   <p class="text-danger" *ngIf="!advertising.effectTime">* 必填项</p>
@@ -83,6 +84,7 @@
                         class="form-control addUnit"
                         [(ngModel)]="advertising.expiryTime"
                         #expiryTime="ngModel"
+                        (click)="bbb()"
                       />
                       <!--<span class="icon-operation unit"></span>-->
                   <p class="text-danger" *ngIf="!advertising.expiryTime">* 必填项</p>
