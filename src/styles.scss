@@ -49,15 +49,22 @@
         }
       }
     }
-  }
-  .text-danger{ text-align: left}
-  /* .ng-touched:not(form),.ng-invalid:not(form) {
-    border: 1px solid #f00;
+    /*.text-danger{
+      text-align:left;
+      color:#ff5800 !important;
+    }*/
+    label.btn {
+      &.btn_file{
+        background: #3b9ff3;
+        border-color: #3b9ff3;
+        color: #fff;
+        line-height: 24px;
+      }
+
+    }
   }
 
-  .ng-valid:not(form),.ng-untouched:not(form) {
-    border: 1px solid #ddd;
-  } */
+
 
 
 }
@@ -97,9 +104,24 @@
     top:0px
   }
 }
+.color_green{
+  color: #01c700;
+}
+.color_orange{
+  color: #ff5800;
+}
+.color_blue{
+  color: #3b9ff3;
+}
+.t-a-left:first-of-type{
+  padding-left:20px;
+}
+.table{
+  th{
+    font-size: 12px;
+  }
+}
 
 :host /deep/ {
-  /*.table-actions{
-    text-align: center;
-  }*/
+
 }
