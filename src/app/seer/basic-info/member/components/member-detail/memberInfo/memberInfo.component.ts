@@ -25,22 +25,22 @@ export class MemberInfoComponent implements OnInit {
   titlesEmergencyContact=[
     {
       key:'contName',
-      label:'姓名',
+      label:'联系人姓名',
       textAlign:'left',
     },
     {
       key:'contRelation',
-      label:'关系',
+      label:'与会员关系',
       textAlign:'center',
     },
     {
       key:'contPhone',
-      label:'手机号',
+      label:'联系人联系电话',
       textAlign:'center',
     },
     {
       key:'contIdnum',
-      label:'身份证号',
+      label:'联系人身份证号',
       textAlign:'center',
     }
   ];//关系人
@@ -72,9 +72,9 @@ export class MemberInfoComponent implements OnInit {
     { key:'belongTo3', label:'所有权3' },
   ];//房
   titlesCreditInfo=[
-    { key:'creditValue', label:'信用报告' },
-    { key:'creditLevel', label:'综合信用等级' },
-    { key:'creditExpire', label:'有效日期' },
+    { key:'creditValue', label:'信用报告',textAlign:'center' },
+    { key:'creditLevel', label:'综合信用等级',textAlign:'center' },
+    { key:'creditExpire', label:'有效日期',textAlign:'center' },
   ];//征信
   memberId:any='';
   constructor(
@@ -96,6 +96,8 @@ export class MemberInfoComponent implements OnInit {
           this._memberService.getOne(params.id).then(res => {
             this.member = res.data || {};
             this.baseInfo=this.member.baseInfo|| {};
+            this.baseInfo.mSex = this._memberService.cardGetSex(this.baseInfo.idNumber);
+            this.baseInfo.mAge = this._memberService.cardGetAge(this.baseInfo.idNumber);
             this.emergencyContact=this.member.contactList|| [];
             this.workInfo=this.member.workInfo|| {};
             this.accountInfo=this.member.acBank|| {};

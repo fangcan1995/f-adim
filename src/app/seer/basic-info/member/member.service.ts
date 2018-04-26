@@ -5,8 +5,8 @@ import {getStorage} from "../../../theme/libs/utils"
 @Injectable()
 export class MemberService extends BaseService<ResModel>{
     //MembersUrl=`${TEST_URL}/${API['MEMBERS']}`; //会员接口
-  // MembersUrl=`http://172.16.1.225:9080/members`; //会员接口
-  MembersUrl=`${BASE_URL}/members`; //会员接口
+ MembersUrl=`http://172.16.1.225:9080/members`; //会员接口
+  // MembersUrl=`${BASE_URL}/members`; //会员接口
   emergencyContactUrl=`contact`;//联系人
   VehicleContactUrl=`car`;//车辆
   HouseContactUrl=`house`;//车辆
@@ -200,4 +200,65 @@ export class MemberService extends BaseService<ResModel>{
           search: params
       })).toPromise();
   }
+
+  //身份证计算年龄
+  cardGetAge(identityCard) {
+    let len = (identityCard + "").length;
+    if (len == 0) {
+        return 0;
+    } else {
+        if ((len != 15) && (len != 18))//身份证号码只能为15位或18位其它不合法
+        {
+            return 0;
+        }
+    }
+    let strBirthday = "";
+    if (len == 18)//处理18位的身份证号码从号码中得到生日和性别代码
+    {
+        strBirthday = identityCard.substr(6, 4) + "/" + identityCard.substr(10, 2) + "/" + identityCard.substr(12, 2);
+    }
+    if (len == 15) {
+        strBirthday = "19" + identityCard.substr(6, 2) + "/" + identityCard.substr(8, 2) + "/" + identityCard.substr(10, 2);
+    }
+    //时间字符串里，必须是“/”
+    let birthDate = new Date(strBirthday);
+    let nowDateTime = new Date();
+    let age = nowDateTime.getFullYear() - birthDate.getFullYear();
+    //再考虑月、天的因素;.getMonth()获取的是从0开始的，这里进行比较，不需要加1
+    if (nowDateTime.getMonth() < birthDate.getMonth() || (nowDateTime.getMonth() == birthDate.getMonth() && nowDateTime.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+  }
+
+  //身份证计算年龄
+  cardGetSex(identityCard) {
+    let len = (identityCard + "").length;
+    if (len == 0) {
+            return 0;
+    } else {
+        if ((len != 15) && (len != 18))//身份证号码只能为15位或18位其它不合法
+        {
+            return 0;
+        }
+    }
+    let sex = 0;
+    if (len == 18)//处理18位的身份证号码从号码中得到生日和性别代码
+    {
+      if(parseInt(identityCard.substr(16, 1)) % 2 == 1){
+         sex = 1;//男
+      }else{
+         sex = 2;
+      }
+    }
+    if (len == 15) {
+      if(parseInt(identityCard.substr(14, 1)) % 2 == 1){
+         sex = 1;//男
+      }else{
+         sex = 2;
+      }
+    }
+    return sex;
+  }
+
 }
