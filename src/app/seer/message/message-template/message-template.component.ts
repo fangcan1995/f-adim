@@ -150,7 +150,7 @@ export class MessageTemplateComponent {
         this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
         break;
       case 'delete':
-        this._dialogService.confirm(`确定删除#${data.tempName}#吗？`)
+        this._dialogService.confirm(`确定删除${data.tempName}吗？`)
           .subscribe(action => {
             if ( action === 1 ) {
               this.service.deleteTemplate(message.data.id)
