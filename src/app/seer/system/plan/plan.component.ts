@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { DatePipe } from "@angular/common";
 import { Router } from "@angular/router";
 import * as _ from 'lodash';
-import { UserService } from './plan.service';
+import { PlanService } from './plan.service';
 import {
     ManageService,
     SeerDialogService,
@@ -12,6 +12,7 @@ import {
 import { GlobalState } from '../../../global.state';
 import { UPDATE, DELETE, CREATE, ENABLE, DISABLE } from '../../common/seer-table';
 import { CouponService } from "../../operation/coupon/coupon.service";
+import { Console } from "@angular/core/src/console";
 @Component({
     templateUrl: './plan.component.html',
     styleUrls: ['./plan.component.scss'],
@@ -20,7 +21,7 @@ import { CouponService } from "../../operation/coupon/coupon.service";
 export class UserComponent implements OnInit {
     constructor(
         private _router: Router,
-        private _userService: UserService,
+        private _planService: PlanService,
         private _dialogService: SeerDialogService,
         private _messageService: SeerMessageService,
         private _datePipe: DatePipe,
@@ -76,64 +77,38 @@ export class UserComponent implements OnInit {
             groupSpaces: ['至']
         },
     ];
-    titles = [
+    titles = [ 
+        
         {
-            key: 'loginName',
-            label: '用户账号',
+            key: 'SEQ',
+            label: '序号',
+            textAlign: 'center'
         },
         {
-            key: 'empName',
-            label: '用户名称',
+            key: 'schedName',
+            label: '计划名称',
         },
         {
-            key: 'phone',
-            label: '联系电话',
+            key: 'jobName',
+            label: '任务名称',
         },
         {
-            key: 'departmentName',
-            label: '所属机构',
-            textAlign: 'left'
+            key: 'jobGroup',
+            label: '任务分组',
+        },
+       
+        {
+            key: 'cornExpression',
+            label: 'corn表达式',
         },
         {
-            key: 'loginStatus',
-            label: '账号状态',
+            key: 'triggerState',
+            label: '任务状态',
             isDict: true,
             category: 'USER_STATUS_2',
             textAlign: 'center'
         },
-        {
-            key: 'createTime',
-            label: '创建时间',
-            type: 'date-time',
-            textAlign: 'center'
-        },
-        {
-            key: 'updateTime',
-            label: '更新时间',
-            type: 'date-time',
-            textAlign: 'center'
-        },
-        {
-            key: 'updateUser',
-            label: '更新用户',
-        },
-        {
-            key: 'roleName',
-            label: '用户角色',
-            hidden: true
-        },
-        {
-            key: 'loginIp',
-            label: '最后登录IP',
-            hidden: true
-        },
-        {
-            key: 'loginDate',
-            label: '最后登录时间',
-            type: 'date-time',
-            hidden: true,
-            textAlign: 'center'
-        },
+       
     ];
 
     
@@ -145,7 +120,7 @@ export class UserComponent implements OnInit {
     params: any = {
         pageSize: 10,
         pageNum: 1,
-        sortBy: '',
+        // sortBy: '',
     };
 
     pageInfo: any = {
@@ -166,22 +141,25 @@ export class UserComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getList(this.pageInfo);
+        this.getList(this.params);
     }
     getList(params): void {
-        this._userService.getList(params)
+        this._planService.getList(params)
             .then(res => {
                 let data = res.data || {};
                 this.users = data.list;
                 this.users = _.map(this.users, t => {
-                    let status = t.loginStatus;
+                    let status = t.triggerState;
                     let actions;
                     switch (status) {
-                        case '0':
-                            actions = [UPDATE, DISABLE];
+                        case 'FINISHED':
+                            actions = [];
                             break;
-                        case '1':
-                            actions = [UPDATE, ENABLE];
+                        case 'PAUSED':
+                            actions = [UPDATE, DELETE, ENABLE];
+                            break;
+                        default:
+                            actions = [UPDATE, DELETE, DISABLE];
                             break;
                     }
                     return _.set(t, 'actions', actions);
@@ -193,7 +171,7 @@ export class UserComponent implements OnInit {
             })
             .catch(err => {
                 console.log(err);
-                this.showError(err.msg || '获取用户失败');
+                this.showError(err.msg || '获取任务失败');
             })
     }
     handleFiltersChanged(params) {
@@ -229,18 +207,24 @@ export class UserComponent implements OnInit {
     }
 
     handleNotify({ type, data, column }): void {
+        const params={
+            jobName:data.jobName,
+            jobGroup:data.jobGroup
+        }
+        
         switch (type) {
             case 'hideColumn':
                 this.pageInfo.excelmaps = column;
                 break;
             case CREATE.type:
-                this._router.navigate(['/system/user/add']);
+                this._router.navigate(['/system/plan/add']);
                 break;
             case UPDATE.type:
-                this._router.navigate(['/system/user/edit', data.userId]);
+                const param=JSON.stringify(params)
+                this._router.navigate([`/system/plan/edit/${param}`]);
                 break;
             case 'export': 
-                this._userService.exportForm(this.pageInfo)
+                this._planService.exportForm(this.pageInfo)
                     .then(res => {
                         let blob = res.blob();
                         let a = document.createElement('a');
@@ -255,51 +239,51 @@ export class UserComponent implements OnInit {
                     })
                 break;
             case DISABLE.type:
-                this._dialogService.confirm('确定停用该用户吗？')
+            console.log(data);
+            
+                this._dialogService.confirm('确定暂停该任务吗？')
                     .subscribe(action => {
                         if (action === 1) {
-                            this._userService
-                                .deleteOne(data.userId)
+                            this._planService
+                                .putOne(params)
                                 .then((res) => {
-                                    this.showSuccess(res.msg || '停用用户成功');
-                                    // 如果删除的用户正好是自己，那么退出到登录页
-                                    let userInLocal = this._manageService.getUserFromLocal() || {};
-                                    if (userInLocal.userId == data.userId) {
-                                        this._authService.logout().subscribe(res => {
-                                            this._router.navigate(['/login'])
-                                        })
-                                    } else {
-                                        this.getList(this.pageInfo);
-                                    }
-
+                                    this.showSuccess(res.msg || '暂停任务成功');
+                                    this.getList(this.params);
                                 })
                                 .catch(err => {
-                                    this.showError(err.msg || '停用用户失败')
+                                    this.showError(err.msg || '暂停任务失败')
                                 });
                         }
                     })
                 break;
             case ENABLE.type:
-                this._dialogService.confirm('确定启用该用户吗？')
+                this._dialogService.confirm('确定恢复该任务吗？')
                     .subscribe(action => {
                         if (action === 1) {
-                            this._userService
-                                .deleteOne(data.userId)
+                            this._planService
+                                .resumeOne(params)
                                 .then((res) => {
-                                    this.showSuccess(res.msg || '启用用户成功');
-                                    // 如果删除的用户正好是自己，那么退出到登录页
-                                    let userInLocal = this._manageService.getUserFromLocal() || {};
-                                    if (userInLocal.userId == data.userId) {
-                                        this._authService.logout().subscribe(res => {
-                                            this._router.navigate(['/login'])
-                                        })
-                                    } else {
-                                        this.getList(this.pageInfo);
-                                    }
-
+                                    this.showSuccess(res.msg || '恢复任务成功');
+                                    this.getList(this.pageInfo);
                                 })
                                 .catch(err => {
-                                    this.showError(err.msg || '启用用户失败')
+                                    this.showError(err.msg || '恢复任务失败')
+                                });
+                        }
+                    })
+                break;
+            case DELETE.type:
+                this._dialogService.confirm('确定删除该任务吗？')
+                    .subscribe(action => {
+                        if (action === 1) {
+                            this._planService
+                                .deleteOne(params)
+                                .then((res) => {
+                                    this.showSuccess(res.msg || '删除任务成功');
+                                    this.getList(this.pageInfo);
+                                })
+                                .catch(err => {
+                                    this.showError(err.msg || '删除任务失败')
                                 });
                         }
                     })

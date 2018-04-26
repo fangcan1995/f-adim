@@ -28,7 +28,6 @@ export class StaffService extends BaseService<StaffModule> {
     const page = `?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
     const sort = `&sortBy=${pageInfo.sort}`;
     const jsonQueryObj = pageInfo.query;
-    console.log(jsonQueryObj)
     let query: string = "";
     for (var prop in jsonQueryObj) {
       if (jsonQueryObj[prop]) {

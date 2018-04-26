@@ -298,14 +298,12 @@ export class ActivityEditComponent {
   }
   //3 删除奖励
   delAward(type,index){
-    this._dialogService.confirm('确定删除吗？')
+    this._dialogService.confirm(`确定删除${this.awardsDTO[type][index].reName}吗？`)
       .subscribe(action => {
         if (action === 1) {
           this.awardsDTO[type].splice(index,1);
         }
       })
-
-
 
   }
   //4 奖品名称自动生成-红包
