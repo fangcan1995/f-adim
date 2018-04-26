@@ -123,12 +123,13 @@ export class AdvertisingComponent implements OnInit {
         this.ads = res.data.list;
         //this.ads=_.map(this.ads,t =>_.set(t, 'actions', [DISABLE, UPDATE, DELETE]));
         this.ads = _.map(this.ads, t => {
-           if(t.status==0){
+          //console.log(t.putStatus);
+           if(t.putStatus==0){
              return _.set(t, 'actions', [PREVIEW,UPDATE, DELETE]);
-          }else if(t.status ==1){
-             return _.set(t, 'actions', [PREVIEW,UPDATE, DELETE]);
+          }else if(t.putStatus ==1){
+             return _.set(t, 'actions', [PREVIEW,UPDATE]);
            }else{
-             return _.set(t, 'actions', [PREVIEW,UPDATE, DELETE]);
+             return _.set(t, 'actions', [PREVIEW,UPDATE]);
            }
         })
         this.isLoading = false;
@@ -153,7 +154,7 @@ export class AdvertisingComponent implements OnInit {
         this._router.navigate([`detail/${message.data.id}`], {relativeTo: this._activatedRoute});
         break;
       case 'delete':
-        this._dialogService.confirm('确定删除吗？')
+        this._dialogService.confirm(`确定要删除${message.data.title}吗？`)
           .subscribe(action => {
             if (action === 1) {
               this._advertisingService.deleteOne(message.data.id).then(res => {
