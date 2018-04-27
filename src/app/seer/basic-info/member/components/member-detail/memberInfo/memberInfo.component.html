@@ -154,32 +154,32 @@
                 账户归属: {{accountInfo.accountSource}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                账户用户名: {{baseInfo.trueName}}
+                账户姓名: {{baseInfo.trueName}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                开户行: {{accountInfo.bankName}}
+                开户银行: {{accountInfo.bankName}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                银行账户: {{accountInfo.bankNo}}
+                银行卡号: {{accountInfo.bankNo}}
               </div>
             </div>
         </seer-collapse-card>
         <seer-collapse-card cardTitle="财务状况" cardClass="with-scroll"  >
             <div class="row">
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                自有房产:{{financialInfo.hasHouse}}套
+                自有住房数量:{{financialInfo.hasHouse}}套
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                月房屋按揭金额: {{financialInfo.houseRepayMonth | coinFormate}}元
+                月均住房贷款还款金额: {{financialInfo.houseRepayMonth | coinFormate}}元
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                月信用卡还款金额: {{financialInfo.cardRepayMonth | coinFormate}}元
+                月均信用卡还款金额: {{financialInfo.cardRepayMonth | coinFormate}}元
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                自有汽车:{{financialInfo.hasCar}}辆
+                自有车辆数量:{{financialInfo.hasCar}}辆
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                月汽车按揭金额: {{financialInfo.carRepayMonth | coinFormate}}元
+                月均车辆贷款还款金额: {{financialInfo.carRepayMonth | coinFormate}}元
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
                 月无抵押货款还款额: {{financialInfo.unsecuredRepayMonth | coinFormate}}元
@@ -204,7 +204,7 @@
                 工作年限: {{workInfo.workYear||0}}年
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                工作电话: {{workInfo.workTel}}
+                联系电话: {{workInfo.workTel}}
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 月净收入: {{workInfo.monthIncome | coinFormate}}元
