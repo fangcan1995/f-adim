@@ -62,7 +62,7 @@ export class MessageRecordComponent {
       category: 'BUSINESS_TYPE'
     },
     {
-      key:'sendNotify',
+      key:'msgContent',
       label:'消息内容',
       type: 'input.text',
     },
@@ -162,8 +162,8 @@ export class MessageRecordComponent {
       beginTime,
       endTime,
     }
-    //console.log(params);
     this.pageInfo = params;
+    this.pageInfo.sortBy="-sendTime";  //传入默认排序条件
     this.getRecord();
   }
   showSuccess(message: string) {

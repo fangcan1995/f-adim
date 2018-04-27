@@ -15,6 +15,8 @@ export class MessageService extends BaseService<ResModel>{
 
   // 1 获取消息列表
   getDatas(params?): Promise<ResModel> {
+    console.log('提交的参数');
+    console.log(params);
     return this._httpInterceptorService.request('GET', `${BASE_URL}/messages`,params).toPromise();
   }
   //2 获取一条消息
