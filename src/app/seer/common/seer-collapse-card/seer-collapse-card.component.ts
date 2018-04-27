@@ -19,6 +19,7 @@ export class SeerCollapseCardComponent implements OnInit, OnChanges {
   public _isExpanded: boolean = false;
   constructor() {}
   ngOnInit() {
+    console.log(this.cardType)
   	this._isExpanded = this.canCollapse ? this.defaultExpand : true;
   }
   ngOnChanges() {
