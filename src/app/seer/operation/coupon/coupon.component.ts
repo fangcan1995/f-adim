@@ -112,8 +112,8 @@ export class CouponComponent implements OnInit{
     let beginCreateTime,
       endCreateTime;
     if ( _.isArray(createTime)) {
-      beginCreateTime = createTime[0] ? (formatDate(createTime[0],'YYYY-MM-DD 00:00:00')) : null;
-      endCreateTime = createTime[1] ? (formatDate(createTime[1],'YYYY-MM-DD 23:59:59')) : null;
+      beginCreateTime = createTime[0] ? (formatDate(createTime[0],'YYYY-MM-DD 00:00:00')) :'';
+      endCreateTime = createTime[1] ? (formatDate(createTime[1],'YYYY-MM-DD 23:59:59')) :'';
     }
     params = {
       ...otherParams,
@@ -121,7 +121,10 @@ export class CouponComponent implements OnInit{
       endCreateTime,
     }
 
-    this.pageInfo = params;
+    this.pageInfo = {
+      ...this.pageInfo,
+      ...params
+    };
     this.getList();
   }
 

@@ -9,7 +9,7 @@
         <form class="form-horizontal info" [formGroup]="form">
           <div class="form-group col-sm-12" style="margin-bottom:0;">
             <div class="row">
-              
+
               <div class="form-group">
                 <label for="subjectName" class="col-sm-4 col-md-2 col-xlg-1 control-label text-center">专题标题</label>
                 <div class="col-sm-4 col-md-3">
@@ -43,12 +43,12 @@
                 <div class="col-sm-4 col-md-3">
                   <select
                     class="form-control"
-                    id="subjectType"
+                    id="device"
                     [(ngModel)]="subject.device"
                     [required]=true
                     dict-select
                     formControlName="device"
-                    [key]="'ADVERTISING_PUTENV'"
+                    [key]="'SUBJECT_PUTENV'"
                     [topOption]="{itemid:'',itemName:'请选择'}"
                     >
                   </select>
@@ -68,7 +68,7 @@
           </div>
         </form>
       </seer-collapse-card>
-      
+
     </div>
   </div>
 </div>

@@ -62,7 +62,7 @@ export class MessageRecordComponent {
       category: 'BUSINESS_TYPE'
     },
     {
-      key:'sendNotify',
+      key:'msgContent',
       label:'消息内容',
       type: 'input.text',
     },
@@ -154,16 +154,18 @@ export class MessageRecordComponent {
     let beginTime,
       endTime;
     if ( _.isArray(postTime)) {
-      beginTime = postTime[0] ? (formatDate(postTime[0],'YYYY-MM-DD 00:00:00')) : null;
-      endTime = postTime[1] ? (formatDate(postTime[1],'YYYY-MM-DD 23:59:59')) : null;
+      beginTime = postTime[0] ? (formatDate(postTime[0],'YYYY-MM-DD 00:00:00')) :'';
+      endTime = postTime[1] ? (formatDate(postTime[1],'YYYY-MM-DD 23:59:59')) :'';
     }
     params = {
       ...otherParams,
       beginTime,
       endTime,
     }
-    //console.log(params);
-    this.pageInfo = params;
+    this.pageInfo = {
+      ...this.pageInfo,
+      ...params
+    };
     this.getRecord();
   }
   showSuccess(message: string) {

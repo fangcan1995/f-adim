@@ -31,7 +31,7 @@ export class SubjectService extends BaseService<any>{
     exportFile = `${TEST_URL}/${API['ANNOUNCE']}/export`;
     SPExportFile = `${TEST_URL}/${API['ANNOUNCE']}/specialExport`;
     //SPExportFile = `http://172.16.1.252:9080/announcements/specialExport`;
-    access_token = "access_token=cd59f8af-e2c7-4e21-958f-cbf0747e701a"
+    access_token = "access_token=dca94b45-8468-4b9c-8701-f5b3b2107872"
 
 
 

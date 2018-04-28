@@ -60,7 +60,7 @@ export class SubjectComponent implements OnInit, OnDestroy {
             key: 'device',
             label: '设备',
             isDict: true,
-            category: 'ADVERTISING_PUTENV'
+            category: 'SUBJECT_PUTENV'
         },
         {
             key: 'delFlag',
@@ -107,7 +107,7 @@ export class SubjectComponent implements OnInit, OnDestroy {
                 this.subjects = res.data.list;
                 this.subjects = _.map(this.subjects, t => {
                     let status = t.delFlag;
-                    t.url=`${FROUNT_URL}/${t.id}`
+                    t.url=`${FROUNT_URL}/${t.id}`   //前台路径/subject_common/6
                     let actions;
                     switch (status) {
                         case 0:
@@ -115,7 +115,7 @@ export class SubjectComponent implements OnInit, OnDestroy {
                             break;
                         case 1:
                             actions = [UPDATE, ENABLE];
-                            break;    
+                            break;
                     }
                     return _.set(t, 'actions', actions);
                 })
