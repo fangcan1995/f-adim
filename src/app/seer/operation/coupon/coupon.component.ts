@@ -121,7 +121,10 @@ export class CouponComponent implements OnInit{
       endCreateTime,
     }
 
-    this.pageInfo = params;
+    this.pageInfo = {
+      ...this.pageInfo,
+      ...params
+    };
     this.getList();
   }
 

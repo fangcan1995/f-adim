@@ -162,8 +162,10 @@ export class MessageRecordComponent {
       beginTime,
       endTime,
     }
-    this.pageInfo = params;
-    this.pageInfo.sortBy="-sendTime";  //传入默认排序条件
+    this.pageInfo = {
+      ...this.pageInfo,
+      ...params
+    };
     this.getRecord();
   }
   showSuccess(message: string) {

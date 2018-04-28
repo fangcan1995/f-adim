@@ -122,7 +122,10 @@ export class RedPacketComponent {
       endCreateTime,
     }
 
-    this.pageInfo = params;
+    this.pageInfo = {
+      ...this.pageInfo,
+      ...params
+    };
     console.log(this.pageInfo);
     this.getList();
   }

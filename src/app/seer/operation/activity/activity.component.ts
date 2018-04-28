@@ -211,13 +211,18 @@ export class ActivityComponent implements OnInit {
       endEndTime = endTime[1] ? (formatDate(endTime[1],'YYYY-MM-DD 23:59:59')) : null;
     }
     params = {
-      ...otherParams,
+
+  ...otherParams,
       beginStartTime,
       beginEndTime,
       endStartTime,
       endEndTime,
+
     }
-    this.pageInfo = params;
+    this.pageInfo = {
+      ...this.pageInfo,
+      ...params
+    };
     this.getList();
   }
   //换页
