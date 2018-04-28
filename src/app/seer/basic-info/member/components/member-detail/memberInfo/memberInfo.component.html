@@ -151,7 +151,7 @@
         <seer-collapse-card cardTitle="账户信息" cardClass="with-scroll"  >
             <div class="row">
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-                账户归属: {{accountInfo.accountSource}}
+                账户归属:<span dict-trans [key]="'ACCOUNT_SOURSE'" [value]="accountInfo.accountSource"></span>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
                 账户姓名: {{baseInfo.trueName}}
@@ -261,6 +261,7 @@
             [hideRemoveAll]="true"
             [showSeq]="true"
             [hideActions]="true"
+            (notify)="openLink($event)"
           >
           </seer-table>
         </seer-collapse-card>

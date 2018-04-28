@@ -114,6 +114,7 @@ export class MemberComponent implements OnInit {
       this.pageInfo.total = res.data.total; //记录总数
       this.members = res.data.list;
       this.members = _.map(this.members, t => {
+        t.sex = this._memberService.cardGetSex(t.idNumber);
         let status = t.status;
         let actions;
         switch (status) {
