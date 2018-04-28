@@ -213,13 +213,13 @@ export class AdvertisingComponent implements OnInit {
       expiryTimeStart,
       expiryTimeEnd;
     if ( _.isArray(effectTime) ) {
-      effectTimeStart = effectTime[0] ? (formatDate(effectTime[0],'YYYY-MM-DD 00:00:00')) : null;
-      effectTimeEnd = effectTime[1] ? (formatDate(effectTime[1],'YYYY-MM-DD 23:59:59')) : null;
+      effectTimeStart = effectTime[0] ? (formatDate(effectTime[0],'YYYY-MM-DD 00:00:00')) :'';
+      effectTimeEnd = effectTime[1] ? (formatDate(effectTime[1],'YYYY-MM-DD 23:59:59')) :'';
 
     }
     if ( _.isArray(expiryTime) ) {
-      expiryTimeStart = expiryTime[0] ? (formatDate(expiryTime[0],'YYYY-MM-DD 00:00:00')) : null;
-      expiryTimeEnd = expiryTime[1] ? (formatDate(expiryTime[1],'YYYY-MM-DD 23:59:59')) : null;
+      expiryTimeStart = expiryTime[0] ? (formatDate(expiryTime[0],'YYYY-MM-DD 00:00:00')) :'';
+      expiryTimeEnd = expiryTime[1] ? (formatDate(expiryTime[1],'YYYY-MM-DD 23:59:59')) :'';
     }
     params = {
       ...otherParams,

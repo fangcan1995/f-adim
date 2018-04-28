@@ -606,8 +606,8 @@ export class ActivityEditComponent {
       mageMax = mage[1] || null;
     }
     if ( _.isArray(investDate)) {
-      investDateBefore = investDate[0] ? (formatDate(investDate[0],'YYYY-MM-DD 00:00:00')) : null;
-      investDateAfter = investDate[1] ? (formatDate(investDate[1],'YYYY-MM-DD 23:59:59')) : null;
+      investDateBefore = investDate[0] ? (formatDate(investDate[0],'YYYY-MM-DD 00:00:00')) :'';
+      investDateAfter = investDate[1] ? (formatDate(investDate[1],'YYYY-MM-DD 23:59:59')) :'';
     }
     if ( _.isArray(investAll)) {
       investAllMix = investAll[0] || null;

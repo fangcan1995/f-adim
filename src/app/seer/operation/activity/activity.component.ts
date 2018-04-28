@@ -203,12 +203,12 @@ export class ActivityComponent implements OnInit {
       endEndTime
     ;
     if ( _.isArray(beginTime)) {
-      beginStartTime = beginTime[0] ? (formatDate(beginTime[0],'YYYY-MM-DD 00:00:00')) : null;
-      beginEndTime = beginTime[1] ? (formatDate(beginTime[1],'YYYY-MM-DD 23:59:59')) : null;
+      beginStartTime = beginTime[0] ? (formatDate(beginTime[0],'YYYY-MM-DD 00:00:00')) :'';
+      beginEndTime = beginTime[1] ? (formatDate(beginTime[1],'YYYY-MM-DD 23:59:59')) :'';
     }
     if ( _.isArray(endTime)) {
-      endStartTime = endTime[0] ? (formatDate(endTime[0],'YYYY-MM-DD 00:00:00')) : null;
-      endEndTime = endTime[1] ? (formatDate(endTime[1],'YYYY-MM-DD 23:59:59')) : null;
+      endStartTime = endTime[0] ? (formatDate(endTime[0],'YYYY-MM-DD 00:00:00')) :'';
+      endEndTime = endTime[1] ? (formatDate(endTime[1],'YYYY-MM-DD 23:59:59')) :'';
     }
     params = {
 
