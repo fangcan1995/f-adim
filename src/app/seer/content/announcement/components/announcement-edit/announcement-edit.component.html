@@ -1,7 +1,7 @@
 <div class="widgets">
   <seer-content-top>
     <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
-    <button class="btn btn-primary left-button" [disabled]="(_editType === 'edit' && !form.dirty && content === announcement.content && !contentTextLengthTest) || (_editType === 'add' && (!form.valid || announcement.content === '')) || !form.valid || forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
+    <button class="btn btn-primary left-button" [disabled]="(_editType === 'edit' && !form.dirty && content === announcement.content || !contentTextLengthTest) || (_editType === 'add' && (!form.valid || announcement.content === '') || !contentTextLengthTest) || !form.valid || forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
   </seer-content-top>
   <div class="row justify-content-center">
     <div class="col-md-12">
