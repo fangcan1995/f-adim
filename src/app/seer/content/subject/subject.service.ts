@@ -24,7 +24,7 @@ export class SubjectService extends BaseService<any>{
         super(_httpInterceptorService);
     }
 
-    const
+
     private headers = new Headers({ 'Content-Type': 'application/json' });
     // apiUrl = `${TEST_URL}/${API['ANNOUNCE']}`;
     apiUrl = `http://172.16.1.252:9080/subjects`;
