@@ -228,8 +228,12 @@ export class AdvertisingComponent implements OnInit {
       expiryTimeStart,
       expiryTimeEnd,
     }
+
+    this.pageInfo = {
+      ...this.pageInfo,
+      ...params
+    };
     //console.log(params);
-    this.pageInfo = params;
     this.getList();
   }
   //分页
