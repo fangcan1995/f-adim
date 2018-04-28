@@ -264,6 +264,13 @@ export class InfoPublishEditComponent implements OnInit, OnChanges {
         });
     }
 
+    deleteFile() {
+        this._infoPublishService.cancelFile(this.infoPublishSource.fileId, this.infoPublishSource.id)
+            .then(res => {
+                console.log(res);
+            })
+    }
+
     /* 上传成功回调 */
     successItem(FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
         if (status == 200) {

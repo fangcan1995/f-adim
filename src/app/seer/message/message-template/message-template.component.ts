@@ -70,7 +70,6 @@ export class MessageTemplateComponent {
   pageInfo={
     "pageNum":1,
     "pageSize":10,
-    "sortBy":"-updateTime",
     "total":"",
     "globalSearch":"",
     "tempName":"",
@@ -81,6 +80,7 @@ export class MessageTemplateComponent {
     "sendNotify":"",
     "sendMail":"",
     "tempTitle":"",
+    "sortBy":"-updateTime",
     "excelmaps": {
       tempName: '模板名称',
       tempCode: 'KEY',
@@ -194,6 +194,10 @@ export class MessageTemplateComponent {
   handleFiltersChanged($event) {
     let params=$event;
     this.pageInfo = params;
+    this.pageInfo = {
+      ...this.pageInfo,
+      ...params
+    };
     this.allTplsList();
   }
   showSuccess(message: string) {

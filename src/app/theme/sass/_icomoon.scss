@@ -21,9 +21,20 @@
   font-style: normal;
 }
 
+@font-face {
+    font-family: 'iconfont';
+    src:  url('#{$fonts-root}iconfont.eot?wexqgc');
+    src:  url('#{$fonts-root}iconfont.eot?wexqgc#iefix') format('embedded-opentype'),
+    url('#{$fonts-root}iconfont.ttf?wexqgc') format('truetype'),
+    url('#{$fonts-root}iconfont.woff?wexqgc') format('woff'),
+    url('#{$fonts-root}iconfont.svg?wexqgc#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon', 'icomoon2' !important;
+  font-family: 'icomoon', 'icomoon2', 'iconfont' !important;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -130,4 +141,43 @@
 }
 .icon-advertising:before {
   content: "\ea11";
+}
+
+
+
+/* 树的图标 */
+.icon-personInfo:before {
+    content: "\e663";
+}
+.icon-person:before {
+    content: "\e662";
+}
+.icon-group:before {
+    content: "\e661";
+}
+.icon-department:before {
+    content: "\e660";
+}
+.icon-bag-close:before {
+    content: "\e65f";
+}
+.icon-bag-open:before {
+    content: "\e65e";
+}
+.icon-doc:before {
+    content: "\e65d";
+}
+.icon-company:before {
+    content: "\e65c";
+}
+.icon-org:before {
+    content: "\e65b";
+}
+.icon-org-arrow-down:before {
+    content: "\e659";
+    color: #b8b8b8;
+}
+.icon-org-arrow-up:before {
+    content: "\e658";
+    color: #333;
 }

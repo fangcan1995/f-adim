@@ -16,4 +16,6 @@ export const TREE_EVENTS = {
   onRenameNode: 'onRenameNode',
   onDeleteNode: 'onDeleteNode',
   onMoveNode: 'onMoveNode',
+  onClickNew: 'onClickNew',
+  onClickEdit: 'onClickEdit',
 };

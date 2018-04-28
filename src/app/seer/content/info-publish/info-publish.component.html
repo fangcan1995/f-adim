@@ -41,3 +41,67 @@
 </div>
 <div dynamic-component></div>
 <seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
+
+<div class="modal fade" bsModal #modal="bs-modal"
+    (onShown)="handleModalShown();"
+>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="padding: 20px;">
+            <div class="modal-header">
+                <h3>请填写数据</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 form-group">
+                            <div class="row">
+                                <label class="col-sm-3 col-md-4 col-lg-3 control-label">栏目名称</label>
+                                <div class="col-sm-8 col-md-7 col-lg-6">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        style="padding: 0.5rem 0.75rem"
+                                        [(ngModel)]="modalInfo.affTypeName"
+                                        [ngModelOptions]="{standalone: true}"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 form-group">
+                            <div class="row">
+                                <label class="col-sm-3 col-md-4 col-lg-3 control-label">栏目类型</label>
+                                <div class="col-sm-8 col-md-7 col-lg-6">
+                                    <select class="form-control" [(ngModel)]="modalInfo.affType" [ngModelOptions]="{standalone: true}">
+                                        <option value="">请选择</option>
+                                        <option value="1">公司动态</option>
+                                        <option value="2">媒体报道</option>
+                                        <option value="3">合作伙伴</option>
+                                        <option value="4">法律法规</option>
+                                        <option value="5">常见问题</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 form-group">
+                            <div class="row">
+                                <label class="col-sm-3 col-md-4 col-lg-3 control-label">文章类型</label>
+                                <div class="col-sm-8 col-md-7 col-lg-6">
+                                    <select class="form-control" [(ngModel)]="modalInfo.affContentType" [ngModelOptions]="{standalone: true}">
+                                        <option value="">请选择</option>
+                                        <option value="1">文章</option>
+                                        <option value="2">列表</option>
+                                        <option value="3">图文列表</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="handleAffSubmit()">确定</button>
+                <button type="button" class="btn btn-default" (click)="handleModalHide()">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
