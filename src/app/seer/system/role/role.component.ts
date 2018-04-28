@@ -40,7 +40,7 @@ export class RoleComponent {
             updateTime: '修改时间',
             updateUser: '修改人',
             createTime: '创建时间',
-            createUser: '创建者',
+            createUser: '创建用户',
         }
     }
 

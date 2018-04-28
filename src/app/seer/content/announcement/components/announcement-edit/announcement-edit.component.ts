@@ -20,6 +20,7 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
     public announcement: any = {};
     private _editType: string = 'add';
     public forbidSaveBtn: boolean = true;
+    contentTextLengthTest: boolean = true;
     form: FormGroup;
     content: any = '';
     constructor(private _announcementService: AnnouncementService,
@@ -51,7 +52,6 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
                         this.announcement = res.data;
                         this.announcement.effectTime = this.announcement.effectTime.replace(/-/g, '/');
                         this.content = _.clone(this.announcement.content);
-                        console.log(this.announcement.content);
                         this.forbidSaveBtn = false;
 
                     }, errMsg => {
@@ -80,7 +80,14 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
         })
     }
 
-
+    contentTextLength() {
+        if(this.announcement.content && this.announcement.content.length <= 2000) {
+            this.contentTextLengthTest = true;
+        }
+        else {
+            this.contentTextLengthTest = false;
+        }
+    }
 
     handleBackBtnClick() {
         this._location.back()

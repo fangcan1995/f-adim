@@ -128,4 +128,9 @@ export class InfoPublishService extends BaseService<any>{
         })).toPromise();
     }
 
+
+    cancelFile(fileId, articalId): Promise<any> {
+        return this._httpInterceptorService.request('PUT', `${TEST_URL}/${API['AFFICHE']}/cancelFile/${fileId}/${articalId}`, {}).toPromise();
+    }
+
 }

@@ -13,6 +13,8 @@ export class ResourceService extends BaseService<ResourceModel> {
         this.setApi(API['RESOURCES']);
     }
 
+    url = `http://172.16.1.252:9080/${API['RESOURCES']}/export`;
+
     exportFile = `${TEST_URL}/${API['RESOURCES']}/export`;
 
     getSystemList(): Promise<ResModel> {
@@ -23,7 +25,7 @@ export class ResourceService extends BaseService<ResourceModel> {
     exportForm(params): Promise<any> {
         console.log(params);
         const access_token = getStorage({ key: 'token' }).access_token;
-        return this.http.get(`${this.exportFile}?access_token=${access_token}`, new RequestOptions({
+        return this.http.get(`${this.url}?access_token=${access_token}`, new RequestOptions({
             responseType: ResponseContentType.Blob,
             search: params
         })).toPromise();
