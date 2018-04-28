@@ -10,7 +10,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
 import * as _ from 'lodash';
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
-import { UserService } from '../../plan.service';
+import { PlanService } from '../../plan.service';
 import { SeerDialogService, SeerMessageService, ManageService } from '../../../../../theme/services';
 
 import { json2Tree } from '../../../../../theme/libs';
@@ -43,7 +43,7 @@ export class UserEditComponent implements OnInit {
     @ViewChild('staffTree') staffTree: SeerTree;
     @ViewChild('modal') modal: ModalDirective;
     constructor(
-        private _userService: UserService,
+        private _planService: PlanService,
         private _location: Location,
         private _route: ActivatedRoute,
         private _router: Router,
@@ -54,13 +54,13 @@ export class UserEditComponent implements OnInit {
     ) { }
     ngOnInit() {
         this.editType = this._route.snapshot.url[0].path;
-        this.id = this._route.snapshot.params.id;
+        this.id = this._route.snapshot.params.params;
         if (this.editType === 'edit') {
-            this._userService.getOne(this.id)
+            this._planService.getDetail(this.id)
                 .then(res => {
+                    console.log(res)
                     this.user = res.data || {};
                     console.log(this.user);
-                    return this.getRoles()
                 })
                 .then(res => {
                     this.forbidSaveBtn = false;
@@ -70,41 +70,41 @@ export class UserEditComponent implements OnInit {
                     this.showError(err.msg || '获取用户信息失败')
                 });
         } else if (this.editType === 'add') {
-            Promise.all([this.getRoles(), this.getUsersWithStaffsWithOrgs()])
-                .then(res => {
-                    this.forbidSaveBtn = false;
-                })
-                .catch(err => {
-                    this.showError(err.msg || '获取用户信息失败')
-                })
+            this.forbidSaveBtn = false;
+            // Promise.all([this.getRoles(), this.getUsersWithStaffsWithOrgs()])
+            //     .then(res => {
+            //         this.forbidSaveBtn = false;
+            //     })
+            //     .catch(err => {
+            //         this.showError(err.msg || '获取用户信息失败')
+            //     })
         }
     }
     handleSaveBtnClick() {
         if (this.myForm.form.valid) {
             this.forbidSaveBtn = true;
-            let roleIds = _(this.roles).filter(t => t.checked).map(t => t['roleId']).value()
             if (this.editType === 'edit') {
                 let params = {
-                    userId: this.user.userId,
-                    emCode: this.user.emCode,
-                    roleIds,
+                    jobGroup: this.user.jobGroup,
+                    jobName: this.user.jobName,
+                    cornExpression:this.user.cornExpression,
                 }
-                this._userService.putOne('', params)
+                this._planService.resetOne(params)
                     .then(res => {
 
 
                         // 如果编辑的用户正好是自己，那么刷新本地信息
-                        let userInLocal = this._manageService.getUserFromLocal() || {};
+                        // let userInLocal = this._manageService.getUserFromLocal() || {};
 
-                        if (userInLocal.userId == this.user.userId) {
-                            this._manageService.refreshLocalDataAndNotify()
-                        }
+                        // if (userInLocal.userId == this.user.userId) {
+                        //     this._manageService.refreshLocalDataAndNotify()
+                        // }
 
                         this.showSuccess(res.msg || '更新成功')
                             .onClose()
                             .subscribe(() => {
                                 this.forbidSaveBtn = false;
-                                this._router.navigate(['/system/user']);
+                                this._router.navigate(['/system/plan']);
                             });
                     })
                     .catch(err => {
@@ -112,19 +112,23 @@ export class UserEditComponent implements OnInit {
                         this.showError(err.msg || '更新失败')
                     });
             } else {
-                let params = {
-                    ...this.user,
-                    roleIds,
-                    employeeId: this.activeStaff.originId,
+                // let params = {
+                //     ...this.user,
+                //     employeeId: this.activeStaff.originId,
+                // }
+                let params = _.clone(this.user)
+                if(params.jobData){
+                    params.jobData=JSON.parse(params.jobData)
                 }
-                this._userService.postOne(params)
+                // params.jobData=params.jobData?JSON.parse(params.jobData):'';
+                this._planService.postOne(params)
                     .then(res => {
                         this.forbidSaveBtn = false;
                         this.showSuccess(res.msg || '保存成功')
                             .onClose()
                             .subscribe(() => {
                                 this.forbidSaveBtn = false;
-                                this._router.navigate(['/system/user']);
+                                this._router.navigate(['/system/plan']);
                             });
                     })
                     .catch(err => {
@@ -140,7 +144,7 @@ export class UserEditComponent implements OnInit {
     }
     handleResetPasswordBtn() {
         this.forbidResetPasswordBtn = true;
-        this._userService.resetPassword({
+        this._planService.resetPassword({
             userId: this.user.userId,
             type: 0,
         })
@@ -154,7 +158,7 @@ export class UserEditComponent implements OnInit {
             })
     }
     getRoles() {
-        return this._userService.getRoles()
+        return this._planService.getRoles()
             .then(res => {
                 let data = res.data || {};
                 this.roles = data.list || [];
@@ -170,7 +174,7 @@ export class UserEditComponent implements OnInit {
             })
     }
     getUsersWithStaffsWithOrgs() {
-        return this._userService.getUsersWithStaffsWithOrgs()
+        return this._planService.getUsersWithStaffsWithOrgs()
             .then(res => {
                 let data = res.data || {};
                 let departments = data.departmentList || [];

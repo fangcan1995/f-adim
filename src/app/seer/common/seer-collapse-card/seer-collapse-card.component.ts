@@ -19,6 +19,7 @@ export class SeerCollapseCardComponent implements OnInit, OnChanges {
   public _isExpanded: boolean = false;
   constructor() {}
   ngOnInit() {
+    console.log(this.cardType)
   	this._isExpanded = this.canCollapse ? this.defaultExpand : true;
   }
   ngOnChanges() {
@@ -33,7 +34,9 @@ export class SeerCollapseCardComponent implements OnInit, OnChanges {
   handleHeaderActionsClick($event, { type },params?) {
     $event.stopPropagation();
     console.log(params)
-    const newtype={...type,params}
-    this.notify.emit(newtype)
+    if(params){
+      type={...type,params}
+    }
+    this.notify.emit({type})
   }
 }

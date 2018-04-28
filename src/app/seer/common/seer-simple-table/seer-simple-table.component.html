@@ -39,7 +39,7 @@
             <!-- title.key=='college' || title.key=='eduMajor' || title.key=='eduLevel'||title.key=='contRelation' || title.key=='contName' || title.key=='jobInfo'||title.key=='contPhone' || title.key=='companyName' || title.key=='jobType'|| title.key=='proveName' || title.key=='proveTel' -->
         <seer-datepicker 
         *ngIf="(item.editState === 'EDIT' || item.editState === 'CREATE')&&(title.key=='endTime' || title.key=='startTime')"
-        
+        [dateFormatingRules]="dateFormatingRules || 'yyyy-MM-dd'"
         [(date)]="item.editData[title.key]"
         ></seer-datepicker>
         <a

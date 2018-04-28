@@ -35,8 +35,21 @@ export class StaffComponent {
       key: 'empStatus', label: '员工状态', type: 'select',
       options: [{value: '', content: '请选择'},{value: '0', content: '试用'},{value: '1', content: '在职'},{value: '2', content: '离职'}]
     },
-    {key: 'entryTimeStart', label: '入职时间', type: 'input.date'},
-    {key: 'entryTimeEnd', label: '至', type: 'input.date'},
+    // {key: 'entryTimeStart', label: '入职时间', type: 'input.date'},
+    // {key: 'entryTimeEnd', label: '至', type: 'input.date'},
+    {
+      key: 'entryTime',
+      label: '入职时间',
+      groups: [
+        {
+          type: 'datepicker',
+        },
+        {
+          type: 'datepicker',
+        },
+      ],
+      groupSpaces: ['至']
+    },
   ];
   public titles = titles;
   pageInfo:any = {
@@ -84,14 +97,12 @@ export class StaffComponent {
 
   //获取列表
   getStaffs(): void {
-    console.log(this.pageInfo)
     this.staffManageService.getLists(this.pageInfo).then(
       res => {
         this.pageInfo.pageNum = res.data.pageNum;  //当前页
         this.pageInfo.pageSize = res.data.pageSize; //每页记录数
         this.pageInfo.total = res.data.total; //记录总数
         this.staffs = res.data.list;
-        console.log(this.staffs)
         this.staffs = _.map(this.staffs, r => _.set(r, 'actions', [PREVIEW,UPDATE, DELETE]));
         this.isLoading = false;
       },
@@ -173,34 +184,45 @@ export class StaffComponent {
 
   //多条件查询
   handleFiltersChanged($event) {
-    // let params = $event;
-    const newData = _.cloneDeep($event);
-    console.log(newData);
-    newData.entryTimeEnd = newData.entryTimeEnd?newData.entryTimeEnd+' 23:59:59':''
-    newData.entryTimeStart = newData.entryTimeStart?newData.entryTimeStart+' 00:00:00':''
-    console.log(newData); 
-    this.pageInfo.query = newData;
-    this.pageInfo = {
-      ...this.pageInfo,
-      ...newData
+    let params = $event;
+    console.log(params)
+    let { entryTime, ...otherParams } = params;
+    let entryTimeStart,
+      entryTimeEnd;
+    // const newData = _.cloneDeep($event);
+    // newData.entryTimeEnd = newData.entryTimeEnd?newData.entryTimeEnd+' 23:59:59':''
+    // newData.entryTimeStart = newData.entryTimeStart?newData.entryTimeStart+' 00:00:00':''
+    if (_.isArray(entryTime)) {
+      entryTimeStart = entryTime[0] ? (formatDate(entryTime[0], 'YYYY-MM-DD 00:00:00')) : "";
+      entryTimeEnd = entryTime[1] ? (formatDate(entryTime[1], 'YYYY-MM-DD 23:59:59')) : "";
     }
+    // this.pageInfo.query = newData;
+    params = {
+      ...otherParams,
+      entryTimeStart,
+      entryTimeEnd,
+    }
+    this.pageInfo.query = params
+    // this.pageInfo = {
+    //   ...this.pageInfo,
+    //   ...params
+    // }
+    console.log(this.pageInfo)
     this.getStaffs();
   }
 
-  handleSearchBtnClicked($event) {
-    // let params = $event;
-    const newData = _.cloneDeep($event);
-    console.log(newData);
-    newData.entryTimeEnd = newData.entryTimeEnd?newData.entryTimeEnd+' 23:59:59':''
-    newData.entryTimeStart = newData.entryTimeStart?newData.entryTimeStart+' 00:00:00':''
-    console.log(newData);
-    this.pageInfo.query = newData;
-    this.pageInfo = {
-      ...this.pageInfo,
-      ...newData
-    }
-    this.getStaffs();
-  }
+  // handleSearchBtnClicked($event) {
+  //   // let params = $event;
+  //   const newData = _.cloneDeep($event);
+  //   newData.entryTimeEnd = newData.entryTimeEnd?newData.entryTimeEnd+' 23:59:59':''
+  //   newData.entryTimeStart = newData.entryTimeStart?newData.entryTimeStart+' 00:00:00':''
+  //   this.pageInfo.query = newData;
+  //   this.pageInfo = {
+  //     ...this.pageInfo,
+  //     ...newData
+  //   }
+  //   this.getStaffs();
+  // }
 
   openUsers(data) {
     let staffs = [];

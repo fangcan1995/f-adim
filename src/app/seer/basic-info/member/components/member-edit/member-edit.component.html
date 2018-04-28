@@ -102,9 +102,9 @@
                 <div class="row">
                   <label  class="col-sm-4 control-label">社保账号</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" name="socialNo"  [(ngModel)]="baseInfo.socialNo" maxlength="18" minlength="18"
+                    <input type="text" class="form-control" name="socialNo"  [(ngModel)]="baseInfo.socialNo" maxlength="18" 
                             #socialNo="ngModel" number/>
-                     <p class="text-danger" *ngIf="socialNo.errors?.number||socialNo.errors?.minlength">请输入18位数值</p>
+                     <p class="text-danger" *ngIf="socialNo.errors?.number">请输入小于18位数值</p>
                   </div>
                 </div>
               </div>
@@ -245,7 +245,7 @@
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label  class="col-sm-4 control-label">工作电话</label>
+                  <label  class="col-sm-4 control-label">联系电话</label>
                   <div class="col-sm-8 ">
                     <input type="text" class="form-control"  name="workTel" [(ngModel)]="workInfo.workTel" #workTel="ngModel" number maxlength="13">
                     <p class="text-danger" *ngIf="workTel.errors?.number">请输入正确格式电话号码</p>
@@ -278,18 +278,24 @@
               <div class="row">
                 <label  class="col-sm-4 control-label">账户归属</label>
                 <div class="col-sm-8 ">
+                    <select class="form-control" name="accountSource"  [(ngModel)]="accountInfo.accountSource" disabled [ngModelOptions]="{standalone: true}"
+                    dict-select
+                    [key]="'ACCOUNT_SOURSE'"
+                    [selected]="accountInfo.accountSource"
+                    [topOption]="{itemid:'',itemName:''}">
+                   </select>
                   <!--<select class="form-control" disabled>
                     <option value="">国汇财富</option>
                     <option value="">巴巴汇</option>
                     <option value="">汇信贷</option>
                   </select>-->
-                  <input type="text" class="form-control" [(ngModel)]="accountInfo.accountSource" disabled>
+                  <!-- <input type="text" class="form-control" [(ngModel)]="accountInfo.accountSource" disabled> -->
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label  class="col-sm-4 control-label">账户用户名</label>
+                <label  class="col-sm-4 control-label">账户姓名</label>
                 <div class="col-sm-8 ">
                   <input type="text" class="form-control" [(ngModel)]="baseInfo.trueName"  disabled>
                 </div>
@@ -297,7 +303,7 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label  class="col-sm-4 control-label">开户行</label>
+                <label  class="col-sm-4 control-label">开户银行</label>
                 <div class="col-sm-8 ">
 
                   <input type="text" class="form-control"  [(ngModel)]="accountInfo.bankName"  disabled>
@@ -306,7 +312,7 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label class="col-sm-4 control-label">银行账户</label>
+                <label class="col-sm-4 control-label">银行卡号</label>
                 <div class="col-sm-8 ">
                   <input type="text" class="form-control"  [(ngModel)]="accountInfo.bankNo" disabled>
                 </div>
@@ -321,8 +327,8 @@
           <div class="row info">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label  class="col-sm-4 control-label">月无抵押货款还款额（元）</label>
-                <div class="col-sm-8 ">
+                <label  class="col-sm-6 control-label">月均无抵押货款还款金额（元）</label>
+                <div class="col-sm-6 ">
                   <input type="text" class="form-control number" name="carRepayMonth" [(ngModel)]="financialInfo.unsecuredRepayMonth" maxlength="13"
                          #carRepayMonth="ngModel"  [range]="[0,999999999]">
                          <p class="text-danger" *ngIf="carRepayMonth.errors?.range">请输入小于1000000000的数值</p>
@@ -332,8 +338,8 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label  class="col-sm-4 control-label">月信用卡还款金额（元）</label>
-                <div class="col-sm-8 ">
+                <label  class="col-sm-6 control-label">月均信用卡还款金额（元）</label>
+                <div class="col-sm-6 ">
                   <input type="text" class="form-control number" name="cardRepayMonth" [(ngModel)]="financialInfo.cardRepayMonth" maxlength="13"
                          #cardRepayMonth="ngModel"  [range]="[0,999999999]">
                   <p class="text-danger" *ngIf="cardRepayMonth.errors?.range">请输入小于1000000000的数值</p>
@@ -342,8 +348,8 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label  class="col-sm-4 control-label">月房屋按揭金额（元）</label>
-                <div class="col-sm-8 ">
+                <label  class="col-sm-6 control-label">月均住房贷款还款金额（元）</label>
+                <div class="col-sm-6 ">
                   <input type="text" class="form-control number" name="houseRepayMonth" [(ngModel)]="financialInfo.houseRepayMonth" maxlength="13"
                          #houseRepayMonth="ngModel"  [range]="[0,999999999]">
                   <p class="text-danger" *ngIf="houseRepayMonth.errors?.range">请输入小于1000000000的数值</p>
@@ -352,8 +358,8 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label class="col-sm-4 control-label">月汽车按揭金额（元）</label>
-                <div class="col-sm-8 ">
+                <label class="col-sm-6 control-label">月均车辆贷款还款金额（元）</label>
+                <div class="col-sm-6 ">
                   <input type="text" class="form-control number" name="unsecuredRepayMonth" [(ngModel)]="financialInfo.carRepayMonth" maxlength="13"
                          #unsecuredRepayMonth="ngModel"   [range]="[0,999999999]">
                   <p class="text-danger" *ngIf="unsecuredRepayMonth.errors?.range">请输入小于1000000000的数值</p>
@@ -362,8 +368,8 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label class="col-sm-4 control-label">自有汽车（台）</label>
-                <div class="col-sm-8 ">
+                <label class="col-sm-6 control-label">自有车辆数量（台）</label>
+                <div class="col-sm-6 ">
                   <input type="text" class="form-control number" name="hasCar"  [(ngModel)]="financialInfo.hasCar" #hasCar="ngModel"  maxlength="4" number>
                   <p class="text-danger" *ngIf="hasCar.errors?.number">请输入数值</p>
                 </div>
@@ -371,8 +377,8 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
               <div class="row">
-                <label  class="col-sm-4 control-label">自有房产（套）</label>
-                <div class="col-sm-8 ">
+                <label  class="col-sm-6 control-label">自有住房数量（套）</label>
+                <div class="col-sm-6 ">
                   <input type="text" class="form-control number" name="hasHouse"  [(ngModel)]="financialInfo.hasHouse" #hasHouse="ngModel"  maxlength="4">
                   <p class="text-danger" *ngIf="hasHouse.errors?.number">请输入数值</p>
                 </div>
@@ -395,10 +401,26 @@
                 <div class="card checkable-card" style="max-width: 20rem;">
                   <div class="card-header">{{vehicle.carBrand}} {{vehicle.carModel}}</div>
                   <div class="card-body text-secondary">
-                    <p class="card-text">{{vehicle.carNumber}}、行驶{{vehicle.mileage}}公里、{{vehicle.carAge}}年车龄、评估价格为{{vehicle.pricePotential}}元</p>
-                    <a href="javascript:void(0)" class="card-link" (click)="vehicleModal(vehicleTemplate, true, vehicle)">详情</a>
-                    <a href="javascript:void(0)" class="card-link" (click)="vehicleModal(vehicleTemplate, false, vehicle)">修改</a>
-                    <a href="javascript:void(0)" class="card-link" (click)="delVehicle(vehicle.id)">删除</a>
+                    <div class="row">
+                        <span  class="col-sm-3 cardLable textRight">车牌号：</span>
+                        <span  class="col-sm-3 cardLable textLeft">{{vehicle.carNumber}}</span>
+                        <!-- <span  class="col-sm-3 cardLable textRight">品牌：</span>
+                        <span  class="col-sm-3 cardLable textLeft">{{vehicle.carBrand}}</span> -->
+                        <!-- <span  class="col-sm-3 cardLable textRight">型号：</span>
+                        <span  class="col-sm-3 cardLable textLeft">{{vehicle.carModel}}</span> -->
+                        <span  class="col-sm-3 cardLable textRight">车龄：</span>
+                        <span  class="col-sm-3 cardLable textLeft">{{vehicle.carAge}}年</span>
+                        <span  class="col-sm-3 cardLable textRight">行驶里程：</span>
+                        <span  class="col-sm-3 cardLable textLeft">{{vehicle.mileage}}公里</span>
+                        <span  class="col-sm-3 cardLable textRight">评估价格：</span>
+                        <span  class="col-sm-3 cardLable textLeft">{{vehicle.pricePotential}}元</span>
+                    </div>
+                    <!-- <p class="card-text">{{vehicle.carNumber}}、行驶{{vehicle.mileage}}公里、{{vehicle.carAge}}年购车、评估价格为{{vehicle.pricePotential}}元</p> -->
+                    <div class="row cardButtons">
+                      <a href="javascript:void(0)" class="card-link" (click)="vehicleModal(vehicleTemplate, true, vehicle)">详情</a>
+                      <a href="javascript:void(0)" class="card-link" (click)="vehicleModal(vehicleTemplate, false, vehicle)">修改</a>
+                      <a href="javascript:void(0)" class="card-link" (click)="delVehicle(vehicle.id)">删除</a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -422,9 +444,11 @@
                       <div class="card-header">产权证号：{{house.houseBelongNo}}</div>
                       <div class="card-body text-secondary">
                         <p class="card-text">房产地址：{{house.houseAdress}} <br>评估价格：{{house.pricePotential}} </p>
-                        <a href="javascript:void(0)" class="card-link" (click)="houseModal(houseTemplate, true, house)">详情</a>
-                        <a href="javascript:void(0)" class="card-link" (click)="houseModal(houseTemplate, false, house)">修改</a>
-                        <a href="javascript:void(0)" class="card-link" (click)="delHouse(house.id)">删除</a>
+                        <div class="row cardButtons">
+                          <a href="javascript:void(0)" class="card-link" (click)="houseModal(houseTemplate, true, house)">详情</a>
+                          <a href="javascript:void(0)" class="card-link" (click)="houseModal(houseTemplate, false, house)">修改</a>
+                          <a href="javascript:void(0)" class="card-link" (click)="delHouse(house.id)">删除</a>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -441,12 +465,12 @@
                 <div class="card-body text-secondary">
                   <p class="card-text">{{riskReport.updateTime || '未查询'}}</p>
                   <ng-container *ngIf="!riskReport.updateTime">
-                    <a href="javascript:void(0)" class="card-link" (click)="query(creditReport, 1)">获取信用报告</a>
+                    <a href="javascript:void(0)" class="card-link" (click)="requery(1)">获取信用报告</a>
                   </ng-container>
                   <ng-container *ngIf="riskReport.updateTime">
-                    <a href="javascript:void(0)" class="card-link" (click)="preview(creditReport)">预览</a>
-                    <a href="javascript:void(0)" class="card-link" (click)="download(creditReport)">下载</a>
-                    <a *ngIf="!disabled" href="javascript:void(0)" class="card-link" (click)="requery(creditReport, 1)">重新获取</a>
+                    <a [href]="riskReport.creditReport" class="card-link" target="_blank" >预览</a>
+                    <a [href]="riskReport.creditReport" class="card-link" download >下载</a>
+                    <a *ngIf="!disabled" href="javascript:void(0)" class="card-link" (click)="requery(1)">重新获取</a>
                   </ng-container>
                 </div>
               </div>
@@ -459,12 +483,12 @@
                 <div class="card-body text-secondary">
                   <p class="card-text">{{creditReport.updateTime || '未查询'}}</p>
                   <ng-container *ngIf="!creditReport.updateTime">
-                    <a href="javascript:void(0)" class="card-link" (click)="query(creditReport, 2)">获取信用报告</a>
+                    <a href="javascript:void(0)" class="card-link" (click)="requery(2)">获取信用报告</a>
                   </ng-container>
                   <ng-container *ngIf="creditReport.updateTime">
-                    <a href="javascript:void(0)" class="card-link" (click)="preview(creditReport)">预览</a>
-                    <a href="javascript:void(0)" class="card-link" (click)="download(creditReport)">下载</a>
-                    <a *ngIf="!disabled" href="javascript:void(0)" class="card-link" (click)="requery(creditReport, 2)">重新获取</a>
+                    <a [href]="creditReport.creditReport" class="card-link" target="_blank" >预览</a>
+                    <a [href]="creditReport.creditReport" class="card-link" download >下载</a>
+                    <a *ngIf="!disabled" href="javascript:void(0)"  class="card-link" (click)="requery(2)">重新获取</a>
                   </ng-container>
                 </div>
               </div>
@@ -477,12 +501,12 @@
                 <div class="card-body text-secondary">
                   <p class="card-text">{{antiFraudReport.updateTime || '未查询'}}</p>
                   <ng-container *ngIf="!antiFraudReport.updateTime">
-                    <a href="javascript:void(0)" class="card-link" (click)="query(creditReport, 3)">获取信用报告</a>
+                    <a href="javascript:void(0)" class="card-link" (click)="requery(3)">获取信用报告</a>
                   </ng-container>
                   <ng-container *ngIf="antiFraudReport.updateTime">
-                    <a href="javascript:void(0)" class="card-link" (click)="preview(creditReport)">预览</a>
-                    <a href="javascript:void(0)" class="card-link" (click)="download(creditReport)">下载</a>
-                    <a *ngIf="!disabled" href="javascript:void(0)" class="card-link" (click)="requery(creditReport, 3)">重新获取</a>
+                    <a [href]="antiFraudReport.creditReport" target="_blank" class="card-link" >预览</a>
+                    <a [href]="antiFraudReport.creditReport" download class="card-link" >下载</a>
+                    <a *ngIf="!disabled" href="javascript:void(0)" class="card-link" (click)="requery(3)">重新获取</a>
                   </ng-container>
                 </div>
               </div>
@@ -507,7 +531,7 @@
             <div class="row">
               <label  class="col-sm-4 col-md-3 control-label text-right">车辆品牌</label>
               <div class="col-sm-8 col-md-8">
-                <input class="form-control number" name="carBrand"  [(ngModel)]="vehicle.carBrand"  maxlength="4"  #carBrand="ngModel" required>
+                <input class="form-control number" name="carBrand"  [(ngModel)]="vehicle.carBrand"  maxlength="4"  #carBrand="ngModel" required [disabled]="vehicleReadOnly==true">
                 <p class="text-danger" *ngIf="carBrand.errors?.required">*必填项</p>
               </div>
             </div>
@@ -516,7 +540,7 @@
             <div class="row">
               <label  class="col-sm-4  col-md-3 control-label text-right">车辆型号</label>
               <div class="col-sm-8  col-md-8 ">
-                <input class="form-control number" name="carModel"  [(ngModel)]="vehicle.carModel" maxlength="10" #carModel="ngModel" required>
+                <input class="form-control number" name="carModel"  [(ngModel)]="vehicle.carModel" maxlength="10" #carModel="ngModel" required [disabled]="vehicleReadOnly==true">
                 <p class="text-danger" *ngIf="carModel.errors?.required">*必填项</p>
               </div>
             </div>
@@ -525,7 +549,7 @@
             <div class="row">
               <label  class="col-sm-4 col-md-3 control-label text-right">车架号</label>
               <div class="col-sm-8 col-md-8">
-                <input class="form-control number" name="viNumber"  [(ngModel)]="vehicle.viNumber" maxlength="17" #viNumber="ngModel" required>
+                <input class="form-control number" name="viNumber"  [(ngModel)]="vehicle.viNumber" maxlength="17" #viNumber="ngModel" required [disabled]="vehicleReadOnly==true">
                 <p class="text-danger" *ngIf="viNumber.errors?.required">*必填项</p>
               </div>
             </div>
@@ -534,7 +558,7 @@
             <div class="row">
               <label  class="col-sm-4 col-md-3 control-label text-right">车牌号</label>
               <div class="col-sm-8 col-md-8">
-                <input class="form-control number" name="carNumber"  [(ngModel)]="vehicle.carNumber" maxlength="7" #carNumber="ngModel" required>
+                <input class="form-control number" name="carNumber"  [(ngModel)]="vehicle.carNumber" maxlength="7" #carNumber="ngModel" required [disabled]="vehicleReadOnly==true">
                 <p class="text-danger" *ngIf="carNumber.errors?.required">*必填项</p>
               </div>
             </div>
@@ -543,7 +567,7 @@
             <div class="row">
               <label class="col-sm-4 col-md-3 control-label text-right">登记证号</label>
               <div class="col-sm-8 col-md-8">
-                <input class="form-control number" name="carRegNumber" maxlength="14" [(ngModel)]="vehicle.carRegNumber"  #carRegNumber="ngModel" required>
+                <input class="form-control number" name="carRegNumber" maxlength="14" [(ngModel)]="vehicle.carRegNumber"  #carRegNumber="ngModel" required [disabled]="vehicleReadOnly==true">
                 <p class="text-danger" *ngIf="carRegNumber.errors?.required">*必填项</p>
               </div>
             </div>
@@ -552,7 +576,7 @@
             <div class="row">
               <label  class="col-sm-4 col-md-3 control-label text-right">购车年份（年）</label>
               <div class="col-sm-8 col-md-8">
-                <input class="form-control number" name="carAge"  [(ngModel)]="vehicle.carAge" maxlength="4" #carAge="ngModel" required number>
+                <input class="form-control number" name="carAge"  [(ngModel)]="vehicle.carAge||currentYear" maxlength="4" #carAge="ngModel" required number [disabled]="vehicleReadOnly==true">
                 <p class="text-danger" *ngIf="carAge.errors?.required">*必填项</p>
                 <p class="text-danger" *ngIf="carAge.errors?.number">请输入正确年份数值</p>
               </div>
@@ -562,7 +586,7 @@
             <div class="row">
               <label  class="col-sm-4 col-md-3 control-label text-right">行驶里程（公里）</label>
               <div class="col-sm-8 col-md-8">
-                <input class="form-control number" name="mileage"  [(ngModel)]="vehicle.mileage" maxlength="8" #mileage="ngModel" [range]="[0,99999999]" >
+                <input class="form-control number" name="mileage"  [(ngModel)]="vehicle.mileage" maxlength="8" #mileage="ngModel" [range]="[0,99999999]" [disabled]="vehicleReadOnly==true">
                 <p class="text-danger" *ngIf="mileage.errors?.range">请输入小于100000000数值</p>
               </div>
             </div>
@@ -571,7 +595,7 @@
             <div class="row">
               <label class="col-sm-4 col-md-3 control-label text-right">评估价格（元）</label>
               <div class="col-sm-8 col-md-8">
-                <input class="form-control number" name="pricePotential" maxlength="8" [(ngModel)]="vehicle.pricePotential" #pricePotential="ngModel" [range]="[0,99999999]">
+                <input class="form-control number" name="pricePotential" maxlength="11" [(ngModel)]="vehicle.pricePotential" #pricePotential="ngModel" [range]="[0,99999999]" [disabled]="vehicleReadOnly==true">
                 <p class="text-danger" *ngIf="pricePotential.errors?.range">请输入小于100000000数值</p>
               </div>
             </div>
@@ -605,7 +629,7 @@
           <div class="row">
             <label for="housePlace" class="col-sm-3 control-label text-right">房产地址</label>
               <div class="col-sm-8">
-                <input class="form-control"  [(ngModel)]="house.houseAdress" name="houseAdress" maxlength="30" #houseAdress="ngModel" required>
+                <input class="form-control"  [(ngModel)]="house.houseAdress" name="houseAdress" maxlength="30" #houseAdress="ngModel" required [disabled]="houseReadOnly==true">
                 <p class="text-danger" *ngIf="houseAdress.errors?.required">*必填项</p>
               </div>
           </div>
@@ -614,7 +638,7 @@
           <div class="row">
             <label  class="col-sm-3 control-label text-right">房屋类型</label>
             <div class="col-sm-8">
-              <select class="form-control" name="houseType"  [(ngModel)]="house.houseType" #houseType="ngModel" required
+              <select class="form-control" name="houseType"  [(ngModel)]="house.houseType" #houseType="ngModel" required [disabled]="houseReadOnly==true"
                       dict-select
                       [key]="'HOUSE_TYPE'"
                       [selected]="house.houseType"
@@ -628,7 +652,7 @@
           <div class="row">
             <label  class="col-sm-3 control-label text-right">建筑面积（平米）</label>
             <div class="col-sm-8">
-              <input class="form-control number" [(ngModel)]="house.area" name="area" maxlength="6" #area="ngModel" #area="ngModel" [range]="[0,999999]" required>
+              <input class="form-control number" [(ngModel)]="house.area" name="area" maxlength="6" #area="ngModel" #area="ngModel" [range]="[0,999999]" required [disabled]="houseReadOnly==true">
               <p class="text-danger" *ngIf="area.errors?.required">*必填项</p>
               <p class="text-danger" *ngIf="area.errors?.range">请输入小于1000000数值</p>
             </div>
@@ -638,7 +662,7 @@
           <div class="row">
             <label class="col-sm-3 control-label text-right">竣工年份</label>
             <div class="col-sm-8">
-              <input class="form-control number" name="houseAge" [(ngModel)]="house.houseAge" maxlength="4" #houseAge="ngModel" number required>
+              <input class="form-control number" name="houseAge" [(ngModel)]="house.houseAge" maxlength="4" #houseAge="ngModel" number required [disabled]="houseReadOnly==true">
               <p class="text-danger" *ngIf="houseAge.errors?.required">*必填项</p>
               <p class="text-danger" *ngIf="houseAge.errors?.number">请输入正确年份数值</p>
             </div>
@@ -648,7 +672,7 @@
           <div class="row">
             <label class="col-sm-3 control-label text-right">尚欠贷余额（元）</label>
             <div class="col-sm-8">
-              <input class="form-control number" name="debtMoney"  [(ngModel)]="house.debtMoney" maxlength="11" #debtMoney="ngModel" [range]="[0,99999999999]" required>
+              <input class="form-control number" name="debtMoney"  [(ngModel)]="house.debtMoney" maxlength="11" #debtMoney="ngModel" [range]="[0,99999999999]" required [disabled]="houseReadOnly==true">
               <p class="text-danger" *ngIf="debtMoney.errors?.required">*必填项</p>
               <p class="text-danger" *ngIf="debtMoney.errors?.range">请输入小于1000000000000数值</p>
             </div>
@@ -658,7 +682,7 @@
           <div class="row">
             <label class="col-sm-3 control-label text-right">土地所有证号</label>
             <div class="col-sm-8">
-              <input class="form-control number" name="landNo"  [(ngModel)]="house.landNo" maxlength="25" >
+              <input class="form-control number" name="landNo"  [(ngModel)]="house.landNo" maxlength="25"  [disabled]="houseReadOnly==true">
             </div>
           </div>
         </div>
@@ -666,7 +690,7 @@
           <div class="row">
             <label class="col-sm-3 control-label text-right">房屋所有权证号</label>
             <div class="col-sm-8">
-              <input class="form-control number" name="houseBelongNo"  [(ngModel)]="house.houseBelongNo" maxlength="9" #houseBelongNo="ngModel" number  required>
+              <input class="form-control number" name="houseBelongNo"  [(ngModel)]="house.houseBelongNo" maxlength="9" #houseBelongNo="ngModel" number  required [disabled]="houseReadOnly==true">
               <p class="text-danger" *ngIf="houseBelongNo.errors?.required">*必填项</p>
               <p class="text-danger" *ngIf="houseBelongNo.errors?.number">请输入数字</p>
             </div>
@@ -676,7 +700,7 @@
           <div class="row">
             <label  class="col-sm-3 control-label text-right">评估价格</label>
             <div class="col-sm-8">
-              <input class="form-control number" name="pricePotential2" [(ngModel)]="house.pricePotential" maxlength="11" [range]="[0,99999999999]" #pricePotential2="ngModel">
+              <input class="form-control number" name="pricePotential2" [(ngModel)]="house.pricePotential" maxlength="14" [range]="[0,99999999999]" #pricePotential2="ngModel" [disabled]="houseReadOnly==true">
               <p class="text-danger" *ngIf="pricePotential2.errors?.range">请输入小于1000000000000数值</p>
             </div>
           </div>
@@ -692,3 +716,4 @@
   </div>
 </ng-template>
 <seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
+<!-- <a href="/assets/11.pdf" download target="_blank">222</a> -->

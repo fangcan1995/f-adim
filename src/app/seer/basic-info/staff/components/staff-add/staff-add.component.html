@@ -47,6 +47,7 @@
                     <input type="text" class="form-control" id="departmentId"
                           [(ngModel)]="staff.sysEmployer.departmentName"
                           (click)="openModal(template)"
+                          readonly
                           required name='company' #company='ngModel' title="点击选择公司团队">
                     <p class="text-danger tips" *ngIf="company.errors?.required">*必填项</p>
                     <template #template>
@@ -82,8 +83,8 @@
                   <label for="salaryBankNo" class="col-sm-4 control-label">工资卡号</label>
                   <div class="col-sm-8 ">
                     <input type="text" class="form-control" id="salaryBankNo" [(ngModel)]="staff.sysEmployer.salaryBankNo"
-                          title="工资卡号" name='salaryBankNo' #salaryBankNo='ngModel' [rangeLength]='[20,20]'>
-                    <p class="text-danger tips" *ngIf="salaryBankNo.errors?.rangeLength">限制长度20个字符</p>
+                          title="工资卡号" name='salaryBankNo' #salaryBankNo='ngModel' [rangeLength]='[0,20]'>
+                    <p class="text-danger tips" *ngIf="salaryBankNo.errors?.rangeLength">长度最大为20个字符</p>
                   </div>
                 </div>
               </div>

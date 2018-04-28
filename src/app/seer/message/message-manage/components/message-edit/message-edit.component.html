@@ -181,7 +181,7 @@
       ></seer-filter>
       <seer-filter
         [hasGlobalFilter]="true"
-        [filters]=""
+        [filters]="modalUsersfilters"
         (onFiltersChanged)=modalFiltersChanged($event)
         *ngIf="usersType=='users'"
       ></seer-filter>

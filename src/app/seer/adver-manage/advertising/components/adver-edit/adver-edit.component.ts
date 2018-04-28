@@ -99,18 +99,19 @@ export class AdverEditComponent implements OnInit{
           laydate.render({
             elem: '#effectTime',
             type: 'datetime',
+            trigger: 'click',
             done: (value, date, effectTime) => {
               this.advertising.effectTime = value;
-
             }
           })
-          laydate.render({
-            elem: '#expiryTime',
-            type: 'datetime',
-            done: (value, date, expiryTime) => {
-              this.advertising.expiryTime = value;
-            }
-          })
+        laydate.render({
+          elem: '#expiryTime',
+          type: 'datetime',
+          trigger: 'click',
+          done: (value, date, expiryTime) => {
+            this.advertising.expiryTime = value;
+          }
+        })
       });
 
   }
@@ -161,6 +162,7 @@ export class AdverEditComponent implements OnInit{
     this.uploader.clearQueue();
     this.progress = 0;
   }
+
   //返回
   handleBackBtnClick() {
     if(this.validationForm.dirty){
