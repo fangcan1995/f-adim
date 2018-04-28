@@ -22,7 +22,7 @@ export class SeerEditorComponent {
   private dataValue;
   public config = {
     uiColor: '#F0F3F4',
-    height: '200'
+    height: '200',
   };
 
   @Input()

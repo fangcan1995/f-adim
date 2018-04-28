@@ -1,19 +1,31 @@
 @import '../../../theme/sass/conf/conf';
 :host /deep/ {
- 
-
+  .row.btnGroup{
+    border-bottom: 1px solid $border;
+    padding-bottom: 15px;
+    margin: 0 -30px;
+    margin-bottom: 0;
+  }
+  .btnGroup__right{
+    padding-right: 30px;
+  }
+  .btnGroup__left{
+    padding-left: 30px;
+  }
   .table {
     border: 0;
     color: $default-text;
-    thead {
-      border-style: solid;
-      border-color: $border;
-      border-width: 1px 1px 0;
-    }
     tbody {
-      border-style: solid;
-      border-color: $border;
-      border-width: 0 1px;
+      border-bottom: 1px solid $border;
+      border-top: 1px solid $border;
+      tr{
+        &:nth-child(2n){
+          background: $border;
+        }
+        td{
+          border: 0;
+        }
+      }
     }
   }
 
