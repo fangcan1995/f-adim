@@ -201,6 +201,11 @@ export class MemberService extends BaseService<ResModel>{
       })).toPromise();
   }
 
+  //查询征信信息
+  getCreditByType(memberId, type): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET',`${this.MembersUrl}/${memberId}/credits/${type}`).toPromise();
+  }
+
   //身份证计算年龄
   cardGetAge(identityCard) {
     let len = (identityCard + "").length;

@@ -24,3 +24,28 @@
 .overfloatHiden{
   overflow-x: hidden;
 }
+
+
+.card-body .cardLable{
+  padding-left: 0px;
+  padding-right: 0px;
+  line-height: 20px;
+  max-width: 72px;
+  overflow: hidden;  
+  text-overflow: ellipsis;  
+  white-space: nowrap;  
+  font-size: 14px;
+}
+
+.card-body .textLeft{
+  text-align: left;
+}
+
+.card-body .textRight{
+  text-align: right;
+}
+.card-body  .cardButtons{
+    margin-top: 10px;
+    text-align: right;
+}
+

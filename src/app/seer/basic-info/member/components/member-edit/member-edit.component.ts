@@ -456,4 +456,31 @@ export class MemberEditComponent implements OnInit {
       return parseFloat(num).toFixed(2);
     }
   }
+  //查询征信信息
+  requery(type){
+    //提示用户是否重新获取
+    this._dialogService.confirm('获取信用报告是要收取一定费用且24小时之内获取的报告相同是否继续查询？')
+    .subscribe(action => {
+        if (action === 1) {
+          this._memberService.getCreditByType(this.memberId, type).then((data:any)=>{
+            switch(type){
+              case 1: 
+              this.riskReport = data.data;
+              break;
+              case 2:
+              this.creditReport =  data.data;
+              break;
+              case 3:
+              this.antiFraudReport =  data.data;
+              break
+            }  
+            this.showSuccess(data.msg || '查询成功！');
+          }).catch(err => {
+            this.showError(err.msg || '查询失败！');
+          });
+        }else{
+          return;
+        }
+      });
+  }
 }

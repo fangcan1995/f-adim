@@ -64,16 +64,16 @@ export class MemberInfoComponent implements OnInit {
     { key:'landNo', label:'土地所有证号' ,textAlign:'center'},
     { key:'houseBelongNo', label:'房屋所有权证号',textAlign:'center' },
     { key:'pricePotential', label:'评估价格' ,textAlign:'right'},
-    { key:'loanYear', label:'贷款年限' },
-    { key:'debtBank', label:'按揭银行' },
-    { key:'houseScale', label:'产权份额' },
-    { key:'belongTo1', label:'所有权1' },
-    { key:'belongTo2', label:'所有权2' },
-    { key:'belongTo3', label:'所有权3' },
+    // { key:'loanYear', label:'贷款年限' },
+    // { key:'debtBank', label:'按揭银行' },
+    // { key:'houseScale', label:'产权份额' },
+    // { key:'belongTo1', label:'所有权1' },
+    // { key:'belongTo2', label:'所有权2' },
+    // { key:'belongTo3', label:'所有权3' },
   ];//房
   titlesCreditInfo=[
-    { key:'creditValue', label:'信用报告',textAlign:'center' },
-    { key:'creditLevel', label:'综合信用等级',textAlign:'center' },
+    { key:'creditType', label:'信用报告',textAlign:'center',type:'clickable' },
+    // { key:'creditLevel', label:'综合信用等级',textAlign:'center' },
     { key:'creditExpire', label:'有效日期',textAlign:'center' },
   ];//征信
   memberId:any='';
@@ -113,7 +113,7 @@ export class MemberInfoComponent implements OnInit {
             this.houseInfo=this.member.houseMessageList|| [];
             this.formatNum(this.houseInfo);
             this.creditInfo=this.member.creditInfo|| [];
-            console.log(this.accountInfo);
+            this.forCreditList();
           }).catch(err=>{
             this.showError(err.msg || '连接失败');
           });
@@ -151,5 +151,24 @@ export class MemberInfoComponent implements OnInit {
     }else{
       return parseFloat(num).toFixed(2);
     }
+  }
+  //对应报告类型
+  forCreditList(){
+      for (let index = 0; index < this.creditInfo.length; index++) {
+        if(this.creditInfo[index].creditType!==null&&this.creditInfo[index].creditType!==undefined){
+          if(this.creditInfo[index].creditType==1){
+            this.creditInfo[index].creditType = "个人风险报告"
+          }else if (this.creditInfo[index].creditType==2){
+            this.creditInfo[index].creditType = "个人信用报告"
+          }else if (this.creditInfo[index].creditType==3){
+            this.creditInfo[index].creditType = "个人反欺诈报告"
+          }
+      }
+    }
+  }
+  //预览
+  openLink($event){
+    console.log($event);
+    window.open($event.data.creditReport);
   }
 }
