@@ -68,8 +68,7 @@ export class DictEditComponent implements OnInit {
         })
         .catch(err => {
           this.forbidSaveBtn = false;
-          const msg = JSON.parse(err.msg);
-          this.showError(msg.message || '更新失败')
+          this.showError(err.msg || '更新失败')
         })
       } else {
         this._dictService.putOne('', this.dict)
@@ -84,8 +83,7 @@ export class DictEditComponent implements OnInit {
         })
         .catch(err => {
           this.forbidSaveBtn = false;
-          const msg = JSON.parse(err.msg);
-          this.showError(msg.message || '保存失败')
+          this.showError(err.msg || '保存失败')
         })
       }
       

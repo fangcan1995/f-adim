@@ -94,7 +94,8 @@ $tree-node-height: 36px;
   }
 
   .node-content-wrapper:hover {
-    color:#f00
+    //color:#f00;
+    background: #f1f1f1;
   }
   treenodecontent {
     display: flex;
@@ -118,8 +119,7 @@ $tree-node-height: 36px;
 
   .tree-node-focused > .node-wrapper > .node-content-wrapper {
     //background: rgba(0, 0, 0, .05)
-    background: #fff;
-    color:#f00
+    background: #f1f1f1;
   }
 
   /* .node-content-wrapper:hover {
@@ -143,12 +143,12 @@ $tree-node-height: 36px;
     padding: 0 3px 0 0;
     cursor: pointer;
   }
-  .node-wrapper:hover > .node-content-wrapper > treenodecontent > .tree-node-actions {
+  /* .node-wrapper:hover > .node-content-wrapper > treenodecontent > .tree-node-actions {
     visibility: visible;
-  }
+  } */
   .tree-node-actions {
     position: relative;
-    visibility: hidden;
+    visibility: visible;
     > .tree-node-action-list {
       display: none;
       position: absolute;
@@ -183,16 +183,17 @@ $tree-node-height: 36px;
   }
   .tree-node-collapsed > .node-wrapper > .toggle-children-wrapper > .toggle-children {
     &:after {
-      content: '+';
+      /* content: '+'; */
     }
   }
   .tree-node-expanded > .node-wrapper > .toggle-children-wrapper > .toggle-children {
     &:after {
-      content: '-';
+      /* content: '-'; */
     }
   }
   .toggle-children i {
-    display: none;
+    font-size: 10px;
+    /* display: none; */
   }
 
   .toggle-children-placeholder {
@@ -226,7 +227,7 @@ $tree-node-height: 36px;
       bottom: $tree-node-height / 2;
       border-left: 1px dotted $input-border;
     } */
-    &:after {
+    /* &:after {
       content: '';
       display: block;
       position: absolute;
@@ -234,7 +235,7 @@ $tree-node-height: 36px;
       width: 16px;
       top: $tree-node-height / 2;
       border-bottom: 1px dotted $input-border;
-    }
+    } */
   }
   .tree-node.tree-node-level-1 > .node-wrapper > .toggle-children-wrapper,
   .tree-node.tree-node-level-1 > .node-wrapper > .toggle-children-placeholder {
@@ -243,7 +244,7 @@ $tree-node-height: 36px;
     }
   }
   .tree-node .tree-children {
-    &:before {
+    /* &:before {
       content: '';
       display: block;
       position: absolute;
@@ -252,7 +253,7 @@ $tree-node-height: 36px;
       bottom: $tree-node-height / 2 + 1px;
       width: 0;
       border-left: 1px dotted $input-border;
-    }
+    } */
   }
   //edit by lily
   .tree-node-level-1 {
