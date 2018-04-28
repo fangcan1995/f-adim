@@ -7,7 +7,9 @@
     [rowLength]='filterRowLength'
   ></seer-filter>
 </seer-collapse-card>
-<seer-collapse-card>
+<seer-collapse-card
+[cardType]='"table-card"'
+>
   <seer-table
     [data]="subjects"
     [titles]="titles"
