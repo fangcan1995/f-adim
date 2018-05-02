@@ -1,6 +1,5 @@
 <seer-content-top>
   <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
-
   <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="lock('1')" *ngIf="baseInfo.status=='0'">锁定</button>
   <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="lock('0')" *ngIf="baseInfo.status=='1'">解锁</button>
   <!-- <button class="btn btn-primary right-button" [disabled]="forbidSaveBtn" (click)="tradePasswordReset()">交易密码重置</button> -->
