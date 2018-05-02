@@ -10,6 +10,7 @@ import { CustomFormsModule } from 'ng2-validation'
 import {routing} from "./subject.routing";
 import {NgxCurrencyModule} from "ngx-currency";
 
+
 @NgModule({
   imports: [
     NgaModule,
@@ -18,7 +19,7 @@ import {NgxCurrencyModule} from "ngx-currency";
     FormsModule,
     CustomFormsModule,
     ReactiveFormsModule,
-    NgxCurrencyModule
+    NgxCurrencyModule,
   ],
   declarations: [
     SubjectComponent,

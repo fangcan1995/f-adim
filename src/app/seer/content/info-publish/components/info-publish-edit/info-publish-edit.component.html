@@ -34,7 +34,7 @@
     </div>
     <div class="form-group ">
         <div class="row">
-            <label for="title" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">文章标题</label>
+            <label for="title" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">标题</label>
             <div class="col-sm-8">
                 <input type="text" class="form-control" id="title" [(ngModel)]="infoPublishSource.title" formControlName="title" [disabled]="disabled" >
               <p *ngIf="form.controls.title.errors?.required" class="text-danger">*</p>
@@ -43,7 +43,7 @@
     </div>
     <div class="form-group ">
         <div class="row">
-            <label for="titleLink" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">外部链接</label>
+            <label for="titleLink" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">标题链接</label>
             <div class="col-sm-8">
                 <input type="text" class="form-control" id="titleLink" [(ngModel)]="infoPublishSource.affLinkUrl" [ngModelOptions]="{standalone: true}" >
             </div>
@@ -56,13 +56,14 @@
           <div class="col-sm-6 col-xs-12 col-md-6 col-lg-1">
             <img src="{{infoPublishSource.affIcon}}" *ngIf="infoPublishSource.affIcon"  style="display:block; width:200px; margin-bottom: 10px" >
             <input type="file" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)" [disabled]="uploadDisabled" >
+            <button (click)="deleteFile()">删除图片</button>
           </div>
         </div>
     </div>
    <!--编辑器  -->
     <div class="form-group ">
         <div class="row">
-            <label for="mainBody" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">文章正文</label>
+            <label for="mainBody" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">正文</label>
             <div class="col-sm-11">
               <seer-editor [(data)]="infoPublishSource.affContent" id="mainBody"></seer-editor>
             </div>

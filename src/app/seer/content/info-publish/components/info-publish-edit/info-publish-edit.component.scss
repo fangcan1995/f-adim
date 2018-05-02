@@ -1,12 +1,10 @@
-
-
 .form-page-header {
   top: 0;
   left: 0;
   margin-bottom: 30px;
 }
 
-.form-page-header > button:first-child {
+.form-page-header>button:first-child {
   margin-left: 30px;
 }
 
@@ -14,9 +12,17 @@
   .seer-card-header {
     margin-left: 0;
   }
-
 }
 
 .text-danger {
   text-align: left;
+}
+
+label.btn {
+  &.btn_file {
+    background: #3b9ff3;
+    border-color: #3b9ff3;
+    color: #fff;
+    line-height: 24px;
+  }
 }

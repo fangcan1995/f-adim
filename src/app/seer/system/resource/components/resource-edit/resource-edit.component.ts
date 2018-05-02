@@ -33,6 +33,7 @@ export class ResourceEditComponent implements OnInit {
     defaultSysLength : Number;
     defaultMenuStatus: string = '0';
     defaultMenuType: string = '0';
+    validNumTest: boolean = false;
     @ViewChild('myForm') myForm;
     constructor(
         private _router: Router,
@@ -63,6 +64,7 @@ export class ResourceEditComponent implements OnInit {
                     this.uploadSys = this.resource.systemId;
                     console.log(this.uploadSys.length);
                     this.defaultSysLength = this.resource.systemId.length;
+                    this.validNumTest = /^\d{0,3}$/.test(this.resource.sortNum);
                     return this.getSystemList();
                 })
                 .then(res => {
@@ -147,6 +149,12 @@ export class ResourceEditComponent implements OnInit {
             return newItem === oldArray[i];
         });
         return lengthMatch && contentMatch;
+    }
+    
+    validNumber($event) {
+        let typeNumber = $event.target.value;
+        this.validNumTest = /^\d{0,3}$/.test(typeNumber);
+        console.log(this.validNumTest);
     }
 
     handleSaveBtnClick() {
