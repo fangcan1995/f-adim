@@ -61,7 +61,7 @@
             <div class="row">
               <label for="mainBody" class="col-sm-4 col-md-2 col-xlg-1 control-label text-center">专题正文</label>
               <div class="col-sm-8 col-md-8 col-xlg-8">
-                <seer-editor [(data)]="subject.content" name="content"></seer-editor>
+                <seer-editor #seerEditor [(data)]="subject.content" name="content"></seer-editor>
                 <p *ngIf="!subject.content" class="text-danger">*必填项</p>
               </div>
             </div>

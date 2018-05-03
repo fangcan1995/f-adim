@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit,AfterViewInit,ViewChild } from "@angular/core";
 import { SubjectService } from "../../subject.service";
 import { SeerMessageService } from "../../../../../theme/services/seer-message.service";
 import { formatDate } from "ngx-bootstrap/bs-moment/format";
@@ -18,6 +18,7 @@ declare let laydate;
 export class SubjectEditComponent implements OnInit, OnDestroy {
 
     public subject: any = {};
+    @ViewChild("seerEditor") seerEditor;
     private _editType: string = 'add';
     public forbidSaveBtn: boolean = true;
     form: FormGroup;
@@ -35,10 +36,7 @@ export class SubjectEditComponent implements OnInit, OnDestroy {
         });
 
     }
-
-
-
-
+    
     ngOnInit() {
         this._activatedRoute.url.mergeMap(url => {
             this._editType = url[0].path;
@@ -47,8 +45,10 @@ export class SubjectEditComponent implements OnInit, OnDestroy {
             if (this._editType === 'edit') {
                 this.service.getOne(params.id)
                     .then(res => {
-                        this.subject = res.data;
-                        console.log(this.subject)
+                        
+                          setTimeout(()=>{
+                            this.subject = res.data;
+                          },800)
                         this.forbidSaveBtn = false;
 
                     }, errMsg => {
@@ -67,7 +67,6 @@ export class SubjectEditComponent implements OnInit, OnDestroy {
         });
 
     }
-
 
 
     handleBackBtnClick() {
