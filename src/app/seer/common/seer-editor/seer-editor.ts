@@ -29,7 +29,7 @@ import 'ckeditor';
   styleUrls: ['./seer-editor.scss'],
 })
 export class SeerEditorComponent {
-  apiUrl = `http://172.16.1.252:9080/subjects`;
+  apiUrl = `http://172.16.1.252:9080`;
   access_token = "access_token=6b2dc14f-13b6-4d0f-894f-d67a074249e5"
   // access_token ="access_token="+ getStorage({ key: 'token' }).access_token;
   private dataValue;
@@ -58,7 +58,7 @@ export class SeerEditorComponent {
     filebrowserImageBrowseUrl: '/ckfinder/ckfinder.html?type=Images',
     filebrowserUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
     //filebrowserImageUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
-    filebrowserImageUploadUrl: `${this.apiUrl}/file?${this.access_token}`,
+    filebrowserImageUploadUrl: `${this.apiUrl}/utils/file?${this.access_token}`,
     height: 200,
 
     removeDialogTabs: 'image:advanced;link:advanced'
