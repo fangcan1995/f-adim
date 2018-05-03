@@ -105,9 +105,10 @@ export class SubjectComponent implements OnInit, OnDestroy {
                 this.pageInfo.pageSize = res.data.pageSize;
                 this.pageInfo.total = res.data.total;
                 this.subjects = res.data.list;
+                console.log(this.subjects);
                 this.subjects = _.map(this.subjects, t => {
                     let status = t.delFlag;
-                    t.url=`${FROUNT_URL}/${t.id}`   //前台路径/subject_common/6
+                    t.url=`${FROUNT_URL}${t.device}/${t.id}`   //前台路径/subject_common/6
                     let actions;
                     switch (status) {
                         case 0:

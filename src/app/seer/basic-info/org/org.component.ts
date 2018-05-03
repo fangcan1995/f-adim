@@ -75,7 +75,7 @@ export class OrgComponent implements OnDestroy{
   titles = [
     { key:'empName', label:'姓名' },
     { key:'phone', label:'联系方式' },
-    { key:'position', label:'职位' },
+    { key:'position', label:'员工职务' },
     { key:'departmentName', label:'所属机构' },
   ];
   pageInfo = {
