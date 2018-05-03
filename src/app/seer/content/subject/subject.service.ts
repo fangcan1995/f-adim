@@ -24,14 +24,14 @@ export class SubjectService extends BaseService<any>{
         super(_httpInterceptorService);
     }
 
-    const
+
     private headers = new Headers({ 'Content-Type': 'application/json' });
     // apiUrl = `${TEST_URL}/${API['ANNOUNCE']}`;
     apiUrl = `http://172.16.1.252:9080/subjects`;
     exportFile = `${TEST_URL}/${API['ANNOUNCE']}/export`;
     SPExportFile = `${TEST_URL}/${API['ANNOUNCE']}/specialExport`;
     //SPExportFile = `http://172.16.1.252:9080/announcements/specialExport`;
-    access_token = "access_token=8db29b24-a2ad-43d3-9a2d-ec1d5f5e6a55"
+    access_token = "access_token=6b2dc14f-13b6-4d0f-894f-d67a074249e5"
 
 
 

@@ -355,6 +355,12 @@ export class MemberEditComponent implements OnInit {
     this.baseInfo.liveDistrict = $event.district.item_code;
     this.baseInfo.liveAddress = $event.address;
   }
+
+  //修改工作信息的详细地址
+  workPlaceChanged($event){
+    this.workInfo.workDistrict = $event.district.item_code;
+    this.workInfo.workAddress = $event.address;
+  }
   //同户籍地址
   shortcut($event): void {
     if($event.toElement.checked) {
