@@ -9,6 +9,7 @@
             [nodes]="treeNode"
             [defaultNodeName]="'新建部门'"
             [loadingText]="''"
+            [useOrigin]="false"
             >
             </seer-tree>
         </div>
@@ -23,6 +24,7 @@
           [filters]="filters"
           (onFiltersChanged)=handleFiltersChanged($event)
           (onSearchBtnClicked)=handleSearchBtnClicked($event)
+          [rowLength]='filterRowLength'
         ></seer-filter>
       </seer-collapse-card>
       <seer-collapse-card>
@@ -71,13 +73,13 @@
                             <div class="row">
                                 <label class="col-sm-3 col-md-4 col-lg-3 control-label">栏目类型</label>
                                 <div class="col-sm-8 col-md-7 col-lg-6">
-                                    <select class="form-control" [(ngModel)]="modalInfo.affType" [ngModelOptions]="{standalone: true}">
-                                        <option value="">请选择</option>
-                                        <option value="1">公司动态</option>
-                                        <option value="2">媒体报道</option>
-                                        <option value="3">合作伙伴</option>
-                                        <option value="4">法律法规</option>
-                                        <option value="5">常见问题</option>
+                                    <select class="form-control" 
+                                        [(ngModel)]="modalInfo.affType" 
+                                        [ngModelOptions]="{standalone: true}" 
+                                        dict-select
+                                        [key]="'AFF_TYPE'"
+                                        [topOption]="{itemid:'',itemName:'请选择'}"
+                                    >
                                     </select>
                                 </div>
                             </div>
@@ -86,11 +88,13 @@
                             <div class="row">
                                 <label class="col-sm-3 col-md-4 col-lg-3 control-label">文章类型</label>
                                 <div class="col-sm-8 col-md-7 col-lg-6">
-                                    <select class="form-control" [(ngModel)]="modalInfo.affContentType" [ngModelOptions]="{standalone: true}">
-                                        <option value="">请选择</option>
-                                        <option value="1">文章</option>
-                                        <option value="2">列表</option>
-                                        <option value="3">图文列表</option>
+                                    <select class="form-control" 
+                                        [(ngModel)]="modalInfo.affContentType" 
+                                        [ngModelOptions]="{standalone: true}"
+                                        dict-select
+                                        [key]="'AFFCONTENT_TYPE'"
+                                        [topOption]="{itemid:'',itemName:'请选择'}"
+                                    >
                                     </select>
                                 </div>
                             </div>

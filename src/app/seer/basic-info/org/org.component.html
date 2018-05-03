@@ -1,7 +1,8 @@
 <div class="row org">
   <div class="col-sm-4 org-left">
 
-    <seer-collapse-card [title]="treeTitle" baCardClass="with-scroll">      <div class="col-sm-12">
+    <seer-collapse-card [title]="treeTitle" baCardClass="with-scroll">
+      <div class="col-sm-12">
         <seer-tree
           (notify)="onNotify($event) "
           [permissions]="treePermissions"

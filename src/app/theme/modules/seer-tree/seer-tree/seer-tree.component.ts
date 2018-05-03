@@ -25,6 +25,7 @@ export class SeerTree implements OnInit {
 
 
     @Input() permissions: number = 0;
+    @Input() useOrigin: boolean = true;
     @Input() nodes: SeerTreeNode[] = [];
     @Input() defaultNodeName = '新节点';
     @Input() newNodeData = {};
@@ -166,22 +167,24 @@ export class SeerTree implements OnInit {
      */
     public addNode($event, node) {
         $event.stopPropagation();
-        if (this.onEditing) {
-            this._dialogService.confirm('请先处理当前节点', [{ type: '0', text: '确定' }]);
-            return;
+        if(this.useOrigin) {
+            if (this.onEditing) {
+                this._dialogService.confirm('请先处理当前节点', [{ type: '0', text: '确定' }]);
+                return;
+            }
+            if (!node.isExpanded) {
+                node.toggleExpanded();
+            }
+            let newNodeData = {
+                isNew: true,
+                name: this.defaultNodeName,
+            };
+            for (let attr in this.newNodeData) {
+                newNodeData[attr] = this.newNodeData[attr];
+            }
+            node.addNewNode(newNodeData);
+            this.editNew(node.children[node.children.length - 1]);
         }
-        if (!node.isExpanded) {
-            node.toggleExpanded();
-        }
-        let newNodeData = {
-            isNew: true,
-            name: this.defaultNodeName,
-        };
-        for (let attr in this.newNodeData) {
-            newNodeData[attr] = this.newNodeData[attr];
-        }
-        node.addNewNode(newNodeData);
-        this.editNew(node.children[node.children.length - 1]);
         this.tree.treeModel.fireEvent({
             eventName: TREE_EVENTS.onClickNew,
             node
@@ -195,15 +198,18 @@ export class SeerTree implements OnInit {
      */
     public edit($event, node) {
         $event.stopPropagation();
-        if (this.onEditing) {
-            this._dialogService.confirm('请先处理当前节点', [{ type: '0', text: '确定' }]);
-            return;
+        if(this.useOrigin) {
+            if (this.onEditing) {
+                this._dialogService.confirm('请先处理当前节点', [{ type: '0', text: '确定' }]);
+                return;
+            }
+    
+            this.cachedNodeName = node.data.name;
+            node.isInEditing = true;
+            this.onEditing = true;
+            this.seerTreeOptions.allowDrag = false;
         }
-
-        this.cachedNodeName = node.data.name;
-        node.isInEditing = true;
-        this.onEditing = true;
-        this.seerTreeOptions.allowDrag = false;
+        
 
         this.tree.treeModel.fireEvent({
             eventName: TREE_EVENTS.onClickEdit,

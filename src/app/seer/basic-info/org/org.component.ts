@@ -160,11 +160,11 @@ export class OrgComponent implements OnDestroy{
         function addIcon (param) {
           param.map( org => {
             if(org.children) {
-              org.customIcon = 'ion-ios-people';
+              org.customIcon = 'icon-department';
               addIcon(org.children);
             }
             else {
-              org.customIcon = 'ion-android-people';
+              org.customIcon = 'icon-group';
               org.children = [];
             }
           })
@@ -333,7 +333,7 @@ export class OrgComponent implements OnDestroy{
    * */
   onNotify($event){
     if($event.eventName == "onFocus"){
-      this.getOrganizations();
+      //this.getOrganizations();
       /* 获取组织的名称及其领导 */
       if($event.node.data.departmentId) {
         console.log($event.node.data)

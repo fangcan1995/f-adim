@@ -90,6 +90,7 @@ export class RoleComponent {
 
 
     handleNotify({ type, data, column }): void {
+        console.log(data);
         switch (type) {
             case 'hideColumn':
                 this.pageInfo.excelmaps = column;
@@ -102,7 +103,7 @@ export class RoleComponent {
                 break;
             case 'delete':
                 this._dialogService.confirm(
-                    '确定删除吗？',
+                    `确定删除 # ${data.roleName} # 吗？`,
                     [
                         {
                             type: 1,

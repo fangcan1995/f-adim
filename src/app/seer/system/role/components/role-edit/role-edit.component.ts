@@ -93,7 +93,7 @@ export class RoleEditComponent implements OnInit {
                     t = _.set(t, 'id', `D__${t['id']}`);
                     t = _.set(t, 'originPid', t['pid'] || '0');
                     t = _.set(t, 'parentId', t['pid'] ? `D__${t['pid']}` : '0');
-                    t = _.set(t, 'customIcon', 'ion-ios-people');
+                    t = _.set(t, 'customIcon', 'icon-department');
                     return t;
                 }).value();
 
@@ -103,7 +103,7 @@ export class RoleEditComponent implements OnInit {
                     t = _.set(t, 'id', `S__${t['id']}`);
                     t = _.set(t, 'originPid', t['pid'] || '0');
                     t = _.set(t, 'parentId', t['pid'] ? `D__${t['pid']}` : '0');
-                    t = _.set(t, 'customIcon', 'ion-person');
+                    t = _.set(t, 'customIcon', 'icon-person');
                     return t;
                 }).value();
 
@@ -113,7 +113,7 @@ export class RoleEditComponent implements OnInit {
                     t = _.set(t, 'id', `U__${t['id']}`);
                     t = _.set(t, 'originPid', t['pid'] || '0');
                     t = _.set(t, 'parentId', t['pid'] ? `S__${t['pid']}` : '0');
-                    t = _.set(t, 'customIcon', 'ion-card');
+                    t = _.set(t, 'customIcon', 'icon-personInfo');
                     return t;
                 }).value();
 

@@ -31,6 +31,7 @@ export class InfoPublishComponent {
     hasGlobalFilter = true;
     @ViewChild('modal') modal: ModalDirective;
     source = [];
+    filterRowLength = 2;
     data = [];
     root: any = {};
     titles = [
@@ -45,6 +46,16 @@ export class InfoPublishComponent {
     modalInfo: any = {};
     editType: any = '';
     filters = [
+        {
+            key: 'title',
+            label: '文章标题',
+            type: 'input.text'
+        },
+        {
+            key: 'updateUser',
+            label: '发布用户',
+            type: 'input.text'
+        },
         {
             key: 'tplName',
             label: '状态',
@@ -93,6 +104,8 @@ export class InfoPublishComponent {
         sortBy: '',
         isRoot: 1,
         status: '',
+        updateUser: '',
+        title: '',
         excelmaps: {
             affTypeName: '所属栏目',
             title: '文章标题',
@@ -193,6 +206,9 @@ export class InfoPublishComponent {
                 this.getColumnTree();
             }).catch(err => {
                 this.alertError(err.msg);
+                if(err.code === 406) {
+                    this.getColumnTree();
+                }
             })
         }
 
@@ -265,6 +281,8 @@ export class InfoPublishComponent {
             this.pageInfo.updateTimeStart = $event.effectTime[0] ? (formatDate($event.effectTime[0], 'YYYY-MM-DD hh:mm:ss')) : null;
             this.pageInfo.updateTimeEnd = $event.effectTime[1] ? (formatDate($event.effectTime[1], 'YYYY-MM-DD hh:mm:ss')) : null;
         }
+        this.pageInfo.title = $event.title;
+        this.pageInfo.updateUser = $event.updateUser;
         this.getColumnList(this.pageInfo);
     }
 
@@ -451,8 +469,8 @@ export class InfoPublishComponent {
         this.editType = this.event.eventName;
         if (this.event.eventName === TREE_EVENTS.onClickEdit) {
             this.modalInfo.affTypeName = this.event.node.data.name;
-            //this.modalInfo.affType = this.event.data.name;
-            //this.modalInfo.affContentType = this.event.data.name;
+            this.modalInfo.affType = this.event.node.data.affType;
+            this.modalInfo.affContentType = this.event.node.data.affContentType;
 
             this.modalInfo.id = this.event.node.data.id;
             this.modalInfo.parentId = this.event.node.data.parentId;
