@@ -43,7 +43,7 @@ export class AuthService {
   //   })
   //   .catch(this.handleError);
   // }
-  login(account: any, password: any,verification:any): Observable<any> {
+  login(account: any, password: any,verification:any, login_ip:any): Observable<any> {
     let params = {
       username: account,
       password: hex_md5(password),
@@ -53,7 +53,7 @@ export class AuthService {
       grant_type: 'password',
       send_terminal:'web',
       image_code:verification,
-      
+      login_ip:login_ip
     }
     let reqOpts = new RequestOptions({
       search: parseJson2URL(params),
