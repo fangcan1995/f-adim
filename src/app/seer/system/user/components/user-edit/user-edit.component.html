@@ -11,7 +11,7 @@
                         
             <div class="col-sm-12 col-md-12 form-group">
               <div class="row">
-                <label for="loginName" class="col-sm-3 col-md-1 col-lg-1 col-xlg-1 control-label required">账号名称</label>
+                <label for="loginName" class="col-sm-3 col-md-1 col-lg-1 col-xlg-1 control-label required">用户账号</label>
                 <div class="col-sm-8 col-md-7 col-lg-6">
                     <input
                         *ngIf="editType === 'edit'"
@@ -30,6 +30,7 @@
                         id="loginName"
                         name="loginName"
                         [required]=true
+                        maxLength="20"
                         [(ngModel)]="user.loginName"
                     />
                 </div>

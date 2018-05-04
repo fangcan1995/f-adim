@@ -33,8 +33,8 @@
                   <div class="col-sm-8 col-md-10 needBtn">
                     <input type="text" class="form-control" name="parentId" [disabled]="true"  [(ngModel)]="baseInfoDTO.parentId" #parentId="ngModel" [rangeLength]="[0,20]" maxlength="20"  />
                     <span class="select_btn">
-                      <button (click)="openParentIdModal(parentId,'0')" class="btn btn-primary">选择活动</button>
-                      <button (click)="clear()" class="btn btn-outline-dark">清除</button>
+                      <button (click)="openParentIdModal(parentId,'0')" class="btn btn-center">选择</button>
+                      <button (click)="clear()" class="btn btn-right">清除</button>
                     </span>
                     <p class="text-danger" *ngIf="parentId.errors?.rangeLength">请输入20个以内字符</p>
                   </div>
@@ -335,8 +335,9 @@
                 [hideRemoveAll]="true"
                 [hideColumns]="true"
                 [hideAddButton]="true"
-                [hideActions]="true"
+                [hideActions]="false"
                 [hideCheckbox]="true"
+                (notify)="membersOnChange($event)"
                 (changePage)="membersPageChange($event)"
               ></seer-table>
 
@@ -898,9 +899,8 @@
             <input type="text" class="form-control"  [(ngModel)]="awardCurr.activityId" name="activityId" #activityId="ngModel" [rangeLength]="[0,20]"
                    maxlength="20" [disabled]="true"
             />
-            <span class="select_btn" style="top:1px" *ngIf="!awardCurrReadOnly">
-                 <button (click)="openParentIdModal(parentId,'1')" class="btn btn-primary">选择活动</button>
-
+            <span class="select_btn"  *ngIf="!awardCurrReadOnly">
+                 <button (click)="openParentIdModal(parentId,'1')" class="btn btn-right ">选择</button>
             </span>
             <p class="text-danger" *ngIf="awardCurr.activityId==''" >* 必填项</p>
             <p class="text-danger" *ngIf="activityId.errors?.rangeLength">请输入20个以内字符</p>
@@ -914,7 +914,6 @@
             <input  class="form-control number addUnit"  [(ngModel)]="awardCurr.perNumber" style="padding-right: 30px"
                     name="perNumber" #perNumber="ngModel" required [range]="[1, 999]" maxlength="3"
                     [disabled]="awardCurrReadOnly"
-
             />
             <span class="unit">次</span>
             <p class="text-danger" *ngIf="perNumber.errors?.required">* 必填项</p>

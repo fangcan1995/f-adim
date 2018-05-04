@@ -8,6 +8,8 @@ import { SeerMessageService } from '../../../../../theme/services/seer-message.s
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {UPDATE, DELETE,SAVE} from "../../../../common/seer-table/seer-table.actions"
 import { parseQueryString } from '../../../../../theme/libs';
+import { retry } from 'rxjs/operator/retry';
+import { de } from 'ngx-bootstrap/locale';
 
 @Component({
   templateUrl: './member-edit.component.html',
@@ -35,28 +37,30 @@ export class MemberEditComponent implements OnInit {
   financialInfo: any = {}; //财务状况
   vehicleInfo: any = []; //车辆信息列表
   houseInfo: any = [];  //房屋信息列表
+  currentYear: any = new Date().getFullYear();//获取当前时间
   isLoading: boolean = false;
   simpleTableActions = [UPDATE, DELETE];
   saveActions=[SAVE];
   saveActionsDistabled=[false];
   titlesEmergencyContact=[
-    {key:'contName', label:'姓名'},
-    {key:'contRelation', label:'关系',textAlign:'center'},
-    {key:'contPhone', label:'手机号',textAlign:'center',},
-    {key:'contIdnum', label:'身份证号',textAlign:'center',}
+    {key:'contName', label:'联系人姓名'},
+    {key:'contRelation', label:'与会员关系',textAlign:'center'},
+    {key:'contPhone', label:'联系人联系电话',textAlign:'center',},
+    {key:'contIdnum', label:'联系人身份证号',textAlign:'center',}
   ];//关系人
 
   house={}; //房
   vehicle={};//车
   credits: any[] = [];//征信_个人风险报告
-  riskReport:any = {};//征信_个人信用报告
-  creditReport:any = {};//征信_个人反欺诈报告
+  riskReport:any = {};//征信_个人风险报告
+  creditReport:any = {};//征信_个人信用报告
+  public antiFraudReport:any = {};//征信_个人反欺诈报告
 
   modalRef: BsModalRef;  //弹出层
   vehicleReadOnly: boolean = true;  //车辆弹出层可编辑状态
   houseReadOnly: boolean = true;//房屋弹出层可编辑状态
 
-  public antiFraudReport:any = {};
+
   constructor(
     private _memberService: MemberService,
     private _messageService: SeerMessageService,
@@ -68,7 +72,7 @@ export class MemberEditComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.form1.valueChanges.subscribe(change=>{
-    })
+    });
     this.forbidBaseSaveBtn=true;
     this.forbidWorkSaveBtn= true;
     this. forbidFinancialSaveBtn= true;
@@ -87,6 +91,8 @@ export class MemberEditComponent implements OnInit {
       this.memberId=id;
       this.member = res.data || {};
       this.baseInfo=this.member.baseInfo|| {};
+      this.baseInfo.mSex = this._memberService.cardGetSex(this.baseInfo.idNumber);
+      this.baseInfo.mAge = this._memberService.cardGetAge(this.baseInfo.idNumber);
       this.baseInfo.yearIncome =  this.formateCurrency(this.baseInfo.yearIncome);
       this.emergencyContact=this.member.contactList|| [];
       this.workInfo=this.member.workInfo|| {};
@@ -102,8 +108,21 @@ export class MemberEditComponent implements OnInit {
       this.houseInfo=this.member.houseMessageList|| [];
       this.formatNum( this.houseInfo);
       this.forbidSaveBtn = false;
+      this.riskReport = this.findReport("1",this.member.creditInfo||[]);
+      this.creditReport = this.findReport("2",this.member.creditInfo||[]);
+      this.antiFraudReport = this.findReport("3",this.member.creditInfo||[]);
 
     })
+  }
+
+  //查找征信
+  findReport(type,reportList){
+    let index = reportList.findIndex(report=>report!=null&&report.creditType == type);
+    if(index >= 0){
+      return reportList[index];
+    }else{
+      return {};
+    }
   }
   //保存基本信息
   basicInfoNotify() {
@@ -156,11 +175,20 @@ export class MemberEditComponent implements OnInit {
     }
     editData.memberId=this.memberId;
     if(this.memberId){
-      editData.contPhone = editData.contPhone.trim();
-      editData.contIdnum = editData.contIdnum.trim();
+      editData.contPhone = (editData.contPhone||"").trim();
+      editData.contIdnum = (editData.contIdnum||"").trim();
+      editData.contName = (editData.contName||"").trim();
       //修改
       switch ( type ) {
         case 'save':
+          if((editData.contName+"").length===0||(editData.contName+"").length>6){
+            this.showError('联系人姓名格式错误！');
+            return;
+          }
+          if(editData.contRelation===null){
+            this.showError('请选择与会员关系！');
+            return;
+          }
           if(!this._memberService.validatePhone(editData.contPhone)){
             this.showError('电话格式错误！');
             return;
@@ -182,10 +210,10 @@ export class MemberEditComponent implements OnInit {
             }
           }else{
             if(editData.contName && editData.contName!='' ) {
-              this._memberService.postContact(this.memberId, editData).then((result) => {debugger;
+              this._memberService.postContact(this.memberId, editData).then((result) => {
                 editData.id = result.data;
                 this.emergencyContact.push(editData);
-                this.emergencyContact[key].id = result.data;
+                this.emergencyContact[this.emergencyContact.length-1].id = result.data;
                 this.contactTable.getFormatDataByKey(key).editData.id = result.data;
                 // this.getMemberInfo(this.memberId);
                 this.showSuccess(result.message || '更新成功');
@@ -327,6 +355,12 @@ export class MemberEditComponent implements OnInit {
     this.baseInfo.liveDistrict = $event.district.item_code;
     this.baseInfo.liveAddress = $event.address;
   }
+
+  //修改工作信息的详细地址
+  workPlaceChanged($event){
+    this.workInfo.workDistrict = $event.district.item_code;
+    this.workInfo.workAddress = $event.address;
+  }
   //同户籍地址
   shortcut($event): void {
     if($event.toElement.checked) {
@@ -427,5 +461,32 @@ export class MemberEditComponent implements OnInit {
     }else{
       return parseFloat(num).toFixed(2);
     }
+  }
+  //查询征信信息
+  requery(type){
+    //提示用户是否重新获取
+    this._dialogService.confirm('获取信用报告是要收取一定费用且24小时之内获取的报告相同是否继续查询？')
+    .subscribe(action => {
+        if (action === 1) {
+          this._memberService.getCreditByType(this.memberId, type).then((data:any)=>{
+            switch(type){
+              case 1: 
+              this.riskReport = data.data;
+              break;
+              case 2:
+              this.creditReport =  data.data;
+              break;
+              case 3:
+              this.antiFraudReport =  data.data;
+              break
+            }  
+            this.showSuccess(data.msg || '查询成功！');
+          }).catch(err => {
+            this.showError(err.msg || '查询失败！');
+          });
+        }else{
+          return;
+        }
+      });
   }
 }

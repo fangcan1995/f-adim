@@ -1,7 +1,7 @@
 
 <div class="row org">
   <div class="col-sm-3 org-left">
-    <seer-collapse-card [title]="title" baCardClass="with-scroll tree-card">
+    <seer-collapse-card [title]="title" baCardClass="with-scroll tree-card list-tree-card">
         <div class="col-sm-12">
             <seer-tree
             (notify)="onNotify($event) "
@@ -9,6 +9,7 @@
             [nodes]="treeNode"
             [defaultNodeName]="'新建部门'"
             [loadingText]="''"
+            [useOrigin]="false"
             >
             </seer-tree>
         </div>
@@ -16,12 +17,14 @@
   </div>
   <div class="col-sm-9">
     <seer-collapse-card [title]="tableTitle" baCardClass="with-scroll" [canCollapse]=false>
-      <seer-collapse-card>
+      <seer-collapse-card
+      >
         <seer-filter
           [hasGlobalFilter]="hasGlobalFilter"
           [filters]="filters"
           (onFiltersChanged)=handleFiltersChanged($event)
           (onSearchBtnClicked)=handleSearchBtnClicked($event)
+          [rowLength]='filterRowLength'
         ></seer-filter>
       </seer-collapse-card>
       <seer-collapse-card>
@@ -40,3 +43,69 @@
 </div>
 <div dynamic-component></div>
 <seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
+
+<div class="modal fade" bsModal #modal="bs-modal"
+    (onShown)="handleModalShown();"
+>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="padding: 20px;">
+            <div class="modal-header">
+                <h3>请填写数据</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 form-group">
+                            <div class="row">
+                                <label class="col-sm-3 col-md-4 col-lg-3 control-label">栏目名称</label>
+                                <div class="col-sm-8 col-md-7 col-lg-6">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        style="padding: 0.5rem 0.75rem"
+                                        [(ngModel)]="modalInfo.affTypeName"
+                                        [ngModelOptions]="{standalone: true}"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 form-group">
+                            <div class="row">
+                                <label class="col-sm-3 col-md-4 col-lg-3 control-label">栏目类型</label>
+                                <div class="col-sm-8 col-md-7 col-lg-6">
+                                    <select class="form-control" 
+                                        [(ngModel)]="modalInfo.affType" 
+                                        [ngModelOptions]="{standalone: true}" 
+                                        dict-select
+                                        [key]="'AFF_TYPE'"
+                                        [topOption]="{itemid:'',itemName:'请选择'}"
+                                    >
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 form-group">
+                            <div class="row">
+                                <label class="col-sm-3 col-md-4 col-lg-3 control-label">文章类型</label>
+                                <div class="col-sm-8 col-md-7 col-lg-6">
+                                    <select class="form-control" 
+                                        [(ngModel)]="modalInfo.affContentType" 
+                                        [ngModelOptions]="{standalone: true}"
+                                        dict-select
+                                        [key]="'AFFCONTENT_TYPE'"
+                                        [topOption]="{itemid:'',itemName:'请选择'}"
+                                    >
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="handleAffSubmit()">确定</button>
+                <button type="button" class="btn btn-default" (click)="handleModalHide()">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -28,6 +28,11 @@ export class DictComponent implements OnInit {
       type: 'input.text',
     },
     {
+      key: 'itemName',
+      label: '值名称',
+      type: 'input.text',
+    },
+    {
       key: 'delFlag',
       label: '有效状态',
       isDict: true,
@@ -151,6 +156,7 @@ export class DictComponent implements OnInit {
     })
   }
   handleFiltersChanged($event) {
+      console.log($event);
     this.tableFilters = $event;
   }
 }

@@ -70,7 +70,6 @@ export class MessageTemplateComponent {
   pageInfo={
     "pageNum":1,
     "pageSize":10,
-    "sortBy":"-updateTime",
     "total":"",
     "globalSearch":"",
     "tempName":"",
@@ -81,6 +80,7 @@ export class MessageTemplateComponent {
     "sendNotify":"",
     "sendMail":"",
     "tempTitle":"",
+    "sortBy":"-updateTime",
     "excelmaps": {
       tempName: '模板名称',
       tempCode: 'KEY',
@@ -150,7 +150,7 @@ export class MessageTemplateComponent {
         this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
         break;
       case 'delete':
-        this._dialogService.confirm(`确定删除#${data.tempName}#吗？`)
+        this._dialogService.confirm(`确定删除${data.tempName}吗？`)
           .subscribe(action => {
             if ( action === 1 ) {
               this.service.deleteTemplate(message.data.id)
@@ -194,6 +194,10 @@ export class MessageTemplateComponent {
   handleFiltersChanged($event) {
     let params=$event;
     this.pageInfo = params;
+    this.pageInfo = {
+      ...this.pageInfo,
+      ...params
+    };
     this.allTplsList();
   }
   showSuccess(message: string) {

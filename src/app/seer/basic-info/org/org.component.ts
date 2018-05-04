@@ -75,7 +75,7 @@ export class OrgComponent implements OnDestroy{
   titles = [
     { key:'empName', label:'姓名' },
     { key:'phone', label:'联系方式' },
-    { key:'position', label:'职位' },
+    { key:'position', label:'员工职务' },
     { key:'departmentName', label:'所属机构' },
   ];
   pageInfo = {
@@ -159,11 +159,11 @@ export class OrgComponent implements OnDestroy{
         function addIcon (param) {
           param.map( org => {
             if(org.children) {
-              org.customIcon = 'ion-ios-people';
+              org.customIcon = 'icon-department';
               addIcon(org.children);
             }
             else {
-              org.customIcon = 'ion-android-people';
+              org.customIcon = 'icon-group';
               org.children = [];
             }
           })
@@ -336,8 +336,7 @@ export class OrgComponent implements OnDestroy{
    * */
   onNotify($event){
     if($event.eventName == "onFocus"){
-      this.getOrganizations();
-      console.log($event)
+      //this.getOrganizations();
       /* 获取组织的名称及其领导 */
       if($event.node.data.departmentId) {
         console.log($event.node.data)

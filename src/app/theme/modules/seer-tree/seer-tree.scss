@@ -1,17 +1,24 @@
 @import '../../sass/conf/conf';
 $tree-node-height: 36px;
 :host /deep/ {
+  button:focus {
+    outline: none;
+  }
   button.options-button {
     height: 20px;
     width: 20px;
-    border: #9f999c solid 1px;
-    background-color: rgba(180, 173, 177, 0.2);
-    cursor: pointer;
-    //margin: 0 3px;
+    border: 0;
+    background: none;
+    cursor: pointer; //margin: 0 3px;
     line-height: 18px;
-    color: #6e6e6e;
+    color: #333;
+    margin-left: 4px;
+    >i {
+      &:before {
+        font-size: 12px;
+      }
+    }
   }
-
   button.top-button {
     height: 30px;
     width: 30px;
@@ -22,12 +29,10 @@ $tree-node-height: 36px;
     line-height: 30px;
     color: #6e6e6e;
   }
-
   .children-count {
     line-height: 20px;
     margin-left: 5px;
   }
-
   .icon-padding {
     font-size: 20px;
     line-height: 20px;
@@ -35,18 +40,14 @@ $tree-node-height: 36px;
     padding-left: 1px;
     padding-right: 7px;
   }
-
   .virtual-checkbox {
     font-size: 16px;
     cursor: pointer;
     vertical-align: text-bottom;
   }
-
   .filter {
-
     width: 180px;
   }
-
   .filter:focus {
     color: #666666;
     box-shadow: none;
@@ -54,120 +55,120 @@ $tree-node-height: 36px;
     background: #ffffff;
     outline: 0;
   }
-
   .tree-children {
     padding-left: 20px
   }
-
   .tree {
     display: inline-block;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Chrome/Safari/Opera */
-    -khtml-user-select: none; /* Konqueror */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE/Edge */
-    user-select: none; /* non-prefixed version, currently not supported by any browser */
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Chrome/Safari/Opera */
+    -khtml-user-select: none;
+    /* Konqueror */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE/Edge */
+    user-select: none;
+    /* non-prefixed version, currently not supported by any browser */
+    width: 100%;
     margin-top: 10px;
     font-size: 12px;
   }
-
   .tree-children.tree-children-no-padding {
     padding-left: 0
   }
-
   .tree-children {
     padding-left: 33px;
     position: relative;
   }
-
   .node-content-wrapper {
     min-width: 180px;
     flex: 1 0;
     height: $tree-node-height;
     line-height: 24px;
     display: inline-block;
-
     padding: ($tree-node-height - 24px)/2 7px;
     cursor: pointer;
     border-radius: 2px;
     transition: background-color .15s, box-shadow .15s;
   }
-
   .node-content-wrapper:hover {
-    color:#f00
+    //color:#f00;
+    background: #f1f1f1;
+    button.options-button {
+      background: none;
+    }
   }
   treenodecontent {
     display: flex;
     width: 100%;
     flex-wrap: nowrap;
     justify-content: space-between;
-
   }
   .node-wrapper {
     display: flex;
     align-items: flex-start;
-  }
 
-  .tree-node-active > .node-wrapper > .node-content-wrapper {
+    &:hover {
+        .tree-node-action-list {
+          display: block;
+        }
+      }
+  }
+  .tree-node-active>.node-wrapper>.node-content-wrapper {
     //background: rgba(0, 0, 0, .2);
   }
-
-  .tree-node-active.tree-node-focused > .node-wrapper > .node-content-wrapper {
+  .tree-node-active.tree-node-focused>.node-wrapper>.node-content-wrapper {
     //background: rgba(0, 0, 0, .2);
   }
-
-  .tree-node-focused > .node-wrapper > .node-content-wrapper {
+  .tree-node-focused>.node-wrapper>.node-content-wrapper {
     //background: rgba(0, 0, 0, .05)
-    background: #fff;
-    color:#f00
+    background: #f1f1f1;
   }
-
   /* .node-content-wrapper:hover {
     background: rgba(0, 0, 0, .15) !important;
   } */
-
-  .tree-node-active > .node-wrapper > .node-content-wrapper, .tree-node-focused > .node-content-wrapper, .node-content-wrapper:hover {
+  .tree-node-active>.node-wrapper>.node-content-wrapper,
+  .tree-node-focused>.node-content-wrapper,
+  .node-content-wrapper:hover {
     //background: rgba(0, 0, 0, .15)
   }
-
   .node-content-wrapper.is-dragging-over {
     background: #ddffee;
     box-shadow: inset 0 0 1px #999;
   }
-
   .node-content-wrapper.is-dragging-over-disabled {
     opacity: 0.5;
   }
-
   .toggle-children-wrapper {
     padding: 0 3px 0 0;
     cursor: pointer;
   }
-  .node-wrapper:hover > .node-content-wrapper > treenodecontent > .tree-node-actions {
+  /* .node-wrapper:hover > .node-content-wrapper > treenodecontent > .tree-node-actions {
     visibility: visible;
-  }
+  } */
   .tree-node-actions {
-    position: relative;
-    visibility: hidden;
-    > .tree-node-action-list {
+    /* position: relative;
+    visibility: visible; */
+    >.tree-node-action-list {
       display: none;
-      position: absolute;
+      /* position: absolute;
       right: 0;
-      top: 20px;
+      top: 20px; */
     }
-    &:hover {
+    /* &:hover {
       .tree-node-action-list {
         display: block;
       }
-    }
+    } */
     span {
       font-weight: bold;
     }
   }
-
   .toggle-children {
-
-      //display: none;
+    //display: none;
     display: inline-block;
     position: relative;
     height: $tree-node-height;
@@ -179,28 +180,21 @@ $tree-node-height: 36px;
     font-weight: bold;
     font-family: sans-serif;
     color: $help-text;
-
   }
-  .tree-node-collapsed > .node-wrapper > .toggle-children-wrapper > .toggle-children {
+  .tree-node-collapsed>.node-wrapper>.toggle-children-wrapper>.toggle-children {
     &:after {
-      content: '+';//
-      /*content:'\E914';
-      font-family: 'icomoon', 'icomoon2' !important;
-      font-size: 10px;*/
+      /* content: '+'; */
     }
   }
-  .tree-node-expanded > .node-wrapper > .toggle-children-wrapper > .toggle-children {
+  .tree-node-expanded>.node-wrapper>.toggle-children-wrapper>.toggle-children {
     &:after {
-      content: '-';
-      /*content:"\E90C";
-      font-family: 'icomoon', 'icomoon2' !important;
-      font-size: 10px;*/
+      /* content: '-'; */
     }
   }
   .toggle-children i {
-    display: none;
+    font-size: 10px;
+    /* display: none; */
   }
-
   .toggle-children-placeholder {
     display: inline-block;
     position: relative;
@@ -208,13 +202,11 @@ $tree-node-height: 36px;
     // padding-right: 33px;
     /* padding-left: 5px; */
   }
-
   .node-drop-slot {
     display: block;
     height: 2px;
     width: 100%
   }
-
   .node-drop-slot.is-dragging-over {
     background: #ddffee;
     height: 28px;
@@ -232,7 +224,7 @@ $tree-node-height: 36px;
       bottom: $tree-node-height / 2;
       border-left: 1px dotted $input-border;
     } */
-    &:after {
+    /* &:after {
       content: '';
       display: block;
       position: absolute;
@@ -240,16 +232,16 @@ $tree-node-height: 36px;
       width: 16px;
       top: $tree-node-height / 2;
       border-bottom: 1px dotted $input-border;
-    }
+    } */
   }
-  .tree-node.tree-node-level-1 > .node-wrapper > .toggle-children-wrapper,
-  .tree-node.tree-node-level-1 > .node-wrapper > .toggle-children-placeholder {
+  .tree-node.tree-node-level-1>.node-wrapper>.toggle-children-wrapper,
+  .tree-node.tree-node-level-1>.node-wrapper>.toggle-children-placeholder {
     &:after {
       display: none;
     }
   }
   .tree-node .tree-children {
-    &:before {
+    /* &:before {
       content: '';
       display: block;
       position: absolute;
@@ -258,57 +250,56 @@ $tree-node-height: 36px;
       bottom: $tree-node-height / 2 + 1px;
       width: 0;
       border-left: 1px dotted $input-border;
-    }
-  }
-  //edit by lily
+    } */
+  } //edit by lily
   .tree-node-level-1 {
-    font-size: 16px;
-    //color:#3b9ff3;
+    font-size: 16px; //color:#3b9ff3;
     .toggle-children {
       display: none;
-    }
-
-    //.ion-ios-people:before{ content: '1';}
+    } //.ion-ios-people:before{ content: '1';}
   }
-  .tree-node-level-2{
+  .tree-node-level-2 {
     font-size: 12px;
-    color:#333;
-    .toggle-children{
+    color: #333;
+    .toggle-children {
       display: inline-block;
     }
-
-    .ion-ios-people:before{ content: '';}
+    /* .ion-ios-people:before {
+      content: '';
+    } */
   }
-  .tree-node-level-3{
+  .tree-node-level-3 {
     font-size: 12px;
-    .toggle-children{
+    .toggle-children {
       display: inline-block;
     }
-
-    .ion-ios-people:before{ content: '';}
+    /* .ion-ios-people:before {
+      content: '';
+    } */
   }
-  .virtual-checkbox{
-    &.ion-android-people:before{ content: '-'; font-size: 16px; padding-left: 7px;padding-right: 9px; color: #999;
-      font-weight: bold;}
+  .virtual-checkbox {
+    /* &.ion-android-people:before {
+      content: '-';
+      font-size: 16px;
+      padding-left: 7px;
+      padding-right: 9px;
+      color: #999;
+      font-weight: bold;
+    } */
   }
-  .node-wrapper{
-    .node-content-wrapper{
-
-    }
+  .node-wrapper {
+    .node-content-wrapper {}
   }
   /* .tree-node-active > .node-wrapper > .node-content-wrapper{
     background: #0f74a8;
   } */
   treenodecontent {
-
-    left:-10px;
+    left: -10px;
     position: relative;
-
   }
   .toggle-children {
-    width:20px;
-  }
-  //end
+    width: 20px;
+  } //end
 }
 
 /*
@@ -600,4 +591,3 @@ $tree-node-height: 36px;
   //}
 }
 */
-

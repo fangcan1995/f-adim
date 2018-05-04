@@ -1,3 +1,4 @@
+
 <div class="row btnGroup">
   <div class="col-sm-6 btnGroup__left">
     <button class="btn btn-outline-dark btnGroup__item" *ngIf="!hidePrint" type="button" (click)="importExcel()"><i class="icon-import"></i>导入</button>
@@ -124,12 +125,12 @@
         <span *ngIf="title.isDict == true" class="seer_font color_{{renderClass(title,item[title.key])}}" title="{{renderValue(title,item[title.key])}}">{{renderValue(title,item[title.key]) || '--'}}</span>
         <!--<span *ngIf="title.type != 'clickable' && title.type!='input_number' && title.type!='link' && title.type != 'html'  && title.type!='image' && title.type != 'date' && title.type != 'date-time' && displayOriginalData" class="seer_font" title="{{item[title.key]}}">{{item[title.key]}}</span>-->
         <div *ngIf="title.type === 'html'" [innerHTML]="item[title.key]"></div>
-        <span *ngIf="title.type=='image'" class="seer_font"  title="{{item[title.key]}}"><img src="{{item[title.key]}}" style="width: 50px; height: 40px" (click)="openModal(image)" ></span>
-        <ng-template #image>
+        <span *ngIf="title.type=='image'" class="seer_font"  title="{{item[title.key]}}"><a href="{{item[title.key]}}" target="_blank"><img src="{{item[title.key]}}" style="width: 50px; height: 40px"  ></a></span>
+        <!--<ng-template #image>
           <div class="modal-body">
             <img src="{{item[title.key]}}" style="width:100%">
           </div>
-        </ng-template>
+        </ng-template>-->
         <span *ngIf="title.type=='date'" class="seer_font" title="{{item[title.key]| date:'yyyy-MM-dd'}}">{{item[title.key]| date:'yyyy-MM-dd'}}</span>
         <span *ngIf="title.type=='date-time'" class="seer_font" title="{{item[title.key]|date:'yyyy-MM-dd HH:mm:ss'}}">{{item[title.key]|date:'yyyy-MM-dd HH:mm:ss'}}</span>
       </td>
@@ -158,5 +159,6 @@
   [pageNumber]="pageNum"
   (notify)="onPageChange($event)"
 ></seer-pagination>
+
 
 

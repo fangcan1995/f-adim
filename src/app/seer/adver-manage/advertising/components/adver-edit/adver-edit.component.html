@@ -65,7 +65,6 @@
                         class="form-control  addUnit"
                         [(ngModel)]="advertising.effectTime"
                         #effectTime="ngModel"
-                        (click)="aaa(e)"
                       />
                      <!-- <span class="icon-operation unit"></span>-->
                   <p class="text-danger" *ngIf="!advertising.effectTime">* 必填项</p>
@@ -84,7 +83,6 @@
                         class="form-control addUnit"
                         [(ngModel)]="advertising.expiryTime"
                         #expiryTime="ngModel"
-                        (click)="bbb()"
                       />
                       <!--<span class="icon-operation unit"></span>-->
                   <p class="text-danger" *ngIf="!advertising.expiryTime">* 必填项</p>

@@ -1,7 +1,15 @@
 @import '../../../theme/sass/conf/conf';
+.card.table-card{
+	margin-left:20px;
+	margin-right: 20px;
+}
 .card-body {
 	overflow: visible;
 	padding: 0;
+}
+.with-scroll{
+	margin-top: 20px;
+	margin-right:5px; 
 }
 
 .card-content {

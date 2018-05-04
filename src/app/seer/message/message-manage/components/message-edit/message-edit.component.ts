@@ -62,6 +62,7 @@ export class MessageEditComponent {
   };
   //modalhasGlobalFilter = false;
   modalfilters =[];
+
   formGroupColNum='col-sm-12 col-md-6 col-lg-6';
   modalTitles=[];
   modalPageInfo={
@@ -177,6 +178,9 @@ export class MessageEditComponent {
       this.disabled.sendMail=false;
       this.disabled.sendNotify=false;
       this.disabled.sendMessage=false;
+      this.message.sendMail=0;
+      this.message.sendNotify=0;
+      this.message.sendMessage=0;
       this.usersType="members"
     }else if(userTypeId=='1'){
       this.isPickUsersAble=false;
@@ -185,12 +189,16 @@ export class MessageEditComponent {
       this.disabled.sendMessage=false;
       this.message.sendMail=0;
       this.message.sendNotify=0;
+      this.message.sendMessage=0;
       this.usersType="users"
     }else{
       this.isPickUsersAble=true;
       this.disabled.sendMail=true;
       this.disabled.sendNotify=true;
       this.disabled.sendMessage=true;
+      this.message.sendMail=0;
+      this.message.sendNotify=0;
+      this.message.sendMessage=0;
     }
 
     this.ids='';
@@ -374,20 +382,26 @@ export class MessageEditComponent {
         break;
       case 'users':
 
-        /*this.modalfilters=[
+        this.modalfilters=[
           {
-            key: 'memberType',
-            label: '用户身份',
+            key: 'emCode',
+            label: '用户名',
             type: 'select',
             options:[{value:'', content: '全部'},{value:'1', content: '注册理财师'},{value:'2', content: '财富合伙人'}]
           },
           {
-            key: 'department',
-            label: '区域',
+            key: 'empName',
+            label: '真实姓名',
             type: 'select',
             options:[{value:'', content: '全部'},{value:'1', content: '龙区'},{value:'2', content: '辽区'}]
           },
-        ];*/
+          {
+            key: 'phone',
+            label: '手机号',
+            type: 'select',
+            options:[{value:'', content: '全部'},{value:'1', content: '龙区'},{value:'2', content: '辽区'}]
+          },
+        ];
         this.modalTitles= [
           {key: 'emCode', label: '用户名',textAlign:'center'},
           {key: 'empName', label: '真实姓名',textAlign:'center'},
@@ -399,7 +413,7 @@ export class MessageEditComponent {
         break;
     }
     this.modalRef = this.modalService.show(template,this.modalClass);
-    this.modalfilters=[];
+    //this.modalfilters=[];
     this.getUsersList();
     //this.selectedUserId=[];   //清空已选择id数组
   }
@@ -418,15 +432,15 @@ export class MessageEditComponent {
         keyId='id';
       }
       console.log(this.modalUsers);
-      this.modalUsers = _.map(this.modalUsers, r =>{
+      //反向渲染人员列表，原来选中的checkbox是勾选状态
+      /*this.modalUsers = _.map(this.modalUsers, r =>{
         let idIndex=this.selectedUserId.findIndex(x => x == r[keyId]);
         if(idIndex!=-1){
           return _.set(r, 'selected', 1)
         }else{
           return _.set(r, 'selected', 0)
         }
-      }
-      );
+      });*/
     });
   }
 
@@ -579,8 +593,8 @@ export class MessageEditComponent {
         break;
     }
     if ( _.isArray(investDate)) {
-      investDateBefore = investDate[0] ? (formatDate(investDate[0],'YYYY-MM-DD 00:00:00')) : null;
-      investDateAfter = investDate[1] ? (formatDate(investDate[1],'YYYY-MM-DD 23:59:59')) : null;
+      investDateBefore = investDate[0] ? (formatDate(investDate[0],'YYYY-MM-DD 00:00:00')) :'';
+      investDateAfter = investDate[1] ? (formatDate(investDate[1],'YYYY-MM-DD 23:59:59')) :'';
     }
     if ( _.isArray(investAll)) {
       investAllMix = investAll[0] || null;

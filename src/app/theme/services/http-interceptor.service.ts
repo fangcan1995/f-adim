@@ -104,6 +104,92 @@ export class HttpInterceptorService {
             .catch(this.handleError.bind(this));
 
     }
+    //在不同登录与其他接口不同服务器下的HTTP请求
+  public testRequest(
+    method:string,
+    url:string,
+    params?:any,
+    ignoreAuth?:boolean,
+    timeout:number = 10000,
+    retry:number = 0,
+    ) {
+    method = method.toUpperCase();
+    let _method = null;
+    switch (method) {
+      case 'GET':
+        _method = RequestMethod.Get;
+        break;
+      case 'POST':
+        _method = RequestMethod.Post;
+        break;
+      case 'PUT':
+        _method = RequestMethod.Put;
+        break;
+      case 'PATCH':
+        _method = RequestMethod.Patch;
+        break;
+      case 'DELETE':
+        _method = RequestMethod.Delete;
+        break;
+      default:
+        return Observable.throw('请求方法已被禁用');
+    }
+
+    let headers = new Headers();
+
+    console.log('__request__: ', url, params);
+    let queryParams = parseJson2URL(params);
+    // if ( !ignoreAuth ) {
+    //   const token = getStorage({ key: 'token' }) || {};
+      
+    //   const tokenType = token.token_type;
+    //   const accessToken = token.access_token;
+    //   headers.set('Authorization', `${tokenType} ${accessToken}`)
+    // }
+    
+    let options;
+    if ( method === 'GET' ) {
+      options = new RequestOptions({
+        headers,
+        method: _method,
+        url: url,
+        search: queryParams,
+        // withCredentials: true,
+      });
+    } else {
+      headers.set('Content-Type', 'application/json');
+      options = new RequestOptions({
+        headers,
+        method: _method,
+        url: url,
+        body: params,
+        // search: queryParams,
+        // withCredentials: true,
+      });
+    }
+    let req = new Request(options)
+    return this._http.request(req)
+    .timeout(timeout)
+    .retry(retry)
+    .map(this.extractData)
+    .do(res => {
+      console.log('__response__: ', url, res);
+    })
+    .mergeMap((res:ResModel | any) => {
+      if ( res.code == 0 ) {
+        res.msg = res.msg || res.message;
+        return Observable.of(res);
+      } else {
+        // 将错误放到错误回调中统一处理
+        return Observable.throw({
+          code: res.code,
+          msg: res.message,
+        });
+      }
+    })
+    .catch(this.handleError.bind(this));
+
+  }
     private extractData(res: Response) {
         let body = res.json();
         return body || {};
