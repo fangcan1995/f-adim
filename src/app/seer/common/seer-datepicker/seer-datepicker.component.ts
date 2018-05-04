@@ -32,10 +32,13 @@ export class SeerDatepickerComponent implements OnInit {
 	};
 	ngOnInit() {
 	}
-	dateValue: Date;
+	dateValue;
 	@Output() dateChange = new EventEmitter();
   @Input()
   get date() {
+    if(this.dateValue &&  !this.dateValue.getFullYear){
+      this.dateValue=new Date(this.dateValue.replace(/-/g, "/"))
+    }
     return this.dateValue;
   }
   set date(val) {

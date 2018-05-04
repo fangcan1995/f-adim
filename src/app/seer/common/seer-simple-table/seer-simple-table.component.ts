@@ -105,8 +105,14 @@ export class SeerSimpleTableComponent implements OnInit {
         console.log(item.data.endTime)
         // item.data.startTime = formatDate(item.data.startTime, 'YYYY-MM-DD hh:mm:ss');
         // item.data.endTime = formatDate(item.data.endTime, 'YYYY-MM-DD hh:mm:ss');
-        item.data.endTime = item.data.endTime  ? new Date(item.data.endTime.replace(/-/g, "/")) : '';
-        item.data.startTime = item.data.startTime  ? new Date(item.data.startTime.replace(/-/g, "/")) : '';              
+        if(item.data.endTime.replace){
+          item.data.endTime = item.data.endTime  ? item.data.endTime.replace(/-/g, "/") : '';
+          item.data.startTime = item.data.startTime  ? item.data.startTime.replace(/-/g, "/") : ''; 
+        }else{
+          item.data.startTime = formatDate(item.data.startTime, 'YYYY-MM-DD hh:mm:ss');
+          item.data.endTime = formatDate(item.data.endTime, 'YYYY-MM-DD hh:mm:ss');
+        }
+                     
         this.edit(item.key);
     
         break;

@@ -47,7 +47,18 @@
                     <div class="row">
                       <label class="col-sm-4 control-label">员工状态</label>
                       <div class="col-sm-8 ">
-                        <label class="control-label">{{staff.sysEmployer.empStatus}}</label>
+                        <label class="control-label">
+                            <select type="email" class="form-control" name="empStatus" id="staffState" #empStatus='ngModel'
+                              [(ngModel)]="staff.sysEmployer.empStatus"
+                              id = 'politicalStatus'
+                              dict-select
+                              required
+                              disabled
+                              [key]="'EMP_STATES'"
+                              [selected]="staff.sysEmployer.empStatus"
+                              title="员工状态">
+                            </select>
+                        </label>
                       </div>
                     </div>
                   </div>
@@ -71,7 +82,14 @@
                     <div class="row">
                       <label class="col-sm-4 control-label">合同类型</label>
                       <div class="col-sm-8 ">
-                        <label class="control-label">{{staff.sysEmployer.contractType}}</label>
+                        <label class="control-label">
+                            <select type="email" class="form-control" name="contractType" id="politicalStatus" 
+                              [(ngModel)]="staff.sysEmployer.contractType" dict-select required disabled
+                              [key]="'STAFF_CONTRACT_TYPE'"
+                              [selected]="staff.sysEmployer.contractType"
+                              title="合同类型">
+                            </select>
+                        </label>
                       </div>
                     </div>
                   </div>
@@ -115,7 +133,16 @@
                     <div class="row">
                       <label class="col-sm-4 control-label">性别</label>
                       <div class="col-sm-8 ">
-                        <label class="control-label">{{staff.sysEmployer.empSex}}</label>
+                        <label class="control-label">
+                            <select id = 'politicalStatus'
+                              type="email" class="form-control" name="empSex"
+                              [(ngModel)]="staff.sysEmployer.empSex"
+                              dict-select disabled
+                              [key]="'M_SEX'"
+                              [selected]="staff.sysEmployer.empSex"
+                              name='empSex' #empSex='ngModel'>
+                          </select>
+                        </label>
                       </div>
                     </div>
                   </div>
@@ -155,7 +182,17 @@
                     <div class="row">
                       <label class="col-sm-4 control-label">婚否</label>
                       <div class="col-sm-8 ">
-                        <label class="control-label">{{staff.sysEmployer.maritaStatus}}</label>
+                        <label class="control-label">
+                            <select type="email" class="form-control" name="maritaStatus" id="maritaStatus"
+                              [(ngModel)]="staff.sysEmployer.maritaStatus"
+                              id = 'politicalStatus'
+                              dict-select required disabled
+                              [key]="'MARRAGE_STATUS'"
+                              [topOption]="{itemId:'',itemName:'请选择'}"
+                              [selected]="staff.sysEmployer.maritaStatus"
+                              name='maritaStatus' #maritaStatus='ngModel' >
+                            </select>
+                        </label>
                       </div>
                     </div>
                   </div>
@@ -163,7 +200,17 @@
                     <div class="row">
                       <label class="col-sm-4 control-label">政治面貌</label>
                       <div class="col-sm-8 ">
-                        <label class="control-label">{{staff.sysEmployer.politicalStatus}}</label>
+                        <label class="control-label" dict-trans [key]="'POLITICAL_STATUS'" [value]="staff.sysEmployer.politicalStatus">
+                            <!-- <select id = 'politicalStatus'
+                              type="email" class="form-control" id="politicalStatus"
+                              [(ngModel)]="staff.sysEmployer.politicalStatus"
+                              dict-select 
+                              disabled
+                              [key]="'POLITICAL_STATUS'"
+                              [selected]="staff.sysEmployer.politicalStatus"
+                              name='politicalStatus' #politicalStatus='ngModel'
+                            ></select> -->
+                        </label>
                       </div>
                     </div>
                   </div>

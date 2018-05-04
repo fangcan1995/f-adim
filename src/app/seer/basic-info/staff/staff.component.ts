@@ -55,7 +55,7 @@ export class StaffComponent {
   pageInfo:any = {
     "pageNum": 1,
     "pageSize": 10,
-    "sort": "-entryTime",
+    "sortBy": "-entryTime",
     "total": "",
     "query": {
       "globalSearch": "",
@@ -77,7 +77,7 @@ export class StaffComponent {
         departmentName: '团队',
         position: '职位',
         entryTime: '入职时间',
-        loginTimes:'登录次数'
+        inviteNum:'邀请人数'
     }
   }; //分页、排序、检索
   staffs = [];// 数据
@@ -202,7 +202,8 @@ export class StaffComponent {
       entryTimeStart,
       entryTimeEnd,
     }
-    this.pageInfo.query = params
+    this.pageInfo.query = params;
+    //this.pageInfo.sortBy
     // this.pageInfo = {
     //   ...this.pageInfo,
     //   ...params

@@ -99,7 +99,7 @@ export class UserComponent implements OnInit {
        
         {
             key: 'cornExpression',
-            label: 'corn表达式',
+            label: 'cron表达式',
         },
         {
             key: 'triggerState',

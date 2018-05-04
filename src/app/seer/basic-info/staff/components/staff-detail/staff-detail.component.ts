@@ -36,7 +36,8 @@ export class StaffDetailComponent implements OnInit {
       this._staffService.getDetailOne(params.id).then(res => {
         // console.log(res.data.sysEmployer);
         this.staff = res.data || {};
-
+        // this.staff.sysEmployer.contractEndDate
+        console.log(res)
         this.dateFormat();
         // this.staffStateChange(this.staff.sysEmployer.empStatus);
 

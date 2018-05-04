@@ -20,10 +20,10 @@
                     <label for="emCode" class="col-sm-4 control-label">员工编号</label>
                     <div class="col-sm-8 ">
                       <input type="text" class="form-control" [(ngModel)]="staff.sysEmployer.emCode"
-                              required name='emCode' #emCode='ngModel' [rangeLength] ='[9,9]' title="员工编号" disabled>
+                              required name='emCode' #emCode='ngModel' [rangeLength] ='[1,9]' title="员工编号" disabled>
                       <!-- <span class="tips"></span> -->
                       <p class="text-danger tips" *ngIf="emCode.errors?.required">*请认真填写，保存后不可修改</p>
-                      <p class="text-danger tips" *ngIf="emCode.errors?.rangeLength">请输入9个数字</p>
+                      <p class="text-danger tips" *ngIf="emCode.errors?.rangeLength">请输入9个以内的字符</p>
                     </div>              
                   </div>
                 </div>
@@ -172,15 +172,24 @@
                 </div>
                 <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                   <div class="row">
-                    <label class="col-sm-4 control-label">合同结束日期</label>
+                    <label class="col-sm-4 control-label">合同时长</label>
                     <div class="col-sm-8 ">
-                      <input required name='contractEndDate' #contractEndDate='ngModel' type="hidden" class="form-control" [(ngModel)]="staff.sysEmployer.contractEndDate" >
+                      <!-- <input required name='contractEndDate' #contractEndDate='ngModel' type="hidden" class="form-control" [(ngModel)]="staff.sysEmployer.contractEndDate" >
                       <seer-datepicker
                         [(date)]="staff.sysEmployer.contractEndDate"
                         [dateFormatingRules]="dateFormatingRules || 'yyyy-MM-dd'"
                       >
                       </seer-datepicker>
-                      <p class="text-danger tips" *ngIf="contractEndDate.errors?.required">*必填项</p>
+                      <p class="text-danger tips" *ngIf="contractEndDate.errors?.required">*必填项</p> -->
+                      <select type="email" class="form-control" name="contractLimiation" id="contractLimiation"
+                        [(ngModel)]="staff.sysEmployer.contractLimiation"
+                        dict-select required
+                        [key]="'CONTRACT_LENGTH'"
+                        [topOption]="{itemId:'',itemName:'请选择'}"
+                        [selected]="staff.sysEmployer.contractLimiation"
+                        name='contractLimiation' #contractLimiation='ngModel'>
+                      </select>
+                      <p class="text-danger tips" *ngIf="contractLimiation.errors?.required">*必填项</p>
                     </div>
                   </div>
                 </div>

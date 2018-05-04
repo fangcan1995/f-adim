@@ -36,7 +36,7 @@
       <seer-collapse-card>
         <div class="row">
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="idNumber" placeholder="全局过滤" [(ngModel)]="pageInfo.globalSearch" (change)="searchFilter()">
+            <input type="text" class="form-control" id="idNumber" placeholder="全局过滤" [(ngModel)]="pageInfo.globalSearch" (keyup)="searchFilter()">
           </div>
           <div class="col-sm-2">
             <ng-template #template>

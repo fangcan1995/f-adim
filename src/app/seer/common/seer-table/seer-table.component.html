@@ -115,11 +115,12 @@
         ></seer-cool-checkbox>
       </td>
       <td *ngIf="showSeq" class="table-seq"><span class="seer_font">{{ item.SEQ }}</span></td>
-      <td *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
+      <td *ngFor="let title of filterShownTitles() let i = index" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
         <a *ngIf="title.type=='link'" class="seer_font seer_a_font" target="{{title.target || '_blank'}}" href="{{item[title.key]}}" title="{{item[title.key]}}">{{item[title.key]}}</a>
         <a href *ngIf="title.type === 'clickable' "  class="seer_font seer_a_font" (click)="handleClick($event, item)"  title="{{item[title.key]}}">{{item[title.key]}}</a>
         <input  *ngIf="title.type=='input_number'" type="number" class="form-control" title="{{item[title.key]}}" [(ngModel)]="item[title.key]"/>
         <span *ngIf="title.isDict != true && title.type != 'clickable' && title.type!='input_number' && title.type!='link' && title.type != 'html' && title.type!='image' && title.type != 'date' && title.type != 'date-time' && !displayOriginalData"  class="seer_font" title="{{renderValue(title,item[title.key])}}">{{renderValue(title,item[title.key]) || '--'}}</span>
+        <span *ngIf="title.isDict != true && title.type != 'clickable' && title.type!='input_number' && title.type!='link' && title.type != 'html' && title.type!='image' && title.type != 'date' && title.type != 'date-time' && !displayOriginalData && item.empNameDeptLeader && i==0"  class="seer_font leader" title="{{renderValue(title,item[title.key])}}">主管</span>
         <span *ngIf="title.isDict == true" class="seer_font color_{{renderClass(title,item[title.key])}}" title="{{renderValue(title,item[title.key])}}">{{renderValue(title,item[title.key]) || '--'}}</span>
         <!--<span *ngIf="title.type != 'clickable' && title.type!='input_number' && title.type!='link' && title.type != 'html'  && title.type!='image' && title.type != 'date' && title.type != 'date-time' && displayOriginalData" class="seer_font" title="{{item[title.key]}}">{{item[title.key]}}</span>-->
         <div *ngIf="title.type === 'html'" [innerHTML]="item[title.key]"></div>

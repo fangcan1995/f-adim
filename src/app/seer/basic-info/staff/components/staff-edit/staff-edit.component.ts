@@ -11,6 +11,7 @@ import {json2Tree} from "../../../../../theme/libs";
 import {TREE_PERMISSIONS} from "../../../../../theme/modules/seer-tree/constants/permissions";
 import { formatDate } from "ngx-bootstrap/bs-moment/format";
 import {UPDATE, DELETE, SAVE} from '../../../../common/seer-table/seer-table.actions';
+import { SeerDialogService } from '../../../../../theme/services/seer-dialog.service';
 
 @Component({
   templateUrl: './staff-edit.component.html',
@@ -40,8 +41,7 @@ export class StaffEditComponent implements OnInit {
   public titlesRelation = titlesRelation;
   public titlesExperience = titlesExperience;
 
-  @ViewChild('validationForm') form1;
-  @ViewChild('validationForm') form2;
+  @ViewChild('form1') form1;
   @ViewChild('educationView') educationView;
   @ViewChild('relationView') relationView;
   @ViewChild('experienceView') experienceView;
@@ -55,6 +55,7 @@ export class StaffEditComponent implements OnInit {
               private _route: ActivatedRoute,
               private _router: Router,
               private _location: Location,
+              private _dialogService: SeerDialogService,
               private modalService: BsModalService) {
   }
 
@@ -102,8 +103,31 @@ export class StaffEditComponent implements OnInit {
   }
 
   handleBackBtnClick() {
-    this._location.back()
-    // this._router.navigate(['/basic-info/staff-manage/'])
+    if(this.form1.dirty){
+      this._dialogService.confirm(
+          '是否保存对个人信息的修改?',
+          [
+              {
+                  type: 1,
+                  text: '否',
+              },
+              {
+                  type: 0,
+                  text: '是',
+              },
+              
+          ]
+      ).subscribe(action => {
+          if (action === 1) {
+              this._router.navigate(['/basic-info/staff-manage/'])
+          }else{
+            this.jobInfoNotify()
+            this._router.navigate(['/basic-info/staff-manage/'])
+          }
+      })
+  }else{
+      this._router.navigate(['/basic-info/staff-manage/'])
+  }
   }
 
   /*离职处理,员工状态选中离职后，激活离职时间按钮*/
@@ -229,11 +253,18 @@ export class StaffEditComponent implements OnInit {
     
     switch (type) {
       case 'save':
-      newData.endTime = formatDate(newData.endTime, 'YYYY-MM-DD hh:mm:ss');
+      // newData.endTime = formatDate(newData.endTime, 'YYYY-MM-DD hh:mm:ss');
+      if(newData.endTime&&newData.endTime.replace){
+        newData.endTime = new Date(newData.endTime.replace(/-/g, "/"))
+      }
+      
+      console.log(newData.endTime)
+      newData.endTime = formatDate(newData.endTime, 'YYYY-MM-DD hh:mm:ss')
+      console.log(newData.endTime)
       let err:string=''
       if(newData.college&&newData.eduMajor&&newData.eduLevel&&newData.endTime){
         if(newData.college.length>20){
-          err='学历长度不能超过20个字符'
+          err='毕业院校长度不能超过20个字符'
           this.alertError(err)
           return
         }else if(newData.eduMajor.length>10){
@@ -269,7 +300,6 @@ export class StaffEditComponent implements OnInit {
               this.educationId=result.data;
               
               this.educationView.save(key,newData);
-              this.ngOnInit();
               this.alertSuccess(result.message);
             } else {
               this.alertError(result.message);
@@ -289,10 +319,12 @@ export class StaffEditComponent implements OnInit {
           }
         });
         break;
-      case 'cancel': 
-        console.log(this.educationView)
-        this.ngOnInit();
-        break;
+      // case 'cancel': 
+      //   // console.log(this.educationView)
+      //   // this.ngOnInit();
+      //   newData.endTime = formatDate(newData.endTime, 'YYYY-MM-DD hh:mm:ss');
+      //   this.educationView.save(key,newData);
+      //   break;
     }
   }
 
@@ -432,9 +464,7 @@ export class StaffEditComponent implements OnInit {
           }
         });
         break;
-      case 'cancel': 
-        this.ngOnInit();
-        break;
+      
     }
   }
 

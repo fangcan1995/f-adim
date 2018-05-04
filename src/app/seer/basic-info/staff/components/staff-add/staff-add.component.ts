@@ -34,7 +34,7 @@ export class StaffAddComponent implements OnInit {
   public titlesRelation = titlesRelation;
   public titlesExperience = titlesExperience;
   
-  @ViewChild('validationForm') form1;
+  @ViewChild('form1') form1;
   @ViewChild('validationForm') form2;
   @ViewChild('educationView') educationView; //学历技能信息表格
   @ViewChild('relationView') relationView; //家庭主要关系表格
@@ -60,6 +60,7 @@ export class StaffAddComponent implements OnInit {
   ngOnInit() {
     this.getOrganizations();
     this.forbidBaseSaveBtn=true;
+    this.staff.sysEmployer.politicalStatus=0
     this._route.url.mergeMap(url => {
       this._editType = url[0].path;
       return this._route.params
@@ -74,6 +75,28 @@ export class StaffAddComponent implements OnInit {
   /* 返回 */
   handleBackBtnClick() {
     this._location.back()
+    if(this.form1.dirty){
+        this._dialogService.confirm(
+            '还未保存确认要离开么?',
+              [
+                  {
+                      type: 1,
+                      text: '立即离开',
+                  },
+                  {
+                      type: 0,
+                      text: '继续编辑',
+                  },
+                  
+              ]
+          ).subscribe(action => {
+              if (action === 1) {
+                  this._location.back();
+              }
+          })
+      }else{
+          this._location.back()
+    }
   }
 
   /*离职处理,员工状态选中离职后，激活离职时间按钮*/
@@ -82,6 +105,7 @@ export class StaffAddComponent implements OnInit {
       this.isDimission = true;
     } else {
       this.isDimission = false;
+      this.staff.sysEmployer.exitTime=null
     }
   }
 
@@ -114,7 +138,7 @@ export class StaffAddComponent implements OnInit {
           //     this._location.back()
           //   }
           // });
-          if($event.params===1){
+          if($event.type.params===1){
             this._router.navigate([`/basic-info/staff-manage/edit/${this.staffId}`])
           }else{
             this._location.back()
