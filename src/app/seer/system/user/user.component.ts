@@ -146,7 +146,7 @@ export class UserComponent implements OnInit {
     params: any = {
         pageSize: 10,
         pageNum: 1,
-        sortBy: '',
+        sortBy: 'updateTime',
     };
 
     pageInfo: any = {

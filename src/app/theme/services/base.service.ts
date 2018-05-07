@@ -18,10 +18,12 @@ export let BASE_LOGIN_URL = `http://${BASE_SERVER}`;
 
 // const TEST_DOMAIN = '172.16.7.4';
 export let TEST_DOMAIN = '172.16.1.234';
+// export let TEST_DOMAIN = '172.16.1.252';
 export let TEST_PORT = 8020;
 // export let TEST_PORT = 9080;
 export let TEST_SERVER = `${TEST_DOMAIN}:${TEST_PORT}`;
 export let TEST_URL = `http://${TEST_SERVER}/admin`;
+// export let TEST_URL = `http://${TEST_SERVER}`;
 export let FROUNT_URL = `https://www.baidu.com`;
 
 

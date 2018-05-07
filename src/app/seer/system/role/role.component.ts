@@ -33,7 +33,7 @@ export class RoleComponent {
         pageSize: 100000,
         total: 1000,
         globalSearch: '',
-        sortBy: '',
+        sortBy: '-updateTime',
         excelmaps: {
             roleName: '角色名称',
             userCount: '用户数',
@@ -58,11 +58,14 @@ export class RoleComponent {
         this.getList(this.pageInfo);
     }
 
-    getList(params?) {
+    getList(params) {
         this._roleService.getRoleList(params)
             .then(res => {
                 let data = res.data || {};
                 this.roles = _.map(data.list, r => _.set(r, 'actions', [UPDATE, DELETE]));
+                this.pageInfo.total = data.total || 0;
+                this.pageInfo.pageSize = data.pageSize || this.params.pageSize;
+                this.pageInfo.pageNum = data.pageNum || this.params.pageNum;
                 this.isLoading = false;
             })
             .catch(err => {
@@ -134,6 +137,7 @@ export class RoleComponent {
                 })
                 break;
             case 'export':
+                console.log(this.pageInfo);
                 this._roleService.exportForm(this.pageInfo).then(res => {
                     let blob = res.blob();
                     let a = document.createElement('a');
@@ -153,10 +157,10 @@ export class RoleComponent {
 
     handleFiltersChanged($event) {
         console.log($event);
-        const newPageInfo = {
+        this.pageInfo = {
             ...this.pageInfo,
             globalSearch: $event.globalSearch
         }
-        this.getList(newPageInfo);
+        this.getList(this.pageInfo);
     }
 }

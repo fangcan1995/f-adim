@@ -1,7 +1,6 @@
 <seer-content-top>
   <seer-filter
     [hasGlobalFilter]=hasGlobalFilter
-    (onInit)=handleFiltersChanged($event)
     (onFiltersChanged)=handleFiltersChanged($event)
     (onSearchBtnClicked)=handleFiltersChanged($event)
   ></seer-filter>  
@@ -14,6 +13,7 @@
     (notify)=handleNotify($event)
     [hideRemoveAll]=true
     [hidePrint]="true"
+    [hideCheckbox]=true
   ></seer-table>
 </seer-collapse-card>
 <seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
