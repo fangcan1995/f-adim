@@ -2,17 +2,15 @@
 import {Component, OnChanges, OnInit, TemplateRef} from "@angular/core";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import { Location } from '@angular/common';
-import {FormsService, TEMP_URL} from "../forms.service";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {CustomValidators} from "ng2-validation";
-import {SAVE_DISABLE} from "../../../common/seer-table/seer-table.actions";
+import {FormsService} from "../forms.service";
+import {SAVE, SAVE_DISABLE} from "../../../common/seer-table/seer-table.actions";
 import {SeerMessageService} from "../../../../theme/services/seer-message.service";
 import {FileItem, FileUploader, ParsedResponseHeaders} from "ng2-file-upload";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {getStorage} from "../../../../theme/libs/utils";
-import {BASE_URL, TEST_URL} from "../../../../theme/services/base.service";
 import * as _ from 'lodash';
 import {SeerDialogService} from "../../../../theme/services/seer-dialog.service";
+import {BASE_URL} from "../../../../theme/services/base.service";
 
 @Component({
   templateUrl: './loan-complete-audit.component.html',
@@ -21,17 +19,22 @@ import {SeerDialogService} from "../../../../theme/services/seer-dialog.service"
 export class LoanCompleteAuditComponent implements OnInit , OnChanges{
 
   public id: string;
-
   public actions = [ SAVE_DISABLE ];
 
+  public forbidLoanSaveBtn = true;
+  public forbidMemberSaveBtn = true;
+  public forbidAuditSubmitBtn = true;
+
   //会员信息
-  public memberForm : FormGroup; public vehicleForm : FormGroup; public houseForm : FormGroup;
   public member: any = {}; public vehicles: any = []; public houses: any = []; public credits: any = [];
   public classNames: any = {"addressContainerClass": "form-group col-xs-12 col-md-12 col-lg-5 col-xlg-4"}; //居住地样式
 
   //申请信息
-  public loanForm : FormGroup;
-  public loan: any = {}; public pawnRelation: any = {}; public pawnVehicle: any = {}; public pawnHouse: any = {}; public auditMaterials: any = [];
+  public loan: any = {};
+  public pawnRelation: any = {};
+  public pawnVehicle: any = {};
+  public pawnHouse: any = {};
+  public auditMaterials: any = [];
 
   //审核资料
   public progress: number = 0;
@@ -48,7 +51,6 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
 
   constructor(private service: FormsService, private route: ActivatedRoute, private _dialogService: SeerDialogService,
               private _location: Location, private modalService: BsModalService, private _messageService: SeerMessageService){
-    this.formValidation()
   }
 
   ngOnInit() {
@@ -64,111 +66,11 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
     this.initUploader()
   }
 
-  //表单验证
-  protected formValidation() {
-
-    //借款会员
-    this.memberForm = new FormGroup({
-
-      msex: new FormControl('', CustomValidators.min(0)), //性别
-
-      mage: new FormControl('', CustomValidators.number), //年龄
-
-      assetDesc: new FormControl('', Validators.required), //资产介绍
-
-      debtDesc: new FormControl('', Validators.required), //债务介绍
-    });
-
-    //借款申请
-    this.loanForm = new FormGroup({
-
-      loanType: new FormControl('', CustomValidators.min(0)), //借款类型
-
-      applyAmt: new FormControl('', CustomValidators.min(100)), //借款金额
-
-      loanApplyExpiry: new FormControl('', CustomValidators.min(0)), //借款期限
-
-      annualRate: new FormControl('', CustomValidators.min(0.01)), //年利率
-
-      repayType: new FormControl('', CustomValidators.min(0)), //还款方式
-
-      //借款用途
-
-      serviceRate: new FormControl('', CustomValidators.min(0.01)), // 服务费
-
-      minInvestAmount: new FormControl('', CustomValidators.min(0)), // 最小投资金额
-
-      maxInvestAmount: new FormControl('', CustomValidators.min(0)), // 最大投资金额
-
-    });
-
-    //新增车辆
-    this.vehicleForm = new FormGroup({
-
-      //车辆品牌
-      carBrand: new FormControl('', Validators.required),
-
-      //车辆型号
-      carModel: new FormControl('', Validators.required),
-
-      //车架号
-      viNumber: new FormControl('', Validators.required),
-
-      //车牌号
-      carNumber: new FormControl('', Validators.required),
-
-      //登记证号
-      carRegNumber: new FormControl('', Validators.required),
-
-      //购车年份
-      carAge: new FormControl('', Validators.required),
-
-      //行驶里程
-      mileage: new FormControl('', Validators.required),
-
-      //评估价格
-      pricePotential: new FormControl('', Validators.required),
-
-    });
-
-    //新增房屋
-    this.houseForm = new FormGroup({
-
-      //房产地址
-      houseAdress: new FormControl('', Validators.required),
-
-      //房屋类型
-      houseType: new FormControl('', CustomValidators.min(0)),
-
-      //建筑面积
-      area: new FormControl('', Validators.required),
-
-      //房龄
-      //houseAge: new FormControl('', Validators.required),
-
-      //购车年份
-      completionYear: new FormControl('', Validators.required),
-
-      //尚欠贷余额
-      debtMoney: new FormControl('', Validators.required),
-
-      //土地所有证号
-      landNo: new FormControl('', Validators.required),
-
-      //房屋产权所有证号
-      houseBelongNo: new FormControl('', Validators.required),
-
-      //评估价格
-      pricePotential: new FormControl('', Validators.required),
-
-    });
-  }
-
   //查询会员信息
   public getLoanMember(loanApplyId: string) {
     this.service.getLoanMember(loanApplyId).then((res) => {
       if("0" == res.code) {
-        this.member = res.data.memberPersonDto; this.vehicles = res.data.vehicles;this.houses = res.data.houses; this.credits = res.data.credits;
+        this.member = res.data.baseInfo; this.vehicles = res.data.vehicles;this.houses = res.data.houses; this.credits = res.data.credits;
       }else {
         console.log("fail");
       }
@@ -206,66 +108,31 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
   //保存会员信息
   public saveLoanMember() {
 
-      if(this.memberForm.valid) {
-        let params = {
-          "memberId": this.member.memberId,
-          "userName": this.member.userName,
-          "trueName": this.member.trueName,
-          "phoneNumber": this.member.phoneNumber,
-          "idNumber": this.member.idNumber,
-          "mSex": this.member.mSex,
-          "mAge": this.member.mAge,
-          "education": this.member.education,
-          "maritaStatus": this.member.maritaStatus,
-          "domicileProvince": this.member.domicileProvince,
-          "domicileCity": this.member.domicileCity,
-          "domicileDistrict": this.member.domicileDistrict,
-          "domicileAddress": this.member.domicileAddress,
-          "liveProvince": this.member.domicileProvince,
-          "liveCity": this.member.liveCity,
-          "liveDistrict": this.member.liveDistrict,
-          "liveAddress": this.member.liveAddress,
-          "assetDesc": this.member.assetDesc,
-          "debtDesc": this.member.debtDesc
-        };
-        this.service.updateMember(this.member.memberId, params).then(res => {
-          if(0 == res.code) {
-            this.showSuccess('保存成功');
-          } else {
-            this.showError('保存失败');
-          }
-        }).catch(err => {this.showError( err.msg || '保存失败' );});
-      } else{ this.showError("请按规则填写表单！") }
+    this.forbidMemberSaveBtn = false;
+    this.service.updateMember(this.member.memberId, this.member).then(res => {
+      if(0 == res.code) {
+        this.showSuccess(res.message);
+      } else {
+        this.showError(res.message);
+      }
+      this.forbidMemberSaveBtn = true;
+    }).catch(err => {
+      this.showError( err.msg || '保存失败' );
+      this.forbidMemberSaveBtn = true;
+    });
 
   }
 
   //保存申请信息
   public saveLoanApply() {
 
-    if(this.loanForm.valid) {
-      let params = {
-        "loanApplyId": this.loan.loanApplyId,
-        "loanType": this.loan.loanType,
-        "applyAmt": this.loan.applyAmt,
-        "loanApplyExpiry": this.loan.loanExpiry,
-        "noviceLoan": this.loan.greenHand,
-        "applyNum": this.loan.applyNum,
-        "rate": this.loan.annualRate,
-        //"mAge": this.loan.raiseRate,
-        "repayType": this.loan.repayType,
-        "handFee": this.loan.serviceRate,
-        "loanPurpose": this.loan.loanPurpose,
-        "minInvestAmount": this.loan.minInvestAmount,
-        "maxInvestAmount": this.loan.maxInvestAmount
-      };
-      this.service.updateLoanApply(this.loan.loanApplyId, params).then(res => {
-        if(0 == res.code) {
-          this.showSuccess('保存成功');
-        } else {
-          this.showError('保存失败');
-        }
-      }).catch(err => {this.showError( err.msg || '保存失败' );});
-    } else{ this.showError("请按规则填写表单！") }
+    this.service.updateLoanApply(this.loan.loanApplyId, this.loan).then(res => {
+      if(0 == res.code) {
+        this.showSuccess(res.message);
+      } else {
+        this.showError(res.message);
+      }
+    }).catch(err => {this.showError( err.msg || '保存失败' );});
 
   }
 
@@ -273,9 +140,27 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
   public auditResult: string = "pass"; public auditOpinion: string = ""; public auditReason: string = "";
   public submitAudit(){
 
+    //提交审核
     this._dialogService.confirm('是否确认提交审核?', [{type: 1, text: '确认',}, {type: 0, text: '取消',},]).subscribe(action => {
       if (action === 1) {
 
+        //完善会员
+        this.service.updateMember(this.member.memberId, this.member).then(res => {
+          if(0 == res.code) {
+          } else {
+            this.showError(res.message);
+          }
+        }).catch(err => {this.showError( err.msg || '保存失败' );});
+
+        //完善借款
+        this.service.updateLoanApply(this.loan.loanApplyId, this.loan).then(res => {
+          if(0 == res.code) {
+          } else {
+            this.showError(res.message);
+          }
+        }).catch(err => {this.showError( err.msg || '保存失败' );});
+
+        //提交
         let param = {"auditResult": this.auditResult, "opinion": this.auditReason + " " + this.auditOpinion};
         this.service.loanApplyAudit(this.loan.loanApplyId, param).then(res =>{
           if(0 == res.code) {
@@ -301,10 +186,10 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
         this.pawnVehicle = vehicle ;
         this.pawnRelation = res.data;
       }else {
-        console.log('设置抵押物失败1');
+        console.log('设置抵押物失败');
       }
     }).catch(err => {
-      this.showError('设置抵押物失败2' );
+      this.showError('设置抵押物失败' );
     });
   }
 
@@ -358,14 +243,14 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
 
   //添加车辆
   public addVehicle(vehicle) {
+    vehicle['memberId'] = this.member.memberId;
     this.service.addVehicle(this.member.memberId, vehicle).then(res =>{
       if(0 == res.code) {
         vehicle.id = res.data.id;
         this.vehicles.push(vehicle);
         this.modalRef.hide();
       }else {
-        console.log(res.message);
-        this.showSuccess('车辆添加失败');
+        this.showSuccess(res.message);
       }
     }).catch(error => {
       console.log(error);
@@ -375,6 +260,7 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
 
   //添加房产
   public addHouse(house) {
+    house['memberId'] = this.member.memberId;
     this.service.addHouse(this.member.memberId, house).then(res =>{
       if(0 == res.code) {
         house.id = res.data.id;
@@ -382,10 +268,9 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
         this.modalRef.hide();
       }else {
         console.log(res.message);
-        this.showSuccess('房屋添加失败');
+        this.showSuccess(res.message);
       }
     }).catch(error => {
-      console.log(error);
       this.showError('操作失败')
     });
   }
@@ -397,7 +282,7 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
     const tokenType = token.token_type;
     const accessToken = token.access_token;
     let headers = [{name: 'Authorization', value: `${tokenType} ${accessToken}`}];
-    this.uploader = new FileUploader({ url: TEMP_URL + `/loans/${this.loan.loanApplyId}/material`, method: "POST", headers:headers,});
+    this.uploader = new FileUploader({ url: BASE_URL + `/loans/${this.loan.loanApplyId}/material`, method: "POST", headers:headers,});
     this.uploader.onSuccessItem = this.successItem.bind(this);
     this.uploader.onCompleteAll = this.onCompleteAll.bind(this);
   }

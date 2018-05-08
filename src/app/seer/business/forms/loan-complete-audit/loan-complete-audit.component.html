@@ -1,21 +1,21 @@
 
 <seer-content-top>
   <button class="btn btn-outline-dark" (click)="handleBackBtnClick()">返回</button>
-  <button class="btn btn-outline-dark" (click)="submitAudit()">提交</button>
+  <button class="btn btn-primary" (click)="submitAudit()" [disabled]="!(forbidAuditSubmitBtn && form1.form.valid && form2.form.valid)">提交</button>
 </seer-content-top>
 
 <div class="widgets">
   <div class="row justify-content-center">
       <div class="col-md-12">
 
-        <seer-collapse-card cardTitle="会员信息" cardClass="with-scroll" [canCollapse]=true [headerActions]="actions" (notify)="saveLoanMember()">
+        <seer-collapse-card cardTitle="会员信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true [headerActions]="actions" [saveDistabled]="forbidMemberSaveBtn && form1.form.valid" (notify)="saveLoanMember()">
           <div class="row">
-            <form class="form-horizontal" [formGroup]="memberForm">
+            <form class="form-horizontal" #form1="ngForm">
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
                   <label for="account" class="col-sm-4 control-label">用户名</label>
                   <div class="col-sm-8">
-                    <input class="form-control" id="account" placeholder="用户名" [(ngModel)]="member.userName" [ngModelOptions]="{standalone: true}" disabled>
+                    <input class="form-control" id="account" [(ngModel)]="member.userName" [ngModelOptions]="{standalone: true}" disabled>
                   </div>
                 </div>
               </div>
@@ -23,7 +23,7 @@
                 <div class="row">
                   <label for="realName" class="col-sm-4 control-label">真实姓名</label>
                   <div class="col-sm-8 ">
-                    <input class="form-control" id="realName" placeholder="客户姓名" [(ngModel)]="member.trueName" [ngModelOptions]="{standalone: true}" disabled #money>
+                    <input class="form-control" id="realName" [(ngModel)]="member.trueName" [ngModelOptions]="{standalone: true}" disabled>
                   </div>
                 </div>
               </div>
@@ -31,7 +31,7 @@
                 <div class="row">
                   <label for="mobilePhone" class="col-sm-4 control-label">手机号</label>
                   <div class="col-sm-8">
-                    <input class="form-control" id="mobilePhone" placeholder="手机号" [(ngModel)]="member.phoneNumber" [ngModelOptions]="{standalone: true}" disabled>
+                    <input class="form-control" id="mobilePhone" [(ngModel)]="member.phoneNumber" [ngModelOptions]="{standalone: true}" disabled>
                   </div>
                 </div>
               </div>
@@ -39,7 +39,7 @@
                 <div class="row">
                   <label for="idNumber" class="col-sm-4 control-label">身份证号</label>
                   <div class="col-sm-8">
-                    <input class="form-control" id="idNumber" placeholder="身份证号" [(ngModel)]="member.idNumber" [ngModelOptions]="{standalone: true}" disabled>
+                    <input class="form-control" id="idNumber" [(ngModel)]="member.idNumber" [ngModelOptions]="{standalone: true}" disabled>
                   </div>
                 </div>
               </div>
@@ -47,22 +47,24 @@
                 <div class="row">
                   <label for="m_sex" class="col-sm-4 control-label">性别</label>
                   <div class="col-sm-8">
-                    <select class="form-control" id="m_sex" placeholder="" [(ngModel)]="member.mSex" name="msex"  formControlName="msex"
+                    <select class="form-control" id="m_sex" [(ngModel)]="member.mSex" name="mSex" #mSex="ngModel" required [notEqual]="'undefined'"
                             dict-select
                             [key]="'M_SEX'"
                             [selected]="member.mSex"
                             [topOption]="{itemid:'',itemName:'请选择'}" >
                     </select>
-                    <p *ngIf="memberForm.controls.msex.errors?.min" class="text-danger">请选择该项</p>
+                    <p *ngIf="mSex.errors?.required" class="text-danger">*必填项</p>
+                    <p *ngIf="mSex.errors?.notEqual" class="text-danger">*必填项</p>
                   </div>
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="age" class="col-sm-4 control-label">年龄</label>
+                  <label for="mAge" class="col-sm-4 control-label">年龄</label>
                   <div class="col-sm-8">
-                    <input class="form-control" id="age" placeholder="年龄" [(ngModel)]="member.mAge" name="mage" formControlName="mage">
-                    <p *ngIf="memberForm.controls.mage.invalid && memberForm.controls.mage.errors?.number" class="text-danger">请输入正确数字</p>
+                    <input class="form-control" [(ngModel)]="member.mAge" name="mAge" #mAge="ngModel" required number maxlength="2">
+                    <p *ngIf="mAge.errors?.required" class="text-danger">*必填项</p>
+                    <p *ngIf="mAge.errors?.number" class="text-danger">请输入正确数字</p>
                   </div>
                 </div>
               </div>
@@ -70,7 +72,7 @@
                 <div class="row">
                   <label for="education" class="col-sm-4 control-label">学历</label>
                   <div class="col-sm-8">
-                    <select class="form-control" id="education" placeholder="" [(ngModel)]="member.education" [ngModelOptions]="{standalone: true}" [disabled]="disabled"
+                    <select class="form-control" id="education" [(ngModel)]="member.education" [ngModelOptions]="{standalone: true}"
                             dict-select
                             [key]="'EDUCATION'"
                             [selected]="member.education"
@@ -83,7 +85,7 @@
                 <div class="row">
                   <label for="maritaStatus" class="col-sm-4 control-label" >婚姻状况</label>
                   <div class="col-sm-8">
-                    <select class="form-control" id="maritaStatus" placeholder="" [(ngModel)]="member.maritaStatus" [ngModelOptions]="{standalone: true}" [disabled]="disabled"
+                    <select class="form-control" id="maritaStatus" [(ngModel)]="member.maritaStatus" [ngModelOptions]="{standalone: true}"
                             dict-select
                             [key]="'MARRAGE_STATUS'"
                             [selected]="member.maritaStatus"
@@ -118,8 +120,9 @@
                 <div class="row">
                   <label for="AssetsIntro" class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 ">资产介绍</label>
                   <div class="col-sm-11 col-md-10 col-lg-10 col-xlg-11">
-                    <textarea class="form-control" id="AssetsIntro" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 84px;" [(ngModel)]="member.assetDesc" name="assetDesc" [disabled]="disabled" placeholder="请输入资产介绍" formControlName="assetDesc"></textarea>
-                    <p *ngIf="memberForm.controls.assetDesc.errors?.required" class="text-danger">该项不能为空</p>
+                    <textarea class="form-control" id="AssetsIntro" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 84px;" [(ngModel)]="member.assetDesc" name="assetDesc" #assetDesc="ngModel" required [rangeLength]="[0, 400]" maxlength="400"></textarea>
+                    <p *ngIf="assetDesc.errors?.required" class="text-danger">该项不能为空</p>
+                    <p *ngIf="assetDesc.errors?.rangeLength" class="text-danger">最大长度不能超过400字节。</p>
                   </div>
                 </div>
               </div>
@@ -127,8 +130,9 @@
                 <div class="row">
                   <label for="debtIntro" class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 ">债务介绍</label>
                   <div class="col-sm-11 col-md-10 col-lg-10 col-xlg-11">
-                    <textarea class="form-control" id="debtIntro" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 84px;" [(ngModel)]="member.debtDesc" name="debtDesc" [disabled]="disabled" placeholder="请输入债务介绍" formControlName="debtDesc"></textarea>
-                    <p *ngIf="memberForm.controls.debtDesc.errors?.required" class="text-danger">该项不能为空</p>
+                    <textarea class="form-control" id="debtIntro" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 84px;" [(ngModel)]="member.debtDesc" name="debtDesc" #debtDesc="ngModel" required [rangeLength]="[0, 400]" maxlength="400"></textarea>
+                    <p *ngIf="debtDesc.errors?.required" class="text-danger">该项不能为空</p>
+                    <p *ngIf="debtDesc.errors?.rangeLength" class="text-danger">最大长度不能超过400字节。</p>
                   </div>
                 </div>
               </div>
@@ -198,45 +202,46 @@
           </div>
         </seer-collapse-card>
 
-        <seer-collapse-card cardTitle="借款信息" cardClass="with-scroll" [canCollapse]=true [headerActions]="actions" (notify)="saveLoanApply()">
+        <seer-collapse-card cardTitle="借款信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true [headerActions]="actions" [saveDistabled]="forbidLoanSaveBtn && form2.form.valid" (notify)="saveLoanApply()">
 
           <!--借款基本信息-->
           <div class="row">
-            <form class="form-horizontal" [formGroup]="loanForm">
+            <form class="form-horizontal" #form2="ngForm">
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
                   <label for="loanApplyType" class="col-sm-4 control-label">借款类型</label>
                   <div class="col-sm-8">
-                    <select class="form-control" id="loanApplyType" placeholder="" [(ngModel)]="loan.loanType" (change)="loanTypeChange()" [disabled]="disabled" name="loanType" formControlName="loanType"
+                    <select class="form-control" id="loanApplyType" [(ngModel)]="loan.loanType" (change)="loanTypeChange()" name="loanType" #loanType="ngModel" required [notEqual]="'undefined'"
                             dict-select
                             [key]="'LOAN_TYPE'"
                             [selected]="loan.loanType"
                             [topOption]="{itemid:'',itemName:'请选择'}">
                     </select>
-                    <p *ngIf="loanForm.controls.loanType.errors?.min" class="text-danger">请选择该项</p>
+                    <p *ngIf="loanType.errors?.required || loanType.errors?.notEqual" class="text-danger">*必填项</p>
                   </div>
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="applyAmt" class="col-sm-4 control-label">借款金额</label>
+                  <label for="applyAmt" class="col-sm-4 control-label text-right">借款金额（元）</label>
                   <div class="col-sm-8">
-                    <input currencyMask [options]="{ prefix: '￥', allowZero: false}" class="form-control" id="applyAmt" placeholder="借款金额" [(ngModel)]="loan.applyAmt"  [disabled]="disabled" name="applyAmt" formControlName="applyAmt">
-                    <p *ngIf="loanForm.controls.applyAmt.errors?.min" class="text-danger">借款金额最小为100元</p>
+                    <input type="number" class="form-control" id="applyAmt" [(ngModel)]="loan.applyAmt" name="applyAmt" #applyAmt="ngModel" required [range]="[1000, 100000000]">
+                    <p *ngIf="applyAmt.errors?.required" class="text-danger">*必填项</p>
+                    <p *ngIf="applyAmt.errors?.range" class="text-danger">*借款金额范围：1000~100000000</p>
                   </div>
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="loanApplyExpiry" class="col-sm-4 control-label">借款期限</label>
+                  <label for="loanExpiry" class="col-sm-4 control-label">借款期限</label>
                   <div class="col-sm-8 ">
-                    <select class="form-control" id="loanApplyExpiry" placeholder="" [(ngModel)]="loan.loanExpiry" [disabled]="disabled" name="loanApplyExpiry" formControlName="loanApplyExpiry"
+                    <select class="form-control" id="loanExpiry" [(ngModel)]="loan.loanExpiry" name="loanExpiry" #loanExpiry="ngModel" required [notEqual]="'undefined'"
                             dict-select
                             [key]="'LOAN_APPLY_EXPIRY'"
-                            [selected]="loan.loanApplyExpiry"
+                            [selected]="loan.loanExpiry"
                             [topOption]="{itemid:'',itemName:'请选择'}">
                     </select>
-                    <p *ngIf="loanForm.controls.loanApplyExpiry.errors?.min" class="text-danger">请选择该项</p>
+                    <p *ngIf="loanExpiry.errors?.required || loanExpiry.errors?.notEqual" class="text-danger">*必填项</p>
                   </div>
                 </div>
               </div>
@@ -244,28 +249,30 @@
                 <div class="row">
                   <label for="greenHand" class="col-sm-4 control-label">新手标</label>
                   <div class="col-sm-8 ">
-                    <select class="form-control" id="greenHand" placeholder="" [(ngModel)]="loan.greenHand" [disabled]="disabled"  [ngModelOptions]="{standalone: true}"
+                    <select class="form-control" id="greenHand" [(ngModel)]="loan.greenHand" [ngModelOptions]="{standalone: true}" #greenHand="ngModel" required [notEqual]="'undefined'"
                             dict-select
                             [key]="'GREEN_HAND'"
-                            [selected]="loan.greenHand">
+                            [selected]="loan.greenHand"
+                            [topOption]="{itemid:'',itemName:'请选择'}">
                     </select>
                   </div>
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="projectName" class="col-sm-4 control-label">项目名称</label>
+                  <label for="applyNum" class="col-sm-4 control-label">借款编号</label>
                   <div class="col-sm-8">
-                    <input class="form-control" id="applyNum" placeholder="项目名称" [(ngModel)]="loan.applyNum" [ngModelOptions]="{standalone: true}" disabled>
+                    <input class="form-control" id="applyNum" [(ngModel)]="loan.applyNum" [ngModelOptions]="{standalone: true}" disabled>
                   </div>
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="rate" class="col-sm-4 control-label">年利率</label>
+                  <label for="annualRate" class="col-sm-4 control-label">年利率（%）</label>
                   <div class="col-sm-8">
-                    <input currencyMask [options]="{ prefix : '', suffix : '%', allowZero: true}"  class="form-control" id="annualRate" placeholder="年利率" [(ngModel)]="loan.annualRate" [disabled]="disabled" name="annualRate" formControlName="annualRate" >
-                    <p *ngIf="loanForm.controls.annualRate.errors?.min" class="text-danger">年利率不能为0%</p>
+                    <input type="number" class="form-control number" id="annualRate" [(ngModel)]="loan.annualRate" name="annualRate" #annualRate="ngModel" required [range]="[0, 36]">
+                    <p *ngIf="annualRate.errors?.required" class="text-danger">*必填项</p>
+                    <p *ngIf="annualRate.errors?.range" class="text-danger">*年利率范围：0~36</p>
                   </div>
                 </div>
               </div>
@@ -273,7 +280,9 @@
                 <div class="row">
                   <label for="raiseRate" class="col-sm-4 control-label">加息</label>
                   <div class="col-sm-8 ">
-                    <input currencyMask [options]="{ prefix : '', suffix : '%', allowZero: true}"  class="form-control" id="raiseRate" placeholder="加息" [(ngModel)]="loan.raiseRate" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
+                    <input type="number" class="form-control number" id="raiseRate" [(ngModel)]="loan.raiseRate" name="raiseRate" #raiseRate="ngModel" required [range]="[0, 36]">
+                    <p *ngIf="raiseRate.errors?.required" class="text-danger">*必填项</p>
+                    <p *ngIf="raiseRate.errors?.range" class="text-danger">*年利率范围：0~36</p>
                   </div>
                 </div>
               </div>
@@ -281,22 +290,23 @@
                 <div class="row">
                   <label for="repayType" class="col-sm-4 control-label">还款方式</label>
                   <div class="col-sm-8">
-                    <select class="form-control" id="repayType" placeholder="" [(ngModel)]="loan.repayType" [disabled]="disabled" name="repayType" formControlName="repayType"
+                    <select class="form-control" id="repayType" [(ngModel)]="loan.repayType" name="repayType" #repayType="ngModel"  required [notEqual]="'undefined'"
                             dict-select
                             [key]="'REFUND_WAY'"
                             [selected]="loan.repayType"
                             [topOption]="{itemid:'',itemName:'请选择'}">
                     </select>
-                    <p *ngIf="loanForm.controls.repayType.errors?.min" class="text-danger">请选择该项</p>
+                    <p *ngIf="repayType.errors?.required || repayType.errors?.notEqual" class="text-danger">*必填项</p>
                   </div>
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="serviceRate" class="col-sm-4 control-label">手续费</label>
+                  <label for="serviceRate" class="col-sm-4 control-label">手续费（元）</label>
                   <div class="col-sm-8">
-                    <input currencyMask [options]="{ prefix: '￥', allowZero: false}"  class="form-control" id="serviceRate" placeholder="手续费" [(ngModel)]="loan.serviceRate" [disabled]="disabled" name="serviceRate" formControlName="serviceRate">
-                    <p *ngIf="loanForm.controls.serviceRate.errors?.min" class="text-danger">手续费不能为0</p>
+                    <input class="form-control number" id="serviceRate" [(ngModel)]="loan.serviceRate" name="serviceRate" #serviceRate="ngModel"  required [range]="[0, 100000000]">
+                    <p *ngIf="serviceRate.errors?.required" class="text-danger">*必填项</p>
+                    <p *ngIf="serviceRate.errors?.range" class="text-danger">*金额范围：0~100000000</p>
                   </div>
                 </div>
               </div>
@@ -304,7 +314,7 @@
                 <div class="row">
                   <label for="loanPurpose" class="col-sm-4 control-label">借款用途</label>
                   <div class="col-sm-8 ">
-                    <select class="form-control" id="loanPurpose" placeholder="" [(ngModel)]="loan.loanPurpose" [disabled]="disabled"  [ngModelOptions]="{standalone: true}"
+                    <select class="form-control" id="loanPurpose" [(ngModel)]="loan.loanPurpose" [ngModelOptions]="{standalone: true}"
                             dict-select
                             [key]="'LOAN_PURPOSE'"
                             [selected]="loan.loanPurpose"
@@ -315,19 +325,21 @@
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="minInvestAmount" class="col-sm-4 control-label">最小投资金额</label>
+                  <label for="minInvestAmount" class="col-sm-4 control-label">最小投资金额（元）</label>
                   <div class="col-sm-8">
-                    <input currencyMask [options]="{ prefix: '￥', allowZero: false}" class="form-control" id="minInvestAmount" placeholder="请输入最小投资金额" [(ngModel)]="loan.minInvestAmount"  [disabled]="disabled" name="minInvestAmount" formControlName="minInvestAmount">
-                    <p *ngIf="loanForm.controls.minInvestAmount.errors?.min" class="text-danger">最小投资金额应大于0元</p>
+                    <input class="form-control number" id="minInvestAmount" [(ngModel)]="loan.minInvestAmount"  name="minInvestAmount" #minInvestAmount="ngModel" required [range]="[0, 100000000]">
+                    <p *ngIf="minInvestAmount.errors?.required" class="text-danger">*必填项</p>
+                    <p *ngIf="minInvestAmount.errors?.range" class="text-danger">*借款金额范围：0~100000000</p>
                   </div>
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="maxInvestAmount" class="col-sm-4 control-label">最大投资金额</label>
+                  <label for="maxInvestAmount" class="col-sm-4 control-label">最大投资金额（元）</label>
                   <div class="col-sm-8">
-                    <input currencyMask [options]="{ prefix: '￥', allowZero: false}" class="form-control" id="maxInvestAmount" placeholder="请输入最大投资金额" [(ngModel)]="loan.maxInvestAmount"  [disabled]="disabled" name="maxInvestAmount" formControlName="maxInvestAmount">
-                    <p *ngIf="loanForm.controls.maxInvestAmount.errors?.min" class="text-danger">最大投资金额应大于0元</p>
+                    <input class="form-control number" id="maxInvestAmount" [(ngModel)]="loan.maxInvestAmount" name="maxInvestAmount" #maxInvestAmount="ngModel" required [range]="[0, 100000000]">
+                    <p *ngIf="maxInvestAmount.errors?.required" class="text-danger">*必填项</p>
+                    <p *ngIf="maxInvestAmount.errors?.range" class="text-danger">*借款金额范围：0~100000000</p>
                   </div>
                 </div>
               </div>
@@ -335,7 +347,7 @@
                 <div class="row">
                   <label for="repayFrom" class="col-sm-4 control-label">还款来源</label>
                   <div class="col-sm-8">
-                    <select class="form-control" id="repayFrom" placeholder="" [(ngModel)]="loan.repayFrom" [ngModelOptions]="{standalone: true}" [disabled]="disabled"
+                    <select class="form-control" id="repayFrom" [(ngModel)]="loan.repayFrom" [ngModelOptions]="{standalone: true}"
                             dict-select
                             [key]="'PAYMENTING_SOURCE'"
                             [selected]="loan.repayFrom"
@@ -346,9 +358,11 @@
               </div>-->
             </form>
           </div>
-          <hr>
+
+          <hr *ngIf="loan.loanType == 1 || loan.loanType == 2">
+
           <!-- 抵押物信息 -->
-          <div class="row">
+          <div class="row" *ngIf="loan.loanType == 1 || loan.loanType == 2">
             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
               <div class="row">
                 <label *ngIf="loan.loanType == 1" class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 ">请选择抵押车辆</label>
@@ -436,8 +450,9 @@
                   <ng-container *ngIf="progress != 0 && progress <= 100">
                     <div class="form-group col-sm-6 col-md-2 col-lg-2 col-xlg-9">
                       <div class="row">
-                        <div class="progress" style="">
-                          <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': progress + '%' }">{{progress >= 100 ? progress + '% 已完成' : '正在上传 ' + progress + '%'}}</div>
+                        <div>
+                          {{progress >= 100 ? progress + '% 上传完成' : '正在上传…… ' + progress + '%'}}
+                          <!--<div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': progress + '%' }">{{progress >= 100 ? progress + '% 已完成' : '正在上传 ' + progress + '%'}}</div>-->
                         </div>
                       </div>
                     </div>
@@ -531,7 +546,7 @@
               <div class="row">
                 <label for="auditOpinion" class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 ">审批意见</label>
                 <div class="col-sm-11 col-md-10 col-lg-10 col-xlg-11">
-                  <textarea class="form-control" id="auditOpinion" [(ngModel)]="auditOpinion" [ngModelOptions]="{standalone: true}" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 84px;" placeholder="请输入审批意见"></textarea>
+                  <textarea class="form-control" id="auditOpinion" [(ngModel)]="auditOpinion" [ngModelOptions]="{standalone: true}" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 84px;"></textarea>
                 </div>
               </div>
             </div>
@@ -554,77 +569,78 @@
     </button>-->
   </div>
   <div class="modal-body">
-    <form class="form-horizontal" [formGroup]="vehicleForm">
+    <form class="form-horizontal" #form4="ngForm">
       <div class="row">
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="brand" class="col-sm-4 control-label text-right">车辆品牌</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="brand" placeholder="请输入车辆品牌" [(ngModel)]="vehicle.carBrand" name="carBrand" formControlName="carBrand">
-              <p *ngIf="vehicleForm.controls.carBrand.errors?.required" class="text-danger">*必填项</p>
+            <label  class="col-sm-4 col-md-3 control-label text-right">车辆品牌</label>
+            <div class="col-sm-8 col-md-8">
+              <input class="form-control number" name="carBrand"  [(ngModel)]="vehicle.carBrand"  maxlength="4"  #carBrand="ngModel" required [disabled]="vehicleReadOnly">
+              <p class="text-danger" *ngIf="carBrand.errors?.required">*必填项</p>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="model" class="col-sm-4 control-label text-right">车辆型号</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="model" placeholder="请输入车辆型号" [(ngModel)]="vehicle.carModel" name="carModel" formControlName="carModel">
-              <p *ngIf="vehicleForm.controls.carModel.errors?.required" class="text-danger">*必填项</p>
+            <label  class="col-sm-4  col-md-3 control-label text-right">车辆型号</label>
+            <div class="col-sm-8  col-md-8 ">
+              <input class="form-control" name="carModel"  [(ngModel)]="vehicle.carModel" maxlength="10" #carModel="ngModel" required [disabled]="vehicleReadOnly">
+              <p class="text-danger" *ngIf="carModel.errors?.required">*必填项</p>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="vin" class="col-sm-4 control-label text-right">车架号</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="vin" placeholder="请输入车架号" [(ngModel)]="vehicle.viNumber" name="viNumber" formControlName="viNumber">
-              <p *ngIf="vehicleForm.controls.viNumber.errors?.required" class="text-danger">*必填项</p>
+            <label  class="col-sm-4 col-md-3 control-label text-right">车架号</label>
+            <div class="col-sm-8 col-md-8">
+              <input class="form-control number" name="viNumber"  [(ngModel)]="vehicle.viNumber" maxlength="17" #viNumber="ngModel" required [disabled]="vehicleReadOnly">
+              <p class="text-danger" *ngIf="viNumber.errors?.required">*必填项</p>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="lpn" class="col-sm-4 control-label text-right">车牌号</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="lpn" placeholder="请输入车牌号" [(ngModel)]="vehicle.carNumber" name="carNumber" formControlName="carNumber">
-              <p *ngIf="vehicleForm.controls.carNumber.errors?.required" class="text-danger">*必填项</p>
+            <label  class="col-sm-4 col-md-3 control-label text-right">车牌号</label>
+            <div class="col-sm-8 col-md-8">
+              <input class="form-control number" name="carNumber"  [(ngModel)]="vehicle.carNumber" maxlength="7" #carNumber="ngModel" required [disabled]="vehicleReadOnly">
+              <p class="text-danger" *ngIf="carNumber.errors?.required">*必填项</p>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="certificateNumber" class="col-sm-4 control-label text-right">登记证号</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="certificateNumber" placeholder="请输入登记证号" [(ngModel)]="vehicle.carRegNumber" name="carRegNumber" formControlName="carRegNumber">
-              <p *ngIf="vehicleForm.controls.carRegNumber.errors?.required" class="text-danger">*必填项</p>
+            <label class="col-sm-4 col-md-3 control-label text-right">登记证号</label>
+            <div class="col-sm-8 col-md-8">
+              <input class="form-control number" name="carRegNumber" maxlength="14" [(ngModel)]="vehicle.carRegNumber"  #carRegNumber="ngModel" required [disabled]="vehicleReadOnly">
+              <p class="text-danger" *ngIf="carRegNumber.errors?.required">*必填项</p>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="carAge" class="col-sm-4 control-label text-right">购车年份</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="carAge" placeholder="请输入车龄" [(ngModel)]="vehicle.carAge" name="carAge" formControlName="carAge">
-              <p *ngIf="vehicleForm.controls.carAge.errors?.required" class="text-danger">*必填项</p>
+            <label  class="col-sm-4 col-md-3 control-label text-right">购车年份（年）</label>
+            <div class="col-sm-8 col-md-8">
+              <input class="form-control number" name="carAge"  [(ngModel)]="vehicle.carAge" maxlength="4" #carAge="ngModel" required number [disabled]="vehicleReadOnly">
+              <p class="text-danger" *ngIf="carAge.errors?.required">*必填项</p>
+              <p class="text-danger" *ngIf="carAge.errors?.number">请输入正确年份数值</p>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="range" class="col-sm-4 control-label text-right">行驶里程</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="mileage" placeholder="请输入行驶里程" [(ngModel)]="vehicle.mileage" name="mileage" formControlName="mileage">
-              <p *ngIf="vehicleForm.controls.mileage.errors?.required" class="text-danger">*必填项</p>
+            <label  class="col-sm-4 col-md-3 control-label text-right">行驶里程（公里）</label>
+            <div class="col-sm-8 col-md-8">
+              <input class="form-control number" name="mileage"  [(ngModel)]="vehicle.mileage" maxlength="8" #mileage="ngModel" [range]="[0,99999999]" [disabled]="vehicleReadOnly">
+              <p class="text-danger" *ngIf="mileage.errors?.range">请输入小于100000000数值</p>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="evaluatedPrice" class="col-sm-4 control-label text-right">评估价格</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="pricePotential" placeholder="请输入评估价格" [(ngModel)]="vehicle.pricePotential" name="pricePotential" formControlName="pricePotential">
-              <p *ngIf="vehicleForm.controls.pricePotential.errors?.required" class="text-danger">*必填项</p>
+            <label class="col-sm-4 col-md-3 control-label text-right">评估价格（元）</label>
+            <div class="col-sm-8 col-md-8">
+              <input class="form-control number" name="pricePotential" maxlength="8" [(ngModel)]="vehicle.pricePotential" #pricePotential="ngModel" [range]="[0,99999999]" [disabled]="vehicleReadOnly">
+              <p class="text-danger" *ngIf="pricePotential.errors?.range">请输入小于100000000数值</p>
             </div>
           </div>
         </div>
@@ -633,7 +649,7 @@
   </div>
   <div class="modal-footer">
     <ng-container *ngIf="!vehicleReadOnly">
-      <button type="button" class="btn btn-sx btn-info" [disabled]="!vehicleForm.valid" (click)="addVehicle(vehicle)">确定</button>
+      <button type="button" class="btn btn-sx btn-info" [disabled]="!(form4.form.valid)" (click)="addVehicle(vehicle)">确定</button>
     </ng-container>
     <button type="button"  class="btn btn-default" (click)="modalRef.hide()">关闭</button>
   </div>
@@ -651,90 +667,85 @@
     </button>-->
   </div>
   <div class="modal-body">
-    <form class="form-horizontal" [formGroup]="houseForm">
+    <form class="form-horizontal info" #form5="ngForm">
       <div class="row">
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="brand" class="col-sm-4 control-label text-right">房产地址</label>
+            <label for="housePlace" class="col-sm-3 control-label text-right">房产地址</label>
             <div class="col-sm-8">
-              <input class="form-control" id="brand" placeholder="请输入房产地址" [(ngModel)]="house.houseAdress" name="houseAdress" formControlName="houseAdress">
-              <p *ngIf="houseForm.controls.houseAdress.errors?.required" class="text-danger">必填项</p>
+              <input class="form-control"  [(ngModel)]="house.houseAdress" name="houseAdress" maxlength="30" #houseAdress="ngModel" required [disabled]="houseReadOnly">
+              <p class="text-danger" *ngIf="houseAdress.errors?.required">*必填项</p>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="houseType" class="col-sm-4 control-label text-right">房屋类型</label>
+            <label  class="col-sm-3 control-label text-right">房屋类型</label>
             <div class="col-sm-8">
-              <select class="form-control" id="houseType" placeholder="" [(ngModel)]="house.houseType" name="houseType" formControlName="houseType"
+              <select class="form-control" name="houseType"  [(ngModel)]="house.houseType" #houseType="ngModel" required [disabled]="houseReadOnly"
                       dict-select
                       [key]="'HOUSE_TYPE'"
                       [selected]="house.houseType"
                       [topOption]="{itemid:'',itemName:'请选择'}">
               </select>
+              <p class="text-danger" *ngIf="houseType.errors?.required">*必填项</p>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="floorage" class="col-sm-4 control-label text-right">建筑面积</label>
+            <label  class="col-sm-3 control-label text-right">建筑面积（平米）</label>
             <div class="col-sm-8">
-              <input class="form-control" id="floorage" placeholder="请输入建筑面积" [(ngModel)]="house.area" name="area" formControlName="area">
-              <p *ngIf="houseForm.controls.area.errors?.required" class="text-danger">必填项</p>
-            </div>
-          </div>
-        </div>
-        <!--<div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
-          <div class="row">
-            <label for="houseAge" class="col-sm-4 control-label text-right">房龄</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="houseAge" placeholder="请输入房龄" [(ngModel)]="house.houseAge" name="houseAge" formControlName="houseAge">
-              <p *ngIf="house_form.controls.houseAge.errors?.required" class="text-danger">必填项</p>
-            </div>
-          </div>
-        </div>-->
-        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
-          <div class="row">
-            <label for="completionYear" class="col-sm-4 control-label text-right">竣工年份</label>
-            <div class="col-sm-8">
-              <input class="form-control" id="completionYear" placeholder="请输入车龄" [(ngModel)]="house.completionYear" name="completionYear" formControlName="completionYear">
-              <p *ngIf="houseForm.controls.completionYear.errors?.required" class="text-danger">必填项</p>
+              <input class="form-control number" [(ngModel)]="house.area" name="area" maxlength="6" #area="ngModel" #area="ngModel" [range]="[0,999999]" required [disabled]="houseReadOnly">
+              <p class="text-danger" *ngIf="area.errors?.required">*必填项</p>
+              <p class="text-danger" *ngIf="area.errors?.range">请输入小于1000000数值</p>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="debt" class="col-sm-4 control-label text-right">尚欠贷余额</label>
+            <label class="col-sm-3 control-label text-right">竣工年份</label>
             <div class="col-sm-8">
-              <input class="form-control" id="debt" placeholder="请输入尚欠贷余额" [(ngModel)]="house.debtMoney" name="debtMoney" formControlName="debtMoney">
-              <p *ngIf="houseForm.controls.debtMoney.errors?.required" class="text-danger">必填项</p>
+              <input class="form-control number" name="houseAge" [(ngModel)]="house.houseAge" maxlength="4" #houseAge="ngModel" number required [disabled]="houseReadOnly">
+              <p class="text-danger" *ngIf="houseAge.errors?.required">*必填项</p>
+              <p class="text-danger" *ngIf="houseAge.errors?.number">请输入正确年份数值</p>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="landCertificate" class="col-sm-4 control-label text-right">土地所有证号</label>
+            <label class="col-sm-3 control-label text-right">尚欠贷余额（元）</label>
             <div class="col-sm-8">
-              <input class="form-control" id="landCertificate" placeholder="请输入土地所有证号" [(ngModel)]="house.landNo" name="landNo" formControlName="landNo">
-              <p *ngIf="houseForm.controls.landNo.errors?.required" class="text-danger">必填项</p>
+              <input class="form-control number" name="debtMoney"  [(ngModel)]="house.debtMoney" maxlength="11" #debtMoney="ngModel" [range]="[0,99999999999]" required [disabled]="houseReadOnly">
+              <p class="text-danger" *ngIf="debtMoney.errors?.required">*必填项</p>
+              <p class="text-danger" *ngIf="debtMoney.errors?.range">请输入小于1000000000000数值</p>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="houseCertificate" class="col-sm-4 control-label text-right">房屋产权所有证号</label>
+            <label class="col-sm-3 control-label text-right">土地所有证号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="houseCertificate" placeholder="请输入房屋产权所有证号" [(ngModel)]="house.houseBelongNo" name="houseBelongNo" formControlName="houseBelongNo">
-              <p *ngIf="houseForm.controls.houseBelongNo.errors?.required" class="text-danger">必填项</p>
+              <input class="form-control number" name="landNo"  [(ngModel)]="house.landNo" maxlength="25" [disabled]="houseReadOnly">
             </div>
           </div>
         </div>
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="evaluatedPrice" class="col-sm-4 control-label text-right">评估价格</label>
+            <label class="col-sm-3 control-label text-right">房屋所有权证号</label>
             <div class="col-sm-8">
-              <input class="form-control" id="evaluatedPrice" placeholder="请输入评估价格" [(ngModel)]="house.pricePotential" name="pricePotential" formControlName="pricePotential">
-              <p *ngIf="houseForm.controls.pricePotential.errors?.required" class="text-danger">必填项</p>
+              <input class="form-control number" name="houseBelongNo"  [(ngModel)]="house.houseBelongNo" maxlength="9" #houseBelongNo="ngModel" number  required [disabled]="houseReadOnly">
+              <p class="text-danger" *ngIf="houseBelongNo.errors?.required">*必填项</p>
+              <p class="text-danger" *ngIf="houseBelongNo.errors?.number">请输入数字</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label  class="col-sm-3 control-label text-right">评估价格</label>
+            <div class="col-sm-8">
+              <input class="form-control number" name="pricePotential2" [(ngModel)]="house.pricePotential" maxlength="11" [range]="[0,99999999999]" #pricePotential2="ngModel" [disabled]="houseReadOnly">
+              <p class="text-danger" *ngIf="pricePotential2.errors?.range">请输入小于1000000000000数值</p>
             </div>
           </div>
         </div>
@@ -743,7 +754,7 @@
   </div>
   <div class="modal-footer">
     <ng-container *ngIf="!houseReadOnly">
-      <button type="button" class="btn btn-sx btn-info" [disabled]="!houseForm.valid" (click)="addHouse(house)">确定</button>
+      <button type="button" class="btn btn-sx btn-info" [disabled]="!(form5.form.valid)" (click)="addHouse(house)">确定</button>
     </ng-container>
     <button type="button"  class="btn btn-default" (click)="modalRef.hide()">关闭</button>
   </div>

@@ -10,26 +10,13 @@ export class WorkspaceService extends BaseService<ResModel>{
   }
 
   //获取待办业务列表
-  getTasks(params?:any): Promise<ResModel> {
-
-    //let url = `${BASE_URL}/${API['TASKS']}/works/todo`;
-    let url = "http://172.16.1.228:9080/workbench/todo"
-
-    return this._httpInterceptorService.request('GET',url).toPromise();
+  getTodoTasks(params?:any): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET', BASE_URL + `/workbench/todo`, false).toPromise();
   }
 
   //获取已办业务列表
-  getCompleteTasks(params?:any): Promise<ResModel> {
-
-    //let url = `${BASE_URL}/${API['TASKS']}/works/complete`;
-    let url = "http://172.16.1.228:9080/workbench/done"
-
-    return this._httpInterceptorService.request('GET', url).toPromise();
+  getDoneTasks(params?:any): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET', BASE_URL + `/workbench/done`, false).toPromise();
   }
 
-  //获取各种任务的总数
-  getCounts(): Promise<ResModel> {
-    let url = `${BASE_URL}/${API['TASKS']}/works/todo/count`;
-    return this._httpInterceptorService.request('GET', url).toPromise();
-  }
 }

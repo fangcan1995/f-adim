@@ -12,15 +12,20 @@
   <seer-table
     [data]="source"
     [titles]="titles"
+    [translate]="dict"
+    [paginationRules]="0"
     [pageNum]="pageInfo.pageNum"
     [pageSize]="pageInfo.pageSize"
     [total]="pageInfo.total"
-    [paginationRules]="0"
+    [showSeq]="true"
     (notify)="onChange($event)"
     (changePage)="handlePageChange($event)"
     [hideExport]="true"
     [hidePrint]="true"
     [hideRemoveAll]="true"
-    [hideColumns]="true"
+    [hideColumns]="false"
+    [hideCheckbox]="true"
+    [hidePrint]="true"
+
   ></seer-table>
 </seer-collapse-card>

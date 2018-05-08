@@ -2,19 +2,19 @@ import { Component } from '@angular/core';
 import * as _ from 'lodash';
 
 import {CommonService} from "../common/common.service";
-import {ProjectService} from "./project.service";
+import {SubjectService} from "./subject.service";
 import {SeerMessageService} from "../../../theme/services/seer-message.service";
-import {ActivatedRoute, Router} from "@angular/router";
 import {PREVIEW} from "../../common/seer-table/seer-table.actions";
 import {isUndefined} from "util";
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
-  templateUrl: './project.component.html',
-  styleUrls: ['./project.component.scss'],
+  templateUrl: './subject.component.html',
+  styleUrls: ['./subject.component.scss'],
 })
 
-export class ProjectComponent {
+export class SubjectComponent {
 
   hasGlobalFilter = true;
 
@@ -36,8 +36,8 @@ export class ProjectComponent {
       key: 'projectStatus', label: '项目状态', type: 'select', isDict: true, category: 'PROJECT_STATUS'
     },
     {
-      key: 'transferTime',
-      label: '满标划转时间',
+      key: 'putTime',
+      label: '发布时间',
       groups: [
         {
           type: 'datepicker',
@@ -50,7 +50,7 @@ export class ProjectComponent {
     },
   ];
 
-//表格标题
+  //表格标题
   titles = [
     {
       key:'projectNum', label:'项目编号'
@@ -65,19 +65,14 @@ export class ProjectComponent {
       key:'loanType', label:'借款类型', isDict: true, category: 'LOAN_TYPE'
     },
     {
-      key:'loanExpiry', label:'借款期限', isDict: true, category: 'LOAN_APPLY_EXPIRY'
-    },
-    {
       key:'projectAmt', label:'借款金额（元）'
     },
     {
-      key:'projectCurrentAmt', label:'已筹金额（元）'
+      key:'loanExpiry', label:'借款期限', isDict: true, category: 'LOAN_APPLY_EXPIRY'
     },
-
     {
-      key:'transferTime', label:'满标划转时间'
+      key:'putTime', label:'发布时间'
     },
-
     {
       key:'projectStatus', label:'项目状态', isDict: true, category: 'PROJECT_STATUS'
     },
@@ -95,8 +90,8 @@ export class ProjectComponent {
     "loanType": "",
     "loanExpiry": "",
     "projectStatus": "",
-    "startTransferTime": "",
-    "endTransferTime": "",
+    "startPutTime": "",
+    "endPutTime": "",
   };
 
   source = [];
@@ -104,7 +99,7 @@ export class ProjectComponent {
   constructor(
     private _router: Router,
     private route: ActivatedRoute,
-    private service: ProjectService,
+    private service: SubjectService,
     private commonService: CommonService,
     private _messageService: SeerMessageService,) {}
 
@@ -117,7 +112,6 @@ export class ProjectComponent {
   //初始化数据
   getList(): void{
     this.service.getList(this.pageInfo).then((res: any) => {
-      console.log(res.data);
       this.pageInfo.pageNum=res.data.pageNum;  //当前页
       this.pageInfo.pageSize=res.data.pageSize; //每页记录数
       this.pageInfo.total=res.data.total; //记录总数
@@ -126,7 +120,7 @@ export class ProjectComponent {
         return _.set(i, 'actions', [PREVIEW]);
       });
     }).catch(err => {
-      this.showError( err.msg || '查询失败' );
+      this.showError( err.msg || '获取标的信息失败' );
     });
   }
 
@@ -140,11 +134,11 @@ export class ProjectComponent {
   //全局检索
   handleFiltersChanged($event) {
     let params = $event;
-    if(!isUndefined(params.transferTime[0])) {
-      this.pageInfo.startTransferTime = params.transferTime[0] ? (formatDate(params.transferTime[0], 'YYYY-MM-DD 00:00:00')) : "";
+    if(!isUndefined(params.putTime[0])) {
+      this.pageInfo.startPutTime = params.putTime[0] ? (formatDate(params.applyTime[0], 'YYYY-MM-DD 00:00:00')) : "";
     }
-    if(!isUndefined(params.transferTime[1])) {
-      this.pageInfo.endTransferTime = params.transferTime[1] ? (formatDate(params.transferTime[1], 'YYYY-MM-DD 00:00:00')) : "";
+    if(!isUndefined(params.putTime[1])) {
+      this.pageInfo.endPutTime = params.putTime[1] ? (formatDate(params.applyTime[1], 'YYYY-MM-DD 00:00:00')) : "";
     }
     this.pageInfo = Object.assign({}, this.pageInfo, params);
     this.getList();

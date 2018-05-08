@@ -2,7 +2,6 @@ import { Routes, RouterModule }  from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 import {ProjectComponent} from "./project.component";
 
-
 const routes: Routes = [
   {
     path: '',

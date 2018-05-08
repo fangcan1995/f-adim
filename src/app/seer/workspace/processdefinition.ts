@@ -14,7 +14,7 @@ export const processDefinition = [
   },
   {
     "key":"LOAN_PROJECT",
-    "name":"满标审核",
+    "name":"标的审核",
     "isChecked":false,
     "total":0
   },

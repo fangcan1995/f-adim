@@ -12,8 +12,7 @@ export class IntentionService extends BaseService<any>{
 
   //获取列表
   public getList(params: any): Promise<any> {
-    let url = BASE_URL + '/subject/intentions';
-    return this._httpInterceptorService.request('GET', url, params).toPromise();
+    return this._httpInterceptorService.request('GET', BASE_URL + `/intentions`, params).toPromise();
   }
 
 }
