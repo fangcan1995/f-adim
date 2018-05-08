@@ -347,12 +347,8 @@
                 <div class="row">
                   <label class="col-sm-4 control-label">招标开始日期</label>
                   <div class="col-sm-8 ">
-                    <input required name='loanBeginDate' #loanBeginDate='ngModel' type="hidden" class="form-control" [(ngModel)]="loan.loanBeginDate" >
-                    <seer-datepicker
-                      [dateFormatingRules]="dateFormatingRules || 'yyyy-MM-dd'"
-                      [(date)]="loan.loanBeginDate"
-                    >
-                    </seer-datepicker>
+                    <input required id="loanBeginDate" name='loanBeginDate' #loanBeginDate='ngModel' class="form-control addUnit" [(ngModel)]="loan.loanBeginDate">
+                    <span class="unit"></span>
                     <p class="text-danger tips" *ngIf="loanBeginDate.errors?.required">*必填项</p>
                   </div>
                 </div>
@@ -361,12 +357,8 @@
                 <div class="row">
                   <label class="col-sm-4 control-label">招标结束日期</label>
                   <div class="col-sm-8 ">
-                    <input required name='loanEndDate' #loanEndDate='ngModel' type="hidden" class="form-control" [(ngModel)]="loan.loanEndDate" >
-                    <seer-datepicker
-                      [dateFormatingRules]="dateFormatingRules || 'yyyy-MM-dd'"
-                      [(date)]="loan.loanEndDate"
-                    >
-                    </seer-datepicker>
+                    <input required id="loanEndDate" name='loanEndDate' #loanEndDate='ngModel' class="form-control addUnit" [(ngModel)]="loan.loanEndDate">
+                    <span class="unit"></span>
                     <p class="text-danger tips" *ngIf="loanEndDate.errors?.required">*必填项</p>
                   </div>
                 </div>

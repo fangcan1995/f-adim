@@ -9,6 +9,8 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap";
 
 import {SeerDialogService} from "../../../../theme/services/seer-dialog.service";
 
+declare let laydate;
+
 @Component({
   templateUrl: './loan-view.component.html',
   styleUrls: ['./loan-view.component.scss']
@@ -48,6 +50,26 @@ export class LoanViewComponent implements OnInit , OnChanges{
       this.getLoanApply(this.id);
       this.getAuditRecords(this.id);
     });
+
+    laydate.render({
+      elem: '#loanStartDate',
+      type: 'datetime',
+      format: 'yyyy/MM/dd',
+      done: (value, date, endDate) => {
+        this.loan.loanStartDate = value;
+        console.log(this.loan.loanStartDate);
+      }
+    })
+
+    laydate.render({
+      elem: '#loanEndDate',
+      type: 'datetime',
+      format: 'yyyy/MM/dd',
+      done: (value, date, endDate) => {
+        this.loan.loanEndDate = value;
+        console.log(this.loan.loanEndDate);
+      }
+    })
   }
 
   ngOnChanges() { }

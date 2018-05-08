@@ -26,5 +26,5 @@ import {SeerMessageService} from "../../../theme/services/seer-message.service";
 
   ],
 })
-export class SubjectModule {
+export class LoanSubjectModule {
 }

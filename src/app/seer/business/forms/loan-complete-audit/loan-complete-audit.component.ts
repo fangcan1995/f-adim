@@ -12,6 +12,8 @@ import * as _ from 'lodash';
 import {SeerDialogService} from "../../../../theme/services/seer-dialog.service";
 import {BASE_URL} from "../../../../theme/services/base.service";
 
+declare let laydate;
+
 @Component({
   templateUrl: './loan-complete-audit.component.html',
   styleUrls: ['./loan-complete-audit.component.scss']
@@ -60,6 +62,28 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
       this.getAuditRecords(this.id);
       this.initUploader();
     });
+
+    laydate.render({
+      elem: '#loanBeginDate',
+      type: 'datetime',
+      trigger: 'click',
+      format: 'yyyy/MM/dd',
+      done: (value, date, endDate) => {
+        this.loan.loanStartDate = value;
+        console.log(this.loan.loanStartDate);
+      }
+    })
+
+    laydate.render({
+      elem: '#loanEndDate',
+      type: 'datetime',
+      trigger: 'click',
+      format: 'yyyy/MM/dd',
+      done: (value, date, endDate) => {
+        this.loan.loanEndDate = value;
+        console.log(this.loan.loanEndDate);
+      }
+    })
   }
 
   ngOnChanges() {

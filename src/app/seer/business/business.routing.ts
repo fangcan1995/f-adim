@@ -10,7 +10,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'intention'},
       { path: 'intention', loadChildren:'./intention/intention.module#IntentionModule' },
-      { path: 'subject', loadChildren:'./subject/subject.module#SubjectModule' },
+      { path: 'subject', loadChildren:'./subject/subject.module#LoanSubjectModule' },
       { path: 'project', loadChildren:'./project/project.module#ProjectModule' },
       { path: 'transfer', loadChildren:'./transfer/transfer.module#TransferModule'},
       { path: 'parameter', loadChildren:'./parameter/parameter.module#ParameterModule'},
