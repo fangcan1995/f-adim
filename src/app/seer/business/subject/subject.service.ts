@@ -13,7 +13,7 @@ export class SubjectService extends BaseService<any>{
 
   //获取列表
   public getList(params: any): Promise<any> {
-    return this._httpInterceptorService.request('GET', BASE_URL + `/subjects`, params).toPromise();
+    return this._httpInterceptorService.request('GET', BASE_URL + `/objects`, params).toPromise();
   }
 
 }
