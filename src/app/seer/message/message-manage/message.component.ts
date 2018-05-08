@@ -13,6 +13,7 @@ import {formatDate} from "ngx-bootstrap/bs-moment/format";
 })
 export class MessageComponent {
   hasGlobalFilter = true; //打开全局检索
+  isLoading:boolean = true;
   filters = [
     {
       key: 'msgTitle',
@@ -149,9 +150,11 @@ export class MessageComponent {
               actions = [PREVIEW];
               break;
           }
+          this.isLoading = false;
           return _.set(r, 'actions', actions)
         })
       }).catch(err => {
+        this.isLoading = false;
         this.showError(err.msg || '连接失败');
       });
   }
@@ -201,6 +204,7 @@ export class MessageComponent {
           this.pageInfo.excelmaps = column;
           break;
         case 'export':
+          console.log(this.pageInfo);
           this.service.exportForm(this.pageInfo)
             .then(res => {
               let blob = res.blob();
@@ -231,16 +235,19 @@ export class MessageComponent {
     let beginTime,
         endTime;
     if ( _.isArray(postTime)) {
-      beginTime = postTime[0] ? (formatDate(postTime[0],'YYYY-MM-DD 00:00:00')) : null;
-      endTime = postTime[1] ? (formatDate(postTime[1],'YYYY-MM-DD 23:59:59')) : null;
+      beginTime = postTime[0] ? (formatDate(postTime[0],'YYYY-MM-DD 00:00:00')) : '';
+      endTime = postTime[1] ? (formatDate(postTime[1],'YYYY-MM-DD 23:59:59')) : '';
     }
     params = {
       ...otherParams,
       beginTime,
       endTime,
     }
-    //console.log(params);
-    this.pageInfo = params;
+    this.pageInfo = {
+      ...this.pageInfo,
+      ...params
+    };
+
     this.getList();
   }
 

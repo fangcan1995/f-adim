@@ -117,11 +117,11 @@ export class InfoPublishEditComponent implements OnInit, OnChanges {
                     this.infoPublishSource = res.data || {};
                     this.cacheMemory = _.cloneDeep(this.infoPublishSource);
                     this.saveButtonState = false;
-                    console.log(this.infoPublishSource.affContent);
+                    console.log(this.infoPublishSource);
                     //初始化uploader变量，用来配置input 中的uploader属性
                     let headers = [{ name: 'Authorization', value: `${this.tokenType} ${this.accessToken}` }];
                     this.uploader = new FileUploader({
-                        url: `${this.fileApi}/upfile?id=${this.newsId}&fileId=${this.infoPublishSource.fileId}`,
+                        url: `${this.fileApi}/file`,
                         method: 'POST',
                         headers: headers
                     });
@@ -262,6 +262,13 @@ export class InfoPublishEditComponent implements OnInit, OnChanges {
         _.forEach(this.uploader.queue, (t, i) => {
             this.uploader.queue[i].upload(); // 开始上传
         });
+    }
+
+    deleteFile() {
+        this._infoPublishService.cancelFile(this.infoPublishSource.fileId, this.infoPublishSource.id)
+            .then(res => {
+                console.log(res);
+            })
     }
 
     /* 上传成功回调 */

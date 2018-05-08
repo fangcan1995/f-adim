@@ -49,6 +49,8 @@ export class SeerFilterComponent implements OnInit {
   @Input() filters: Array<FilterModel>;
   @Input() translate;
 
+  @Input() rowLength: any = 3;
+
 
   @Input() formGroupColNum:string='col-sm-12 col-md-6 col-lg-6 col-lg-4' //查询向一行显示的列数，edit by lily
 
@@ -70,7 +72,6 @@ export class SeerFilterComponent implements OnInit {
     private _staffService: StaffService,
   ) { }
   ngOnInit() {
-    this.getOrganizations();
     this.onInit.emit({
       ...this.getFilterParams(this.filters),
       globalSearch: this.globalFilterValue
@@ -179,7 +180,6 @@ export class SeerFilterComponent implements OnInit {
   handleComplexBtnClick() {
     _.each(this.filters,(x,index)=>{
       if(x.label==='公司团队'){
-        console.log(index)
         return this.index=index
       }
     })
@@ -197,6 +197,7 @@ export class SeerFilterComponent implements OnInit {
     })
   }
   handleResetBtnClick() {
+    console.log(this.filters)
     _.each(this.filters, x => {
       if ( _.isArray(x.groups) ) {
         _.each(x.groups, y => {
@@ -274,6 +275,7 @@ export class SeerFilterComponent implements OnInit {
   public modalRef: BsModalRef;
   
     public openModal(template: TemplateRef<any>) {
+      this.getOrganizations();
       this.modalRef = this.modalService.show(template);
     }
   
@@ -292,8 +294,7 @@ export class SeerFilterComponent implements OnInit {
   
     save () {
       this.staff.sysEmployer.departmentId = this.nodeId;
-      this.staff.sysEmployer.departmentName = this.nodeName;
-      this.filters[this.index].value=this.staff.sysEmployer.departmentName
+      this.filters[this.index].value= this.nodeName;
     }
   
     alertSuccess(info: string) {

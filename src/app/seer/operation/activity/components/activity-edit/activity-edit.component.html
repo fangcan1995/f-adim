@@ -30,8 +30,12 @@
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
                 <div class="row">
                   <label  class="col-sm-4 col-md-2 control-label">关联活动</label>
-                  <div class="col-sm-8 col-md-10">
-                    <input type="text" class="form-control" name="parentId" [(ngModel)]="baseInfoDTO.parentId" #parentId="ngModel" [rangeLength]="[0,20]" maxlength="20" (click)="openParentIdModal(parentId,'0')" />
+                  <div class="col-sm-8 col-md-10 needBtn">
+                    <input type="text" class="form-control" name="parentId" [disabled]="true"  [(ngModel)]="baseInfoDTO.parentId" #parentId="ngModel" [rangeLength]="[0,20]" maxlength="20"  />
+                    <span class="select_btn">
+                      <button (click)="openParentIdModal(parentId,'0')" class="btn btn-center">选择</button>
+                      <button (click)="clear()" class="btn btn-right">清除</button>
+                    </span>
                     <p class="text-danger" *ngIf="parentId.errors?.rangeLength">请输入20个以内字符</p>
                   </div>
                 </div>
@@ -141,7 +145,6 @@
                         [(ngModel)]="baseInfoDTO.beginTime"
                         #beginTime="ngModel"
                       />
-                      <span class="icon-operation unit"></span>
                       <p class="text-danger" *ngIf="!baseInfoDTO.beginTime">* 必填项</p>
                     </div>
                     <label class="col-sm-2 interval">至</label>
@@ -153,7 +156,6 @@
                         [(ngModel)]="baseInfoDTO.endTime"
                         #endTime="ngModel"
                       />
-                      <span class="icon-operation unit"></span>
                       <p class="text-danger" *ngIf="!baseInfoDTO.endTime">* 必填项</p>
                     </div>
                   </div>
@@ -307,7 +309,7 @@
                           (change)="showChooseMembers($event.target.value)"
                           [topOption]="{itemid:'',itemName:'请选择'}" >
                   </select>
-                  <p class="text-danger" *ngIf="!baseInfoDTO.activityScope">*</p>
+                  <p class="text-danger" *ngIf="!baseInfoDTO.activityScope">* 必填项</p>
                 </div>
               </div>
             </div>
@@ -333,8 +335,9 @@
                 [hideRemoveAll]="true"
                 [hideColumns]="true"
                 [hideAddButton]="true"
-                [hideActions]="true"
+                [hideActions]="false"
                 [hideCheckbox]="true"
+                (notify)="membersOnChange($event)"
                 (changePage)="membersPageChange($event)"
               ></seer-table>
 
@@ -891,13 +894,15 @@
       <div class="form-group col-sm-12">
         <div class="row">
           <label  class="col-sm-4 col-md-2 control-label">关联活动</label>
-          <div class="col-sm-8 col-md-10">
+          <div class="col-sm-8 col-md-10 needBtn">
+            <p class="text-danger" *ngIf="!awardCurr.activityId"  style="top:30px">* 必填项</p>
             <input type="text" class="form-control"  [(ngModel)]="awardCurr.activityId" name="activityId" #activityId="ngModel" [rangeLength]="[0,20]"
-                   maxlength="20" [disabled]="awardCurrReadOnly"
-                   required
-                   (click)="openParentIdModal(parentId,'1')"
+                   maxlength="20" [disabled]="true"
             />
-            <p class="text-danger" *ngIf="activityId.errors?.required">* 必填项</p>
+            <span class="select_btn"  *ngIf="!awardCurrReadOnly">
+                 <button (click)="openParentIdModal(parentId,'1')" class="btn btn-right ">选择</button>
+            </span>
+            <p class="text-danger" *ngIf="awardCurr.activityId==''" >* 必填项</p>
             <p class="text-danger" *ngIf="activityId.errors?.rangeLength">请输入20个以内字符</p>
           </div>
         </div>
@@ -909,7 +914,6 @@
             <input  class="form-control number addUnit"  [(ngModel)]="awardCurr.perNumber" style="padding-right: 30px"
                     name="perNumber" #perNumber="ngModel" required [range]="[1, 999]" maxlength="3"
                     [disabled]="awardCurrReadOnly"
-
             />
             <span class="unit">次</span>
             <p class="text-danger" *ngIf="perNumber.errors?.required">* 必填项</p>
@@ -948,7 +952,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-sx btn-info" [disabled]="!form5.form.valid" (click)="saveAward('raffleTicketsDTOs',awardCurr,1)">保存</button>
+    <button type="button" class="btn btn-sx btn-info" [disabled]="!form5.form.valid || !awardCurr.activityId" (click)="saveAward('raffleTicketsDTOs',awardCurr,1)">保存</button>
     <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
   </div>
 </ng-template>

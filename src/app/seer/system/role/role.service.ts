@@ -8,9 +8,10 @@ import {
   TEST_URL
 } from "../../../theme/services";
 import { ResourceService } from '../resource/resource.service';
+import { getStorage } from "../../../theme/libs/utils"
+import { Headers, Http, RequestOptions, ResponseContentType } from '@angular/http';
 /* import { UserService } from '../user/user.service'; */
 
-const usersUrl = 'http://172.16.1.234:9080/roles';
 
 @Injectable()
 
@@ -18,11 +19,14 @@ const usersUrl = 'http://172.16.1.234:9080/roles';
 export class RoleService extends BaseService<any> {
   constructor(
     protected _httpInterceptorService:HttpInterceptorService,
-    private _resourceService:ResourceService
+    private _resourceService:ResourceService,
+    private http: Http
     ) {
     super(_httpInterceptorService);
     this.setApi(API['ROLES']);
   }
+
+  exportFile = `${TEST_URL}/${API['ROLES']}/specialExport`;
 
   getRoleList(params): Promise<ResModel> {
     return this._httpInterceptorService.request(
@@ -46,4 +50,13 @@ export class RoleService extends BaseService<any> {
   getResources(params?): Promise<ResModel> {
     return this._resourceService.getList(params);
   }
+
+  exportForm(params): Promise<any> {
+    console.log(params);
+    const access_token = getStorage({ key: 'token' }).access_token;
+    return this.http.get(`${this.exportFile}?access_token=${access_token}`, new RequestOptions({
+        responseType: ResponseContentType.Blob,
+        search: params
+    })).toPromise();
+}
 }

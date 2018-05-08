@@ -26,9 +26,8 @@ export class StaffService extends BaseService<StaffModule> {
   // 1、获取数据列表
   getLists(pageInfo: any): Promise<any> {
     const page = `?pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}`;
-    const sort = `&sortBy=${pageInfo.sort}`;
+    const sort = `&sortBy=${pageInfo.sortBy}`;
     const jsonQueryObj = pageInfo.query;
-    console.log(jsonQueryObj)
     let query: string = "";
     for (var prop in jsonQueryObj) {
       if (jsonQueryObj[prop]) {
@@ -161,6 +160,11 @@ export class StaffService extends BaseService<StaffModule> {
   //16导出表格
 
   exportForm(params): Promise<any> {
+    let {query,...rest}=params
+    params={
+      ...query,
+      ...rest
+    }
     const access_token = getStorage({ key: 'token' }).access_token;
       return this.http.get(`${this.staffsAPI}/export?access_token=${access_token}`, new RequestOptions({
           responseType: ResponseContentType.Blob,

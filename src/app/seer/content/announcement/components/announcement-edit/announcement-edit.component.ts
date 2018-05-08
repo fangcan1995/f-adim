@@ -20,7 +20,9 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
     public announcement: any = {};
     private _editType: string = 'add';
     public forbidSaveBtn: boolean = true;
+    contentTextLengthTest: boolean = true;
     form: FormGroup;
+    content: any = '';
     constructor(private _announcementService: AnnouncementService,
         private _messageService: SeerMessageService,
         private _activatedRoute: ActivatedRoute,
@@ -31,6 +33,7 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
             announcementName: new FormControl('', Validators.required),
             announcementTitle: new FormControl('', Validators.required),
             effectTime: new FormControl('', Validators.required),
+            noticeType: new FormControl('', Validators.required),
         });
 
     }
@@ -47,8 +50,10 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
                 this._announcementService.getOne(params.id)
                     .then(res => {
                         this.announcement = res.data;
-                        //this.announcement.effectTime = new Date(this.announcement.effectTime);
+                        this.announcement.effectTime = this.announcement.effectTime.replace(/-/g, '/');
+                        this.content = _.clone(this.announcement.content);
                         this.forbidSaveBtn = false;
+
                     }, errMsg => {
                         // 错误处理的正确打开方式
                         this._messageService.open({
@@ -67,6 +72,7 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
         laydate.render({
             elem: '#test',
             type: 'datetime',
+            format: 'yyyy/MM/dd HH:mm:ss',
             done: (value, date, endDate) => {
                 this.announcement.effectTime = value;
                 console.log(this.announcement.effectTime);
@@ -74,38 +80,43 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
         })
     }
 
-
+    contentTextLength() {
+        if(this.announcement.content && this.announcement.content.length <= 2000) {
+            this.contentTextLengthTest = true;
+        }
+        else {
+            this.contentTextLengthTest = false;
+        }
+    }
 
     handleBackBtnClick() {
         this._location.back()
     }
 
     handleSaveBtnClick() {
-        if (this.forbidSaveBtn) return;
-        this.forbidSaveBtn = true;
-
-        if (!this.form.valid) {
-            this.alertError('请按规则填写表单');
-            this.forbidSaveBtn = false;
+        if (this.form.valid) {
+            this.forbidSaveBtn = true;
+            if (!this.form.valid) {
+                this.alertError('请按规则填写表单');
+                this.forbidSaveBtn = false;
+            }
+            else if (!this.announcement.content) {
+                this.alertError('请填写文章内容');
+                this.forbidSaveBtn = false;
+            }
+            else {
+                const newAnnouncement = _.cloneDeep(this.announcement);
+                //newAnnouncement.effectTime = formatDate(newAnnouncement.effectTime, 'YYYY-MM-DD hh:mm:ss');
+                newAnnouncement.effectTime = newAnnouncement.effectTime.replace(/\//g, '-');
+                console.log(newAnnouncement);
+                this._announcementService.putOne(newAnnouncement)
+                    .then(data => {
+                        this.alertSuccess(data.message);
+                    }).catch(err => {
+                        this.alertError(err.msg);
+                    });
+            }
         }
-        else if (!this.announcement.content) {
-            this.alertError('请填写文章内容');
-            this.forbidSaveBtn = false;
-        }
-        else {
-            const newAnnouncement = _.cloneDeep(this.announcement);
-            //newAnnouncement.effectTime = formatDate(newAnnouncement.effectTime, 'YYYY-MM-DD hh:mm:ss');
-            console.log(this.announcement.effectTime);
-            this._announcementService.putOne(newAnnouncement)
-                .then(data => {
-                    this.alertSuccess(data.message);
-                }).catch(err => {
-                    this.alertError(err.msg);
-                });
-        }
-
-
-
     }
 
     alertSuccess(info: string) {

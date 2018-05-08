@@ -1,0 +1,193 @@
+<seer-content-top>
+  <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
+  <button class="btn btn-primary left-button" [disabled]="!myForm.form.valid || forbidSaveBtn" (click)="handleSaveBtnClick()">保存</button>
+</seer-content-top>
+<div class="widgets">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <seer-collapse-card cardTitle="定时任务" cardClass="with-scroll" [canCollapse]=false>
+        <form class="form-horizontal" #myForm="ngForm">
+          <div class="row">
+                        
+            <div class="col-sm-12 col-md-12 form-group">
+              <div class="row">
+                <label for="jobGroup" class="col-sm-3 col-md-1 col-lg-1 col-xlg-1 control-label required">任务组名</label>
+                <div class="col-sm-8 col-md-7 col-lg-6">
+                    <input
+                        *ngIf="editType === 'edit'"
+                        type="text"
+                        class="form-control"
+                        id="jobGroup"
+                        name="jobGroup"
+                        placeholder="任务组名"
+                        [required]=true
+                        [(ngModel)]="user.jobGroup"
+                        disabled
+                    />
+                    <input
+                        *ngIf="editType === 'add'"
+                        type="text"
+                        class="form-control"
+                        id="jobGroup"
+                        name="jobGroup"
+                        placeholder="任务组名"
+                        [required]=true
+                        [(ngModel)]="user.jobGroup"
+                    />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12 form-group">
+                <div class="row">
+                    <label for="jobName" class="col-sm-3 col-md-1 col-lg-1 col-xlg-1 control-label required">任务名称</label>
+                    <div class="col-sm-8 col-md-7 col-lg-6">
+                        <!-- <input
+                            type="text"
+                            class="form-control"
+                            id="emCode"
+                            name="emCode"
+                            placeholder="员工编号"
+                            [(ngModel)]="user.emCode"
+                        /> -->
+                        <input
+                            *ngIf="editType === 'edit'"
+                            type="text"
+                            class="form-control"
+                            id="jobName"
+                            name="jobName"
+                            placeholder="任务名称"
+                            [required]=true
+                            [(ngModel)]="user.jobName"
+                            disabled
+                        />
+                        <input
+                            *ngIf="editType === 'add'"
+                            type="text"
+                            class="form-control"
+                            id="jobName"
+                            name="jobName"
+                            placeholder="任务名称"
+                            [required]=true
+                            [(ngModel)]="user.jobName"
+                        />
+                    </div>
+                </div>
+            </div>            
+           
+            <div class="col-sm-12 col-md-12 form-group">
+                <div class="row">
+                    <label for="emCode" class="col-sm-3 col-md-1 col-lg-1 col-xlg-1 control-label required">cron表达式</label>
+                    <div class="col-sm-8 col-md-7 col-lg-6">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="emCode"
+                            name="emCode"
+                            [required]=true
+                            placeholder="cron表达式"
+                            [(ngModel)]="user.cornExpression"
+                        />
+                        <!-- <input
+                            *ngIf="editType === 'edit'"
+                            type="text"
+                            class="form-control"
+                            id="loginName"
+                            name="loginName"
+                            placeholder="corn表达式"
+                            [required]=true
+                            [(ngModel)]="user.jobName"
+                            disabled
+                        />
+                        <input
+                            *ngIf="editType === 'add'"
+                            type="text"
+                            class="form-control"
+                            id="loginName"
+                            name="loginName"
+                            placeholder="corn表达式"
+                            [required]=true
+                            [(ngModel)]="user.jobName"
+                        /> -->
+                    </div>
+                </div>
+            </div>  
+            <div class="col-sm-12 col-md-12 form-group" *ngIf="editType === 'add'">
+              <div class="row">
+                <label for="jobData" class="col-sm-3 col-md-1 col-lg-1 col-xlg-1 control-label">任务数据</label>
+                <div class="col-sm-8 col-md-7 col-lg-6">
+                    <input
+                    type="text"
+                    class="form-control"
+                    id="jobData"
+                    name="jobData"
+                    placeholder="任务数据"
+                    [(ngModel)]="user.jobData"
+                      />
+                    
+                </div>
+              </div>
+            </div>
+            
+            <!-- <div class="col-sm-12 col-md-12 form-group" *ngIf="editType === 'edit'">
+              <div class="row">
+                <label class="col-sm-3 col-md-1 col-lg-1 col-xlg-1 control-label required">用户密码</label>
+                <div class="col-sm-8 col-md-7 col-lg-6">
+                  <button type="button" class="btn btn-primary" [disabled]="forbidResetPasswordBtn" (click)="handleResetPasswordBtn()">密码重置</button>
+                </div>
+              </div>
+            </div> -->
+            
+            <!-- <div class="col-sm-12 col-md-12 form-group">
+              <div class="row">
+                <label class="col-sm-3 col-md-1 col-lg-1 col-xlg-1 control-label required">用户角色</label>
+                <div class="col-sm-8 col-md-7 col-lg-6">
+                  <div class="form-control user-role-list">
+                    <label *ngFor="let role of roles; let i=index" class="outLabel">
+                      <seer-cool-checkbox
+                        [(checked)]=role.checked
+                        [id]=i
+                      ></seer-cool-checkbox> {{ role.roleName }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+
+            <!-- <div class="col-sm-12 col-md-12 form-group" *ngIf="editType === 'add'" style="padding-bottom: 20px;">
+                <div class="row">
+                    <label class="col-sm-3 col-md-3 col-lg-1 col-xlg-1 control-label"></label>
+                    <div class="col-sm-8 col-md-7 col-lg-6">
+                        <label class="col-sm-12 col-md-12 text-danger">* 初始密码为GH123456，请提示新用户及时修改；</label>
+                    </div>
+                </div>
+            </div> -->
+            
+
+          </div>
+        </form>
+      </seer-collapse-card>
+    </div>
+  </div>
+</div>
+<!-- <div class="modal fade" bsModal #modal="bs-modal"
+     (onShown)="handleModalShown()"
+     (onHide)="handleModalHide()"
+     >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <seer-tree
+          #staffTree
+          [permissions]="staffPermission"
+          [nodes]="staffTreeNodes"
+          (notify)="onNotice($event)"
+          ></seer-tree>
+      </div>
+      <div class="modal-footer">
+         <button type="button"  class="btn btn-default" (click)="modal.hide()">关闭</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+

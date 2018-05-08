@@ -15,6 +15,7 @@ import { SeerMessageService } from '../../../theme/services/seer-message.service
 })
 export class DictComponent implements OnInit {
   hasGlobalFilter = true;
+  isLoading:boolean = true;
   filters = [
     {
       key: 'category',
@@ -24,6 +25,11 @@ export class DictComponent implements OnInit {
     {
       key: 'categoryName',
       label: '字典名称',
+      type: 'input.text',
+    },
+    {
+      key: 'itemName',
+      label: '值名称',
       type: 'input.text',
     },
     {
@@ -85,8 +91,10 @@ export class DictComponent implements OnInit {
       if ( res.code == 0 ) {
         this.dicts = res.data || [];
         this.dicts = _.map(this.dicts, r => _.set(r, 'actions', [ COPY_CREATE, UPDATE, DELETE ]));
+        this.isLoading = false;
       } else {
         this.showError( res.msg || '获取字典失败' );
+        this.isLoading = false;
       }
     });
   }
@@ -148,6 +156,7 @@ export class DictComponent implements OnInit {
     })
   }
   handleFiltersChanged($event) {
+      console.log($event);
     this.tableFilters = $event;
   }
 }

@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Router, ActivatedRoute} from "@angular/router";
 import * as _ from 'lodash';
 import {StaffService} from "./staff.service";
-import {UPDATE, DELETE} from '../../common/seer-table/seer-table.actions';
+import {UPDATE, DELETE,  PREVIEW} from '../../common/seer-table/seer-table.actions';
 import {SeerDialogService} from "../../../theme/services/seer-dialog.service"
 import {titles} from './staff.config';
 import {SeerMessageService} from "../../../theme/services/seer-message.service";
@@ -16,6 +16,7 @@ import { concat } from 'rxjs/observable/concat';
 export class StaffComponent {
 
   hasGlobalFilter = true;
+  isLoading:boolean = true;
   public forbidSaveBtn: boolean = true;
   OPEN_USER = [
     {type: 'open', name: '开通用户', className: 'btn btn-info'}
@@ -34,14 +35,27 @@ export class StaffComponent {
       key: 'empStatus', label: '员工状态', type: 'select',
       options: [{value: '', content: '请选择'},{value: '0', content: '试用'},{value: '1', content: '在职'},{value: '2', content: '离职'}]
     },
-    {key: 'entryTimeStart', label: '入职时间', type: 'input.date'},
-    {key: 'entryTimeEnd', label: '至', type: 'input.date'},
+    // {key: 'entryTimeStart', label: '入职时间', type: 'input.date'},
+    // {key: 'entryTimeEnd', label: '至', type: 'input.date'},
+    {
+      key: 'entryTime',
+      label: '入职时间',
+      groups: [
+        {
+          type: 'datepicker',
+        },
+        {
+          type: 'datepicker',
+        },
+      ],
+      groupSpaces: ['至']
+    },
   ];
   public titles = titles;
   pageInfo:any = {
     "pageNum": 1,
     "pageSize": 10,
-    "sort": "-entryTime",
+    "sortBy": "-entryTime",
     "total": "",
     "query": {
       "globalSearch": "",
@@ -63,7 +77,7 @@ export class StaffComponent {
         departmentName: '团队',
         position: '职位',
         entryTime: '入职时间',
-        loginTimes:'登录次数'
+        inviteNum:'邀请人数'
     }
   }; //分页、排序、检索
   staffs = [];// 数据
@@ -83,16 +97,18 @@ export class StaffComponent {
 
   //获取列表
   getStaffs(): void {
-    console.log(this.pageInfo)
     this.staffManageService.getLists(this.pageInfo).then(
       res => {
         this.pageInfo.pageNum = res.data.pageNum;  //当前页
         this.pageInfo.pageSize = res.data.pageSize; //每页记录数
         this.pageInfo.total = res.data.total; //记录总数
         this.staffs = res.data.list;
-        this.staffs = _.map(this.staffs, r => _.set(r, 'actions', [UPDATE, DELETE]));
+        this.staffs = _.map(this.staffs, r => _.set(r, 'actions', [PREVIEW,UPDATE, DELETE]));
+        this.isLoading = false;
       },
-      error => this.errorMessage = <any>error);
+      error => {
+        this.errorMessage = <any>error;
+        this.isLoading= false});
   }
 
   //增删改
@@ -124,6 +140,9 @@ export class StaffComponent {
         break;
       case 'update':
         this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
+        break;
+      case 'preview':
+        this._router.navigate([`detail/${data.id}`], { relativeTo: this._route });
         break;
       case 'delete':
         this._dialogService.confirm('确定删除该员工吗，删除后不可恢复？')
@@ -165,34 +184,46 @@ export class StaffComponent {
 
   //多条件查询
   handleFiltersChanged($event) {
-    // let params = $event;
-    const newData = _.cloneDeep($event);
-    console.log(newData);
-    newData.entryTimeEnd = newData.entryTimeEnd?newData.entryTimeEnd+' 23:59:59':''
-    newData.entryTimeStart = newData.entryTimeStart?newData.entryTimeStart+' 00:00:00':''
-    console.log(newData); 
-    this.pageInfo.query = newData;
-    this.pageInfo = {
-      ...this.pageInfo,
-      ...newData
+    let params = $event;
+    console.log(params)
+    let { entryTime, ...otherParams } = params;
+    let entryTimeStart,
+      entryTimeEnd;
+    // const newData = _.cloneDeep($event);
+    // newData.entryTimeEnd = newData.entryTimeEnd?newData.entryTimeEnd+' 23:59:59':''
+    // newData.entryTimeStart = newData.entryTimeStart?newData.entryTimeStart+' 00:00:00':''
+    if (_.isArray(entryTime)) {
+      entryTimeStart = entryTime[0] ? (formatDate(entryTime[0], 'YYYY-MM-DD 00:00:00')) : "";
+      entryTimeEnd = entryTime[1] ? (formatDate(entryTime[1], 'YYYY-MM-DD 23:59:59')) : "";
     }
+    // this.pageInfo.query = newData;
+    params = {
+      ...otherParams,
+      entryTimeStart,
+      entryTimeEnd,
+    }
+    this.pageInfo.query = params;
+    //this.pageInfo.sortBy
+    // this.pageInfo = {
+    //   ...this.pageInfo,
+    //   ...params
+    // }
+    console.log(this.pageInfo)
     this.getStaffs();
   }
 
-  handleSearchBtnClicked($event) {
-    // let params = $event;
-    const newData = _.cloneDeep($event);
-    console.log(newData);
-    newData.entryTimeEnd = newData.entryTimeEnd?newData.entryTimeEnd+' 23:59:59':''
-    newData.entryTimeStart = newData.entryTimeStart?newData.entryTimeStart+' 00:00:00':''
-    console.log(newData);
-    this.pageInfo.query = newData;
-    this.pageInfo = {
-      ...this.pageInfo,
-      ...newData
-    }
-    this.getStaffs();
-  }
+  // handleSearchBtnClicked($event) {
+  //   // let params = $event;
+  //   const newData = _.cloneDeep($event);
+  //   newData.entryTimeEnd = newData.entryTimeEnd?newData.entryTimeEnd+' 23:59:59':''
+  //   newData.entryTimeStart = newData.entryTimeStart?newData.entryTimeStart+' 00:00:00':''
+  //   this.pageInfo.query = newData;
+  //   this.pageInfo = {
+  //     ...this.pageInfo,
+  //     ...newData
+  //   }
+  //   this.getStaffs();
+  // }
 
   openUsers(data) {
     let staffs = [];

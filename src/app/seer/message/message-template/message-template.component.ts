@@ -14,6 +14,7 @@ import * as _ from 'lodash';
 })
 export class MessageTemplateComponent {
   hasGlobalFilter = true;
+  isLoading:boolean = true;
   filters = [
     {
       key: 'tempName',
@@ -69,7 +70,6 @@ export class MessageTemplateComponent {
   pageInfo={
     "pageNum":1,
     "pageSize":10,
-    "sortBy":"-updateTime",
     "total":"",
     "globalSearch":"",
     "tempName":"",
@@ -80,6 +80,7 @@ export class MessageTemplateComponent {
     "sendNotify":"",
     "sendMail":"",
     "tempTitle":"",
+    "sortBy":"-updateTime",
     "excelmaps": {
       tempName: '模板名称',
       tempCode: 'KEY',
@@ -128,7 +129,9 @@ export class MessageTemplateComponent {
       this.pageInfo.total=res.data.total; //记录总数
       this.source = res.data.list;
       this.source = _.map(this.source, r => _.set(r, 'actions', [ PREVIEW,UPDATE, DELETE ]));
+      this.isLoading = false;
     }).catch(err => {
+      this.isLoading = false;
       this.showError(err.msg || '连接失败');
       console.log(err);
       //this.showError();
@@ -147,7 +150,7 @@ export class MessageTemplateComponent {
         this._router.navigate([`edit/${data.id}`], {relativeTo: this._route});
         break;
       case 'delete':
-        this._dialogService.confirm(`确定删除#${data.tempName}#吗？`)
+        this._dialogService.confirm(`确定删除${data.tempName}吗？`)
           .subscribe(action => {
             if ( action === 1 ) {
               this.service.deleteTemplate(message.data.id)
@@ -191,6 +194,10 @@ export class MessageTemplateComponent {
   handleFiltersChanged($event) {
     let params=$event;
     this.pageInfo = params;
+    this.pageInfo = {
+      ...this.pageInfo,
+      ...params
+    };
     this.allTplsList();
   }
   showSuccess(message: string) {

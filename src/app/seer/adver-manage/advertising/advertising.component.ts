@@ -11,6 +11,7 @@ import {formatDate} from "ngx-bootstrap/bs-moment/format";
 })
 export class AdvertisingComponent implements OnInit {
   hasGlobalFilter = true;
+  isLoading:boolean = true;
   filters = [
     {
       key: 'title',
@@ -122,15 +123,18 @@ export class AdvertisingComponent implements OnInit {
         this.ads = res.data.list;
         //this.ads=_.map(this.ads,t =>_.set(t, 'actions', [DISABLE, UPDATE, DELETE]));
         this.ads = _.map(this.ads, t => {
-           if(t.status==0){
+          //console.log(t.putStatus);
+           if(t.putStatus==0){
              return _.set(t, 'actions', [PREVIEW,UPDATE, DELETE]);
-          }else if(t.status ==1){
-             return _.set(t, 'actions', [PREVIEW,UPDATE, DELETE]);
+          }else if(t.putStatus ==1){
+             return _.set(t, 'actions', [PREVIEW,UPDATE]);
            }else{
-             return _.set(t, 'actions', [PREVIEW,UPDATE, DELETE]);
+             return _.set(t, 'actions', [PREVIEW,UPDATE]);
            }
         })
+        this.isLoading = false;
       }).catch(err=>{
+        this.isLoading = false;
       this.showError(err.msg || '连接失败');
     })
 
@@ -150,7 +154,7 @@ export class AdvertisingComponent implements OnInit {
         this._router.navigate([`detail/${message.data.id}`], {relativeTo: this._activatedRoute});
         break;
       case 'delete':
-        this._dialogService.confirm('确定删除吗？')
+        this._dialogService.confirm(`确定要删除${message.data.title}吗？`)
           .subscribe(action => {
             if (action === 1) {
               this._advertisingService.deleteOne(message.data.id).then(res => {
@@ -209,13 +213,13 @@ export class AdvertisingComponent implements OnInit {
       expiryTimeStart,
       expiryTimeEnd;
     if ( _.isArray(effectTime) ) {
-      effectTimeStart = effectTime[0] ? (formatDate(effectTime[0],'YYYY-MM-DD 00:00:00')) : null;
-      effectTimeEnd = effectTime[1] ? (formatDate(effectTime[1],'YYYY-MM-DD 23:59:59')) : null;
+      effectTimeStart = effectTime[0] ? (formatDate(effectTime[0],'YYYY-MM-DD 00:00:00')) :'';
+      effectTimeEnd = effectTime[1] ? (formatDate(effectTime[1],'YYYY-MM-DD 23:59:59')) :'';
 
     }
     if ( _.isArray(expiryTime) ) {
-      expiryTimeStart = expiryTime[0] ? (formatDate(expiryTime[0],'YYYY-MM-DD 00:00:00')) : null;
-      expiryTimeEnd = expiryTime[1] ? (formatDate(expiryTime[1],'YYYY-MM-DD 23:59:59')) : null;
+      expiryTimeStart = expiryTime[0] ? (formatDate(expiryTime[0],'YYYY-MM-DD 00:00:00')) :'';
+      expiryTimeEnd = expiryTime[1] ? (formatDate(expiryTime[1],'YYYY-MM-DD 23:59:59')) :'';
     }
     params = {
       ...otherParams,
@@ -224,8 +228,12 @@ export class AdvertisingComponent implements OnInit {
       expiryTimeStart,
       expiryTimeEnd,
     }
+
+    this.pageInfo = {
+      ...this.pageInfo,
+      ...params
+    };
     //console.log(params);
-    this.pageInfo = params;
     this.getList();
   }
   //分页

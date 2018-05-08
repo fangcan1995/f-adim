@@ -1,8 +1,7 @@
 <div class="row org">
   <div class="col-sm-4 org-left">
-    
+
     <seer-collapse-card [title]="treeTitle" baCardClass="with-scroll">
-      <h2 class="col-sm-12 seerTitle">国汇财富投资管理（大连）股份有限公司</h2>
       <div class="col-sm-12">
         <seer-tree
           (notify)="onNotify($event) "
@@ -21,10 +20,10 @@
         <div class="row">
           <label for="idNumber" class="col-sm-0 control-label" style="text-align:center; height:35px; line-height:35px;"></label>
 
-          <div class="col-sm-6">
+          <div class="col-sm-12 col-md-12 col-lg-6 col-xlg-6">
             <!-- <input type="text" class="form-control department" id="department" placeholder="部门"  [(ngModel)]="info.departmentName" disabled> -->
             <!-- <h3 clasa='department'>{{info.departmentName}}</h3> -->
-            <div class='department' *ngIf='info.departmentName'>{{info.departmentName}}<span>(负责人:{{info.departmentLeader}})</span></div>
+            <div class='department' *ngIf='info.departmentName'>{{info.departmentName}}<span *ngIf='info.departmentLeader'>(负责人:{{info.departmentLeader}})</span></div>
           </div>
           <!-- <h3 [(ngModel)]="info.departmentName" ></h3> -->
           <!-- <label for="idNumber" class="col-sm-2  col-md-2 control-label" style="text-align:center; height:35px; line-height:35px;">机构负责人:</label> -->
@@ -38,7 +37,7 @@
       <seer-collapse-card>
         <div class="row">
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="idNumber" placeholder="全局过滤" [(ngModel)]="pageInfo.globalSearch" (change)="searchFilter()">
+            <input type="text" class="form-control" id="idNumber" placeholder="全局过滤" [(ngModel)]="pageInfo.globalSearch" (keyup)="searchFilter()">
           </div>
           <div class="col-sm-2">
             <ng-template #template>
@@ -65,10 +64,12 @@
           [titles]="titles"
           [hideExport]="true"
           [hidePrint]="true"
-          [hideRemoveAll]="true"
+          [hideActions]='true'
+          [showExchangeDepartment]='true'
+          [showputLeader]='true'
           [hideColumns]="true"
           [hideAddButton]="true"
-          [hideCheckbox]="true"
+          [hideRemoveAll]='true'
           (notify)="onChange($event)"
         ></seer-table>
       </seer-collapse-card>
@@ -76,6 +77,7 @@
   </div>
 </div>
 <div dynamic-component></div>
+<seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
 
 
 

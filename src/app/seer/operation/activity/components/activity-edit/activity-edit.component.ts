@@ -8,7 +8,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { BsModalService} from 'ngx-bootstrap/modal';
 import {SeerDialogService, SeerMessageService,} from '../../../../../theme/services';
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
-import {ENABLE} from "../../../../common/seer-table/seer-table.actions";
+import {DELETE, ENABLE, PREVIEW, UPDATE} from "../../../../common/seer-table/seer-table.actions";
 declare var $: any;
 declare let laydate;
 
@@ -88,7 +88,7 @@ export class ActivityEditComponent {
   modalPageInfo={
     "pageNum":1,
     "pageSize":10,
-    "sort":"",
+    "sortBy":"-registTime",
     "total":"",
     "memberType":"",
     "department":"",
@@ -131,11 +131,11 @@ export class ActivityEditComponent {
   public modalParentsRef: BsModalRef;
   cardActions2 = [this.modalActionSet.All,this.modalActionSet.OK,this.modalActionSet.CANCEL,];
   @ViewChild('validationForm') validationForm;
-  @ViewChild('validationForm') form1;
-  @ViewChild('validationForm') form2;
-  @ViewChild('validationForm') form3;
-  @ViewChild('validationForm') form4;
-  @ViewChild('validationForm') form5;
+  @ViewChild('form1') form1;
+  @ViewChild('form2') form2;
+  @ViewChild('form3') form3;
+  @ViewChild('form4') form4;
+  @ViewChild('form5') form5;
 
   isSelectedMember= false;
   constructor(private _activityService: ActivityService,
@@ -298,14 +298,12 @@ export class ActivityEditComponent {
   }
   //3 删除奖励
   delAward(type,index){
-    this._dialogService.confirm('确定删除吗？')
+    this._dialogService.confirm(`确定删除${this.awardsDTO[type][index].reName}吗？`)
       .subscribe(action => {
         if (action === 1) {
           this.awardsDTO[type].splice(index,1);
         }
       })
-
-
 
   }
   //4 奖品名称自动生成-红包
@@ -343,6 +341,12 @@ export class ActivityEditComponent {
       this._activityService.getIdsMembers(params)
         .then(res=>{
           this.memberScopes = res.data;
+          /*this.memberScopes = _.map(this.memberScopes, t => {
+            let actions = [DELETE];
+
+          })*/
+          this.memberScopes=_.map(this.memberScopes,t =>_.set(t, 'actions', [DELETE]));
+
         }).catch(err=>{
           this.showError(err.msg || '获取失败');
         }
@@ -356,6 +360,36 @@ export class ActivityEditComponent {
       this.scopesPageInfo.pageNum=$event.pageNum;
       //this.scopes=this.activity.scopes.slice((this.scopesPageInfo.pageNum-1)*this.scopesPageInfo.pageSize,this.scopesPageInfo.pageNum*this.scopesPageInfo.pageSize);
       this.getMembersList(this.scopesDTO.slice((this.scopesPageInfo.pageNum-1)*this.scopesPageInfo.pageSize,this.scopesPageInfo.pageNum*this.scopesPageInfo.pageSize));
+    }
+  }
+  //编辑
+  membersOnChange($event) {
+    let { type, data, column} = $event;
+    console.log($event);
+    switch (type) {
+      case 'delete':
+
+        this._dialogService.confirm(`确定要删除${data.trueName}吗？`)
+          .subscribe(action => {
+            if (action === 1) {
+              console.log('原来选择的用户');
+              console.log(this.scopesDTO);
+
+              let idIndex=this.scopesDTO.findIndex(x => x == data.memberId);
+              this.scopesDTO.splice(idIndex,1);
+
+              console.log('现在选择的用户');
+              console.log(this.scopesDTO);
+              //重新分页
+
+              this.scopesPageInfo.total=this.scopesDTO.length.toString();
+              this.getMembersList(this.scopesDTO);
+            }
+          });
+        break;
+
+
+
     }
   }
   // 清空用户
@@ -379,7 +413,7 @@ export class ActivityEditComponent {
   //1-1 打开会员模态框
   openMemberModal(template: TemplateRef<any>) {
       this.modalfilters=[
-      /*{
+      {
         key: 'memberType',
         label: '用户身份',
         type: 'select',
@@ -409,7 +443,7 @@ export class ActivityEditComponent {
         type: 'select',
         options:[{value:'0', content: '全部'},{value:'1', content: '25以下'},{value:'2', content: '25-30'},{value:'3', content: '31-40'},{value:'4', content: '41-50'},{value:'5', content: '50以上'}]
       },
-      /!*{
+      /*{
         key: 'mage',
         label: '年龄',
         groups: [
@@ -421,7 +455,7 @@ export class ActivityEditComponent {
           },
         ],
         groupSpaces: ['至']
-      },*!/
+      },*/
       {
         key: 'investDate',
         label: '投资时间',
@@ -473,7 +507,7 @@ export class ActivityEditComponent {
           },
         ],
         groupSpaces: ['至']
-      }*/
+      }
     ];
       this.modalRef = this.modalService.show(template,this.modalClass);
       this.modalGetMembersList();
@@ -597,31 +631,59 @@ export class ActivityEditComponent {
   //1-6 格式化查询参数
   modalFiltersChanged($event){
     let params=$event;
+    console.log('前台接到的查询条件');
+    console.log(params);
     let { mage,investDate,investAll,investOne,inviteMembers,...otherParams } = params;
     let mageMix,mageMax,
       investDateBefore, investDateAfter,
       investAllMix,investAllMax,
       investOneMix,investOneMax,
       inviteMembersMix,inviteMembersMax;
-    if ( _.isArray(mage)) {
-      mageMix = mage[0] || null;
-      mageMax = mage[1] || null;
+    /*if ( _.isArray(mage)) {
+      mageMix = mage[0] || '';
+      mageMax = mage[1] || '';
+    }*/
+    switch (mage) {
+      case '1':
+        mageMix = '0';
+        mageMax = '24';
+        break;
+      case '2':
+        mageMix = '25';
+        mageMax = '30';
+        break;
+      case '3':
+        mageMix = '31';
+        mageMax = '40';
+        break;
+      case '4':
+        mageMix = '41';
+        mageMax = '50';
+        break;
+      case '5':
+        mageMix = '50';
+        mageMax = '200';
+        break;
+      default:
+        mageMix = '';
+        mageMax = '';
+        break;
     }
     if ( _.isArray(investDate)) {
-      investDateBefore = investDate[0] ? (formatDate(investDate[0],'YYYY-MM-DD 00:00:00')) : null;
-      investDateAfter = investDate[1] ? (formatDate(investDate[1],'YYYY-MM-DD 23:59:59')) : null;
+      investDateBefore = investDate[0] ? (formatDate(investDate[0],'YYYY-MM-DD 00:00:00')) :'';
+      investDateAfter = investDate[1] ? (formatDate(investDate[1],'YYYY-MM-DD 23:59:59')) :'';
     }
     if ( _.isArray(investAll)) {
-      investAllMix = investAll[0] || null;
-      investAllMax = investAll[1] || null;
+      investAllMix = investAll[0] || '';
+      investAllMax = investAll[1] || '';
     }
     if ( _.isArray(investOne)) {
-      investOneMix = investOne[0] || null;
-      investOneMax = investOne[1] || null;
+      investOneMix = investOne[0] || '';
+      investOneMax = investOne[1] || '';
     }
     if ( _.isArray(inviteMembers)) {
-      inviteMembersMix = inviteMembers[0] || null;
-      inviteMembersMax = inviteMembers[1] || null;
+      inviteMembersMix = inviteMembers[0] || '';
+      inviteMembersMax = inviteMembers[1] || '';
     }
     params = {
       ...otherParams,
@@ -636,7 +698,12 @@ export class ActivityEditComponent {
       inviteMembersMix,
       inviteMembersMax,
     }
-    this.modalPageInfo = params;
+    this.modalPageInfo = {
+      ...this.modalPageInfo,
+      ...params
+    };
+    console.log('发给后台的查询条件');
+    console.log(this.modalPageInfo);
     this.modalGetMembersList();
   }
 
@@ -691,12 +758,16 @@ export class ActivityEditComponent {
     this.modalParentsPageInfo = params;
     this.modalGetParentsList();
   }
+  //2-6清空关联活动id
+  clear(){
+    this.baseInfoDTO.parentId=``;
+  }
 
 
   /************公共********************/
   //返回
   handleBackBtnClick() {
-    if(this._editType === 'add'){
+    if(this.validationForm.dirty||(this.form1&&this.form1.dirty)||(this.form2&&this.form2.dirty)||(this.form3&&this.form3.dirty)||(this.form4&&this.form4.dirty)||(this.form5&&this.form5.dirty)){
       this._dialogService.confirm('还未保存确认要离开吗？')
         .subscribe(action => {
           if(action === 1) {

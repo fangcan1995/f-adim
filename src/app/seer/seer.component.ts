@@ -8,7 +8,7 @@ import { GlobalState } from '../global.state';
     <ba-sidebar></ba-sidebar>
     <ba-page-top></ba-page-top>
     <div class="al-main">
-      <div class="al-content" [class.fixedContentTop]=isContentTopFixed >
+      <div class="al-content">
         <router-outlet></router-outlet>
       </div>
     </div>

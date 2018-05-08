@@ -7,19 +7,24 @@ import {
 } from './http-interceptor.service';
 
 import { getStorage, setStorage, castDict2Translate } from '../libs';
-const BASE_DOMAIN = '172.16.7.4';
-//const BASE_DOMAIN = '172.16.1.234';
-const BASE_PORT = 8020;
-const BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
+// let BASE_DOMAIN = '172.16.7.4';
+const BASE_DOMAIN = '172.16.1.234';
+let BASE_PORT = 8020;
+let BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export let UAA_URL = `http://${BASE_SERVER}`;
 export let BASE_URL = `http://${BASE_SERVER}/admin`;
 export let BASE_LOGIN_URL = `http://${BASE_SERVER}`;
 
-//const TEST_DOMAIN = '172.16.1.252';
-const TEST_DOMAIN = '172.16.7.4';
-const TEST_PORT = 8020;
-const TEST_SERVER = `${TEST_DOMAIN}:${TEST_PORT}`;
+
+// const TEST_DOMAIN = '172.16.7.4';
+export let TEST_DOMAIN = '172.16.1.234';
+// export let TEST_DOMAIN = '172.16.1.252';
+export let TEST_PORT = 8020;
+// export let TEST_PORT = 9080;
+export let TEST_SERVER = `${TEST_DOMAIN}:${TEST_PORT}`;
 export let TEST_URL = `http://${TEST_SERVER}/admin`;
+// export let TEST_URL = `http://${TEST_SERVER}`;
+export let FROUNT_URL = `https://www.baidu.com`;
 
 
 
@@ -41,13 +46,15 @@ export const BACKUP_API = {
   'MESSAGES':'admin/messages',  //消息
   'RECORDS':'admin/records', //消息发送记录
   'TEMPLATES':'admin/templates',  //消息模版
-  'ADVERTISINGS':'admin/advertising' //广告管理
+  'ADVERTISINGS':'admin/advertising' //广告管理,
+
 }
 
 export const API = {
     'LOGIN': 'uaa/login',
     'LOGOUT': 'uaa/oauth/logout',
     'PASSWORD': 'uaa/password',
+    'CHANGE_PASSWORD': 'uaa/oauth/password',
     'SIGNUP': 'signup',
     'MEMBERS': 'members',    //会员
     'USER': 'uaa/oauth/system/info',
@@ -64,6 +71,8 @@ export const API = {
     'ADVERTISINGS':'advertising', //广告管理
     'AFFICHE':'affiche', //广告管理
     'ANNOUNCE':'announcements', //系统公告管理
+    'SUBJECTS':'subjects', //系统公告管理
+    'PLAN':'quartz/queryJob',
   }
 
 // 此服务用于继承，请不要注入使用；如果想用更灵活的http服务请使用HttpInterceptorService，最灵活的是angular2自带的Http服务；

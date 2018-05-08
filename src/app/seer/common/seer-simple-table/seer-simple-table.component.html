@@ -20,11 +20,12 @@
     <tbody>
     <tr *ngFor="let item of getData(); let i = index ">
       <td *ngIf="showSeq" class="table-seq">{{ i + 1 }}</td>
-      <td *ngFor="let title of titles" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}" [style.padding]="item.editState ? '4px 0': null">
+      <td *ngFor="let title of titles" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}" >
+          <!-- [style.padding]="item.editState ? '4px 0': null" -->
         <input
           *ngIf="(item.editState === 'EDIT' || item.editState === 'CREATE')&&(title.key != 'endTime' && title.key != 'startTime' && title.key !='contRelation')"
           class="form-control" 
-          style="width: auto; max-width: 90%; padding-right: 4px; padding-left: 4px"
+          style="max-width: 90%; padding-right: 4px; padding-left: 4px"
           type="text"
           [(ngModel)]="item.editData[title.key]"
           />
@@ -39,7 +40,7 @@
             <!-- title.key=='college' || title.key=='eduMajor' || title.key=='eduLevel'||title.key=='contRelation' || title.key=='contName' || title.key=='jobInfo'||title.key=='contPhone' || title.key=='companyName' || title.key=='jobType'|| title.key=='proveName' || title.key=='proveTel' -->
         <seer-datepicker 
         *ngIf="(item.editState === 'EDIT' || item.editState === 'CREATE')&&(title.key=='endTime' || title.key=='startTime')"
-        
+         [dateFormatingRules]="dateFormatingRules || 'yyyy-MM-dd'"
         [(date)]="item.editData[title.key]"
         ></seer-datepicker>
         <a
@@ -53,6 +54,7 @@
           *ngIf="(item.editState === 'EDIT' || item.editState === 'CREATE')&&(title.key=='contRelation')"
           [(ngModel)]="item.editData[title.key]"
           style="width:200px"
+          [style.margin]="title.textAlign ? 'auto': null"
           dict-select required
           [key]="'CONT_RELATION'"
           [topOption]="{itemId:'',itemName:'请选择'}"
@@ -61,6 +63,8 @@
         <select type="email" class="form-control" name="maritaStatus" id="maritaStatus"
           *ngIf="title.type != 'input_number' && title.type != 'link' && !displayOriginalData && item.editState != 'EDIT' && item.editState != 'CREATE' &&(title.key=='contRelation')"
           [(ngModel)]="item.editData[title.key]"
+          style="width:200px"
+          [style.margin]="title.textAlign ? 'auto': null"
           dict-select disabled
           [key]="'CONT_RELATION'"
           [topOption]="{itemId:'',itemName:'请选择'}"

@@ -27,13 +27,13 @@ import { ITreeNodeTemplate } from './tree-node-content.component';
 
         <div class="node-wrapper" >
           <span
-            *ngIf="node.hasChildren"
+            
             class="toggle-children-wrapper"
             (click)="node.mouseAction('expanderClick', $event)">
 
             <span class="toggle-children">
-              <i [class.ion-arrow-down-b]="node.isExpanded && node.hasChildren"
-                 [class.ion-arrow-right-b]="node.isCollapsed && node.hasChildren" style="font-size: 20px; line-height: 26px;"></i>
+              <i *ngIf="node.hasChildren" [class.icon-org-arrow-down]="node.isExpanded && node.hasChildren"
+                 [class.icon-org-arrow-up]="node.isCollapsed && node.hasChildren"></i>
             </span>
           </span>
           <span

@@ -61,11 +61,11 @@ export class MessageTemplateEditComponent implements OnInit {
   handleSaveBtnClick(): void {
     this.forbidSaveBtn =true;
     let resourceIds = [];
-    this.template.sendMail=this.Cint(this.template.sendMail);
-    this.template.sendNotify=this.Cint(this.template.sendNotify);
-    this.template.sendMessage=this.Cint(this.template.sendMessage);
+
     if (this.template.id) {
       /*修改*/
+      console.log('修改');
+      console.log(this.template);
       this.service.updateTemplate(this.template).then((data: any) => {
 
         this.showSuccess(data.msg || '更新成功')
@@ -79,8 +79,12 @@ export class MessageTemplateEditComponent implements OnInit {
       })
       /**/
     } else  if ( this._editType === 'add' ) {
-      //console.log(this.template);
+      this.template.sendMail=this.Cint(this.template.sendMail);
+      this.template.sendNotify=this.Cint(this.template.sendNotify);
+      this.template.sendMessage=this.Cint(this.template.sendMessage);
       /*新增*/
+      console.log('新增');
+      console.log(this.template);
       this.service.createTemplate(this.template).then((data:any) => {
         this.showSuccess(data.msg || '保存成功').onClose()
           .subscribe(() => {
@@ -98,18 +102,28 @@ export class MessageTemplateEditComponent implements OnInit {
   //激活选择用户按钮
   selectUsersType(userTypeId){
     //要判断是否选择，并判断选中了前台用户还是后台用户
+    //实现的很猥琐，以后再优化
     if(userTypeId=='0'){
       this.disabled.sendMail=false;
       this.disabled.sendNotify=false;
       this.disabled.sendMessage=false;
+      this.template.sendMail=0;
+      this.template.sendNotify=0;
+      this.template.sendMessage=0;
     }else if(userTypeId=='1'){
       this.disabled.sendMail=true;
       this.disabled.sendNotify=true;
       this.disabled.sendMessage=false;
+      this.template.sendMail=0;
+      this.template.sendNotify=0;
+      this.template.sendMessage=0;
     }else{
       this.disabled.sendMail=true;
       this.disabled.sendNotify=true;
       this.disabled.sendMessage=true;
+      this.template.sendMail=0;
+      this.template.sendNotify=0;
+      this.template.sendMessage=0;
     }
   }
   //将true false转成1 0
@@ -118,7 +132,7 @@ export class MessageTemplateEditComponent implements OnInit {
   }
   //返回
   handleBackBtnClick() {
-    if(this._editType === 'add'){
+    if(this.validationForm.dirty){
       this._dialogService.confirm('还未保存确认要离开吗？')
         .subscribe(action => {
           if(action === 1) {

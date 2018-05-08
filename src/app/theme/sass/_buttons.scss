@@ -9,7 +9,7 @@ $hover: 24;
   padding: 0;
   width: 90px;
   height: $button-height;
-  
+
   font-size: 12px;
   border-radius: 2px;
   transition: all 0.1s ease;
@@ -69,6 +69,12 @@ $hover: 24;
   &.btn-danger {
     @include openDropdownButton($danger, $danger-dark)
   }
+  //edit by lily
+  &.btn-outline-dark{
+    color:#1d87e0;
+    border-color: #1d87e0;
+  }
+  //end
 }
 
 button.btn.btn-primary {
@@ -360,4 +366,10 @@ button.progress-button {
     background-color: transparent;
     background-image: none;
     border-color: #343a40;
+  //edit by lily
+      &:hover{
+        color:#3b9ff3;
+        border-color: #3b9ff3;
+      }
+  //end
 }

@@ -12,6 +12,7 @@ import {formatDate} from "ngx-bootstrap/bs-moment/format";
 })
 export class ActivityComponent implements OnInit {
   hasGlobalFilter = true;
+  isLoading:boolean = true;
   filters = [
     {key: 'activityCode', label: '活动编号', type: 'input.text',maxLength:'11'},
     {key: 'trigMode', label: '触发方式', type: 'select', isDict: true, category: 'TRIG_MODE'},
@@ -117,10 +118,12 @@ export class ActivityComponent implements OnInit {
               actions = [PREVIEW];
               break;
           }
+          this.isLoading = false;
           return _.set(t, 'actions', actions);
         })
       })
       .catch(err=> {
+        this.isLoading = false;
         this.showError(err.msg || '连接失败');
       })
   }
@@ -200,21 +203,26 @@ export class ActivityComponent implements OnInit {
       endEndTime
     ;
     if ( _.isArray(beginTime)) {
-      beginStartTime = beginTime[0] ? (formatDate(beginTime[0],'YYYY-MM-DD 00:00:00')) : null;
-      beginEndTime = beginTime[1] ? (formatDate(beginTime[1],'YYYY-MM-DD 23:59:59')) : null;
+      beginStartTime = beginTime[0] ? (formatDate(beginTime[0],'YYYY-MM-DD 00:00:00')) :'';
+      beginEndTime = beginTime[1] ? (formatDate(beginTime[1],'YYYY-MM-DD 23:59:59')) :'';
     }
     if ( _.isArray(endTime)) {
-      endStartTime = endTime[0] ? (formatDate(endTime[0],'YYYY-MM-DD 00:00:00')) : null;
-      endEndTime = endTime[1] ? (formatDate(endTime[1],'YYYY-MM-DD 23:59:59')) : null;
+      endStartTime = endTime[0] ? (formatDate(endTime[0],'YYYY-MM-DD 00:00:00')) :'';
+      endEndTime = endTime[1] ? (formatDate(endTime[1],'YYYY-MM-DD 23:59:59')) :'';
     }
     params = {
-      ...otherParams,
+
+  ...otherParams,
       beginStartTime,
       beginEndTime,
       endStartTime,
       endEndTime,
+
     }
-    this.pageInfo = params;
+    this.pageInfo = {
+      ...this.pageInfo,
+      ...params
+    };
     this.getList();
   }
   //换页

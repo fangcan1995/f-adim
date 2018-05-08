@@ -12,6 +12,7 @@ import {SeerMessageService} from "../../../theme/services";
 })
 export class RedPacketComponent {
   hasGlobalFilter = true;
+  isLoading:boolean = true;
   filters = [
     {key: 'name', label: '红包主题', type: 'input.text'},
     {key: 'activityName', label: '所属活动', type: 'input.text'},
@@ -94,11 +95,13 @@ export class RedPacketComponent {
             default:
               break;
           }
+          this.isLoading = false;
           //console.log(t.someStatus);
           return _.set(t, 'actions', actions);
 
         })
       }).catch(err=> {
+        this.isLoading = false;
        this.showError(err.msg || '连接失败');
      })
   }
@@ -110,8 +113,8 @@ export class RedPacketComponent {
     let beginCreateTime,
       endCreateTime;
     if ( _.isArray(createTime)) {
-      beginCreateTime = createTime[0] ? (formatDate(createTime[0],'YYYY-MM-DD 00:00:00')) : null;
-      endCreateTime = createTime[1] ? (formatDate(createTime[1],'YYYY-MM-DD 23:59:59')) : null;
+      beginCreateTime = createTime[0] ? (formatDate(createTime[0],'YYYY-MM-DD 00:00:00')) : '';
+      endCreateTime = createTime[1] ? (formatDate(createTime[1],'YYYY-MM-DD 23:59:59')) : '';
     }
     params = {
       ...otherParams,
@@ -119,7 +122,10 @@ export class RedPacketComponent {
       endCreateTime,
     }
 
-    this.pageInfo = params;
+    this.pageInfo = {
+      ...this.pageInfo,
+      ...params
+    };
     console.log(this.pageInfo);
     this.getList();
   }

@@ -15,15 +15,23 @@ import { InfoPublishService } from "./info-publish.service";
 import { SeerDialogService, SeerMessageService } from '../../../theme/services'
 import { UPDATE, DELETE, PUBLISHED, UNPUBLISHED } from "../../common/seer-table/seer-table.actions"
 import * as _ from 'lodash';
+
+import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
+import { ModalDirective, BsModalService } from 'ngx-bootstrap/modal';
+
+
 @Component({
     templateUrl: './info-publish.component.html',
     styleUrls: ['./info-publish.component.scss'],
 })
 export class InfoPublishComponent {
+    isLoading: boolean = true;
     title = "栏目列表";
     tableTitle: string = "文章列表";
     hasGlobalFilter = true;
+    @ViewChild('modal') modal: ModalDirective;
     source = [];
+    filterRowLength = 2;
     data = [];
     root: any = {};
     titles = [
@@ -34,7 +42,20 @@ export class InfoPublishComponent {
         { key: 'status', label: '发布状态' },
         { key: 'viewCounts', label: '浏览次数' },
     ];
+    event: any = {};
+    modalInfo: any = {};
+    editType: any = '';
     filters = [
+        {
+            key: 'title',
+            label: '文章标题',
+            type: 'input.text'
+        },
+        {
+            key: 'updateUser',
+            label: '发布用户',
+            type: 'input.text'
+        },
         {
             key: 'tplName',
             label: '状态',
@@ -74,7 +95,7 @@ export class InfoPublishComponent {
 
     };
 
-    pageInfo = {
+    pageInfo: any = {
         pageNum: 1,
         pageSize: 100000,
         total: 1000,
@@ -83,8 +104,16 @@ export class InfoPublishComponent {
         sortBy: '',
         isRoot: 1,
         status: '',
-        updateTimeStart: '',
-        updateTimeEnd: ''
+        updateUser: '',
+        title: '',
+        excelmaps: {
+            affTypeName: '所属栏目',
+            title: '文章标题',
+            updateUser: '发布用户',
+            updateTime: '更新时间',
+            status: '发布状态',
+            viewCounts: '浏览次数',
+        }
     };
 
 
@@ -103,7 +132,8 @@ export class InfoPublishComponent {
         private _dialogService: SeerDialogService,
         private _messageService: SeerMessageService,
         private _router: Router,
-        private _state: GlobalState
+        private _state: GlobalState,
+        private _modalService: BsModalService
     ) {
         this._state.subscribe("orgStaffState", (a) => {
             this.getColumnListById(this.staffId);
@@ -138,7 +168,7 @@ export class InfoPublishComponent {
             result.data.map(org => org['children'] = []);
             result.data.map((x, i) => {
                 let parentIds = x.parentIds.split(',');
-                if(parentIds.length === 3) {
+                if (parentIds.length === 3) {
                     x.isLast = true;
                 }
             });
@@ -156,6 +186,7 @@ export class InfoPublishComponent {
         /* 组织被点击在焦点上 TREE_EVENTS.onFocus */
         if ($event.eventName == TREE_EVENTS.onFocus) {
             /* 当树机构的节点在焦点事件时，获取对应节点的右侧表数据 */
+
             console.log($event.node.data.id);
             this.pageInfo.typeId = $event.node.data.id;
             this.pageInfo.isRoot = $event.node.data.isRoot;
@@ -173,6 +204,11 @@ export class InfoPublishComponent {
                 console.log(result);
                 this.alertSuccess(result.message);
                 this.getColumnTree();
+            }).catch(err => {
+                this.alertError(err.msg);
+                if(err.code === 406) {
+                    this.getColumnTree();
+                }
             })
         }
 
@@ -180,17 +216,18 @@ export class InfoPublishComponent {
         if ($event.eventName == TREE_EVENTS.onAddNewNode) {
             let event = $event.node;
             let test = event.parent.data.id.toString().indexOf(event.parent.data.parentIds.toString());
+            console.log(event.parent.data.id);
             let newPoint = {
                 affTypeName: event.data.name,
                 parentId: event.parent.data.id,
                 parentIds: test === 0 ? event.parent.data.parentIds : event.parent.data.parentIds + ',' + event.parent.data.id
             };
             console.log(newPoint);
-            this.service.addColumn(newPoint).then(result => {
+            /* this.service.addColumn(newPoint).then(result => {
                 console.log(result);
                 this.alertSuccess(result.message);
                 this.getColumnTree();
-            })
+            }) */
 
 
 
@@ -222,10 +259,16 @@ export class InfoPublishComponent {
             this.info.parentId = $event.node.data.parentId;
             this.info.parentIds = $event.node.data.parentIds;
             console.log(this.info);
-            this.service.editColumn(this.info).then(result => {
+            /* this.service.editColumn(this.info).then(result => {
                 this.alertSuccess(result.message);
                 this.getColumnTree();
-            });
+            }); */
+        }
+
+        /* 新增按钮被点击 */
+        if ($event.eventName === TREE_EVENTS.onClickNew || $event.eventName === TREE_EVENTS.onClickEdit) {
+            this.event = $event;
+            this.handleModalShown();
         }
 
     }
@@ -238,6 +281,8 @@ export class InfoPublishComponent {
             this.pageInfo.updateTimeStart = $event.effectTime[0] ? (formatDate($event.effectTime[0], 'YYYY-MM-DD hh:mm:ss')) : null;
             this.pageInfo.updateTimeEnd = $event.effectTime[1] ? (formatDate($event.effectTime[1], 'YYYY-MM-DD hh:mm:ss')) : null;
         }
+        this.pageInfo.title = $event.title;
+        this.pageInfo.updateUser = $event.updateUser;
         this.getColumnList(this.pageInfo);
     }
 
@@ -264,7 +309,6 @@ export class InfoPublishComponent {
                 this.pageInfo.pageSize = res.data.pageSize; //每页记录数
                 this.pageInfo.total = res.data.total; //记录总数
                 this.source = res.data.list;
-                console.log(this.source);
                 this.source.map(x => {
                     x.status = x.status === 0 ? '未发布' : '已发布';
                 });
@@ -282,6 +326,9 @@ export class InfoPublishComponent {
                     }
                     return _.set(r, 'actions', actions);
                 });
+                this.isLoading = false;
+            }).catch(err => {
+                this.isLoading = false;
             });
     }
 
@@ -289,8 +336,12 @@ export class InfoPublishComponent {
     onChange(message): void {
         const type = message.type;
         let data = message.data;
+        let column = message.column;
         console.log(data);
         switch (type) {
+            case 'hideColumn':
+                this.pageInfo.excelmaps = column;
+                break;
             case 'create':
                 this._router.navigate(['/content/info-publish/add']);
                 break;
@@ -302,10 +353,10 @@ export class InfoPublishComponent {
                     .subscribe(action => {
                         if (action === 1) {
                             console.log({ id: data.id, status: data.status === '未发布' ? '1' : '0' });
-                            this.service.patch({id: data.id, status: data.status === '未发布' ? '1' : '0'}).then( result =>{
-                              this.alertSuccess(result.message);
-                              console.log(this.pageInfo);
-                              this.getColumnList(this.pageInfo);
+                            this.service.patch({ id: data.id, status: data.status === '未发布' ? '1' : '0' }).then(result => {
+                                this.alertSuccess(result.message);
+                                console.log(this.pageInfo);
+                                this.getColumnList(this.pageInfo);
                             })
                         }
                     });
@@ -324,8 +375,17 @@ export class InfoPublishComponent {
                     });
                 break;
             case 'delete':
-                this._dialogService.confirm('确定删除吗？')
-                    .subscribe(action => {
+                this._dialogService.confirm(`确定删除 #${data.title}# 吗？`, 
+                    [
+                        {
+                            type: 1,
+                            text: '确认删除'
+                        },
+                        {
+                            type: 0,
+                            text: '暂不删除'
+                        },
+                    ]).subscribe(action => {
                         if (action === 1) {
                             //this.pageInfo.typeId = data.typeId;
                             this.service.deleteArticle(data.id).then(result => {
@@ -343,6 +403,21 @@ export class InfoPublishComponent {
                 break;
             case 'delete_all':
                 let ids = _(data).map(t => t.id).value();
+                break;
+            case 'export':
+                console.log(this.pageInfo);
+                this.service.exportForm(this.pageInfo).then(res => {
+                    let blob = res.blob();
+                    let a = document.createElement('a');
+                    let url = window.URL.createObjectURL(blob);
+                    a.href = url;
+                    a.download = '新闻管理' + '.xls';
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    console.log(res);
+                }).catch(err => {
+                    console.log(err);
+                });
                 break;
         }
     }
@@ -387,5 +462,54 @@ export class InfoPublishComponent {
             autoHideDuration: 3000,
         })
     };
+
+
+    handleModalShown() {
+        this.modalInfo = {};
+        this.editType = this.event.eventName;
+        if (this.event.eventName === TREE_EVENTS.onClickEdit) {
+            this.modalInfo.affTypeName = this.event.node.data.name;
+            this.modalInfo.affType = this.event.node.data.affType;
+            this.modalInfo.affContentType = this.event.node.data.affContentType;
+
+            this.modalInfo.id = this.event.node.data.id;
+            this.modalInfo.parentId = this.event.node.data.parentId;
+            this.modalInfo.parentIds = this.event.node.data.parentIds;
+        }
+        else {
+            this.modalInfo.parentId = this.event.node.data.id;
+            this.modalInfo.parentIds = this.event.node.data.parentIds + ',' + this.event.node.data.id;
+        }
+        this.modal.show();
+    }
+
+    handleAffSubmit() {
+        console.log(this.modalInfo);
+        console.log(this.editType);
+        if(this.editType === TREE_EVENTS.onClickEdit) {
+            this.service.editColumn(this.modalInfo)
+                .then(res => {
+                    this.handleModalHide();
+                    this.alertSuccess(res.message);
+                    this.getColumnTree();
+                }).catch(err => {
+                    this.alertError(err.message || '操作失败')
+                })
+        }
+        else {
+            this.service.addColumn(this.modalInfo)
+                .then(res => {
+                    this.handleModalHide();
+                    this.alertSuccess(res.message);
+                    this.getColumnTree();
+                }).catch(err => {
+                    this.alertError(err.message || '操作失败')
+                })
+        }
+    }
+
+    handleModalHide() {
+        this.modal.hide();
+    }
 
 }

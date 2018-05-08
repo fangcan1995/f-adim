@@ -5,7 +5,7 @@
       [hasGlobalFilter]="hasGlobalFilter"
       [filters]="filters"
       (onFiltersChanged)=handleFiltersChanged($event)
-      (onSearchBtnClicked)=handleSearchBtnClicked($event)
+      (onSearchBtnClicked)=handleFiltersChanged($event)
     ></seer-filter>
     </div>
   </seer-content-top>
@@ -27,4 +27,5 @@
     [hideCheckbox]="true"
   ></seer-table>
 </seer-collapse-card>
+<seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
 

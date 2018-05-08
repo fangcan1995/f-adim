@@ -1,3 +1,4 @@
+
 <div class="row btnGroup">
   <div class="col-sm-6 btnGroup__left">
     <button class="btn btn-outline-dark btnGroup__item" *ngIf="!hidePrint" type="button" (click)="importExcel()"><i class="icon-import"></i>导入</button>
@@ -32,6 +33,39 @@
       >
       批量删除 {{renderSelectedNum()}}
     </button>
+    <button
+      class="btn btn-info pull-right btnGroup__item"
+      type="button"
+      *ngIf="showExchangeDepartment"
+      [disabled]="!renderSelectedNum()"
+      (click)="openModal(template)"
+      >
+      调换部门 {{renderSelectedNum()}}
+    </button>
+    <template #template>
+      <div class="modal-body">
+        <seer-tree
+          [permissions]="treePermissions"
+          (notify)="onNotice($event) "
+          [nodes]="treeNode"
+          [defaultNodeName]="'新建部门'"
+          [loadingText]="''">
+        </seer-tree>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sx btn-info" (click)="save(); modalRef.hide()">确定</button>
+        <button type="button" class="btn btn-default" (click)="modalRef.hide()">取消</button>
+      </div>
+    </template>
+    <button
+      class="btn btn-info pull-right btnGroup__item"
+      type="button"
+      *ngIf="showputLeader"
+      [disabled]="!renderSelectedNum()"
+      (click)="putLeader()"
+      >
+      设为负责人
+    </button>
     <div class="pull-right btnGroup__item" *ngIf="!hideColumns">
       <ss-multiselect-dropdown
         [options]="multiColumnOptions"
@@ -60,6 +94,7 @@
         <th *ngIf="!hideCheckbox" class="table-checkbox">
           <!-- 此处不能用 checkedChange -->
           <seer-cool-checkbox
+            *ngIf="!hideHeaderCheckbox"
             [(checked)]="selectedAll"
             (change)="selectAll()"
           ></seer-cool-checkbox>
@@ -81,21 +116,21 @@
         ></seer-cool-checkbox>
       </td>
       <td *ngIf="showSeq" class="table-seq"><span class="seer_font">{{ item.SEQ }}</span></td>
-      <td *ngFor="let title of filterShownTitles()" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
+      <td *ngFor="let title of filterShownTitles() let i = index" class="{{ title.textAlign ? 't-a-' + title.textAlign : 't-a-left' }}">
         <a *ngIf="title.type=='link'" class="seer_font seer_a_font" target="{{title.target || '_blank'}}" href="{{item[title.key]}}" title="{{item[title.key]}}">{{item[title.key]}}</a>
         <a href *ngIf="title.type === 'clickable' "  class="seer_font seer_a_font" (click)="handleClick($event, item)"  title="{{item[title.key]}}">{{item[title.key]}}</a>
         <input  *ngIf="title.type=='input_number'" type="number" class="form-control" title="{{item[title.key]}}" [(ngModel)]="item[title.key]"/>
-
-        <span *ngIf="title.type != 'clickable' && title.type!='input_number' && title.type!='link' && title.type != 'html' && title.type!='image' && title.type != 'date' && title.type != 'date-time' && !displayOriginalData" class="seer_font" title="{{renderValue(title,item[title.key])}}">{{renderValue(title,item[title.key])}}</span>
-
-        <span *ngIf="title.type != 'clickable' && title.type!='input_number' && title.type!='link' && title.type != 'html'  && title.type!='image' && title.type != 'date' && title.type != 'date-time' && displayOriginalData" class="seer_font" title="{{item[title.key]}}">{{item[title.key]}}</span>
+        <span *ngIf="title.isDict != true && title.type != 'clickable' && title.type!='input_number' && title.type!='link' && title.type != 'html' && title.type!='image' && title.type != 'date' && title.type != 'date-time' && !displayOriginalData"  class="seer_font" title="{{renderValue(title,item[title.key])}}">{{renderValue(title,item[title.key]) || '--'}}</span>
+        <span *ngIf="title.isDict != true && title.type != 'clickable' && title.type!='input_number' && title.type!='link' && title.type != 'html' && title.type!='image' && title.type != 'date' && title.type != 'date-time' && !displayOriginalData && item.empNameDeptLeader && i==0"  class="seer_font leader" title="{{renderValue(title,item[title.key])}}">主管</span>
+        <span *ngIf="title.isDict == true" class="seer_font color_{{renderClass(title,item[title.key])}}" title="{{renderValue(title,item[title.key])}}">{{renderValue(title,item[title.key]) || '--'}}</span>
+        <!--<span *ngIf="title.type != 'clickable' && title.type!='input_number' && title.type!='link' && title.type != 'html'  && title.type!='image' && title.type != 'date' && title.type != 'date-time' && displayOriginalData" class="seer_font" title="{{item[title.key]}}">{{item[title.key]}}</span>-->
         <div *ngIf="title.type === 'html'" [innerHTML]="item[title.key]"></div>
-        <span *ngIf="title.type=='image'" class="seer_font"  title="{{item[title.key]}}"><img src="{{item[title.key]}}" style="width: 50px; height: 40px" (click)="openModal(image)" ></span>
-        <ng-template #image>
+        <span *ngIf="title.type=='image'" class="seer_font"  title="{{item[title.key]}}"><a href="{{item[title.key]}}" target="_blank"><img src="{{item[title.key]}}" style="width: 50px; height: 40px"  ></a></span>
+        <!--<ng-template #image>
           <div class="modal-body">
             <img src="{{item[title.key]}}" style="width:100%">
           </div>
-        </ng-template>
+        </ng-template>-->
         <span *ngIf="title.type=='date'" class="seer_font" title="{{item[title.key]| date:'yyyy-MM-dd'}}">{{item[title.key]| date:'yyyy-MM-dd'}}</span>
         <span *ngIf="title.type=='date-time'" class="seer_font" title="{{item[title.key]|date:'yyyy-MM-dd HH:mm:ss'}}">{{item[title.key]|date:'yyyy-MM-dd HH:mm:ss'}}</span>
       </td>
@@ -112,7 +147,7 @@
       </td>
     </tr>
     </tbody>
-    
+
   </table>
 </div>
 
@@ -124,5 +159,6 @@
   [pageNumber]="pageNum"
   (notify)="onPageChange($event)"
 ></seer-pagination>
+
 
 

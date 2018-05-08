@@ -13,7 +13,7 @@ import { Headers, Http, RequestOptions, ResponseContentType } from '@angular/htt
 import { getStorage } from "../../../theme/libs/utils"
 
 
-const exportFile = `${TEST_URL}/${API['USERS']}/specialExport1`;
+const exportFile = `${TEST_URL}/${API['USERS']}/specialExport`;
 
 
 @Injectable()
@@ -48,5 +48,12 @@ export class UserService extends BaseService<any> {
             responseType: ResponseContentType.Blob,
             search: params
         })).toPromise();
+    }
+
+
+    getStaffCode(params): Promise<any> {
+        //let tempUrl = `http://172.16.1.252:9080`;
+        let staffUrl = `${BASE_URL}/${API['STAFFS']}`;
+        return this._httpInterceptorService.request('GET',staffUrl, params).toPromise();
     }
 }

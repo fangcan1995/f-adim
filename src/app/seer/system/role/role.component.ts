@@ -19,6 +19,7 @@ import { RoleService } from './role.service';
     styleUrls: ['./role.component.scss'],
 })
 export class RoleComponent {
+    isLoading: boolean = true;
     hasGlobalFilter = hasGlobalFilter;
     titles = tableTitles;
     tableFilters = {};
@@ -32,7 +33,15 @@ export class RoleComponent {
         pageSize: 100000,
         total: 1000,
         globalSearch: '',
-        sortBy: '',
+        sortBy: '-updateTime',
+        excelmaps: {
+            roleName: '角色名称',
+            userCount: '用户数',
+            updateTime: '修改时间',
+            updateUser: '修改人',
+            createTime: '创建时间',
+            createUser: '创建用户',
+        }
     }
 
     constructor(
@@ -49,13 +58,18 @@ export class RoleComponent {
         this.getList(this.pageInfo);
     }
 
-    getList(params?) {
+    getList(params) {
         this._roleService.getRoleList(params)
             .then(res => {
                 let data = res.data || {};
                 this.roles = _.map(data.list, r => _.set(r, 'actions', [UPDATE, DELETE]));
+                this.pageInfo.total = data.total || 0;
+                this.pageInfo.pageSize = data.pageSize || this.params.pageSize;
+                this.pageInfo.pageNum = data.pageNum || this.params.pageNum;
+                this.isLoading = false;
             })
             .catch(err => {
+                this.isLoading = false;
                 this.showError(err.msg || '获取角色失败');
             });
     }
@@ -78,8 +92,12 @@ export class RoleComponent {
     }
 
 
-    handleNotify({ type, data }): void {
+    handleNotify({ type, data, column }): void {
+        console.log(data);
         switch (type) {
+            case 'hideColumn':
+                this.pageInfo.excelmaps = column;
+                break;
             case 'create':
                 this._router.navigate(['/system/role/add']);
                 break;
@@ -88,7 +106,7 @@ export class RoleComponent {
                 break;
             case 'delete':
                 this._dialogService.confirm(
-                    '确定删除吗？',
+                    `确定删除 # ${data.roleName} # 吗？`,
                     [
                         {
                             type: 1,
@@ -118,7 +136,20 @@ export class RoleComponent {
                     }
                 })
                 break;
-            case 'delete_multiple':
+            case 'export':
+                console.log(this.pageInfo);
+                this._roleService.exportForm(this.pageInfo).then(res => {
+                    let blob = res.blob();
+                    let a = document.createElement('a');
+                    let url = window.URL.createObjectURL(blob);
+                    a.href = url;
+                    a.download = '角色管理' + '.xls';
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    console.log(res);
+                }).catch(err => {
+                    console.log(err);
+                });
                 break;
         }
     }
@@ -126,10 +157,10 @@ export class RoleComponent {
 
     handleFiltersChanged($event) {
         console.log($event);
-        const newPageInfo = {
+        this.pageInfo = {
             ...this.pageInfo,
             globalSearch: $event.globalSearch
         }
-        this.getList(newPageInfo);
+        this.getList(this.pageInfo);
     }
 }

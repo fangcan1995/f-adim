@@ -38,6 +38,7 @@ export class AdverEditComponent implements OnInit{
   public attachments = [];
   public uploader:FileUploader; //上传对象
   public progress: number = 0; //上传进度
+  isLoading:boolean = false;
   @ViewChild('validationForm') validationForm;
   constructor(private _advertisingService: AdvertisingService,
               private _messageService: SeerMessageService,
@@ -61,6 +62,7 @@ export class AdverEditComponent implements OnInit{
           this._advertisingService.getOne(params.id)
             .then(res => {
               this.advertising = res.data || {};
+              console.log('广告内容');
               console.log(this.advertising);
               //this.advertising.effectTime = this.advertising.effectTime ? new Date(this.advertising.effectTime.replace(/-/g, "/")) : '';
               //this.advertising.expiryTime = this.advertising.expiryTime ? new Date(this.advertising.expiryTime.replace(/-/g, "/")) : '';
@@ -97,23 +99,25 @@ export class AdverEditComponent implements OnInit{
           laydate.render({
             elem: '#effectTime',
             type: 'datetime',
+            trigger: 'click',
             done: (value, date, effectTime) => {
               this.advertising.effectTime = value;
-
             }
           })
-          laydate.render({
-            elem: '#expiryTime',
-            type: 'datetime',
-            done: (value, date, expiryTime) => {
-              this.advertising.expiryTime = value;
-            }
-          })
+        laydate.render({
+          elem: '#expiryTime',
+          type: 'datetime',
+          trigger: 'click',
+          done: (value, date, expiryTime) => {
+            this.advertising.expiryTime = value;
+          }
+        })
       });
 
   }
   // 上传
   uploadFile() {
+    this.isLoading = true;
     _.forEach(this.uploader.queue, (t, i) => {
       this.uploader.queue[i].upload(); // 开始上传
 
@@ -122,9 +126,13 @@ export class AdverEditComponent implements OnInit{
   //上传成功回调
   successItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders):any{
     if (status == 200) {
+      this.isLoading = false;
       // 上传文件后获取服务器返回的数据
-      console.log(response);
       let tempRes = JSON.parse(response);
+      console.log('反回的数据');
+      console.log(tempRes);
+
+      //this.advertising.icon=tempRes.data.uploadPath; //新的图片地址
       this.attachments.push(tempRes.data);
       let fileLength = this.uploader.queue.length;
       this.progress += Math.round(100/fileLength);
@@ -135,11 +143,16 @@ export class AdverEditComponent implements OnInit{
         this.showError('上传失败');
       }else{
         this.advertising.icon=this.attachments[attachmentsNum].uploadPath;
-        this.advertising.fileId=this.attachments[attachmentsNum].id;
+        if (this._editType === 'edit') {
+          this.advertising.newFileId=tempRes.data.id; //新图片的文件id //编辑
+        }else{
+          this.advertising.fileId=this.attachments[attachmentsNum].id;  //新增
+        }
       }
 
       //
     }else {
+      this.isLoading = false;
       // 上传文件后获取服务器返回的数据错误
       this.showError("上传失败！")
     }
@@ -149,9 +162,10 @@ export class AdverEditComponent implements OnInit{
     this.uploader.clearQueue();
     this.progress = 0;
   }
+
   //返回
   handleBackBtnClick() {
-    if(this._editType === 'add'){
+    if(this.validationForm.dirty){
       this._dialogService.confirm('还未保存确认要离开吗？')
         .subscribe(action => {
           if(action === 1) {
@@ -169,8 +183,10 @@ export class AdverEditComponent implements OnInit{
     if (this._editType === 'edit') {
       this.forbidSaveBtn=true;
       let advertisingNew=_.cloneDeep(this.advertising);
-      advertisingNew.effectTime=formatDate(advertisingNew.effectTime,'YYYY-MM-DD hh:mm:ss');
-      advertisingNew.expiryTime=formatDate(advertisingNew.expiryTime,'YYYY-MM-DD hh:mm:ss');
+      console.log('----要提交的数据是-----');
+      console.log(advertisingNew);
+      //advertisingNew.effectTime=formatDate(advertisingNew.effectTime,'YYYY-MM-DD hh:mm:ss');
+      //advertisingNew.expiryTime=formatDate(advertisingNew.expiryTime,'YYYY-MM-DD hh:mm:ss');
 
       this._advertisingService.putOne(advertisingNew.id, advertisingNew).then(data=>{
         this.forbidSaveBtn = true;

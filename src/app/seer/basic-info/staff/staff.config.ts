@@ -5,13 +5,14 @@ export const filters = [
   {key: 'staffDtoCardId', label: '身份证', type: 'input.text'},
 ];
 export const titles = [
-  {key: 'empName', label: '姓名', type: 'clickable'},
+  // {key: 'empName', label: '姓名', type: 'clickable'},
+  {key: 'empName', label: '姓名'},
   {key: 'emCode', label: '员工编号'},
   {key: 'pDepartmentName', label: '分公司'},
   {key: 'departmentName', label: '团队'},
   {key: 'position', label: '职位'},
   {key: 'entryTime', label: '入职时间', type: 'date'},
-  {key: 'inviteNum', label: '邀请人数', hidden:true},
+  {key: 'inviteNum', label: '邀请人数', hidden:false},
   // {key: 'loginTimes', label: '登录次数'},
   // {key: 'lastLoginTime', label: '最后登录时间', type: 'date-time', hidden:true},
   // {key: 'loginIp', label: '最后登录IP' , hidden:true}

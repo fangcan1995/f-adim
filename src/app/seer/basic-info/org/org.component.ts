@@ -38,6 +38,7 @@ import { colorHelper } from "app/theme/theme.constants";
 })
 export class OrgComponent implements OnDestroy{
 
+  isLoading:boolean = true;
   @ViewChild(DynamicComponentLoader)
   dynamicComponentLoader: DynamicComponentLoader;
 
@@ -74,7 +75,7 @@ export class OrgComponent implements OnDestroy{
   titles = [
     { key:'empName', label:'姓名' },
     { key:'phone', label:'联系方式' },
-    { key:'position', label:'职位' },
+    { key:'position', label:'员工职务' },
     { key:'departmentName', label:'所属机构' },
   ];
   pageInfo = {
@@ -146,7 +147,6 @@ export class OrgComponent implements OnDestroy{
   getOrganizations() {
     this.service.getOrganizations()
       .then((result) => {
-        console.log(result.data)
         result.data.some((x, i) => {
           if(x.pids === '') {
             result.data[i].isRoot = true;
@@ -159,18 +159,17 @@ export class OrgComponent implements OnDestroy{
         function addIcon (param) {
           param.map( org => {
             if(org.children) {
-              org.customIcon = 'ion-ios-people';
+              org.customIcon = 'icon-department';
               addIcon(org.children);
             }
             else {
-              org.customIcon = 'ion-android-people';
+              org.customIcon = 'icon-group';
               org.children = [];
             }
           })
         }
         addIcon(nodes);
         nodes.map(rootNode=>rootNode['expanded']=true);
-        console.log(nodes);
         this.treeNode = nodes;
         
     }).catch(err => {
@@ -191,8 +190,10 @@ export class OrgComponent implements OnDestroy{
        this.pageInfo.pageSize = result.data.pageSize; //每页记录数
        this.pageInfo.total = result.data.total; //记录总数
        this.datas = result.data.list;
-       this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE,CONFIG_LEADER]));
+      //  this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE,CONFIG_LEADER]));
+       this.isLoading = false;
      }).catch(err => {
+       this.isLoading = false;
        console.log(err);
        this.alertError(err.msg)
      });
@@ -202,6 +203,7 @@ export class OrgComponent implements OnDestroy{
   /* 全局搜索 */
 
   searchFilter () {
+    console.log('-----------------------')
     this.service.getData(this.pageInfo).then( result => {
       this.pageInfo.pageNum = result.data.pageNum;  //当前页
       this.pageInfo.pageSize = result.data.pageSize; //每页记录数
@@ -210,7 +212,6 @@ export class OrgComponent implements OnDestroy{
       this.datas = _.map(this.datas, r => _.set(r, 'actions', [UPDATE,DELETE,CONFIG_LEADER]));
     });
   }
-
 
 
 
@@ -253,6 +254,27 @@ export class OrgComponent implements OnDestroy{
       case 'delete_all':
         let ids = _(data).map(t => t.id).value();
         break;
+      case 'exchange_department':
+      console.log('----------------------------------------')
+        let {datas,...rest}=data
+        console.log(data)
+        let exids = _(datas).map(t => t.id).value();
+        let leader = _(datas).map(t => t.empNameDeptLeader).value();
+        console.log(leader)
+        let batchStaffs=exids.join(',')
+        this.putDepartment(rest.departmentId,batchStaffs,leader)
+        // this.getlist(this.pageInfo);
+        break;
+      case 'put_leader':
+        let empId = _(data).map(t => t.id).value();
+        console.log(empId)
+        if(empId.length>1){
+          return this.alertError('每个部门只能设置一个人为部门负责人')
+        }
+        this.cacheLeader = data[0].empName;
+        empId=empId[0]
+        this.configDepartLeader({departmentId: this.cacheMemory, departmentLeader: empId});
+        break;
     }
    }
 
@@ -265,6 +287,28 @@ export class OrgComponent implements OnDestroy{
     this.service.getStaffsByOrgId(orgId).then((result) => {this.tableSource = result.data});
   }
 
+/*
+   * 批量调换员工部门
+   * */
+  putDepartment(id,ids,leader?) {
+    this.service.putDepartment(id,ids).then((result) =>{
+      if(result.code == 0) {
+          console.log(result)
+          // this.getOrganizations();
+          // this.info.departmentName='',
+          // this.info.departmentLeader=''
+          if(leader[0]!==undefined){
+            this.info.departmentLeader=''
+          }
+          this.alertSuccess(result.message);
+          this.getlist(this.pageInfo);
+          // this.ngOnInit()
+        }
+        else {
+          this.alertError(result.message);
+        }
+      });
+  }
 
   /* 点击设置为负责人 */
 
@@ -276,6 +320,7 @@ export class OrgComponent implements OnDestroy{
         this.info.departmentLeader = this.cacheLeader;
         // this.getOrganizations();
         // this.ngOnInit()
+        this.getlist(this.pageInfo)
       }
       else {
         this.alertError(result.message);
@@ -291,7 +336,7 @@ export class OrgComponent implements OnDestroy{
    * */
   onNotify($event){
     if($event.eventName == "onFocus"){
-      this.getOrganizations();
+      //this.getOrganizations();
       /* 获取组织的名称及其领导 */
       if($event.node.data.departmentId) {
         console.log($event.node.data)
@@ -367,6 +412,8 @@ export class OrgComponent implements OnDestroy{
         console.log(result);
         this.alertSuccess(result.message);
         this.getOrganizations();
+        this.getlist(this.pageInfo)
+        this.info.departmentName=''
       }).catch(err => {
         console.log(err);
         this.alertError('请先删除子机构');
@@ -437,16 +484,18 @@ export class OrgComponent implements OnDestroy{
 
     /*组织机构重命名*/
     if($event.eventName == TREE_EVENTS.onRenameNode) {
+      console.log($event)
       this.info.departmentName = $event.node.data.name;
       this.info.departmentId = $event.node.data.departmentId;
-      this.info.departmentLeader = $event.node.data.departmentLeader ? $event.node.data.departmentLeader : '';
-      this.info.departLeaderId = $event.node.data.departLeaderId ? $event.node.data.departLeaderId : '';
+      this.info.departmentLeader = $event.node.data.empName ? $event.node.data.empName : null;
+      this.info.departLeaderId = $event.node.data.departLeaderId ? $event.node.data.departLeaderId : null;
       this.info.pid = $event.node.data.pid;
       this.info.pids = $event.node.data.pids;
       this.service.editOrganization(this.info).then( result => {
         if(result.code == 0) {
           this.alertSuccess(result.message);
           this.getOrganizations();
+          this.getlist(this.pageInfo)
         }
         else {
           this.alertError(result.message);

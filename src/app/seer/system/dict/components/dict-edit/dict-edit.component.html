@@ -14,13 +14,12 @@
               <div class="row">
                 <label for="category" class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">类型编号</label>
                 <div class="col-sm-8 col-md-7 col-lg-6">
-                  
+
                   <input
                     type="text"
                     class="form-control"
                     id="category"
                     name="category"
-                    placeholder="类型编号"
                     [required]=true
                     [(ngModel)]="dict.category"
                     />
@@ -36,7 +35,6 @@
                     class="form-control"
                     id="categoryName"
                     name="categoryName"
-                    placeholder="类型名称"
                     [required]=true
                     [(ngModel)]="dict.categoryName"
                     />
@@ -53,7 +51,6 @@
                     class="form-control"
                     id="itemId"
                     name="itemId"
-                    placeholder="值编号"
                     [required]=true
                     [(ngModel)]="dict.itemId"
                     />
@@ -70,14 +67,13 @@
                     class="form-control"
                     id="itemName"
                     name="itemName"
-                    placeholder="值名称"
                     [required]=true
                     [(ngModel)]="dict.itemName"
                     />
                 </div>
               </div>
             </div>
-            
+
             <div class="col-sm-12 col-md-6 form-group">
               <div class="row">
                 <label for="itemSort" class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">排序</label>
@@ -87,14 +83,13 @@
                     class="form-control"
                     id="itemSort"
                     name="itemSort"
-                    placeholder="排序"
                     [required]=true
                     [(ngModel)]="dict.itemSort"
                     />
                 </div>
               </div>
             </div>
-            
+
             <div class="col-sm-12 col-md-6 form-group">
               <div class="row">
                 <label for="delFlag" class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">有效状态</label>
@@ -111,7 +106,20 @@
                   </div>
               </div>
             </div>
-
+            <div class="col-sm-12 col-md-6 form-group">
+              <div class="row">
+                <label for="itemSort" class="col-sm-3 col-md-4 col-lg-3 col-xlg-2 control-label required">样式</label>
+                <div class="col-sm-8 col-md-7 col-lg-6">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="remarks"
+                    name="remarks"
+                    [(ngModel)]="dict.remarks"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </form>
       </seer-collapse-card>

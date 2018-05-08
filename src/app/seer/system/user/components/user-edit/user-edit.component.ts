@@ -39,6 +39,8 @@ export class UserEditComponent implements OnInit {
     isDepartmentDropdownOpen: boolean = false;
     staffTreeNodes;
     staffPermission = TREE_PERMISSIONS.NOTIFY;
+    modalStaffCode: any = {};
+    hasGlobalFilter: boolean = true;
     @ViewChild('myForm') myForm;
     @ViewChild('staffTree') staffTree: SeerTree;
     @ViewChild('modal') modal: ModalDirective;
@@ -52,6 +54,46 @@ export class UserEditComponent implements OnInit {
         private _manageService: ManageService,
         private _state: GlobalState,
     ) { }
+
+
+    titles = [
+        {
+            key: 'empName',
+            label: '员工姓名',
+        },
+        {
+            key: 'emCode',
+            label: '员工编码',
+        },
+        {
+            key: 'position',
+            label: '职位',
+        },
+        {
+            key: 'departmentName',
+            label: '所属部门',
+        },
+    ];
+
+    pageInfo: any = {
+        pageSize: 10,
+        pageNum: 1,
+        total: 10000,
+        sortBy: '',
+        globalSearch: '',
+        excelmaps: {
+            loginName: '用户账号',
+            empName: '用户名称',
+            phone: '联系电话',
+            departmentName: '所属机构',
+            loginStatus: '账号状态',
+            createTime: '创建时间',
+            updateTime: '更新时间',
+            updateUser: 'updateUser',
+        }
+    }
+
+
     ngOnInit() {
         this.editType = this._route.snapshot.url[0].path;
         this.id = this._route.snapshot.params.id;
@@ -201,6 +243,21 @@ export class UserEditComponent implements OnInit {
                 })
             })
     }
+
+    getStaffCode(params) {
+        this._userService.getStaffCode(params)
+            .then(res => {
+                console.log(res);
+                this.modalStaffCode = res.data.list;
+                this.pageInfo.pageNum = res.data.pageNum;
+                this.pageInfo.pageSize = res.data.pageSize;
+                this.pageInfo.total = res.data.total;
+            })
+            .catch(err => {
+                this.showError(err.msg || '获取员工信息失败')
+            })
+    }
+
     showSuccess(message: string) {
         return this._messageService.open({
             message,
@@ -229,9 +286,30 @@ export class UserEditComponent implements OnInit {
         }
     }
     handleModalHide() {
-        this.staffTree.clearHistory()
+        
     }
     handleModalShown() {
+        this.getStaffCode(this.pageInfo);
+        this.modal.show();
+    }
 
+    staffSelected($event) {
+        console.log($event);
+        const { type, data } = $event;
+        switch(type) {
+            case 'select_one':
+                this.user.emCode = data.emCode;
+                this.modal.hide();
+                break;
+        }
+    }
+
+    handleFiltersChanged($event) {
+        console.log($event);
+        this.pageInfo = {
+            ...this.pageInfo,
+            globalSearch: $event.globalSearch
+        }
+        this.getStaffCode(this.pageInfo);
     }
 }

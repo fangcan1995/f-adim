@@ -33,6 +33,7 @@ export class LoginComponent {
   public account: AbstractControl;
   public password: AbstractControl;
   public verification: AbstractControl;
+  public login_ip: string;
   public submitted: boolean = false;
   public imgUrl:any=BASE_LOGIN_URL+"/uaa/code/image";
   errorMessage: string;
@@ -58,22 +59,22 @@ export class LoginComponent {
     this.account = this.form.controls['account'];
     this.verification = this.form.controls['verification'];
     this.password = this.form.controls['password'];
-
+    this.login_ip = localStorage.getItem('configIp')
   }
 
 
   public onSubmit(values: Object): void {
     this.submitted = true;
     if ( this.form.valid ) {
-      this.login(values['account'], values['password'],values['verification'])
+      this.login(values['account'], values['password'],values['verification'], this.login_ip)
     }
   }
   changeImg(){
     let data=new Date().getTime()
     this.imgUrl=BASE_LOGIN_URL+"/uaa/code/image"+'?'+data;
 } 
-  login(account, password,verification) {
-    this._authService.login(account, password,verification)
+  login(account, password,verification, login_ip) {
+    this._authService.login(account, password,verification,login_ip)
     .mergeMap(res => {
       if ( res && !res.error ) {
         setStorage({
@@ -84,6 +85,7 @@ export class LoginComponent {
       return Observable.fromPromise(this._manageService.refreshLocalDataAndNotify())
     })
     .subscribe(res => {
+      this.changeImg();
       if ( this._authService.isLoggedIn ) {
         let resources = getStorage({ key: 'resources' });
         let fullPaths = _.map(resources, r => r['fullPath']);
@@ -103,8 +105,8 @@ export class LoginComponent {
         this._router.navigate([redirectUrl], navigationExtras);
       }
     }, err => {
+      this.changeImg();
       this.imgError=err.content
-      this.alertError(err.content.message)
     })
 
   }
