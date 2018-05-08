@@ -322,6 +322,7 @@
                   <seer-datepicker
                     [dateFormatingRules]="dateFormatingRules || 'yyyy-MM-dd'"
                     [(date)]="loan.loanBeginDate"
+                    [disabled]="!isDimission"
                   >
                   </seer-datepicker>
                 </div>
@@ -335,6 +336,7 @@
                   <seer-datepicker
                     [dateFormatingRules]="dateFormatingRules || 'yyyy-MM-dd'"
                     [(date)]="loan.loanEndDate"
+                    [disabled]="!isDimission"
                   >
                   </seer-datepicker>
                 </div>
