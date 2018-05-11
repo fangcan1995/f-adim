@@ -51,7 +51,7 @@
                     dict-select
                     formControlName="noticeType"
                     [key]="'ANNOUNCEMENT_TYPE'"
-                    [topOption]="{itemid:'',itemName:'请选择'}"
+                    [selected]="'0'"
                     >
                   </select>
                   <p *ngIf="form.controls.noticeType.errors?.required" class="text-danger">*必填项</p>
