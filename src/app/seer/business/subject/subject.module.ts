@@ -2,14 +2,13 @@ import { NgModule } from '@angular/core';
 import { NgaModule } from '../../../theme/nga.module';
 import { SharedModule } from "../../common/shared.module";
 
-import { routing } from './target.routing';
-import { TargetService } from "./target.service";
+import { routing } from './subject.routing';
+import { SubjectService } from "./subject.service";
 
-import { TargetComponent } from './target.component';
+import { SubjectComponent } from './subject.component';
 import {CommonService} from "../common/common.service";
 import {MemberService} from "../../basic-info/member/member.service";
 import {SeerMessageService} from "../../../theme/services/seer-message.service";
-
 @NgModule({
   imports: [
     NgaModule,
@@ -17,15 +16,15 @@ import {SeerMessageService} from "../../../theme/services/seer-message.service";
     routing,
   ],
   declarations: [
-    TargetComponent,
+    SubjectComponent,
   ],
   providers: [
-    TargetService,
+    SubjectService,
     CommonService,
     MemberService,
     SeerMessageService
 
   ],
 })
-export class TargetModule {
+export class LoanSubjectModule {
 }

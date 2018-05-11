@@ -7,11 +7,11 @@ import * as _ from 'lodash';
 import {log} from "util";
 
 @Component({
-  selector: 'todo',
-  templateUrl: './todo.component.html',
+  selector: 'done',
+  templateUrl: './done.component.html',
   styleUrls: [ '../../workspace.component.scss' ],
 })
-export class TodoComponent implements OnInit {
+export class DoneComponent implements OnInit {
 
   processDefinition = _.cloneDeep(processDefinition);  //流程定义
 
@@ -25,7 +25,7 @@ export class TodoComponent implements OnInit {
 
   //初始化数据
   initialize() {
-    this.service.getTodoTasks().then((res) => {
+    this.service.getDoneTasks().then((res) => {
       this.items = res.data;
       this.tasks = res.data;
       this.classStatistics();
@@ -42,16 +42,17 @@ export class TodoComponent implements OnInit {
     _.each(this.processDefinition, r => {_.set(r, 'isChecked', false);if(r.key == key) {_.set(r, 'isChecked', r.isChecked ? false : true)}});
 
     //过滤任务
-    this.tasks = _.filter(this.items, t => {if (key == 'ALL') return true;return t.processInstance.processDefinitionKey == key});
+    this.tasks = _.filter(this.items, t => {if (key == 'ALL') return true;return t.processDefinitionKey == key});
   }
 
   //分类统计
   classStatistics() {
+    console.log(this.tasks);
     _.each(this.processDefinition, p => {
       _.set(p, 'total', _.filter(this.tasks, t => {
         if ( p.key === 'ALL' ) return true;
-        if ( !t.processInstance || !t.processInstance.processDefinitionKey ) return false;
-        return t.processInstance.processDefinitionKey === p.key}).length)
+        if ( !t || !t.processDefinitionKey ) return false;
+        return t.processDefinitionKey === p.key}).length)
     })
   }
 
@@ -67,32 +68,18 @@ export class TodoComponent implements OnInit {
   public loadForm(task) {
 
     let url = `/business/forms/`;
-    switch (task.processInstance.activityId) {
+    switch (task.processDefinitionKey) {
 
-      //补填资料
-      case 'COMPLEMENT':
-        this._router.navigate([url + 'loan-complete-audit', task.processInstance.businessKey], {relativeTo: this.route});
+      //借款流程
+      case 'LOAN_APPLY':
+        this._router.navigate([url + 'loan-view', task.businessKey], {relativeTo: this.route});
         break;
 
-      //初审
-      case 'FIRST_AUDIT':
-        this._router.navigate([url + 'loan-first-audit', task.processInstance.businessKey], {relativeTo: this.route});
+      //标的流程
+      case 'LOAN_PROJECT':
+        this._router.navigate([url + 'project-view', task.businessKey], {relativeTo: this.route});
         break;
 
-      //复审
-      case 'SECOND_AUDIT':
-        this._router.navigate([url + 'loan-second-audit', task.processInstance.businessKey], {relativeTo: this.route});
-        break;
-
-      //发布
-      case 'RELEASE':
-        this._router.navigate([url + 'project-release', task.processInstance.businessKey], {relativeTo: this.route});
-        break;
-
-      //满标审核
-      case 'FULL_AUDIT':
-        this._router.navigate([url + 'project-full-audit', task.processInstance.businessKey], {relativeTo: this.route});
-        break;
     }
   }
 

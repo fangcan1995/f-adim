@@ -1,0 +1,673 @@
+
+<seer-content-top>
+  <button class="btn btn-outline-dark" (click)="handleBackBtnClick()">返回</button>
+  <button class="btn btn-primary" (click)="submitAudit()">提交</button>
+</seer-content-top>
+
+<div class="widgets">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+
+      <seer-collapse-card cardTitle="会员信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+        <div class="row">
+          <form class="form-horizontal" #form1="ngForm">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="account" class="col-sm-4 control-label">用户名</label>
+                <div class="col-sm-8">
+                  <input class="form-control" id="account" [(ngModel)]="member.userName" [ngModelOptions]="{standalone: true}" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="realName" class="col-sm-4 control-label">真实姓名</label>
+                <div class="col-sm-8 ">
+                  <input class="form-control" id="realName" [(ngModel)]="member.trueName" [ngModelOptions]="{standalone: true}" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="mobilePhone" class="col-sm-4 control-label">手机号</label>
+                <div class="col-sm-8">
+                  <input class="form-control" id="mobilePhone" [(ngModel)]="member.phoneNumber" [ngModelOptions]="{standalone: true}" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="idNumber" class="col-sm-4 control-label">身份证号</label>
+                <div class="col-sm-8">
+                  <input class="form-control" id="idNumber" [(ngModel)]="member.idNumber" [ngModelOptions]="{standalone: true}" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="m_sex" class="col-sm-4 control-label">性别</label>
+                <div class="col-sm-8">
+                  <select class="form-control" id="m_sex" [(ngModel)]="member.mSex" name="mSex" #mSex="ngModel" disabled
+                          dict-select
+                          [key]="'M_SEX'"
+                          [selected]="member.mSex"
+                          [topOption]="{itemid:'',itemName:'请选择'}" >
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="mAge" class="col-sm-4 control-label">年龄</label>
+                <div class="col-sm-8">
+                  <input class="form-control" [(ngModel)]="member.mAge" name="mAge" #mAge="ngModel" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="education" class="col-sm-4 control-label">学历</label>
+                <div class="col-sm-8">
+                  <select class="form-control" id="education" [(ngModel)]="member.education" [ngModelOptions]="{standalone: true}" disabled
+                          dict-select
+                          [key]="'EDUCATION'"
+                          [selected]="member.education"
+                          [topOption]="{itemid:'',itemName:'请选择'}">
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="maritaStatus" class="col-sm-4 control-label" >婚姻状况</label>
+                <div class="col-sm-8">
+                  <select class="form-control" id="maritaStatus" [(ngModel)]="member.maritaStatus" [ngModelOptions]="{standalone: true}" disabled
+                          dict-select
+                          [key]="'MARRAGE_STATUS'"
+                          [selected]="member.maritaStatus"
+                          [topOption]="{itemid:'',itemName:'请选择'}">
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+              <div class="row">
+                <label for="domicilePlace" class="col-sm-4 col-md-2 col-lg-2 col-xlg-1 control-label">户口所在地</label>
+                <div class="col-sm-8 col-md-10 col-lg-10 col-xlg-10" id="domicilePlace">
+                  <seer-address-picker (notify)="domicilePlaceChanged($event)" [defaultItemCode]="member.domicileDistrict" [defaultAddress]="member.domicileAddress"  [disabled]="true"></seer-address-picker>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+              <div class="row">
+                <label for="currentResidence" class="col-sm-4 col-md-2 col-lg-2 col-xlg-1 control-label">现居住地</label>
+                <div class="col-sm-8 col-md-10 col-lg-10 col-xlg-10" id="currentResidence">
+                  <seer-address-picker (notify)="currentResidenceChanged($event)" [defaultItemCode]="member.liveDistrict" [defaultAddress]="member.liveAddress" [classNames]="classNames"[disabled]="true">
+                  </seer-address-picker>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+              <div class="row">
+                <label for="AssetsIntro" class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 ">资产介绍</label>
+                <div class="col-sm-11 col-md-10 col-lg-10 col-xlg-11">
+                  <textarea class="form-control" id="AssetsIntro" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 84px;" [(ngModel)]="member.assetDesc" name="assetDesc" #assetDesc="ngModel" disabled></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+              <div class="row">
+                <label for="debtIntro" class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 ">债务介绍</label>
+                <div class="col-sm-11 col-md-10 col-lg-10 col-xlg-11">
+                  <textarea class="form-control" id="debtIntro" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 84px;" [(ngModel)]="member.debtDesc" name="debtDesc" #debtDesc="ngModel" disabled></textarea>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+            <div class="row">
+              <label for="credit" class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 ">信用信息</label>
+              <div class="col-sm-11 col-md-10 col-lg-10 col-xlg-11">
+                <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+                  <div class="row">
+                    <div class="card checkable-card" style="max-width: 20rem;">
+                      <div class="card-header">个人风险报告</div>
+                      <div class="card-body text-secondary">
+                        <p class="card-text">{{member.updateTime || '暂未查询'}}</p>
+                        <ng-container *ngIf="!member.updateTime">
+                          <a href="javascript:void(0)" class="card-link" (click)="query(member, 1)">查询</a>
+                        </ng-container>
+                        <ng-container *ngIf="member.updateTime">
+                          <a href="javascript:void(0)" class="card-link" (click)="preview(member)">预览</a>
+                          <a href="javascript:void(0)" class="card-link" (click)="download(member)">下载</a>
+                          <a *ngIf="!disabled" href="javascript:void(0)" class="card-link" (click)="requery(member, 1)">重新获取</a>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+                  <div class="row">
+                    <div ngClass="{}" class="card checkable-card" style="max-width: 20rem;">
+                      <div class="card-header">个人信用报告</div>
+                      <div class="card-body text-secondary">
+                        <p class="card-text">{{member.updateTime || '暂未查询'}}</p>
+                        <ng-container *ngIf="!member.updateTime">
+                          <a href="javascript:void(0)" class="card-link" (click)="query(member, 2)">查询</a>
+                        </ng-container>
+                        <ng-container *ngIf="member.updateTime">
+                          <a href="javascript:void(0)" class="card-link" (click)="preview(member)">预览</a>
+                          <a href="javascript:void(0)" class="card-link" (click)="download(member)">下载</a>
+                          <a *ngIf="!disabled" href="javascript:void(0)" class="card-link" (click)="requery(member, 2)">重新获取</a>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+                  <div class="row">
+                    <!--<div class="card checkable-card active" style="max-width: 20rem;">-->
+                    <div class="card checkable-card" style="max-width: 20rem;">
+                      <div class="card-header">个人反欺诈报告</div>
+                      <div class="card-body text-secondary">
+                        <p class="card-text">{{member.updateTime || '暂未查询'}}</p>
+                        <ng-container *ngIf="!member.updateTime">
+                          <a href="javascript:void(0)" class="card-link" (click)="query(member, 3)">查询</a>
+                        </ng-container>
+                        <ng-container *ngIf="member.updateTime">
+                          <a href="javascript:void(0)" class="card-link" (click)="preview(member)">预览</a>
+                          <a href="javascript:void(0)" class="card-link" (click)="download(member)">下载</a>
+                          <a *ngIf="!disabled" href="javascript:void(0)" class="card-link" (click)="requery(member, 3)">重新获取</a>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </seer-collapse-card>
+
+      <seer-collapse-card cardTitle="借款信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+
+        <!--借款基本信息-->
+        <div class="row">
+          <form class="form-horizontal" #form2="ngForm">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="loanApplyType" class="col-sm-4 control-label">借款类型</label>
+                <div class="col-sm-8">
+                  <select class="form-control" id="loanApplyType" [(ngModel)]="loan.loanType" (change)="loanTypeChange()" name="loanType" #loanType="ngModel" disabled
+                          dict-select
+                          [key]="'LOAN_TYPE'"
+                          [selected]="loan.loanType"
+                          [topOption]="{itemid:'',itemName:'请选择'}">
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="applyAmt" class="col-sm-4 control-label text-right">借款金额（元）</label>
+                <div class="col-sm-8">
+                  <input type="number" class="form-control" id="applyAmt" [(ngModel)]="loan.applyAmt" name="applyAmt" #applyAmt="ngModel" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="loanExpiry" class="col-sm-4 control-label">借款期限</label>
+                <div class="col-sm-8 ">
+                  <select class="form-control" id="loanExpiry" [(ngModel)]="loan.loanExpiry" name="loanExpiry" #loanExpiry="ngModel" disabled
+                          dict-select
+                          [key]="'LOAN_APPLY_EXPIRY'"
+                          [selected]="loan.loanExpiry"
+                          [topOption]="{itemid:'',itemName:'请选择'}">
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="greenHand" class="col-sm-4 control-label">新手标</label>
+                <div class="col-sm-8 ">
+                  <select class="form-control" id="greenHand" [(ngModel)]="loan.greenHand" [ngModelOptions]="{standalone: true}" disabled
+                          dict-select
+                          [key]="'GREEN_HAND'"
+                          [selected]="loan.greenHand">
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="applyNum" class="col-sm-4 control-label">项目编号</label>
+                <div class="col-sm-8">
+                  <input class="form-control" id="applyNum" [(ngModel)]="loan.projectNum" [ngModelOptions]="{standalone: true}" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="annualRate" class="col-sm-4 control-label">年利率（%）</label>
+                <div class="col-sm-8">
+                  <input type="number" class="form-control number" id="annualRate" [(ngModel)]="loan.annualRate" name="annualRate" #annualRate="ngModel" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="raiseRate" class="col-sm-4 control-label">加息</label>
+                <div class="col-sm-8 ">
+                  <input type="number" class="form-control number" id="raiseRate" [(ngModel)]="loan.raiseRate" name="raiseRate" #raiseRate="ngModel" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="repayType" class="col-sm-4 control-label">还款方式</label>
+                <div class="col-sm-8">
+                  <select class="form-control" id="repayType" [(ngModel)]="loan.repayType" name="repayType" #repayType="ngModel" disabled
+                          dict-select
+                          [key]="'REFUND_WAY'"
+                          [selected]="loan.repayType"
+                          [topOption]="{itemid:'',itemName:'请选择'}">
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="serviceRate" class="col-sm-4 control-label">手续费（元）</label>
+                <div class="col-sm-8">
+                  <input class="form-control number" id="serviceRate" [(ngModel)]="loan.serviceRate" name="serviceRate" #serviceRate="ngModel" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="loanPurpose" class="col-sm-4 control-label">借款用途</label>
+                <div class="col-sm-8 ">
+                  <select class="form-control" id="loanPurpose" [(ngModel)]="loan.loanPurpose" [ngModelOptions]="{standalone: true}" disabled
+                          dict-select
+                          [key]="'LOAN_PURPOSE'"
+                          [selected]="loan.loanPurpose"
+                          [topOption]="{itemid:'',itemName:'请选择'}">
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="minInvestAmount" class="col-sm-4 control-label">最小投资金额（元）</label>
+                <div class="col-sm-8">
+                  <input class="form-control number" id="minInvestAmount" [(ngModel)]="loan.minInvestAmount"  name="minInvestAmount" #minInvestAmount="ngModel" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="maxInvestAmount" class="col-sm-4 control-label">最大投资金额（元）</label>
+                <div class="col-sm-8">
+                  <input class="form-control number" id="maxInvestAmount" [(ngModel)]="loan.maxInvestAmount" name="maxInvestAmount" #maxInvestAmount="ngModel" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label class="col-sm-4 control-label">招标开始日期</label>
+                <div class="col-sm-8 ">
+                  <input name='loanBeginDate' type="hidden" class="form-control" [(ngModel)]="loan.loanBeginDate" >
+                  <seer-datepicker
+                    [dateFormatingRules]="dateFormatingRules || 'yyyy-MM-dd'"
+                    [(date)]="loan.loanBeginDate"
+                    [disabled]="!isDimission"
+                  >
+                  </seer-datepicker>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label class="col-sm-4 control-label">招标结束日期</label>
+                <div class="col-sm-8 ">
+                  <input required name='loanEndDate' type="hidden" class="form-control" [(ngModel)]="loan.loanEndDate" >
+                  <seer-datepicker
+                    [dateFormatingRules]="dateFormatingRules || 'yyyy-MM-dd'"
+                    [(date)]="loan.loanEndDate"
+                    [disabled]="!isDimission"
+                  >
+                  </seer-datepicker>
+                </div>
+              </div>
+            </div>
+            <!--<div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="repayFrom" class="col-sm-4 control-label">还款来源</label>
+                <div class="col-sm-8">
+                  <select class="form-control" id="repayFrom" [(ngModel)]="loan.repayFrom" [ngModelOptions]="{standalone: true}"
+                          dict-select
+                          [key]="'PAYMENTING_SOURCE'"
+                          [selected]="loan.repayFrom"
+                          [topOption]="{itemid:'',itemName:'请选择'}">
+                  </select>
+                </div>
+              </div>
+            </div>-->
+          </form>
+        </div>
+
+        <hr *ngIf="loan.loanType == 1 || loan.loanType == 2">
+
+        <!-- 抵押物信息 -->
+        <div class="row" *ngIf="loan.loanType == 1 || loan.loanType == 2">
+          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+            <div class="row">
+              <label *ngIf="loan.loanType == 1" class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 ">抵押车辆</label>
+              <label *ngIf="loan.loanType == 2" class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 ">抵押房屋</label>
+            </div>
+          </div>
+          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+            <label for="vehicles" class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 "></label>
+            <div *ngIf="loan.loanType == 1" class="col-sm-11 col-md-10 col-lg-10 col-xlg-11">
+              <!-- 抵押车辆 -->
+              <div *ngIf="pawnVehicle != null" class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+                <div class="row">
+                  <div class="card checkable-card active" style="max-width: 20rem;">
+                    <div class="card-header">{{pawnVehicle.carBrand}}-{{pawnVehicle.carModel}}</div>
+                    <div class="card-body text-secondary">
+                      <p class="card-text">{{pawnVehicle.carNumber}}、行驶{{pawnVehicle.mileage}}公里、{{pawnVehicle.carAge}}年车龄、评估价格为{{pawnVehicle.pricePotential}}元</p>
+                      <a href="javascript:void(0)" class="card-link" (click)="vehicleModal(vehicleTemplate, true, pawnVehicle)">查看详情</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="loan.loanType == 2" class="col-sm-11 col-md-10 col-lg-10 col-xlg-11">
+              <!-- 抵押房屋 -->
+              <div *ngIf="pawnHouse != null "  class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+                <div class="row">
+                  <div class="card checkable-card active" style="max-width: 20rem;">
+                    <div class="card-header">价格：{{pawnHouse.pricePotential}}</div>
+                    <div class="card-body text-secondary">
+                      <p class="card-text">{{pawnHouse.houseAdress}}、{{pawnHouse.area}} </p>
+                      <a href="javascript:void(0)" class="card-link" (click)="houseModal(houseTemplate, true, pawnHouse)">查看详情</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <!-- 抵押物资料 -->
+        <div class="row">
+          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+            <div class="row">
+              <label class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 ">审核资料</label>
+            </div>
+          </div>
+          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+            <div class="row">
+              <label class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 "></label>
+              <div class="col-sm-11 col-md-10 col-lg-10 col-xlg-11">
+                <ng-container *ngFor="let item of auditMaterials; let i = index">
+                  <ng-container *ngIf="imageType.indexOf(item.fileSuff.toLowerCase()) != -1">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 col-xlg-2">
+                      <div class="row">
+                        <img src="{{item.uploadPath}}" height="108px"><p></p>
+                        <a href="javascript:void(0)" class="card-link" (click)="downloadFile(item)">下载</a>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+                <ng-container *ngFor="let item of auditMaterials; let i = index">
+                  <ng-container *ngIf="imageType.indexOf(item.fileSuff.toLowerCase()) == -1">
+                    <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+                      <div class="row">
+                        <div class="card" style="width: 20rem;">
+                          <div class="card-body">
+                            <h4 class="card-title"></h4>
+                            <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                            <p class="card-text">{{item.fileName}}</p>
+                            <p class="card-text">{{item.createTime}}</p>
+                            <a href="javascript:void(0)" class="card-link" (click)="downloadFile(item)">下载</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+                <!--<ng-container *ngIf="attachments.length == 0">暂未添加审核资料</ng-container>-->
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </seer-collapse-card>
+
+      <seer-collapse-card cardTitle="投资记录" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+        <ng-container *ngIf="investRecords.length > 0">
+          <seer-simple-table
+            [data]="investRecords"
+            [titles]="investTitle"
+            [hidePagination]="true"
+            [hideActions]="true"
+            [hideAddButton]="true"
+          ></seer-simple-table>
+        </ng-container>
+        <ng-container *ngIf="auditProcessRecords.length == 0">暂无投资流程</ng-container>
+      </seer-collapse-card>
+
+      <seer-collapse-card cardTitle="审批流程" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+        <ng-container *ngIf="auditProcessRecords.length > 0">
+          <seer-simple-table
+            [data]="auditProcessRecords"
+            [titles]="auditProcessTitle"
+            [hidePagination]="true"
+            [hideActions]="true"
+            [hideAddButton]="true"
+          ></seer-simple-table>
+        </ng-container>
+        <ng-container *ngIf="auditProcessRecords.length == 0">暂无审批流程</ng-container>
+      </seer-collapse-card>
+
+    </div>
+  </div>
+</div>
+
+<!-- create vehicle modal -->
+<ng-template #vehicleTemplate>
+  <div class="modal-header">
+    <h5 class="modal-title pull-left">
+      <ng-container *ngIf="vehicleReadOnly">查看详情</ng-container></h5>
+    <!--<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>-->
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" #form4="ngForm">
+      <div class="row">
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label  class="col-sm-4 col-md-3 control-label text-right">车辆品牌</label>
+            <div class="col-sm-8 col-md-8">
+              <input class="form-control number" name="carBrand"  [(ngModel)]="vehicle.carBrand"  maxlength="4"  #carBrand="ngModel" required [disabled]="vehicleReadOnly">
+              <p class="text-danger" *ngIf="carBrand.errors?.required">*必填项</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label  class="col-sm-4  col-md-3 control-label text-right">车辆型号</label>
+            <div class="col-sm-8  col-md-8 ">
+              <input class="form-control" name="carModel"  [(ngModel)]="vehicle.carModel" maxlength="10" #carModel="ngModel" required [disabled]="vehicleReadOnly">
+              <p class="text-danger" *ngIf="carModel.errors?.required">*必填项</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label  class="col-sm-4 col-md-3 control-label text-right">车架号</label>
+            <div class="col-sm-8 col-md-8">
+              <input class="form-control number" name="viNumber"  [(ngModel)]="vehicle.viNumber" maxlength="17" #viNumber="ngModel" required [disabled]="vehicleReadOnly">
+              <p class="text-danger" *ngIf="viNumber.errors?.required">*必填项</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label  class="col-sm-4 col-md-3 control-label text-right">车牌号</label>
+            <div class="col-sm-8 col-md-8">
+              <input class="form-control number" name="carNumber"  [(ngModel)]="vehicle.carNumber" maxlength="7" #carNumber="ngModel" required [disabled]="vehicleReadOnly">
+              <p class="text-danger" *ngIf="carNumber.errors?.required">*必填项</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label class="col-sm-4 col-md-3 control-label text-right">登记证号</label>
+            <div class="col-sm-8 col-md-8">
+              <input class="form-control number" name="carRegNumber" maxlength="14" [(ngModel)]="vehicle.carRegNumber"  #carRegNumber="ngModel" required [disabled]="vehicleReadOnly">
+              <p class="text-danger" *ngIf="carRegNumber.errors?.required">*必填项</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label  class="col-sm-4 col-md-3 control-label text-right">购车年份（年）</label>
+            <div class="col-sm-8 col-md-8">
+              <input class="form-control number" name="carAge"  [(ngModel)]="vehicle.carAge" maxlength="4" #carAge="ngModel" required number [disabled]="vehicleReadOnly">
+              <p class="text-danger" *ngIf="carAge.errors?.required">*必填项</p>
+              <p class="text-danger" *ngIf="carAge.errors?.number">请输入正确年份数值</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label  class="col-sm-4 col-md-3 control-label text-right">行驶里程（公里）</label>
+            <div class="col-sm-8 col-md-8">
+              <input class="form-control number" name="mileage"  [(ngModel)]="vehicle.mileage" maxlength="8" #mileage="ngModel" [range]="[0,99999999]" [disabled]="vehicleReadOnly">
+              <p class="text-danger" *ngIf="mileage.errors?.range">请输入小于100000000数值</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label class="col-sm-4 col-md-3 control-label text-right">评估价格（元）</label>
+            <div class="col-sm-8 col-md-8">
+              <input class="form-control number" name="pricePotential" maxlength="8" [(ngModel)]="vehicle.pricePotential" #pricePotential="ngModel" [range]="[0,99999999]" [disabled]="vehicleReadOnly">
+              <p class="text-danger" *ngIf="pricePotential.errors?.range">请输入小于100000000数值</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button"  class="btn btn-default" (click)="modalRef.hide()">关闭</button>
+  </div>
+</ng-template>
+
+<!-- create house modal -->
+<ng-template #houseTemplate>
+  <div class="modal-header">
+    <h5 class="modal-title pull-left">
+      <ng-container *ngIf="houseReadOnly" >查看详情</ng-container>
+    </h5>
+    <!--<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>-->
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal info" #form5="ngForm">
+      <div class="row">
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label for="housePlace" class="col-sm-3 control-label text-right">房产地址</label>
+            <div class="col-sm-8">
+              <input class="form-control"  [(ngModel)]="house.houseAdress" name="houseAdress" maxlength="30" #houseAdress="ngModel" required [disabled]="houseReadOnly">
+              <p class="text-danger" *ngIf="houseAdress.errors?.required">*必填项</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label  class="col-sm-3 control-label text-right">房屋类型</label>
+            <div class="col-sm-8">
+              <select class="form-control" name="houseType"  [(ngModel)]="house.houseType" #houseType="ngModel" required [disabled]="houseReadOnly"
+                      dict-select
+                      [key]="'HOUSE_TYPE'"
+                      [selected]="house.houseType"
+                      [topOption]="{itemid:'',itemName:'请选择'}">
+              </select>
+              <p class="text-danger" *ngIf="houseType.errors?.required">*必填项</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label  class="col-sm-3 control-label text-right">建筑面积（平米）</label>
+            <div class="col-sm-8">
+              <input class="form-control number" [(ngModel)]="house.area" name="area" maxlength="6" #area="ngModel" #area="ngModel" [range]="[0,999999]" required [disabled]="houseReadOnly">
+              <p class="text-danger" *ngIf="area.errors?.required">*必填项</p>
+              <p class="text-danger" *ngIf="area.errors?.range">请输入小于1000000数值</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label class="col-sm-3 control-label text-right">竣工年份</label>
+            <div class="col-sm-8">
+              <input class="form-control number" name="houseAge" [(ngModel)]="house.houseAge" maxlength="4" #houseAge="ngModel" number required [disabled]="houseReadOnly">
+              <p class="text-danger" *ngIf="houseAge.errors?.required">*必填项</p>
+              <p class="text-danger" *ngIf="houseAge.errors?.number">请输入正确年份数值</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label class="col-sm-3 control-label text-right">尚欠贷余额（元）</label>
+            <div class="col-sm-8">
+              <input class="form-control number" name="debtMoney"  [(ngModel)]="house.debtMoney" maxlength="11" #debtMoney="ngModel" [range]="[0,99999999999]" required [disabled]="houseReadOnly">
+              <p class="text-danger" *ngIf="debtMoney.errors?.required">*必填项</p>
+              <p class="text-danger" *ngIf="debtMoney.errors?.range">请输入小于1000000000000数值</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label class="col-sm-3 control-label text-right">土地所有证号</label>
+            <div class="col-sm-8">
+              <input class="form-control number" name="landNo"  [(ngModel)]="house.landNo" maxlength="25" [disabled]="houseReadOnly">
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label class="col-sm-3 control-label text-right">房屋所有权证号</label>
+            <div class="col-sm-8">
+              <input class="form-control number" name="houseBelongNo"  [(ngModel)]="house.houseBelongNo" maxlength="9" #houseBelongNo="ngModel" number  required [disabled]="houseReadOnly">
+              <p class="text-danger" *ngIf="houseBelongNo.errors?.required">*必填项</p>
+              <p class="text-danger" *ngIf="houseBelongNo.errors?.number">请输入数字</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
+          <div class="row">
+            <label  class="col-sm-3 control-label text-right">评估价格</label>
+            <div class="col-sm-8">
+              <input class="form-control number" name="pricePotential2" [(ngModel)]="house.pricePotential" maxlength="11" [range]="[0,99999999999]" #pricePotential2="ngModel" [disabled]="houseReadOnly">
+              <p class="text-danger" *ngIf="pricePotential2.errors?.range">请输入小于1000000000000数值</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button"  class="btn btn-default" (click)="modalRef.hide()">关闭</button>
+  </div>
+</ng-template>

@@ -3,6 +3,10 @@ import * as _ from 'lodash';
 import { IntentionService } from "./intention.service";
 import {CommonService} from "../common/common.service";
 import {SeerMessageService} from "../../../theme/services/seer-message.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {PREVIEW} from "../../common/seer-table/seer-table.actions";
+import {isUndefined} from "util";
+import {formatDate} from "ngx-bootstrap/bs-moment/format";
 
 @Component({
   templateUrl: './intention.component.html',
@@ -16,25 +20,32 @@ export class IntentionComponent {
   //过滤器
   filters = [
     {
-      key: 'userName', label: '用户姓名', type: 'input.text'
+      key: 'trueName', label: '用户姓名', type: 'input.text'
     },
     {
       key: 'phoneNumber', label: '手机号', type: 'input.text'
     },
     {
-      key: 'loanApplyType', label: '借款类型', type: 'select', isDict: true, category: 'LOAN_APPLY_TYPE'
+      key: 'loanType', label: '借款类型', type: 'select', isDict: true, category: 'LOAN_TYPE'
     },
     {
-      key: 'loanApplyExpiry', label: '借款期限', type: 'select', isDict: true, category: 'LOAN_APPLY_EXPIRY'
+      key: 'loanExpiry', label: '借款期限', type: 'select', isDict: true, category: 'LOAN_APPLY_EXPIRY'
     },
     {
-      key: 'applyStatus', label: '项目状态', type: 'select', isDict: true, category: 'PROJECT_STATUS'
+      key: 'applyStatus', label: '申请状态', type: 'select', isDict: true, category: 'APPLY_STATUS'
     },
     {
-      key: 'applyTimeStart', label: '申请时间', type: 'input.text'
-    },
-    {
-      key: 'applyTimeEnd', label: '至', type: 'input.text'
+      key: 'applyTime',
+      label: '申请时间',
+      groups: [
+        {
+          type: 'datepicker',
+        },
+        {
+          type: 'datepicker',
+        },
+      ],
+      groupSpaces: ['至']
     },
   ];
 
@@ -44,25 +55,25 @@ export class IntentionComponent {
       key:'applyNum', label:'申请编号'
     },
     {
-      key:'userName', label:'用户名',
+      key:'trueName', label:'姓名',
     },
     {
       key:'phoneNumber', label:'手机号'
     },
     {
-      key:'loanApplyType', label:'借款类型', isDict: true, category: 'LOAN_APPLY_TYPE'
+      key:'loanType', label:'借款类型', isDict: true, category: 'LOAN_TYPE'
     },
     {
-      key:'applyAmt', label:'借款金额'
+      key:'applyAmt', label:'借款金额（元）'
     },
     {
-      key:'loanApplyExpiry', label:'借款期限', isDict: true, category: 'LOAN_APPLY_EXPIRY'
+      key:'loanExpiry', label:'借款期限', isDict: true, category: 'LOAN_APPLY_EXPIRY'
     },
     {
-      key:'applyTime', label:'申请时间'
+      key:'applyDate', label:'申请时间'
     },
     {
-      key:'projectStatus', label:'项目状态', isDict: true, category: 'PROJECT_STATUS'
+      key:'applyStatus', label:'申请状态', isDict: true, category: 'APPLY_STATUS'
     },
   ];
 
@@ -70,7 +81,7 @@ export class IntentionComponent {
   pageInfo = {
     "pageNum": 1,
     "pageSize": 10,
-    "sort": "-createTime",
+    "sortBy": "-applyNum",
     "total": "",
     "globalSearch": "",
     "userName": "",
@@ -85,6 +96,8 @@ export class IntentionComponent {
   source = [];
 
   constructor(
+    private _router: Router,
+    private route: ActivatedRoute,
     private service: IntentionService,
     private commonService: CommonService,
     private _messageService: SeerMessageService,) {}
@@ -103,7 +116,7 @@ export class IntentionComponent {
       this.pageInfo.total=res.data.total; //记录总数
       this.source = res.data.list;
       this.source = _.map(this.source, i => {
-        return _.set(i, 'actions', this.commonService.setAction(i.projectStatus));
+        return _.set(i, 'actions', [PREVIEW]);
       });
     }).catch(err => {
       this.showError( err.msg || '查询失败' );
@@ -120,13 +133,23 @@ export class IntentionComponent {
   //全局检索
   handleFiltersChanged($event) {
     let params = $event;
+    if(!isUndefined(params.applyTime[0])) {
+      this.pageInfo.applyTimeStart = params.applyTime[0] ? (formatDate(params.applyTime[0], 'YYYY-MM-DD 00:00:00')) : "";
+    }
+    if(!isUndefined(params.applyTime[1])) {
+      this.pageInfo.applyTimeEnd = params.applyTime[1] ? (formatDate(params.applyTime[1], 'YYYY-MM-DD 00:00:00')) : "";
+    }
     this.pageInfo = Object.assign({}, this.pageInfo, params);
     this.getList();
   }
 
   //操作
   onChange($event) {
-    this.commonService.loadForm($event.type, $event.data.projectId);
+    let url = `/business/forms/`;
+    switch ($event.type) {
+      case 'create': this._router.navigate([url + 'loan-apply'], {relativeTo: this.route}); break;
+      case 'preview': this._router.navigate([url + 'loan-view', $event.data.loanApplyId], {relativeTo: this.route}); break;
+    }
   }
 
   showSuccess(message: string) {

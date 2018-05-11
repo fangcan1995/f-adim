@@ -1,12 +1,13 @@
 import { Routes, RouterModule }  from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
-import {TargetComponent} from "./target.component";
+import {SubjectComponent} from "./subject.component";
+
 
 const routes: Routes = [
   {
     path: '',
     children: [
-      {path: '', component: TargetComponent},
+      {path: '', component: SubjectComponent},
     ]
   }
 ];

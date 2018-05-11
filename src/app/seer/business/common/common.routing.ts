@@ -4,13 +4,11 @@ import {IntentionCompletionComponent} from "./biz-component/intention-completion
 import {FirstAuditComponent} from "./biz-component/first-audit/first-audit.component";
 import {SecondAuditComponent} from "./biz-component/second-audit/second-audit.component";
 import {DetailComponent} from "./biz-component/detail/detail.component";
-import {CreateIntentionComponent} from "./biz-component/create-intention/create-intention.component";
 
 const routes: Routes = [
   {
     path: '',
     children: [
-      {path: 'create',component: CreateIntentionComponent,},
       {path: 'detail/:id',component: DetailComponent,},
       {path: 'completion/:id',component: IntentionCompletionComponent,},
       {path: 'firstAudit/:id',component: FirstAuditComponent,},

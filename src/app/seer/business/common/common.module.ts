@@ -13,7 +13,6 @@ import {MemberInfoComponent} from "./base-component/member-info/member-info.comp
 import {InvestRecordComponent} from "./base-component/invest-record/invest-record.component";
 import {CommonService} from "./common.service";
 import {routing} from "./common.routing";
-import {CreateIntentionComponent} from "./biz-component/create-intention/create-intention.component";
 import {DetailComponent} from "./biz-component/detail/detail.component";
 import {IntentionCompletionComponent} from "./biz-component/intention-completion/intention-completion.component";
 import {FirstAuditComponent} from "./biz-component/first-audit/first-audit.component";
@@ -37,7 +36,6 @@ import {NgxCurrencyModule} from "ngx-currency";
     ReactiveFormsModule
   ],
   declarations: [
-    CreateIntentionComponent,
     DetailComponent,
     IntentionCompletionComponent,
     FirstAuditComponent,
