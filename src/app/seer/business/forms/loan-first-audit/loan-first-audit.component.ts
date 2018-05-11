@@ -17,6 +17,7 @@ export class LoanFirstAuditComponent implements OnInit , OnChanges{
 
   public id: string;
 
+  isLoading: boolean = true;
 
   //会员信息
   public member: any = {}; public vehicles: any = []; public houses: any = []; public credits: any = [];
@@ -54,13 +55,18 @@ export class LoanFirstAuditComponent implements OnInit , OnChanges{
 
   //查询会员信息
   public getLoanMember(loanApplyId: string) {
+    this.isLoading = true;
     this.service.getLoanMember(loanApplyId).then((res) => {
       if("0" == res.code) {
         this.member = res.data.baseInfo; this.vehicles = res.data.vehicles;this.houses = res.data.houses; this.credits = res.data.credits;
       }else {
         console.log("fail");
       }
-    }).catch(err => { this.showError( err.msg || '获取贷款信息失败！' ) });
+      this.isLoading = false;
+    }).catch(err => {
+      this.isLoading = false;
+      this.showError( err.msg || '获取贷款信息失败！' )
+    });
   }
 
   //查询申请信息

@@ -17,6 +17,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class SubjectComponent {
 
   hasGlobalFilter = true;
+  isLoading: boolean = true;
 
   //过滤器
   filters = [
@@ -111,6 +112,7 @@ export class SubjectComponent {
 
   //初始化数据
   getList(): void{
+    this.isLoading = true;
     this.service.getList(this.pageInfo).then((res: any) => {
       this.pageInfo.pageNum=res.data.pageNum;  //当前页
       this.pageInfo.pageSize=res.data.pageSize; //每页记录数
@@ -119,7 +121,9 @@ export class SubjectComponent {
       this.source = _.map(this.source, i => {
         return _.set(i, 'actions', [PREVIEW]);
       });
+      this.isLoading = false;
     }).catch(err => {
+      this.isLoading = false;
       this.showError( err.msg || '获取标的信息失败' );
     });
   }

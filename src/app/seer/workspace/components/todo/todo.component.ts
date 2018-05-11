@@ -13,6 +13,8 @@ import {log} from "util";
 })
 export class TodoComponent implements OnInit {
 
+  isLoading: boolean = true;
+
   processDefinition = _.cloneDeep(processDefinition);  //流程定义
 
   items = []; //全部数据
@@ -25,12 +27,14 @@ export class TodoComponent implements OnInit {
 
   //初始化数据
   initialize() {
+    this.isLoading = true;
     this.service.getTodoTasks().then((res) => {
       this.items = res.data;
       this.tasks = res.data;
       this.classStatistics();
-      console.log(this.tasks);
+      this.isLoading = false;
     }).catch(err => {
+      this.isLoading = false;
       this.showError(err.msg || '待办任务获取失败');
     });
   }

@@ -20,6 +20,8 @@ declare let laydate;
 })
 export class LoanCompleteAuditComponent implements OnInit , OnChanges{
 
+  isLoading: boolean = true;
+
   public id: string;
   public actions = [ SAVE_DISABLE ];
 
@@ -67,10 +69,10 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
       elem: '#loanBeginDate',
       type: 'datetime',
       trigger: 'click',
-      format: 'yyyy/MM/dd',
+      format: 'yyyy-MM-dd',
       done: (value, date, endDate) => {
-        this.loan.loanStartDate = value;
-        console.log(this.loan.loanStartDate);
+        this.loan.loanBeginDate = value;
+        console.log(this.loan.loanBeginDate);
       }
     })
 
@@ -78,7 +80,7 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
       elem: '#loanEndDate',
       type: 'datetime',
       trigger: 'click',
-      format: 'yyyy/MM/dd',
+      format: 'yyyy-MM-dd',
       done: (value, date, endDate) => {
         this.loan.loanEndDate = value;
         console.log(this.loan.loanEndDate);
@@ -92,17 +94,23 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
 
   //查询会员信息
   public getLoanMember(loanApplyId: string) {
+    this.isLoading = true;
     this.service.getLoanMember(loanApplyId).then((res) => {
       if("0" == res.code) {
         this.member = res.data.baseInfo; this.vehicles = res.data.vehicles;this.houses = res.data.houses; this.credits = res.data.credits;
       }else {
         console.log("fail");
       }
-    }).catch(err => { this.showError( err.msg || '获取贷款信息失败！' ) });
+      this.isLoading = false;
+    }).catch(err => {
+      this.isLoading = false;
+      this.showError( err.msg || '获取贷款信息失败！' )
+    });
   }
 
   //查询申请信息
   public getLoanApply(loanApplyId: string) {
+    this.isLoading = true;
     this.service.getLoanApply(loanApplyId).then((res) => {
       if("0" == res.code) {
         this.loan = res.data.loanBase;
@@ -110,12 +118,15 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
         this.pawnVehicle = res.data.pawnVehicle;
         this.pawnHouse = res.data.pawnHouse;
         this.auditMaterials = res.data.auditMaterials;
-        console.log(this.auditMaterials);
         this.initUploader();
       }else {
         console.log("fail");
       }
-    }).catch(err => { this.showError('获取申请信息失败！' ) });
+      this.isLoading = false;
+    }).catch(err => {
+      this.showError('获取申请信息失败！' )
+      this.isLoading = false;
+    });
   }
 
   //查询申请信息

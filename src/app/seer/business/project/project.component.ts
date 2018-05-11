@@ -17,6 +17,7 @@ import {formatDate} from "ngx-bootstrap/bs-moment/format";
 export class ProjectComponent {
 
   hasGlobalFilter = true;
+  isLoading: boolean = true;
 
   //过滤器
   filters = [
@@ -116,6 +117,7 @@ export class ProjectComponent {
 
   //初始化数据
   getList(): void{
+    this.isLoading = true;
     this.service.getList(this.pageInfo).then((res: any) => {
       console.log(res.data);
       this.pageInfo.pageNum=res.data.pageNum;  //当前页
@@ -125,7 +127,9 @@ export class ProjectComponent {
       this.source = _.map(this.source, i => {
         return _.set(i, 'actions', [PREVIEW]);
       });
+      this.isLoading = false;
     }).catch(err => {
+      this.isLoading = false;
       this.showError( err.msg || '查询失败' );
     });
   }
