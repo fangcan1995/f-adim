@@ -32,7 +32,7 @@ export class ProjectReleaseComponent implements OnInit , OnChanges{
 
   //投资记录
   public investRecords = [];
-  public investTitle = [{key:'activityName',label:'审批流程'}, {key:'auditTime',label:'审批时间'}, {key:'operator',label:'操作人员'}, {key:'auditResult',label:'审批结果'},];
+  public investTitle = [{key:'investAmount',label:'投资金额（元）'}, {key:'investTime',label:'投资时间'}, {key:'account',label:'投资人账号'}, {key:'trueName',label:'投资人姓名'}, {key:'phoneNumber',label:'投资人电话'},];
 
   //审核记录
   public auditProcessRecords = [];
@@ -101,10 +101,9 @@ export class ProjectReleaseComponent implements OnInit , OnChanges{
   public auditResult: string = "pass"; public auditOpinion: string = ""; public auditReason: string = "";
   public submitAudit(){
 
-    //提交审核
     this._dialogService.confirm('是否确认提交审核?', [{type: 1, text: '确认',}, {type: 0, text: '取消',},]).subscribe(action => {
       if (action === 1) {
-        //提交
+        this.isLoading = true;
         let param = {"auditResult": this.auditResult, "opinion": this.auditReason + " " + this.auditOpinion};
         this.service.projectAudit(this.id, param).then(res =>{
           if(0 == res.code) {
@@ -113,7 +112,9 @@ export class ProjectReleaseComponent implements OnInit , OnChanges{
           }else {
             this.showError(res.message);
           }
+          this.isLoading = false;
         }).catch(error => {
+          this.isLoading = false;
           this.showError('操作失败')
         });
       }

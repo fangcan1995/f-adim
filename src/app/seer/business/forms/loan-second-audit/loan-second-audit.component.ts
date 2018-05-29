@@ -99,10 +99,9 @@ export class LoanSecondAuditComponent implements OnInit , OnChanges{
   public auditResult: string = "pass"; public auditOpinion: string = ""; public auditReason: string = "";
   public submitAudit(){
 
-    //提交审核
     this._dialogService.confirm('是否确认提交审核?', [{type: 1, text: '确认',}, {type: 0, text: '取消',},]).subscribe(action => {
       if (action === 1) {
-        //提交
+        this.isLoading = true;
         let param = {"auditResult": this.auditResult, "opinion": this.auditReason + " " + this.auditOpinion};
         this.service.loanApplyAudit(this.loan.loanApplyId, param).then(res =>{
           if(0 == res.code) {
@@ -111,7 +110,9 @@ export class LoanSecondAuditComponent implements OnInit , OnChanges{
           }else {
             this.showError(res.message);
           }
+          this.isLoading = false;
         }).catch(error => {
+          this.isLoading = false;
           this.showError('操作失败')
         });
       }

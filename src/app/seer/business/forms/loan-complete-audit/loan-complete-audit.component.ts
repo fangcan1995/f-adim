@@ -178,14 +178,17 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
     //提交审核
     this._dialogService.confirm('是否确认提交审核?', [{type: 1, text: '确认',}, {type: 0, text: '取消',},]).subscribe(action => {
       if (action === 1) {
-
+        this.isLoading = true;
         //完善会员
         this.service.updateMember(this.member.memberId, this.member).then(res => {
           if(0 == res.code) {
           } else {
             this.showError(res.message);
           }
-        }).catch(err => {this.showError( err.msg || '保存失败' );});
+        }).catch(err => {
+          this.isLoading = false;
+          this.showError( err.msg || '保存失败' );
+        });
 
         //完善借款
         this.service.updateLoanApply(this.loan.loanApplyId, this.loan).then(res => {
@@ -193,18 +196,24 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
           } else {
             this.showError(res.message);
           }
-        }).catch(err => {this.showError( err.msg || '保存失败' );});
+        }).catch(err => {
+          this.isLoading = false;
+          this.showError( err.msg || '保存失败' );
+        });
 
         //提交
         let param = {"auditResult": this.auditResult, "opinion": this.auditReason + " " + this.auditOpinion};
         this.service.loanApplyAudit(this.loan.loanApplyId, param).then(res =>{
+          this.isLoading = false;
           if(0 == res.code) {
             this.showSuccess(res.message);
             this.handleBackBtnClick();
           }else {
             this.showError(res.message);
           }
+
         }).catch(error => {
+          this.isLoading = false;
           this.showError('操作失败')
         });
       }

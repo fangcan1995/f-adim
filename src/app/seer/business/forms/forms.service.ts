@@ -102,12 +102,12 @@ export class FormsService extends BaseService<any>{
 
   //借款审核
   public loanApplyAudit(loanApplyId: string, param: any): Promise<any> {
-    return this._httpInterceptorService.request('POST', BASE_URL + `/loans/${loanApplyId}/audit`, param).toPromise();
+    return this._httpInterceptorService.request('POST', BASE_URL + `/loans/${loanApplyId}/audit`, param,false, 30000).toPromise();
   }
 
   //项目审核
   public projectAudit(projectId: string, param: any): Promise<any> {
-    return this._httpInterceptorService.request('POST', BASE_URL + `/projects/${projectId}/audit`, param).toPromise();
+    return this._httpInterceptorService.request('POST', BASE_URL + `/projects/${projectId}/audit`, param, false, 30000).toPromise();
   }
 
   //下载审批资料
