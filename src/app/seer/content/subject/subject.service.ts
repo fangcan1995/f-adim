@@ -40,29 +40,29 @@ export class SubjectService extends BaseService<any>{
 
     // 获取数据列表
     getList(params?): Promise<ResModel> {
-         return this._httpInterceptorService.testRequest('GET', `${this.apiUrl}?${this.access_token}`, params).toPromise();
+         return this._httpInterceptorService.request('GET', `${BASE_URL}/subjects`, params).toPromise();
 
     }
 
     // 删除一条数据
     deleteOne(id: string | number): Promise<ResModel> {
-        return this._httpInterceptorService.testRequest('DELETE', `${this.apiUrl}/${id}?${this.access_token}`).toPromise();
+        return this._httpInterceptorService.request('DELETE', `${BASE_URL}/subjects/${id}?`).toPromise();
     }
 
     // 获取一条数据
     getOne(id: string | number): Promise<ResModel> {
-        return this._httpInterceptorService.testRequest('GET', `${this.apiUrl}/${id}?${this.access_token}`).toPromise();
+        return this._httpInterceptorService.request('GET', `${BASE_URL}/subjects/${id}`).toPromise();
     }
 
     // 添加一条数据
     /* postOne(params): Promise<any> {
-       const url = `${this.apiUrl}?access_token=${this.accessToken}`;
+       const url = `${BASE_URL}?access_token=${this.accessToken}`;
        return this.create(url,params);
      }*/
 
     // 修改一条数据，提供所有字段
     putOne(params: any): Promise<ResModel> {
-        return this._httpInterceptorService.testRequest('PUT', `${this.apiUrl}?${this.access_token}`, params).toPromise();
+        return this._httpInterceptorService.request('PUT', `${BASE_URL}/subjects`, params).toPromise();
     }
 
     /* 导出表格 */
