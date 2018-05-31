@@ -102,9 +102,11 @@ export class LoanFirstAuditComponent implements OnInit , OnChanges{
     //提交审核
     this._dialogService.confirm('是否确认提交审核?', [{type: 1, text: '确认',}, {type: 0, text: '取消',},]).subscribe(action => {
       if (action === 1) {
-        //提交
+
+        this.isLoading = true;
         let param = {"auditResult": this.auditResult, "opinion": this.auditReason + " " + this.auditOpinion};
         this.service.loanApplyAudit(this.loan.loanApplyId, param).then(res =>{
+          this.isLoading = false;
           if(0 == res.code) {
             this.showSuccess(res.message);
             this.handleBackBtnClick();
@@ -112,6 +114,7 @@ export class LoanFirstAuditComponent implements OnInit , OnChanges{
             this.showError(res.message);
           }
         }).catch(error => {
+          this.isLoading = false;
           this.showError('操作失败')
         });
       }
