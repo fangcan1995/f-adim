@@ -104,6 +104,7 @@
           {{ title.label }}
         </th>
         <th class="table-actions" *ngIf="!hideActions">操作</th>
+        <th class="table-actions" *ngIf="!hideActions2">操作</th>
       </tr>
     </thead>
     <tbody>
@@ -143,6 +144,15 @@
             popover="{{ action.name }}"
             triggers="mouseenter:mouseleave"
             ></i>
+        </ng-container>
+      </td>
+      <td class="table-actions" *ngIf="!hideActions2">
+        <ng-container *ngIf="item.actions">
+          <i
+            *ngFor="let action of item.actions"
+            class="table-action {{ action.icon }}"
+            (click)="handleActionsClick({action: action, item: item})"
+          ></i>
         </ng-container>
       </td>
     </tr>
