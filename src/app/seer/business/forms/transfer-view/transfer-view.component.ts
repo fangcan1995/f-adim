@@ -55,7 +55,12 @@ export class TransferViewComponent implements OnInit , OnChanges{
 
   //审核记录
   public auditProcessRecords = [];
-  public auditProcessTitle = [{key:'taskName',label:'审批流程'}, {key:'completeTime',label:'审批时间'}, {key:'account',label:'员工账号'}, {key:'operatorName',label:'员工姓名'},{key:'opinion',label:'审批意见'}];
+  public auditProcessTitle = [
+    {key:'taskName',label:'审批流程'},
+    {key:'completeTime',label:'审批时间'},
+    {key:'account',label:'操作账号'},
+    {key:'operatorName',label:'操作人员'},
+    {key:'opinion',label:'审批结果'}];
 
   constructor(private service: FormsService, private route: ActivatedRoute, private _dialogService: SeerDialogService,
               private _location: Location, private modalService: BsModalService, private _messageService: SeerMessageService){
@@ -119,6 +124,17 @@ export class TransferViewComponent implements OnInit , OnChanges{
   public getAuditRecords(projectId: string) {
     this.service.getProjectAuditRecords(projectId).then((res) => {
       if("0" == res.code) {
+        res.data[0].taskName=`债权转让审核`;
+        res.data[0].opinion=`同意发布`;
+        res.data[1].taskName=`满标`;
+        res.data[1].account=``;
+        res.data[1].operatorName=``;
+        res.data[1].completeTime="2018-05-30 12:30:25";
+        res.data[1].opinion=``;
+        res.data.push({account:`admin`,taskName:`满标审核`,opinion:`同意划转`,operatorName: "方灿",assigneeId: "0e86acccf5864557abf51b54a9669f00",
+          completeTime: "2018-05-30 14:56:52"})
+        console.log('审批信息');
+        console.log(res.data);
         this.auditProcessRecords = res.data;
       }else {
         this.showError(res.message)
