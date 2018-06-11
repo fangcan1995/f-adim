@@ -10,6 +10,7 @@ import {ProjectFullAuditComponent} from "./project-full-audit/project-full-audit
 import {LoanViewComponent} from "./loan-view/loan-view.component";
 import {ProjectViewComponent} from "./project-view/project-view.component";
 import {TransferViewComponent} from "./transfer-view/transfer-view.component";
+import {TransferAuditComponent} from "./transfer-audit/transfer-audit.component";
 const routes: Routes = [
   {
     path: '',
@@ -24,7 +25,7 @@ const routes: Routes = [
       {path: 'project-full-audit/:id',component: ProjectFullAuditComponent,},
       {path: 'project-view/:id',component: ProjectViewComponent,},
       {path: 'transfer-view/:id',component: TransferViewComponent,},
-
+      {path: 'transfer-audit/:id',component: TransferAuditComponent,},
 
     ]
   }
