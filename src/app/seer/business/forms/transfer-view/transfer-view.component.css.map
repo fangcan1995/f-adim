@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,cAAe;EACb,UAAU,EAAE,KAAK;;AAGnB,kBAAmB;EACjB,SAAS,EAAC,IAAI;;AAGhB,oBAAqB;EACnB,UAAU,EAAE,OAAO;;AAGrB,qBAAsB;EACpB,UAAU,EAAE,OAAO;;AAGrB,YAAa;EACX,UAAU,EAAE,IAAI",
+"sources": ["project-release.component.scss"],
+"names": [],
+"file": "project-release.component.css"
+}

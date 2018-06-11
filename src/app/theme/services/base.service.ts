@@ -7,7 +7,7 @@ import {
 } from './http-interceptor.service';
 
 import { getStorage, setStorage, castDict2Translate } from '../libs';
- let BASE_DOMAIN = '172.16.7.3';
+ let BASE_DOMAIN = '47.95.39.231';
 //const BASE_DOMAIN = '172.16.1.234';
 let BASE_PORT = 8020;
 let BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
@@ -16,7 +16,7 @@ export let BASE_URL = `http://${BASE_SERVER}/admin`;
 export let BASE_LOGIN_URL = `http://${BASE_SERVER}`;
 
 
- export const TEST_DOMAIN = '172.16.7.3';
+ export const TEST_DOMAIN = '47.95.39.231';
 //export let TEST_DOMAIN = '172.16.1.234';
 // export let TEST_DOMAIN = '172.16.1.252';
 export let TEST_PORT = 8020;
@@ -122,7 +122,7 @@ export class BaseService<T> {
     //return this._httpInterceptorService.request('GET', `${dictUrl}`, params).toPromise();
   }
   // 拉取字典数据
-  public getDicts(forceFromServer?): Promise<ResModel> {
+  public getDicts(params?, forceFromServer?): Promise<ResModel> {
     const dictsCacheTime: string = 'DICTS_CACHE_TIME';
     const isDictsInResponse: string = 'IS_DICTS_IN_RESPONSE';
     const cachedDicts: string = 'dicts';
@@ -173,7 +173,7 @@ export class BaseService<T> {
         key: isDictsInResponse,
         value: true,
       }, false)
-      return this.getDictsFromServer({ pageSize: 10000 })
+      return this.getDictsFromServer(params)
       .then(res => {
         setStorage({
           key: isDictsInResponse,

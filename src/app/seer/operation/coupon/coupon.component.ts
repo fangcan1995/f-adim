@@ -93,10 +93,10 @@ export class CouponComponent implements OnInit{
             default:
               break;
           }
-          this.isLoading = false;
           return _.set(t, 'actions', actions);
 
         })
+        this.isLoading = false;
       })
       .catch(err=> {
         this.isLoading = false;
