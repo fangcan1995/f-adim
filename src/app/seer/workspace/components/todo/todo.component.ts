@@ -69,7 +69,7 @@ export class TodoComponent implements OnInit {
 
   //页面跳转
   public loadForm(task) {
-
+    console.log(task)
     let url = `/business/forms/`;
     switch (task.processInstance.activityId) {
 
@@ -96,6 +96,10 @@ export class TodoComponent implements OnInit {
       //满标审核
       case 'FULL_AUDIT':
         this._router.navigate([url + 'project-full-audit', task.processInstance.businessKey], {relativeTo: this.route});
+        break;
+        //债转审核发布
+      case 'transferAudit':
+        this._router.navigate([url + 'transfer-audit', task.processInstance.businessKey], {relativeTo: this.route});
         break;
     }
   }

@@ -45,6 +45,13 @@ export class FormsService extends BaseService<any>{
     return this._httpInterceptorService.request('GET', BASE_URL + `/projects/${projectId}/detail`, false).toPromise();
   }
 
+  //查询债转项目信息
+  public getTransferDetail(projectId: string): Promise<any> {
+    return this._httpInterceptorService.request('GET', `http://172.16.1.234:9080/transfer/release/info`,{id: projectId}).toPromise();
+    //return this._httpInterceptorService.request('GET', `http://172.16.1.234:9080/transfer/release/info?access_token=90ec39f0-67f0-476c-88c6-2407146be589&id=49e44c7795d5415f80b2282205ae1254`, false).toPromise();
+  }
+
+
   //查询投资记录
   public getLoanInvestRecords(projectId: string): Promise<any> {
     return this._httpInterceptorService.request('GET', BASE_URL + `/projects/${projectId}/investment`, false).toPromise();
@@ -53,6 +60,10 @@ export class FormsService extends BaseService<any>{
   //查询借款审批记录
   public getLoanAuditRecords(loanApplyId: string): Promise<any> {
     return this._httpInterceptorService.request('GET', BASE_URL + `/loans/${loanApplyId}/audit`, false).toPromise();
+  }
+  //查询债权转让审批记录
+  public getTransferProjectAuditRecords(loanApplyId: string): Promise<any> {
+    return this._httpInterceptorService.request('GET', `http://172.16.1.234:9080/transfer/${loanApplyId}/audit`, false).toPromise();
   }
 
   //查询标的审批记录
