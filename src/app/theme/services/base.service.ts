@@ -122,7 +122,7 @@ export class BaseService<T> {
     //return this._httpInterceptorService.request('GET', `${dictUrl}`, params).toPromise();
   }
   // 拉取字典数据
-  public getDicts(forceFromServer?): Promise<ResModel> {
+  public getDicts(params?, forceFromServer?): Promise<ResModel> {
     const dictsCacheTime: string = 'DICTS_CACHE_TIME';
     const isDictsInResponse: string = 'IS_DICTS_IN_RESPONSE';
     const cachedDicts: string = 'dicts';
@@ -173,7 +173,7 @@ export class BaseService<T> {
         key: isDictsInResponse,
         value: true,
       }, false)
-      return this.getDictsFromServer({ pageSize: 10000 })
+      return this.getDictsFromServer(params)
       .then(res => {
         setStorage({
           key: isDictsInResponse,

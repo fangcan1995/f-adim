@@ -150,9 +150,9 @@ export class MessageComponent {
               actions = [PREVIEW];
               break;
           }
-          this.isLoading = false;
           return _.set(r, 'actions', actions)
         })
+        this.isLoading = false;
       }).catch(err => {
         this.isLoading = false;
         this.showError(err.msg || '连接失败');

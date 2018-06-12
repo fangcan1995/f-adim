@@ -57,6 +57,7 @@ export class OrgComponent implements OnDestroy{
     departLeaderId: '',
     pid: '',
     pids: '',
+    empName: ''
   };
   cacheMemory = '1';
   flag: string;
@@ -318,7 +319,7 @@ export class OrgComponent implements OnDestroy{
         console.log(result)
         this.alertSuccess(result.message);
         this.info.departmentLeader = this.cacheLeader;
-        // this.getOrganizations();
+        this.getOrganizations();
         // this.ngOnInit()
         this.getlist(this.pageInfo)
       }
@@ -487,10 +488,12 @@ export class OrgComponent implements OnDestroy{
       console.log($event)
       this.info.departmentName = $event.node.data.name;
       this.info.departmentId = $event.node.data.departmentId;
-      this.info.departmentLeader = $event.node.data.empName ? $event.node.data.empName : null;
+      this.info.departmentLeader = $event.node.data.departmentLeader ? $event.node.data.departmentLeader : null;
+      // this.info.departmentLeader = $event.node.data.empName ? $event.node.data.empName : null;
       this.info.departLeaderId = $event.node.data.departLeaderId ? $event.node.data.departLeaderId : null;
       this.info.pid = $event.node.data.pid;
       this.info.pids = $event.node.data.pids;
+      this.info.empName = $event.node.data.empName ? $event.node.data.empName : null;
       this.service.editOrganization(this.info).then( result => {
         if(result.code == 0) {
           this.alertSuccess(result.message);
@@ -503,6 +506,7 @@ export class OrgComponent implements OnDestroy{
       }).catch( err => {
         console.log(err);
       });
+      this.info.departmentLeader = $event.node.data.empName ? $event.node.data.empName : null;
     }
 }
 

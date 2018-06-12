@@ -12,7 +12,7 @@ import {
 } from "../../../theme/services";
 import {SERVER} from "../../const";
 
-
+// let url = 'http://172.16.1.252'
 @Injectable()
 export class OrgService extends BaseService<any>{
 
