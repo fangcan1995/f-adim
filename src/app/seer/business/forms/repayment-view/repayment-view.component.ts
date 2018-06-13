@@ -10,10 +10,10 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {SeerDialogService} from "../../../../theme/services/seer-dialog.service";
 
 @Component({
-  templateUrl: '../transfer-view/transfer-view.component.html',
-  styleUrls: ['../transfer-view/transfer-view.component.scss']
+  templateUrl: './transfer-view.component.html',
+  styleUrls: ['./transfer-view.component.scss']
 })
-export class TransferAuditComponent implements OnInit , OnChanges{
+export class RepaymentViewComponent implements OnInit , OnChanges{
 
   public id: string;
   isLoading: boolean = true;
@@ -27,7 +27,12 @@ export class TransferAuditComponent implements OnInit , OnChanges{
   public transfer:any={};
   public auditMaterials: any = [];
 
-  //原标的投资记录
+  //审核资料
+  public progress: number = 0;
+  public uploader:FileUploader;
+  public imageType = ['jpg', 'jpeg', 'bmp', 'gif', 'png', 'svg'];
+
+  //投资记录
   public investRecords = [];
   public investTitle = [
     {key:'account',label:'投资人账号'},
@@ -37,20 +42,7 @@ export class TransferAuditComponent implements OnInit , OnChanges{
     {key:'investTime',label:'投资时间'},
     {key:'investWay',label:'投资方式',isDict: true, category: 'INVEST_WAY' },
 
-    ];
-
-  //债转标的投资记录
-  public transferInvestRecords = [];
-  public transferInvestTitle = [
-    {key:'account',label:'投资人账号'},
-    {key:'trueName',label:'投资人姓名'},
-    {key:'phoneNumber',label:'投资人手机号'},
-    {key:'investAmount',label:'投资金额（元）'},
-    {key:'investTime',label:'投资时间'},
-    {key:'investWay',label:'投资方式',isDict: true, category: 'INVEST_WAY' },
-
   ];
-
   //还款记录
   public repayRecords = [];
   public repayTitle = [
@@ -72,17 +64,11 @@ export class TransferAuditComponent implements OnInit , OnChanges{
     {key:'operatorName',label:'操作人员'},
     {key:'opinion',label:'审批结果'}];
 
-  constructor(
-    private service: FormsService,
-    private route: ActivatedRoute,
-    private _dialogService: SeerDialogService,
-    private _location: Location,
-    private modalService: BsModalService,
-    private _messageService: SeerMessageService){
+  constructor(private service: FormsService, private route: ActivatedRoute, private _dialogService: SeerDialogService,
+              private _location: Location, private modalService: BsModalService, private _messageService: SeerMessageService){
   }
 
   ngOnInit() {
-    console.log('///////////////////');
     this.route.params.subscribe((params: Params) => {params['id']? this.id = params['id']:"";
       this.getTransferDetail(this.id);
       this.getTransferAuditRecords(this.id);
@@ -118,7 +104,7 @@ export class TransferAuditComponent implements OnInit , OnChanges{
     }).catch(err => { this.showError('获取申请信息失败！' ) });
   }
 
- //查询债转项目信息（借款信息）
+  //查询债转项目信息（借款信息）
   public getTransferDetail(id: string) {
     this.service.getTransferDetail(id).then((res) => {
       if("0" == res.code) {
@@ -168,31 +154,6 @@ export class TransferAuditComponent implements OnInit , OnChanges{
     }).catch(err => { this.showError('获取债转审批记录失败！' ) });
   }
 
-  //提交审核
-  public auditResult: string = "pass"; public auditOpinion: string = ""; public auditReason: string = "";
-  public submitAudit(){
-    this._dialogService.confirm('是否确认提交审核?', [{type: 1, text: '确认',}, {type: 0, text: '取消',},]).subscribe(action => {
-      if (action === 1) {
-        this.isLoading = true;
-        let param = {
-          "auditResult": this.auditResult,
-          "opinion": this.auditReason + " " + this.auditOpinion
-        };
-        this.service.transferAudit(this.id, param).then(res =>{
-          if(0 == res.code) {
-            this.showSuccess(res.message);
-            this.handleBackBtnClick();
-          }else {
-            this.showError(res.message);
-          }
-          this.isLoading = false;
-        }).catch(error => {
-          this.isLoading = false;
-          this.showError('操作失败')
-        });
-      }
-    })
-  }
 
   //返回
   handleBackBtnClick() {this._location.back();}
@@ -203,5 +164,4 @@ export class TransferAuditComponent implements OnInit , OnChanges{
   //失败提示
   showError(message: string) { return this._messageService.open({message, icon: 'fa fa-times-circle', autoHideDuration: 3000,})}
 
-  //分页
 }

@@ -144,13 +144,13 @@ export class TransferComponent {
     this.service.getList(this.pageInfo).then((res: any) => {
       console.log('数据是');
       console.log(res.data);
-      res.data.list[0].transferStatus=1;
+      /*res.data.list[0].transferStatus=1;
       res.data.list[1].transferStatus=2;
       res.data.list[2].transferStatus=3;
       res.data.list[3].transferStatus=4;
       res.data.list[4].transferStatus=5;
       res.data.list[5].transferStatus=6;
-      res.data.list[6].transferStatus=7;
+      res.data.list[6].transferStatus=7;*/
       this.pageInfo.pageNum=res.data.pageNum;  //当前页
       this.pageInfo.pageSize=res.data.pageSize; //每页记录数
       this.pageInfo.total=res.data.total; //记录总数

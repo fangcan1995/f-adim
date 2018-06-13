@@ -13,7 +13,7 @@ import {SeerDialogService} from "../../../../theme/services/seer-dialog.service"
   templateUrl: '../transfer-view/transfer-view.component.html',
   styleUrls: ['../transfer-view/transfer-view.component.scss']
 })
-export class TransferAuditComponent implements OnInit , OnChanges{
+export class RepaymentAuditComponent implements OnInit , OnChanges{
 
   public id: string;
   isLoading: boolean = true;

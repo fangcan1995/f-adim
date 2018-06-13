@@ -104,10 +104,17 @@ export class TodoComponent implements OnInit {
       case 'FULL_AUDIT':
         this._router.navigate([url + 'project-full-audit', task.processInstance.businessKey], {relativeTo: this.route});
         break;
-        //债转审核发布
-      case 'transferAudit':
+
+      //债转审核发布
+      case 'TO_BE_AUDIT':
         this._router.navigate([url + 'transfer-audit', task.processInstance.businessKey], {relativeTo: this.route});
         break;
+
+      //提前还款审核
+      case 'AHEAD_REPAYMENT_AUDIT':
+        this._router.navigate([url + 'repayment-audit', task.processInstance.businessKey], {relativeTo: this.route});
+        break;
+
     }
   }
 
