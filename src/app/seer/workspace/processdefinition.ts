@@ -24,10 +24,10 @@ export const processDefinition = [
     "isChecked":false,
     "total":0
 },
-  {
+  /*{
     "key":"APPLY_REPAYMENT",
     "name":"提前还款申请",
     "isChecked":false,
     "total":0
-  }
+  }*/
 ];

@@ -7,7 +7,6 @@
 <div class="widgets">
   <div class="row justify-content-center">
     <div class="col-md-12">
-
       <seer-collapse-card cardTitle="基本信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <div class="row">
           <form class="form-horizontal" #form1="ngForm">
@@ -103,7 +102,6 @@
           </form>
         </div>
       </seer-collapse-card>
-
       <seer-collapse-card cardTitle="借款信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <!--借款基本信息-->
         <div class="row">
@@ -184,12 +182,12 @@
                 <label class="col-sm-4 control-label">招标开始日期</label>
                 <div class="col-sm-8 ">
                   <label class="form-control" style="background: #f6f6f6">{{loan.loanBeginDate | date:'yyyy-MM-dd'}}</label>
-                 <!-- <seer-datepicker
-                    [dateFormatingRules]="dateFormatingRules || 'yyyy-MM-dd'"
-                    [(date)]="loan.loanBeginDate"
-                    [disabled]="true"
-                  >
-                  </seer-datepicker>-->
+                  <!-- <seer-datepicker
+                     [dateFormatingRules]="dateFormatingRules || 'yyyy-MM-dd'"
+                     [(date)]="loan.loanBeginDate"
+                     [disabled]="true"
+                   >
+                   </seer-datepicker>-->
                 </div>
               </div>
             </div>
@@ -231,7 +229,6 @@
           </form>
         </div>
       </seer-collapse-card>
-
       <seer-collapse-card cardTitle="原始投资记录" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <ng-container *ngIf="investRecords.length > 0">
           <seer-simple-table
@@ -243,7 +240,6 @@
             [showSeq]="true"
           ></seer-simple-table>
         </ng-container>
-        <ng-container *ngIf="auditProcessRecords.length == 0">暂无投资记录</ng-container>
       </seer-collapse-card>
       <seer-collapse-card cardTitle="项目信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <div class="row">
@@ -285,51 +281,51 @@
           <form class="form-horizontal" >
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label class="col-sm-4 control-label">债权转让人(假)</label>
+                <label class="col-sm-4 control-label">债权转让人</label>
                 <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">测试一</label>
+                  <label class="form-control" style="background: #f6f6f6">{{transfer.transferTrueName}}</label>
 
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label class="col-sm-4 control-label">转让人手机号(假)</label>
+                <label class="col-sm-4 control-label">转让人手机号</label>
                 <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">	13011111115</label>
+                  <label class="form-control" style="background: #f6f6f6">	{{transfer.transferMobile}}</label>
                 </div>
               </div>
             </div>
 
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label class="col-sm-4 control-label">投资金额(假)</label>
+                <label class="col-sm-4 control-label">投资金额</label>
                 <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">100000元</label>
+                  <label class="form-control" style="background: #f6f6f6">{{transfer.buyAmt}}元</label>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label class="col-sm-4 control-label">转让金额(假)</label>
+                <label class="col-sm-4 control-label">转让金额</label>
                 <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">100000元</label>
+                  <label class="form-control" style="background: #f6f6f6">{{transfer.transAmt}}元</label>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label class="col-sm-4 control-label">手续费(假)</label>
+                <label class="col-sm-4 control-label">手续费</label>
                 <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">2000元</label>
+                  <label class="form-control" style="background: #f6f6f6">{{transfer.transFee}}元</label>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label class="col-sm-4 control-label">申请时间(假)</label>
+                <label class="col-sm-4 control-label">申请时间</label>
                 <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">2018-06-05</label>
+                  <label class="form-control" style="background: #f6f6f6">{{transfer.applyTime | date:'yyyy-MM-dd HH:mm:ss'}}</label>
                 </div>
               </div>
             </div>
@@ -343,14 +339,28 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label class="col-sm-4 control-label">起投金额(假)</label>
+                <label class="col-sm-4 control-label">起投金额</label>
                 <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">100元</label>
+                  <label class="form-control" style="background: #f6f6f6">
+                    {{transfer.minInvestAmount}}
+                  </label>
                 </div>
               </div>
             </div>
           </form>
         </div>
+      </seer-collapse-card>
+      <seer-collapse-card cardTitle="债转投资记录" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+        <ng-container *ngIf="investRecords.length > 0">
+          <seer-simple-table
+            [data]="investRecords"
+            [titles]="investTitle"
+            [hidePagination]="false"
+            [hideActions]="true"
+            [hideAddButton]="true"
+            [showSeq]="true"
+          ></seer-simple-table>
+        </ng-container>
       </seer-collapse-card>
       <seer-collapse-card cardTitle="审批流程" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <ng-container *ngIf="auditProcessRecords.length > 0">
@@ -368,34 +378,39 @@
       <seer-collapse-card cardTitle="审批意见" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <div class="row">
           <form class="form-horizontal" >
-          <div class="form-group col-sm-12 col-md-8 col-lg-6 col-xlg-3">
-            <div class="row">
-              <label  class="col-sm-4 control-label">审批意见(假)</label>
-              <div class="col-sm-8">
-                <!--<label class="form-control" style="background: #f6f6f6">通过</label>-->
-                <div class="radio">
-                  <label class="radio-inline"><input type="radio" name="auditResult" value="pass"   [(ngModel)]="auditResult">通过</label>
-                  <label class="radio-inline"><input type="radio" name="auditResult" value="refuse" [(ngModel)]="auditResult">拒绝（流标）</label>
+            <div class="form-group col-sm-12 col-md-8 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label  class="col-sm-4 control-label">审批意见(假)</label>
+                <div class="col-sm-8">
+                  <!--<label class="form-control" style="background: #f6f6f6">通过</label>-->
+                  <div class="radio">
+                    <label class="radio-inline"><input type="radio" name="auditResult" value="pass"   [(ngModel)]="auditResult">通过</label>
+                    <label class="radio-inline"><input type="radio" name="auditResult" value="refuse" [(ngModel)]="auditResult">拒绝（流标）</label>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="form-group col-sm-12 col-md-8 col-lg-6 col-xlg-3">
-            <div class="row">
-              <label  class="col-sm-4 control-label">原因(假)</label>
-              <div class="col-sm-8">
-                <label class="form-control" style="background: #f6f6f6"></label>
+            <div class="form-group col-sm-12 col-md-8 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label  class="col-sm-4 control-label">原因(假)</label>
+                <div class="col-sm-8">
+                  <select *ngIf="auditResult != 'pass'" class="form-control" id="auditReason" [(ngModel)]="auditReason" [ngModelOptions]="{standalone: true}">
+                    <option value="">请选择原因</option>
+                    <option value="基本信息问题">基本信息问题</option>
+                    <option value="其他">其他</option>
+                  </select>
+
+                </div>
               </div>
             </div>
-          </div>
-          <div class="form-group col-sm-12 col-md-8 col-lg-6 col-xlg-3">
-            <div class="row">
-              <label  class="col-sm-4 control-label">备注(假)</label>
-              <div class="col-sm-8">
-                <label class="form-control" style="background: #f6f6f6"></label>
+            <div class="form-group col-sm-12 col-md-8 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label  class="col-sm-4 control-label">备注</label>
+                <div class="col-sm-8">
+                  <textarea class="form-control" id="auditOpinion" [(ngModel)]="auditOpinion" [ngModelOptions]="{standalone: true}" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 84px;"></textarea>
+                </div>
               </div>
             </div>
-          </div>
           </form>
         </div>
       </seer-collapse-card>

@@ -10,8 +10,8 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {SeerDialogService} from "../../../../theme/services/seer-dialog.service";
 
 @Component({
-  templateUrl: './transfer-audit.component.html',
-  styleUrls: ['./transfer-audit.component.scss']
+  templateUrl: '../transfer-view/transfer-view.component.html',
+  styleUrls: ['../transfer-view/transfer-view.component.scss']
 })
 export class TransferAuditComponent implements OnInit , OnChanges{
 
@@ -19,18 +19,15 @@ export class TransferAuditComponent implements OnInit , OnChanges{
   isLoading: boolean = true;
 
   //会员信息
-  public member: any = {}; public vehicles: any = []; public houses: any = []; public credits: any = [];public transfer:any={};
+  public member: any = {};
   public classNames: any = {"addressContainerClass": "form-group col-xs-12 col-md-12 col-lg-5 col-xlg-4"}; //居住地样式
 
   //申请信息
-  public loan: any = {}; public pawnRelation: any = {}; public pawnVehicle: any = {}; public pawnHouse: any = {}; public auditMaterials: any = [];
+  public loan: any = {};
+  public transfer:any={};
+  public auditMaterials: any = [];
 
-  //审核资料
-  public progress: number = 0;
-  public uploader:FileUploader;
-  public imageType = ['jpg', 'jpeg', 'bmp', 'gif', 'png', 'svg'];
-
-  //投资记录
+  //原标的投资记录
   public investRecords = [];
   public investTitle = [
     {key:'account',label:'投资人账号'},
@@ -41,6 +38,19 @@ export class TransferAuditComponent implements OnInit , OnChanges{
     {key:'investWay',label:'投资方式',isDict: true, category: 'INVEST_WAY' },
 
     ];
+
+  //债转标的投资记录
+  public transferInvestRecords = [];
+  public transferInvestTitle = [
+    {key:'account',label:'投资人账号'},
+    {key:'trueName',label:'投资人姓名'},
+    {key:'phoneNumber',label:'投资人手机号'},
+    {key:'investAmount',label:'投资金额（元）'},
+    {key:'investTime',label:'投资时间'},
+    {key:'investWay',label:'投资方式',isDict: true, category: 'INVEST_WAY' },
+
+  ];
+
   //还款记录
   public repayRecords = [];
   public repayTitle = [
@@ -62,8 +72,13 @@ export class TransferAuditComponent implements OnInit , OnChanges{
     {key:'operatorName',label:'操作人员'},
     {key:'opinion',label:'审批结果'}];
 
-  constructor(private service: FormsService, private route: ActivatedRoute, private _dialogService: SeerDialogService,
-              private _location: Location, private modalService: BsModalService, private _messageService: SeerMessageService){
+  constructor(
+    private service: FormsService,
+    private route: ActivatedRoute,
+    private _dialogService: SeerDialogService,
+    private _location: Location,
+    private modalService: BsModalService,
+    private _messageService: SeerMessageService){
   }
 
   ngOnInit() {
@@ -80,7 +95,7 @@ export class TransferAuditComponent implements OnInit , OnChanges{
     this.isLoading = true;
     this.service.getProjectMember(projectId).then((res) => {
       if("0" == res.code) {
-        this.member = res.data.baseInfo; this.vehicles = res.data.vehicles;this.houses = res.data.houses; this.credits = res.data.credits;
+        this.member = res.data.baseInfo;
       }else {
         console.log("fail");
       }
@@ -96,10 +111,6 @@ export class TransferAuditComponent implements OnInit , OnChanges{
     this.service.getProjectDetail(projectId).then((res) => {
       if("0" == res.code) {
         this.loan = res.data.loanBase;
-        this.pawnRelation = res.data.pawnRelation;
-        this.pawnVehicle = res.data.pawnVehicle;
-        this.pawnHouse = res.data.pawnHouse;
-        this.auditMaterials = res.data.auditMaterials;
       }else {
         console.log("fail");
       }
@@ -111,6 +122,7 @@ export class TransferAuditComponent implements OnInit , OnChanges{
     this.service.getTransferDetail(id).then((res) => {
       if("0" == res.code) {
         this.transfer = res.data;
+        this.transfer.minInvestAmount=100;
         let projectId=this.transfer.projectId;
         this.getProjectDetail(projectId);
         this.getProjectMember(projectId);
@@ -120,6 +132,7 @@ export class TransferAuditComponent implements OnInit , OnChanges{
       }
     }).catch(err => { this.showError('获取债转信息失败！' ) });
   }
+
   //查询标的投资记录
   public getInvestRecords(projectId: string) {
     this.service.getLoanInvestRecords(projectId).then((res) => {
@@ -130,28 +143,6 @@ export class TransferAuditComponent implements OnInit , OnChanges{
         this.showError(res.message)
       }
     }).catch(err => { this.showError('获取投资记录失败！' ) });
-  }
-
-  //查询标的审批记录
-  public getAuditRecords(projectId: string) {
-    this.service.getProjectAuditRecords(projectId).then((res) => {
-      if("0" == res.code) {
-        res.data[0].taskName=`债权转让审核`;
-        res.data[0].opinion=`同意发布`;
-        res.data[1].taskName=`满标`;
-        res.data[1].account=``;
-        res.data[1].operatorName=``;
-        res.data[1].completeTime="2018-05-30 12:30:25";
-        res.data[1].opinion=``;
-        res.data.push({account:`admin`,taskName:`满标审核`,opinion:`同意划转`,operatorName: "方灿",assigneeId: "0e86acccf5864557abf51b54a9669f00",
-          completeTime: "2018-05-30 14:56:52"})
-        console.log('审批信息');
-        console.log(res.data);
-        this.auditProcessRecords = res.data;
-      }else {
-        this.showError(res.message)
-      }
-    }).catch(err => { this.showError('获取审批记录失败！' ) });
   }
 
   //查询债转标的审批记录
@@ -173,68 +164,33 @@ export class TransferAuditComponent implements OnInit , OnChanges{
       }else {
         this.showError(res.message)
       }
-    }).catch(err => { this.showError('获取债转审批记录失败123！' ) });
-  }
-  //弹出层
-  public modalRef: BsModalRef;
-  public openModal( template: TemplateRef<any>) { this.modalRef = this.modalService.show(template); }
-
-  //新增车辆弹出层
-  public vehicle: any = {};
-  private vehicleReadOnly: boolean = true;
-  public vehicleModal(template: TemplateRef<any>, vehicleReadOnly: boolean, vehicle?: any) {
-
-    if(vehicleReadOnly) {
-      this.vehicle = vehicle;
-    }else {
-      this.vehicle = {};
-    }
-    this.vehicleReadOnly = vehicleReadOnly;
-    this.openModal(template);
+    }).catch(err => { this.showError('获取债转审批记录失败！' ) });
   }
 
-  //新增房产弹出层
-  public house: any = {};
-  private houseReadOnly: boolean = true;
-  public houseModal(template: TemplateRef<any>,houseReadOnly, house?: any) {
-
-    if(houseReadOnly) {
-      this.house = house;
-    }else {
-      this.house = {};
-    }
-    this.houseReadOnly = houseReadOnly;
-    this.openModal(template);
-  }
-
-  //下载审批资料
-  public downloadFile(item) {
-    this.service.downloadFile(this.loan.loanApplyId, item.id).then(res => {
-      var blob = res.blob();
-      var a = document.createElement('a');
-      var url = window.URL.createObjectURL(blob);
-      a.href = url;
-      a.download = item.fileName;
-      a.click();
-      window.URL.revokeObjectURL(url);
-    });
-  }
-
-
-  //户籍所在地
-  domicilePlaceChanged($event) {
-    this.member.domicileProvince = $event.province.item_code;
-    this.member.domicileCity = $event.city.item_code;
-    this.member.domicileDistrict = $event.district.item_code;
-    this.member.domicileAddress = $event.address;
-  }
-
-  //目前居住地
-  currentResidenceChanged($event) {
-    this.member.liveProvince = $event.province.item_code;
-    this.member.liveCity = $event.city.item_code;
-    this.member.liveDistrict = $event.district.item_code;
-    this.member.liveAddress = $event.address;
+  //提交审核
+  public auditResult: string = "pass"; public auditOpinion: string = ""; public auditReason: string = "";
+  public submitAudit(){
+    this._dialogService.confirm('是否确认提交审核?', [{type: 1, text: '确认',}, {type: 0, text: '取消',},]).subscribe(action => {
+      if (action === 1) {
+        this.isLoading = true;
+        let param = {
+          "auditResult": this.auditResult,
+          "opinion": this.auditReason + " " + this.auditOpinion
+        };
+        this.service.transferAudit(this.id, param).then(res =>{
+          if(0 == res.code) {
+            this.showSuccess(res.message);
+            this.handleBackBtnClick();
+          }else {
+            this.showError(res.message);
+          }
+          this.isLoading = false;
+        }).catch(error => {
+          this.isLoading = false;
+          this.showError('操作失败')
+        });
+      }
+    })
   }
 
   //返回
@@ -246,4 +202,5 @@ export class TransferAuditComponent implements OnInit , OnChanges{
   //失败提示
   showError(message: string) { return this._messageService.open({message, icon: 'fa fa-times-circle', autoHideDuration: 3000,})}
 
+  //分页
 }
