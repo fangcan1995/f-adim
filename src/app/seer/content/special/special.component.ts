@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { SubjectService } from "./subject.service";
+import { SpecialService } from "./special.service";
 import { SeerDialogService } from "../../../theme/services/seer-dialog.service";
 import { SeerMessageService } from "../../../theme/services/seer-message.service";
 import { UPDATE, DELETE, ENABLE, DISABLE } from "../../common/seer-table/seer-table.actions";
@@ -11,10 +11,10 @@ import {
 } from "../../../theme/services";
 
 @Component({
-    templateUrl: './subject.component.html',
-    styleUrls: ['./subject.component.scss']
+    templateUrl: './special.component.html',
+    styleUrls: ['./special.component.scss']
 })
-export class SubjectComponent implements OnInit, OnDestroy {
+export class SpecialComponent implements OnInit, OnDestroy {
 
     hasGlobalFilter = true;
     isLoading = true;
@@ -44,7 +44,7 @@ export class SubjectComponent implements OnInit, OnDestroy {
         },
     ];
 
-    subjects = [];
+    specials = [];
     titles = [
         { key: 'subjectName', label: '专题标题' },
         { key: 'url', label: '专题路径',type:'link' },
@@ -87,9 +87,9 @@ export class SubjectComponent implements OnInit, OnDestroy {
 
     }
 
-    constructor(private services: SubjectService, private _dialogService: SeerDialogService,
-        private _messageService: SeerMessageService,
-        private _router: Router, private _activatedRoute: ActivatedRoute) {
+    constructor(private services: SpecialService, private _dialogService: SeerDialogService,
+                private _messageService: SeerMessageService,
+                private _router: Router, private _activatedRoute: ActivatedRoute) {
 
     }
 
@@ -104,9 +104,9 @@ export class SubjectComponent implements OnInit, OnDestroy {
                 this.pageInfo.pageNum = res.data.pageNum;
                 this.pageInfo.pageSize = res.data.pageSize;
                 this.pageInfo.total = res.data.total;
-                this.subjects = res.data.list;
-                console.log(this.subjects);
-                this.subjects = _.map(this.subjects, t => {
+                this.specials = res.data.list;
+                console.log(this.specials);
+                this.specials = _.map(this.specials, t => {
                     let status = t.delFlag;
                     t.url=`${FROUNT_URL}${t.device}/${t.id}`   //前台路径/subject_common/6
                     let actions;

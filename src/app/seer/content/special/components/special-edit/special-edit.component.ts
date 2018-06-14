@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit,AfterViewInit,ViewChild } from "@angular/core";
-import { SubjectService } from "../../subject.service";
+import { SpecialService } from "../../special.service";
 import { SeerMessageService } from "../../../../../theme/services/seer-message.service";
 import { formatDate } from "ngx-bootstrap/bs-moment/format";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -12,31 +12,31 @@ import * as _ from 'lodash';
 declare let laydate;
 
 @Component({
-    templateUrl: './subject-edit.component.html',
-    styleUrls: ['./subject-edit.component.scss']
+    templateUrl: './special-edit.component.html',
+    styleUrls: ['./special-edit.component.scss']
 })
-export class SubjectEditComponent implements OnInit, OnDestroy {
+export class SpecialEditComponent implements OnInit, OnDestroy {
 
-    public subject: any = {};
+    public special: any = {};
     @ViewChild("seerEditor") seerEditor;
     private _editType: string = 'add';
     public forbidSaveBtn: boolean = true;
     form: FormGroup;
     content: any = '';
-    constructor(private service: SubjectService,
+    constructor(private service: SpecialService,
         private _messageService: SeerMessageService,
         private _activatedRoute: ActivatedRoute,
         private _router: Router,
         private _location: Location) {
 
         this.form = new FormGroup({
-            subjectName: new FormControl('', Validators.required),
-            subjectType: new FormControl('', Validators.required),
+            specialName: new FormControl('', Validators.required),
+            specialType: new FormControl('', Validators.required),
             device: new FormControl('', Validators.required),
         });
 
     }
-    
+
     ngOnInit() {
         this._activatedRoute.url.mergeMap(url => {
             this._editType = url[0].path;
@@ -45,9 +45,9 @@ export class SubjectEditComponent implements OnInit, OnDestroy {
             if (this._editType === 'edit') {
                 this.service.getOne(params.id)
                     .then(res => {
-                        
+
                           setTimeout(()=>{
-                            this.subject = res.data;
+                            this.special = res.data;
                           },800)
                         this.forbidSaveBtn = false;
 
@@ -80,12 +80,12 @@ export class SubjectEditComponent implements OnInit, OnDestroy {
                 this.alertError('请按规则填写表单');
                 this.forbidSaveBtn = false;
             }
-            else if (!this.subject.content) {
+            else if (!this.special.content) {
                 this.alertError('请填写文章内容');
                 this.forbidSaveBtn = false;
             }
             else {
-                this.service.putOne(this.subject)
+                this.service.putOne(this.special)
                     .then(data => {
                         this.alertSuccess(data.message);
                     }).catch(err => {
@@ -101,7 +101,7 @@ export class SubjectEditComponent implements OnInit, OnDestroy {
             message: info,
             autoHideDuration: 3000,
         }).onClose().subscribe(() => {
-            this._router.navigate(['/content/subject/'])
+            this._router.navigate(['/content/special/'])
         });
     };
     alertError(errMsg: string) {

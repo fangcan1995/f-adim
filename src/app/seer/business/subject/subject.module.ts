@@ -9,6 +9,7 @@ import { SubjectComponent } from './subject.component';
 import {CommonService} from "../common/common.service";
 import {MemberService} from "../../basic-info/member/member.service";
 import {SeerMessageService} from "../../../theme/services/seer-message.service";
+
 @NgModule({
   imports: [
     NgaModule,
