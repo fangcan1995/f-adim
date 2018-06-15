@@ -49,7 +49,7 @@ export class TransferViewComponent implements OnInit , OnChanges{
   //还款记录
   public repayRecords = [];
   public repayTitle = [
-    {key:'a',label:'期数'},
+    {key:'rpmtIssue',label:'期数'},
     {key:'b',label:'应还日期'},
     {key:'c',label:'实还日期'},
     {key:'d',label:'已还本金（元）'},
@@ -110,6 +110,9 @@ export class TransferViewComponent implements OnInit , OnChanges{
     this.service.getProjectMember(projectId).then((res) => {
       if("0" == res.code) {
         this.member = res.data.baseInfo;
+        console.log('111111111');
+        console.log(this.member);
+        this.getRepaymentRecords(projectId,this.member.memberId);
       }else {
         console.log("fail");
       }
@@ -138,9 +141,12 @@ export class TransferViewComponent implements OnInit , OnChanges{
         this.transfer = res.data;
         this.transfer.minInvestAmount=100;
         let projectId=this.transfer.projectId;
+        console.log(this.transfer);
+        //let memberId=this.transfer.membe
         this.getProjectDetail(projectId);
         this.getProjectMember(projectId);
         this.getInvestRecords(projectId);
+        //this.getRepaymentRecords(projectId)
       }else {
         //console.log("fail");
       }
@@ -151,8 +157,10 @@ export class TransferViewComponent implements OnInit , OnChanges{
   public getInvestRecords(projectId: string) {
     this.service.getLoanInvestRecords(projectId).then((res) => {
       if("0" == res.code) {
-        this.investRecords = res.data;
+        console.log('投资记录');
         console.log(res.data);
+        this.investRecords = res.data;
+
       }else {
         this.showError(res.message)
       }
@@ -160,10 +168,12 @@ export class TransferViewComponent implements OnInit , OnChanges{
   }
 
   //查询标的投资记录
-  public getRepaymentRecords(projectId: string) {
-    this.service.getLoanRepaymentRecords(projectId).then((res) => {
+  public getRepaymentRecords(projectId: string,memberId:string) {
+    this.service.getLoanRepaymentRecords(projectId,memberId).then((res) => {
       if("0" == res.code) {
-        this.investRecords = res.data;
+        console.log('还款记录');
+        console.log(res.data);
+        this.repayRecords = res.data;
         console.log(res.data);
       }else {
         this.showError(res.message)

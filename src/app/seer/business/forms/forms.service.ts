@@ -179,8 +179,8 @@ export class FormsService extends BaseService<any>{
     return this._httpInterceptorService.request('POST', `http://172.16.1.234:9080/repayment/ahead/${projectId}/audit`, param, false, 60000).toPromise();
   }
   //查询还款记录
-  public getLoanRepaymentRecords(param: any): Promise<any> {
-    return this._httpInterceptorService.request('GET', BASE_URL + `/loans/repayments`, param).toPromise();
+  public getLoanRepaymentRecords(projectId: string,memberId:string): Promise<any> {
+    return this._httpInterceptorService.request('GET', `http://172.16.1.252:9080` + `/loans/repayments`, {projectId: projectId,memberId:memberId}).toPromise();
   }
   /*
     end
