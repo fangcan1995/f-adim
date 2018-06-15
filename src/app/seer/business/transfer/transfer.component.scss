@@ -1,13 +1,7 @@
 
-.icon-transfer-check:before{
-  content:'债权转让审核';
-  font-size: 12px;
-  line-height: 12px;
-  color:#fff;
-}
 
 :host /deep/ {
-  .table-actions{
+  /*.table-actions{
     .popover {
       display: none;
     }
@@ -26,11 +20,11 @@
     }
     .popover.popover-top .popover-arrow, .popover.bs-tether-element-attached-bottom .popover-arrow{
       display: none;
-    }
-    .table-action {
+    }*/
+    /*.table-action {
       display: inline-block;
-      background: #5db2ff;
-      color: #f00;
+      !*background: #5db2ff;
+      color: #f00;*!
       border-radius: 2px;
       padding: 1px 5px 3px 5px;
       &.icon-public:before{
@@ -59,6 +53,6 @@
       }
 
     }
-  }
+  }*/
 
 }

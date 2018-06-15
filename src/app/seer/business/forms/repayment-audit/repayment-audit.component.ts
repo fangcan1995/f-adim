@@ -87,6 +87,7 @@ export class RepaymentAuditComponent implements OnInit , OnChanges{
       this.getProjectMember(this.id);
       this.getProjectDetail(this.id);
       this.getAuditRecords(this.id);
+      this.getRepaymentDetail(this.id);
     });
   }
 
@@ -118,7 +119,7 @@ export class RepaymentAuditComponent implements OnInit , OnChanges{
       }
     }).catch(err => { this.showError('获取申请信息失败！' ) });
   }
-
+R
   //查询标的投资记录
   public getInvestRecords(projectId: string) {
     this.service.getLoanInvestRecords(projectId).then((res) => {
@@ -129,6 +130,17 @@ export class RepaymentAuditComponent implements OnInit , OnChanges{
         this.showError(res.message)
       }
     }).catch(err => { this.showError('获取投资记录失败！' ) });
+  }
+
+  //查询提前还款信息
+  public getRepaymentDetail(projectId: string) {
+    this.service.getProjectDetail(projectId).then((res) => {
+      if("0" == res.code) {
+        this.loan = res.data.loanBase;
+      }else {
+        console.log("fail");
+      }
+    }).catch(err => { this.showError('获取申请信息失败！' ) });
   }
 
   //查询标的审批记录

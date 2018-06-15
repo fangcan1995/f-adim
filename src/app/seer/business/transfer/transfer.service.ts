@@ -13,7 +13,7 @@ export class TransferService extends BaseService<any>{
 
   //获取列表
   public getList(params: any): Promise<any> {
-    return this._httpInterceptorService.request('GET', BASE_URL + `/projects`, params).toPromise();
+    return this._httpInterceptorService.request('GET', `http://172.16.1.252:9080` + `/transfer/loan/page`, params).toPromise();
   }
 
 }
