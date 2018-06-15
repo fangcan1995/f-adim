@@ -27,7 +27,7 @@ export class SeerProgressComponent implements OnInit {
         }
     }else{
         for (let index = 0; index < this.contentList.length; index++) {
-            if(this.currentNode <= index+1){
+            if(this.currentNode >= index+1){
                 this.contentList[index].showColor = true;
             }
         }
