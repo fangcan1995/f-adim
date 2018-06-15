@@ -57,7 +57,10 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
               private _location: Location, private modalService: BsModalService, private _messageService: SeerMessageService){
   }
 
+  //审核记录
+  projectProgres:any;
   ngOnInit() {
+    this.projectProgres = _.cloneDeep(this.service.projectProgres);
     this.route.params.subscribe((params: Params) => {params['id']? this.id = params['id']:"";
       this.getLoanMember(this.id);
       this.getLoanApply(this.id);

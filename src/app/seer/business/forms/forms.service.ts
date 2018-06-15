@@ -14,7 +14,14 @@ import {getStorage} from "../../../theme/libs/utils";
 
 @Injectable()
 export class FormsService extends BaseService<any>{
-
+   //审核流程
+   projectProgres:any = [
+    {text:"补填资料"},
+    {text:"初审"},
+    {text:"复审"},
+    {text:"标的发布"},
+    {text:"满标审核"}
+  ];
 
   constructor(
     private _router: Router,

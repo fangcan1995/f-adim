@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import {FormsService} from "../forms.service";
 import {SeerMessageService} from "../../../../theme/services/seer-message.service";
 import { FileUploader} from "ng2-file-upload";
+import * as _ from 'lodash';
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 
 import {SeerDialogService} from "../../../../theme/services/seer-dialog.service";
@@ -39,11 +40,15 @@ export class LoanFirstAuditComponent implements OnInit , OnChanges{
   public auditProcessRecords = [];
   public auditProcessTitle = [{key:'taskName',label:'审批流程'}, {key:'completeTime',label:'审批时间'}, {key:'account',label:'员工账号'}, {key:'operatorName',label:'员工姓名'},{key:'opinion',label:'审批意见'}];
 
+   //审核记录
+   projectProgres:any;
+
   constructor(private service: FormsService, private route: ActivatedRoute, private _dialogService: SeerDialogService,
               private _location: Location, private modalService: BsModalService, private _messageService: SeerMessageService){
   }
 
   ngOnInit() {
+    this.projectProgres = _.cloneDeep(this.service.projectProgres);
     this.route.params.subscribe((params: Params) => {params['id']? this.id = params['id']:"";
       this.getLoanMember(this.id);
       this.getLoanApply(this.id);
