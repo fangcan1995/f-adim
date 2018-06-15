@@ -53,8 +53,13 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
   public auditProcessRecords = [];
   public auditProcessTitle = [{key:'taskName',label:'审批流程'}, {key:'completeTime',label:'审批时间'}, {key:'account',label:'员工账号'}, {key:'operatorName',label:'员工姓名'},{key:'opinion',label:'审批意见'}];
 
-  constructor(private service: FormsService, private route: ActivatedRoute, private _dialogService: SeerDialogService,
-              private _location: Location, private modalService: BsModalService, private _messageService: SeerMessageService){
+  constructor(
+    private service: FormsService,
+    private route: ActivatedRoute,
+    private _dialogService: SeerDialogService,
+    private _location: Location,
+    private modalService: BsModalService,
+    private _messageService: SeerMessageService){
   }
 
   //审核记录

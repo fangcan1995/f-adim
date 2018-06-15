@@ -8,6 +8,7 @@ import { FileUploader} from "ng2-file-upload";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 
 import {SeerDialogService} from "../../../../theme/services/seer-dialog.service";
+import {ABORTIVE, PREVIEW} from "../../../common/seer-table/seer-table.actions";
 
 @Component({
   templateUrl: './transfer-view.component.html',
@@ -16,7 +17,8 @@ import {SeerDialogService} from "../../../../theme/services/seer-dialog.service"
 export class TransferViewComponent implements OnInit , OnChanges{
 
   public id: string;
-  public curModule: string;
+  public curModule: any;
+  public curModuleName:string;
   isLoading: boolean = true;
 
   //会员信息
@@ -81,7 +83,19 @@ export class TransferViewComponent implements OnInit , OnChanges{
         params['id']? this.id = params['id']:"";
         this.getTransferDetail(this.id);
         this.getTransferAuditRecords(this.id);
-        this.curModule=this.route.component.name;
+        this.curModule=this.route.component;
+        this.curModuleName=this.curModule.name;
+
+        switch (this.curModuleName) {
+          case `TransferViewComponent`:
+            console.log('债转标预览');
+            break;
+
+          default:
+            console.log('11');
+            break;
+        }
+
 
       }
     );
@@ -136,6 +150,18 @@ export class TransferViewComponent implements OnInit , OnChanges{
   //查询标的投资记录
   public getInvestRecords(projectId: string) {
     this.service.getLoanInvestRecords(projectId).then((res) => {
+      if("0" == res.code) {
+        this.investRecords = res.data;
+        console.log(res.data);
+      }else {
+        this.showError(res.message)
+      }
+    }).catch(err => { this.showError('获取投资记录失败！' ) });
+  }
+
+  //查询标的投资记录
+  public getRepaymentRecords(projectId: string) {
+    this.service.getLoanRepaymentRecords(projectId).then((res) => {
       if("0" == res.code) {
         this.investRecords = res.data;
         console.log(res.data);

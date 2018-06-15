@@ -43,7 +43,7 @@ export class TransferComponent {
       key: 'transStatus', label: '项目状态', type: 'select', isDict: true, category: 'TRANSFER_PROJECT_STATUS'
     },
     {
-      key: 'transferTime',
+      key: 'applyTime',
       label: '申请时间',
       groups: [
         {
@@ -96,8 +96,8 @@ export class TransferComponent {
     "phoneNumber": "",
     "loanExpiry": "",
     "transferStatus": "",
-    "transferDateStart": "",
-    "transferDateEnd": "",
+    "applyTimeStart": "",
+    "applyTimeEnd": "",
   };
 
   source = [];
@@ -159,17 +159,17 @@ export class TransferComponent {
   //全局检索
   handleFiltersChanged($event) {
     let params=$event;
-    let { transferTime, ...otherParams } = params;
-    let transferDateStart,
-      transferDateEnd;
-    if ( _.isArray(transferTime)) {
-      transferDateStart = transferTime[0] ? (formatDate(transferTime[0],'YYYY-MM-DD 00:00:00')) : '';
-      transferDateEnd = transferTime[1] ? (formatDate(transferTime[1],'YYYY-MM-DD 23:59:59')) : '';
+    let { applyTime, ...otherParams } = params;
+    let applyTimeStart,
+      applyTimeEnd;
+    if ( _.isArray(applyTime)) {
+      applyTimeStart = applyTime[0] ? (formatDate(applyTime[0],'YYYY-MM-DD 00:00:00')) : '';
+      applyTimeEnd = applyTime[1] ? (formatDate(applyTime[1],'YYYY-MM-DD 23:59:59')) : '';
     }
     params = {
       ...otherParams,
-      transferDateStart,
-      transferDateEnd,
+      applyTimeStart,
+      applyTimeEnd,
     }
     this.pageInfo = {
       ...this.pageInfo,

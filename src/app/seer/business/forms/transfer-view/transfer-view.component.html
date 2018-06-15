@@ -1,7 +1,9 @@
 <seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
 <seer-content-top>
   <button class="btn btn-outline-dark" (click)="handleBackBtnClick()">返回</button>
+  <ng-container *ngIf="curModuleName!='TransferViewComponent'">
   <button class="btn btn-primary" (click)="submitAudit()">提交</button>
+  </ng-container>
 </seer-content-top>
 
 <div class="widgets">
@@ -375,6 +377,7 @@
         </ng-container>
         <ng-container *ngIf="auditProcessRecords.length == 0">暂无审批流程</ng-container>
       </seer-collapse-card>
+      <ng-container *ngIf="curModuleName!='TransferViewComponent'">
       <seer-collapse-card cardTitle="审批意见" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <div class="row">
           <form class="form-horizontal" >
@@ -414,6 +417,7 @@
           </form>
         </div>
       </seer-collapse-card>
+      </ng-container>
     </div>
   </div>
 </div>

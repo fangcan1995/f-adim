@@ -60,6 +60,8 @@ export class FormsService extends BaseService<any>{
     return this._httpInterceptorService.request('GET', BASE_URL + `/projects/${projectId}/investment`, false).toPromise();
   }
 
+
+
   //查询借款审批记录
   public getLoanAuditRecords(loanApplyId: string): Promise<any> {
     return this._httpInterceptorService.request('GET', BASE_URL + `/loans/${loanApplyId}/audit`, false).toPromise();
@@ -175,6 +177,10 @@ export class FormsService extends BaseService<any>{
   //提前还款审核(需测试)
   public repaymentAudit(projectId: string, param: any): Promise<any> {
     return this._httpInterceptorService.request('POST', `http://172.16.1.234:9080/repayment/ahead/${projectId}/audit`, param, false, 60000).toPromise();
+  }
+  //查询还款记录
+  public getLoanRepaymentRecords(param: any): Promise<any> {
+    return this._httpInterceptorService.request('GET', BASE_URL + `/loans/repayments`, param).toPromise();
   }
   /*
     end
