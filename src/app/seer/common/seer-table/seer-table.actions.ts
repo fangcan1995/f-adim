@@ -119,3 +119,11 @@ export const UNPUBLISHED = {
   icon: 'icon-blocked',
 
 };
+
+export const ABORTIVE = {
+  type: 'abortive',
+  name: '流标',
+  className: 'btn btn-xs btn-info',
+  icon: 'icon-blocked',
+
+};

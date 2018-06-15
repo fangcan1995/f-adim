@@ -16,6 +16,7 @@ import {SeerDialogService} from "../../../../theme/services/seer-dialog.service"
 export class TransferViewComponent implements OnInit , OnChanges{
 
   public id: string;
+  public curModule: string;
   isLoading: boolean = true;
 
   //会员信息
@@ -69,10 +70,22 @@ export class TransferViewComponent implements OnInit , OnChanges{
   }
 
   ngOnInit() {
-    this.route.params.subscribe((params: Params) => {params['id']? this.id = params['id']:"";
-      this.getTransferDetail(this.id);
-      this.getTransferAuditRecords(this.id);
-    });
+
+    console.log('路由参数')
+    /*if(this.route.component.name==`TransferViewComponent`) {
+      console.log('这个预览页');
+      ;
+    }*/
+    this.route.params.subscribe((params: Params) =>
+      {
+        params['id']? this.id = params['id']:"";
+        this.getTransferDetail(this.id);
+        this.getTransferAuditRecords(this.id);
+        this.curModule=this.route.component.name;
+
+      }
+    );
+
   }
 
   ngOnChanges() { }
@@ -115,7 +128,7 @@ export class TransferViewComponent implements OnInit , OnChanges{
         this.getProjectMember(projectId);
         this.getInvestRecords(projectId);
       }else {
-        console.log("fail");
+        //console.log("fail");
       }
     }).catch(err => { this.showError('获取债转信息失败！' ) });
   }
