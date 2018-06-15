@@ -1,0 +1,5 @@
+<div class="progress">
+    <div *ngFor = "let cNode of contentList; let i = index" class="statusNode" [ngClass]="{'currentColor':cNode.showColor == true}" [ngStyle]="{'border-color':cNode.showColor === true ? '#3b9ff3' : '#ccc' }">
+        <span class="number" [ngStyle]="{'border-color':cNode.showColor === true ? '#3b9ff3' : '#999' }">{{i+1}}</span><span class="nodeText">{{cNode.text}}</span>
+    </div>
+</div>

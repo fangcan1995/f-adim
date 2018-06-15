@@ -42,6 +42,7 @@ import { SeerCoolCheckboxComponent } from './seer-cool-checkbox';
 import { SeerAddressPickerComponent } from './seer-address-picker';
 import { SeerDateTimePickerComponent } from './seer-datetime-picker';
 import { SeerLoadingComponent } from './seer-loading/seer-loading';
+import { SeerProgressComponent } from './seer-progress/seer-progress';
 
 
 
@@ -63,7 +64,8 @@ import { SeerLoadingComponent } from './seer-loading/seer-loading';
     SeerCoolCheckboxComponent,
     SeerAddressPickerComponent,
     SeerDateTimePickerComponent,
-    SeerLoadingComponent
+    SeerLoadingComponent,
+    SeerProgressComponent
 
   ],
   imports: [
@@ -119,7 +121,8 @@ import { SeerLoadingComponent } from './seer-loading/seer-loading';
     SeerCoolCheckboxComponent,
     SeerAddressPickerComponent,
     SeerDateTimePickerComponent,
-    SeerLoadingComponent
+    SeerLoadingComponent,
+    SeerProgressComponent
   ],
 })
 export class SharedModule {
