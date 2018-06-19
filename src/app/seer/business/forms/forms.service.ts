@@ -22,7 +22,14 @@ export class FormsService extends BaseService<any>{
     {text:"标的发布"},
     {text:"满标审核"}
   ];
-
+  //债转流程
+  transferProgres:any = [
+    {text:"债转审核/发布"},
+    {text:"转让中"},
+    {text:"满标审核"},
+    {text:"还款中"},
+    {text:"已结清"}
+  ];
   constructor(
     private _router: Router,
     private route: ActivatedRoute,
@@ -145,21 +152,23 @@ export class FormsService extends BaseService<any>{
   */
   //查询债转项目信息
   public getTransferDetail(projectId: string): Promise<any> {
-    return this._httpInterceptorService.request('GET', `http://172.16.1.234:9080/transfer/release/info`,{id: projectId}).toPromise();
+    return this._httpInterceptorService.request('GET', `http://172.16.1.234:9080/transfer/full/info`,{id: projectId}).toPromise();
     //return this._httpInterceptorService.request('GET', `http://172.16.1.234:9080/transfer/release/info?access_token=90ec39f0-67f0-476c-88c6-2407146be589&id=49e44c7795d5415f80b2282205ae1254`, false).toPromise();
   }
   //查询债权转让审批记录
   public getTransferProjectAuditRecords(loanApplyId: string): Promise<any> {
     return this._httpInterceptorService.request('GET', `http://172.16.1.234:9080/transfer/${loanApplyId}/audit`, false).toPromise();
   }
-  //债转审核/发布
+  //债转审核/发布  满标划转审核
   public transferAudit(transferId: string, param: any): Promise<any> {
+    console.log('aaaaaaaaaaaaaaaaa');
+    console.log(transferId);
     return this._httpInterceptorService.request('POST', `http://172.16.1.234:9080/transfer/${transferId}/audit`, param, false, 60000).toPromise();
   }
-  //债转满标划转(假)
+ /* //债转满标划转(假)
   public transferFull(transferId: string, param: any): Promise<any> {
     return this._httpInterceptorService.request('POST', `http://172.16.1.234:9080/transfer/full/info`, param, false, 60000).toPromise();
-  }
+  }*/
   //债转手动流标审核(假)
   public transferHandleFailAudit(transferId: string, param: any): Promise<any> {
     return this._httpInterceptorService.request('POST', `http://172.16.1.234:9080/transfer/${transferId}/audit`, param, false, 60000).toPromise();

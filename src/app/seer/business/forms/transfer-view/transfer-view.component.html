@@ -1,11 +1,11 @@
 <seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
 <seer-content-top>
   <button class="btn btn-outline-dark" (click)="handleBackBtnClick()">返回</button>
-  <ng-container *ngIf="curModuleName!='TransferViewComponent'">
+  <ng-container *ngIf="method!='preview'">
   <button class="btn btn-primary" (click)="submitAudit()">提交</button>
   </ng-container>
 </seer-content-top>
-
+<seer-progress [type]="'progress'" [contentList]="transferProgres" [currentNode]="currentNode"></seer-progress>
 <div class="widgets">
   <div class="row justify-content-center">
     <div class="col-md-12">
@@ -248,17 +248,17 @@
           <form class="form-horizontal" >
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label class="col-sm-4 control-label">满标审核时间(假)</label>
+                <label class="col-sm-4 control-label">满标审核时间</label>
                 <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">{{loan.loanEndDate | date:'yyyy-MM-dd HH:mm:ss'}}</label>
+                  <label class="form-control" style="background: #f6f6f6">{{loan.transferDate | date:'yyyy-MM-dd HH:mm:ss'}}</label>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label class="col-sm-4 control-label">投资人数(假)</label>
+                <label class="col-sm-4 control-label">投资人数</label>
                 <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">5人</label>
+                  <label class="form-control" style="background: #f6f6f6">{{loan.investCount}}人</label>
                 </div>
               </div>
             </div>
@@ -352,11 +352,12 @@
           </form>
         </div>
       </seer-collapse-card>
+      <ng-container *ngIf="method!='be_audit'">
       <seer-collapse-card cardTitle="债转投资记录" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
-        <ng-container *ngIf="investRecords.length > 0">
+        <ng-container *ngIf="investTransferRecords.length > 0">
           <seer-simple-table
-            [data]="investRecords"
-            [titles]="investTitle"
+            [data]="investTransferRecords"
+            [titles]="investTransferTitle"
             [hidePagination]="false"
             [hideActions]="true"
             [hideAddButton]="true"
@@ -364,6 +365,7 @@
           ></seer-simple-table>
         </ng-container>
       </seer-collapse-card>
+      </ng-container>
       <seer-collapse-card cardTitle="审批流程" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <ng-container *ngIf="auditProcessRecords.length > 0">
           <seer-simple-table
@@ -377,17 +379,18 @@
         </ng-container>
         <ng-container *ngIf="auditProcessRecords.length == 0">暂无审批流程</ng-container>
       </seer-collapse-card>
-      <ng-container *ngIf="curModuleName!='TransferViewComponent'">
+      <ng-container *ngIf="method!='preview'">
       <seer-collapse-card cardTitle="审批意见" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <div class="row">
           <form class="form-horizontal" >
             <div class="form-group col-sm-12 col-md-8 col-lg-6 col-xlg-3">
               <div class="row">
-                <label  class="col-sm-4 control-label">审批意见(假)</label>
+                <label  class="col-sm-4 control-label">审批意见</label>
                 <div class="col-sm-8">
-                  <!--<label class="form-control" style="background: #f6f6f6">通过</label>-->
                   <div class="radio">
+                    <ng-container *ngIf="method!='abortive'">
                     <label class="radio-inline"><input type="radio" name="auditResult" value="pass"   [(ngModel)]="auditResult">通过</label>
+                    </ng-container>
                     <label class="radio-inline"><input type="radio" name="auditResult" value="refuse" [(ngModel)]="auditResult">拒绝（流标）</label>
                   </div>
                 </div>

@@ -102,12 +102,20 @@ export class TodoComponent implements OnInit {
 
       //满标审核
       case 'FULL_AUDIT':
-        this._router.navigate([url + 'project-full-audit', task.processInstance.businessKey], {relativeTo: this.route});
+        if(task.processInstance.processDefinitionKey=="INVEST_TRANSFER"){
+          //债转标
+          this._router.navigate([url + 'transfer-view', task.processInstance.businessKey,`full_audit`], {relativeTo: this.route});
+        }else{
+          //散标
+          this._router.navigate([url + 'project-full-audit', task.processInstance.businessKey], {relativeTo: this.route});
+        }
+
+
         break;
 
       //债转审核发布
       case 'TO_BE_AUDIT':
-        this._router.navigate([url + 'transfer-audit', task.processInstance.businessKey], {relativeTo: this.route});
+        this._router.navigate([url + 'transfer-view', task.processInstance.businessKey,`be_audit`], {relativeTo: this.route});
         break;
 
       //提前还款审核

@@ -18,7 +18,6 @@ import {ProjectFullAuditComponent} from "./project-full-audit/project-full-audit
 import {LoanViewComponent} from "./loan-view/loan-view.component";
 import {ProjectViewComponent} from "./project-view/project-view.component";
 import {TransferViewComponent} from "./transfer-view/transfer-view.component";
-import {TransferAuditComponent} from "./transfer-audit/transfer-audit.component";
 import {RepaymentAuditComponent} from "./repayment-audit/repayment-audit.component";
 import {ProjectComponent} from "../project/project.component";
 @NgModule({
@@ -41,7 +40,6 @@ import {ProjectComponent} from "../project/project.component";
     ProjectFullAuditComponent,
     ProjectViewComponent,
     TransferViewComponent,
-    TransferAuditComponent,
     RepaymentAuditComponent
   ],
   providers: [

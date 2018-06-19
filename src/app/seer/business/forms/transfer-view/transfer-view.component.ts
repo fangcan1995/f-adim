@@ -6,7 +6,7 @@ import {FormsService} from "../forms.service";
 import {SeerMessageService} from "../../../../theme/services/seer-message.service";
 import { FileUploader} from "ng2-file-upload";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
-
+import * as _ from 'lodash';
 import {SeerDialogService} from "../../../../theme/services/seer-dialog.service";
 import {ABORTIVE, PREVIEW} from "../../../common/seer-table/seer-table.actions";
 
@@ -15,11 +15,13 @@ import {ABORTIVE, PREVIEW} from "../../../common/seer-table/seer-table.actions";
   styleUrls: ['./transfer-view.component.scss']
 })
 export class TransferViewComponent implements OnInit , OnChanges{
-
   public id: string;
-  public curModule: any;
-  public curModuleName:string;
+  public method: string;
+  public transStatus: string;
+  public currentNode:number=0;
   isLoading: boolean = true;
+  //流程信息
+  transferProgres:any;
 
   //会员信息
   public member: any = {};
@@ -28,12 +30,6 @@ export class TransferViewComponent implements OnInit , OnChanges{
   //申请信息
   public loan: any = {};
   public transfer:any={};
-  public auditMaterials: any = [];
-
-  //审核资料
-  public progress: number = 0;
-  public uploader:FileUploader;
-  public imageType = ['jpg', 'jpeg', 'bmp', 'gif', 'png', 'svg'];
 
   //投资记录
   public investRecords = [];
@@ -44,18 +40,28 @@ export class TransferViewComponent implements OnInit , OnChanges{
     {key:'investAmount',label:'投资金额（元）'},
     {key:'investTime',label:'投资时间'},
     {key:'investWay',label:'投资方式',isDict: true, category: 'INVEST_WAY' },
-
   ];
+  public investTransferRecords = [];
+  public investTransferTitle = [
+    {key:'userName',label:'投资人账号'},
+    {key:'trueName',label:'投资人姓名'},
+    {key:'phone',label:'投资人手机号'},
+    {key:'investAmt',label:'投资金额（元）'},
+    {key:'investTime',label:'投资时间'},
+    {key:'investWay',label:'投资方式',isDict: true, category: 'INVEST_WAY' },
+  ];
+
   //还款记录
   public repayRecords = [];
+
   public repayTitle = [
     {key:'rpmtIssue',label:'期数'},
-    {key:'b',label:'应还日期'},
-    {key:'c',label:'实还日期'},
-    {key:'d',label:'已还本金（元）'},
-    {key:'e',label:'已还利息（元）'},
-    {key:'f',label:'已还总额（元）',isDict: true, category: 'INVEST_WAY' },
-    {key:'g',label:'还款状况',isDict: true, category: 'RPMT_STATUS' },
+    {key:'shdRpmtDate',label:'应还日期'},
+    {key:'realRpmtDate',label:'实还日期'},
+    {key:'rpmtCapital',label:'已还本金（元）'},
+    {key:'rpmtIint',label:'已还利息（元）'},
+    {key:'rpmtTotal',label:'已还总额（元）',isDict: true, category: 'INVEST_WAY' },
+    {key:'statusName',label:'还款状况',isDict: true, category: 'RPMT_STATUS' },
   ];
 
   //审核记录
@@ -72,29 +78,24 @@ export class TransferViewComponent implements OnInit , OnChanges{
   }
 
   ngOnInit() {
+    //this.currentNode = 1;
+    this.transferProgres = [
+      {text:"债转审核/发布"},
+      {text:"转让中"},
+      {text:"满标审核"},
+      {text:"还款中"},
+      {text:"已结清"}
+    ];
 
-    console.log('路由参数')
-    /*if(this.route.component.name==`TransferViewComponent`) {
-      console.log('这个预览页');
-      ;
-    }*/
     this.route.params.subscribe((params: Params) =>
       {
         params['id']? this.id = params['id']:"";
+        params['method']? this.method = params['method']:"";
+
+
         this.getTransferDetail(this.id);
         this.getTransferAuditRecords(this.id);
-        this.curModule=this.route.component;
-        this.curModuleName=this.curModule.name;
 
-        switch (this.curModuleName) {
-          case `TransferViewComponent`:
-            console.log('债转标预览');
-            break;
-
-          default:
-            console.log('11');
-            break;
-        }
 
 
       }
@@ -110,8 +111,6 @@ export class TransferViewComponent implements OnInit , OnChanges{
     this.service.getProjectMember(projectId).then((res) => {
       if("0" == res.code) {
         this.member = res.data.baseInfo;
-        console.log('111111111');
-        console.log(this.member);
         this.getRepaymentRecords(projectId,this.member.memberId);
       }else {
         console.log("fail");
@@ -140,9 +139,38 @@ export class TransferViewComponent implements OnInit , OnChanges{
       if("0" == res.code) {
         this.transfer = res.data;
         this.transfer.minInvestAmount=100;
+        console.log('当前方法')
+        console.log(this.method);
+        switch (this.method) {
+          case `be_audit`:
+            //console.log('债转标预览');
+             this.currentNode=1;
+            break;
+          case `full_audit`:
+             this.currentNode=3;
+            break;
+          case `preview`:
+             this.currentNode=this.transfer.transStatus;
+            break;
+          case `abortive`:
+            //this.currentNode=3;
+            this.transferProgres = [
+              {text:"债转审核/发布"},
+              {text:"转让中"},
+              {text:"债转失败"},
+            ];
+            this.currentNode=this.transfer.transStatus+1;
+            this.auditResult='refuse';
+            //流标
+            break;
+          default:
+
+            break;
+        }
+        this.investTransferRecords=this.transfer.investList; //债转标投资记录
         let projectId=this.transfer.projectId;
+        console.log('债转标信息');
         console.log(this.transfer);
-        //let memberId=this.transfer.membe
         this.getProjectDetail(projectId);
         this.getProjectMember(projectId);
         this.getInvestRecords(projectId);
@@ -153,12 +181,10 @@ export class TransferViewComponent implements OnInit , OnChanges{
     }).catch(err => { this.showError('获取债转信息失败！' ) });
   }
 
-  //查询标的投资记录
+  //查询原标的投资记录
   public getInvestRecords(projectId: string) {
     this.service.getLoanInvestRecords(projectId).then((res) => {
       if("0" == res.code) {
-        console.log('投资记录');
-        console.log(res.data);
         this.investRecords = res.data;
 
       }else {
@@ -167,14 +193,11 @@ export class TransferViewComponent implements OnInit , OnChanges{
     }).catch(err => { this.showError('获取投资记录失败！' ) });
   }
 
-  //查询标的投资记录
+  //查询标的还款记录
   public getRepaymentRecords(projectId: string,memberId:string) {
     this.service.getLoanRepaymentRecords(projectId,memberId).then((res) => {
       if("0" == res.code) {
-        console.log('还款记录');
-        console.log(res.data);
         this.repayRecords = res.data;
-        console.log(res.data);
       }else {
         this.showError(res.message)
       }
@@ -201,6 +224,35 @@ export class TransferViewComponent implements OnInit , OnChanges{
         this.showError(res.message)
       }
     }).catch(err => { this.showError('获取债转审批记录失败！' ) });
+  }
+
+  //提交审核
+  public auditResult: string = "pass";
+
+  public auditOpinion: string = "";
+  public auditReason: string = "";
+  public submitAudit(){
+    this._dialogService.confirm('是否确认提交审核?', [{type: 1, text: '确认',}, {type: 0, text: '取消',},]).subscribe(action => {
+      if (action === 1) {
+        this.isLoading = true;
+        let param = {
+          "auditResult": this.auditResult,
+          "opinion": this.auditReason + " " + this.auditOpinion
+        };
+        this.service.transferAudit(this.id, param).then(res =>{
+          if(0 == res.code) {
+            this.showSuccess(res.message);
+            this.handleBackBtnClick();
+          }else {
+            this.showError(res.message);
+          }
+          this.isLoading = false;
+        }).catch(error => {
+          this.isLoading = false;
+          this.showError('操作失败')
+        });
+      }
+    })
   }
 
 
