@@ -276,7 +276,7 @@
             [hideAddButton]="true"
           ></seer-simple-table>
         </ng-container>
-        <ng-container *ngIf="auditProcessRecords.length == 0">暂无还款记录</ng-container>
+        <ng-container *ngIf="repayRecords.length == 0">暂无还款记录</ng-container>
       </seer-collapse-card>
       <seer-collapse-card cardTitle="债权转让信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <div class="row">
@@ -333,9 +333,9 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label class="col-sm-4 control-label">投资人数(假)</label>
+                <label class="col-sm-4 control-label">投资人数</label>
                 <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">2人</label>
+                  <label class="form-control" style="background: #f6f6f6">{{investTransferRecords.length||'0'}}人</label>
                 </div>
               </div>
             </div>
@@ -364,6 +364,32 @@
             [showSeq]="true"
           ></seer-simple-table>
         </ng-container>
+        <ng-container *ngIf="investTransferRecords.length == 0">暂无债转投资记录</ng-container>
+      </seer-collapse-card>
+      </ng-container>
+      <ng-container *ngIf="currentNode==4">
+      <seer-collapse-card cardTitle="债转项目信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
+        <div class="row">
+          <form class="form-horizontal" >
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label class="col-sm-4 control-label">满标审核时间</label>
+                <div class="col-sm-8 ">
+                  <label class="form-control" style="background: #f6f6f6">{{transfer.transferDate | date:'yyyy-MM-dd HH:mm:ss'}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label class="col-sm-4 control-label">投资人数</label>
+                <div class="col-sm-8 ">
+                  <label class="form-control" style="background: #f6f6f6">{{investTransferRecords.length || '0'}}人</label>
+                </div>
+              </div>
+            </div>
+
+          </form>
+        </div>
       </seer-collapse-card>
       </ng-container>
       <seer-collapse-card cardTitle="审批流程" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>

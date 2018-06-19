@@ -1,4 +1,3 @@
-
 import {Component, OnChanges, OnInit, TemplateRef} from "@angular/core";
 import {ActivatedRoute, Params} from "@angular/router";
 import { Location } from '@angular/common';
@@ -8,7 +7,7 @@ import { FileUploader} from "ng2-file-upload";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 
 import {SeerDialogService} from "../../../../theme/services/seer-dialog.service";
-
+import * as _ from 'lodash';
 @Component({
   templateUrl: './repayment-audit.component.html',
   styleUrls: ['./repayment-audit.component.scss']
@@ -27,40 +26,22 @@ export class RepaymentAuditComponent implements OnInit , OnChanges{
   public transfer:any={};
   public auditMaterials: any = [];
 
-  //原标的投资记录
+  public repaymentInfo:any = {};
+
+  //投资记录
   public investRecords = [];
-  public investTitle = [
-    {key:'account',label:'投资人账号'},
-    {key:'trueName',label:'投资人姓名'},
-    {key:'phoneNumber',label:'投资人手机号'},
-    {key:'investAmount',label:'投资金额（元）'},
-    {key:'investTime',label:'投资时间'},
-    {key:'investWay',label:'投资方式',isDict: true, category: 'INVEST_WAY' },
-
-    ];
-
-  //债转标的投资记录
-  public transferInvestRecords = [];
-  public transferInvestTitle = [
-    {key:'account',label:'投资人账号'},
-    {key:'trueName',label:'投资人姓名'},
-    {key:'phoneNumber',label:'投资人手机号'},
-    {key:'investAmount',label:'投资金额（元）'},
-    {key:'investTime',label:'投资时间'},
-    {key:'investWay',label:'投资方式',isDict: true, category: 'INVEST_WAY' },
-
-  ];
+  public investTitle = [{key:'investAmount',label:'投资金额（元）'}, {key:'investTime',label:'投资时间'}, {key:'account',label:'投资人账号'}, {key:'trueName',label:'投资人姓名'}, {key:'phoneNumber',label:'投资人电话'},];
 
   //还款记录
   public repayRecords = [];
   public repayTitle = [
-    {key:'a',label:'期数'},
-    {key:'b',label:'应还日期'},
-    {key:'c',label:'实还日期'},
-    {key:'d',label:'已还本金（元）'},
-    {key:'e',label:'已还利息（元）'},
-    {key:'f',label:'已还总额（元）',isDict: true, category: 'INVEST_WAY' },
-    {key:'g',label:'还款状况',isDict: true, category: 'RPMT_STATUS' },
+    {key:'rpmtIssue',label:'期数'},
+    {key:'shdRpmtDate',label:'应还日期'},
+    {key:'realRpmtDate',label:'实还日期'},
+    {key:'rpmtCapital',label:'已还本金（元）'},
+    {key:'rpmtIint',label:'已还利息（元）'},
+    {key:'rpmtTotal',label:'已还总额（元）',isDict: true, category: 'INVEST_WAY' },
+    {key:'statusName',label:'还款状况',isDict: true, category: 'RPMT_STATUS' },
   ];
 
   //审核记录
@@ -80,14 +61,17 @@ export class RepaymentAuditComponent implements OnInit , OnChanges{
     private modalService: BsModalService,
     private _messageService: SeerMessageService){
   }
+  //审核记录
+  projectProgres:any;
 
   ngOnInit() {
-
+      this.projectProgres = _.cloneDeep(this.service.projectProgres);
     this.route.params.subscribe((params: Params) => {params['id']? this.id = params['id']:"";
       this.getProjectMember(this.id);
-      this.getProjectDetail(this.id);
-      this.getAuditRecords(this.id);
       this.getRepaymentDetail(this.id);
+      this.getAuditRecords(this.id);
+      this.getInvestRecords(this.id);
+      //this.getRepaymentDetail(this.id);
     });
   }
 
@@ -99,6 +83,7 @@ export class RepaymentAuditComponent implements OnInit , OnChanges{
     this.service.getProjectMember(projectId).then((res) => {
       if("0" == res.code) {
         this.member = res.data.baseInfo;
+        this.getRepaymentRecords(projectId,this.member.memberId);
       }else {
         console.log("fail");
       }
@@ -113,6 +98,8 @@ export class RepaymentAuditComponent implements OnInit , OnChanges{
   public getProjectDetail(projectId: string) {
     this.service.getProjectDetail(projectId).then((res) => {
       if("0" == res.code) {
+        console.log('/////////');
+        console.log(res.data);
         this.loan = res.data.loanBase;
       }else {
         console.log("fail");
@@ -134,9 +121,12 @@ R
 
   //查询提前还款信息
   public getRepaymentDetail(projectId: string) {
-    this.service.getProjectDetail(projectId).then((res) => {
+    this.service.getRepaymentDetail(projectId).then((res) => {
       if("0" == res.code) {
-        this.loan = res.data.loanBase;
+        this.loan=res.data.fcProjectInfo;
+        this.repaymentInfo = res.data.fcAheadrepay;
+        console.log('1111111111111111111111');
+        console.log(this.repaymentInfo);
       }else {
         console.log("fail");
       }
@@ -178,6 +168,17 @@ R
         });
       }
     })
+  }
+
+  //查询标的还款记录
+  public getRepaymentRecords(projectId: string,memberId:string) {
+    this.service.getLoanRepaymentRecords(projectId,memberId).then((res) => {
+      if("0" == res.code) {
+        this.repayRecords = res.data;
+      }else {
+        this.showError(res.message)
+      }
+    }).catch(err => { this.showError('获取投资记录失败！' ) });
   }
 
   //返回

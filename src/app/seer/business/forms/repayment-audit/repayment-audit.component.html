@@ -3,7 +3,7 @@
   <button class="btn btn-outline-dark" (click)="handleBackBtnClick()">返回</button>
   <button class="btn btn-primary" (click)="submitAudit()">提交</button>
 </seer-content-top>
-
+<seer-progress [type]="'progress'" [contentList]="projectProgres" currentNode="1"></seer-progress>
 <div class="widgets">
   <div class="row justify-content-center">
     <div class="col-md-12">
@@ -246,17 +246,17 @@
           <form class="form-horizontal" >
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label class="col-sm-4 control-label">满标审核时间(假)</label>
+                <label class="col-sm-4 control-label">满标审核时间</label>
                 <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">{{loan.loanEndDate | date:'yyyy-MM-dd HH:mm:ss'}}</label>
+                  <label class="form-control" style="background: #f6f6f6">{{loan.transferTime | date:'yyyy-MM-dd HH:mm:ss'}} </label>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label class="col-sm-4 control-label">投资人数(假)</label>
+                <label class="col-sm-4 control-label">投资人数</label>
                 <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">5人</label>
+                  <label class="form-control" style="background: #f6f6f6">{{investRecords.length || '0'}}人</label>
                 </div>
               </div>
             </div>
@@ -281,26 +281,26 @@
           <form class="form-horizontal" >
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label class="col-sm-4 control-label">应还本金（假）</label>
+                <label class="col-sm-4 control-label">应还本金</label>
                 <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">1000</label>
+                  <label class="form-control" style="background: #f6f6f6">{{repaymentInfo.rpmtCapital }}元</label>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label class="col-sm-4 control-label">应还利息（假）</label>
+                <label class="col-sm-4 control-label">应还利息</label>
                 <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">	100</label>
+                  <label class="form-control" style="background: #f6f6f6">	{{repaymentInfo.rpmtIint }}元</label>
                 </div>
               </div>
             </div>
 
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label class="col-sm-4 control-label">应还总额（假）</label>
+                <label class="col-sm-4 control-label">应还总额</label>
                 <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">1100</label>
+                  <label class="form-control" style="background: #f6f6f6">{{repaymentInfo.rpmtCapital + repaymentInfo.rpmtIint}}</label>
                 </div>
               </div>
             </div>
@@ -308,7 +308,7 @@
               <div class="row">
                 <label class="col-sm-4 control-label">申请日期（假）</label>
                 <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">2018-8-6 12:03:25</label>
+                  <label class="form-control" style="background: #f6f6f6">{{repaymentInfo.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</label>
                 </div>
               </div>
             </div>
