@@ -223,55 +223,38 @@
             </div>
         </seer-collapse-card>
         <seer-collapse-card cardTitle="车辆信息" cardClass="with-scroll" *ngIf="vehicleInfo.length>0">
-          <seer-table
+          <seer-simple-table
             [data]="vehicleInfo"
             [titles]="titlesVehicleInfo"
             [hidePagination]="true"
             [hideActions]="true"
             [hideAddButton]="true"
             [showSeq]="true"
-            [hideAddButton]=true
-            [hideRemoveAll]=true
-            [hideCheckbox]="true"
-            [hidePrint]="true"
-            [hideColumns]="true"
-            [hideExport]="true"
           >
-          </seer-table>
+          </seer-simple-table>
         </seer-collapse-card>
         <seer-collapse-card cardTitle="房屋信息" cardClass="with-scroll" *ngIf="houseInfo.length>0" >
-          <seer-table
+          <seer-simple-table
             [data]="houseInfo"
             [titles]="titlesHouseInfo"
             [hidePagination]="true"
             [hideActions]="true"
             [hideAddButton]="true"
             [showSeq]="true"
-            [hideAddButton]=true
-            [hideRemoveAll]=true
-            [hideCheckbox]="true"
-            [hidePrint]="true"
-            [hideColumns]="true"
-            [hideExport]="true"
           >
-          </seer-table>
+          </seer-simple-table>
         </seer-collapse-card>
         <seer-collapse-card cardTitle="个人征信信息" cardClass="with-scroll" *ngIf="creditInfo.length>0" >
-          <seer-table
+          <seer-simple-table
             [data]="creditInfo"
             [titles]="titlesCreditInfo"
             [hidePagination]="true"
             [hideAddButton]="true"
-            [hideExport]="true"
-            [hidePrint]="true"
-            [hideCheckbox]="true"
-            [hideColumns]="true"
-            [hideRemoveAll]="true"
             [showSeq]="true"
-            [hideActions]="true"
+            [actions]="creditActions"
             (notify)="openLink($event)"
           >
-          </seer-table>
+          </seer-simple-table>
         </seer-collapse-card>
       </div>
     </div>

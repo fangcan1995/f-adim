@@ -413,7 +413,7 @@
                         <span  class="col-sm-3 cardLable textLeft">{{vehicle.carBrand}}</span> -->
                         <!-- <span  class="col-sm-3 cardLable textRight">型号：</span>
                         <span  class="col-sm-3 cardLable textLeft">{{vehicle.carModel}}</span> -->
-                        <span  class="col-sm-3 cardLable textRight">车龄：</span>
+                        <span  class="col-sm-3 cardLable textRight">购车年份：</span>
                         <span  class="col-sm-3 cardLable textLeft">{{vehicle.carAge}}年</span>
                         <span  class="col-sm-3 cardLable textRight">行驶里程：</span>
                         <span  class="col-sm-3 cardLable textLeft">{{vehicle.mileage}}公里</span>
@@ -581,7 +581,7 @@
             <div class="row">
               <label  class="col-sm-4 col-md-3 control-label text-right">购车年份（年）</label>
               <div class="col-sm-8 col-md-8">
-                <input class="form-control number" name="carAge"  [(ngModel)]="vehicle.carAge||currentYear" maxlength="4" #carAge="ngModel" required number [disabled]="vehicleReadOnly==true">
+                <input class="form-control number" name="carAge"  [(ngModel)]="vehicle.carAge" maxlength="4" #carAge="ngModel" required number [disabled]="vehicleReadOnly==true">
                 <p class="text-danger" *ngIf="carAge.errors?.required">*必填项</p>
                 <p class="text-danger" *ngIf="carAge.errors?.number">请输入正确年份数值</p>
               </div>
