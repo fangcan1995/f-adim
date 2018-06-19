@@ -76,7 +76,7 @@
           [(ngModel)]="item.data[title.key]"
           />
 
-        <span *ngIf="title.type != 'input_number' && title.type != 'link' && !displayOriginalData && item.editState != 'EDIT' && item.editState != 'CREATE' && title.key !='contRelation'" class="seer_font">{{renderValue(title,item.data[title.key])}}</span>
+        <span *ngIf="title.type != 'input_number' && title.type != 'link' && !displayOriginalData && item.editState != 'EDIT' && item.editState != 'CREATE' && title.key !='contRelation'" class="seer_font">{{renderValue(title,item.data[title.key])||'--'}}</span>
 
         <span *ngIf="title.type != 'input_number' && title.type != 'link' && displayOriginalData && item.editState != 'EDIT' && item.editState != 'CREATE' && title.key !='contRelation'" class="seer_font">{{item.data[title.key]}}</span>
 

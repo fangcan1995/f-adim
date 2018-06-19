@@ -1,4 +1,4 @@
-import {Component, ViewEncapsulation, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {Component, ViewEncapsulation, OnInit, Input, Output, EventEmitter, OnChanges} from '@angular/core';
 
 @Component({
   selector: 'seer-progress',
@@ -15,22 +15,31 @@ export class SeerProgressComponent implements OnInit {
 
 
   constructor() {
-
+    console.log('-----------------');
+    console.log(this.currentNode);
   }
 
   ngOnInit(): void {
+
+  }
+  ngOnChanges(){
     if(this.type === "node"){
-        for (let index = 0; index < this.contentList.length; index++) {
-            if(this.currentNode == index+1){
-                this.contentList[index].showColor = true;
-            }
+      for (let index = 0; index < this.contentList.length; index++) {
+        if(this.currentNode == index+1){
+          this.contentList[index].showColor = true;
         }
+        else {
+          this.contentList[index].showColor = false;
+        }
+      }
     }else{
-        for (let index = 0; index < this.contentList.length; index++) {
-            if(this.currentNode >= index+1){
-                this.contentList[index].showColor = true;
-            }
+      for (let index = 0; index < this.contentList.length; index++) {
+        if(this.currentNode >= index+1){
+          this.contentList[index].showColor = true;
+        }else {
+          this.contentList[index].showColor = false;
         }
+      }
     }
   }
 

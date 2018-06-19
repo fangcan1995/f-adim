@@ -184,7 +184,8 @@ export class TransferComponent {
   onChange($event) {
     let url = `/business/forms/`;
     switch ($event.type) {
-      case 'preview': this._router.navigate([url + 'transfer-view', $event.data.id], {relativeTo: this.route}); break;
+      case 'preview': this._router.navigate([url + 'transfer-view', $event.data.id,'preview'], {relativeTo: this.route}); break;
+      case 'abortive': this._router.navigate([url + 'transfer-view', $event.data.id,'abortive'], {relativeTo: this.route}); break;
     }
   }
 
