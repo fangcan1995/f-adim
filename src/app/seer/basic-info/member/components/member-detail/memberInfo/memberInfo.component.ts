@@ -3,6 +3,7 @@ import {Router, ActivatedRoute,} from '@angular/router';
 import { Location } from '@angular/common';
 import { MemberService } from '../../../member.service';
 import { SeerMessageService } from '../../../../../../theme/services/seer-message.service';
+import { PREVIEW } from '../../../../../common/seer-table/seer-table.actions';
 import * as _ from 'lodash';
 @Component({
   selector: 'memberInfo',
@@ -72,10 +73,12 @@ export class MemberInfoComponent implements OnInit {
     // { key:'belongTo3', label:'所有权3' },
   ];//房
   titlesCreditInfo=[
-    { key:'creditType', label:'信用报告',textAlign:'center',type:'clickable' },
+    { key:'creditType', label:'信用报告',textAlign:'center' },
     // { key:'creditLevel', label:'综合信用等级',textAlign:'center' },
     { key:'creditExpire', label:'有效日期',textAlign:'center' },
   ];//征信
+
+  creditActions:any = [PREVIEW];
   memberId:any='';
   constructor(
     private _memberService: MemberService,
@@ -114,6 +117,7 @@ export class MemberInfoComponent implements OnInit {
             this.formatNum(this.houseInfo);
             this.creditInfo=this.member.creditInfo|| [];
             this.forCreditList();
+            this.creditInfo = _.map(this.creditInfo, r => _.set(r, 'actions', [PREVIEW]));
           }).catch(err=>{
             this.showError(err.msg || '连接失败');
           });
@@ -155,7 +159,7 @@ export class MemberInfoComponent implements OnInit {
   //对应报告类型
   forCreditList(){
       for (let index = 0; index < this.creditInfo.length; index++) {
-        if(this.creditInfo[index].creditType!==null&&this.creditInfo[index].creditType!==undefined){
+        if(this.creditInfo[index]!==null && this.creditInfo[index].creditType!==null&&this.creditInfo[index].creditType!==undefined){
           if(this.creditInfo[index].creditType==1){
             this.creditInfo[index].creditType = "个人风险报告"
           }else if (this.creditInfo[index].creditType==2){
@@ -164,11 +168,14 @@ export class MemberInfoComponent implements OnInit {
             this.creditInfo[index].creditType = "个人反欺诈报告"
           }
       }
+      if(this.creditInfo[index] === null){
+        this.creditInfo.splice(index, 1);
+        index--;
+      }
     }
   }
   //预览
   openLink($event){
-    console.log($event);
-    window.open($event.data.creditReport);
+    window.open(this.creditInfo[$event.key].creditReport);
   }
 }

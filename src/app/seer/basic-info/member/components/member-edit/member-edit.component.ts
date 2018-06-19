@@ -50,7 +50,7 @@ export class MemberEditComponent implements OnInit {
   ];//关系人
 
   house={}; //房
-  vehicle={};//车
+  vehicle={carAge:null};//车
   credits: any[] = [];//征信_个人风险报告
   riskReport:any = {};//征信_个人风险报告
   creditReport:any = {};//征信_个人信用报告
@@ -378,6 +378,9 @@ export class MemberEditComponent implements OnInit {
   //车辆弹出层
   vehicleModal(template: TemplateRef<any>, vehicleReadOnly: boolean, vehicle?: any) {
     this.vehicle = _.cloneDeep(vehicle)||{};//防止编辑时页面同步更新
+    if(!this.vehicle.carAge){
+      this.vehicle.carAge = this.currentYear;
+    }
     this.vehicleReadOnly = vehicleReadOnly;
     this.openModal(template);
   }
