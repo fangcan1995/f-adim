@@ -123,7 +123,7 @@ export class TransferComponent {
       this.pageInfo.pageSize=res.data.pageSize; //每页记录数
       this.pageInfo.total=res.data.total; //记录总数
       this.source = res.data.list;
-      console.log(this.source);
+
       this.source = _.map(this.source, i => {
         let transStatus = i.transStatus;
         let actions;

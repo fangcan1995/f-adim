@@ -1,4 +1,3 @@
-
 import {Component, OnChanges, OnInit, TemplateRef} from "@angular/core";
 import {ActivatedRoute, Params} from "@angular/router";
 import { Location } from '@angular/common';
@@ -10,8 +9,8 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {SeerDialogService} from "../../../../theme/services/seer-dialog.service";
 
 @Component({
-  templateUrl: './transfer-view.component.html',
-  styleUrls: ['./transfer-view.component.scss']
+  templateUrl: './repayment-view.component.html',
+  styleUrls: ['./repayment-view.component.scss']
 })
 export class RepaymentViewComponent implements OnInit , OnChanges{
 
@@ -46,13 +45,13 @@ export class RepaymentViewComponent implements OnInit , OnChanges{
   //还款记录
   public repayRecords = [];
   public repayTitle = [
-    {key:'a',label:'期数'},
-    {key:'b',label:'应还日期'},
-    {key:'c',label:'实还日期'},
-    {key:'d',label:'已还本金（元）'},
-    {key:'e',label:'已还利息（元）'},
-    {key:'f',label:'已还总额（元）',isDict: true, category: 'INVEST_WAY' },
-    {key:'g',label:'还款状况',isDict: true, category: 'RPMT_STATUS' },
+    {key:'rpmtIssue',label:'期数'},
+    {key:'shdRpmtDate',label:'应还日期'},
+    {key:'realRpmtDate',label:'实还日期'},
+    {key:'rpmtCapital',label:'已还本金（元）'},
+    {key:'rpmtIint',label:'已还利息（元）'},
+    {key:'rpmtTotal',label:'已还总额（元）',isDict: true, category: 'INVEST_WAY' },
+    {key:'statusName',label:'还款状况',isDict: true, category: 'RPMT_STATUS' },
   ];
 
   //审核记录
@@ -69,9 +68,12 @@ export class RepaymentViewComponent implements OnInit , OnChanges{
   }
 
   ngOnInit() {
-    this.route.params.subscribe((params: Params) => {params['id']? this.id = params['id']:"";
-      this.getTransferDetail(this.id);
-      this.getTransferAuditRecords(this.id);
+    this.route.params.subscribe((params: Params) => {
+      params['id']? this.id = params['id']:"";
+      this.getProjectMember(this.id);
+      this.getProjectDetail(this.id);
+      this.getInvestRecords(this.id);
+      //this.getAuditRecords(this.id);
     });
   }
 
@@ -104,21 +106,7 @@ export class RepaymentViewComponent implements OnInit , OnChanges{
     }).catch(err => { this.showError('获取申请信息失败！' ) });
   }
 
-  //查询债转项目信息（借款信息）
-  public getTransferDetail(id: string) {
-    this.service.getTransferDetail(id).then((res) => {
-      if("0" == res.code) {
-        this.transfer = res.data;
-        this.transfer.minInvestAmount=100;
-        let projectId=this.transfer.projectId;
-        this.getProjectDetail(projectId);
-        this.getProjectMember(projectId);
-        this.getInvestRecords(projectId);
-      }else {
-        console.log("fail");
-      }
-    }).catch(err => { this.showError('获取债转信息失败！' ) });
-  }
+
 
   //查询标的投资记录
   public getInvestRecords(projectId: string) {
@@ -132,28 +120,34 @@ export class RepaymentViewComponent implements OnInit , OnChanges{
     }).catch(err => { this.showError('获取投资记录失败！' ) });
   }
 
-  //查询债转标的审批记录
-  public getTransferAuditRecords(projectId: string) {
-    this.service.getTransferProjectAuditRecords(projectId).then((res) => {
-      if("0" == res.code) {
-        /*res.data[0].taskName=`债权转让审核`;
-        res.data[0].opinion=`同意发布`;
-        res.data[1].taskName=`满标`;
-        res.data[1].account=``;
-        res.data[1].operatorName=``;
-        res.data[1].completeTime="2018-05-30 12:30:25";
-        res.data[1].opinion=``;
-        res.data.push({account:`admin`,taskName:`满标审核`,opinion:`同意划转`,operatorName: "方灿",assigneeId: "0e86acccf5864557abf51b54a9669f00",
-          completeTime: "2018-05-30 14:56:52"})
-        console.log('审批信息');
-        console.log(res.data);*/
-        this.auditProcessRecords = res.data;
-      }else {
-        this.showError(res.message)
-      }
-    }).catch(err => { this.showError('获取债转审批记录失败！' ) });
-  }
 
+//提交审核
+  public auditResult: string = "pass";
+  public auditOpinion: string = "";
+  public auditReason: string = "";
+  public submitAudit(){
+    this._dialogService.confirm('是否确认提交审核?', [{type: 1, text: '确认',}, {type: 0, text: '取消',},]).subscribe(action => {
+      if (action === 1) {
+        this.isLoading = true;
+        let param = {
+          "auditResult": this.auditResult,
+          "opinion": this.auditReason + " " + this.auditOpinion
+        };
+        this.service.repaymentAudit(this.id, param).then(res =>{
+          if(0 == res.code) {
+            this.showSuccess(res.message);
+            this.handleBackBtnClick();
+          }else {
+            this.showError(res.message);
+          }
+          this.isLoading = false;
+        }).catch(error => {
+          this.isLoading = false;
+          this.showError(error.message)
+        });
+      }
+    })
+  }
 
   //返回
   handleBackBtnClick() {this._location.back();}

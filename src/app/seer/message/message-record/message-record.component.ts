@@ -72,11 +72,11 @@ export class MessageRecordComponent {
       groups: [
         {
           type: 'datepicker',
-          defaultValue:'2018-04-01 00:00:00'
+          defaultValue:new Date(new Date().getTime() - 24*60*60*1000)
         },
         {
           type: 'datepicker',
-          defaultValue:'2018-04-02 23:59:59'
+          defaultValue:new Date()
         },
       ],
       groupSpaces: ['至']
@@ -157,6 +157,8 @@ export class MessageRecordComponent {
       beginTime = postTime[0] ? (formatDate(postTime[0],'YYYY-MM-DD 00:00:00')) :'';
       endTime = postTime[1] ? (formatDate(postTime[1],'YYYY-MM-DD 23:59:59')) :'';
     }
+    console.log('11111111111111111');
+    console.log(postTime[0]);
     params = {
       ...otherParams,
       beginTime,

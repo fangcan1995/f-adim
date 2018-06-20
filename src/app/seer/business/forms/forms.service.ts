@@ -10,6 +10,7 @@ import {
 
 import {ActivatedRoute, Router} from "@angular/router";
 import {getStorage} from "../../../theme/libs/utils";
+import {ResModel} from "../../../theme/services";
 
 
 @Injectable()
@@ -20,7 +21,9 @@ export class FormsService extends BaseService<any>{
     {text:"初审"},
     {text:"复审"},
     {text:"标的发布"},
-    {text:"满标审核"}
+    {text:"满标审核"},
+     {text:"还款中"},
+     {text:"已结清"},
   ];
   //债转流程
   transferProgres:any = [
@@ -44,9 +47,14 @@ export class FormsService extends BaseService<any>{
     return this._httpInterceptorService.request('GET', BASE_URL + `/loans/${loanApplyId}/member`, false).toPromise();
   }
 
+  //查询征信信息
+  getCreditByType(memberId, type): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET',BASE_URL+`/members/${memberId}/credits/${type}`).toPromise();
+  }
+
   //查询借款会员信息 == 查询借款会员信息
   public getProjectMember(projectId: string): Promise<any> {
-    return this._httpInterceptorService.request('GET', BASE_URL + `/projects/${projectId}/member`, false).toPromise();
+    return this._httpInterceptorService.request('GET', `http://172.16.1.225:9080` + `/projects/${projectId}/member`, false).toPromise();
   }
 
   //查询借款申请信息（包括基本信息、抵押物、上传资料、房屋等信息）
@@ -128,7 +136,7 @@ export class FormsService extends BaseService<any>{
 
   //项目审核
   public projectAudit(projectId: string, param: any): Promise<any> {
-    return this._httpInterceptorService.request('POST', BASE_URL + `/projects/${projectId}/audit`, param, false, 60000).toPromise();
+    return this._httpInterceptorService.request('POST', `http://172.16.1.252:9080` + `/projects/${projectId}/audit`, param, false, 60000).toPromise();
   }
 
 
@@ -162,8 +170,6 @@ export class FormsService extends BaseService<any>{
   }
   //债转审核/发布  满标划转审核
   public transferAudit(transferId: string, param: any): Promise<any> {
-    console.log('aaaaaaaaaaaaaaaaa');
-    console.log(transferId);
     return this._httpInterceptorService.request('POST', `http://172.16.1.234:9080/transfer/${transferId}/audit`, param, false, 60000).toPromise();
   }
  /* //债转满标划转(假)
@@ -178,12 +184,12 @@ export class FormsService extends BaseService<any>{
   public transferAutoFailAudit(transferId: string, param: any): Promise<any> {
     return this._httpInterceptorService.request('POST', `http://172.16.1.234:9080/transfer/${transferId}/audit`, param, false, 60000).toPromise();
   }
-  //查询提前还款信息(500)
+  //查询提前还款信息
   public getRepaymentDetail(projectId: string): Promise<any> {
     return this._httpInterceptorService.request('GET', `http://172.16.1.234:9080/repayment/ahead/detail`,{projectId: projectId}).toPromise();
     //return this._httpInterceptorService.reqruest('GET', `http://172.16.1.234:9080/transfer/release/info?access_token=90ec39f0-67f0-476c-88c6-2407146be589&id=49e44c7795d5415f80b2282205ae1254`, false).toPromise();
   }
-  //提前还款审核(需测试)
+  //提前还款审核
   public repaymentAudit(projectId: string, param: any): Promise<any> {
     return this._httpInterceptorService.request('POST', `http://172.16.1.234:9080/repayment/ahead/${projectId}/audit`, param, false, 60000).toPromise();
   }

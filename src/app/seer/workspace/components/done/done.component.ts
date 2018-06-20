@@ -77,7 +77,7 @@ export class DoneComponent implements OnInit {
 
       //标的流程
       case 'LOAN_PROJECT':
-        this._router.navigate([url + 'project-view', task.businessKey], {relativeTo: this.route});
+        this._router.navigate([url + 'project-view', task.businessKey,'preview'], {relativeTo: this.route});
         break;
 
     }
