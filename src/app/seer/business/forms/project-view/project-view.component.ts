@@ -224,17 +224,19 @@ export class ProjectViewComponent implements OnInit , OnChanges{
 
   //征信预览/下载
   openLink($event){
-    console.log('????????')
-    console.log($event);
     switch($event.type){
       case `download`:
-        window.open(this.creditInfo[$event.key].creditReport);
+        // window.open(this.creditInfo[$event.key].creditReport);
+        let a = document.createElement('a')  
+        let event = new MouseEvent('click')     
+        a.download = this.creditInfo[$event.key].creditType || '文件' 
+        a.href = this.creditInfo[$event.key].creditReport;  
+        a.dispatchEvent(event)  
         break;
       case`preview`:
         window.open(this.creditInfo[$event.key].creditReport);
         break;
       default:
-
         break
     }
 
