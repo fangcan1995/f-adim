@@ -18,6 +18,7 @@ export class ProjectViewComponent implements OnInit , OnChanges{
 
   public id: string;
   public method: string; //edit by lily
+  public currentNode:number=0;
   isLoading: boolean = true;
 
 
@@ -105,7 +106,32 @@ export class ProjectViewComponent implements OnInit , OnChanges{
     this.route.params.subscribe((params: Params) => {
       params['id']? this.id = params['id']:"";
       params['method']? this.method = params['method']:"";
+      console.log('当前方法')
+      console.log(this.method);
+      switch (this.method) {
+        case `preview`:
+          if(this.loan.projectStatus==5){
+            this.currentNode=2;
+          }else{
+            this.currentNode=this.loan.projectStatus;
+          }
 
+          break;
+        case `abortive`:
+          //this.currentNode=3;
+          /*this.transferProgres = [
+            {text:"债转审核/发布"},
+            {text:"转让中"},
+            {text:"债转失败"},
+          ];*/
+          this.currentNode=this.loan.projectStatus+1;
+          this.auditResult='refuse';
+          //流标
+          break;
+        default:
+
+          break;
+      }
       this.getProjectMember(this.id);
       this.getProjectDetail(this.id);
       this.getInvestRecords(this.id);
@@ -121,8 +147,6 @@ export class ProjectViewComponent implements OnInit , OnChanges{
     this.isLoading = true;
     this.service.getProjectMember(projectId).then((res) => {
       if("0" == res.code) {
-        console.log('-------会员信息---------');
-        console.log(res.data);
         this.member = res.data.baseInfo;
         this.creditInfo = res.data.credits|| [];
         this.forCreditList();
@@ -137,7 +161,7 @@ export class ProjectViewComponent implements OnInit , OnChanges{
       this.isLoading = false;
     }).catch(err => {
       this.isLoading = false;
-      this.showError( err.msg || '获取贷款信息失败！' )
+      this.showError( err.msg || '获取信息失败！' )
     });
   }
 
@@ -217,14 +241,12 @@ export class ProjectViewComponent implements OnInit , OnChanges{
   }
   //附件预览/下载
   openMaterials($event){
-    console.log('????????')
-    console.log($event);
     switch($event.type){
       case `download`:
-        window.open(this.creditInfo[$event.key].creditReport);
+        window.open(this.auditMaterials[$event.key].fileName);
         break;
       case`preview`:
-        window.open(this.creditInfo[$event.key].creditReport);
+        window.open(this.auditMaterials[$event.key].fileName);
         break;
       default:
 
@@ -236,7 +258,10 @@ export class ProjectViewComponent implements OnInit , OnChanges{
   public getProjectDetail(projectId: string) {
     this.service.getProjectDetail(projectId).then((res) => {
       if("0" == res.code) {
+        console.log('借款信息-----------');
+
         this.loan = res.data.loanBase;
+        console.log(this.loan);
         this.pawnRelation = res.data.pawnRelation;
 
         this.pawnVehicle = [res.data.pawnVehicle];
@@ -250,7 +275,7 @@ export class ProjectViewComponent implements OnInit , OnChanges{
       }else {
         console.log("fail");
       }
-    }).catch(err => { this.showError('获取申请信息失败！' ) });
+    }).catch(err => { this.showError('获取借款信息失败！' ) });
   }
 
   //查询标的投资记录

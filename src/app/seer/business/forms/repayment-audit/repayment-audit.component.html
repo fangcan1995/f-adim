@@ -334,19 +334,19 @@
           <form class="form-horizontal" >
             <div class="form-group col-sm-12 col-md-8 col-lg-6 col-xlg-3">
               <div class="row">
-                <label  class="col-sm-4 control-label">审批意见(假)</label>
+                <label  class="col-sm-4 control-label">审批意见</label>
                 <div class="col-sm-8">
                   <!--<label class="form-control" style="background: #f6f6f6">通过</label>-->
                   <div class="radio">
                     <label class="radio-inline"><input type="radio" name="auditResult" value="pass"   [(ngModel)]="auditResult">通过</label>
-                    <label class="radio-inline"><input type="radio" name="auditResult" value="refuse" [(ngModel)]="auditResult">拒绝（流标）</label>
+                    <label class="radio-inline"><input type="radio" name="auditResult" value="return" [(ngModel)]="auditResult">拒绝（流标）</label>
                   </div>
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-12 col-md-8 col-lg-6 col-xlg-3">
               <div class="row">
-                <label  class="col-sm-4 control-label">原因(假)</label>
+                <label  class="col-sm-4 control-label">原因</label>
                 <div class="col-sm-8">
                   <select *ngIf="auditResult != 'pass'" class="form-control" id="auditReason" [(ngModel)]="auditReason" [ngModelOptions]="{standalone: true}">
                     <option value="">请选择原因</option>

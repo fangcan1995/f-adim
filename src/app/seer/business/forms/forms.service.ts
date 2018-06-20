@@ -64,7 +64,7 @@ export class FormsService extends BaseService<any>{
 
   //查询项目信息 == 借款申请信息
   public getProjectDetail(projectId: string): Promise<any> {
-    return this._httpInterceptorService.request('GET', BASE_URL + `/projects/${projectId}/detail`, false).toPromise();
+    return this._httpInterceptorService.request('GET', `http://172.16.1.225:9080` + `/projects/${projectId}/detail`, false).toPromise();
   }
 
 
@@ -136,7 +136,7 @@ export class FormsService extends BaseService<any>{
 
   //项目审核
   public projectAudit(projectId: string, param: any): Promise<any> {
-    return this._httpInterceptorService.request('POST', `http://172.16.1.252:9080` + `/projects/${projectId}/audit`, param, false, 60000).toPromise();
+    return this._httpInterceptorService.request('POST', `http://172.16.1.225:9080` + `/projects/${projectId}/audit`, param, false, 60000).toPromise();
   }
 
 
