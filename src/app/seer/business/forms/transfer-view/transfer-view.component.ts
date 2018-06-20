@@ -150,7 +150,18 @@ export class TransferViewComponent implements OnInit , OnChanges{
              this.currentNode=3;
             break;
           case `preview`:
-             this.currentNode=this.transfer.transStatus;
+            if(this.transfer.transStatus==5){
+              this.transferProgres = [
+                {text:"债转审核/发布"},
+                {text:"债转失败"},
+              ];
+              this.currentNode=2;
+            }else{
+              this.currentNode=this.transfer.transStatus;
+            }
+
+
+
             break;
           case `abortive`:
             //this.currentNode=3;
