@@ -68,7 +68,7 @@ export class InfoPublishComponent {
         },
         {
             key: 'effectTime',
-            label: '生效时间',
+            label: '更新时间',
             groups: [
                 {
                     type: 'datepicker',

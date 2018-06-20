@@ -31,6 +31,7 @@ export class SeerTree implements OnInit {
     @Input() newNodeData = {};
     @Input() loadingText = '加载中...';
     @Input() filterText = '筛选节点';
+    @Input() group = 'news';
     @Output() notify: EventEmitter<any> = new EventEmitter<any>();
     @Input() customAllowDrop: { (element, to): boolean };
 
@@ -291,7 +292,9 @@ export class SeerTree implements OnInit {
             return;
         }
         if (!node.realParent) {
-            this._dialogService.confirm(`删除后 #${node.data.name}# 栏目及其子栏目的所有文章一并删除，确认要删除吗？`, [
+            this._dialogService.confirm(this.group !== 'org' ? 
+                `删除后 #${node.data.name}# 栏目及其子栏目的所有文章一并删除，确认要删除吗？`
+                : `您确认删除 #${node.data.name} #吗？确认后内部员工所属部门关系将清空，需重新编辑。`, [
                 {
                     type: 1,
                     text: '确认删除'
@@ -309,7 +312,9 @@ export class SeerTree implements OnInit {
             })
         }
         if (node.realParent && (node.canExpand)) {
-            this._dialogService.confirm(`删除后 #${node.data.name}# 栏目及其子栏目的所有文章一并删除，确认要删除吗？`, [
+            this._dialogService.confirm(this.group !== 'org' ? 
+            `删除后 #${node.data.name}# 栏目及其子栏目的所有文章一并删除，确认要删除吗？`
+            : `您确认删除 #${node.data.name} #吗？确认后内部员工所属部门关系将清空，需重新编辑。`, [
                 {
                     type: 1,
                     text: '确认删除'
@@ -327,7 +332,9 @@ export class SeerTree implements OnInit {
             });
         }
         if (node.realParent && !node.canExpand) {
-            this._dialogService.confirm(`删除后 #${node.data.name}# 栏目及其子栏目的所有文章一并删除，确认要删除吗？`, [
+            this._dialogService.confirm(this.group !== 'org' ? 
+            `删除后 #${node.data.name}# 栏目及其子栏目的所有文章一并删除，确认要删除吗？`
+            : `您确认删除 #${node.data.name} #吗？确认后内部员工所属部门关系将清空，需重新编辑。`, [
                 {
                     type: 1,
                     text: '确认删除'

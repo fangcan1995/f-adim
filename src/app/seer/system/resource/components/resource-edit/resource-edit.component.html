@@ -121,7 +121,7 @@
                     (keyup)="validNumber($event)"
                     />
                     <p class="text-danger" *ngIf="sortNum.errors?.required">*必填项</p>
-                    <p class="text-danger" *ngIf="!validNumTest">*必须是数字</p>
+                    <p class="text-danger" *ngIf="!sortNum.errors?.required && !validNumTest">*必须是数字</p>
                 </div>
               </div>
             </div>
