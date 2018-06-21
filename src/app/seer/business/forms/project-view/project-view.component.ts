@@ -175,34 +175,6 @@ export class ProjectViewComponent implements OnInit , OnChanges{
     }
   }
 
-  //查询征信信息
-  requery(type){
-    //提示用户是否重新获取
-    this._dialogService.confirm('获取信用报告是要收取一定费用且24小时之内获取的报告相同是否继续查询？')
-      .subscribe(action => {
-        if (action === 1) {
-          this.service.getCreditByType(this.member.memberId, type).then((data:any)=>{
-            switch(type){
-              case 1:
-                this.riskReport = data.data;
-                break;
-              case 2:
-                this.creditReport =  data.data;
-                break;
-              case 3:
-                this.antiFraudReport =  data.data;
-                break
-            }
-            this.showSuccess(data.msg || '查询成功！');
-          }).catch(err => {
-            this.showError(err.msg || '查询失败！');
-          });
-        }else{
-          return;
-        }
-      });
-  }
-
   //对应报告类型
   forCreditList(){
     for (let index = 0; index < this.creditInfo.length; index++) {
@@ -227,11 +199,11 @@ export class ProjectViewComponent implements OnInit , OnChanges{
     switch($event.type){
       case `download`:
         // window.open(this.creditInfo[$event.key].creditReport);
-        let a = document.createElement('a')  
-        let event = new MouseEvent('click')     
-        a.download = this.creditInfo[$event.key].creditType || '文件' 
-        a.href = this.creditInfo[$event.key].creditReport;  
-        a.dispatchEvent(event)  
+        let a = document.createElement('a')
+        let event = new MouseEvent('click')
+        a.download = this.creditInfo[$event.key].creditType || '文件'
+        a.href = this.creditInfo[$event.key].creditReport;
+        a.dispatchEvent(event)
         break;
       case`preview`:
         window.open(this.creditInfo[$event.key].creditReport);

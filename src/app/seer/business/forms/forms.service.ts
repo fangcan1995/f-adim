@@ -44,7 +44,7 @@ export class FormsService extends BaseService<any>{
 
   //查询借款会员信息（包括基本信息、信用、车辆、房屋等信息）
   public getLoanMember(loanApplyId: string): Promise<any> {
-    return this._httpInterceptorService.request('GET', BASE_URL + `/loans/${loanApplyId}/member`, false).toPromise();
+    return this._httpInterceptorService.request('GET', `http://172.16.1.225:9080` + `/loans/${loanApplyId}/member`, false).toPromise();
   }
 
   //查询征信信息
@@ -64,7 +64,7 @@ export class FormsService extends BaseService<any>{
 
   //查询项目信息 == 借款申请信息
   public getProjectDetail(projectId: string): Promise<any> {
-    return this._httpInterceptorService.request('GET', `http://172.16.1.225:9080` + `/projects/${projectId}/detail`, false).toPromise();
+    return this._httpInterceptorService.request('GET', `http://172.16.1.228:9080` + `/projects/${projectId}/detail`, false).toPromise();
   }
 
 
