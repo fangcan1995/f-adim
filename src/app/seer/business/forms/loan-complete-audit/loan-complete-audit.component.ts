@@ -115,7 +115,11 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
         console.log(res.data);
         this.member = res.data.baseInfo;
         this.vehicles = res.data.vehicles;
+        console.log('车辆列表');
+        console.log(this.vehicles);
         this.houses = res.data.houses;
+        console.log('房产列表');
+        console.log(this.houses);
         this.creditInfo = res.data.credits;
         this.riskReport = this.findReport("1",this.creditInfo||[]);
         this.creditReport = this.findReport("2",this.creditInfo||[]);
@@ -175,6 +179,9 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
         this.pawnRelation = res.data.pawnRelation;
         this.pawnVehicle = res.data.pawnVehicle;
         this.pawnHouse = res.data.pawnHouse;
+        console.log('抵押物');
+        console.log(this.pawnVehicle);
+        console.log(this.pawnHouse);
         this.auditMaterials = res.data.auditMaterials;
         this.initUploader();
       }else {
@@ -367,6 +374,7 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
       if(0 == res.code) {
         house.id = res.data.id;
         this.houses.push(house);
+
         this.modalRef.hide();
       }else {
         this.showSuccess(res.message);

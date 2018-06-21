@@ -199,11 +199,11 @@ export class ProjectViewComponent implements OnInit , OnChanges{
     switch($event.type){
       case `download`:
         // window.open(this.creditInfo[$event.key].creditReport);
-        let a = document.createElement('a')
-        let event = new MouseEvent('click')
-        a.download = this.creditInfo[$event.key].creditType || '文件'
+        let a = document.createElement('a');
+        let event = new MouseEvent('click');
+        a.download = '文件212111.pdf';
         a.href = this.creditInfo[$event.key].creditReport;
-        a.dispatchEvent(event)
+        a.dispatchEvent(event);
         break;
       case`preview`:
         window.open(this.creditInfo[$event.key].creditReport);
@@ -217,7 +217,12 @@ export class ProjectViewComponent implements OnInit , OnChanges{
   openMaterials($event){
     switch($event.type){
       case `download`:
-        window.open(this.auditMaterials[$event.key].fileName);
+        // window.open(this.auditMaterials[$event.key].fileName);
+        let a = document.createElement('a');
+        let event = new MouseEvent('click');
+        a.download = '文件.jpg';
+        a.href = this.auditMaterials[$event.key].fileName;
+        a.dispatchEvent(event);
         break;
       case`preview`:
         window.open(this.auditMaterials[$event.key].fileName);

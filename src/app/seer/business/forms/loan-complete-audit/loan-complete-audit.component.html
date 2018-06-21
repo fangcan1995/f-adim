@@ -198,8 +198,7 @@
           </div>
         </seer-collapse-card>
 
-        <seer-collapse-card cardTitle="借款信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true [headerActions]="actions" [saveDistabled]="forbidLoanSaveBtn && form2.form.valid" (notify)="saveLoanApply()">
-
+        <seer-collapse-card cardTitle="借款信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true [headerActions]="actions" [saveDistabled]="forbidLoanSaveBtn && form2.form.valid && (pawnVehicle || pawnHouse)" (notify)="saveLoanApply()">
           <!--借款基本信息-->
           <div class="row">
             <form class="form-horizontal" #form2="ngForm">
@@ -256,14 +255,6 @@
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="applyNum" class="col-sm-4 control-label">借款编号</label>
-                  <div class="col-sm-8">
-                    <input class="form-control" id="applyNum" [(ngModel)]="loan.applyNum" [ngModelOptions]="{standalone: true}" disabled>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
                   <label for="annualRate" class="col-sm-4 control-label">年利率</label>
                   <div class="col-sm-8">
                     <input type="text" class="form-control number addUnit" id="annualRate" [(ngModel)]="loan.annualRate" maxlength="100" name="annualRate" #annualRate="ngModel" required [range]="[0, 36]">
@@ -281,6 +272,14 @@
                     <span class="unit">%</span>
                     <p *ngIf="raiseRate.errors?.required" class="text-danger">*必填项</p>
                     <p *ngIf="raiseRate.errors?.range" class="text-danger">*年利率范围：0~36</p>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label for="applyNum" class="col-sm-4 control-label">项目编号</label>
+                  <div class="col-sm-8">
+                    <input class="form-control" id="applyNum" [(ngModel)]="loan.applyNum" [ngModelOptions]="{standalone: true}" disabled>
                   </div>
                 </div>
               </div>
@@ -420,9 +419,9 @@
                 <div *ngIf="pawnVehicle != null" class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
                   <div class="row">
                     <div class="card checkable-card active" style="max-width: 20rem;">
-                      <div class="card-header">{{pawnVehicle.carBrand}}-{{pawnVehicle.carModel}}</div>
+                      <!--<div class="card-header">{{pawnVehicle.carBrand}}-{{pawnVehicle.carModel}}</div>-->
                       <div class="card-body text-secondary">
-                        <p class="card-text">{{pawnVehicle.carNumber}}、行驶{{pawnVehicle.mileage}}公里、{{pawnVehicle.carAge}}年车龄、评估价格为{{pawnVehicle.pricePotential}}元</p>
+                        <p class="card-text">{{pawnVehicle.carBrand}}、{{pawnVehicle.carModel}}<!--{{pawnVehicle.carNumber}}、行驶{{pawnVehicle.mileage}}公里、{{pawnVehicle.carAge}}年车龄、评估价格为{{pawnVehicle.pricePotential}}元--></p>
                         <a href="javascript:void(0)" class="card-link" (click)="vehicleModal(vehicleTemplate, true, pawnVehicle)">查看详情</a>
                       </div>
                     </div>
@@ -450,9 +449,9 @@
                 <div *ngIf="pawnHouse != null "  class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
                   <div class="row">
                     <div class="card checkable-card active" style="max-width: 20rem;">
-                      <div class="card-header">价格：{{pawnHouse.pricePotential}}元</div>
+                      <!--<div class="card-header">{{item.houseAdress}}、{{item.area}}平方米</div>-->
                       <div class="card-body text-secondary">
-                        <p class="card-text">{{pawnHouse.houseAdress}}、{{pawnHouse.area}} </p>
+                        <p class="card-text">{{pawnHouse.houseAdress}}、{{pawnHouse.area}}平方米 </p>
                         <a href="javascript:void(0)" class="card-link" (click)="houseModal(houseTemplate, true, pawnHouse)">查看详情</a>
                       </div>
                     </div>
@@ -463,9 +462,9 @@
                   <div *ngIf="pawnRelation == null || pawnRelation.mortId != item.id " class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
                     <div class="row">
                       <div class="card checkable-card" style="max-width: 20rem;">
-                        <div class="card-header">价格：{{item.pricePotential}}</div>
+                        <!--<div class="card-header">房产地址：{{item.pricePotential}}</div>-->
                         <div class="card-body text-secondary">
-                          <p class="card-text">{{item.houseAdress}}、{{item.area}} </p>
+                          <p class="card-text">{{item.houseAdress}}、{{item.area}}平方米 </p>
                           <a href="javascript:void(0)" class="card-link" (click)="setHouse($event, item)">设为抵押物</a>
                           <a href="javascript:void(0)" class="card-link" (click)="houseModal(houseTemplate, true, item)">查看详情</a>
                         </div>
