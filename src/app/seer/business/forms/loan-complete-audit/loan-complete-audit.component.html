@@ -1,7 +1,7 @@
 <seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
 <seer-content-top>
   <button class="btn btn-outline-dark" (click)="handleBackBtnClick()">返回</button>
-  <button class="btn btn-primary" (click)="submitAudit()" [disabled]="!(forbidAuditSubmitBtn && form1.form.valid && form2.form.valid)">提交</button>
+  <button class="btn btn-primary" (click)="submitAudit()" [disabled]="!(forbidAuditSubmitBtn && form1.form.valid && form2.form.valid && auditResult=='pass') && !(auditResult=='refuse')">提交</button>
 </seer-content-top>
 
 <seer-progress [type]="'progress'" [contentList]="projectProgres" currentNode="1"></seer-progress>
@@ -432,9 +432,9 @@
                   <div *ngIf="pawnRelation == null || pawnRelation.mortId != item.id" class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
                     <div  class="row">
                       <div class="card checkable-card" style="max-width: 20rem;">
-                        <div class="card-header">{{item.carBrand}}-{{item.carModel}}</div>
+                        <!--<div class="card-header">{{item.carBrand}}-{{item.carModel}}</div>-->
                         <div class="card-body text-secondary">
-                          <p class="card-text">{{item.carNumber}}、行驶{{item.mileage}}公里、{{item.carAge}}年车龄、评估价格为{{item.pricePotential}}元</p>
+                          <p class="card-text">{{item.carBrand}}、{{item.carModel}}<!--{{item.carNumber}}、行驶{{item.mileage}}公里、{{item.carAge}}年车龄、评估价格为{{item.pricePotential}}元--></p>
                           <a href="javascript:void(0)" class="card-link" (click)="setVehicle($event, item)">设为抵押物</a>
                           <a href="javascript:void(0)" class="card-link" (click)="vehicleModal(vehicleTemplate, true, item)">查看详情</a>
                         </div>

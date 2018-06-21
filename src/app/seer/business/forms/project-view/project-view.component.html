@@ -176,7 +176,6 @@
         </div>
       </seer-collapse-card>
       <seer-collapse-card cardTitle="借款信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
-
         <!--借款基本信息-->
         <div class="row">
           <form class="form-horizontal" #form2="ngForm">
@@ -397,7 +396,7 @@
         </div>-->
 
       </seer-collapse-card>
-      <ng-container *ngIf="loan.loanType == 1">
+      <ng-container *ngIf="loan.loanType == 1 ">
         <seer-collapse-card cardTitle="抵押车辆信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
           <ng-container *ngIf="pawnVehicle.length > 0">
             <seer-simple-table
@@ -410,7 +409,7 @@
           </ng-container>
         </seer-collapse-card>
       </ng-container>
-      <ng-container *ngIf="loan.loanType == 2">
+      <ng-container *ngIf="loan.loanType == 2 ">
         <seer-collapse-card cardTitle="抵押房屋信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
           <ng-container *ngIf="pawnHouse.length > 0">
             <seer-simple-table
@@ -455,6 +454,7 @@
         <ng-container *ngIf="investRecords.length == 0">暂无附件记录</ng-container>
       </seer-collapse-card>
 
+      <ng-container *ngIf="loan.projectStatus != 0 ">
       <seer-collapse-card cardTitle="投资记录" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <ng-container *ngIf="investRecords.length > 0">
           <seer-simple-table
@@ -468,7 +468,7 @@
         </ng-container>
         <ng-container *ngIf="investRecords.length == 0">暂无投资记录</ng-container>
       </seer-collapse-card>
-
+      </ng-container>
       <seer-collapse-card cardTitle="审批流程" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <ng-container *ngIf="auditProcessRecords.length > 0">
           <seer-simple-table

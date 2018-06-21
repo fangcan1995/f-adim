@@ -391,7 +391,7 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
     const tokenType = token.token_type;
     const accessToken = token.access_token;
     let headers = [{name: 'Authorization', value: `${tokenType} ${accessToken}`}];
-    this.uploader = new FileUploader({ url: BASE_URL + `/loans/${this.loan.loanApplyId}/material`, method: "POST", headers:headers,});
+    this.uploader = new FileUploader({ url: `http://172.16.1.234:9080` + `/loans/${this.loan.loanApplyId}/material`, method: "POST", headers:headers,});
     this.uploader.onSuccessItem = this.successItem.bind(this);
     this.uploader.onCompleteAll = this.onCompleteAll.bind(this);
   }

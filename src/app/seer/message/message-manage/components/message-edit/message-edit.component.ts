@@ -26,7 +26,7 @@ export class MessageEditComponent {
   //receivers=``;//接收用户
   usersType: string; //用户类型
   //IsChecked={"sendMail":false,"sendNotify":false,"sendMessage":false,"now":false};//checkbox初始状态
-  disabled={"sendMail":true,"sendNotify":true,"sendMessage":true,"now":true}; //checkbox是否可用
+  disabled={"sendMail":true,/*"sendNotify":true,*/"sendMessage":true,"now":true}; //checkbox是否可用
   allowChange:boolean=false;//date-picker是否可用
   readonly:boolean=false;//date-picker是否只读
   _editType: string = 'add';
@@ -144,7 +144,7 @@ export class MessageEditComponent {
         if(this.message.adaptationUser=="1"){
           this.usersType="users";
           //后台用户
-          this.disabled={"sendMail":true,"sendNotify":true,"sendMessage":true,"now":false}
+          this.disabled={"sendMail":true,/*"sendNotify":true,*/"sendMessage":true,"now":false}
         }else if(this.message.adaptationUser=="0"){
           //前台用户
           this.usersType="members";
@@ -176,28 +176,28 @@ export class MessageEditComponent {
     if(userTypeId=='0'){
       this.isPickUsersAble=false;
       this.disabled.sendMail=false;
-      this.disabled.sendNotify=false;
+      //this.disabled.sendNotify=false;
       this.disabled.sendMessage=false;
       this.message.sendMail=0;
-      this.message.sendNotify=0;
+      //this.message.sendNotify=0;
       this.message.sendMessage=0;
       this.usersType="members"
     }else if(userTypeId=='1'){
       this.isPickUsersAble=false;
       this.disabled.sendMail=true;
-      this.disabled.sendNotify=true;
+      //this.disabled.sendNotify=true;
       this.disabled.sendMessage=false;
       this.message.sendMail=0;
-      this.message.sendNotify=0;
+      //this.message.sendNotify=0;
       this.message.sendMessage=0;
       this.usersType="users"
     }else{
       this.isPickUsersAble=true;
       this.disabled.sendMail=true;
-      this.disabled.sendNotify=true;
+      //this.disabled.sendNotify=true;
       this.disabled.sendMessage=true;
       this.message.sendMail=0;
-      this.message.sendNotify=0;
+      //this.message.sendNotify=0;
       this.message.sendMessage=0;
     }
 
@@ -243,7 +243,7 @@ export class MessageEditComponent {
     } else if ( this._editType === 'add' ) {
       this.forbidSaveBtn=true;
       this.message.sendMail=this.Cint(this.message.sendMail);
-      this.message.sendNotify=this.Cint(this.message.sendNotify);
+      //this.message.sendNotify=this.Cint(this.message.sendNotify);
       this.message.sendMessage=this.Cint(this.message.sendMessage);
       this.message.receivers=this.ids;
       let messageNew=_.cloneDeep(this.message);

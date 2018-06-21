@@ -18,16 +18,25 @@ export class DoneComponent implements OnInit {
   items = []; //全部数据
 
   tasks = []; //待办任务（过滤）
-
+  //查询参数，分页、排序、检索
+  pageInfo = {
+    "currentPage": 1,
+    "pageSize": 10,
+    "total": "",
+  };
   constructor(private service: WorkspaceService, private _router: Router, private route: ActivatedRoute, private _messageService: SeerMessageService) {}
 
   ngOnInit(): void { this.initialize();}
 
   //初始化数据
   initialize() {
-    this.service.getDoneTasks().then((res) => {
-      this.items = res.data;
-      this.tasks = res.data;
+
+    this.service.getDoneTasks(this.pageInfo).then((res) => {
+      this.pageInfo.currentPage=res.data.pageNum;  //当前页
+      this.pageInfo.pageSize=res.data.pageSize; //每页记录数
+      this.pageInfo.total=res.data.total; //记录总数
+      this.items = res.data.list;
+      this.tasks = res.data.list;
       this.classStatistics();
       console.log(this.tasks);
     }).catch(err => {

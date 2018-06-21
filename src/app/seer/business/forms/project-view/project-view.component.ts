@@ -36,7 +36,7 @@ export class ProjectViewComponent implements OnInit , OnChanges{
   //申请信息
   public loan: any = {};
   public pawnRelation: any = {};
-  public pawnVehicle: any=[{},{}];
+  public pawnVehicle: any=[];
   public pawnHouse: any = [];
   public auditMaterials: any = [];
 
@@ -108,18 +108,24 @@ export class ProjectViewComponent implements OnInit , OnChanges{
       params['method']? this.method = params['method']:"";
       console.log('当前方法')
       console.log(this.method);
+      if(this.method==`loan_preview`){
+        this.getLoanMember(this.id);
+        this.getLoanApply(this.id);
+        this.getLoanAuditRecords(this.id);
+      }else{
+        this.getProjectMember(this.id);
+        this.getProjectDetail(this.id);
+        this.getInvestRecords(this.id);
+        this.getAuditRecords(this.id);
+      }
 
-      this.getProjectMember(this.id);
-      this.getProjectDetail(this.id);
-      this.getInvestRecords(this.id);
-      this.getAuditRecords(this.id);
     });
   }
 
 
   ngOnChanges() { }
 
-  //查询会员信息
+  //查询会员信息1
   public getProjectMember(projectId: string) {
     this.isLoading = true;
     this.service.getProjectMember(projectId).then((res) => {
@@ -141,7 +147,66 @@ export class ProjectViewComponent implements OnInit , OnChanges{
       this.showError( err.msg || '获取信息失败！' )
     });
   }
+  //查询会员信息2
+  public getLoanMember(loanApplyId: string) {
+    this.isLoading = true;
+    this.service.getLoanMember(loanApplyId).then((res) => {
+      if("0" == res.code) {
+        this.member = res.data.baseInfo;
+        this.vehicles = res.data.vehicles;
+        this.houses = res.data.houses;
+        this.creditInfo = res.data.credits|| [];
+        this.forCreditList();
+        this.creditInfo = _.map(this.creditInfo, r => _.set(r, 'actions', [PREVIEW,DOWNLOAD]));
+        this.riskReport = this.findReport("1",this.creditInfo||[]);
+        this.creditReport = this.findReport("2",this.creditInfo||[]);
+        this.antiFraudReport = this.findReport("3",this.creditInfo||[]);
+      }else {
+        console.log("fail");
+      }
+      this.isLoading = false;
+    }).catch(err => {
+      this.isLoading = false;
+      this.showError( err.msg || '获取贷款信息失败！' )
+    });
+  }
 
+  //查询申请信息
+  public getLoanApply(loanApplyId: string) {
+    this.service.getLoanApply(loanApplyId).then((res) => {
+      if("0" == res.code) {
+        this.loan = res.data.loanBase;
+        console.log('借款信息-----------');
+        console.log(this.loan);
+        switch (this.method) {
+          case `loan_preview`:
+            this.currentNode=this.loan.applyStatus;
+            break;
+          case `abortive`:
+            //this.currentNode=3;
+            /*this.transferProgres = [
+              {text:"债转审核/发布"},
+              {text:"转让中"},
+              {text:"债转失败"},
+            ];*/
+            this.currentNode=this.loan.projectStatus+1;
+            this.auditResult='refuse';
+            //流标
+            break;
+          default:
+
+            break;
+        }
+        this.pawnRelation = res.data.pawnRelation;
+        this.pawnVehicle = res.data.pawnVehicle||[];
+        this.pawnHouse = res.data.pawnHouse||[];
+        this.auditMaterials = res.data.auditMaterials||[];
+
+      }else {
+        console.log("fail");
+      }
+    }).catch(err => { this.showError('获取申请信息失败！' ) });
+  }
   //查找征信
   findReport(type,reportList){
     let index = reportList.findIndex(report=>report!=null&&report.creditType == type);
@@ -216,7 +281,6 @@ export class ProjectViewComponent implements OnInit , OnChanges{
     this.service.getProjectDetail(projectId).then((res) => {
       if("0" == res.code) {
         console.log('借款信息-----------');
-
         this.loan = res.data.loanBase;
         console.log(this.loan);
         switch (this.method) {
@@ -229,6 +293,8 @@ export class ProjectViewComponent implements OnInit , OnChanges{
               this.currentNode=6;
             } else if(this.loan.projectStatus==2){
               this.currentNode=5;
+            }else if(this.loan.projectStatus==0){
+              this.currentNode=this.loan.applyStatus;
             }
 
             break;
@@ -248,10 +314,8 @@ export class ProjectViewComponent implements OnInit , OnChanges{
             break;
         }
         this.pawnRelation = res.data.pawnRelation;
-
         this.pawnVehicle = [res.data.pawnVehicle];
         this.pawnHouse = [res.data.pawnHouse];
-
         this.auditMaterials = res.data.auditMaterials;
         this.auditMaterials = _.map(this.auditMaterials, r => _.set(r, 'actions', [PREVIEW,DOWNLOAD]));
         console.log('附件-----------');
@@ -285,7 +349,16 @@ export class ProjectViewComponent implements OnInit , OnChanges{
       }
     }).catch(err => { this.showError('获取审批记录失败！' ) });
   }
-
+//查询申请信息
+  public getLoanAuditRecords(loanApplyId: string) {
+    this.service.getLoanAuditRecords(loanApplyId).then((res) => {
+      if("0" == res.code) {
+        this.auditProcessRecords = res.data;
+      }else {
+        this.showError(res.message)
+      }
+    }).catch(err => { this.showError('获取审批记录失败！' ) });
+  }
   //提交审核
   public auditResult: string = "refuse";
   public auditOpinion: string = "";
