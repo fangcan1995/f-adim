@@ -108,30 +108,7 @@ export class ProjectViewComponent implements OnInit , OnChanges{
       params['method']? this.method = params['method']:"";
       console.log('当前方法')
       console.log(this.method);
-      switch (this.method) {
-        case `preview`:
-          if(this.loan.projectStatus==5){
-            this.currentNode=2;
-          }else{
-            this.currentNode=this.loan.projectStatus;
-          }
 
-          break;
-        case `abortive`:
-          //this.currentNode=3;
-          /*this.transferProgres = [
-            {text:"债转审核/发布"},
-            {text:"转让中"},
-            {text:"债转失败"},
-          ];*/
-          this.currentNode=this.loan.projectStatus+1;
-          this.auditResult='refuse';
-          //流标
-          break;
-        default:
-
-          break;
-      }
       this.getProjectMember(this.id);
       this.getProjectDetail(this.id);
       this.getInvestRecords(this.id);
@@ -242,6 +219,34 @@ export class ProjectViewComponent implements OnInit , OnChanges{
 
         this.loan = res.data.loanBase;
         console.log(this.loan);
+        switch (this.method) {
+          case `preview`:
+            if(this.loan.projectStatus==6){
+              this.currentNode=8;
+            }else if(this.loan.projectStatus==4){
+              this.currentNode=7;
+            }else if(this.loan.projectStatus==3){
+              this.currentNode=6;
+            } else if(this.loan.projectStatus==2){
+              this.currentNode=5;
+            }
+
+            break;
+          case `abortive`:
+            //this.currentNode=3;
+            /*this.transferProgres = [
+              {text:"债转审核/发布"},
+              {text:"转让中"},
+              {text:"债转失败"},
+            ];*/
+            this.currentNode=this.loan.projectStatus+1;
+            this.auditResult='refuse';
+            //流标
+            break;
+          default:
+
+            break;
+        }
         this.pawnRelation = res.data.pawnRelation;
 
         this.pawnVehicle = [res.data.pawnVehicle];
