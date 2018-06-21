@@ -201,8 +201,9 @@ export class ProjectViewComponent implements OnInit , OnChanges{
         // window.open(this.creditInfo[$event.key].creditReport);
         let a = document.createElement('a');
         let event = new MouseEvent('click');
-        a.download = '文件212111.pdf';
+        a.download = this.creditInfo[$event.key].creditType || '征信报告';
         a.href = this.creditInfo[$event.key].creditReport;
+        a.target = "_blank";
         a.dispatchEvent(event);
         break;
       case`preview`:
