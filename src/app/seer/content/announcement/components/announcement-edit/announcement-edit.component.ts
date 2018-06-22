@@ -67,6 +67,7 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
                     })
             } else if (this._editType === 'add') {
                 this.forbidSaveBtn = false;
+                this.announcement.noticeType = '0';
             }
         });
 
