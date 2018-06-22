@@ -154,8 +154,15 @@ export class ProjectViewComponent implements OnInit , OnChanges{
     this.service.getLoanMember(loanApplyId).then((res) => {
       if("0" == res.code) {
         this.member = res.data.baseInfo;
-        this.vehicles = res.data.vehicles;
-        this.houses = res.data.houses;
+        this.pawnVehicle = res.data.vehicles;
+        this.pawnHouse = res.data.houses;
+
+        /*this.pawnRelation = res.data.pawnRelation;
+        this.pawnVehicle = [res.data.pawnVehicle];
+        this.pawnHouse = [res.data.pawnHouse];
+        this.auditMaterials = res.data.auditMaterials;
+        this.auditMaterials = _.map(this.auditMaterials, r => _.set(r, 'actions', [PREVIEW,DOWNLOAD]));*/
+
         this.creditInfo = res.data.credits|| [];
         this.forCreditList();
         this.creditInfo = _.map(this.creditInfo, r => _.set(r, 'actions', [PREVIEW,DOWNLOAD]));
