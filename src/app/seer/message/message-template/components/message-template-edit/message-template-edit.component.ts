@@ -22,10 +22,10 @@ export class MessageTemplateEditComponent implements OnInit {
   editId: string;
   public forbidSaveBtn: boolean = true;
   isPickUsersAble:boolean=true;  //选择用户按钮无效
-  IsChecked={"sendMail":false,"sendNotify":false,"sendMessage":false,"now":false}
-  disabled={"sendMail":true,"sendNotify":true,"sendMessage":true,"now":false}; // checkbox是否可用
+  IsChecked={"sendMail":false,/*"sendNotify":false,*/"sendMessage":false,"now":false}
+  disabled={"sendMail":true,/*"sendNotify":true,*/"sendMessage":true,"now":false}; // checkbox是否可用
   sendMail;
-  sendNotify;
+  /*sendNotify;*/
   sendMessage;
   @ViewChild('validationForm') validationForm;
   constructor(
@@ -80,7 +80,7 @@ export class MessageTemplateEditComponent implements OnInit {
       /**/
     } else  if ( this._editType === 'add' ) {
       this.template.sendMail=this.Cint(this.template.sendMail);
-      this.template.sendNotify=this.Cint(this.template.sendNotify);
+      //this.template.sendNotify=this.Cint(this.template.sendNotify);
       this.template.sendMessage=this.Cint(this.template.sendMessage);
       /*新增*/
       console.log('新增');
@@ -105,24 +105,24 @@ export class MessageTemplateEditComponent implements OnInit {
     //实现的很猥琐，以后再优化
     if(userTypeId=='0'){
       this.disabled.sendMail=false;
-      this.disabled.sendNotify=false;
+      //this.disabled.sendNotify=false;
       this.disabled.sendMessage=false;
       this.template.sendMail=0;
-      this.template.sendNotify=0;
+      //this.template.sendNotify=0;
       this.template.sendMessage=0;
     }else if(userTypeId=='1'){
       this.disabled.sendMail=true;
-      this.disabled.sendNotify=true;
+      //this.disabled.sendNotify=true;
       this.disabled.sendMessage=false;
       this.template.sendMail=0;
-      this.template.sendNotify=0;
+      //this.template.sendNotify=0;
       this.template.sendMessage=0;
     }else{
       this.disabled.sendMail=true;
-      this.disabled.sendNotify=true;
+      //this.disabled.sendNotify=true;
       this.disabled.sendMessage=true;
       this.template.sendMail=0;
-      this.template.sendNotify=0;
+     // this.template.sendNotify=0;
       this.template.sendMessage=0;
     }
   }

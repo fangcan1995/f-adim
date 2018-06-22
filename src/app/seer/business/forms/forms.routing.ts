@@ -23,10 +23,10 @@ const routes: Routes = [
 
       {path: 'project-release/:id',component: ProjectReleaseComponent,},
       {path: 'project-full-audit/:id',component: ProjectFullAuditComponent,},
-      {path: 'project-view/:id',component: ProjectViewComponent,},
+      {path: 'project-view/:id/:method',component: ProjectViewComponent,},  //edit by lily
 
-      {path: 'transfer-view/:id/:method',component: TransferViewComponent,},
-      {path: 'repayment-audit/:id',component: RepaymentAuditComponent,},
+      {path: 'transfer-view/:id/:method',component: TransferViewComponent,},//edit by lily
+      {path: 'repayment-audit/:id',component: RepaymentAuditComponent,},//edit by lily
 
     ]
   }

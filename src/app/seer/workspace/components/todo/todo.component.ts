@@ -20,12 +20,12 @@ export class TodoComponent implements OnInit {
   items = []; //全部数据
 
   tasks = []; //待办任务（过滤）
-  pageInfo= {
+  /*pageInfo= {
     "pageNum": 1,
     "pageSize": 10,
     "sortBy": "-createTime",
     "total": ""
-  }
+  }*/
   constructor(private service: WorkspaceService, private _router: Router, private route: ActivatedRoute, private _messageService: SeerMessageService) {}
 
   ngOnInit(): void { this.initialize();}
@@ -33,7 +33,7 @@ export class TodoComponent implements OnInit {
   //初始化数据
   initialize() {
     this.isLoading = true;
-    this.service.getTodoTasks(this.pageInfo).then((res) => {
+    this.service.getTodoTasks().then((res) => {
       this.items = res.data;
       this.tasks = res.data;
       console.log('待办业务列表---------');

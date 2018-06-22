@@ -151,8 +151,13 @@ export class IntentionComponent {
   onChange($event) {
     let url = `/business/forms/`;
     switch ($event.type) {
-      case 'create': this._router.navigate([url + 'loan-apply'], {relativeTo: this.route}); break;
-      case 'preview': this._router.navigate([url + 'loan-view', $event.data.loanApplyId], {relativeTo: this.route}); break;
+      case 'create':
+        this._router.navigate([url + 'loan-apply'], {relativeTo: this.route});
+        break;
+      case 'preview':
+        //this._router.navigate([url + 'loan-view', $event.data.loanApplyId],{relativeTo: this.route});
+        this._router.navigate([url + 'project-view', $event.data.loanApplyId,'loan_preview'],{relativeTo: this.route});
+        break;
     }
   }
 

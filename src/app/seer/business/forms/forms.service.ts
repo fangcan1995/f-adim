@@ -10,6 +10,7 @@ import {
 
 import {ActivatedRoute, Router} from "@angular/router";
 import {getStorage} from "../../../theme/libs/utils";
+import {ResModel} from "../../../theme/services";
 
 
 @Injectable()
@@ -20,7 +21,10 @@ export class FormsService extends BaseService<any>{
     {text:"初审"},
     {text:"复审"},
     {text:"标的发布"},
-    {text:"满标审核"}
+     {text:"投资中"},
+    {text:"满标审核"},
+     {text:"还款中"},
+     {text:"已结清"},
   ];
   //债转流程
   transferProgres:any = [
@@ -42,6 +46,11 @@ export class FormsService extends BaseService<any>{
   //查询借款会员信息（包括基本信息、信用、车辆、房屋等信息）
   public getLoanMember(loanApplyId: string): Promise<any> {
     return this._httpInterceptorService.request('GET', BASE_URL + `/loans/${loanApplyId}/member`, false).toPromise();
+  }
+
+  //查询征信信息
+  getCreditByType(memberId, type): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET',BASE_URL+`/members/${memberId}/credits/${type}`).toPromise();
   }
 
   //查询借款会员信息 == 查询借款会员信息
@@ -153,18 +162,16 @@ export class FormsService extends BaseService<any>{
   */
   //查询债转项目信息
   public getTransferDetail(projectId: string): Promise<any> {
-    return this._httpInterceptorService.request('GET', `http://172.16.1.234:9080/transfer/full/info`,{id: projectId}).toPromise();
+    return this._httpInterceptorService.request('GET', BASE_URL+`/transfer/full/info`,{id: projectId}).toPromise();
     //return this._httpInterceptorService.request('GET', `http://172.16.1.234:9080/transfer/release/info?access_token=90ec39f0-67f0-476c-88c6-2407146be589&id=49e44c7795d5415f80b2282205ae1254`, false).toPromise();
   }
   //查询债权转让审批记录
   public getTransferProjectAuditRecords(loanApplyId: string): Promise<any> {
-    return this._httpInterceptorService.request('GET', `http://172.16.1.234:9080/transfer/${loanApplyId}/audit`, false).toPromise();
+    return this._httpInterceptorService.request('GET', BASE_URL+`/transfer/${loanApplyId}/audit`, false).toPromise();
   }
   //债转审核/发布  满标划转审核
   public transferAudit(transferId: string, param: any): Promise<any> {
-    console.log('aaaaaaaaaaaaaaaaa');
-    console.log(transferId);
-    return this._httpInterceptorService.request('POST', `http://172.16.1.234:9080/transfer/${transferId}/audit`, param, false, 60000).toPromise();
+    return this._httpInterceptorService.request('POST', BASE_URL+`/transfer/${transferId}/audit`, param, false, 60000).toPromise();
   }
  /* //债转满标划转(假)
   public transferFull(transferId: string, param: any): Promise<any> {
@@ -172,24 +179,24 @@ export class FormsService extends BaseService<any>{
   }*/
   //债转手动流标审核(假)
   public transferHandleFailAudit(transferId: string, param: any): Promise<any> {
-    return this._httpInterceptorService.request('POST', `http://172.16.1.234:9080/transfer/${transferId}/audit`, param, false, 60000).toPromise();
+    return this._httpInterceptorService.request('POST', BASE_URL+`/transfer/${transferId}/audit`, param, false, 60000).toPromise();
   }
   //债转自动流标审核(假)
   public transferAutoFailAudit(transferId: string, param: any): Promise<any> {
-    return this._httpInterceptorService.request('POST', `http://172.16.1.234:9080/transfer/${transferId}/audit`, param, false, 60000).toPromise();
+    return this._httpInterceptorService.request('POST', BASE_URL+`/transfer/${transferId}/audit`, param, false, 60000).toPromise();
   }
-  //查询提前还款信息(500)
+  //查询提前还款信息
   public getRepaymentDetail(projectId: string): Promise<any> {
-    return this._httpInterceptorService.request('GET', `http://172.16.1.234:9080/repayment/ahead/detail`,{projectId: projectId}).toPromise();
+    return this._httpInterceptorService.request('GET', BASE_URL+`/repayment/ahead/detail`,{projectId: projectId}).toPromise();
     //return this._httpInterceptorService.reqruest('GET', `http://172.16.1.234:9080/transfer/release/info?access_token=90ec39f0-67f0-476c-88c6-2407146be589&id=49e44c7795d5415f80b2282205ae1254`, false).toPromise();
   }
-  //提前还款审核(需测试)
+  //提前还款审核
   public repaymentAudit(projectId: string, param: any): Promise<any> {
-    return this._httpInterceptorService.request('POST', `http://172.16.1.234:9080/repayment/ahead/${projectId}/audit`, param, false, 60000).toPromise();
+    return this._httpInterceptorService.request('POST', BASE_URL+`/repayment/ahead/${projectId}/audit`, param, false, 60000).toPromise();
   }
   //查询还款记录
   public getLoanRepaymentRecords(projectId: string,memberId:string): Promise<any> {
-    return this._httpInterceptorService.request('GET', `http://172.16.1.252:9080` + `/loans/repayments`, {projectId: projectId,memberId:memberId}).toPromise();
+    return this._httpInterceptorService.request('GET', BASE_URL + `/loans/repayments`, {projectId: projectId,memberId:memberId}).toPromise();
   }
   /*
     end

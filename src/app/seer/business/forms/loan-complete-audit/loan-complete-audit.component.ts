@@ -30,8 +30,14 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
   public forbidAuditSubmitBtn = true;
 
   //会员信息
-  public member: any = {}; public vehicles: any = []; public houses: any = []; public credits: any = [];
+  public member: any = {};
+  public vehicles: any = [];
+  public houses: any = [];
   public classNames: any = {"addressContainerClass": "form-group col-xs-12 col-md-12 col-lg-5 col-xlg-4"}; //居住地样式
+  public creditInfo: any = [];
+  riskReport:any = {};//征信_个人风险报告
+  creditReport:any = {};//征信_个人信用报告
+  public antiFraudReport:any = {};//征信_个人反欺诈报告
 
   //申请信息
   public loan: any = {};
@@ -105,7 +111,19 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
     this.isLoading = true;
     this.service.getLoanMember(loanApplyId).then((res) => {
       if("0" == res.code) {
-        this.member = res.data.baseInfo; this.vehicles = res.data.vehicles;this.houses = res.data.houses; this.credits = res.data.credits;
+        console.log('会员信息');
+        console.log(res.data);
+        this.member = res.data.baseInfo;
+        this.vehicles = res.data.vehicles;
+        console.log('车辆列表');
+        console.log(this.vehicles);
+        this.houses = res.data.houses;
+        console.log('房产列表');
+        console.log(this.houses);
+        this.creditInfo = res.data.credits;
+        this.riskReport = this.findReport("1",this.creditInfo||[]);
+        this.creditReport = this.findReport("2",this.creditInfo||[]);
+        this.antiFraudReport = this.findReport("3",this.creditInfo||[]);
       }else {
         console.log("fail");
       }
@@ -115,16 +133,55 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
       this.showError( err.msg || '获取贷款信息失败！' )
     });
   }
-
+//查找征信
+  findReport(type,reportList){
+    let index = reportList.findIndex(report=>report!=null&&report.creditType == type);
+    if(index >= 0){
+      return reportList[index];
+    }else{
+      return {};
+    }
+  }
+  //查询征信信息
+  requery(type){
+    //提示用户是否重新获取
+    this._dialogService.confirm('获取信用报告是要收取一定费用且24小时之内获取的报告相同是否继续查询？')
+      .subscribe(action => {
+        if (action === 1) {
+          this.service.getCreditByType(this.member.memberId, type).then((data:any)=>{
+            switch(type){
+              case 1:
+                this.riskReport = data.data;
+                break;
+              case 2:
+                this.creditReport =  data.data;
+                break;
+              case 3:
+                this.antiFraudReport =  data.data;
+                break
+            }
+            this.showSuccess(data.msg || '查询成功！');
+          }).catch(err => {
+            this.showError(err.msg || '查询失败！');
+          });
+        }else{
+          return;
+        }
+      });
+  }
   //查询申请信息
   public getLoanApply(loanApplyId: string) {
     this.isLoading = true;
     this.service.getLoanApply(loanApplyId).then((res) => {
       if("0" == res.code) {
         this.loan = res.data.loanBase;
+        this.loan.raiseRate=0; //默认加息0
         this.pawnRelation = res.data.pawnRelation;
         this.pawnVehicle = res.data.pawnVehicle;
         this.pawnHouse = res.data.pawnHouse;
+        console.log('抵押物');
+        console.log(this.pawnVehicle);
+        console.log(this.pawnHouse);
         this.auditMaterials = res.data.auditMaterials;
         this.initUploader();
       }else {
@@ -233,12 +290,12 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
     $event.preventDefault();
     let params = {"vehicleId": vehicle.id};
     this.service.pawnVehicle(this.loan.loanApplyId, params).then(res => {
-      console.log(res)
       if("0" == res.code) {
         this.pawnVehicle = vehicle ;
         this.pawnRelation = res.data;
+        this.showSuccess('设置抵押物成功');
       }else {
-        console.log('设置抵押物失败');
+        this.showSuccess('设置抵押物成功');
       }
     }).catch(err => {
       this.showError('设置抵押物失败' );
@@ -253,8 +310,9 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
       if("0" == res.code) {
         this.pawnHouse = house;
         this.pawnRelation.mortId = house.id;
+        this.showSuccess('设置抵押物成功');
       }else {
-        console.log('设置抵押物失败' );
+        this.showError( '设置抵押物失败' );
       }
     }).catch(err => {
       this.showError( '设置抵押物失败' );
@@ -305,7 +363,6 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
         this.showSuccess(res.message);
       }
     }).catch(error => {
-      console.log(error);
       this.showError('操作失败')
     });
   }
@@ -317,9 +374,9 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
       if(0 == res.code) {
         house.id = res.data.id;
         this.houses.push(house);
+
         this.modalRef.hide();
       }else {
-        console.log(res.message);
         this.showSuccess(res.message);
       }
     }).catch(error => {
@@ -334,7 +391,7 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
     const tokenType = token.token_type;
     const accessToken = token.access_token;
     let headers = [{name: 'Authorization', value: `${tokenType} ${accessToken}`}];
-    this.uploader = new FileUploader({ url: BASE_URL + `/loans/${this.loan.loanApplyId}/material`, method: "POST", headers:headers,});
+    this.uploader = new FileUploader({ url: `http://172.16.1.234:9080` + `/loans/${this.loan.loanApplyId}/material`, method: "POST", headers:headers,});
     this.uploader.onSuccessItem = this.successItem.bind(this);
     this.uploader.onCompleteAll = this.onCompleteAll.bind(this);
   }

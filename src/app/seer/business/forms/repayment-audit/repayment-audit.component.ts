@@ -66,13 +66,13 @@ export class RepaymentAuditComponent implements OnInit , OnChanges{
 
   ngOnInit() {
       this.projectProgres = _.cloneDeep(this.service.projectProgres);
-    this.route.params.subscribe((params: Params) => {params['id']? this.id = params['id']:"";
-      this.getProjectMember(this.id);
-      this.getRepaymentDetail(this.id);
-      this.getAuditRecords(this.id);
-      this.getInvestRecords(this.id);
-      //this.getRepaymentDetail(this.id);
-    });
+      this.route.params.subscribe((params: Params) => {params['id']? this.id = params['id']:"";
+        this.getProjectMember(this.id);
+        this.getRepaymentDetail(this.id);
+        this.getAuditRecords(this.id);
+        this.getInvestRecords(this.id);
+        //this.getRepaymentDetail(this.id);
+      });
   }
 
   ngOnChanges() { }
@@ -154,7 +154,7 @@ R
           "auditResult": this.auditResult,
           "opinion": this.auditReason + " " + this.auditOpinion
         };
-        this.service.transferAudit(this.id, param).then(res =>{
+        this.service.repaymentAudit(this.id, param).then(res =>{
           if(0 == res.code) {
             this.showSuccess(res.message);
             this.handleBackBtnClick();
@@ -164,7 +164,7 @@ R
           this.isLoading = false;
         }).catch(error => {
           this.isLoading = false;
-          this.showError('操作失败')
+          this.showError(error.msg) //为啥有的是msg有的是message?
         });
       }
     })

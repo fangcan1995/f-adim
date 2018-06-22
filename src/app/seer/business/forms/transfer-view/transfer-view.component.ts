@@ -53,7 +53,6 @@ export class TransferViewComponent implements OnInit , OnChanges{
 
   //还款记录
   public repayRecords = [];
-
   public repayTitle = [
     {key:'rpmtIssue',label:'期数'},
     {key:'shdRpmtDate',label:'应还日期'},
@@ -239,7 +238,6 @@ export class TransferViewComponent implements OnInit , OnChanges{
 
   //提交审核
   public auditResult: string = "pass";
-
   public auditOpinion: string = "";
   public auditReason: string = "";
   public submitAudit(){
