@@ -108,7 +108,7 @@ export class ProjectViewComponent implements OnInit , OnChanges{
       params['method']? this.method = params['method']:"";
       console.log('当前方法')
       console.log(this.method);
-      if(this.method==`loan_preview`){
+      if(this.method==`loan_preview` || this.method==`loan-first-audit` || this.method==`loan-second-audit` ){
         this.getLoanMember(this.id);
         this.getLoanApply(this.id);
         this.getLoanAuditRecords(this.id);
@@ -147,6 +147,7 @@ export class ProjectViewComponent implements OnInit , OnChanges{
       this.showError( err.msg || '获取信息失败！' )
     });
   }
+
   //查询会员信息2
   public getLoanMember(loanApplyId: string) {
     this.isLoading = true;
@@ -170,8 +171,55 @@ export class ProjectViewComponent implements OnInit , OnChanges{
       this.showError( err.msg || '获取贷款信息失败！' )
     });
   }
+  //查询项目信息（标的）
+  public getProjectDetail(projectId: string) {
+    this.service.getProjectDetail(projectId).then((res) => {
+      if("0" == res.code) {
+        console.log('借款信息-----------');
+        this.loan = res.data.loanBase;
+        console.log(this.loan);
+        switch (this.method) {
+          case `preview`:
+            if(this.loan.projectStatus==6){
+              this.currentNode=8;
+            }else if(this.loan.projectStatus==4){
+              this.currentNode=7;
+            }else if(this.loan.projectStatus==3){
+              this.currentNode=6;
+            } else if(this.loan.projectStatus==2){
+              this.currentNode=5;
+            }else if(this.loan.projectStatus==1){
+              this.currentNode=4;
+            }
 
-  //查询申请信息
+            break;
+          case `abortive`:
+            this.currentNode=this.loan.projectStatus+1;
+            this.auditResult='refuse';
+            //流标
+            break;
+          case `project-release`:
+            this.currentNode=4;
+            break;
+          default:
+
+            break;
+        }
+        this.pawnRelation = res.data.pawnRelation;
+        this.pawnVehicle = [res.data.pawnVehicle];
+        this.pawnHouse = [res.data.pawnHouse];
+        this.auditMaterials = res.data.auditMaterials;
+        this.auditMaterials = _.map(this.auditMaterials, r => _.set(r, 'actions', [PREVIEW,DOWNLOAD]));
+        console.log('附件-----------');
+        console.log(this.auditMaterials);
+
+      }else {
+        console.log("fail");
+      }
+    }).catch(err => { this.showError('获取借款信息失败！' ) });
+  }
+
+  //查询申请信息（意向）
   public getLoanApply(loanApplyId: string) {
     this.service.getLoanApply(loanApplyId).then((res) => {
       if("0" == res.code) {
@@ -180,26 +228,29 @@ export class ProjectViewComponent implements OnInit , OnChanges{
         console.log(this.loan);
         switch (this.method) {
           case `loan_preview`:
-            this.currentNode=this.loan.applyStatus;
+            if(this.loan.applyStatus==5){
+              this.projectProgres=[
+                {text:"补填资料"},
+                {text:"意向终止"},
+              ];
+              this.currentNode=2;
+            }else{
+              this.currentNode=this.loan.applyStatus;
+            }
+
             break;
-          case `abortive`:
-            //this.currentNode=3;
-            /*this.transferProgres = [
-              {text:"债转审核/发布"},
-              {text:"转让中"},
-              {text:"债转失败"},
-            ];*/
-            this.currentNode=this.loan.projectStatus+1;
-            this.auditResult='refuse';
-            //流标
+          case `loan-first-audit`:
+            this.currentNode=2;
+            break;
+          case `loan-second-audit`:
+            this.currentNode=3;
             break;
           default:
-
             break;
         }
         this.pawnRelation = res.data.pawnRelation;
-        this.pawnVehicle = res.data.pawnVehicle||[];
-        this.pawnHouse = res.data.pawnHouse||[];
+        this.pawnVehicle = [res.data.pawnVehicle];
+        this.pawnHouse = [res.data.pawnHouse];
         this.auditMaterials = res.data.auditMaterials||[];
 
       }else {
@@ -276,56 +327,7 @@ export class ProjectViewComponent implements OnInit , OnChanges{
     }
 
   }
-  //查询项目信息（借款信息）
-  public getProjectDetail(projectId: string) {
-    this.service.getProjectDetail(projectId).then((res) => {
-      if("0" == res.code) {
-        console.log('借款信息-----------');
-        this.loan = res.data.loanBase;
-        console.log(this.loan);
-        switch (this.method) {
-          case `preview`:
-            if(this.loan.projectStatus==6){
-              this.currentNode=8;
-            }else if(this.loan.projectStatus==4){
-              this.currentNode=7;
-            }else if(this.loan.projectStatus==3){
-              this.currentNode=6;
-            } else if(this.loan.projectStatus==2){
-              this.currentNode=5;
-            }else if(this.loan.projectStatus==0){
-              this.currentNode=this.loan.applyStatus;
-            }
 
-            break;
-          case `abortive`:
-            //this.currentNode=3;
-            /*this.transferProgres = [
-              {text:"债转审核/发布"},
-              {text:"转让中"},
-              {text:"债转失败"},
-            ];*/
-            this.currentNode=this.loan.projectStatus+1;
-            this.auditResult='refuse';
-            //流标
-            break;
-          default:
-
-            break;
-        }
-        this.pawnRelation = res.data.pawnRelation;
-        this.pawnVehicle = [res.data.pawnVehicle];
-        this.pawnHouse = [res.data.pawnHouse];
-        this.auditMaterials = res.data.auditMaterials;
-        this.auditMaterials = _.map(this.auditMaterials, r => _.set(r, 'actions', [PREVIEW,DOWNLOAD]));
-        console.log('附件-----------');
-        console.log(this.auditMaterials);
-
-      }else {
-        console.log("fail");
-      }
-    }).catch(err => { this.showError('获取借款信息失败！' ) });
-  }
 
   //查询标的投资记录
   public getInvestRecords(projectId: string) {
@@ -349,7 +351,8 @@ export class ProjectViewComponent implements OnInit , OnChanges{
       }
     }).catch(err => { this.showError('获取审批记录失败！' ) });
   }
-//查询申请信息
+
+  //查询申请信息
   public getLoanAuditRecords(loanApplyId: string) {
     this.service.getLoanAuditRecords(loanApplyId).then((res) => {
       if("0" == res.code) {
@@ -359,8 +362,9 @@ export class ProjectViewComponent implements OnInit , OnChanges{
       }
     }).catch(err => { this.showError('获取审批记录失败！' ) });
   }
+
   //提交审核
-  public auditResult: string = "refuse";
+  public auditResult: string = "pass";
   public auditOpinion: string = "";
   public auditReason: string = "";
   public submitAudit(){
@@ -371,23 +375,37 @@ export class ProjectViewComponent implements OnInit , OnChanges{
           "auditResult": this.auditResult,
           "opinion": this.auditReason + " " + this.auditOpinion
         };
-        this.service.projectAudit(this.id, param).then(res =>{
-          if(0 == res.code) {
-            this.showSuccess(res.message);
-            this.handleBackBtnClick();
-          }else {
-            this.showError(res.message);
-          }
-          this.isLoading = false;
-        }).catch(error => {
-          this.isLoading = false;
-          this.showError('操作失败')
-        });
+        if(this.method==`loan-first-audit` || this.method==`loan-second-audit`){
+          this.service.loanApplyAudit(this.loan.loanApplyId, param).then(res =>{
+            if(0 == res.code) {
+              this.showSuccess(res.message);
+              this.handleBackBtnClick();
+            }else {
+              this.showError(res.message);
+            }
+            this.isLoading = false;
+          }).catch(error => {
+            this.isLoading = false;
+            this.showError('操作失败')
+          });
+        }else{
+          this.service.projectAudit(this.id, param).then(res =>{
+            if(0 == res.code) {
+              this.showSuccess(res.message);
+              this.handleBackBtnClick();
+            }else {
+              this.showError(res.message);
+            }
+            this.isLoading = false;
+          }).catch(error => {
+            this.isLoading = false;
+            this.showError('操作失败')
+          });
+        }
+
       }
     })
   }
-
-
 
   //下载审批资料
   public downloadFile(item) {

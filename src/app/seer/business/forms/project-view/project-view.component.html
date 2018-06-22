@@ -1,7 +1,7 @@
 <seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
 <seer-content-top>
   <button class="btn btn-outline-dark" (click)="handleBackBtnClick()">返回</button>
-  <ng-container *ngIf="method!='preview'">
+  <ng-container *ngIf="method!='preview' && method!='loan_preview'">
   <button class="btn btn-primary" (click)="submitAudit()">提交</button>
   </ng-container>
 </seer-content-top>
@@ -9,7 +9,6 @@
 <div class="widgets">
   <div class="row justify-content-center">
     <div class="col-md-12">
-
       <seer-collapse-card cardTitle="会员信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <div class="row">
           <form class="form-horizontal" #form1="ngForm">
@@ -191,7 +190,7 @@
               <div class="row">
                 <label class="col-sm-4 control-label text-right">借款金额</label>
                 <div class="col-sm-8">
-                  <label class="form-control" style="background: #f6f6f6">{{loan.applyAmt}}元</label>
+                  <label class="form-control" style="background: #f6f6f6;text-align: right">{{loan.applyAmt}}<span  *ngIf="loan.applyAmt">元</span></label>
                 </div>
               </div>
             </div>
@@ -223,7 +222,7 @@
               <div class="row">
                 <label  class="col-sm-4 control-label">年利率</label>
                 <div class="col-sm-8">
-                  <label class="form-control" style="background: #f6f6f6">{{loan.annualRate}}%</label>
+                  <label class="form-control" style="background: #f6f6f6;text-align: right">{{loan.annualRate}}<span  *ngIf="loan.annualRate">%</span></label>
                 </div>
               </div>
             </div>
@@ -231,7 +230,9 @@
               <div class="row">
                 <label  class="col-sm-4 control-label">加息</label>
                 <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">{{loan.raiseRate}}%</label>
+                  <label class="form-control" style="background: #f6f6f6;text-align: right">
+                    {{loan.raiseRate}}<span  *ngIf="loan.raiseRate || loan.raiseRate==0">%</span>
+                  </label>
                 </div>
               </div>
             </div>
@@ -247,7 +248,9 @@
               <div class="row">
                 <label  class="col-sm-4 control-label">手续费</label>
                 <div class="col-sm-8">
-                  <label class="form-control" style="background: #f6f6f6" >{{loan.serviceRate}}元</label>
+                  <label class="form-control" style="background: #f6f6f6;text-align: right" >
+                    {{loan.serviceRate}}<span  *ngIf="loan.serviceRate">元</span>
+                  </label>
                 </div>
               </div>
             </div>
@@ -263,7 +266,7 @@
               <div class="row">
                 <label class="col-sm-4 control-label">最小投资金额</label>
                 <div class="col-sm-8">
-                  <label class="form-control" style="background: #f6f6f6" >{{loan.minInvestAmount}}元</label>
+                  <label class="form-control" style="background: #f6f6f6;text-align: right" >{{loan.minInvestAmount}}<span  *ngIf="loan.minInvestAmount">元</span></label>
                 </div>
               </div>
             </div>
@@ -271,7 +274,7 @@
               <div class="row">
                 <label  class="col-sm-4 control-label">最大投资金额</label>
                 <div class="col-sm-8">
-                  <label class="form-control" style="background: #f6f6f6" >{{loan.maxInvestAmount}}元</label>
+                  <label class="form-control" style="background: #f6f6f6;text-align: right" >{{loan.maxInvestAmount}}<span  *ngIf="loan.maxInvestAmount">元</span></label>
                 </div>
               </div>
             </div>
@@ -306,95 +309,6 @@
             </div>-->
           </form>
         </div>
-
-        <!--<hr *ngIf="loan.loanType == 1 || loan.loanType == 2">
-
-        &lt;!&ndash; 抵押物信息 &ndash;&gt;
-        <div class="row" *ngIf="loan.loanType == 1 || loan.loanType == 2">
-          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
-            <div class="row">
-              <label *ngIf="loan.loanType == 1" class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 ">抵押车辆</label>
-              <label *ngIf="loan.loanType == 2" class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 ">抵押房屋</label>
-            </div>
-          </div>
-          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
-            <label  class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 "></label>
-            <div *ngIf="loan.loanType == 1" class="col-sm-11 col-md-10 col-lg-10 col-xlg-11">
-              &lt;!&ndash; 抵押车辆 &ndash;&gt;
-              <div *ngIf="pawnVehicle != null" class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
-                <div class="row">
-                  <div class="card checkable-card active" style="max-width: 20rem;">
-                    <div class="card-header">{{pawnVehicle.carBrand}}-{{pawnVehicle.carModel}}</div>
-                    <div class="card-body text-secondary">
-                      <p class="card-text">{{pawnVehicle.carNumber}}、行驶{{pawnVehicle.mileage}}公里、{{pawnVehicle.carAge}}年车龄、评估价格为{{pawnVehicle.pricePotential}}元</p>
-                      <a href="javascript:void(0)" class="card-link" (click)="vehicleModal(vehicleTemplate, true, pawnVehicle)">查看详情</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div *ngIf="loan.loanType == 2" class="col-sm-11 col-md-10 col-lg-10 col-xlg-11">
-              &lt;!&ndash; 抵押房屋 &ndash;&gt;
-              <div *ngIf="pawnHouse != null "  class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
-                <div class="row">
-                  <div class="card checkable-card active" style="max-width: 20rem;">
-                    <div class="card-header">价格：{{pawnHouse.pricePotential}}</div>
-                    <div class="card-body text-secondary">
-                      <p class="card-text">{{pawnHouse.houseAdress}}、{{pawnHouse.area}} </p>
-                      <a href="javascript:void(0)" class="card-link" (click)="houseModal(houseTemplate, true, pawnHouse)">查看详情</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>-->
-        <hr>
-        <!-- 抵押物资料 -->
-        <!--<div class="row">
-          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
-            <div class="row">
-              <label class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 ">审核资料</label>
-            </div>
-          </div>
-          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
-            <div class="row">
-              <label class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 "></label>
-              <div class="col-sm-11 col-md-10 col-lg-10 col-xlg-11">
-                <ng-container *ngFor="let item of auditMaterials; let i = index">
-                  <ng-container *ngIf="imageType.indexOf(item.fileSuff.toLowerCase()) != -1">
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 col-xlg-2">
-                      <div class="row">
-                        <img src="{{item.uploadPath}}" height="108px"><p></p>
-                        <a href="javascript:void(0)" class="card-link" (click)="downloadFile(item)">下载</a>
-                      </div>
-                    </div>
-                  </ng-container>
-                </ng-container>
-                <ng-container *ngFor="let item of auditMaterials; let i = index">
-                  <ng-container *ngIf="imageType.indexOf(item.fileSuff.toLowerCase()) == -1">
-                    <div class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
-                      <div class="row">
-                        <div class="card" style="width: 20rem;">
-                          <div class="card-body">
-                            <h4 class="card-title"></h4>
-                            <h6 class="card-subtitle mb-2 text-muted"> </h6>
-                            <p class="card-text">{{item.fileName}}</p>
-                            <p class="card-text">{{item.createTime}}</p>
-                            <a href="javascript:void(0)" class="card-link" (click)="downloadFile(item)">下载</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </ng-container>
-                </ng-container>
-                &lt;!&ndash;<ng-container *ngIf="attachments.length == 0">暂未添加审核资料</ng-container>&ndash;&gt;
-              </div>
-            </div>
-          </div>
-        </div>-->
-
       </seer-collapse-card>
       <ng-container *ngIf="loan.loanType == 1 ">
         <seer-collapse-card cardTitle="抵押车辆信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
@@ -407,6 +321,7 @@
               [hideAddButton]="true"
             ></seer-simple-table>
           </ng-container>
+          <ng-container *ngIf="pawnVehicle.length == 0">暂无抵押车辆信息</ng-container>
         </seer-collapse-card>
       </ng-container>
       <ng-container *ngIf="loan.loanType == 2 ">
@@ -420,9 +335,9 @@
               [hideAddButton]="true"
             ></seer-simple-table>
           </ng-container>
+          <ng-container *ngIf="pawnHouse.length == 0">暂无抵押房屋信息</ng-container>
         </seer-collapse-card>
       </ng-container>
-
       <seer-collapse-card cardTitle="个人征信信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <ng-container *ngIf="creditInfo.length > 0">
             <seer-simple-table
@@ -438,7 +353,6 @@
         </ng-container>
         <ng-container *ngIf="creditInfo.length == 0">暂无征信记录</ng-container>
       </seer-collapse-card>
-
       <seer-collapse-card cardTitle="附件信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <ng-container *ngIf="auditMaterials.length > 0">
           <seer-simple-table
@@ -451,9 +365,8 @@
             (notify)="openMaterials($event)"
           ></seer-simple-table>
         </ng-container>
-        <ng-container *ngIf="investRecords.length == 0">暂无附件记录</ng-container>
+        <ng-container *ngIf="auditMaterials.length == 0">暂无附件记录</ng-container>
       </seer-collapse-card>
-
       <ng-container *ngIf="loan.projectStatus != 0 ">
       <seer-collapse-card cardTitle="投资记录" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
         <ng-container *ngIf="investRecords.length > 0">
@@ -483,7 +396,7 @@
         <ng-container *ngIf="auditProcessRecords.length == 0">暂无审批流程</ng-container>
       </seer-collapse-card>
 
-      <ng-container *ngIf="method!='preview'">
+      <ng-container *ngIf="method!='preview' && method!='loan_preview'">
         <seer-collapse-card cardTitle="审批意见" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
           <div class="row">
             <form class="form-horizontal" >
@@ -493,22 +406,39 @@
                   <div class="col-sm-8">
                     <div class="radio">
                       <ng-container *ngIf="method!='abortive'">
-                        <label class="radio-inline"><input type="radio" name="auditResult" value="pass"   [(ngModel)]="auditResult">通过</label>
+                        <label class="radio-inline"><input type="radio" name="auditResult" value="pass"   [(ngModel)]="auditResult">
+
+                          <ng-container *ngIf="method=='project-release'">发布</ng-container>
+                          <ng-container *ngIf="method!='project-release'">通过</ng-container>
+                        </label>
                       </ng-container>
+                      <ng-container *ngIf="method=='loan-first-audit' || method=='loan-second-audit'">
+                        <label class="radio-inline"><input type="radio" name="auditResult" value="return" [(ngModel)]="auditResult">退回</label>
+                      </ng-container>
+                      <ng-container *ngIf="method!='project-release'">
                       <label class="radio-inline"><input type="radio" name="auditResult" value="refuse" [(ngModel)]="auditResult">拒绝（流标）</label>
+                      </ng-container>
+
+
                     </div>
                   </div>
                 </div>
               </div>
+              <ng-container *ngIf="method!='project-release'">
               <div class="form-group col-sm-12 col-md-8 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label  class="col-sm-4 control-label">原因(假)</label>
+                  <label  class="col-sm-4 control-label">原因</label>
                   <div class="col-sm-8">
                     <select *ngIf="auditResult != 'pass'" class="form-control" id="auditReason" [(ngModel)]="auditReason" [ngModelOptions]="{standalone: true}">
                       <option value="">请选择原因</option>
                       <option value="基本信息问题">基本信息问题</option>
+                      <option value="基本信息问题">借款信息问题</option>
+                      <option value="费用问题">费用问题</option>
+                      <option value="抵押物问题">抵押物问题</option>
+                      <option value="审批资料问题">审批资料问题</option>
                       <option value="其他">其他</option>
                     </select>
+
 
                   </div>
                 </div>
@@ -521,6 +451,7 @@
                   </div>
                 </div>
               </div>
+              </ng-container>
             </form>
           </div>
         </seer-collapse-card>

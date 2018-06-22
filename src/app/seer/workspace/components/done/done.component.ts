@@ -81,7 +81,8 @@ export class DoneComponent implements OnInit {
 
       //借款流程
       case 'LOAN_APPLY':
-        this._router.navigate([url + 'loan-view', task.businessKey], {relativeTo: this.route});
+        //this._router.navigate([url + 'loan-view', task.businessKey], {relativeTo: this.route});
+        this._router.navigate([url + 'project-view', task.businessKey,'loan_preview'], {relativeTo: this.route}); //edit by lily
         break;
 
       //标的流程

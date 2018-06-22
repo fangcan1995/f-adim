@@ -20,12 +20,12 @@ export class SubjectComponent {
 
   //过滤器
   filters = [
-    {
+ /*   {
       key: 'trueName', label: '用户姓名', type: 'input.text'
     },
     {
       key: 'phoneNumber', label: '手机号', type: 'input.text'
-    },
+    },*/
     {
       key: 'loanType', label: '借款类型', type: 'select', isDict: true, category: 'LOAN_TYPE'
     },

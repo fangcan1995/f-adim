@@ -87,17 +87,20 @@ export class TodoComponent implements OnInit {
 
       //初审
       case 'FIRST_AUDIT':
-        this._router.navigate([url + 'loan-first-audit', task.processInstance.businessKey], {relativeTo: this.route});
+        //this._router.navigate([url + 'loan-first-audit', task.processInstance.businessKey], {relativeTo: this.route});
+        this._router.navigate([url + 'project-view', task.processInstance.businessKey,`loan-first-audit`], {relativeTo: this.route});
         break;
 
       //复审
       case 'SECOND_AUDIT':
-        this._router.navigate([url + 'loan-second-audit', task.processInstance.businessKey], {relativeTo: this.route});
+        //this._router.navigate([url + 'loan-second-audit', task.processInstance.businessKey], {relativeTo: this.route});
+        this._router.navigate([url + 'project-view', task.processInstance.businessKey,`loan-second-audit`], {relativeTo: this.route});
         break;
 
       //发布
       case 'RELEASE':
-        this._router.navigate([url + 'project-release', task.processInstance.businessKey], {relativeTo: this.route});
+        //this._router.navigate([url + 'project-release', task.processInstance.businessKey], {relativeTo: this.route});
+        this._router.navigate([url + 'project-view', task.processInstance.businessKey,`project-release`], {relativeTo: this.route});
         break;
 
       //满标审核
