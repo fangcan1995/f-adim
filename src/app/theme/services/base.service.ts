@@ -214,7 +214,6 @@ export class BaseService<T> {
     public getDictsPro(): Promise<ResModel> {
         return this.getDicts({ pageSize: 10000 })
             .then(res => {
-                console.log(res);
                 if (res.code == 0) {
                     return res
                 } else if (getStorage({ key: 'dicts' }, false)) {

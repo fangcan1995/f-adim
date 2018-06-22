@@ -199,6 +199,7 @@ export class RoleEditComponent implements OnInit {
                 this._roleService.putOne('', params)
                     .then(res => {
                         // 如果编辑的角色正好是用户所属的角色之一, 或者用户在角色要绑定到的角色列表中，那么刷新本地数据；
+                        console.log(params);
                         let rolesInLocal = this._manageService.getRolesFromLocal() || [];
                         let userInLocal = this._manageService.getUserFromLocal() || {};
                         if (_.find(rolesInLocal, t => t['roleId'] == this.role['roleId']) || _.includes(accountIds, userInLocal['userId'])) {
@@ -232,6 +233,7 @@ export class RoleEditComponent implements OnInit {
                             });
                     })
                     .catch(err => {
+                        console.log(params);
                         this.forbidSaveBtn = false;
                         this.showError(err.msg || '保存失败')
                     })
