@@ -214,9 +214,13 @@ export class ProjectViewComponent implements OnInit , OnChanges{
             this.auditResult='refuse';
             //流标
             break;
+
           case `project-release`:
             this.currentNode=4;
             break;
+          case `project-full-audit`:
+            this.currentNode=6;
+            break
           default:
 
             break;

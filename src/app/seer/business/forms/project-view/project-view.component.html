@@ -386,7 +386,7 @@
           <seer-simple-table
             [data]="investRecords"
             [titles]="investTitle"
-            [hidePagination]="true"
+            [hidePagination]="false"
             [showSeq]="true"
             [hideActions]="true"
             [hideAddButton]="true"
@@ -420,19 +420,25 @@
                     <div class="radio">
                       <ng-container *ngIf="method!='abortive'">
                         <label class="radio-inline"><input type="radio" name="auditResult" value="pass"   [(ngModel)]="auditResult">
-
                           <ng-container *ngIf="method=='project-release'">发布</ng-container>
-                          <ng-container *ngIf="method!='project-release'">通过</ng-container>
+                          <ng-container *ngIf="method=='project-full-audit'">满标划转</ng-container>
+                          <ng-container *ngIf="method!='project-release' && method!='project-full-audit'">通过</ng-container>
                         </label>
                       </ng-container>
                       <ng-container *ngIf="method=='loan-first-audit' || method=='loan-second-audit'">
                         <label class="radio-inline"><input type="radio" name="auditResult" value="return" [(ngModel)]="auditResult">退回</label>
                       </ng-container>
                       <ng-container *ngIf="method!='project-release'">
-                      <label class="radio-inline"><input type="radio" name="auditResult" value="refuse" [(ngModel)]="auditResult">拒绝（流标）</label>
+                      <label class="radio-inline">
+                        <input type="radio" name="auditResult" value="refuse" [(ngModel)]="auditResult">
+                        <ng-container *ngIf="method!='project-full-audit'">拒绝（流标）</ng-container>
+                        <ng-container *ngIf="method=='project-full-audit'">流标</ng-container>
+                      </label>
                       </ng-container>
-
-
+                      <!--<ng-container *ngIf="method='project-full-audit'">
+                        <label class="radio-inline"><input type="radio" name="auditResult" value="pass"   [(ngModel)]="auditResult">满标划转</label>
+                        <label class="radio-inline"><input type="radio" name="auditResult" value="refuse" [(ngModel)]="auditResult">流标</label>
+                      </ng-container>-->
                     </div>
                   </div>
                 </div>

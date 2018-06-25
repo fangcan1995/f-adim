@@ -446,7 +446,7 @@
 
               <div *ngIf="loan.loanType == 2" class="col-sm-11 col-md-10 col-lg-10 col-xlg-11">
                 <!-- 抵押房屋 -->
-                <div *ngIf="pawnHouse != null  || pawnRelation.mortId != item.id"  class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
+                <div *ngIf="pawnHouse != null "  class="form-group col-sm-12 col-md-6 col-lg-4 col-xlg-3">
                   <div class="row">
                     <div class="card checkable-card active" style="max-width: 20rem;">
                       <!--<div class="card-header">{{item.houseAdress}}、{{item.area}}平方米</div>-->
@@ -483,12 +483,12 @@
               <div class="row">
                 <label class="control-label col-sm-1 col-md-2 col-lg-2 col-xlg-1 ">审核资料</label>
                 <div class="col-sm-11 col-md-10 col-lg-10 col-xlg-11">
-                  <div class="form-group col-sm-6 col-md-2 col-lg-2 col-xlg-2">
+
                     <label class="btn btn_file" for="xFile">上传图片</label>
                     <form><input type="file" id="xFile" ng2FileSelect [uploader]="uploader" multiple (change)="uploadFile($event)" [disabled]="uploadDisabled" style="position:absolute;clip:rect(0 0 0 0);"></form>
                     <seer-loading [isLoading]="isLoading" [type]="'small'"></seer-loading>
 
-                  </div>
+
                   <ng-container *ngIf="progress != 0 && progress <= 100">
                     <div class="form-group col-sm-6 col-md-2 col-lg-2 col-xlg-9">
                       <div class="row">

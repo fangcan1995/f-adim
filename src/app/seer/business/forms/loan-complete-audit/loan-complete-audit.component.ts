@@ -293,6 +293,8 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
       if("0" == res.code) {
         this.pawnVehicle = vehicle ;
         this.pawnRelation = res.data;
+        //console.log('抵押物：车');
+        //console.log(this.pawnRelation);
         this.showSuccess('设置抵押物成功');
       }else {
         this.showSuccess('设置抵押物成功');
@@ -309,7 +311,10 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
     this.service.pawnHouse(this.loan.loanApplyId, params).then(res => {
       if("0" == res.code) {
         this.pawnHouse = house;
-        this.pawnRelation.mortId = house.id;
+        this.pawnRelation = res.data;  //edit by lily
+        //console.log('抵押物：房');
+        //console.log(this.pawnRelation);
+        //this.pawnRelation.mortId = house.id;  //edit by lily
         this.showSuccess('设置抵押物成功');
       }else {
         this.showError( '设置抵押物失败' );
