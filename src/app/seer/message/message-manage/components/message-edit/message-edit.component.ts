@@ -307,19 +307,6 @@ export class MessageEditComponent {
             type: 'select',
             options:[{value:'0', content: '全部'},{value:'1', content: '25以下'},{value:'2', content: '25-30'},{value:'3', content: '31-40'},{value:'4', content: '41-50'},{value:'5', content: '50以上'}]
           },
-          /*{
-            key: 'mage',
-            label: '年龄',
-            groups: [
-              {
-                type: 'input.text',
-              },
-              {
-                type: 'input.text',
-              },
-            ],
-            groupSpaces: ['至']
-          },*/
           {
             key: 'investDate',
             label: '投资时间',
