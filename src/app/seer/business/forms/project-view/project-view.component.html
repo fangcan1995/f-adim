@@ -266,6 +266,16 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
+                <label  class="col-sm-4 control-label">债转手续费</label>
+                <div class="col-sm-8">
+                  <label class="form-control" style="background: #f6f6f6;text-align: right" >
+                    {{loan.transferFee}}<span  *ngIf="loan.transferFee">%</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
                 <label  class="col-sm-4 control-label">借款用途</label>
                 <div class="col-sm-8 ">
                   <label class="form-control" style="background: #f6f6f6" dict-trans [key]="'LOAN_PURPOSE'" [value]="loan.loanPurpose"></label>

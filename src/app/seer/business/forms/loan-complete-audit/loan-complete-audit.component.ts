@@ -179,9 +179,9 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
         this.pawnRelation = res.data.pawnRelation;
         this.pawnVehicle = res.data.pawnVehicle;
         this.pawnHouse = res.data.pawnHouse;
-        console.log('抵押物');
-        console.log(this.pawnVehicle);
-        console.log(this.pawnHouse);
+        //console.log('抵押物');
+        //console.log(this.pawnVehicle);
+        //console.log(this.pawnHouse);
         this.auditMaterials = res.data.auditMaterials;
         this.initUploader();
       }else {

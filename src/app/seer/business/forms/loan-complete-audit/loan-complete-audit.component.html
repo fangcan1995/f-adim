@@ -312,10 +312,10 @@
                 <div class="row">
                   <label for="serviceRate" class="col-sm-4 control-label">管理费</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control number addUnit" id="shouldManageFee" [(ngModel)]="loan.shouldManageFee" maxlength="9" name="shouldManageFee" #shouldManageFee="ngModel" required [range]="[0, 100000000]">
+                    <input type="text" class="form-control number addUnit" id="manageFee" [(ngModel)]="loan.manageFee" maxlength="9" name="manageFee" #manageFee="ngModel" required [range]="[0, 100000000]">
                     <span class="unit">元</span>
-                    <p *ngIf="shouldManageFee.errors?.required" class="text-danger">*必填项</p>
-                    <p *ngIf="shouldManageFee.errors?.range" class="text-danger">*金额范围：0~100000000</p>
+                    <p *ngIf="manageFee.errors?.required" class="text-danger">*必填项</p>
+                    <p *ngIf="manageFee.errors?.range" class="text-danger">*金额范围：0~100000000</p>
                   </div>
                 </div>
               </div>
@@ -323,10 +323,10 @@
                 <div class="row">
                   <label for="serviceRate" class="col-sm-4 control-label">债转手续费</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control number addUnit" id="transferFee" [(ngModel)]="loan.transferFee" maxlength="9" name="transferFee" #transferFee="ngModel" required [range]="[0, 100000000]">
-                    <span class="unit">元</span>
+                    <input type="text" class="form-control number addUnit" id="transferFee" [(ngModel)]="loan.transferFee" maxlength="9" name="transferFee" #transferFee="ngModel" required [range]="[0, 10]">
+                    <span class="unit">%</span>
                     <p *ngIf="transferFee.errors?.required" class="text-danger">*必填项</p>
-                    <p *ngIf="shouldManageFee.errors?.range" class="text-danger">*金额范围：0~100000000</p>
+                    <p *ngIf="transferFee.errors?.range" class="text-danger">*金额范围：0~10</p>
                   </div>
                 </div>
               </div>
