@@ -256,6 +256,16 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
+                <label  class="col-sm-4 control-label">管理费</label>
+                <div class="col-sm-8">
+                  <label class="form-control" style="background: #f6f6f6;text-align: right" >
+                    {{loan.shouldManageFee}}<span  *ngIf="loan.shouldManageFee">元</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
                 <label  class="col-sm-4 control-label">借款用途</label>
                 <div class="col-sm-8 ">
                   <label class="form-control" style="background: #f6f6f6" dict-trans [key]="'LOAN_PURPOSE'" [value]="loan.loanPurpose"></label>
@@ -431,8 +441,10 @@
                       <ng-container *ngIf="method!='project-release'">
                       <label class="radio-inline">
                         <input type="radio" name="auditResult" value="refuse" [(ngModel)]="auditResult">
-                        <ng-container *ngIf="method!='project-full-audit'">拒绝（流标）</ng-container>
+                        <ng-container *ngIf="method!='project-full-audit' && method!='repayment-audit'">拒绝（流标）</ng-container>
                         <ng-container *ngIf="method=='project-full-audit'">流标</ng-container>
+                        <ng-container *ngIf="method=='repayment-audit'">流标</ng-container>
+
                       </label>
                       </ng-container>
                       <!--<ng-container *ngIf="method='project-full-audit'">

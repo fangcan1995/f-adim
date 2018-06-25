@@ -210,7 +210,7 @@ export class ProjectViewComponent implements OnInit , OnChanges{
 
             break;
           case `abortive`:
-            this.currentNode=this.loan.projectStatus+1;
+            this.currentNode=5;
             this.auditResult='refuse';
             //流标
             break;
@@ -220,7 +220,11 @@ export class ProjectViewComponent implements OnInit , OnChanges{
             break;
           case `project-full-audit`:
             this.currentNode=6;
-            break
+            break;
+          case `repayment-audit`:
+            this.currentNode=7;
+            break;
+
           default:
 
             break;
