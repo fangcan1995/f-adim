@@ -30,8 +30,8 @@ export class SpecialEditComponent implements OnInit, OnDestroy {
         private _location: Location) {
 
         this.form = new FormGroup({
-            specialName: new FormControl('', Validators.required),
-            specialType: new FormControl('', Validators.required),
+            subjectName: new FormControl('', Validators.required),
+            subjectType: new FormControl('', Validators.required),
             device: new FormControl('', Validators.required),
         });
 
