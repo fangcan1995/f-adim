@@ -358,7 +358,7 @@
           <ng-container *ngIf="imageType.indexOf(item.fileSuff.toLowerCase()) != -1">
             <div class="form-group col-sm-6 col-md-4 col-lg-3 col-xlg-2">
               <div class="row">
-                <img src="{{item.uploadPath}}" height="108px"><p>{{i+1}}、{{item.fileName}}</p>
+                <img src="{{item.uploadPath}}" style="width:165px;height: 108px"><p class="img_title" title="{{item.fileName}}">{{i+1}}、{{item.fileName}}</p>
                 <a [href]="item.uploadPath" class="card-link" target="_blank" >预览</a>
                 <a [href]="item.uploadPath" class="card-link" target="_blank" download="{{item.uploadPath}}" >下载</a>
                 <!--<a href="javascript:void(0)" class="card-link" (click)="downloadFile(item)">预览</a>

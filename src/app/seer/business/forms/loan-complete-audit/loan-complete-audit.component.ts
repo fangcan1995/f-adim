@@ -10,7 +10,7 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {getStorage} from "../../../../theme/libs/utils";
 import * as _ from 'lodash';
 import {SeerDialogService} from "../../../../theme/services/seer-dialog.service";
-import {BASE_URL} from "../../../../theme/services/base.service";
+import {BASE_LOGIN_URL} from "../../../../theme/services/base.service";
 
 declare let laydate;
 
@@ -391,7 +391,7 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
     const tokenType = token.token_type;
     const accessToken = token.access_token;
     let headers = [{name: 'Authorization', value: `${tokenType} ${accessToken}`}];
-    this.uploader = new FileUploader({ url: BASE_URL + `/loans/${this.loan.loanApplyId}/material`, method: "POST", headers:headers,});
+    this.uploader = new FileUploader({ url: BASE_LOGIN_URL+`/zuul/admin` + `/loans/${this.loan.loanApplyId}/material`, method: "POST", headers:headers,});
     this.uploader.onSuccessItem = this.successItem.bind(this);
     this.uploader.onCompleteAll = this.onCompleteAll.bind(this);
   }

@@ -189,14 +189,23 @@ export class ProjectViewComponent implements OnInit , OnChanges{
           case `preview`:
             if(this.loan.projectStatus==6){
               this.currentNode=8;
-            }else if(this.loan.projectStatus==4){
+            }else if(this.loan.projectStatus==4 || this.loan.projectStatus==5){
               this.currentNode=7;
             }else if(this.loan.projectStatus==3){
               this.currentNode=6;
-            } else if(this.loan.projectStatus==2){
+            } else if(this.loan.projectStatus==2 ){
               this.currentNode=5;
-            }else if(this.loan.projectStatus==1){
+            }else if(this.loan.projectStatus==1 ){
               this.currentNode=4;
+            }else if(this.loan.projectStatus==7 ){
+              this.projectProgres=[
+                {text:"补填资料"},
+                {text:"初审"},
+                {text:"复审"},
+                {text:"标的发布"},
+                {text:"流标"},
+              ];
+              this.currentNode=5;
             }
 
             break;
@@ -217,8 +226,8 @@ export class ProjectViewComponent implements OnInit , OnChanges{
         this.pawnHouse = [res.data.pawnHouse];
         this.auditMaterials = res.data.auditMaterials;
         this.auditMaterials = _.map(this.auditMaterials, r => _.set(r, 'actions', [PREVIEW,DOWNLOAD]));
-        console.log('附件-----------');
-        console.log(this.auditMaterials);
+        //console.log('附件-----------');
+        //console.log(this.auditMaterials);
 
       }else {
         console.log("fail");
@@ -242,7 +251,32 @@ export class ProjectViewComponent implements OnInit , OnChanges{
               ];
               this.currentNode=2;
             }else{
-              this.currentNode=this.loan.applyStatus;
+              if(this.loan.projectStatus==0){
+                this.currentNode=this.loan.applyStatus;
+              }else{
+                if(this.loan.projectStatus==6){
+                  this.currentNode=8;
+                }else if(this.loan.projectStatus==7){
+                  this.projectProgres=[
+                    {text:"补填资料"},
+                    {text:"初审"},
+                    {text:"复审"},
+                    {text:"标的发布"},
+                    {text:"流标"},
+                  ];
+                  this.currentNode=5;
+                }else if(this.loan.projectStatus==4){
+                  this.currentNode=7;
+                }else if(this.loan.projectStatus==3){
+                  this.currentNode=6;
+                } else if(this.loan.projectStatus==2 ){
+                  this.currentNode=5;
+                }else if(this.loan.projectStatus==1 || this.loan.projectStatus==5){
+                  this.currentNode=4;
+                }
+              }
+
+
             }
 
             break;

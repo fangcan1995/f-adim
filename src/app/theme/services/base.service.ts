@@ -24,8 +24,8 @@ export let TEST_PORT = 8020;
 export let TEST_SERVER = `${TEST_DOMAIN}:${TEST_PORT}`;
 export let TEST_URL = `http://${TEST_SERVER}/admin`;
 // export let TEST_URL = `http://${TEST_SERVER}`;
-export let FROUNT_URL = `https://www.baidu.com`;
-
+export let FROUNT_URL = `http://172.16.4.5:4400/subject_`; //.3
+//export let FROUNT_URL = `http://172.16.4.5:4400/subject_`;//
 
 
 
