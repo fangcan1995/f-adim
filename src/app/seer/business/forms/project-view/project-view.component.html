@@ -1,5 +1,5 @@
 <seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
-<seer-content-top>
+<seer-content-top [fixedTop]="true">
   <button class="btn btn-outline-dark" (click)="handleBackBtnClick()">返回</button>
   <ng-container *ngIf="method!='preview' && method!='loan_preview'">
   <button class="btn btn-primary" (click)="submitAudit()">提交</button>
@@ -249,7 +249,7 @@
                 <label  class="col-sm-4 control-label">手续费</label>
                 <div class="col-sm-8">
                   <label class="form-control" style="background: #f6f6f6;text-align: right" >
-                    {{loan.serviceRate}}<span  *ngIf="loan.serviceRate">元</span>
+                    {{loan.serviceRate}}<span>元</span>
                   </label>
                 </div>
               </div>
@@ -259,7 +259,7 @@
                 <label  class="col-sm-4 control-label">管理费</label>
                 <div class="col-sm-8">
                   <label class="form-control" style="background: #f6f6f6;text-align: right" >
-                    {{loan.shouldManageFee}}<span  *ngIf="loan.shouldManageFee">元</span>
+                    {{loan.shouldManageFee}}<span>元</span>
                   </label>
                 </div>
               </div>
@@ -269,7 +269,7 @@
                 <label  class="col-sm-4 control-label">债转手续费</label>
                 <div class="col-sm-8">
                   <label class="form-control" style="background: #f6f6f6;text-align: right" >
-                    {{loan.transferFee}}<span  *ngIf="loan.transferFee">%</span>
+                    {{loan.transferFee}}<span>%</span>
                   </label>
                 </div>
               </div>

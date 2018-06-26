@@ -1,7 +1,7 @@
 <seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
-<seer-content-top>
+<seer-content-top [fixedTop]="true">
   <button class="btn btn-outline-dark" (click)="handleBackBtnClick()">返回</button>
-  <button class="btn btn-primary" (click)="submitAudit()" [disabled]="!(forbidAuditSubmitBtn && form1.form.valid && form2.form.valid && auditResult=='pass') && !(auditResult=='refuse')">提交</button>
+  <button class="btn btn-primary" (click)="submitAudit()" [disabled]="!(forbidAuditSubmitBtn && form1.form.valid && form2.form.valid && auditResult=='pass') &&  !(pawnVehicle || pawnHouse) && !(auditResult=='refuse')">提交</button>
 </seer-content-top>
 
 <seer-progress [type]="'progress'" [contentList]="projectProgres" currentNode="1"></seer-progress>
@@ -326,7 +326,7 @@
                     <input type="text" class="form-control number addUnit" id="transferFee" [(ngModel)]="loan.transferFee" maxlength="9" name="transferFee" #transferFee="ngModel" required [range]="[0, 10]">
                     <span class="unit">%</span>
                     <p *ngIf="transferFee.errors?.required" class="text-danger">*必填项</p>
-                    <p *ngIf="transferFee.errors?.range" class="text-danger">*金额范围：0~10</p>
+                    <p *ngIf="transferFee.errors?.range" class="text-danger">*债转手续费范围：0~10</p>
                   </div>
                 </div>
               </div>
