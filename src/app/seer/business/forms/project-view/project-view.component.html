@@ -450,10 +450,17 @@
                       </ng-container>
                       <ng-container *ngIf="method!='project-release'">
                       <label class="radio-inline">
-                        <input type="radio" name="auditResult" value="refuse" [(ngModel)]="auditResult">
-                        <ng-container *ngIf="method!='project-full-audit' && method!='repayment-audit'">拒绝（流标）</ng-container>
-                        <ng-container *ngIf="method=='project-full-audit'">流标</ng-container>
-                        <ng-container *ngIf="method=='repayment-audit'">流标</ng-container>
+
+                        <ng-container *ngIf="method!='project-full-audit' && method!='repayment-audit'">
+                          <input type="radio" name="auditResult" value="refuse" [(ngModel)]="auditResult">
+                          拒绝（流标）</ng-container>
+                        <ng-container *ngIf="method=='project-full-audit'">
+                          <input type="radio" name="auditResult" value="refuse" [(ngModel)]="auditResult">
+                          流标
+                        </ng-container>
+                        <ng-container *ngIf="method=='repayment-audit'">
+                          <input type="radio" name="auditResult" value="return" [(ngModel)]="auditResult">
+                          拒绝</ng-container>
 
                       </label>
                       </ng-container>
