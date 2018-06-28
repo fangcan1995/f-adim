@@ -110,7 +110,8 @@ export class TodoComponent implements OnInit {
           this._router.navigate([url + 'transfer-view', task.processInstance.businessKey,`full_audit`], {relativeTo: this.route});
         }else{
           //散标
-          this._router.navigate([url + 'project-full-audit', task.processInstance.businessKey], {relativeTo: this.route});
+          this._router.navigate([url + 'project-view', task.processInstance.businessKey,`project-full-audit`], {relativeTo: this.route});
+          //this._router.navigate([url + 'project-full-audit', task.processInstance.businessKey], {relativeTo: this.route});
         }
 
 
@@ -123,7 +124,8 @@ export class TodoComponent implements OnInit {
 
       //提前还款审核
       case 'AHEAD_REPAYMENT_AUDIT':
-        this._router.navigate([url + 'repayment-audit', task.processInstance.businessKey], {relativeTo: this.route});
+        this._router.navigate([url + 'project-view', task.processInstance.businessKey,`repayment-audit`], {relativeTo: this.route});
+        //this._router.navigate([url + 'repayment-audit', task.processInstance.businessKey], {relativeTo: this.route});
         break;
 
     }

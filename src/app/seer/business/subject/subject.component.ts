@@ -137,13 +137,26 @@ export class SubjectComponent {
   //全局检索
   handleFiltersChanged($event) {
     let params = $event;
-    if(!isUndefined(params.putTime[0])) {
-      this.pageInfo.startPutTime = params.putTime[0] ? (formatDate(params.applyTime[0], 'YYYY-MM-DD 00:00:00')) : "";
+    let { putTime, ...otherParams } = params;
+    let startPutTime,
+      endPutTime;
+    if(_.isArray(putTime)) {
+      startPutTime = putTime[0] ? (formatDate(putTime[0], 'YYYY-MM-DD 00:00:00')) : "";
+      endPutTime = putTime[1] ? (formatDate(putTime[1], 'YYYY-MM-DD 23:59:59')) : "";
     }
-    if(!isUndefined(params.putTime[1])) {
-      this.pageInfo.endPutTime = params.putTime[1] ? (formatDate(params.applyTime[1], 'YYYY-MM-DD 00:00:00')) : "";
+    //this.pageInfo = Object.assign({}, this.pageInfo, params);
+
+    params = {
+      ...otherParams,
+      startPutTime,
+      endPutTime,
     }
-    this.pageInfo = Object.assign({}, this.pageInfo, params);
+    this.pageInfo = {
+      ...this.pageInfo,
+      ...params
+    };
+    //console.log('页面信息');
+    //console.log(this.pageInfo);
     this.getList();
   }
 

@@ -10,8 +10,8 @@
   border-color: $input-border;
   border-style: solid;
   overflow: hidden;
-  
-  
+
+
 }
 .content-top.fixedTop {
   position: fixed;
@@ -20,7 +20,11 @@
   left: $sidebar-width;
   margin-bottom: 0;
   transition: left 0.5s ease;
-  
+
+
+}
+.content-top-bottom.fixedTop {
+  height: 52px;
 }
 @mixin layout-collapsed() {
   .content-top.fixedTop {
