@@ -42,7 +42,7 @@ export class DictTranslateDirective implements OnInit, OnChanges {
         this.manageService.getDictsByCategory(this.key)
             .then((res: ResModel) => {
                 if (res.code == 0) {
-                    //console.log(res);
+                    console.log(res);
                     let dict = _.find(res.data, t => t['itemId'] == this.value)
                     if (dict) {
                         this.el.innerText = dict['itemName'];

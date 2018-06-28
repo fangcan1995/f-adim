@@ -7,7 +7,7 @@ import {
 } from './http-interceptor.service';
 
 import { getStorage, setStorage, castDict2Translate } from '../libs';
-let BASE_DOMAIN = '47.95.39.231';
+let BASE_DOMAIN = '172.16.7.3';
 let BASE_PORT = 8020;
 let BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export let UAA_URL = `http://${BASE_SERVER}`;
@@ -15,7 +15,7 @@ export let BASE_URL = `http://${BASE_SERVER}/admin`;
 export let BASE_LOGIN_URL = `http://${BASE_SERVER}`;
 
 
-export const TEST_DOMAIN = '47.95.39.231';
+export const TEST_DOMAIN = '172.16.7.3';
 export let TEST_PORT = 8020;
 export let TEST_SERVER = `${TEST_DOMAIN}:${TEST_PORT}`;
 export let TEST_URL = `http://${TEST_SERVER}/admin`;
