@@ -163,7 +163,6 @@ export class FormsService extends BaseService<any>{
   //查询债转项目信息
   public getTransferDetail(projectId: string): Promise<any> {
     return this._httpInterceptorService.request('GET', BASE_URL+`/transfer/full/info`,{id: projectId}).toPromise();
-    //return this._httpInterceptorService.request('GET', `http://172.16.1.234:9080/transfer/release/info?access_token=90ec39f0-67f0-476c-88c6-2407146be589&id=49e44c7795d5415f80b2282205ae1254`, false).toPromise();
   }
   //查询债权转让审批记录
   public getTransferProjectAuditRecords(loanApplyId: string): Promise<any> {
@@ -184,7 +183,6 @@ export class FormsService extends BaseService<any>{
   //查询提前还款信息
   public getRepaymentDetail(projectId: string): Promise<any> {
     return this._httpInterceptorService.request('GET', BASE_URL+`/repayment/ahead/detail`,{projectId: projectId}).toPromise();
-    //return this._httpInterceptorService.reqruest('GET', `http://172.16.1.234:9080/transfer/release/info?access_token=90ec39f0-67f0-476c-88c6-2407146be589&id=49e44c7795d5415f80b2282205ae1254`, false).toPromise();
   }
   //提前还款审核
   public repaymentAudit(projectId: string, param: any): Promise<any> {
