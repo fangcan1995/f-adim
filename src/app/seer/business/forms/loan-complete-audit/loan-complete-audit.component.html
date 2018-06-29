@@ -1,7 +1,7 @@
 <seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
 <seer-content-top [fixedTop]="true">
   <button class="btn btn-outline-dark" (click)="handleBackBtnClick()">返回</button>
-  <button class="btn btn-primary" (click)="submitAudit()" [disabled]="!(forbidAuditSubmitBtn && form1.form.valid && form2.form.valid && auditResult=='pass') &&  !(pawnVehicle || pawnHouse) && !(auditResult=='refuse')">提交</button>
+  <button class="btn btn-primary" (click)="submitAudit()" [disabled]="!(forbidAuditSubmitBtn && form1.form.valid && form2.form.valid && auditResult=='pass' &&  (pawnVehicle || pawnHouse))  && !(auditResult=='refuse')">提交</button>
 </seer-content-top>
 
 <seer-progress [type]="'progress'" [contentList]="projectProgres" currentNode="1"></seer-progress>
@@ -404,9 +404,9 @@
                   </div>
                 </div>
               </div>
-              <!--<div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="repayFrom" class="col-sm-4 control-label">还款来源</label>
+                  <label for="repayFrom" class="col-sm-4 control-label">还款来源{{loan.repayFrom}}</label>
                   <div class="col-sm-8">
                     <select class="form-control" id="repayFrom" [(ngModel)]="loan.repayFrom" [ngModelOptions]="{standalone: true}"
                             dict-select
@@ -416,7 +416,7 @@
                     </select>
                   </div>
                 </div>
-              </div>-->
+              </div>
             </form>
           </div>
 
