@@ -267,7 +267,8 @@ export class InfoPublishEditComponent implements OnInit, OnChanges {
     deleteFile() {
         this._infoPublishService.cancelFile(this.infoPublishSource.fileId, this.infoPublishSource.id)
             .then(res => {
-                console.log(res);
+                this.infoPublishSource.affIcon = '';
+                this.showSuccess(res.message);
             })
     }
 

@@ -9,7 +9,7 @@
             <label for="columnSelect" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">所属栏目</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control" id="columnSelect" (click)="openModal(template)" [value]="infoPublishSource.affTypeName || '请选择栏目'" readonly formControlName="column" [equal]="'请选择栏目'">
-              <p *ngIf="form.controls.column.errors?.equal" class="text-danger">*</p>
+                <p *ngIf="form.controls.column.errors?.required" class="text-danger">*</p>
                 <template #template>
                     <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
                         <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">选择栏目</h4>
@@ -34,16 +34,16 @@
     </div>
     <div class="form-group ">
         <div class="row">
-            <label for="title" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">标题</label>
+            <label for="title" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">文章标题</label>
             <div class="col-sm-8">
                 <input type="text" class="form-control" id="title" [(ngModel)]="infoPublishSource.title" formControlName="title" [disabled]="disabled" >
-              <p *ngIf="form.controls.title.errors?.required" class="text-danger">*</p>
+                <p *ngIf="form.controls.title.errors?.required" class="text-danger">*必填项</p>
             </div>
         </div>
     </div>
     <div class="form-group ">
         <div class="row">
-            <label for="titleLink" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">标题链接</label>
+            <label for="titleLink" class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">外部链接</label>
             <div class="col-sm-8">
                 <input type="text" class="form-control" id="titleLink" [(ngModel)]="infoPublishSource.affLinkUrl" [ngModelOptions]="{standalone: true}" >
             </div>

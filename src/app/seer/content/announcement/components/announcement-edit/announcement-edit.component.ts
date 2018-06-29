@@ -50,6 +50,7 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
                 this._announcementService.getOne(params.id)
                     .then(res => {
                         this.announcement = res.data;
+                        console.log(this.announcement);
                         this.announcement.effectTime = this.announcement.effectTime.replace(/-/g, '/');
                         this.content = _.clone(this.announcement.content);
                         this.forbidSaveBtn = false;
@@ -66,6 +67,7 @@ export class AnnouncementEditComponent implements OnInit, OnDestroy {
                     })
             } else if (this._editType === 'add') {
                 this.forbidSaveBtn = false;
+                this.announcement.noticeType = '0';
             }
         });
 

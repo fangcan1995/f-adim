@@ -11,12 +11,13 @@ export class WorkspaceService extends BaseService<ResModel>{
 
   //获取待办业务列表
   getTodoTasks(params?:any): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', BASE_URL + `/workbench/todo`, false).toPromise();
+    return this._httpInterceptorService.request('GET', BASE_URL + `/workbench/todo`, params).toPromise();
   }
 
   //获取已办业务列表
   getDoneTasks(params?:any): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', BASE_URL + `/workbench/done`, false).toPromise();
+    //return this._httpInterceptorService.request('GET', BASE_URL + `/workbench/done`, false).toPromise();
+    return this._httpInterceptorService.request('GET', BASE_URL + `/workbench/donePage`, params).toPromise();
   }
 
 }

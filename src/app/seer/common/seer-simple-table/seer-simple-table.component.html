@@ -24,21 +24,21 @@
           <!-- [style.padding]="item.editState ? '4px 0': null" -->
         <input
           *ngIf="(item.editState === 'EDIT' || item.editState === 'CREATE')&&(title.key != 'endTime' && title.key != 'startTime' && title.key !='contRelation')"
-          class="form-control" 
+          class="form-control"
           style="max-width: 90%; padding-right: 4px; padding-left: 4px"
           type="text"
           [(ngModel)]="item.editData[title.key]"
           />
             <!-- <input
             *ngIf="item.editState === 'EDIT' || item.editState === 'CREATE'&&(title.key=='endTime' || title.key=='startTime' || title.key=='endTime');else elseBlock"
-            class="form-control" 
+            class="form-control"
             style="width: auto; max-width: 90%; padding-right: 4px; padding-left: 4px"
             type="text"
             [(ngModel)]="item.editData[title.key]"
             /> -->
             <!-- [(data)]="item.editData[title.key]" -->
             <!-- title.key=='college' || title.key=='eduMajor' || title.key=='eduLevel'||title.key=='contRelation' || title.key=='contName' || title.key=='jobInfo'||title.key=='contPhone' || title.key=='companyName' || title.key=='jobType'|| title.key=='proveName' || title.key=='proveTel' -->
-        <seer-datepicker 
+        <seer-datepicker
         *ngIf="(item.editState === 'EDIT' || item.editState === 'CREATE')&&(title.key=='endTime' || title.key=='startTime')"
          [dateFormatingRules]="dateFormatingRules || 'yyyy-MM-dd'"
         [(date)]="item.editData[title.key]"
@@ -75,8 +75,8 @@
           class="form-control"
           [(ngModel)]="item.data[title.key]"
           />
-          
-        <span *ngIf="title.type != 'input_number' && title.type != 'link' && !displayOriginalData && item.editState != 'EDIT' && item.editState != 'CREATE' && title.key !='contRelation'" class="seer_font">{{renderValue(title,item.data[title.key])}}</span>
+
+        <span *ngIf="title.type != 'input_number' && title.type != 'link' && !displayOriginalData && item.editState != 'EDIT' && item.editState != 'CREATE' && title.key !='contRelation'" class="seer_font">{{renderValue(title,item.data[title.key])||'--'}}</span>
 
         <span *ngIf="title.type != 'input_number' && title.type != 'link' && displayOriginalData && item.editState != 'EDIT' && item.editState != 'CREATE' && title.key !='contRelation'" class="seer_font">{{item.data[title.key]}}</span>
 
@@ -88,9 +88,9 @@
             *ngFor="let action of item.actions"
             (click)="handleActionsClick({action: action, item: item})"
             popover="{{ action.name }}"
-            triggers="mouseenter:mouseleave"
+
             ></i>
-          
+
         </ng-container>
       </td>
     </tr>

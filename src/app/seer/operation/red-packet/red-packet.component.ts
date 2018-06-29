@@ -95,11 +95,11 @@ export class RedPacketComponent {
             default:
               break;
           }
-          this.isLoading = false;
           //console.log(t.someStatus);
           return _.set(t, 'actions', actions);
 
         })
+        this.isLoading = false;
       }).catch(err=> {
         this.isLoading = false;
        this.showError(err.msg || '连接失败');

@@ -8,7 +8,7 @@ const routes: Routes = [
       {path: '', redirectTo: 'info-publish'},
       {path: 'info-publish', loadChildren: './info-publish/info-publish.module#InfoPublishModule'},
       {path: 'announcement', loadChildren: './announcement/announcement.module#AnnouncementModule'},
-      {path: 'subject', loadChildren: './subject/subject.module#SubjectModule'}
+      {path: 'special', loadChildren: './special/special.module#SpecialModule'}
     ]
   }
 ];

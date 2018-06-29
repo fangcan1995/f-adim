@@ -158,7 +158,7 @@ export class ProjectComponent {
   onChange($event) {
     let url = `/business/forms/`;
     switch ($event.type) {
-      case 'preview': this._router.navigate([url + 'project-view', $event.data.projectId], {relativeTo: this.route}); break;
+      case 'preview': this._router.navigate([url + 'project-view', $event.data.projectId,'preview'], {relativeTo: this.route}); break;
     }
   }
 

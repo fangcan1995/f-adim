@@ -36,6 +36,7 @@ export class InfoPublishService extends BaseService<any>{
 
 
     exportFile = `${TEST_URL}/${API['AFFICHE']}/specialExport`;
+    //exportFile = `http://172.16.1.221:9080/affiche/specialExport`;
 
     /*apiTypeUrl = 'http://172.16.1.221:9080/affiche/type';
     apiInfoUrl = 'http://172.16.1.221:9080/affiche/info';

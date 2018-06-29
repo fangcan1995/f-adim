@@ -48,13 +48,13 @@ export class MessageComponent {
       isDict: true,
       category: 'SEND_MESSAGE'
     },
-    {
+   /* {
       key:'sendNotify',
       label:'推送通知',
       type: 'select',
       isDict: true,
       category: 'SEND_NOTIFY'
-    },
+    },*/
     {
       key: 'postTime',
       label: '下发时间',
@@ -83,7 +83,7 @@ export class MessageComponent {
     "msgTitle":"",
     "adaptationUser":"",
     "sendMail":"",
-    "sendNotify":"",
+    //"sendNotify":"",
     "sendMessage":"",
     "beginTime":"",
     "endTime":"",
@@ -93,7 +93,7 @@ export class MessageComponent {
       adaptationUser: '适配用户',
       businessType: '消息类型',
       sendMail: '消息中心',
-      sendNotify: '推送通知',
+      /*sendNotify: '推送通知',*/
       sendMessage:'短信通知',
       msgProfile:'消息简介',
       expectSendTime:'下发时间',
@@ -107,7 +107,7 @@ export class MessageComponent {
     {key:'adaptationUser', label:'适配用户',isDict:true,category:"ADAPTATION_USER",textAlign:'center'},
     {key:'businessType',label:'消息类型',isDict:true,category:"BUSINESS_TYPE",textAlign:'center'},
     {key:'sendMail',label:'消息中心',isDict:true,category:"SEND_MAIL",textAlign:'center'},
-    {key:'sendNotify',label:'推送通知',isDict:true,category:"SEND_NOTIFY",textAlign:'center'},
+    /*{key:'sendNotify',label:'推送通知',isDict:true,category:"SEND_NOTIFY",textAlign:'center'},*/
     {key:'sendMessage',label:'短信通知',isDict:true,category:"SEND_MESSAGE",textAlign:'center'},
     {key:'msgProfile',label:'消息简介'},
     {key:'expectSendTime',label:'下发时间',type:'date-time',textAlign:'center'},
@@ -150,9 +150,9 @@ export class MessageComponent {
               actions = [PREVIEW];
               break;
           }
-          this.isLoading = false;
           return _.set(r, 'actions', actions)
         })
+        this.isLoading = false;
       }).catch(err => {
         this.isLoading = false;
         this.showError(err.msg || '连接失败');

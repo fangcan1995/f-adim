@@ -17,8 +17,9 @@ import {ProjectReleaseComponent} from "./project-release-audit/project-release.c
 import {ProjectFullAuditComponent} from "./project-full-audit/project-full-audit.component";
 import {LoanViewComponent} from "./loan-view/loan-view.component";
 import {ProjectViewComponent} from "./project-view/project-view.component";
-
-
+import {TransferViewComponent} from "./transfer-view/transfer-view.component";
+import {RepaymentAuditComponent} from "./repayment-audit/repayment-audit.component";
+import {ProjectComponent} from "../project/project.component";
 @NgModule({
   imports: [
     NgaModule,
@@ -38,6 +39,8 @@ import {ProjectViewComponent} from "./project-view/project-view.component";
     ProjectReleaseComponent,
     ProjectFullAuditComponent,
     ProjectViewComponent,
+    TransferViewComponent,
+    RepaymentAuditComponent
   ],
   providers: [
     FormsService

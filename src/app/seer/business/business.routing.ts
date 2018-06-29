@@ -3,6 +3,7 @@ import {
   RouterModule,
 } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
+import {LoanSubjectModule} from "./subject/subject.module";
 
 const routes: Routes = [
   {

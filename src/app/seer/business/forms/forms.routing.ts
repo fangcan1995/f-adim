@@ -9,7 +9,8 @@ import {ProjectReleaseComponent} from "./project-release-audit/project-release.c
 import {ProjectFullAuditComponent} from "./project-full-audit/project-full-audit.component";
 import {LoanViewComponent} from "./loan-view/loan-view.component";
 import {ProjectViewComponent} from "./project-view/project-view.component";
-
+import {TransferViewComponent} from "./transfer-view/transfer-view.component";
+import {RepaymentAuditComponent} from "./repayment-audit/repayment-audit.component";
 const routes: Routes = [
   {
     path: '',
@@ -22,7 +23,10 @@ const routes: Routes = [
 
       {path: 'project-release/:id',component: ProjectReleaseComponent,},
       {path: 'project-full-audit/:id',component: ProjectFullAuditComponent,},
-      {path: 'project-view/:id',component: ProjectViewComponent,},
+      {path: 'project-view/:id/:method',component: ProjectViewComponent,},  //edit by lily
+
+      {path: 'transfer-view/:id/:method',component: TransferViewComponent,},//edit by lily
+      {path: 'repayment-audit/:id',component: RepaymentAuditComponent,},//edit by lily
 
     ]
   }

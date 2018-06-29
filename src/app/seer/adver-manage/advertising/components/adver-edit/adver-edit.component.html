@@ -95,8 +95,10 @@
               <div class="row">
                 <label for="url" class="col-sm-4 col-md-4 col-lg-2 control-label">访问链接</label>
                 <div class="col-sm-8 col-md-8 col-lg-10">
-                  <input type="text" class="form-control" name="url" id="url" [(ngModel)]="advertising.url" #url="ngModel" url />
-                  <p *ngIf="url.errors?.url&&!url.pristine" class="text-danger">请输入正确的网址</p>
+                  <input type="text" class="form-control" name="url" id="url" [(ngModel)]="advertising.url"  />
+                  <!--<input type="text" class="form-control" name="url" id="url" [(ngModel)]="advertising.url" #url="ngModel" url />-->
+                  <!--<p *ngIf="url.errors?.url&&!url.pristine" class="text-danger">请输入正确的网址</p>-->
+
                 </div>
               </div>
             </div>

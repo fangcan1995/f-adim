@@ -6,7 +6,7 @@ import {FormsService} from "../forms.service";
 import {SeerMessageService} from "../../../../theme/services/seer-message.service";
 import { FileUploader} from "ng2-file-upload";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
-
+import * as _ from 'lodash';
 import {SeerDialogService} from "../../../../theme/services/seer-dialog.service";
 
 @Component({
@@ -17,6 +17,8 @@ export class ProjectFullAuditComponent implements OnInit , OnChanges{
 
   public id: string;
   isLoading: boolean = true;
+  //业务流程
+  projectProgres:any;
 
   //会员信息
   public member: any = {}; public vehicles: any = []; public houses: any = []; public credits: any = [];
@@ -43,6 +45,7 @@ export class ProjectFullAuditComponent implements OnInit , OnChanges{
   }
 
   ngOnInit() {
+    this.projectProgres = _.cloneDeep(this.service.projectProgres);
     this.route.params.subscribe((params: Params) => {params['id']? this.id = params['id']:"";
       this.getProjectMember(this.id);
       this.getProjectDetail(this.id);

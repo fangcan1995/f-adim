@@ -1,5 +1,6 @@
-// export const SERVER = 'http://172.16.7.4:8020';
-export const SERVER = 'http://172.16.1.234:8020';
+ export const SERVER = 'http://172.16.7.4:8020';
+//export const SERVER = 'http://172.16.1.234:8020';
+//export const SERVER = 'http://47.95.39.231:8020';
 
 export const CACHE_DURATION = 6000;
 export const REQUEST_TIMEOUT = 3000;

@@ -3,10 +3,12 @@ import { NgaModule } from '../../../theme/nga.module';
 import { SharedModule } from "../../common/shared.module";
 
 import { routing } from './transfer.routing';
-/*import { TargetService } from "./target.service";*/
+import { TransferService } from "./transfer.service";
 
 import { TransferComponent } from './transfer.component';
-import { TransferEditComponent } from './components/transfer-edit/transfer-edit.component';
+import {CommonService} from "../common/common.service";
+import {MemberService} from "../../basic-info/member/member.service";
+import {SeerMessageService} from "../../../theme/services/seer-message.service";
 
 @NgModule({
   imports: [
@@ -16,11 +18,14 @@ import { TransferEditComponent } from './components/transfer-edit/transfer-edit.
   ],
   declarations: [
     TransferComponent,
-    TransferEditComponent,
   ],
-  /*providers: [
-    TargetService,
-  ],*/
+  providers: [
+    TransferService,
+    CommonService,
+    MemberService,
+    SeerMessageService
+
+  ],
 })
 export class TransferModule {
 }

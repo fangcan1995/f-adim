@@ -17,3 +17,13 @@
 .text-danger {
   text-align: left;
 }
+.img_title {
+  max-width: 170px;
+  word-break: break-all;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: 12px;
+  padding-top: 5px;
+}

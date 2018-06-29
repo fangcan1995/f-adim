@@ -1,0 +1,90 @@
+.progress{
+    height: 40px;
+    display:flex;
+    flex-direction:row;
+    background-color: #ffffff;
+    color: #999;
+}
+
+.progress .currentColor{
+    border-top: 2px solid;
+    color: #3b9ff3;
+}
+
+
+.progress .statusNode{
+    flex:1;
+    text-align: center;
+    border-top: 2px solid;
+}
+
+.progress .statusNode .number{
+    height: 25px;
+    line-height: 40px;
+    font-size: 16px;
+    border: 1px solid;
+    border-radius: 50%;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.progress .statusNode .nodeText{
+    line-height: 40px;
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+
+
+.progress .progressCurrentColor{
+    background-color: #3b9ff3;
+    color: white;
+}
+
+.progress .progressCurrentColor:after{
+  content:'';
+  width:0;
+  height:0;
+  position:absolute;
+  right: -20px;
+  top:0px;
+  border-top:solid 20px transparent;
+  border-left:solid 20px #3b9ff3;       
+  border-bottom:solid 20px transparent;
+}
+
+.progress .progressCurrentColor:before{
+    content:'';
+    width:0;
+    height:0;
+    position:absolute;
+    left: -20px;
+    top:0px;
+    border-top:solid 20px  #3b9ff3;
+    border-left:solid 20px transparent;     
+    border-bottom:solid 20px #3b9ff3 ;
+    border-right:solid 20px #3b9ff3 ;
+  }
+
+.progress .progressStatusNode{
+    flex:1;
+    text-align: center;
+    position:relative;
+    margin-right: 23px;
+}
+
+.progress .progressStatusNode .number{
+    height: 25px;
+    line-height: 40px;
+    font-size: 16px;
+    border: 1px solid;
+    border-radius: 50%;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.progress .progressStatusNode .nodeText{
+    line-height: 40px;
+    margin-left: 10px;
+    font-size: 16px;
+}

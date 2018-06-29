@@ -15,7 +15,7 @@ import { getStorage } from "../../../theme/libs/utils"
 import * as _ from 'lodash';
 
 @Injectable()
-export class SubjectService extends BaseService<any>{
+export class SpecialService extends BaseService<any>{
 
     constructor(
         protected _httpInterceptorService: HttpInterceptorService,

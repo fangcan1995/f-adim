@@ -1,8 +1,8 @@
 <div style="margin:10px 30px; background: #c12e2a">
   <seer-card>
-    <div class="row" style="margin-bottom: 10px;" >
+    <!--<div class="row" style="margin-bottom: 10px;" >
       <seer-checkbox *ngFor="let process of processDefinition;let i=index" (click)="taskFiler(process.key)" [isChecked]="process.isChecked" [label]="process.name+' ('+process.total+')'"></seer-checkbox>
-    </div>
+    </div>-->
     <div class="row" >
       <table class="table table-hover" *ngIf="tasks.length>0">
         <tbody>
@@ -12,6 +12,12 @@
         </tr>
         </tbody>
       </table>
+      <seer-pagination
+        [rowCount]="pageInfo.total"
+        [rowsOnPageSet]="[10, 15, 30]"
+        [rowsOnPage]="pageInfo.pageSize"
+        [pageNumber]="pageInfo.currentPage"
+      ></seer-pagination>
     </div>
   </seer-card>
 </div>

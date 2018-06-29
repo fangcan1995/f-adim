@@ -47,13 +47,13 @@ export class MessageTemplateComponent {
       isDict: true,
       category: 'SEND_MESSAGE'
     },
-    {
+    /*{
       key:'sendNotify',
       label:'推送通知',
       type: 'select',
       isDict: true,
       category: 'SEND_NOTIFY'
-    },
+    },*/
     {
       key:'sendMail',
       label:'消息中心',
@@ -89,7 +89,7 @@ export class MessageTemplateComponent {
       tempProfile: '消息简介',
       sendMail:'消息中心',
       sendMessage:'短信通知',
-      sendNotify:'推送通知',
+      /*sendNotify:'推送通知',*/
       updateTime:'最后修改时间',
       updateUser:'最后修改人',
     }
@@ -106,7 +106,7 @@ export class MessageTemplateComponent {
     {key:'tempProfile', label:'消息简介'},
     {key:'sendMail', label:'消息中心',isDict:true,category:"SEND_MAIL",textAlign:'center'},
     {key:'sendMessage', label:'短信通知',isDict:true,category:"SEND_MESSAGE",textAlign:'center'},
-    {key:'sendNotify', label:'推送通知',isDict:true,category:"SEND_NOTIFY",textAlign:'center'},
+    /*{key:'sendNotify', label:'推送通知',isDict:true,category:"SEND_NOTIFY",textAlign:'center'},*/
     {key:'updateTime', label:'最后修改时间',type:'date-time',textAlign:'center'},
     {key:'updateUser', label:'最后修改人',textAlign:'center'},
   ];

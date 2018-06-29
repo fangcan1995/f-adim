@@ -413,7 +413,7 @@
                         <span  class="col-sm-3 cardLable textLeft">{{vehicle.carBrand}}</span> -->
                         <!-- <span  class="col-sm-3 cardLable textRight">型号：</span>
                         <span  class="col-sm-3 cardLable textLeft">{{vehicle.carModel}}</span> -->
-                        <span  class="col-sm-3 cardLable textRight">车龄：</span>
+                        <span  class="col-sm-3 cardLable textRight">购车年份：</span>
                         <span  class="col-sm-3 cardLable textLeft">{{vehicle.carAge}}年</span>
                         <span  class="col-sm-3 cardLable textRight">行驶里程：</span>
                         <span  class="col-sm-3 cardLable textLeft">{{vehicle.mileage}}公里</span>
@@ -474,7 +474,7 @@
                   </ng-container>
                   <ng-container *ngIf="riskReport.updateTime">
                     <a [href]="riskReport.creditReport" class="card-link" target="_blank" >预览</a>
-                    <a [href]="riskReport.creditReport" class="card-link" download >下载</a>
+                    <a [href]="riskReport.creditReport" class="card-link" target="_blank" download="个人风险报告" >下载</a>
                     <a *ngIf="!disabled" href="javascript:void(0)" class="card-link" (click)="requery(1)">重新获取</a>
                   </ng-container>
                 </div>
@@ -492,7 +492,7 @@
                   </ng-container>
                   <ng-container *ngIf="creditReport.updateTime">
                     <a [href]="creditReport.creditReport" class="card-link" target="_blank" >预览</a>
-                    <a [href]="creditReport.creditReport" class="card-link" download >下载</a>
+                    <a [href]="creditReport.creditReport" class="card-link" target="_blank" download="个人信用报告" >下载</a>
                     <a *ngIf="!disabled" href="javascript:void(0)"  class="card-link" (click)="requery(2)">重新获取</a>
                   </ng-container>
                 </div>
@@ -510,7 +510,7 @@
                   </ng-container>
                   <ng-container *ngIf="antiFraudReport.updateTime">
                     <a [href]="antiFraudReport.creditReport" target="_blank" class="card-link" >预览</a>
-                    <a [href]="antiFraudReport.creditReport" download class="card-link" >下载</a>
+                    <a [href]="antiFraudReport.creditReport" download="个人反欺诈报告" target="_blank" class="card-link" >下载</a>
                     <a *ngIf="!disabled" href="javascript:void(0)" class="card-link" (click)="requery(3)">重新获取</a>
                   </ng-container>
                 </div>
@@ -581,7 +581,7 @@
             <div class="row">
               <label  class="col-sm-4 col-md-3 control-label text-right">购车年份（年）</label>
               <div class="col-sm-8 col-md-8">
-                <input class="form-control number" name="carAge"  [(ngModel)]="vehicle.carAge||currentYear" maxlength="4" #carAge="ngModel" required number [disabled]="vehicleReadOnly==true">
+                <input class="form-control number" name="carAge"  [(ngModel)]="vehicle.carAge" maxlength="4" #carAge="ngModel" required number [disabled]="vehicleReadOnly==true">
                 <p class="text-danger" *ngIf="carAge.errors?.required">*必填项</p>
                 <p class="text-danger" *ngIf="carAge.errors?.number">请输入正确年份数值</p>
               </div>

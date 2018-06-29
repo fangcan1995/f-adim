@@ -47,6 +47,7 @@ export class SeerTableComponent implements OnInit {
     @Input() hideRemoveAll; //隐藏全部删除按钮
     @Input() hideAddButton;//隐藏新增按钮
     @Input() hideActions;//隐藏事件列
+    @Input() hideActions2=true;//隐藏事件列2
     @Input() hideExport;//隐藏导出
     @Input() hidePrint;//隐藏打印
     @Input() showExchangeDepartment;//显示调换部门
