@@ -216,17 +216,29 @@
                   </div>
                 </div>
               </div>
+
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
                   <label for="applyAmt" class="col-sm-4 control-label text-right">借款金额</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control number addUnit" id="applyAmt" [(ngModel)]="loan.applyAmt" maxlength="9" name="applyAmt" #applyAmt="ngModel" required [range]="[1000, 100000000]">
+                    <input type="text" class="form-control number addUnit" id="applyAmt" [(ngModel)]="loan.applyAmt" [ngModelOptions]="{standalone: true}" disabled>
                     <span class="unit">元</span>
-                    <p *ngIf="applyAmt.errors?.required" class="text-danger">*必填项</p>
-                    <p *ngIf="applyAmt.errors?.range" class="text-danger">*借款金额范围：1000~100000000</p>
                   </div>
                 </div>
               </div>
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label for="projectAmt" class="col-sm-4 control-label text-right">标的金额</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control number addUnit" id="projectAmt" [(ngModel)]="loan.projectAmt" maxlength="9" name="projectAmt" #projectAmt="ngModel" required [range]="[1000, 100000000]">
+                    <span class="unit">元</span>
+                    <p *ngIf="projectAmt.errors?.required" class="text-danger">*必填项</p>
+                    <p *ngIf="projectAmt.errors?.range" class="text-danger">*借款金额范围：1000~100000000</p>
+                  </div>
+                </div>
+              </div>
+
+
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
                   <label for="loanExpiry" class="col-sm-4 control-label">借款期限</label>
@@ -354,13 +366,13 @@
                            maxlength="9"
                            name="minInvestAmount"
                            #minInvestAmount="ngModel"
-                           [range]="[1, loan.applyAmt]"
+                           [range]="[1, loan.projectAmt]"
                            required
-                           [disabled]="applyAmt.errors?.range"
+                           [disabled]="projectAmt.errors?.range"
                     >
                     <span class="unit">元</span>
                     <p *ngIf="minInvestAmount.errors?.required" class="text-danger">*必填项</p>
-                    <p *ngIf="minInvestAmount.errors?.range" class="text-danger">*起投金额范围：1~{{loan.applyAmt}}</p>
+                    <p *ngIf="minInvestAmount.errors?.range" class="text-danger">*起投金额范围：1~{{loan.projectAmt}}</p>
                   </div>
                 </div>
               </div>
@@ -375,12 +387,12 @@
                            name="maxInvestAmount"
                            #maxInvestAmount="ngModel"
                            required
-                           [range]="[loan.minInvestAmount, loan.applyAmt]"
+                           [range]="[loan.minInvestAmount, loan.projectAmt]"
                            [disabled]="minInvestAmount.errors?.range || minInvestAmount.errors?.required "
                     >
                     <span class="unit">元</span>
                     <p *ngIf="maxInvestAmount.errors?.required" class="text-danger">*必填项</p>
-                    <p *ngIf="maxInvestAmount.errors?.range" class="text-danger">*最大投资范围：{{loan.minInvestAmount}}~{{loan.applyAmt}}</p>
+                    <p *ngIf="maxInvestAmount.errors?.range" class="text-danger">*最大投资范围：{{loan.minInvestAmount}}~{{loan.projectAmt}}</p>
                   </div>
                 </div>
               </div>
@@ -406,14 +418,9 @@
               </div>
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="repayFrom" class="col-sm-4 control-label">还款来源{{loan.repayFrom}}</label>
+                  <label for="repayFrom" class="col-sm-4 control-label">还款来源</label>
                   <div class="col-sm-8">
-                    <select class="form-control" id="repayFrom" [(ngModel)]="loan.repayFrom" [ngModelOptions]="{standalone: true}"
-                            dict-select
-                            [key]="'PAYMENTING_SOURCE'"
-                            [selected]="loan.repayFrom"
-                            [topOption]="{itemid:'',itemName:'请选择'}">
-                    </select>
+                    <input type="text" class="form-control" name="repayFrom" id="repayFrom" [(ngModel)]="loan.repayFrom"  />
                   </div>
                 </div>
               </div>
