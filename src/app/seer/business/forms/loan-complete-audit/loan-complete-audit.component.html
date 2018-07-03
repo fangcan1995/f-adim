@@ -233,7 +233,7 @@
                     <input type="text" class="form-control number addUnit" id="projectAmt" [(ngModel)]="loan.projectAmt" maxlength="9" name="projectAmt" #projectAmt="ngModel" required [range]="[1000, 100000000]">
                     <span class="unit">元</span>
                     <p *ngIf="projectAmt.errors?.required" class="text-danger">*必填项</p>
-                    <p *ngIf="projectAmt.errors?.range" class="text-danger">*借款金额范围：1000~100000000</p>
+                    <p *ngIf="projectAmt.errors?.range" class="text-danger">*标的金额范围：1000~100000000</p>
                   </div>
                 </div>
               </div>
@@ -269,10 +269,10 @@
                 <div class="row">
                   <label for="annualRate" class="col-sm-4 control-label">年利率</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control number addUnit" id="annualRate" [(ngModel)]="loan.annualRate" maxlength="100" name="annualRate" #annualRate="ngModel" required [range]="[0, 36]">
+                    <input type="text" class="form-control number addUnit" id="annualRate" [(ngModel)]="loan.annualRate" maxlength="100" name="annualRate" #annualRate="ngModel" required [range]="[1, 36]">
                     <span class="unit">%</span>
                     <p *ngIf="annualRate.errors?.required" class="text-danger">*必填项</p>
-                    <p *ngIf="annualRate.errors?.range" class="text-danger">*年利率范围：0~36</p>
+                    <p *ngIf="annualRate.errors?.range" class="text-danger">*年利率范围：1~36</p>
                   </div>
                 </div>
               </div>
@@ -335,10 +335,10 @@
                 <div class="row">
                   <label for="serviceRate" class="col-sm-4 control-label">债转手续费</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control number addUnit" id="transferFee" [(ngModel)]="loan.transferFee" maxlength="9" name="transferFee" #transferFee="ngModel" required [range]="[0, 10]">
+                    <input type="text" class="form-control number addUnit" id="transferFee" [(ngModel)]="loan.transferFee" maxlength="9" name="transferFee" #transferFee="ngModel" required [range]="[0, 100]">
                     <span class="unit">%</span>
                     <p *ngIf="transferFee.errors?.required" class="text-danger">*必填项</p>
-                    <p *ngIf="transferFee.errors?.range" class="text-danger">*债转手续费范围：0~10</p>
+                    <p *ngIf="transferFee.errors?.range" class="text-danger">*债转手续费范围：0~100</p>
                   </div>
                 </div>
               </div>
@@ -366,13 +366,13 @@
                            maxlength="9"
                            name="minInvestAmount"
                            #minInvestAmount="ngModel"
-                           [range]="[1, loan.projectAmt]"
+                           [range]="[100, loan.projectAmt]"
                            required
                            [disabled]="projectAmt.errors?.range"
                     >
                     <span class="unit">元</span>
                     <p *ngIf="minInvestAmount.errors?.required" class="text-danger">*必填项</p>
-                    <p *ngIf="minInvestAmount.errors?.range" class="text-danger">*起投金额范围：1~{{loan.projectAmt}}</p>
+                    <p *ngIf="minInvestAmount.errors?.range" class="text-danger">*起投金额范围：100~{{loan.projectAmt}}</p>
                   </div>
                 </div>
               </div>
