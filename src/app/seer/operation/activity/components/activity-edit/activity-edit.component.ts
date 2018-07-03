@@ -9,8 +9,8 @@ import { BsModalService} from 'ngx-bootstrap/modal';
 import {SeerDialogService, SeerMessageService,} from '../../../../../theme/services';
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
 import {DELETE, ENABLE, PREVIEW, UPDATE} from "../../../../common/seer-table/seer-table.actions";
-declare var $: any;
 declare let laydate;
+declare var $: any;
 
 @Component({
   templateUrl: './activity-edit.component.html',
@@ -20,6 +20,10 @@ export class ActivityEditComponent {
   _editType: string = 'add';
   forbidSaveBtn: boolean = true;
   isInvestMode:boolean = true;
+  isFieldShow:boolean = true;
+
+  beginTime;//开始时间
+  endTime; //结束时间
 
   awardCurr: any = {};//当然编辑的奖品
   awardCurrIndex=-1; //当然编辑的奖品索引
@@ -202,38 +206,47 @@ export class ActivityEditComponent {
           this.baseInfoDTO.productCategory=0;//适用产品：通用
           this.awardsDTO=this.activity.awardsDTO;
           this.scopesDTO=this.activity.scopesDTO;
-
-
-
         }
+        console.log('1111111111111111111');
         //渲染日期时间组件
           laydate.render({
             elem: '#beginTime',
             type: 'datetime',
-            done: (value, date, endDate) => {
+            trigger: 'click',
+            done: (value, date, beginTime) => {
+              console.log(23456);
               this.baseInfoDTO.beginTime = value;
-
             }
           })
+
           laydate.render({
             elem: '#endTime',
             type: 'datetime',
-            done: (value, date, endDate) => {
+            trigger: 'click',
+            done: (value, date, endTime) => {
+              console.log(23456);
               this.baseInfoDTO.endTime = value;
             }
           })
+        console.log('1111111111111111111');
       })
 
   }
 
   /*基本信息相关********************************/
- //选择触发方式，选中4（投资奖励时，显示附加信息）
+ //选择触发方式，选中4（投资奖励时，显示附加信息）,选中1（直接下发时，隐藏部分信息）
   chooseTrigMode(params?){
     params!='undefined'?this.isAddaward=false:this.isAddaward=true;
     if(params=='4'){
       this.isInvestMode=false;
     }else {
       this.isInvestMode=true;
+    }
+    if(params=='1'){
+      this.isFieldShow=false;
+      this.baseInfoDTO.issueTime=1;//派发时间，默认实时
+    }else {
+      this.isFieldShow=true;
     }
   }
 
@@ -709,9 +722,13 @@ export class ActivityEditComponent {
 
   //2-1 打开关联活动模态框
   openParentIdModal(template: TemplateRef<any>,type) {
+    console.log('选择活动1'+template);
     this.type=type;
+    //this.modalRef = this.modalService.show(template);
     this.modalParentsRef = this.modalService2.show(template,this.modalClass);
+    console.log('选择活动2');
     this.modalGetParentsList();
+    console.log('选择活动3');
   }
   //2-2 获取活动列表
   modalGetParentsList():void{
@@ -784,6 +801,7 @@ export class ActivityEditComponent {
     this.forbidSaveBtn = true;
 
     let baseInfo=_.cloneDeep(this.activity.baseInfoDTO);
+
     //如果不是投资奖励，删除相关属性
     if(baseInfo.trigMode!='4'){
       delete baseInfo.productCategory;
@@ -793,15 +811,35 @@ export class ActivityEditComponent {
       delete baseInfo.investMinNum;
       delete baseInfo.investMaxNum;
     }
+    if(baseInfo.trigMode=='1'){
+      delete baseInfo.productCategory;
+      delete baseInfo.investLimit;
+      delete baseInfo.investMinMoney;
+      delete baseInfo.investMaxMoney;
+      delete baseInfo.investMinNum;
+      delete baseInfo.investMaxNum;
+      delete baseInfo.activityPageUrl;
+      delete baseInfo.activityRemark;
+      delete baseInfo.beginTime;
+      delete baseInfo.endTime;
+      delete baseInfo.participateNum1;
+      delete baseInfo.participateNum2;
+    }else{
+      //拼接参加频率
+      baseInfo.participateNum=baseInfo.participateNum1+'/'+baseInfo.participateNum2;
+      delete baseInfo.participateNum1;
+      delete baseInfo.participateNum2;
+    }
+
+    console.log('要保存的数据');
+    console.log(baseInfo);
+
     //投资范围如果不是指定用户，清空数组
     if(baseInfo.activityScope!='3'){
       this.activity.scopesDTO=[];
     }
 
-    //拼接参加频率
-    baseInfo.participateNum=baseInfo.participateNum1+'/'+baseInfo.participateNum2;
-    delete baseInfo.participateNum1;
-    delete baseInfo.participateNum2;
+
     //处理日期
     //baseInfo.beginTime=formatDate(baseInfo.beginTime,'YYYY-MM-DD hh:mm:ss');
     //baseInfo.endTime=formatDate(baseInfo.endTime,'YYYY-MM-DD hh:mm:ss');
