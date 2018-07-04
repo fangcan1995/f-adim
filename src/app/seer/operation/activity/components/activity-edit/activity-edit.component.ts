@@ -209,25 +209,25 @@ export class ActivityEditComponent {
         }
         console.log('1111111111111111111');
         //渲染日期时间组件
-          laydate.render({
-            elem: '#beginTime',
-            type: 'datetime',
-            trigger: 'click',
-            done: (value, date, beginTime) => {
-              console.log(23456);
-              this.baseInfoDTO.beginTime = value;
-            }
-          })
+        laydate.render({
+          elem: '#beginTime',
+          type: 'datetime',
+          trigger: 'click',
+          done: (value, date, beginTime) => {
+            console.log(23456);
+            this.baseInfoDTO.beginTime = value;
+          }
+        })
+        laydate.render({
+          elem: '#endTime',
+          type: 'datetime',
+          trigger: 'click',
+          done: (value, date, endTime) => {
+            console.log(23456);
+            this.baseInfoDTO.endTime = value;
+          }
+        })
 
-          laydate.render({
-            elem: '#endTime',
-            type: 'datetime',
-            trigger: 'click',
-            done: (value, date, endTime) => {
-              console.log(23456);
-              this.baseInfoDTO.endTime = value;
-            }
-          })
         console.log('1111111111111111111');
       })
 
