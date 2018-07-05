@@ -1,14 +1,17 @@
 
-  <seer-content-top [fixedTop]="false">
-    <div class="card-content">
+  <!-- <seer-content-top [fixedTop]="false"> -->
+      <seer-collapse-card
+      >
+    <!-- <div class="card-content"> -->
       <seer-filter
       [hasGlobalFilter]="hasGlobalFilter"
       [filters]="filters"
       (onFiltersChanged)=handleFiltersChanged($event)
       (onSearchBtnClicked)=handleFiltersChanged($event)
     ></seer-filter>
-    </div>
-  </seer-content-top>
+    <!-- </div> -->
+  </seer-collapse-card>
+  <!-- </seer-content-top> -->
 
 <seer-collapse-card>
   <seer-table
