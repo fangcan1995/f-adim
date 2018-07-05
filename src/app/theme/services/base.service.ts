@@ -14,10 +14,10 @@ let BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export let BASE_URL = `http://${BASE_SERVER}/admin`;
 
 
-/* let BASE_DOMAIN = '172.16.7.3';
+/*let BASE_DOMAIN = '172.16.7.3';
 let BASE_PORT = 8020;
 let BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
-export let BASE_URL = `http://${BASE_SERVER}/admin`; */
+export let BASE_URL = `http://${BASE_SERVER}/admin`;*/
 
 /*let BASE_DOMAIN = '172.16.1.234';
 let BASE_PORT = 9080;
@@ -29,10 +29,10 @@ export let UAA_URL = `http://${BASE_SERVER}`;
 export let BASE_LOGIN_URL = `http://${BASE_SERVER}`;
 
 
-/* let TEST_DOMAIN = '172.16.7.3';
+/*let TEST_DOMAIN = '172.16.7.3';
 let TEST_PORT = 8020;
 let TEST_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
-export let TEST_URL = `http://${BASE_SERVER}/admin`; */
+export let TEST_URL = `http://${BASE_SERVER}/admin`;*/
 
 /*let TEST_DOMAIN = '172.16.1.234';
 let TEST_PORT = 9080;
@@ -44,8 +44,7 @@ let TEST_PORT = 8020;
 let TEST_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export let TEST_URL = `http://${BASE_SERVER}/admin`;
 
-export let FROUNT_URL = `http://47.95.39.231:8888/subject_`; 
-//export let FROUNT_URL = `http://172.16.7.3:8020/subject_`; 
+export let FROUNT_URL = `http://47.95.39.231:8888/subject_`; //
 
 
 export const BACKUP_API = {
