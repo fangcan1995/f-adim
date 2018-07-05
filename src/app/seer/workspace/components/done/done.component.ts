@@ -20,7 +20,7 @@ export class DoneComponent implements OnInit {
   tasks = []; //待办任务（过滤）
   //查询参数，分页、排序、检索
   pageInfo = {
-    "currentPage": 1,
+    "pageNum": 1,
     "pageSize": 10,
     "total": "",
   };
@@ -30,20 +30,22 @@ export class DoneComponent implements OnInit {
 
   //初始化数据
   initialize() {
+    this.getList();
 
+  }
+  getList(){
     this.service.getDoneTasks(this.pageInfo).then((res) => {
-      this.pageInfo.currentPage=res.data.pageNum;  //当前页
+      this.pageInfo.pageNum=res.data.pageNum;  //当前页
       this.pageInfo.pageSize=res.data.pageSize; //每页记录数
       this.pageInfo.total=res.data.total; //记录总数
       this.items = res.data.list;
       this.tasks = res.data.list;
       this.classStatistics();
-      console.log(this.tasks);
+
     }).catch(err => {
-      this.showError(err.msg || '待办任务获取失败');
+      this.showError(err.msg || '已办任务获取失败');
     });
   }
-
   //分类查看任务
   taskFiler(key: any) {
 
@@ -70,7 +72,12 @@ export class DoneComponent implements OnInit {
 
   //错误提示
   showError(message: string) {return this._messageService.open({message, icon: 'fa fa-times-circle', autoHideDuration: 3000})}
-
+//分页查询
+  onPageChange($event) {
+    this.pageInfo.pageSize = $event.rowsOnPage;
+    this.pageInfo.pageNum = $event.pageNumber;
+    this.getList();
+  }
 
 
   //页面跳转
