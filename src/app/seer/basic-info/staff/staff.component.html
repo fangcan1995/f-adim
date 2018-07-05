@@ -1,13 +1,11 @@
 <seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
 <seer-collapse-card>
-  <div class="card-content">
     <seer-filter
       [hasGlobalFilter]="hasGlobalFilter"
       [filters]="filters"
       (onFiltersChanged)=handleFiltersChanged($event)
       (onSearchBtnClicked)=handleFiltersChanged($event)
     ></seer-filter>
-  </div>
 </seer-collapse-card>
 
 <seer-collapse-card>
