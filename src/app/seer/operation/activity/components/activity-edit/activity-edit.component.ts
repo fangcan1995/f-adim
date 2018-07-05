@@ -206,8 +206,9 @@ export class ActivityEditComponent {
           this.baseInfoDTO.productCategory=0;//适用产品：通用
           this.awardsDTO=this.activity.awardsDTO;
           this.scopesDTO=this.activity.scopesDTO;
+
         }
-        console.log('1111111111111111111');
+
         //渲染日期时间组件
         laydate.render({
           elem: '#beginTime',
@@ -378,7 +379,7 @@ export class ActivityEditComponent {
   //编辑
   membersOnChange($event) {
     let { type, data, column} = $event;
-    console.log($event);
+
     switch (type) {
       case 'delete':
 
@@ -394,7 +395,6 @@ export class ActivityEditComponent {
               console.log('现在选择的用户');
               console.log(this.scopesDTO);
               //重新分页
-
               this.scopesPageInfo.total=this.scopesDTO.length.toString();
               this.getMembersList(this.scopesDTO);
             }
@@ -426,7 +426,7 @@ export class ActivityEditComponent {
   //1-1 打开会员模态框
   openMemberModal(template: TemplateRef<any>) {
       this.modalfilters=[
-      {
+      /*{
         key: 'memberType',
         label: '用户身份',
         type: 'select',
@@ -437,7 +437,7 @@ export class ActivityEditComponent {
         label: '区域',
         type: 'select',
         options:[{value:'', content: '全部'},{value:'1', content: '龙区'},{value:'2', content: '辽区'}]
-      },
+      },*/
       {
         key: 'investOrNot',
         label: '投资状态',
@@ -456,19 +456,7 @@ export class ActivityEditComponent {
         type: 'select',
         options:[{value:'0', content: '全部'},{value:'1', content: '25以下'},{value:'2', content: '25-30'},{value:'3', content: '31-40'},{value:'4', content: '41-50'},{value:'5', content: '50以上'}]
       },
-      /*{
-        key: 'mage',
-        label: '年龄',
-        groups: [
-          {
-            type: 'input.text',
-          },
-          {
-            type: 'input.text',
-          },
-        ],
-        groupSpaces: ['至']
-      },*/
+
       {
         key: 'investDate',
         label: '投资时间',
@@ -508,7 +496,7 @@ export class ActivityEditComponent {
         ],
         groupSpaces: ['至']
       },
-      {
+     /* {
         key: 'inviteMembers',
         label: '邀请人数',
         groups: [
@@ -520,7 +508,7 @@ export class ActivityEditComponent {
           },
         ],
         groupSpaces: ['至']
-      }
+      }*/
     ];
       this.modalRef = this.modalService.show(template,this.modalClass);
       this.modalGetMembersList();
@@ -602,8 +590,7 @@ export class ActivityEditComponent {
     switch (type){
       case 'select_one':
         //选中追加到数组中，否则从数组中删除
-        console.log('选中的用户');
-        console.log(this.selectedUserId);
+
         let idIndex=this.selectedUserId.findIndex(x => x == data[keyId]);
         if(data.selected){
           if(idIndex<0){
@@ -612,7 +599,8 @@ export class ActivityEditComponent {
         }else{
           this.selectedUserId.splice(idIndex,1);
         }
-
+        console.log('选择的id包含');
+        console.log(this.selectedUserId);
         break;
       case 'select_all':
         //遍历数组，选中追加到数组中，反选从数组中删除，这里只针对当前页
@@ -639,7 +627,6 @@ export class ActivityEditComponent {
     this.modalPageInfo.pageSize = $event.pageSize;
     this.modalPageInfo.pageNum=$event.pageNum;
     this.modalGetMembersList();
-
   }
   //1-6 格式化查询参数
   modalFiltersChanged($event){

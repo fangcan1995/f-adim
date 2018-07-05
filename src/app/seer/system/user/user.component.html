@@ -1,11 +1,11 @@
-<seer-content-top [fixedTop]=false>
+<seer-collapse-card>
   <seer-filter
     [hasGlobalFilter]=hasGlobalFilter
     [filters]=filters
     (onFiltersChanged)=handleFiltersChanged($event)
     (onSearchBtnClicked)=handleFiltersChanged($event)
   ></seer-filter>
-</seer-content-top>
+</seer-collapse-card>
 <seer-collapse-card>
 <seer-table
   [data]=users

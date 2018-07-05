@@ -175,6 +175,7 @@
       <seer-filter
         [hasGlobalFilter]="false"
         [filters]="modalfilters"
+        (onFiltersChanged)=modalFiltersChanged($event)
         (onSearchBtnClicked)=modalFiltersChanged($event)
         *ngIf="usersType=='members'"
         [formGroupColNum]="formGroupColNum"
@@ -201,6 +202,7 @@
         [hideActions]="true"
         (notify)="modalChangeTable($event)"
         (changePage)="modalPageChange($event)"
+
       ></seer-table>
     </seer-collapse-card>
   </div>

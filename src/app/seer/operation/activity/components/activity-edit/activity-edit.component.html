@@ -1,4 +1,4 @@
-<seer-content-top>
+<seer-content-top [fixedTop]="true">
   <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
   <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn || !(validationForm.form.valid && (baseInfoDTO.activityScope==1 ||baseInfoDTO.activityScope==2 ||(baseInfoDTO.activityScope==3 && scopesDTO.length>0))  && (awardsDTO.redEnvelopesDTOs.length>0 || awardsDTO.rateCouponsDTOs.length>0 ||awardsDTO.physicalRewardsDTOs.length>0||awardsDTO.raffleTicketsDTOs.length>0))" (click)="handleSaveBtnClick()">保存</button>
 </seer-content-top>
@@ -135,8 +135,8 @@
                   </div>
                 </div>
               </ng-container>
-              <ng-container *ngIf="isFieldShow">
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
+
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6" [ngStyle]="{'display':isFieldShow === true ? 'block' : 'none' }">
                 <div class="row">
                   <label  class="col-sm-4 col-md-2 control-label">活动时间</label>
                   <div class="col-sm-8 col-md-10 group " >
@@ -147,6 +147,7 @@
                         class="form-control addUnit"
                         [(ngModel)]="baseInfoDTO.beginTime"
                         #beginTime="ngModel"
+                        readonly
                       />
                       <p class="text-danger" *ngIf="!baseInfoDTO.beginTime">* 必填项</p>
                     </div>
@@ -158,13 +159,14 @@
                         class="form-control addUnit"
                         [(ngModel)]="baseInfoDTO.endTime"
                         #endTime="ngModel"
+                        readonly
                       />
                       <p class="text-danger" *ngIf="!baseInfoDTO.endTime">* 必填项</p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6" [ngStyle]="{'display':isFieldShow === true ? 'block' : 'none' }">
                 <div class="row">
                   <label class="col-sm-4 col-md-2 control-label">参加频率</label>
                   <div class="col-sm-8 col-md-10 group" >
@@ -190,7 +192,7 @@
                   </div>
                 </div>
               </div>
-              </ng-container>
+
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
                 <div class="row">
                   <label  class="col-sm-4 col-md-2 control-label">派发时间</label>
@@ -207,8 +209,8 @@
                   </div>
                 </div>
               </div>
-              <ng-container *ngIf="isFieldShow">
-              <div class="form-group col-sm-12">
+
+              <div class="form-group col-sm-12" [ngStyle]="{'display':isFieldShow === true ? 'block' : 'none' }">
                 <div class="row">
                   <label class="col-sm-4 col-md-2 col-lg-1 control-label">活动链接</label>
                   <div class="col-sm-8 col-md-10 col-lg-11">
@@ -225,7 +227,7 @@
                   </div>
                 </div>
               </div>
-              </ng-container>
+
             </div>
 
         </seer-collapse-card>
@@ -371,6 +373,7 @@
       <seer-filter
         [hasGlobalFilter]="modalhasGlobalFilter"
         [filters]="modalfilters"
+        (onFiltersChanged)=modalFiltersChanged($event)
         (onSearchBtnClicked)=modalFiltersChanged($event)
         [formGroupColNum]="formGroupColNum"
       ></seer-filter>
