@@ -20,7 +20,7 @@ export class DoneComponent implements OnInit {
   tasks = []; //待办任务（过滤）
   //查询参数，分页、排序、检索
   pageInfo = {
-    "currentPage": 1,
+    "pageNum": 1,
     "pageSize": 10,
     "total": "",
   };
@@ -34,12 +34,8 @@ export class DoneComponent implements OnInit {
 
   }
   getList(){
-    console.log('-------this.pageInfo--------');
-    console.log(this.pageInfo);
     this.service.getDoneTasks(this.pageInfo).then((res) => {
-      console.log('返回的数据');
-      console.log(res.data);
-      this.pageInfo.currentPage=res.data.pageNum;  //当前页
+      this.pageInfo.pageNum=res.data.pageNum;  //当前页
       this.pageInfo.pageSize=res.data.pageSize; //每页记录数
       this.pageInfo.total=res.data.total; //记录总数
       this.items = res.data.list;
@@ -78,11 +74,8 @@ export class DoneComponent implements OnInit {
   showError(message: string) {return this._messageService.open({message, icon: 'fa fa-times-circle', autoHideDuration: 3000})}
 //分页查询
   onPageChange($event) {
-    console.log('分页');
-    console.log($event);
-
     this.pageInfo.pageSize = $event.rowsOnPage;
-    this.pageInfo.currentPage = $event.pageNumber;
+    this.pageInfo.pageNum = $event.pageNumber;
     this.getList();
   }
 
