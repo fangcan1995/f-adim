@@ -53,10 +53,13 @@
         <div class="row">
 
           <label class="col-sm-1 control-label" style="text-align:right; height:35px; line-height:35px;">缩略图</label>
-          <div class="col-sm-6 col-xs-12 col-md-6 col-lg-1">
+          <div class="col-sm-6 col-xs-12 col-md-6 col-lg-2">
             <img src="{{infoPublishSource.affIcon}}" *ngIf="infoPublishSource.affIcon"  style="display:block; width:200px; margin-bottom: 10px" >
-            <input type="file" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)" [disabled]="uploadDisabled" >
-            <button (click)="deleteFile()">删除图片</button>
+            <input name="upload" id="upload" type="file" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)" [disabled]="uploadDisabled" >
+            <div class="uploadAction">
+                <label for="upload" class="btn btn_file">上传文件</label>
+                <label (click)="deleteFile()" *ngIf="infoPublishSource.affIcon" class="btn btn_default">删除</label>
+            </div>
           </div>
         </div>
     </div>
