@@ -674,7 +674,7 @@
           <div class="row">
             <label  class="col-sm-4 col-md-3 control-label text-right">车牌号</label>
             <div class="col-sm-8 col-md-8">
-              <input class="form-control number" name="carNumber"  [(ngModel)]="vehicle.carNumber" maxlength="7" #carNumber="ngModel" required [disabled]="vehicleReadOnly">
+              <input class="form-control number" name="carNumber"  [(ngModel)]="vehicle.carNumber" maxlength="8" #carNumber="ngModel" required [disabled]="vehicleReadOnly">
               <p class="text-danger" *ngIf="carNumber.errors?.required">*必填项</p>
             </div>
           </div>
@@ -743,7 +743,7 @@
       <div class="row">
         <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xlg-12">
           <div class="row">
-            <label for="housePlace" class="col-sm-3 control-label text-right">房产地址</label>
+            <label  class="col-sm-3 control-label text-right">房产地址</label>
             <div class="col-sm-8">
               <input class="form-control"  [(ngModel)]="house.houseAdress" name="houseAdress" maxlength="30" #houseAdress="ngModel" required [disabled]="houseReadOnly">
               <p class="text-danger" *ngIf="houseAdress.errors?.required">*必填项</p>
