@@ -171,7 +171,7 @@ export class FormsService extends BaseService<any>{
   }
   //债转审核/发布  满标划转审核
   public transferAudit(transferId: string, param: any): Promise<any> {
-    return this._httpInterceptorService.request('POST', `http://172.16.1.234:9090`+`/transfer/${transferId}/audit`, param, false, 60000).toPromise();
+    return this._httpInterceptorService.request('POST', BASE_URL+`/transfer/${transferId}/audit`, param, false, 60000).toPromise();
   }
  /* //债转满标划转(假)
   public transferFull(transferId: string, param: any): Promise<any> {
