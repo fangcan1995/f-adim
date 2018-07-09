@@ -36,8 +36,8 @@ export class TodoComponent implements OnInit {
     this.service.getTodoTasks().then((res) => {
       this.items = res.data;
       this.tasks = res.data;
-      console.log('待办业务列表---------');
-      console.log(this.tasks);
+      /*console.log('待办业务列表---------');
+      console.log(this.tasks);*/
       this.classStatistics();
       this.isLoading = false;
     }).catch(err => {

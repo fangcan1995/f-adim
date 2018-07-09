@@ -188,9 +188,17 @@
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label class="col-sm-4 control-label text-right">借款金额</label>
+                <label class="col-sm-4 control-label text-right">申请金额</label>
                 <div class="col-sm-8">
                   <label class="form-control" style="background: #f6f6f6;text-align: right">{{loan.applyAmt}}<span  *ngIf="loan.applyAmt">元</span></label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label class="col-sm-4 control-label text-right">标的金额</label>
+                <div class="col-sm-8">
+                  <label class="form-control" style="background: #f6f6f6;text-align: right">{{loan.projectAmt}}<span  *ngIf="loan.projectAmt">元</span></label>
                 </div>
               </div>
             </div>
@@ -327,6 +335,14 @@
                 </div>
               </div>
             </div>-->
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label  class="col-sm-4 control-label">还款来源</label>
+                <div class="col-sm-8 ">
+                  <label class="form-control" style="background: #f6f6f6"  >{{loan.repayFrom}}</label>
+                </div>
+              </div>
+            </div>
           </form>
         </div>
       </seer-collapse-card>

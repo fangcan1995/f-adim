@@ -82,7 +82,8 @@ export class IntentionComponent {
   pageInfo = {
     "pageNum": 1,
     "pageSize": 10,
-    "sortBy": "-applyNum",
+    //"sortBy": "-applyNum",
+    "sortBy": "applyStatus,-applyNum",
     "total": "",
     "globalSearch": "",
     "userName": "",

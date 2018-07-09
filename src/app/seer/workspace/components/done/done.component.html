@@ -16,8 +16,10 @@
         [rowCount]="pageInfo.total"
         [rowsOnPageSet]="[10, 15, 30]"
         [rowsOnPage]="pageInfo.pageSize"
-        [pageNumber]="pageInfo.currentPage"
+        [pageNumber]="pageInfo.pageNum"
+        (notify)="onPageChange($event)"
       ></seer-pagination>
+
     </div>
   </seer-card>
 </div>

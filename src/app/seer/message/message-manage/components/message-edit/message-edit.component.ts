@@ -277,7 +277,7 @@ export class MessageEditComponent {
     switch(this.usersType){
       case 'members':
         this.modalfilters=[
-          {
+          /*{
             key: 'memberType',
             label: '用户身份',
             type: 'select',
@@ -288,7 +288,7 @@ export class MessageEditComponent {
             label: '区域',
             type: 'select',
             options:[{value:'', content: '全部'},{value:'1', content: '龙区'},{value:'2', content: '辽区'}]
-          },
+          },*/
           {
             key: 'investOrNot',
             label: '投资状态',
@@ -346,7 +346,7 @@ export class MessageEditComponent {
             ],
             groupSpaces: ['至']
           },
-          {
+          /*{
             key: 'inviteMembers',
             label: '邀请人数',
             groups: [
@@ -358,7 +358,7 @@ export class MessageEditComponent {
               },
             ],
             groupSpaces: ['至']
-          }
+          }*/
         ];
         this.modalTitles=[
           {key: 'userName', label: '用户名',textAlign:'center'},
@@ -418,16 +418,16 @@ export class MessageEditComponent {
       }else if(this.usersType=='users'){
         keyId='id';
       }
-      console.log(this.modalUsers);
+
       //反向渲染人员列表，原来选中的checkbox是勾选状态
-      /*this.modalUsers = _.map(this.modalUsers, r =>{
+      this.modalUsers = _.map(this.modalUsers, r =>{
         let idIndex=this.selectedUserId.findIndex(x => x == r[keyId]);
         if(idIndex!=-1){
           return _.set(r, 'selected', 1)
         }else{
           return _.set(r, 'selected', 0)
         }
-      });*/
+      });
     });
   }
 
@@ -496,8 +496,6 @@ export class MessageEditComponent {
   modalChangeTable(e){
     const type = e.type;
     let data = e.data;
-    console.log('-------模态框选择用户id------');
-    console.log(e);
     let keyId;
     if(this.usersType=='members'){
       keyId='memberId';
@@ -517,15 +515,16 @@ export class MessageEditComponent {
         }
         break;
       case 'select_all':
-        //遍历数组，选中追加到数组中，否则从数组中删除
+        //遍历数组，选中追加到数组中，否则从数组中删除，这里只针对当前页
         data.map(r=> {
           let idIndex=this.selectedUserId.findIndex(x => x == r[keyId]);
           if(r.selected){
-            //如果选中人员中不存在这个人
+            //如果这条记录被选中，将id添加到已选数组中
             if(idIndex<0){
               this.selectedUserId.push(r[keyId]);
             }
           }else{
+            //如果这条选中的记录被反选，将id从已选数组中删除
             this.selectedUserId.splice(idIndex,1);
           }
         })
@@ -649,8 +648,6 @@ export class MessageEditComponent {
       let params={
         "scopesDTO":ids.toString()
       };
-      console.log('----------//------');
-          console.log(params);
       this.service.getIdsMembers(params)
         .then(res=>{
 
