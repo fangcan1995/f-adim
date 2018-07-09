@@ -163,26 +163,32 @@ export class ActivityEditComponent {
           this._activityService.getOne(params.id)
             .then(res => {
               this.activity = res.data || {};
-
+              console.log('活动信息')
+             console.log(this.activity);
               this.baseInfoDTO=this.activity.baseInfoDTO;
               (this.baseInfoDTO.trigMode=='4')?this.isInvestMode=false:this.isInvestMode=true; //投资奖励的特殊处理
               (this.baseInfoDTO.activityScope=='3')?this.hideChooseMembers=false:this.hideChooseMembers=true; //指定用户的特殊处理
-              //this.baseInfoDTO.beginTime=new Date(this.baseInfoDTO.beginTime);  //格式化时间
-              //this.baseInfoDTO.beginTime = this.baseInfoDTO.beginTime ? new Date(this.baseInfoDTO.beginTime.replace(/-/g, "/")) : '';
-              //this.baseInfoDTO.endTime = this.baseInfoDTO.endTime ? new Date(this.baseInfoDTO.endTime.replace(/-/g, "/")) : '';
-              //this.baseInfoDTO.endTime=new Date(this.baseInfoDTO.endTime);  //格式化时间
+
 
               this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[0]:'';//频率字段拆分出次数
               this.baseInfoDTO.participateNum2=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[1]:'';//频率字段拆分出时间间隔
               if(this.baseInfoDTO.trigMode){
                 this.isAddaward=false;
               }
+
               this.awardsDTO=this.activity.awardsDTO;
-              //选定会员列表
-              this.scopesPageInfo.total=this.activity.scopesDTO.length;
-              this.scopesDTO=this.activity.scopesDTO;  //范围列表
-              console.log(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize));
-              this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
+              console.log('奖励列表')
+              console.log(this.awardsDTO);
+
+              //console.log(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize));
+
+              if(this.baseInfoDTO.activityScope=='3'){
+                //选定会员列表
+                this.scopesPageInfo.total=this.activity.scopesDTO.length;
+                this.scopesDTO=this.activity.scopesDTO;  //范围列表
+                this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
+              }
+
 
             }).catch(err => {
               this.showError(err.msg || '获取失败');

@@ -565,10 +565,11 @@
                       dict-select
                       [key]="'USE_LIMIT'"
                       [selected]="awardCurr.useLimit"
-                      [topOption]="{itemid:'',itemName:'请选择'}" required
+                       required
                       [disabled]="awardCurrReadOnly"
               >
               </select>
+
               <p class="text-danger" *ngIf="useLimit.errors?.required">* 必填项</p>
             </div>
           </div>
