@@ -80,7 +80,10 @@
         "../node_modules/bootstrap/dist/js/bootstrap.js",
         "../node_modules/handsontable/dist/handsontable.full.js",
         "../node_modules/chroma-js/chroma.js",
-        "assets/laydate.js"
+        "assets/laydate.js",
+        "../node_modules/echarts/dist/echarts.min.js",
+        "../node_modules/echarts/map/js/china.js",
+        "../node_modules/echarts/dist/extension/bmap.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
