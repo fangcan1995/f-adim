@@ -7,22 +7,6 @@ import {
 } from './http-interceptor.service';
 
 import { getStorage, setStorage, castDict2Translate } from '../libs';
-<<<<<<< .mine
-//let BASE_DOMAIN = '47.95.39.231';
-let BASE_DOMAIN = '172.16.7.3';
-// let BASE_DOMAIN = '172.16.1.234';
-let BASE_PORT = 8020;
-// let BASE_PORT = 9080;
-
-
-
-
-
-
-
-
-
-=======
 
 let BASE_DOMAIN = '47.95.39.231';
 let BASE_PORT = 8020;
@@ -37,7 +21,6 @@ export let BASE_URL = `http://${BASE_SERVER}/admin`; */
 
 /*let BASE_DOMAIN = '172.16.1.234';
 let BASE_PORT = 9080;
->>>>>>> .theirs
 let BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export let BASE_URL = `http://${BASE_SERVER}`;*/
 
@@ -51,18 +34,6 @@ let TEST_PORT = 8020;
 let TEST_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export let TEST_URL = `http://${BASE_SERVER}/admin`; */
 
-<<<<<<< .mine
-export let TEST_PORT = 8020;
-// export let TEST_PORT = 9080;
-export let TEST_SERVER = `${TEST_DOMAIN}:${TEST_PORT}`;
-//export let TEST_URL = `http://${TEST_SERVER}/admin`;
-export let TEST_URL = `http://${TEST_SERVER}`;
-
-
-
-
-
-=======
 /*let TEST_DOMAIN = '172.16.1.234';
 let TEST_PORT = 9080;
 let TEST_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
@@ -73,7 +44,6 @@ let TEST_PORT = 8020;
 let TEST_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export let TEST_URL = `http://${BASE_SERVER}/admin`;
 
->>>>>>> .theirs
 export let FROUNT_URL = `http://47.95.39.231:8888/subject_`; //
 
 
