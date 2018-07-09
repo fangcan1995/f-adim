@@ -203,6 +203,7 @@ export class ActivityEditComponent {
           }
           this.baseInfoDTO= this.activity.baseInfoDTO;
           this.baseInfoDTO.issueTime=1;//派发时间，默认实时
+
           this.baseInfoDTO.productCategory=0;//适用产品：通用
           this.awardsDTO=this.activity.awardsDTO;
           this.scopesDTO=this.activity.scopesDTO;
@@ -248,6 +249,11 @@ export class ActivityEditComponent {
       this.baseInfoDTO.issueTime=1;//派发时间，默认实时
     }else {
       this.isFieldShow=true;
+    }
+    if(params=='3'){
+      console.log('注册奖励');
+      this.baseInfoDTO.activityScope=1;
+
     }
   }
 
