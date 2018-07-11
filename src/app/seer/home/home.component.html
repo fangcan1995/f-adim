@@ -1,0 +1,152 @@
+<div class="home-body">
+  <div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-6 col-xlg-3 home-top-box">
+      <div class="tab-box">
+        <div class="top-title">
+          <div class="l">总投资金额</div>
+          <div class="r units">单位：元</div>
+        </div>
+        <div class="home-price">102,781,375</div>
+        <div class="bottom-footer">
+          <div class="l home-time">更新时间：2018-7-9</div>
+          <div class="r add-percent">9.8%</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6 col-xlg-3 home-top-box">
+      <div class="tab-box">
+        <div class="top-title">
+          <div class="l">总标的数</div>
+          <div class="r units">单位：个</div>
+        </div>
+        <div class="home-price">798</div>
+        <div class="bottom-footer">
+          <div class="l home-time">更新时间：2018-7-9</div>
+          <div class="r reduce-percent">9.8%</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6 col-xlg-3 home-top-box">
+      <div class="tab-box">
+        <div class="top-title">
+          <div class="l">总用户数</div>
+          <div class="r units">单位：人</div>
+        </div>
+        <div class="home-price">102,781,375</div>
+        <div class="bottom-footer">
+          <div class="l home-time">更新时间：2018-7-9</div>
+          <div class="r add-percent">2.5%</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6 col-xlg-3 home-top-box">
+      <div class="tab-box">
+        <div class="top-title">
+          <div class="l">昨日收益</div>
+          <div class="r units">单位：元</div>
+        </div>
+        <div class="home-price">102,781,375</div>
+        <div class="bottom-footer">
+          <div class="l home-time">更新时间：2018-7-9</div>
+          <div class="r add-percent">9.8%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xlg-9 home-middle-box">
+      <div class="home-invest">
+        <div class="home-invest-top">
+          <div class="l">投资折线图</div>
+          <div class="r">
+            <select class="home-invest-year">
+              <option value="2018">2018</option>
+              <option value="2019">2019</option>
+            </select>
+          </div>
+        </div>
+        <div echarts [options]="investOption" style="height: 400px;"></div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xlg-3 home-middle-box">
+      <div class="home-schedule">
+        <div id="dateform" class="col-sm-12">
+          <p-calendar [(ngModel)]="value" [inline]="true" [locale]="ch"></p-calendar>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xlg-3 home-bottom-box">
+      <div class="bottom-secound-box object-box">
+        <div class='object-title'>标的组成</div>
+        <div echarts [options]="objectOption" class="object-chart" style="height: 250px;"></div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xlg-6 home-bottom-box">
+
+      <div class="bottom-secound-box object-box">
+        <div class='object-title'>投资柱状图</div>
+        <div echarts [options]="columnarOption" style="height: 250px;"></div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xlg-3 home-bottom-box">
+      <div class="bottom-secound-box announcement-box">
+        <div class="announcement-title">
+          <div class="l">公告</div>
+          <div class="r">更多</div>
+        </div>
+        <ul class="announcement-content">
+          <li>
+            <div class="l article">关于巴巴汇平台2017年8月1日晚系统上线测试测试；</div>
+            <div class="r time">
+              2018-07-10
+            </div>
+          </li>
+          <li>
+            <div class="l article">关于巴巴汇平台2017年8月1日晚系统上线测试测试；</div>
+            <div class="r time">
+              2018-07-10
+            </div>
+          </li>
+          <li>
+            <div class="l article">关于巴巴汇平台2017年8月1日晚系统上线测试测试；</div>
+            <div class="r time">
+              2018-07-10
+            </div>
+          </li>
+          <li>
+            <div class="l article">关于巴巴汇平台2017年8月1日晚系统上线测试测试；</div>
+            <div class="r time">
+              2018-07-10
+            </div>
+          </li>
+          <li>
+            <div class="l article">关于巴巴汇平台2017年8月1日晚系统上线测试测试；</div>
+            <div class="r time">
+              2018-07-10
+            </div>
+          </li>
+          <li>
+            <div class="l article">关于巴巴汇平台2017年8月1日晚系统上线测试测试；</div>
+            <div class="r time">
+              2018-07-10
+            </div>
+          </li>
+          <li>
+            <div class="l article">关于巴巴汇平台2017年8月1日晚系统上线测试测试；</div>
+            <div class="r time">
+              2018-07-10
+            </div>
+          </li>
+          <li>
+            <div class="l article">关于巴巴汇平台2017年8月1日晚系统上线测试测试；</div>
+            <div class="r time">
+              2018-07-10
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
