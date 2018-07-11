@@ -27,8 +27,7 @@
                   </div>
                 </div>
               </div>
-              <ng-container *ngIf="isFieldShow">
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
+              <!--<div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6" *ngIf="isFieldShow">
                 <div class="row">
                   <label  class="col-sm-4 col-md-2 control-label">关联活动</label>
                   <div class="col-sm-8 col-md-10 needBtn">
@@ -40,8 +39,7 @@
                     <p class="text-danger" *ngIf="parentId.errors?.rangeLength">请输入20个以内字符</p>
                   </div>
                 </div>
-              </div>
-              </ng-container>
+              </div>-->
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
                 <div class="row">
                   <label  class="col-sm-4 col-md-2 control-label">触发方式</label>
@@ -166,7 +164,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6" [ngStyle]="{'display':isFieldShow === true ? 'block' : 'none' }">
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6" *ngIf="isFieldShow">
                 <div class="row">
                   <label class="col-sm-4 col-md-2 control-label">参加频率</label>
                   <div class="col-sm-8 col-md-10 group" >
@@ -192,7 +190,6 @@
                   </div>
                 </div>
               </div>
-
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-6">
                 <div class="row">
                   <label  class="col-sm-4 col-md-2 control-label">派发时间</label>
@@ -209,8 +206,7 @@
                   </div>
                 </div>
               </div>
-
-              <div class="form-group col-sm-12" [ngStyle]="{'display':isFieldShow === true ? 'block' : 'none' }">
+              <div class="form-group col-sm-12" *ngIf="isFieldShow" >
                 <div class="row">
                   <label class="col-sm-4 col-md-2 col-lg-1 control-label">活动链接</label>
                   <div class="col-sm-8 col-md-10 col-lg-11">
@@ -312,13 +308,24 @@
               <div class="row">
                 <label  class="col-sm-4 col-md-2 control-label">参与用户</label>
                 <div class="col-sm-8 col-md-10">
-                  <select class="form-control"  [(ngModel)]="baseInfoDTO.activityScope" name="activityScope"
+
+                  <select class="form-control"  [(ngModel)]="baseInfoDTO.activityScope" name="activityScope" *ngIf="baseInfoDTO.trigMode!=3"
                           dict-select
                           [key]="'ACTIVITY_SCOPE'"
                           [selected]="baseInfoDTO.activityScope"
                           (change)="showChooseMembers($event.target.value)"
                           [topOption]="{itemid:'',itemName:'请选择'}" >
                   </select>
+                  <select class="form-control"  [(ngModel)]="baseInfoDTO.activityScope" name="activityScope" *ngIf="baseInfoDTO.trigMode==3"
+                          dict-select
+                          [key]="'ACTIVITY_SCOPE'"
+                          [selected]="baseInfoDTO.activityScope"
+                          (change)="showChooseMembers($event.target.value)"
+                          [topOption]="{itemid:'',itemName:'请选择'}"
+                          disabled
+                  >
+                  </select>
+
                   <p class="text-danger" *ngIf="!baseInfoDTO.activityScope">* 必填项</p>
                 </div>
               </div>
@@ -558,10 +565,11 @@
                       dict-select
                       [key]="'USE_LIMIT'"
                       [selected]="awardCurr.useLimit"
-                      [topOption]="{itemid:'',itemName:'请选择'}" required
+                       required
                       [disabled]="awardCurrReadOnly"
               >
               </select>
+
               <p class="text-danger" *ngIf="useLimit.errors?.required">* 必填项</p>
             </div>
           </div>
