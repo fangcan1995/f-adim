@@ -7,7 +7,7 @@ import { FileUploader} from "ng2-file-upload";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import * as _ from 'lodash';
 import {SeerDialogService} from "../../../../theme/services/seer-dialog.service";
-import {PREVIEW,DOWNLOAD} from "../../../common/seer-table/seer-table.actions";
+import {PREVIEW, DOWNLOAD, SAVE_DISABLE} from "../../../common/seer-table/seer-table.actions";
 
 
 @Component({
@@ -17,9 +17,11 @@ import {PREVIEW,DOWNLOAD} from "../../../common/seer-table/seer-table.actions";
 export class ProjectViewComponent implements OnInit , OnChanges{
 
   public id: string;
+  public actions : any = []; //edit by lily
   public method: string; //edit by lily
   public currentNode:number=0;
   isLoading: boolean = true;
+  public forbidLoanSaveBtn = true;
 
 
   //会员信息
@@ -102,10 +104,12 @@ export class ProjectViewComponent implements OnInit , OnChanges{
   projectProgres:any;
   ngOnInit() {
     this.projectProgres = _.cloneDeep(this.service.projectProgres);
-
     this.route.params.subscribe((params: Params) => {
       params['id']? this.id = params['id']:"";
       params['method']? this.method = params['method']:"";
+      if(this.method==`project-full-audit`){
+        this.actions=[SAVE_DISABLE];
+      }
       console.log('当前方法')
       console.log(this.method);
       if(this.method==`loan_preview` || this.method==`loan-first-audit` || this.method==`loan-second-audit` ){
@@ -178,6 +182,7 @@ export class ProjectViewComponent implements OnInit , OnChanges{
       this.showError( err.msg || '获取贷款信息失败！' )
     });
   }
+
   //查询项目信息（标的）
   public getProjectDetail(projectId: string) {
     this.service.getProjectDetail(projectId).then((res) => {
@@ -377,7 +382,6 @@ export class ProjectViewComponent implements OnInit , OnChanges{
 
   }
 
-
   //查询标的投资记录
   public getInvestRecords(projectId: string) {
     this.service.getLoanInvestRecords(projectId).then((res) => {
@@ -410,6 +414,18 @@ export class ProjectViewComponent implements OnInit , OnChanges{
         this.showError(res.message)
       }
     }).catch(err => { this.showError('获取审批记录失败！' ) });
+  }
+
+  //保存借款信息
+  public saveLoanApply() {
+    this.service.updateLoanProject(this.loan.loanApplyId, this.loan).then(res => {
+      if(0 == res.code) {
+        this.showSuccess(res.message);
+      } else {
+        this.showError(res.message);
+      }
+    }).catch(err => {this.showError( err.msg || '保存失败' );});
+
   }
 
   //提交审核
@@ -456,6 +472,42 @@ export class ProjectViewComponent implements OnInit , OnChanges{
     })
   }
 
+  public submitFullAudit(){
+    this._dialogService.confirm('是否确认提交审核?', [{type: 1, text: '确认',}, {type: 0, text: '取消',},]).subscribe(action => {
+      if (action === 1) {
+        this.isLoading = true;
+
+        //完善借款
+        this.service.updateLoanProject(this.loan.loanApplyId, this.loan).then(res => {
+          if(0 == res.code) {
+          } else {
+            this.showError(res.message);
+          }
+        }).catch(err => {
+          this.isLoading = false;
+          this.showError( err.msg || '保存失败' );
+        });
+
+        let param = {
+          "auditResult": this.auditResult,
+          "opinion": this.auditReason + " " + this.auditOpinion
+        };
+        this.service.projectAudit(this.id, param).then(res =>{
+          if(0 == res.code) {
+            this.showSuccess(res.message);
+            this.handleBackBtnClick();
+          }else {
+            this.showError(res.message);
+          }
+          this.isLoading = false;
+        }).catch(error => {
+          this.isLoading = false;
+          this.showError('操作失败')
+        });
+
+      }
+    })
+  }
   //下载审批资料
   public downloadFile(item) {
     this.service.downloadFile(this.loan.loanApplyId, item.id).then(res => {

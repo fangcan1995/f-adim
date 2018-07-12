@@ -6,7 +6,7 @@
   </ng-container>
 </seer-content-top>
 <seer-progress [type]="'progress'" [contentList]="transferProgres" [currentNode]="currentNode"></seer-progress>
-<div class="widgets">
+<div class="widgets info">
   <div class="row justify-content-center">
     <div class="col-md-12">
       <seer-collapse-card cardTitle="基本信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
@@ -108,43 +108,16 @@
         <!--借款基本信息-->
         <div class="row">
           <form class="form-horizontal" #form2="ngForm">
+            <!--项目编号-->
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="applyAmt" class="col-sm-4 control-label text-right">借款金额（元）</label>
+                <label for="applyNum" class="col-sm-4 control-label">项目编号</label>
                 <div class="col-sm-8">
-                  <input type="number" class="form-control" id="applyAmt" [(ngModel)]="loan.applyAmt" name="applyAmt" #applyAmt="ngModel" disabled>
+                  <input class="form-control" id="applyNum" [(ngModel)]="loan.projectNum" [ngModelOptions]="{standalone: true}" disabled>
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="loanExpiry" class="col-sm-4 control-label">借款期限</label>
-                <div class="col-sm-8 ">
-                  <select class="form-control" id="loanExpiry" [(ngModel)]="loan.loanExpiry" name="loanExpiry" #loanExpiry="ngModel" disabled
-                          dict-select
-                          [key]="'LOAN_APPLY_EXPIRY'"
-                          [selected]="loan.loanExpiry"
-                          [topOption]="{itemid:'',itemName:'请选择'}">
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="annualRate" class="col-sm-4 control-label">年利率（%）</label>
-                <div class="col-sm-8">
-                  <input type="number" class="form-control number" id="annualRate" [(ngModel)]="loan.annualRate" name="annualRate" #annualRate="ngModel" disabled>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="raiseRate" class="col-sm-4 control-label">加息（%）</label>
-                <div class="col-sm-8 ">
-                  <input type="number" class="form-control number" id="raiseRate" [(ngModel)]="loan.raiseRate" name="raiseRate" #raiseRate="ngModel" disabled>
-                </div>
-              </div>
-            </div>
+            <!--借款类型-->
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
                 <label for="loanApplyType" class="col-sm-4 control-label">借款类型</label>
@@ -158,14 +131,21 @@
                 </div>
               </div>
             </div>
+            <!--借款期限-->
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label for="applyNum" class="col-sm-4 control-label">项目编号</label>
-                <div class="col-sm-8">
-                  <input class="form-control" id="applyNum" [(ngModel)]="loan.projectNum" [ngModelOptions]="{standalone: true}" disabled>
+                <label for="loanExpiry" class="col-sm-4 control-label">借款期限</label>
+                <div class="col-sm-8 ">
+                  <select class="form-control" id="loanExpiry" [(ngModel)]="loan.loanExpiry" name="loanExpiry" #loanExpiry="ngModel" disabled
+                          dict-select
+                          [key]="'LOAN_APPLY_EXPIRY'"
+                          [selected]="loan.loanExpiry"
+                          [topOption]="{itemid:'',itemName:'请选择'}">
+                  </select>
                 </div>
               </div>
             </div>
+            <!--还款方式-->
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
                 <label for="repayType" class="col-sm-4 control-label">还款方式</label>
@@ -179,42 +159,18 @@
                 </div>
               </div>
             </div>
+            <!--标的金额-->
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
-                <label class="col-sm-4 control-label">招标开始日期</label>
-                <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">{{loan.loanBeginDate | date:'yyyy-MM-dd'}}</label>
-                  <!-- <seer-datepicker
-                     [dateFormatingRules]="dateFormatingRules || 'yyyy-MM-dd'"
-                     [(date)]="loan.loanBeginDate"
-                     [disabled]="true"
-                   >
-                   </seer-datepicker>-->
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label class="col-sm-4 control-label" >招标结束日期</label>
-                <div class="col-sm-8 ">
-                  <label class="form-control" style="background: #f6f6f6">{{loan.loanEndDate | date:'yyyy-MM-dd'}}</label>
-                  <!--<seer-datepicker
-                    [dateFormatingRules]="dateFormatingRules || 'yyyy-MM-dd'"
-                    [(date)]="loan.loanEndDate"
-                    [disabled]="true"
-                  >
-                  </seer-datepicker>-->
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-              <div class="row">
-                <label for="serviceRate" class="col-sm-4 control-label">手续费（元）</label>
+                <label  class="col-sm-4 control-label text-right">借款金额</label>
                 <div class="col-sm-8">
-                  <input class="form-control number" id="serviceRate" [(ngModel)]="loan.serviceRate" name="serviceRate" #serviceRate="ngModel" disabled>
+                  <label class="form-control" style="background: #f6f6f6;text-align: right" >
+                    {{loan.applyAmt}}<span>元</span>
+                  </label>
                 </div>
               </div>
             </div>
+            <!--借款用途-->
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
               <div class="row">
                 <label for="loanPurpose" class="col-sm-4 control-label">借款用途</label>
@@ -225,6 +181,68 @@
                           [selected]="loan.loanPurpose"
                           [topOption]="{itemid:'',itemName:'请选择'}">
                   </select>
+                </div>
+              </div>
+            </div>
+            <!--还款来源-->
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label for="loanPurpose" class="col-sm-4 control-label">还款来源</label>
+                <div class="col-sm-8 ">
+                  <label class="form-control" style="background: #f6f6f6"  >{{loan.repayFrom}}</label>
+                </div>
+              </div>
+            </div>
+            <!--年利率-->
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label class="col-sm-4 control-label">年利率</label>
+                <div class="col-sm-8">
+                  <label class="form-control" style="background: #f6f6f6;text-align: right" >
+                    {{loan.annualRate}}<span>%</span>
+                  </label>
+                  <!--<input type="number" class="form-control number" id="annualRate" [(ngModel)]="loan.annualRate" name="annualRate" #annualRate="ngModel" disabled>-->
+                </div>
+              </div>
+            </div>
+            <!--加息利率-->
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label  class="col-sm-4 control-label">加息</label>
+                <div class="col-sm-8 ">
+                  <label class="form-control" style="background: #f6f6f6;text-align: right" >
+                    {{loan.raiseRate}}<span>%</span>
+                  </label>
+                  <!--<input type="number" class="form-control number" id="raiseRate" [(ngModel)]="loan.raiseRate" name="raiseRate" #raiseRate="ngModel" disabled>-->
+                </div>
+              </div>
+            </div>
+            <!--手续费-->
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label  class="col-sm-4 control-label">手续费</label>
+                <div class="col-sm-8">
+                  <label class="form-control" style="background: #f6f6f6;text-align: right" >
+                    {{loan.actualManageFee}}<span>元</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!--招标开始日期-->
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label class="col-sm-4 control-label">招标开始日期</label>
+                <div class="col-sm-8 ">
+                  <label class="form-control" style="background: #f6f6f6">{{loan.loanBeginDate | date:'yyyy-MM-dd'}}</label>
+                </div>
+              </div>
+            </div>
+            <!--招标结束日期-->
+            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+              <div class="row">
+                <label class="col-sm-4 control-label" >招标结束日期</label>
+                <div class="col-sm-8 ">
+                  <label class="form-control" style="background: #f6f6f6">{{loan.loanEndDate | date:'yyyy-MM-dd'}}</label>
                 </div>
               </div>
             </div>

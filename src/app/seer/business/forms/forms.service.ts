@@ -95,11 +95,14 @@ export class FormsService extends BaseService<any>{
     return this._httpInterceptorService.request('PUT', BASE_URL + `/members/${memberId}/personBaseInfo`,params).toPromise();
   }
 
-  //更新借款信息
+  //更新借款信息(补全资料)
   public updateLoanApply(loanApplyId: string, params: any): Promise<any> {
     return this._httpInterceptorService.request('PUT', BASE_URL + `/loans/${loanApplyId}`,params).toPromise();
   }
-
+  //更新借款信息(满标审核)
+  public updateLoanProject(loanApplyId: string, params: any): Promise<any> {
+    return this._httpInterceptorService.request('PUT', BASE_URL + `/loans/audit/${loanApplyId}`,params).toPromise();
+  }
   //新增会员车辆信息
   public addVehicle(memberId: string, params: any): Promise<any> {
     return this._httpInterceptorService.request('POST', BASE_URL + `/members/${memberId}/car`,params).toPromise();

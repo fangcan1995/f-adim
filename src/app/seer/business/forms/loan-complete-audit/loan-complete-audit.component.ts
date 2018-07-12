@@ -111,15 +111,12 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
     this.isLoading = true;
     this.service.getLoanMember(loanApplyId).then((res) => {
       if("0" == res.code) {
-        console.log('会员信息');
-        console.log(res.data);
+
         this.member = res.data.baseInfo;
         this.vehicles = res.data.vehicles;
-        console.log('车辆列表');
-        console.log(this.vehicles);
+
         this.houses = res.data.houses;
-        console.log('房产列表');
-        console.log(this.houses);
+
         this.creditInfo = res.data.credits;
         this.riskReport = this.findReport("1",this.creditInfo||[]);
         this.creditReport = this.findReport("2",this.creditInfo||[]);
@@ -176,6 +173,8 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
       if("0" == res.code) {
         this.loan = res.data.loanBase;
         this.loan.raiseRate=0; //默认加息0
+        console.log('-----')
+        console.log(this.loan)
         this.pawnRelation = res.data.pawnRelation;
         this.pawnVehicle = res.data.pawnVehicle;
         this.pawnHouse = res.data.pawnHouse;
@@ -255,8 +254,8 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
           this.showError( err.msg || '保存失败' );
         });
 
-        //完善借款
-        this.service.updateLoanApply(this.loan.loanApplyId, this.loan).then(res => {
+        //修改借款信息
+        this.service.updateLoanProject(this.loan.loanApplyId, this.loan).then(res => {
           if(0 == res.code) {
           } else {
             this.showError(res.message);
@@ -265,7 +264,6 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
           this.isLoading = false;
           this.showError( err.msg || '保存失败' );
         });
-
         //提交
         let param = {"auditResult": this.auditResult, "opinion": this.auditReason + " " + this.auditOpinion};
         this.service.loanApplyAudit(this.loan.loanApplyId, param).then(res =>{
