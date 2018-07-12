@@ -5,13 +5,14 @@
   .r {
     float: right;
   }
-  ul,li{
+  ul,
+  li {
     list-style: none;
     margin: 0;
     padding: 0;
   }
   margin: 30px;
-  .home-top-box{
+  .home-top-box {
     .tab-box {
       background: #fff;
       height: 150px;
@@ -70,72 +71,107 @@
       }
     }
   }
-  .home-middle-box{
+  .home-middle-box {
     margin-bottom: 20px;
-    .home-invest{
-      height:440px;
-      border:1px solid #ddd;
+    .home-invest {
+      height: 440px;
+      border: 1px solid #ddd;
       background: #fff;
-      .home-invest-top{
+      .home-invest-top {
         margin: 20px;
-        .home-invest-year{
-          width:120px;
+        .home-invest-year {
+          width: 120px;
           height: 30px;
         }
       }
     }
-    .home-schedule{
-      height:440px;
-      border:1px solid #ddd;
+    .home-schedule {
+      height: 440px;
+      border: 1px solid #ddd;
       background: #fff;
+      #dateform {
+        overflow: hidden;
+        padding: 0 15px;
+      }
+      .add-schedule {
+        border-top: 1px solid #ddd;
+        height: 90px;
+        position: relative;
+        .nowDay {
+          width: 90px;
+          height: 90px;
+          line-height: 90px;
+          text-align: center;
+          border-right: 1px solid #ddd;
+          font-size: 36px;
+          color: #3b9ff3;
+          position: absolute;
+          left: 0;
+          top: 0;
+        }
+        .schedule-content {
+          overflow: hidden;
+          margin-left: 91px;
+          margin-right: 80px;
+          padding: 10px;
+        }
+        .add-btn {
+          height: 90px;
+          line-height: 90px;
+          width: 80px;
+          text-align: center;
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
+      }
     }
   }
-  .home-bottom-box{
-    .bottom-secound-box{
-      height:308px;
-      border:1px solid #ddd;
+  .home-bottom-box {
+    .bottom-secound-box {
+      height: 308px;
+      border: 1px solid #ddd;
       background: #fff;
       overflow: hidden;
-      &.object-box{
-        .object-title{
+      &.object-box {
+        .object-title {
           margin: 20px;
           margin-bottom: 0;
         }
-        .object-chart{
-          width:90%;
+        .object-chart {
+          width: 90%;
         }
       }
-      &.announcement-box{
-        .announcement-title{
-          height:56px;
+      &.announcement-box {
+        .announcement-title {
+          height: 56px;
           line-height: 56px;
           border-bottom: 1px solid #ddd;
           padding: 0 20px;
         }
-        .announcement-content{
+        .announcement-content {
           margin: 0 20px;
-          li{
-            margin:18px 0;
+          li {
+            margin: 18px 0;
             overflow: hidden;
-            .article{
-              width:74%;
+            .article {
+              width: 74%;
               overflow: hidden;
-              text-overflow:ellipsis;//文本溢出显示省略号
-              white-space:nowrap;
-              margin-right:1%;
+              text-overflow: ellipsis; //文本溢出显示省略号
+              white-space: nowrap;
+              margin-right: 1%;
             }
-            .time{
+            .time {
               width: 25%;
               overflow: hidden;
-              text-overflow:ellipsis;//文本溢出显示省略号
-              white-space:nowrap;
+              text-overflow: ellipsis; //文本溢出显示省略号
+              white-space: nowrap;
               text-align: right;
-              color:#999;
+              color: #999;
             }
           }
         }
       }
-
     }
   }
 
@@ -143,32 +179,27 @@
     margin-top: 30px;
 
     #dateform {
-        background: #fff;
-        border: solid 1px #c5d6e0;
-        border-top: none;
+      background: #fff;
+      border: solid 1px #c5d6e0;
     }
-}
-
-
-
-
+  }
 }
 
 :host /deep/ {
-  p-calendar{
+  p-calendar {
     width: 100%;
     display: block;
-    margin-top: 8%;
-    margin-bottom: 8%;
-}
+    margin-top: 12%;
+    margin-bottom: 11%;
+  }
 
-.ui-calendar{
+  .ui-calendar {
     width: 100%;
     margin: 0 auto;
     display: block;
-}
+  }
 
-.ui-datepicker{
-  width: 100%;
-}
+  .ui-datepicker {
+    width: 100%;
+  }
 }

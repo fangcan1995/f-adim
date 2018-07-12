@@ -10,23 +10,13 @@ declare let echarts;
 export class HomeComponent {
 
   investOption = {
+    tooltip: {
+      trigger: 'axis'
+  },
     xAxis: {
       type: "category",
 
-      data: [
-        "1月",
-        "2月",
-        "3月",
-        "4月",
-        "5月",
-        "6月",
-        "7月",
-        "8月",
-        "9月",
-        "10月",
-        "11月",
-        "12月"
-      ]
+      data: ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"]
     },
     yAxis: {
       name: "元",
@@ -34,21 +24,9 @@ export class HomeComponent {
     },
     series: [
       {
-        data: [
-          820,
-          932,
-          901,
-          934,
-          1290,
-          1330,
-          1320,
-          2000,
-          1000,
-          1200,
-          1100,
-          1500
-        ],
+        data: [820,932,901,934,1290,1330,1320,2000,1000,1200,1100,1500],
         type: "line",
+        smooth: true,
         itemStyle: {
           normal: {
               color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
