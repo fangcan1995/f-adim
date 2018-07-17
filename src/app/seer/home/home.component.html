@@ -77,7 +77,7 @@
         <div class="add-schedule">
           <div class="nowDay">11</div>
           <div class="schedule-content">测试内容测试内容测试内容测试内容测试内容测试内容</div>
-          <div class="add-btn">+</div>
+          <!-- <div class="add-btn" (click)="addSchedule('redEnvelopesDTOs',award1,i,true)">+</div> -->
         </div>
       </div>
     </div>
@@ -156,3 +156,30 @@
     </div>
   </div>
 </div>
+<ng-template #award1 >
+  <div class="modal-header" style="border-bottom:2px solid #00abff;padding:5px 0; ">
+    <h4 class="modal-title pull-left" style="height:40px; line-height:40px; float:left; text-indent:1em;">
+      <ng-container *ngIf="(awardCurrIndex==-1)">添加返现红包</ng-container>
+      <ng-container *ngIf="(awardCurrIndex!=-1)&& !awardCurrReadOnly">修改返现红包</ng-container>
+      <ng-container *ngIf="(awardCurrIndex!=-1) &&awardCurrReadOnly">查看返现红包</ng-container>
+    </h4>
+  </div>
+  <div class="modal-body">
+    <form #form2="ngForm">
+      <div class="row info">
+        <div class="form-group col-sm-12">
+          <div class="row">
+            <label  class="col-sm-4 col-md-2 control-label">奖品名称</label>
+            <div class="col-sm-8 col-md-10">
+              <input type="text" class="form-control"  [(ngModel)]="awardCurr.reName" name="reName" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sx btn-info" [disabled]="!form2.form.valid" (click)="saveAward('redEnvelopesDTOs',awardCurr,'2')">保存</button>
+    <button type="button"  class="btn btn-default" (click)="modalRef.hide()">取消</button>
+  </div>
+</ng-template>
