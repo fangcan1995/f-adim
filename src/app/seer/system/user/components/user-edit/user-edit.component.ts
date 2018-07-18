@@ -131,6 +131,7 @@ export class UserEditComponent implements OnInit {
                     emCode: this.user.emCode,
                     roleIds,
                 }
+                console.log(params)
                 this._userService.putOne('', params)
                     .then(res => {
 
@@ -159,6 +160,7 @@ export class UserEditComponent implements OnInit {
                     roleIds,
                     employeeId: this.activeStaff.originId,
                 }
+                console.log(params)
                 this._userService.postOne(params)
                     .then(res => {
                         this.forbidSaveBtn = false;

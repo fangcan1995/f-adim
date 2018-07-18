@@ -10,7 +10,7 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {getStorage} from "../../../../theme/libs/utils";
 import * as _ from 'lodash';
 import {SeerDialogService} from "../../../../theme/services/seer-dialog.service";
-import {BASE_URL} from "../../../../theme/services/base.service";
+import {BASE_LOGIN_URL} from "../../../../theme/services/base.service";
 
 declare let laydate;
 
@@ -111,15 +111,12 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
     this.isLoading = true;
     this.service.getLoanMember(loanApplyId).then((res) => {
       if("0" == res.code) {
-        console.log('会员信息');
-        console.log(res.data);
+
         this.member = res.data.baseInfo;
         this.vehicles = res.data.vehicles;
-        console.log('车辆列表');
-        console.log(this.vehicles);
+
         this.houses = res.data.houses;
-        console.log('房产列表');
-        console.log(this.houses);
+
         this.creditInfo = res.data.credits;
         this.riskReport = this.findReport("1",this.creditInfo||[]);
         this.creditReport = this.findReport("2",this.creditInfo||[]);
@@ -176,12 +173,14 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
       if("0" == res.code) {
         this.loan = res.data.loanBase;
         this.loan.raiseRate=0; //默认加息0
+        console.log('-----')
+        console.log(this.loan)
         this.pawnRelation = res.data.pawnRelation;
         this.pawnVehicle = res.data.pawnVehicle;
         this.pawnHouse = res.data.pawnHouse;
-        console.log('抵押物');
-        console.log(this.pawnVehicle);
-        console.log(this.pawnHouse);
+        //console.log('抵押物');
+        //console.log(this.pawnVehicle);
+        //console.log(this.pawnHouse);
         this.auditMaterials = res.data.auditMaterials;
         this.initUploader();
       }else {
@@ -255,8 +254,8 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
           this.showError( err.msg || '保存失败' );
         });
 
-        //完善借款
-        this.service.updateLoanApply(this.loan.loanApplyId, this.loan).then(res => {
+        //修改借款信息
+        this.service.updateLoanProject(this.loan.loanApplyId, this.loan).then(res => {
           if(0 == res.code) {
           } else {
             this.showError(res.message);
@@ -265,7 +264,6 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
           this.isLoading = false;
           this.showError( err.msg || '保存失败' );
         });
-
         //提交
         let param = {"auditResult": this.auditResult, "opinion": this.auditReason + " " + this.auditOpinion};
         this.service.loanApplyAudit(this.loan.loanApplyId, param).then(res =>{
@@ -293,6 +291,8 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
       if("0" == res.code) {
         this.pawnVehicle = vehicle ;
         this.pawnRelation = res.data;
+        //console.log('抵押物：车');
+        //console.log(this.pawnRelation);
         this.showSuccess('设置抵押物成功');
       }else {
         this.showSuccess('设置抵押物成功');
@@ -309,7 +309,10 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
     this.service.pawnHouse(this.loan.loanApplyId, params).then(res => {
       if("0" == res.code) {
         this.pawnHouse = house;
-        this.pawnRelation.mortId = house.id;
+        this.pawnRelation = res.data;  //edit by lily
+        //console.log('抵押物：房');
+        //console.log(this.pawnRelation);
+        //this.pawnRelation.mortId = house.id;  //edit by lily
         this.showSuccess('设置抵押物成功');
       }else {
         this.showError( '设置抵押物失败' );
@@ -391,7 +394,7 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
     const tokenType = token.token_type;
     const accessToken = token.access_token;
     let headers = [{name: 'Authorization', value: `${tokenType} ${accessToken}`}];
-    this.uploader = new FileUploader({ url: BASE_URL + `/loans/${this.loan.loanApplyId}/material`, method: "POST", headers:headers,});
+    this.uploader = new FileUploader({ url: BASE_LOGIN_URL+`/zuul/admin` + `/loans/${this.loan.loanApplyId}/material`, method: "POST", headers:headers,});
     this.uploader.onSuccessItem = this.successItem.bind(this);
     this.uploader.onCompleteAll = this.onCompleteAll.bind(this);
   }

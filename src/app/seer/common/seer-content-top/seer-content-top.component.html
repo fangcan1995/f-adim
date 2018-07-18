@@ -1,9 +1,14 @@
-<div
-  class="content-top"
-  #contentTop
-  scroll-direction
-  (onScroll)="handleScroll($event)"
-  [style.transform]="_offsetTop ? 'translateY(' + _offsetTop + 'px)' : null"
-  >
-  <ng-content></ng-content>
-</div>
+
+  <div
+    class="content-top fixedTop"
+    #contentTop
+    scroll-direction
+    (onScroll)="handleScroll($event)"
+    [style.transform]="_offsetTop ? 'translateY(' + _offsetTop + 'px)' : null"
+    >
+    <ng-content></ng-content>
+  </div>
+  <div class="content-top-bottom fixedTop"></div>
+
+
+

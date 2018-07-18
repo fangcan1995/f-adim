@@ -18,23 +18,34 @@ export class DoneComponent implements OnInit {
   items = []; //全部数据
 
   tasks = []; //待办任务（过滤）
-
+  //查询参数，分页、排序、检索
+  pageInfo = {
+    "pageNum": 1,
+    "pageSize": 10,
+    "total": "",
+  };
   constructor(private service: WorkspaceService, private _router: Router, private route: ActivatedRoute, private _messageService: SeerMessageService) {}
 
   ngOnInit(): void { this.initialize();}
 
   //初始化数据
   initialize() {
-    this.service.getDoneTasks().then((res) => {
-      this.items = res.data;
-      this.tasks = res.data;
+    this.getList();
+
+  }
+  getList(){
+    this.service.getDoneTasks(this.pageInfo).then((res) => {
+      this.pageInfo.pageNum=res.data.pageNum;  //当前页
+      this.pageInfo.pageSize=res.data.pageSize; //每页记录数
+      this.pageInfo.total=res.data.total; //记录总数
+      this.items = res.data.list;
+      this.tasks = res.data.list;
       this.classStatistics();
-      console.log(this.tasks);
+
     }).catch(err => {
-      this.showError(err.msg || '待办任务获取失败');
+      this.showError(err.msg || '已办任务获取失败');
     });
   }
-
   //分类查看任务
   taskFiler(key: any) {
 
@@ -61,7 +72,12 @@ export class DoneComponent implements OnInit {
 
   //错误提示
   showError(message: string) {return this._messageService.open({message, icon: 'fa fa-times-circle', autoHideDuration: 3000})}
-
+//分页查询
+  onPageChange($event) {
+    this.pageInfo.pageSize = $event.rowsOnPage;
+    this.pageInfo.pageNum = $event.pageNumber;
+    this.getList();
+  }
 
 
   //页面跳转
@@ -72,7 +88,8 @@ export class DoneComponent implements OnInit {
 
       //借款流程
       case 'LOAN_APPLY':
-        this._router.navigate([url + 'loan-view', task.businessKey], {relativeTo: this.route});
+        //this._router.navigate([url + 'loan-view', task.businessKey], {relativeTo: this.route});
+        this._router.navigate([url + 'project-view', task.businessKey,'loan_preview'], {relativeTo: this.route}); //edit by lily
         break;
 
       //标的流程

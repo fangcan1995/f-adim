@@ -15,8 +15,8 @@ export class SeerProgressComponent implements OnInit {
 
 
   constructor() {
-    console.log('-----------------');
-    console.log(this.currentNode);
+    //console.log('-----------------');
+    //console.log(this.currentNode);
   }
 
   ngOnInit(): void {

@@ -27,7 +27,6 @@ export class DictSelectDirective implements OnInit {
     ngOnInit(): void {
         if (null == this.key) throw new Error("Attribute 'key' is required");
         //添加提示选项
-        console.log(this.key);
         if (this.topOption) {
             let wrapper = document.createElement('option');
             wrapper.value = this.topOption.itemId;

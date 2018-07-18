@@ -74,7 +74,6 @@ export class StaffAddComponent implements OnInit {
 
   /* 返回 */
   handleBackBtnClick() {
-    this._location.back()
     if(this.form1.dirty){
         this._dialogService.confirm(
             '还未保存确认要离开么?',
@@ -92,6 +91,8 @@ export class StaffAddComponent implements OnInit {
           ).subscribe(action => {
               if (action === 1) {
                   this._location.back();
+              }else{
+                return
               }
           })
       }else{

@@ -1,4 +1,4 @@
-<!--<seer-collapse-card>-->
+<seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
 <seer-collapse-card>
   <seer-filter
     [hasGlobalFilter]="hasGlobalFilter"
@@ -6,9 +6,12 @@
     (onFiltersChanged)=handleFiltersChanged($event)
     (onSearchBtnClicked)=handleFiltersChanged($event)
   ></seer-filter>
+</seer-collapse-card>
+  <seer-collapse-card>
   <seer-table
     [data]="redPackets"
     [titles]="titles"
+    [paginationRules]="0"
     [translate]="dict"
     [pageNum]="pageInfo.pageNum"
     [pageSize]="pageInfo.pageSize"
@@ -25,4 +28,4 @@
     [hideActions]="true"
   ></seer-table>
 </seer-collapse-card>
-<seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
+

@@ -9,12 +9,18 @@ import { NgaModule } from "../../theme/nga.module";
 import { routing } from './home.routing';
 import { HomeService } from './home.service';
 import { HomeComponent } from './home.component';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { CalendarModule } from 'primeng/primeng';
+
 @NgModule({
   imports: [
     NgaModule,
     CommonModule,
     FormsModule,
     routing,
+    NgxEchartsModule,
+    CalendarModule
+
   ],
   declarations: [
     HomeComponent,

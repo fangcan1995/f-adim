@@ -63,11 +63,11 @@
                   [(checked)]="message.sendMail"
                   [disabled]="disabled.sendMail"
                 ></seer-cool-checkbox> 消息中心
-                <seer-cool-checkbox
+                <!--<seer-cool-checkbox
                   name="sendNotify"
                   [(checked)]="message.sendNotify"
                   [disabled]="disabled.sendNotify"
-                ></seer-cool-checkbox> 推送通知
+                ></seer-cool-checkbox> 推送通知-->
                 <seer-cool-checkbox
                   name="sendMessage"
                   [(checked)]="message.sendMessage"
@@ -175,6 +175,7 @@
       <seer-filter
         [hasGlobalFilter]="false"
         [filters]="modalfilters"
+        (onFiltersChanged)=modalFiltersChanged($event)
         (onSearchBtnClicked)=modalFiltersChanged($event)
         *ngIf="usersType=='members'"
         [formGroupColNum]="formGroupColNum"
@@ -201,6 +202,7 @@
         [hideActions]="true"
         (notify)="modalChangeTable($event)"
         (changePage)="modalPageChange($event)"
+
       ></seer-table>
     </seer-collapse-card>
   </div>

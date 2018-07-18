@@ -9,8 +9,8 @@ import { BsModalService} from 'ngx-bootstrap/modal';
 import {SeerDialogService, SeerMessageService,} from '../../../../../theme/services';
 import {formatDate} from "ngx-bootstrap/bs-moment/format";
 import {DELETE, ENABLE, PREVIEW, UPDATE} from "../../../../common/seer-table/seer-table.actions";
-declare var $: any;
 declare let laydate;
+declare var $: any;
 
 @Component({
   templateUrl: './activity-edit.component.html',
@@ -20,6 +20,10 @@ export class ActivityEditComponent {
   _editType: string = 'add';
   forbidSaveBtn: boolean = true;
   isInvestMode:boolean = true;
+  isFieldShow:boolean = true;
+
+  beginTime;//开始时间
+  endTime; //结束时间
 
   awardCurr: any = {};//当然编辑的奖品
   awardCurrIndex=-1; //当然编辑的奖品索引
@@ -159,26 +163,32 @@ export class ActivityEditComponent {
           this._activityService.getOne(params.id)
             .then(res => {
               this.activity = res.data || {};
-
+              console.log('活动信息')
+             console.log(this.activity);
               this.baseInfoDTO=this.activity.baseInfoDTO;
               (this.baseInfoDTO.trigMode=='4')?this.isInvestMode=false:this.isInvestMode=true; //投资奖励的特殊处理
               (this.baseInfoDTO.activityScope=='3')?this.hideChooseMembers=false:this.hideChooseMembers=true; //指定用户的特殊处理
-              //this.baseInfoDTO.beginTime=new Date(this.baseInfoDTO.beginTime);  //格式化时间
-              //this.baseInfoDTO.beginTime = this.baseInfoDTO.beginTime ? new Date(this.baseInfoDTO.beginTime.replace(/-/g, "/")) : '';
-              //this.baseInfoDTO.endTime = this.baseInfoDTO.endTime ? new Date(this.baseInfoDTO.endTime.replace(/-/g, "/")) : '';
-              //this.baseInfoDTO.endTime=new Date(this.baseInfoDTO.endTime);  //格式化时间
+
 
               this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[0]:'';//频率字段拆分出次数
               this.baseInfoDTO.participateNum2=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[1]:'';//频率字段拆分出时间间隔
               if(this.baseInfoDTO.trigMode){
                 this.isAddaward=false;
               }
+
               this.awardsDTO=this.activity.awardsDTO;
-              //选定会员列表
-              this.scopesPageInfo.total=this.activity.scopesDTO.length;
-              this.scopesDTO=this.activity.scopesDTO;  //范围列表
-              console.log(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize));
-              this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
+              console.log('奖励列表')
+              console.log(this.awardsDTO);
+
+              //console.log(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize));
+
+              if(this.baseInfoDTO.activityScope=='3'){
+                //选定会员列表
+                this.scopesPageInfo.total=this.activity.scopesDTO.length;
+                this.scopesDTO=this.activity.scopesDTO;  //范围列表
+                this.getMembersList(this.scopesDTO.slice(0,this.scopesPageInfo.pageSize)); //读活动范围中对应的第一页会员信息
+              }
+
 
             }).catch(err => {
               this.showError(err.msg || '获取失败');
@@ -199,41 +209,57 @@ export class ActivityEditComponent {
           }
           this.baseInfoDTO= this.activity.baseInfoDTO;
           this.baseInfoDTO.issueTime=1;//派发时间，默认实时
+
           this.baseInfoDTO.productCategory=0;//适用产品：通用
           this.awardsDTO=this.activity.awardsDTO;
           this.scopesDTO=this.activity.scopesDTO;
 
-
-
         }
-        //渲染日期时间组件
-          laydate.render({
-            elem: '#beginTime',
-            type: 'datetime',
-            done: (value, date, endDate) => {
-              this.baseInfoDTO.beginTime = value;
 
-            }
-          })
-          laydate.render({
-            elem: '#endTime',
-            type: 'datetime',
-            done: (value, date, endDate) => {
-              this.baseInfoDTO.endTime = value;
-            }
-          })
+        //渲染日期时间组件
+        laydate.render({
+          elem: '#beginTime',
+          type: 'datetime',
+          trigger: 'click',
+          done: (value, date, beginTime) => {
+            console.log(23456);
+            this.baseInfoDTO.beginTime = value;
+          }
+        })
+        laydate.render({
+          elem: '#endTime',
+          type: 'datetime',
+          trigger: 'click',
+          done: (value, date, endTime) => {
+            console.log(23456);
+            this.baseInfoDTO.endTime = value;
+          }
+        })
+
+        console.log('1111111111111111111');
       })
 
   }
 
   /*基本信息相关********************************/
- //选择触发方式，选中4（投资奖励时，显示附加信息）
+ //选择触发方式，选中4（投资奖励时，显示附加信息）,选中1（直接下发时，隐藏部分信息）
   chooseTrigMode(params?){
     params!='undefined'?this.isAddaward=false:this.isAddaward=true;
     if(params=='4'){
       this.isInvestMode=false;
     }else {
       this.isInvestMode=true;
+    }
+    if(params=='1'){
+      this.isFieldShow=false;
+      this.baseInfoDTO.issueTime=1;//派发时间，默认实时
+    }else {
+      this.isFieldShow=true;
+    }
+    if(params=='3'){
+      console.log('注册奖励');
+      this.baseInfoDTO.activityScope=1;
+
     }
   }
 
@@ -365,7 +391,7 @@ export class ActivityEditComponent {
   //编辑
   membersOnChange($event) {
     let { type, data, column} = $event;
-    console.log($event);
+
     switch (type) {
       case 'delete':
 
@@ -381,7 +407,6 @@ export class ActivityEditComponent {
               console.log('现在选择的用户');
               console.log(this.scopesDTO);
               //重新分页
-
               this.scopesPageInfo.total=this.scopesDTO.length.toString();
               this.getMembersList(this.scopesDTO);
             }
@@ -413,7 +438,7 @@ export class ActivityEditComponent {
   //1-1 打开会员模态框
   openMemberModal(template: TemplateRef<any>) {
       this.modalfilters=[
-      {
+      /*{
         key: 'memberType',
         label: '用户身份',
         type: 'select',
@@ -424,7 +449,7 @@ export class ActivityEditComponent {
         label: '区域',
         type: 'select',
         options:[{value:'', content: '全部'},{value:'1', content: '龙区'},{value:'2', content: '辽区'}]
-      },
+      },*/
       {
         key: 'investOrNot',
         label: '投资状态',
@@ -443,19 +468,7 @@ export class ActivityEditComponent {
         type: 'select',
         options:[{value:'0', content: '全部'},{value:'1', content: '25以下'},{value:'2', content: '25-30'},{value:'3', content: '31-40'},{value:'4', content: '41-50'},{value:'5', content: '50以上'}]
       },
-      /*{
-        key: 'mage',
-        label: '年龄',
-        groups: [
-          {
-            type: 'input.text',
-          },
-          {
-            type: 'input.text',
-          },
-        ],
-        groupSpaces: ['至']
-      },*/
+
       {
         key: 'investDate',
         label: '投资时间',
@@ -495,7 +508,7 @@ export class ActivityEditComponent {
         ],
         groupSpaces: ['至']
       },
-      {
+     /* {
         key: 'inviteMembers',
         label: '邀请人数',
         groups: [
@@ -507,7 +520,7 @@ export class ActivityEditComponent {
           },
         ],
         groupSpaces: ['至']
-      }
+      }*/
     ];
       this.modalRef = this.modalService.show(template,this.modalClass);
       this.modalGetMembersList();
@@ -589,8 +602,7 @@ export class ActivityEditComponent {
     switch (type){
       case 'select_one':
         //选中追加到数组中，否则从数组中删除
-        console.log('选中的用户');
-        console.log(this.selectedUserId);
+
         let idIndex=this.selectedUserId.findIndex(x => x == data[keyId]);
         if(data.selected){
           if(idIndex<0){
@@ -599,7 +611,8 @@ export class ActivityEditComponent {
         }else{
           this.selectedUserId.splice(idIndex,1);
         }
-
+        console.log('选择的id包含');
+        console.log(this.selectedUserId);
         break;
       case 'select_all':
         //遍历数组，选中追加到数组中，反选从数组中删除，这里只针对当前页
@@ -626,7 +639,6 @@ export class ActivityEditComponent {
     this.modalPageInfo.pageSize = $event.pageSize;
     this.modalPageInfo.pageNum=$event.pageNum;
     this.modalGetMembersList();
-
   }
   //1-6 格式化查询参数
   modalFiltersChanged($event){
@@ -709,9 +721,13 @@ export class ActivityEditComponent {
 
   //2-1 打开关联活动模态框
   openParentIdModal(template: TemplateRef<any>,type) {
+    console.log('选择活动1'+template);
     this.type=type;
+    //this.modalRef = this.modalService.show(template);
     this.modalParentsRef = this.modalService2.show(template,this.modalClass);
+    console.log('选择活动2');
     this.modalGetParentsList();
+    console.log('选择活动3');
   }
   //2-2 获取活动列表
   modalGetParentsList():void{
@@ -784,6 +800,7 @@ export class ActivityEditComponent {
     this.forbidSaveBtn = true;
 
     let baseInfo=_.cloneDeep(this.activity.baseInfoDTO);
+
     //如果不是投资奖励，删除相关属性
     if(baseInfo.trigMode!='4'){
       delete baseInfo.productCategory;
@@ -793,15 +810,34 @@ export class ActivityEditComponent {
       delete baseInfo.investMinNum;
       delete baseInfo.investMaxNum;
     }
+    if(baseInfo.trigMode=='1'){
+      delete baseInfo.productCategory;
+      delete baseInfo.investLimit;
+      delete baseInfo.investMinMoney;
+      delete baseInfo.investMaxMoney;
+      delete baseInfo.investMinNum;
+      delete baseInfo.investMaxNum;
+      delete baseInfo.activityPageUrl;
+      delete baseInfo.beginTime;
+      delete baseInfo.endTime;
+      delete baseInfo.participateNum1;
+      delete baseInfo.participateNum2;
+    }else{
+      //拼接参加频率
+      baseInfo.participateNum=baseInfo.participateNum1+'/'+baseInfo.participateNum2;
+      delete baseInfo.participateNum1;
+      delete baseInfo.participateNum2;
+    }
+
+    console.log('要保存的数据');
+    console.log(baseInfo);
+
     //投资范围如果不是指定用户，清空数组
     if(baseInfo.activityScope!='3'){
       this.activity.scopesDTO=[];
     }
 
-    //拼接参加频率
-    baseInfo.participateNum=baseInfo.participateNum1+'/'+baseInfo.participateNum2;
-    delete baseInfo.participateNum1;
-    delete baseInfo.participateNum2;
+
     //处理日期
     //baseInfo.beginTime=formatDate(baseInfo.beginTime,'YYYY-MM-DD hh:mm:ss');
     //baseInfo.endTime=formatDate(baseInfo.endTime,'YYYY-MM-DD hh:mm:ss');

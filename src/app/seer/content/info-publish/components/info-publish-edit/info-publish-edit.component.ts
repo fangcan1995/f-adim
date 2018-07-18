@@ -20,6 +20,7 @@ import { ModalDirective, BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { CustomValidators } from "ng2-validation";
+import { CommonService } from '../../../../business/common/common.service';
 
 
 @Component({
@@ -43,9 +44,8 @@ export class InfoPublishEditComponent implements OnInit, OnChanges {
     private uploadDisabled: boolean = false;
 
     /* 上传图片相关 */
-    /*fileApi = 'http://172.16.7.4:8020/notice/affiche';*/
-    //fileApi = `${TEST_URL}/notice/affiche`;
     fileApi = `${TEST_URL}/affiche`;
+    //fileApi = `${'http://172.16.1.221:9080'}/affiche`;
     token = getStorage({ key: 'token' });
     tokenType = this.token.token_type;
     accessToken = this.token.access_token;
@@ -157,10 +157,10 @@ export class InfoPublishEditComponent implements OnInit, OnChanges {
     goBack() {
         this._dialog.confirm('确认放弃本次编辑么？')
             .subscribe(action => {
-                if(action === 1) {
+                if (action === 1) {
                     this._location.back();
                 }
-            }) ; 
+            });
     }
 
     /* 保存按钮 */
@@ -265,10 +265,23 @@ export class InfoPublishEditComponent implements OnInit, OnChanges {
     }
 
     deleteFile() {
-        this._infoPublishService.cancelFile(this.infoPublishSource.fileId, this.infoPublishSource.id)
-            .then(res => {
-                this.showSuccess(res.message);
-            })
+        if(this._editType === 'add' && this.infoPublishSource.affIcon) {
+            this._infoPublishService.cancelFile(this.infoPublishSource.fileId)
+                .then(res => {
+                    this.infoPublishSource.affIcon = '';
+                    this.showSuccess(res.message);
+                })
+        }
+        else if(this._editType === 'edit' && this.infoPublishSource.affIcon) {
+            this._infoPublishService.cancelFile(this.infoPublishSource.fileId, this.infoPublishSource.id)
+                .then(res => {
+                    this.infoPublishSource.affIcon = '';
+                    this.showSuccess(res.message);
+                })
+        }
+        else {
+            this.showError('没有图片');
+        }
     }
 
     /* 上传成功回调 */

@@ -28,7 +28,7 @@ export class ActivityDetailComponent implements OnInit {
   awardsDTO: any = {};  //活动奖励信息
   isInvestMode:boolean = true;
   activityCode;
-
+  isFieldShow:boolean = true;
   awardCurr: any = {};//当前编辑的奖品
   awardCurrIndex=-1; //当前编辑的奖品索引
 
@@ -94,6 +94,8 @@ export class ActivityDetailComponent implements OnInit {
               this.baseInfoDTO=this.activity.baseInfoDTO;
               //this.baseInfoDTO.trigMode='4';
               (this.baseInfoDTO.trigMode=='4')?this.isInvestMode=false:this.isInvestMode=true; //投资奖励的特殊处理
+              (this.baseInfoDTO.trigMode=='1')?this.isFieldShow=false:this.isFieldShow=true; //直接下发的特殊处理
+
               this.baseInfoDTO.participateNum1=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[0]:'';//频率字段拆分出次数
               this.baseInfoDTO.participateNum2=this.baseInfoDTO.participateNum?(this.baseInfoDTO.participateNum).split("/")[1]:'';//频率字段拆分出时间间隔
               this.awardsDTO=this.activity.awardsDTO;//奖品列表

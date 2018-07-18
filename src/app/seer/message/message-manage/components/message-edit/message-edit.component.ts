@@ -26,7 +26,7 @@ export class MessageEditComponent {
   //receivers=``;//接收用户
   usersType: string; //用户类型
   //IsChecked={"sendMail":false,"sendNotify":false,"sendMessage":false,"now":false};//checkbox初始状态
-  disabled={"sendMail":true,"sendNotify":true,"sendMessage":true,"now":true}; //checkbox是否可用
+  disabled={"sendMail":true,/*"sendNotify":true,*/"sendMessage":true,"now":true}; //checkbox是否可用
   allowChange:boolean=false;//date-picker是否可用
   readonly:boolean=false;//date-picker是否只读
   _editType: string = 'add';
@@ -144,7 +144,7 @@ export class MessageEditComponent {
         if(this.message.adaptationUser=="1"){
           this.usersType="users";
           //后台用户
-          this.disabled={"sendMail":true,"sendNotify":true,"sendMessage":true,"now":false}
+          this.disabled={"sendMail":true,/*"sendNotify":true,*/"sendMessage":true,"now":false}
         }else if(this.message.adaptationUser=="0"){
           //前台用户
           this.usersType="members";
@@ -176,28 +176,28 @@ export class MessageEditComponent {
     if(userTypeId=='0'){
       this.isPickUsersAble=false;
       this.disabled.sendMail=false;
-      this.disabled.sendNotify=false;
+      //this.disabled.sendNotify=false;
       this.disabled.sendMessage=false;
       this.message.sendMail=0;
-      this.message.sendNotify=0;
+      //this.message.sendNotify=0;
       this.message.sendMessage=0;
       this.usersType="members"
     }else if(userTypeId=='1'){
       this.isPickUsersAble=false;
       this.disabled.sendMail=true;
-      this.disabled.sendNotify=true;
+      //this.disabled.sendNotify=true;
       this.disabled.sendMessage=false;
       this.message.sendMail=0;
-      this.message.sendNotify=0;
+      //this.message.sendNotify=0;
       this.message.sendMessage=0;
       this.usersType="users"
     }else{
       this.isPickUsersAble=true;
       this.disabled.sendMail=true;
-      this.disabled.sendNotify=true;
+      //this.disabled.sendNotify=true;
       this.disabled.sendMessage=true;
       this.message.sendMail=0;
-      this.message.sendNotify=0;
+      //this.message.sendNotify=0;
       this.message.sendMessage=0;
     }
 
@@ -243,7 +243,7 @@ export class MessageEditComponent {
     } else if ( this._editType === 'add' ) {
       this.forbidSaveBtn=true;
       this.message.sendMail=this.Cint(this.message.sendMail);
-      this.message.sendNotify=this.Cint(this.message.sendNotify);
+      //this.message.sendNotify=this.Cint(this.message.sendNotify);
       this.message.sendMessage=this.Cint(this.message.sendMessage);
       this.message.receivers=this.ids;
       let messageNew=_.cloneDeep(this.message);
@@ -277,7 +277,7 @@ export class MessageEditComponent {
     switch(this.usersType){
       case 'members':
         this.modalfilters=[
-          {
+          /*{
             key: 'memberType',
             label: '用户身份',
             type: 'select',
@@ -288,7 +288,7 @@ export class MessageEditComponent {
             label: '区域',
             type: 'select',
             options:[{value:'', content: '全部'},{value:'1', content: '龙区'},{value:'2', content: '辽区'}]
-          },
+          },*/
           {
             key: 'investOrNot',
             label: '投资状态',
@@ -307,19 +307,6 @@ export class MessageEditComponent {
             type: 'select',
             options:[{value:'0', content: '全部'},{value:'1', content: '25以下'},{value:'2', content: '25-30'},{value:'3', content: '31-40'},{value:'4', content: '41-50'},{value:'5', content: '50以上'}]
           },
-          /*{
-            key: 'mage',
-            label: '年龄',
-            groups: [
-              {
-                type: 'input.text',
-              },
-              {
-                type: 'input.text',
-              },
-            ],
-            groupSpaces: ['至']
-          },*/
           {
             key: 'investDate',
             label: '投资时间',
@@ -359,7 +346,7 @@ export class MessageEditComponent {
             ],
             groupSpaces: ['至']
           },
-          {
+          /*{
             key: 'inviteMembers',
             label: '邀请人数',
             groups: [
@@ -371,7 +358,7 @@ export class MessageEditComponent {
               },
             ],
             groupSpaces: ['至']
-          }
+          }*/
         ];
         this.modalTitles=[
           {key: 'userName', label: '用户名',textAlign:'center'},
@@ -431,16 +418,16 @@ export class MessageEditComponent {
       }else if(this.usersType=='users'){
         keyId='id';
       }
-      console.log(this.modalUsers);
+
       //反向渲染人员列表，原来选中的checkbox是勾选状态
-      /*this.modalUsers = _.map(this.modalUsers, r =>{
+      this.modalUsers = _.map(this.modalUsers, r =>{
         let idIndex=this.selectedUserId.findIndex(x => x == r[keyId]);
         if(idIndex!=-1){
           return _.set(r, 'selected', 1)
         }else{
           return _.set(r, 'selected', 0)
         }
-      });*/
+      });
     });
   }
 
@@ -509,8 +496,6 @@ export class MessageEditComponent {
   modalChangeTable(e){
     const type = e.type;
     let data = e.data;
-    console.log('-------模态框选择用户id------');
-    console.log(e);
     let keyId;
     if(this.usersType=='members'){
       keyId='memberId';
@@ -530,15 +515,16 @@ export class MessageEditComponent {
         }
         break;
       case 'select_all':
-        //遍历数组，选中追加到数组中，否则从数组中删除
+        //遍历数组，选中追加到数组中，否则从数组中删除，这里只针对当前页
         data.map(r=> {
           let idIndex=this.selectedUserId.findIndex(x => x == r[keyId]);
           if(r.selected){
-            //如果选中人员中不存在这个人
+            //如果这条记录被选中，将id添加到已选数组中
             if(idIndex<0){
               this.selectedUserId.push(r[keyId]);
             }
           }else{
+            //如果这条选中的记录被反选，将id从已选数组中删除
             this.selectedUserId.splice(idIndex,1);
           }
         })
@@ -662,8 +648,6 @@ export class MessageEditComponent {
       let params={
         "scopesDTO":ids.toString()
       };
-      console.log('----------//------');
-          console.log(params);
       this.service.getIdsMembers(params)
         .then(res=>{
 

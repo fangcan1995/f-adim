@@ -218,17 +218,6 @@ export class TransferViewComponent implements OnInit , OnChanges{
   public getTransferAuditRecords(projectId: string) {
     this.service.getTransferProjectAuditRecords(projectId).then((res) => {
       if("0" == res.code) {
-        /*res.data[0].taskName=`债权转让审核`;
-        res.data[0].opinion=`同意发布`;
-        res.data[1].taskName=`满标`;
-        res.data[1].account=``;
-        res.data[1].operatorName=``;
-        res.data[1].completeTime="2018-05-30 12:30:25";
-        res.data[1].opinion=``;
-        res.data.push({account:`admin`,taskName:`满标审核`,opinion:`同意划转`,operatorName: "方灿",assigneeId: "0e86acccf5864557abf51b54a9669f00",
-          completeTime: "2018-05-30 14:56:52"})
-        console.log('审批信息');
-        console.log(res.data);*/
         this.auditProcessRecords = res.data;
       }else {
         this.showError(res.message)

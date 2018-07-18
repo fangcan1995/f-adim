@@ -39,7 +39,7 @@ export interface TableTitleModel {
     styleUrls: ['./seer-table.component.scss'],
     providers: [ManageService,StaffService]
 })
-export class SeerTableComponent implements OnInit {
+export class SeerTableComponent implements OnInit,OnChanges {
     @Input() data: Array<any> = [];   //数据数组
     @Input() titles: Array<any>;  //标题数组
     @Input() translate; //翻译JSON
@@ -136,6 +136,9 @@ export class SeerTableComponent implements OnInit {
                     if (res.code == 0) this.translate = res.data;
                 });
         }
+    }
+    ngOnChanges(){
+        this.selectedAll=false
     }
     selectAll(): void {
         let data = this.getData();
@@ -375,6 +378,8 @@ export class SeerTableComponent implements OnInit {
 
 
     }
+
+
     onCustomAction({ type }) {
         let data = _.filter(this.data, t => t['selected'])
         this.notify.emit({ type: type, data });

@@ -7,10 +7,7 @@
     {
       "root": "src",
       "outDir": "dist",
-      "assets": [
-        "assets",
-        "favicon.ico"
-      ],
+      "assets": ["assets", "favicon.ico"],
       "index": "index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
@@ -32,7 +29,10 @@
         "../node_modules/bootstrap/dist/css/bootstrap.css",
         "app/theme/theme.scss",
         "styles.scss",
-        "assets/theme/default/laydate.css"
+        "assets/theme/default/laydate.css",
+        "../node_modules/primeicons/primeicons.css",
+        "../node_modules/primeng/resources/themes/omega/theme.css",
+        "../node_modules/primeng/resources/primeng.min.css"
       ],
       "scripts": [
         "../node_modules/tinymce/tinymce.js",
@@ -70,8 +70,6 @@
         "../node_modules/tinymce/plugins/textpattern/plugin.js",
         "../node_modules/tinymce/plugins/imagetools/plugin.js",
 
-
-
         "../node_modules/jquery/dist/jquery.js",
         "../node_modules/easy-pie-chart/dist/jquery.easypiechart.js",
         "../node_modules/jquery-slimscroll/jquery.slimscroll.js",
@@ -80,7 +78,10 @@
         "../node_modules/bootstrap/dist/js/bootstrap.js",
         "../node_modules/handsontable/dist/handsontable.full.js",
         "../node_modules/chroma-js/chroma.js",
-        "assets/laydate.js"
+        "assets/laydate.js",
+        "../node_modules/echarts/dist/echarts.min.js",
+        "../node_modules/echarts/map/js/china.js",
+        "../node_modules/echarts/dist/extension/bmap.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
@@ -112,7 +113,6 @@
   },
   "defaults": {
     "styleExt": "scss",
-    "component": {
-    }
+    "component": {}
   }
 }

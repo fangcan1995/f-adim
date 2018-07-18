@@ -20,12 +20,12 @@ export class TodoComponent implements OnInit {
   items = []; //全部数据
 
   tasks = []; //待办任务（过滤）
-  pageInfo= {
+  /*pageInfo= {
     "pageNum": 1,
     "pageSize": 10,
     "sortBy": "-createTime",
     "total": ""
-  }
+  }*/
   constructor(private service: WorkspaceService, private _router: Router, private route: ActivatedRoute, private _messageService: SeerMessageService) {}
 
   ngOnInit(): void { this.initialize();}
@@ -33,11 +33,11 @@ export class TodoComponent implements OnInit {
   //初始化数据
   initialize() {
     this.isLoading = true;
-    this.service.getTodoTasks(this.pageInfo).then((res) => {
+    this.service.getTodoTasks().then((res) => {
       this.items = res.data;
       this.tasks = res.data;
-      console.log('待办业务列表---------');
-      console.log(this.tasks);
+      /*console.log('待办业务列表---------');
+      console.log(this.tasks);*/
       this.classStatistics();
       this.isLoading = false;
     }).catch(err => {
@@ -87,17 +87,20 @@ export class TodoComponent implements OnInit {
 
       //初审
       case 'FIRST_AUDIT':
-        this._router.navigate([url + 'loan-first-audit', task.processInstance.businessKey], {relativeTo: this.route});
+        //this._router.navigate([url + 'loan-first-audit', task.processInstance.businessKey], {relativeTo: this.route});
+        this._router.navigate([url + 'project-view', task.processInstance.businessKey,`loan-first-audit`], {relativeTo: this.route});
         break;
 
       //复审
       case 'SECOND_AUDIT':
-        this._router.navigate([url + 'loan-second-audit', task.processInstance.businessKey], {relativeTo: this.route});
+        //this._router.navigate([url + 'loan-second-audit', task.processInstance.businessKey], {relativeTo: this.route});
+        this._router.navigate([url + 'project-view', task.processInstance.businessKey,`loan-second-audit`], {relativeTo: this.route});
         break;
 
       //发布
       case 'RELEASE':
-        this._router.navigate([url + 'project-release', task.processInstance.businessKey], {relativeTo: this.route});
+        //this._router.navigate([url + 'project-release', task.processInstance.businessKey], {relativeTo: this.route});
+        this._router.navigate([url + 'project-view', task.processInstance.businessKey,`project-release`], {relativeTo: this.route});
         break;
 
       //满标审核
@@ -107,7 +110,8 @@ export class TodoComponent implements OnInit {
           this._router.navigate([url + 'transfer-view', task.processInstance.businessKey,`full_audit`], {relativeTo: this.route});
         }else{
           //散标
-          this._router.navigate([url + 'project-full-audit', task.processInstance.businessKey], {relativeTo: this.route});
+          this._router.navigate([url + 'project-view', task.processInstance.businessKey,`project-full-audit`], {relativeTo: this.route});
+          //this._router.navigate([url + 'project-full-audit', task.processInstance.businessKey], {relativeTo: this.route});
         }
 
 
@@ -120,7 +124,8 @@ export class TodoComponent implements OnInit {
 
       //提前还款审核
       case 'AHEAD_REPAYMENT_AUDIT':
-        this._router.navigate([url + 'repayment-audit', task.processInstance.businessKey], {relativeTo: this.route});
+        this._router.navigate([url + 'project-view', task.processInstance.businessKey,`repayment-audit`], {relativeTo: this.route});
+        //this._router.navigate([url + 'repayment-audit', task.processInstance.businessKey], {relativeTo: this.route});
         break;
 
     }

@@ -5,9 +5,12 @@
     (onFiltersChanged)=handleFiltersChanged($event)
     (onSearchBtnClicked)=handleFiltersChanged($event)
   ></seer-filter>
+</seer-collapse-card>
+  <seer-collapse-card>
   <seer-table
     [data]="coupons"
     [titles]="titles"
+    [paginationRules]="0"
     [translate]="dict"
     [pageNum]="pageInfo.pageNum"
     [pageSize]="pageInfo.pageSize"

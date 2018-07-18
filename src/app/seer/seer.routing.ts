@@ -27,6 +27,10 @@ const routes: Routes = [
       { path: 'content', loadChildren: './content/content.module#ContentModule' },
       { path: 'message', loadChildren: './message/message.module#MessageModule' },
       { path: 'adver-manage', loadChildren: './adver-manage/adver-manage.module#AdverManageModule' },
+      {
+          path: 'statistic',
+          loadChildren: './statistic/statistic.module#StatisticModule'
+      }
     ]
   },
   { path: '**', component: PageNotFoundComponent }

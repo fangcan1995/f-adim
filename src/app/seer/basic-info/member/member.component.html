@@ -1,11 +1,12 @@
-<seer-content-top [fixedTop]="false">
+<seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
+<seer-collapse-card>
   <seer-filter
     [hasGlobalFilter]="hasGlobalFilter"
     [filters]="filters"
     (onFiltersChanged)=handleFiltersChanged($event)
     (onSearchBtnClicked)=handleFiltersChanged($event)
   ></seer-filter>
-</seer-content-top>
+</seer-collapse-card>
 <seer-collapse-card>
   <seer-table
     [data]="members"
@@ -25,4 +26,4 @@
     (changePage)="handlePageChange($event)"
   ></seer-table>
 </seer-collapse-card>
-<seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
+

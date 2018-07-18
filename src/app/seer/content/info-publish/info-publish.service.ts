@@ -34,12 +34,9 @@ export class InfoPublishService extends BaseService<any>{
         return Promise.reject(error.message || error);
     }
 
+    url = 'http://172.16.1.221:9080';
 
     exportFile = `${TEST_URL}/${API['AFFICHE']}/specialExport`;
-
-    /*apiTypeUrl = 'http://172.16.1.221:9080/affiche/type';
-    apiInfoUrl = 'http://172.16.1.221:9080/affiche/info';
-    typeToInfo = 'http://172.16.1.221:9080/affiche/typetoinfo';*/
 
     //access_token = getStorage({ key: 'token'}).access_token;
     access_token = '2c7cf0eb-0003-40c3-a6e7-b5d22a7492c5';
@@ -129,7 +126,7 @@ export class InfoPublishService extends BaseService<any>{
     }
 
 
-    cancelFile(fileId, articalId): Promise<any> {
+    cancelFile(fileId, articalId?): Promise<any> {
         return this._httpInterceptorService.request('PUT', `${TEST_URL}/${API['AFFICHE']}/cancelFile/${fileId}/${articalId}`, {}).toPromise();
     }
 

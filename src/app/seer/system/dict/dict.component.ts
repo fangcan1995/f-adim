@@ -99,13 +99,12 @@ export class DictComponent implements OnInit {
 
     /*获取列表*/
     getList(params): void {
-        this._dictService.getDicts(params, true)
+        this._dictService.getDicts(params)
             .then(res => {
                 if (res.code == 0) {
-                    this.dicts = res.data || [];
+                    this.dicts = res.data.list || [];
                     this.dicts = _.map(this.dicts, r => _.set(r, 'actions', [COPY_CREATE, UPDATE, DELETE]));
                     this.isLoading = false;
-                    console.log(this.dicts);
                 } else {
                     this.showError(res.msg || '获取字典失败');
                     this.isLoading = false;
