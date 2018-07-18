@@ -7,6 +7,7 @@ import { SeerMessageService } from '../../../../../../theme/services/seer-messag
 @Component({
   selector: 'loansInfo',
   templateUrl: './loansInfo.component.html',
+  styleUrls: ['./loansInfo.component.scss']
 })
 export class LoansInfoComponent implements OnInit {
 
@@ -55,14 +56,7 @@ export class LoansInfoComponent implements OnInit {
     })
       .subscribe(params => {
           this.memberId=params.id;
-          this._memberService.getLoans(params.id)
-            .then(res => {
-              this.member = res.data || {};
-              this.loansRecord=res.data.list;
-              this.forbidSaveBtn = false;
-            }).catch(err=>{
-            this.showError(err.msg || '连接失败');
-          });
+          // this.getloanAllStatistic();
       })
   }
 
@@ -79,5 +73,14 @@ export class LoansInfoComponent implements OnInit {
       icon: 'fa fa-times-circle',
       autoHideDuration: 3000,
     })
+  }
+
+  getloanAllStatistic(){
+    this._memberService.getloanAllStatistic(this.memberId)
+    .then(res => {
+        this.loansRecord = res.data || {};
+      }).catch(err=>{
+      this.showError(err.msg || '连接失败');
+    });
   }
 }
