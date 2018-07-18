@@ -36,8 +36,8 @@ export class TodoComponent implements OnInit {
     this.service.getTodoTasks().then((res) => {
       this.items = res.data;
       this.tasks = res.data;
-      /*console.log('待办业务列表---------');
-      console.log(this.tasks);*/
+      console.log('待办业务列表---------');
+      console.log(this.tasks);
       this.classStatistics();
       this.isLoading = false;
     }).catch(err => {
@@ -85,13 +85,13 @@ export class TodoComponent implements OnInit {
         this._router.navigate([url + 'loan-complete-audit', task.processInstance.businessKey], {relativeTo: this.route});
         break;
 
-      //初审
+      //信用审核
       case 'FIRST_AUDIT':
         //this._router.navigate([url + 'loan-first-audit', task.processInstance.businessKey], {relativeTo: this.route});
         this._router.navigate([url + 'project-view', task.processInstance.businessKey,`loan-first-audit`], {relativeTo: this.route});
         break;
 
-      //复审
+      //风控审核
       case 'SECOND_AUDIT':
         //this._router.navigate([url + 'loan-second-audit', task.processInstance.businessKey], {relativeTo: this.route});
         this._router.navigate([url + 'project-view', task.processInstance.businessKey,`loan-second-audit`], {relativeTo: this.route});

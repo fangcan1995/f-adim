@@ -18,8 +18,8 @@ export class FormsService extends BaseService<any>{
    //审核流程
    projectProgres:any = [
     {text:"补填资料"},
-    {text:"初审"},
-    {text:"复审"},
+    {text:"信用审核"},
+    {text:"风控审核"},
     {text:"标的发布"},
      {text:"投资中"},
     {text:"满标审核"},

@@ -59,7 +59,7 @@ export class LoanInfoComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngOnChanges() {
 
-    //初审、复审时
+    //信用审核、风控审核时
     if( undefined != this.loan['projectStatus'] && this.loan['projectStatus'] != 10) {
 
       //设置借款类型禁用

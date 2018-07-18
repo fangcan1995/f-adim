@@ -187,7 +187,7 @@ export class ProjectViewComponent implements OnInit , OnChanges{
   public getProjectDetail(projectId: string) {
     this.service.getProjectDetail(projectId).then((res) => {
       if("0" == res.code) {
-        console.log('借款信息-----------');
+        console.log('标的信息-----------');
         this.loan = res.data.loanBase;
         console.log(this.loan);
         switch (this.method) {
@@ -205,8 +205,8 @@ export class ProjectViewComponent implements OnInit , OnChanges{
             }else if(this.loan.projectStatus==7 ){
               this.projectProgres=[
                 {text:"补填资料"},
-                {text:"初审"},
-                {text:"复审"},
+                {text:"信用审核"},
+                {text:"风控审核"},
                 {text:"标的发布"},
                 {text:"流标"},
               ];
@@ -254,6 +254,8 @@ export class ProjectViewComponent implements OnInit , OnChanges{
       if("0" == res.code) {
         this.loan = res.data.loanBase;
         console.log('借款信息-----------');
+        console.log(res.data);
+        console.log('////')
         console.log(this.loan);
         switch (this.method) {
           case `loan_preview`:
@@ -272,8 +274,8 @@ export class ProjectViewComponent implements OnInit , OnChanges{
                 }else if(this.loan.projectStatus==7){
                   this.projectProgres=[
                     {text:"补填资料"},
-                    {text:"初审"},
-                    {text:"复审"},
+                    {text:"信用审核"},
+                    {text:"风控审核"},
                     {text:"标的发布"},
                     {text:"流标"},
                   ];

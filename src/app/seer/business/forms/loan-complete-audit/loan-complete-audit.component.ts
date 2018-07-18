@@ -255,7 +255,7 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
         });
 
         //修改借款信息
-        this.service.updateLoanProject(this.loan.loanApplyId, this.loan).then(res => {
+        this.service.updateLoanApply(this.loan.loanApplyId, this.loan).then(res => {
           if(0 == res.code) {
           } else {
             this.showError(res.message);

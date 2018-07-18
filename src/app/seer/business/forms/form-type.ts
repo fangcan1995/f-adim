@@ -8,14 +8,14 @@ export const COMPLETION = {
 
 export const FIRSTAUDIT = {
   'type': 'firstAudit',
-  'name': '初审',
+  'name': '信用审核',
   'className': 'btn btn-xs btn-info',
   'icon': 'icon-edit'
 };
 
 export const SECONDAUDIT = {
   'type': 'secondAudit',
-  'name': '复审',
+  'name': '风控审核',
   'className': 'btn btn-xs btn-info',
   'icon': 'icon-edit'
 };

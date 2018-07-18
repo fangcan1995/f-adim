@@ -224,6 +224,36 @@
                   </div>
                 </div>
               </div>
+              <!--担保机构-->
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label for="loanApplyType" class="col-sm-4 control-label">担保机构</label>
+                  <div class="col-sm-8">
+                    <select class="form-control" id="guaranteeInstitution" [(ngModel)]="loan.guaranteeInstitution"  name="guaranteeInstitution" #guaranteeInstitution="ngModel" required [notEqual]="'undefined'"
+                            dict-select
+                            [key]="'GUARANTEE_INSTITUTION'"
+                            [selected]="loan.guaranteeInstitution"
+                            [topOption]="{itemid:'',itemName:'请选择'}">
+                    </select>
+                    <p *ngIf="guaranteeInstitution.errors?.required || guaranteeInstitution.errors?.notEqual" class="text-danger">*必填项</p>
+                  </div>
+                </div>
+              </div>
+              <!--信用机构-->
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label for="loanApplyType" class="col-sm-4 control-label">信用机构</label>
+                  <div class="col-sm-8">
+                    <select class="form-control" id="creditInstitution" [(ngModel)]="loan.creditInstitution"  name="creditInstitution" #creditInstitution="ngModel" required [notEqual]="'undefined'"
+                            dict-select
+                            [key]="'CREDIT_INSTITUTION'"
+                            [selected]="loan.creditInstitution"
+                            [topOption]="{itemid:'',itemName:'请选择'}">
+                    </select>
+                    <p *ngIf="creditInstitution.errors?.required || creditInstitution.errors?.notEqual" class="text-danger">*必填项</p>
+                  </div>
+                </div>
+              </div>
               <!--借款期限-->
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
