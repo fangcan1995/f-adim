@@ -6,62 +6,81 @@
         <seer-collapse-card title="投资统计" cardClass="with-scroll">
           <div class="row" style="border-bottom:1px solid #ededed;margin-bottom: 10px">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              成功出借笔数:1
+              成功出借笔数:<span class="numShow">{{investAllStatistic.investNum || "0"}}笔</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              成功出借金额:2
+              成功出借金额:<span class="numShow">{{investAllStatistic.investSumAmt || "0"}}元</span>
             </div>
           </div>
           <div class="row" style="border-bottom:1px solid #ededed;margin-bottom: 10px">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              已收笔数:
+              已收笔数:<span class="numShow">{{investAllStatistic.receivedNum || "0"}}笔</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              已收本金:
+              已收本金:<span class="numShow">{{investAllStatistic.receivedCapitalSum || "0"}}元</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              已收利息:
+              已收利息:<span class="numShow">{{investAllStatistic.receivedIintSum || "0"}}元</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              待收笔数:
+              待收笔数:<span class="numShow">{{investAllStatistic.unReceiveNum || "0"}}笔</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              待收本金:
+              待收本金:<span class="numShow">{{investAllStatistic.unReceiveCapitalSum || "0"}}元</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              待收利息:
+              待收利息:<span class="numShow">{{investAllStatistic.unReceiveIintSum || "0"}}元</span>
             </div>
           </div>
           <div class="row" style="">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              逾期已收笔数:
+              逾期已收笔数:<span class="numShow">{{investAllStatistic.overdueReceiveNum || "0"}}笔</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              逾期已收本息:
+              逾期已收本息:<span class="numShow">{{investAllStatistic.overdueReceiveCapitalIintSum || "0"}}元</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              逾期未收笔数:
+              逾期未收笔数:<span class="numShow">{{investAllStatistic.ooverdueUnReceiveNum || "0"}}笔</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              逾期未收本息:
+              逾期未收本息:<span class="numShow">{{investAllStatistic.overdueUnReceiveCapitalIintSum || "0"}}元</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              提前已收笔数:
+              提前已收笔数:<span class="numShow">{{investAllStatistic.advancedNum || "0"}}笔</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              提前已收本息:
+              提前已收本息:<span class="numShow">{{investAllStatistic.advancedCapitalIintSum || "0"}}元</span>
             </div>
           </div>
         </seer-collapse-card>
         <seer-collapse-card title="投资记录" cardClass="with-scroll" >
-          <seer-simple-table
+          <!-- <seer-simple-table
             [data]="investsRecord"
             [titles]="titlesInvestsRecord"
             [hidePagination]="true"
             [hideActions]="true"
             [hideAddButton]="true"
           >
-          </seer-simple-table>
+          </seer-simple-table> -->
+          <seer-table
+            [data]="investsRecord"
+            [titles]="titlesInvestsRecord"
+            [paginationRules]="0"
+            [pageNum]="pageInfo.pageNum"
+            [pageSize]="pageInfo.pageSize"
+            [total]="pageInfo.total"
+            [hideActions]="true"
+            [hideAddButton]="true"
+            [showSeq]="true"
+            [hideExport]="true"
+            [hidePrint]="true"
+            [hideRemoveAll]="true"
+            [hideColumns]="true"
+            [hideCheckbox]="true"
+            [hidePrint]="true"
+            (changePage)="handlePageChange($event)"
+          >
+          </seer-table>
         </seer-collapse-card>
       </div>
     </div>

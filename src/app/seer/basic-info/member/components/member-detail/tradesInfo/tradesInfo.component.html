@@ -20,14 +20,16 @@
                 <div  class="col-sm-4">
                   <seer-datepicker
                     [dateFormatingRules]="dateFormatingRules || 'yyyy/MM/dd'"
-                    (dateChange)="handleFilterChange()"
+                    (dateChange)="handleStartFilterChange()"
+                    [(date)]="startTime"
                   ></seer-datepicker>
                 </div>
                 <label  class="col-sm-2 control-label">至</label>
                 <div  class="col-sm-4">
                   <seer-datepicker
                     [dateFormatingRules]="dateFormatingRules || 'yyyy/MM/dd'"
-                    (dateChange)="handleFilterChange()"
+                    (dateChange)="handleEndFilterChange()"
+                    [(date)]="endTime"
                   ></seer-datepicker>
                 </div>
               </div>
@@ -36,13 +38,17 @@
           <div class="form-group col-sm-12 col-md-12 col-lg-6">
             <div class="row">
               <label for="" class="col-sm-2 control-label">状态</label>
-              <div class="col-sm-10 col-lg-6 ">
-                <select name="" id="" class="form-control col-sm-4" >
+              <div class="col-sm-4 col-lg-3 ">
+                <select name="" id="" class="form-control col-sm-4"  [(ngModel)]="pageInfo.transState" (ngModelChange)="transStateChange()">
                   <option value="">全部</option>
-                  <option value="">成功</option>
-                  <option value="">失败</option>
+                  <option value="1">成功</option>
+                  <option value="2">失败</option>
                 </select>
               </div>
+              <div class="col-sm-6 col-lg-3" style="text-align: center;">
+                <button class="btn btn-outline-dark left-button" (click)="resetSelect()">重置</button>
+              </div>
+              
             </div>
           </div>
         </div>
@@ -50,13 +56,25 @@
       </div>
       <div class="col-md-12">
         <div class="row">
-          <seer-simple-table
+          <seer-table
             [data]="tradesRecord"
             [titles]="titlesTradesRecord"
+            [paginationRules]="0"
+            [pageNum]="pageInfo.pageNum"
+            [pageSize]="pageInfo.pageSize"
+            [total]="pageInfo.total"
             [hideActions]="true"
             [hideAddButton]="true"
+            [showSeq]="true"
+            [hideExport]="true"
+            [hidePrint]="true"
+            [hideRemoveAll]="true"
+            [hideColumns]="true"
+            [hideCheckbox]="true"
+            [hidePrint]="true"
+            (changePage)="handlePageChange($event)"
           >
-          </seer-simple-table>
+          </seer-table>
         </div>
       </div>
     </div>

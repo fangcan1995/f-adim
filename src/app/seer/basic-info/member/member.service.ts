@@ -4,12 +4,18 @@ import {Http, Response, Headers, RequestOptions,ResponseContentType} from '@angu
 import {getStorage} from "../../../theme/libs/utils"
 @Injectable()
 export class MemberService extends BaseService<ResModel>{
-    //MembersUrl=`${TEST_URL}/${API['MEMBERS']}`; //会员接口
+    MembersUrl=`${TEST_URL}/${API['MEMBERS']}`; //会员接口
 //  MembersUrl=`http://172.16.1.225:9080/members`; //会员接口
-  MembersUrl=`${BASE_URL}/members`; //会员接口
+  // MembersUrl=`${BASE_URL}/members`; //会员接口
   emergencyContactUrl=`contact`;//联系人
   VehicleContactUrl=`car`;//车辆
   HouseContactUrl=`house`;//车辆
+  payTransRecordUrl = `http://172.16.1.225:9080/payment/fuiou`;
+  // payTransRecordUrl = `${BASE_URL}/payment/fuiou`;
+  investUrl =  `http://172.16.1.225:9080/statistics/invest`;
+  // investUrl = `${BASE_URL}/statistics/invest`;
+  loanUrl =  `http://172.16.1.225:9080/statistics/loan`;
+  // loanUrl = `${BASE_URL}/statistics/loan`;
   accessToken = getStorage({ key: 'token' }).access_token;
 
   constructor(
@@ -87,87 +93,31 @@ export class MemberService extends BaseService<ResModel>{
     return this._httpInterceptorService.request('PUT', `${this.MembersUrl}/${id}/transactionPasswords`, params).toPromise();
   }
   // 15 根据会员ID查询贷款信息
-  getLoans(id): Promise<ResModel> {
-      return new Promise((resolve) => {
-        resolve(
-          {
-            "code": "0",
-            "message": "SUCCESS",
-            'data':{
-              "countInfo": {
-                "userName": "5",
-                "bbb": "1"
-              },   //基本信息
-              "list": [{
-                "id": "BBH20170778961354",
-                "status": "待提交",
-                "count":"100000.00",
-                "qx":"3",
-                "yhbx":"1000.00",
-                "dhbx":"500.00",
-              }],
-            }
-          }
-        )
-      })
+  getloanAllStatistic(id): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET',`${this.loanUrl}/${id}/loanAll`).toPromise();
   }
   //16 根据会员ID查询投资信息
   getInvests(id): Promise<ResModel> {
     return new Promise((resolve) => {
-      resolve(
-        {
-          "code": "0",
-          "message": "SUCCESS",
-          'data': {
-            countInfo: {
-              "userName": "5",
-              "bbb": "1"
-            },   //基本信息
-            investsRecord: [{
-              "id": "BBH20170778961354",
-              "status": "锁定中",
-              "count": "36900.00",
-              "qx": "12",
-              "userName": "1000.00",
-              "bbb": "1",
-              "ccc": "500.00",
-            }],
-          }
-        })
+      resolve()
     })
   }
-  //17 根据会员ID查询交易记录
-  getTrades(id): Promise<ResModel> {
-    return new Promise((resolve) => {
-      resolve(
-        {
-          "code": "0",
-          "message": "SUCCESS",
-          'data': {
-            tradesRecord: [
-              {
-                "time": "2017-09-23 11:00:01",
-                "bbb": "商户转账",
-                "ccc": "103.33",
-                "idNumber": "成功",
-              },
-              {
-                "time": "2017-09-23 11:00:01",
-                "bbb": "商户转账",
-                "ccc": "103.33",
-                "idNumber": "成功",
-              },
-              {
-                "time": "2017-09-23 11:00:01",
-                "bbb": "商户转账",
-                "ccc": "103.33",
-                "idNumber": "成功",
-              },
-            ],
-          }
-        })
-    })
+
+   //17 根据会员ID查询投资统计信息
+   getInvestAllStatistic(id): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET',`${this.investUrl}/${id}/investAll`).toPromise();
   }
+
+   //18 根据会员ID查询投资统计信息
+   getInvestAllListStatistic(id, params): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET',`${this.investUrl}/${id}/investAllList`, params).toPromise();
+  }
+  
+  // 查询交易记录
+  getTrades(id, params): Promise<ResModel> {
+    return this._httpInterceptorService.request('GET',`${this.payTransRecordUrl}/${id}/tradeRecords` ,params).toPromise();
+  }
+
   //21 修改一条数据，提供部分字段,有问题
   patchOne(id,status): Promise<ResModel> {
     return this._httpInterceptorService.request('PATCH', `${this.MembersUrl}/${id}/status/${status}`).toPromise();
