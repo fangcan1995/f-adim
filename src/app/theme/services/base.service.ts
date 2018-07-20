@@ -8,10 +8,10 @@ import {
 
 import { getStorage, setStorage, castDict2Translate } from '../libs';
 
-// let BASE_DOMAIN = '47.95.39.231';
-// let BASE_PORT = 8020;
-// let BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
-// export let BASE_URL = `http://${BASE_SERVER}/admin`;
+/* let BASE_DOMAIN = '47.95.39.231';
+let BASE_PORT = 8020;
+let BASE_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
+export let BASE_URL = `http://${BASE_SERVER}/admin`; */
 
 
 let BASE_DOMAIN = '172.16.7.3';
@@ -39,10 +39,10 @@ let TEST_PORT = 9080;
 let TEST_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
 export let TEST_URL = `http://${BASE_SERVER}`;*/
 
-// let TEST_DOMAIN = '47.95.39.231';
-// let TEST_PORT = 8020;
-// let TEST_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
-// export let TEST_URL = `http://${BASE_SERVER}/admin`;
+/* let TEST_DOMAIN = '47.95.39.231';
+let TEST_PORT = 8020;
+let TEST_SERVER = `${BASE_DOMAIN}:${BASE_PORT}`;
+export let TEST_URL = `http://${BASE_SERVER}/admin`; */
 
 export let FROUNT_URL = `http://47.95.39.231:8888/subject_`; //
 

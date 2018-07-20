@@ -18,8 +18,8 @@ export class FormsService extends BaseService<any>{
    //审核流程
    projectProgres:any = [
     {text:"补填资料"},
-    {text:"初审"},
-    {text:"复审"},
+    {text:"信用审核"},
+    {text:"风控审核"},
     {text:"标的发布"},
      {text:"投资中"},
     {text:"满标审核"},
@@ -95,11 +95,14 @@ export class FormsService extends BaseService<any>{
     return this._httpInterceptorService.request('PUT', BASE_URL + `/members/${memberId}/personBaseInfo`,params).toPromise();
   }
 
-  //更新借款信息
+  //更新借款信息(补全资料)
   public updateLoanApply(loanApplyId: string, params: any): Promise<any> {
     return this._httpInterceptorService.request('PUT', BASE_URL + `/loans/${loanApplyId}`,params).toPromise();
   }
-
+  //更新借款信息(满标审核)
+  public updateLoanProject(loanApplyId: string, params: any): Promise<any> {
+    return this._httpInterceptorService.request('PUT', BASE_URL + `/loans/audit/${loanApplyId}`,params).toPromise();
+  }
   //新增会员车辆信息
   public addVehicle(memberId: string, params: any): Promise<any> {
     return this._httpInterceptorService.request('POST', BASE_URL + `/members/${memberId}/car`,params).toPromise();

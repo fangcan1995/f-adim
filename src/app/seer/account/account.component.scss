@@ -1,0 +1,75 @@
+:host /deep/ {
+  .table{ border: none}
+  .table p{ cursor: pointer; margin-bottom: 0}
+  .row .table tbody{     border-width: 0 0; border: none; border-color: #fff;}
+  .table th,.table td{ border:none;padding:13px 0}
+  .table td a{ color:#333333}
+  .table td:nth-of-type(2){
+    text-align: right;
+    color:#333;
+    padding-right: 20px;
+  }
+  .table tr:nth-child(2n){
+    background: #f8f8f8;
+  }
+  .label {
+    margin-left: 10px;
+    background-clip: padding-box;
+    border-radius: 3px;
+    box-sizing: border-box;
+    color: #3b9ff3;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 300;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    text-shadow: none;
+    text-size-adjust: 100%;
+    vertical-align: baseline;
+    white-space: nowrap;
+    width: 130px;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    border: 1px solid #3b9ff3;
+    margin-right: 30px;
+
+  }
+  /*.label-10{
+    background: rgb(208, 85, 85) none;
+  }
+  .label-20{
+    background: rgb(208, 154, 85) none;
+  }
+  .label-30{
+    background: rgb(208, 183, 85) none;
+  }
+  .label-40{
+    background: rgb(208, 208, 85) none;
+  }
+  .label-60{
+    background: rgb(85, 208, 178) none;
+  }
+  .label-81{
+    background: rgb(85, 160, 208) none;
+  }
+  .label-100{
+    background: rgb(192, 160, 208) none;
+  }
+  .label-10000{
+    background: rgb(204, 204, 204) none;
+  }*/
+
+  .label-10000 {
+    color: #999;
+    border: 1px solid #333;
+  }
+  .virtual-checkbox{
+    color:#ccc;
+  }
+  .check-span{ color:#999}
+  .virtual-checkbox.ion-android-checkbox-outline{
+    color:#3b9ff3
+  }
+  .ion-android-checkbox-outline + label{ color:#3b9ff3}
+  .nav-item{ font-size: 16px; padding-top: 5px}
+}

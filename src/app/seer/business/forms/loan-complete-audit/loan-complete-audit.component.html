@@ -9,7 +9,6 @@
 <div class="widgets info loan-complete">
   <div class="row justify-content-center">
       <div class="col-md-12">
-
         <seer-collapse-card cardTitle="会员信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true [headerActions]="actions" [saveDistabled]="forbidMemberSaveBtn && form1.form.valid" (notify)="saveLoanMember()">
           <div class="row">
             <form class="form-horizontal" #form1="ngForm">
@@ -197,11 +196,20 @@
             </div>
           </div>
         </seer-collapse-card>
-
         <seer-collapse-card cardTitle="借款信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true [headerActions]="actions" [saveDistabled]="forbidLoanSaveBtn && form2.form.valid && (pawnVehicle || pawnHouse)" (notify)="saveLoanApply()">
           <!--借款基本信息-->
           <div class="row">
             <form class="form-horizontal" #form2="ngForm">
+              <!--项目编号-->
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label for="applyNum" class="col-sm-4 control-label">项目编号</label>
+                  <div class="col-sm-8">
+                    <input class="form-control" id="applyNum" [(ngModel)]="loan.applyNum" [ngModelOptions]="{standalone: true}" disabled>
+                  </div>
+                </div>
+              </div>
+              <!--借款类型-->
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
                   <label for="loanApplyType" class="col-sm-4 control-label">借款类型</label>
@@ -216,29 +224,37 @@
                   </div>
                 </div>
               </div>
-
+              <!--担保机构-->
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="applyAmt" class="col-sm-4 control-label text-right">借款金额</label>
+                  <label for="loanApplyType" class="col-sm-4 control-label">担保机构</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control number addUnit" id="applyAmt" [(ngModel)]="loan.applyAmt" [ngModelOptions]="{standalone: true}" disabled>
-                    <span class="unit">元</span>
+                    <select class="form-control" id="guaranteeInstitution" [(ngModel)]="loan.guaranteeInstitution"  name="guaranteeInstitution" #guaranteeInstitution="ngModel" required [notEqual]="'undefined'"
+                            dict-select
+                            [key]="'GUARANTEE_INSTITUTION'"
+                            [selected]="loan.guaranteeInstitution"
+                            [topOption]="{itemid:'',itemName:'请选择'}">
+                    </select>
+                    <p *ngIf="guaranteeInstitution.errors?.required || guaranteeInstitution.errors?.notEqual" class="text-danger">*必填项</p>
                   </div>
                 </div>
               </div>
+              <!--信用机构-->
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="projectAmt" class="col-sm-4 control-label text-right">标的金额</label>
+                  <label for="loanApplyType" class="col-sm-4 control-label">信用机构</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control number addUnit" id="projectAmt" [(ngModel)]="loan.projectAmt" maxlength="9" name="projectAmt" #projectAmt="ngModel" required [range]="[1000, 100000000]">
-                    <span class="unit">元</span>
-                    <p *ngIf="projectAmt.errors?.required" class="text-danger">*必填项</p>
-                    <p *ngIf="projectAmt.errors?.range" class="text-danger">*标的金额范围：1000~100000000</p>
+                    <select class="form-control" id="creditInstitution" [(ngModel)]="loan.creditInstitution"  name="creditInstitution" #creditInstitution="ngModel" required [notEqual]="'undefined'"
+                            dict-select
+                            [key]="'CREDIT_INSTITUTION'"
+                            [selected]="loan.creditInstitution"
+                            [topOption]="{itemid:'',itemName:'请选择'}">
+                    </select>
+                    <p *ngIf="creditInstitution.errors?.required || creditInstitution.errors?.notEqual" class="text-danger">*必填项</p>
                   </div>
                 </div>
               </div>
-
-
+              <!--借款期限-->
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
                   <label for="loanExpiry" class="col-sm-4 control-label">借款期限</label>
@@ -253,48 +269,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label for="greenHand" class="col-sm-4 control-label">新手标</label>
-                  <div class="col-sm-8 ">
-                    <select class="form-control" id="greenHand" [(ngModel)]="loan.greenHand" [ngModelOptions]="{standalone: true}"
-                            dict-select
-                            [key]="'GREEN_HAND'"
-                            [selected]="loan.greenHand">
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label for="annualRate" class="col-sm-4 control-label">年利率</label>
-                  <div class="col-sm-8">
-                    <input type="text" class="form-control number addUnit" id="annualRate" [(ngModel)]="loan.annualRate" maxlength="100" name="annualRate" #annualRate="ngModel" required [range]="[1, 36]">
-                    <span class="unit">%</span>
-                    <p *ngIf="annualRate.errors?.required" class="text-danger">*必填项</p>
-                    <p *ngIf="annualRate.errors?.range" class="text-danger">*年利率范围：1~36</p>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label for="raiseRate" class="col-sm-4 control-label">加息</label>
-                  <div class="col-sm-8 ">
-                    <input type="text" class="form-control number addUnit" id="raiseRate"  [(ngModel)]="loan.raiseRate" maxlength="100" name="raiseRate" #raiseRate="ngModel" required [range]="[0, 36]">
-                    <span class="unit">%</span>
-                    <p *ngIf="raiseRate.errors?.required" class="text-danger">*必填项</p>
-                    <p *ngIf="raiseRate.errors?.range" class="text-danger">*年利率范围：0~36</p>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label for="applyNum" class="col-sm-4 control-label">项目编号</label>
-                  <div class="col-sm-8">
-                    <input class="form-control" id="applyNum" [(ngModel)]="loan.applyNum" [ngModelOptions]="{standalone: true}" disabled>
-                  </div>
-                </div>
-              </div>
+              <!--还款方式-->
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
                   <label for="repayType" class="col-sm-4 control-label">还款方式</label>
@@ -309,39 +284,29 @@
                   </div>
                 </div>
               </div>
+              <!--申请金额-->
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="serviceRate" class="col-sm-4 control-label">手续费</label>
+                  <label for="applyAmt" class="col-sm-4 control-label text-right">借款金额</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control number addUnit" id="serviceRate" [(ngModel)]="loan.serviceRate" maxlength="9" name="serviceRate" #serviceRate="ngModel" required [range]="[0, 100000000]">
+                    <input type="text" class="form-control number addUnit" id="applyAmt" [(ngModel)]="loan.applyAmt" [ngModelOptions]="{standalone: true}" disabled>
                     <span class="unit">元</span>
-                    <p *ngIf="serviceRate.errors?.required" class="text-danger">*必填项</p>
-                    <p *ngIf="serviceRate.errors?.range" class="text-danger">*金额范围：0~100000000</p>
                   </div>
                 </div>
               </div>
+              <!--标的金额-->
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
-                  <label for="serviceRate" class="col-sm-4 control-label">管理费</label>
+                  <label for="projectAmt" class="col-sm-4 control-label text-right">标的金额</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control number addUnit" id="shouldManageFee" [(ngModel)]="loan.shouldManageFee" maxlength="9" name="shouldManageFee" #shouldManageFee="ngModel" required [range]="[0, 100000000]">
+                    <input type="text" class="form-control number addUnit" id="projectAmt" [(ngModel)]="loan.projectAmt" maxlength="9" name="projectAmt" #projectAmt="ngModel" required [range]="[1000, 100000000]">
                     <span class="unit">元</span>
-                    <p *ngIf="shouldManageFee.errors?.required" class="text-danger">*必填项</p>
-                    <p *ngIf="shouldManageFee.errors?.range" class="text-danger">*金额范围：0~100000000</p>
+                    <p *ngIf="projectAmt.errors?.required" class="text-danger">*必填项</p>
+                    <p *ngIf="projectAmt.errors?.range" class="text-danger">*标的金额范围：1000~100000000</p>
                   </div>
                 </div>
               </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label for="serviceRate" class="col-sm-4 control-label">债转手续费</label>
-                  <div class="col-sm-8">
-                    <input type="text" class="form-control number addUnit" id="transferFee" [(ngModel)]="loan.transferFee" maxlength="9" name="transferFee" #transferFee="ngModel" required [range]="[0, 100]">
-                    <span class="unit">%</span>
-                    <p *ngIf="transferFee.errors?.required" class="text-danger">*必填项</p>
-                    <p *ngIf="transferFee.errors?.range" class="text-danger">*债转手续费范围：0~100</p>
-                  </div>
-                </div>
-              </div>
+              <!--借款用途-->
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
                   <label for="loanPurpose" class="col-sm-4 control-label">借款用途</label>
@@ -355,6 +320,66 @@
                   </div>
                 </div>
               </div>
+              <!--还款来源-->
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label for="repayFrom" class="col-sm-4 control-label">还款来源</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" name="repayFrom" id="repayFrom" [(ngModel)]="loan.repayFrom"  />
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-sm-12" style="background: #ccc;"></div>
+              <!--年利率-->
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label for="annualRate" class="col-sm-4 control-label">年利率</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control number addUnit" id="annualRate" [(ngModel)]="loan.annualRate" maxlength="100" name="annualRate" #annualRate="ngModel" required [range]="[1, 36]">
+                    <span class="unit">%</span>
+                    <p *ngIf="annualRate.errors?.required" class="text-danger">*必填项</p>
+                    <p *ngIf="annualRate.errors?.range" class="text-danger">*年利率范围：1~36</p>
+                  </div>
+                </div>
+              </div>
+              <!--加息-->
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label for="raiseRate" class="col-sm-4 control-label">加息</label>
+                  <div class="col-sm-8 ">
+                    <input type="text" class="form-control number addUnit" id="raiseRate"  [(ngModel)]="loan.raiseRate" maxlength="100" name="raiseRate" #raiseRate="ngModel" required [range]="[0, 36]">
+                    <span class="unit">%</span>
+                    <p *ngIf="raiseRate.errors?.required" class="text-danger">*必填项</p>
+                    <p *ngIf="raiseRate.errors?.range" class="text-danger">*年利率范围：0~36</p>
+                  </div>
+                </div>
+              </div>
+              <!--是否新手标-->
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label for="greenHand" class="col-sm-4 control-label">新手标</label>
+                  <div class="col-sm-8 ">
+                    <select class="form-control" id="greenHand" [(ngModel)]="loan.greenHand" [ngModelOptions]="{standalone: true}"
+                            dict-select
+                            [key]="'GREEN_HAND'"
+                            [selected]="loan.greenHand">
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <!--债转手续费-->
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label  class="col-sm-4 control-label">债转手续费</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control number addUnit" id="transferFee" [(ngModel)]="loan.transferFee" maxlength="9" name="transferFee" #transferFee="ngModel" required [range]="[0, 100]">
+                    <span class="unit">%</span>
+                    <p *ngIf="transferFee.errors?.required" class="text-danger">*必填项</p>
+                    <p *ngIf="transferFee.errors?.range" class="text-danger">*债转手续费范围：0~100</p>
+                  </div>
+                </div>
+              </div>
+              <!--起投金额-->
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
                   <label for="minInvestAmount" class="col-sm-4 control-label">起投金额</label>
@@ -376,6 +401,7 @@
                   </div>
                 </div>
               </div>
+              <!--最大投资金额-->
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
                   <label for="maxInvestAmount" class="col-sm-4 control-label">最大投资金额</label>
@@ -396,6 +422,40 @@
                   </div>
                 </div>
               </div>
+              <!--线下合同编号-->
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label for="repayFrom" class="col-sm-4 control-label">线下合同编号</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" name="pactNo" id="pactNo"  [(ngModel)]="loan.pactNo" maxlength="20"   />
+                  </div>
+                </div>
+              </div>
+              <!--服务费-->
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label for="handFee" class="col-sm-4 control-label">手续费费率</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control number addUnit" id="handFee" [(ngModel)]="loan.handFee" maxlength="9" name="handFee" #handFee="ngModel" required [range]="[0, 100]">
+                    <span class="unit">%</span>
+                    <p *ngIf="handFee.errors?.required" class="text-danger">*必填项</p>
+                    <p *ngIf="handFee.errors?.range" class="text-danger">*范围：0~100</p>
+                  </div>
+                </div>
+              </div>
+              <!--管理费-->
+              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
+                <div class="row">
+                  <label for="manageFee" class="col-sm-4 control-label">管理费费率</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control number addUnit" id="manageFee" [(ngModel)]="loan.manageFee" maxlength="9" name="manageFee" #manageFee="ngModel" required [range]="[0, 100]">
+                    <span class="unit">%</span>
+                    <p *ngIf="manageFee.errors?.required" class="text-danger">*必填项</p>
+                    <p *ngIf="manageFee.errors?.range" class="text-danger">*范围：0~100</p>
+                  </div>
+                </div>
+              </div>
+              <!--招标开始日期-->
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
                   <label class="col-sm-4 control-label">招标开始日期</label>
@@ -406,6 +466,7 @@
                   </div>
                 </div>
               </div>
+              <!--招标结束日期-->
               <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
                 <div class="row">
                   <label class="col-sm-4 control-label">招标结束日期</label>
@@ -413,14 +474,6 @@
                     <input required id="loanEndDate" name='loanEndDate' #loanEndDate='ngModel' class="form-control addUnit" [(ngModel)]="loan.loanEndDate">
                     <span class="unit"></span>
                     <p class="text-danger tips" *ngIf="loanEndDate.errors?.required">*必填项</p>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-3">
-                <div class="row">
-                  <label for="repayFrom" class="col-sm-4 control-label">还款来源</label>
-                  <div class="col-sm-8">
-                    <input type="text" class="form-control" name="repayFrom" id="repayFrom" [(ngModel)]="loan.repayFrom"  />
                   </div>
                 </div>
               </div>
@@ -572,7 +625,6 @@
           </div>
 
         </seer-collapse-card>
-
         <seer-collapse-card cardTitle="审批流程" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
           <ng-container *ngIf="auditProcessRecords.length > 0">
             <seer-simple-table
@@ -585,7 +637,6 @@
           </ng-container>
           <ng-container *ngIf="auditProcessRecords.length == 0">暂无审批流程</ng-container>
         </seer-collapse-card>
-
         <seer-collapse-card cardTitle="审批信息" cardClass="with-scroll" [canCollapse]=true [defaultExpand]=true>
           <div class="row">
             <div class="form-group col-sm-12 col-md-8 col-lg-6 col-xlg-3">
@@ -625,7 +676,6 @@
 
           </div>
         </seer-collapse-card>
-
       </div>
   </div>
 </div>

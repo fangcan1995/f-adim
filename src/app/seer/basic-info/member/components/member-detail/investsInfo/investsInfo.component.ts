@@ -7,6 +7,7 @@ import { SeerMessageService } from '../../../../../../theme/services/seer-messag
 @Component({
   selector: 'investsInfo',
   templateUrl: './investsInfo.component.html',
+  styleUrls: ['./investsInfo.component.scss']
 
 })
 export class InvestsInfoComponent implements OnInit {
@@ -14,36 +15,49 @@ export class InvestsInfoComponent implements OnInit {
   private _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
   investsRecord: any = [];  //借款记录
+  investAllStatistic: any = {}; //出借统计
   titlesInvestsRecord=[
     {
-      key:'id',
+      key:'projectName',
       label:'项目编号',
+      textAlign:'center'
     },
     {
-      key:'status',
+      key:'investStatus',
       label:'投资状态',
+      textAlign:'center'
     },
     {
-      key:'count',
+      key:'investAmt',
       label:'投资金额',
     },
     {
-      key:'qx',
+      key:'investExpiry',
       label:'投资期限(月)',
+      textAlign:'center'
     },
     {
-      key:'aaa',
+      key:'receivedCapital',
       label:'已收本金',
+      textAlign:'right'
     },
     {
-      key:'bbb',
+      key:'receivedNum',
       label:'已收利息笔数',
+      textAlign:'center'
     },
     {
-      key:'ccc',
+      key:'receivedIint',
       label:'已收利息',
+      textAlign:'right'
     }
   ];
+  pageInfo = {
+    "pageNum": 1,
+    "pageSize": 10,
+    "sortBy": "-createTime",
+    "total": ""
+  }; //分页、排序、检索
   memberId:any='';
   constructor(
     private _memberService: MemberService,
@@ -59,14 +73,8 @@ export class InvestsInfoComponent implements OnInit {
     })
       .subscribe(params => {
           this.memberId=params.id;
-          this._memberService.getInvests(params.id)
-          .then(res => {
-              this.member = res.data || {};
-              this.investsRecord=res.data.investsRecord;
-              this.forbidSaveBtn = false;
-            }).catch(err=>{
-            this.showError(err.msg || '连接失败');
-          });
+          // this.getInvestAllStatistic();
+          // this.getInvestAllListStatistic()
       })
   }
 
@@ -83,5 +91,32 @@ export class InvestsInfoComponent implements OnInit {
       icon: 'fa fa-times-circle',
       autoHideDuration: 3000,
     })
+  }
+
+  getInvestAllStatistic(){
+    this._memberService.getInvestAllStatistic(this.memberId)
+    .then(res => {
+        this.investAllStatistic = res.data || {};
+      }).catch(err=>{
+      this.showError(err.msg || '连接失败');
+    });
+  }
+
+  getInvestAllListStatistic(){
+    this._memberService.getInvestAllListStatistic(this.memberId, this.pageInfo)
+    .then(res => {
+        this.investsRecord=res.data.list;
+        this.pageInfo.pageNum = res.data.pageNum;  //当前页
+        this.pageInfo.pageSize = res.data.pageSize; //每页记录数
+        this.pageInfo.total = res.data.total; //记录总数
+      }).catch(err=>{
+      this.showError(err.msg || '连接失败');
+    });
+  }
+
+  handlePageChange($event) {
+    this.pageInfo.pageSize = $event.pageSize;
+    this.pageInfo.pageNum = $event.pageNum;
+    this.getInvestAllListStatistic();
   }
 }

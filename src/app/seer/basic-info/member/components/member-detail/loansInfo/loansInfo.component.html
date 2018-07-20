@@ -7,62 +7,62 @@
 
           <div class="row" style="border-bottom:1px solid #ededed;margin-bottom: 10px">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              借款申请笔数:2
+              借款申请笔数:<span class="numShow">{{loansRecord.loanApplyNum || "0"}}笔</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              成功借款笔数:1
+              成功借款笔数:<span class="numShow">{{loansRecord.loanSuccessNum || "0"}}笔</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              失败借款笔数:
+              失败借款笔数:<span class="numShow">{{loansRecord.loanFailNum || "0"}}笔</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              借款申请金额:
+              借款申请金额:<span class="numShow">{{loansRecord.loanApplySumAmt || "0"}}元</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              成功借款金额:
+              成功借款金额:<span class="numShow">{{loansRecord.loanSuccessSumAmt || "0"}}元</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              失败借款金额:
+              失败借款金额:<span class="numShow">{{loansRecord.loanFailSumAmt || "0"}}元</span>
             </div>
           </div>
           <div class="row" style="border-bottom:1px solid #ededed;margin-bottom: 10px">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              已还笔数:
+              已还笔数:<span class="numShow">{{loansRecord.repayNum || "0"}}笔</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              已还本金:
+              已还本金:<span class="numShow">{{loansRecord.repaySumCapitalAmt || "0"}}元</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              已还利息:
+              已还利息:<span class="numShow">{{loansRecord.repaySumIintAmt || "0"}}元</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              待还笔数:
+              待还笔数:<span class="numShow">{{loansRecord.unRepayNum || "0"}}笔</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              待还本金:
+              待还本金:<span class="numShow">{{loansRecord.unRepaySumCapitalAmt || "0"}}元</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              待还利息:
+              待还利息:<span class="numShow">{{loansRecord.unRepaySumIintAmt || "0"}}元</span>
             </div>
           </div>
           <div class="row" style="">
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              逾期已还笔数:
+              逾期已还笔数:<span class="numShow">{{loansRecord.overdueRepayNum || "0"}}笔</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              逾期已还本息:
+              逾期已还本息:<span class="numShow">{{loansRecord.overdueRepaySumCapitalIintAmt || "0"}}元</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              逾期未还笔数:
+              逾期未还笔数:<span class="numShow">{{loansRecord.overdueUnRepayNum || "0"}}笔</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              逾期未还本息:
+              逾期未还本息:<span class="numShow">{{loansRecord.overdueUnRepaySumCapitalIintAmt || "0"}}元</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              提前还款笔数:
+              提前还款笔数:<span class="numShow">{{loansRecord.aheadRepayNum || "0"}}笔</span>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xlg-4">
-              提前还款本息:
+              提前还款本息:<span class="numShow">{{loansRecord.aheadRepaySumCapitalIintAmt || "0"}}元</span>
             </div>
           </div>
         </seer-collapse-card>

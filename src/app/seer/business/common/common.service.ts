@@ -123,12 +123,12 @@ export class CommonService extends BaseService<any>{
         //actions = [DETAIL, COMPLETION]; break;
         actions = [DETAIL]; break;
 
-      //待初审
+      //待信用审核
       case "20":
         //actions = [DETAIL, FIRSTAUDIT]; break;
         actions = [DETAIL]; break;
 
-      //待复审
+      //待风控审核
       case "30":
         //actions = [DETAIL, SECONDAUDIT]; break;
         actions = [DETAIL]; break;
@@ -189,11 +189,11 @@ export class CommonService extends BaseService<any>{
       case 'completion':
         this._router.navigate([url + 'completion', id],{relativeTo: this.route}); break;
 
-      //初审
+      //信用审核
       case 'firstAudit':
         this._router.navigate([url + 'firstAudit', id],{relativeTo: this.route}); break;
 
-      //复审
+      //风控审核
       case 'secondAudit':
         this._router.navigate([url + 'secondAudit', id],{relativeTo: this.route}); break;
 

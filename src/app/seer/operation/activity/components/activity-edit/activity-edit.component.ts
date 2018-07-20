@@ -818,7 +818,6 @@ export class ActivityEditComponent {
       delete baseInfo.investMinNum;
       delete baseInfo.investMaxNum;
       delete baseInfo.activityPageUrl;
-      delete baseInfo.activityRemark;
       delete baseInfo.beginTime;
       delete baseInfo.endTime;
       delete baseInfo.participateNum1;

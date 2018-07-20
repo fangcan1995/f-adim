@@ -20,40 +20,65 @@ export class TodoComponent implements OnInit {
   items = []; //全部数据
 
   tasks = []; //待办任务（过滤）
-  /*pageInfo= {
+  pageInfo= {
     "pageNum": 1,
     "pageSize": 10,
     "sortBy": "-createTime",
-    "total": ""
-  }*/
+    "total": "",
+    "processDefinitionKey":''
+  }
   constructor(private service: WorkspaceService, private _router: Router, private route: ActivatedRoute, private _messageService: SeerMessageService) {}
 
   ngOnInit(): void { this.initialize();}
 
   //初始化数据
   initialize() {
+    this.getList();
+  }
+  getList(){
     this.isLoading = true;
-    this.service.getTodoTasks().then((res) => {
-      this.items = res.data;
-      this.tasks = res.data;
+    this.service.getTodoTasks(this.pageInfo).then((res) => {
+      this.pageInfo.pageNum=res.data.pageNum;  //当前页
+      this.pageInfo.pageSize=res.data.pageSize; //每页记录数
+      this.pageInfo.total=res.data.total; //记录总数
+      this.items = res.data.list;
+      this.tasks = res.data.list;
       /*console.log('待办业务列表---------');
-      console.log(this.tasks);*/
-      this.classStatistics();
+      console.log(this.processDefinition);*/
+      console.log(this.tasks);
+      //this.classStatistics();
+      //
+      /*_.each(this.processDefinition, p => {
+        _.set(p, 'total', _.filter(this.tasks, t => {
+
+          if ( p.key === 'ALL' ) return true;
+          if ( !t.processInstance || !t.processInstance.processDefinitionKey ) return false;
+          console.log('------------');
+          console.log(this.processDefinition);
+          return t.processInstance.processDefinitionKey === p.key}).length)
+      })*/
+      //
       this.isLoading = false;
     }).catch(err => {
       this.isLoading = false;
       this.showError(err.msg || '待办任务获取失败');
     });
   }
-
   //分类查看任务
   taskFiler(key: any) {
-
     //分类切换
     _.each(this.processDefinition, r => {_.set(r, 'isChecked', false);if(r.key == key) {_.set(r, 'isChecked', r.isChecked ? false : true)}});
 
-    //过滤任务
-    this.tasks = _.filter(this.items, t => {if (key == 'ALL') return true;return t.processInstance.processDefinitionKey == key});
+    /*//过滤任务
+    this.tasks = _.filter(this.items, t => {if (key == 'ALL') return true;return t.processInstance.processDefinitionKey == key});*/
+    if (key == 'ALL'){
+      this.pageInfo.processDefinitionKey='';
+      this.pageInfo.pageNum=1;
+    }else{
+      this.pageInfo.processDefinitionKey=key;
+      this.pageInfo.pageNum=1;
+    }
+    this.getList();
   }
 
   //分类统计
@@ -66,6 +91,12 @@ export class TodoComponent implements OnInit {
     })
   }
 
+  //分页查询
+  onPageChange($event) {
+    this.pageInfo.pageSize = $event.rowsOnPage;
+    this.pageInfo.pageNum = $event.pageNumber;
+    this.getList();
+  }
   //成功提示
   showSuccess(message: string) { return this._messageService.open({message, icon: 'fa fa-check', autoHideDuration: 3000})}
 
@@ -85,13 +116,13 @@ export class TodoComponent implements OnInit {
         this._router.navigate([url + 'loan-complete-audit', task.processInstance.businessKey], {relativeTo: this.route});
         break;
 
-      //初审
+      //信用审核
       case 'FIRST_AUDIT':
         //this._router.navigate([url + 'loan-first-audit', task.processInstance.businessKey], {relativeTo: this.route});
         this._router.navigate([url + 'project-view', task.processInstance.businessKey,`loan-first-audit`], {relativeTo: this.route});
         break;
 
-      //复审
+      //风控审核
       case 'SECOND_AUDIT':
         //this._router.navigate([url + 'loan-second-audit', task.processInstance.businessKey], {relativeTo: this.route});
         this._router.navigate([url + 'project-view', task.processInstance.businessKey,`loan-second-audit`], {relativeTo: this.route});
