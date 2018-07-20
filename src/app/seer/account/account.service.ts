@@ -3,7 +3,7 @@ import {BaseService,HttpInterceptorService,API,BASE_URL,ResModel} from "../../th
 
 
 @Injectable()
-export class WorkspaceService extends BaseService<ResModel>{
+export class AccountService extends BaseService<ResModel>{
 
   constructor(protected _httpInterceptorService: HttpInterceptorService,) {
     super(_httpInterceptorService);

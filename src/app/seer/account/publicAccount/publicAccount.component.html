@@ -1,0 +1,20 @@
+<seer-loading [isLoading]="isLoading" [type]="'big'"></seer-loading>
+<seer-collapse-card>
+  <seer-table
+    [data]="ads"
+    [titles]="titles"
+    [pageNum]="pageInfo.pageNum"
+    [pageSize]="pageInfo.pageSize"
+    [total]="pageInfo.total"
+    [paginationRules]="0"
+    [showSeq]="true"
+    [hideExport]="true"
+    [hidePrint]="true"
+    [hideRemoveAll]="true"
+    [hideColumns]="true"
+    [hideCheckbox]="true"
+    [hideActions]="true"
+    (notify)="onChange($event)"
+    (changePage)="handlePageChange($event)"
+  ></seer-table>
+</seer-collapse-card>

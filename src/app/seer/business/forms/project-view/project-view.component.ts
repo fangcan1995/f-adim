@@ -110,8 +110,8 @@ export class ProjectViewComponent implements OnInit , OnChanges{
       if(this.method==`project-full-audit`){
         this.actions=[SAVE_DISABLE];
       }
-      console.log('当前方法')
-      console.log(this.method);
+      //console.log('当前方法')
+      //console.log(this.method);
       if(this.method==`loan_preview` || this.method==`loan-first-audit` || this.method==`loan-second-audit` ){
         this.getLoanMember(this.id);
         this.getLoanApply(this.id);

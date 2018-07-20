@@ -1,0 +1,47 @@
+<seer-content-top>
+  <button class="btn btn-outline-dark left-button" (click)="handleBackBtnClick()">返回</button>
+  <button class="btn btn-primary left-button" [disabled]="forbidSaveBtn || !validationForm.form.valid" (click)="onSubmit(validationForm)">保存</button>
+</seer-content-top>
+<div class="widgets info">
+  <div class="row justify-content-center">
+    <div class="col-sm-12">
+      <seer-collapse-card cardTitle="账户信息" cardClass="with-scroll" [canCollapse]=false>
+        <form class="form-horizontal" #validationForm="ngForm" id="addAccount" action="http://www.baidu.com">
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+              <div class="row">
+                <label  class="col-sm-4 col-md-4 col-lg-2 control-label">对公账号</label>
+                <div class="col-sm-8  col-md-8 col-lg-10">
+                  <input class="form-control"  type="text"  name="title" [(ngModel)]="account.accountNo" #accountNo="ngModel"  required maxlength="30" />
+                  <p class="text-danger" *ngIf="accountNo.errors?.required">* 必填项</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+              <div class="row">
+                <label  class="col-sm-4 col-md-4 col-lg-2 control-label">账户户名</label>
+                <div class="col-sm-8  col-md-8 col-lg-10">
+                  <input class="form-control"  type="text"  name="title" [(ngModel)]="account.accountName" #accountName="ngModel"  required maxlength="30" />
+                  <p class="text-danger" *ngIf="accountName.errors?.required">* 必填项</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+              <div class="row">
+                <label  class="col-sm-4 col-md-4 col-lg-2 control-label">清算行号</label>
+                <div class="col-sm-8  col-md-8 col-lg-10">
+                  <input class="form-control"  type="text"  name="title" [(ngModel)]="account.accountBk" #accountBk="ngModel"  required maxlength="30" />
+                  <p class="text-danger" *ngIf="accountBk.errors?.required">* 必填项</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </seer-collapse-card>
+    </div>
+  </div>
+</div>

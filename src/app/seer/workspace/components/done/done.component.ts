@@ -72,12 +72,12 @@ export class DoneComponent implements OnInit {
 
   //错误提示
   showError(message: string) {return this._messageService.open({message, icon: 'fa fa-times-circle', autoHideDuration: 3000})}
-//分页查询
-  onPageChange($event) {
-    this.pageInfo.pageSize = $event.rowsOnPage;
-    this.pageInfo.pageNum = $event.pageNumber;
-    this.getList();
-  }
+  //分页查询
+    onPageChange($event) {
+      this.pageInfo.pageSize = $event.rowsOnPage;
+      this.pageInfo.pageNum = $event.pageNumber;
+      this.getList();
+    }
 
 
   //页面跳转
