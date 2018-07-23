@@ -14,7 +14,7 @@ export class AccountService extends BaseService<ResModel>{
     return this._httpInterceptorService.request('GET', `${BASE_URL}/advertisings`,params).toPromise();
   }
   getInfo(params){
-    return this._httpInterceptorService.request('GET', `http://172.16.1.252:9080/payment/bohai/companyAccount`,params).toPromise();
+    return this._httpInterceptorService.request('GET', `http://59.110.15.234:9080/payment/bohai/companyAccount`,params).toPromise();
   }
 
 }
