@@ -13,6 +13,8 @@ export class AccountService extends BaseService<ResModel>{
   getAccountList(params?):Promise<ResModel> {
     return this._httpInterceptorService.request('GET', `${BASE_URL}/advertisings`,params).toPromise();
   }
-
+  getInfo(params){
+    return this._httpInterceptorService.request('GET', `http://172.16.1.252:9080/payment/bohai/companyAccount`,params).toPromise();
+  }
 
 }

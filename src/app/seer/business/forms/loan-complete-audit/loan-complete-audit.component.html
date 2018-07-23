@@ -229,13 +229,18 @@
                 <div class="row">
                   <label for="loanApplyType" class="col-sm-4 control-label">担保机构</label>
                   <div class="col-sm-8">
-                    <select class="form-control" id="guaranteeInstitution" [(ngModel)]="loan.guaranteeInstitution"  name="guaranteeInstitution" #guaranteeInstitution="ngModel" required [notEqual]="'undefined'"
+                    <select class="form-control" ng-model="loan.guaranteeInstitution" ng-init="loan.guaranteeInstitution='1'">
+                      <option value="1">通过</option>
+                      <option value="-1">未通过</option>
+                    </select>
+                    <!--<select class="form-control" id="guaranteeInstitution" [(ngModel)]="loan.guaranteeInstitution"  name="guaranteeInstitution"
+                            #guaranteeInstitution="ngModel" required [notEqual]="'undefined'"
                             dict-select
                             [key]="'GUARANTEE_INSTITUTION'"
                             [selected]="loan.guaranteeInstitution"
                             [topOption]="{itemid:'',itemName:'请选择'}">
-                    </select>
-                    <p *ngIf="guaranteeInstitution.errors?.required || guaranteeInstitution.errors?.notEqual" class="text-danger">*必填项</p>
+                    </select>-->
+                    <!--<p *ngIf="guaranteeInstitution.errors?.required || guaranteeInstitution.errors?.notEqual" class="text-danger">*必填项</p>-->
                   </div>
                 </div>
               </div>
