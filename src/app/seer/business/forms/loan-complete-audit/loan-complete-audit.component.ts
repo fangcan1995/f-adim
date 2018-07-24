@@ -29,6 +29,12 @@ export class LoanCompleteAuditComponent implements OnInit , OnChanges{
   public forbidMemberSaveBtn = true;
   public forbidAuditSubmitBtn = true;
 
+  public sites: any={
+    site01 : "Google",
+    site02 : "Runoob",
+    site03 : "Taobao"
+  };   //担保机构
+
   //会员信息
   public member: any = {};
   public vehicles: any = [];

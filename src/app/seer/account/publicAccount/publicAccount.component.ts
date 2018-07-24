@@ -12,7 +12,8 @@ import {log} from "util";
 })
 export class PublicAccountComponent implements OnInit {
   hasGlobalFilter = false;
-  isLoading:boolean = false;
+  isLoading:boolean = true;
+  accountList={};
   pageInfo = {
     "pageNum": 1,
     "pageSize": 10,
@@ -36,7 +37,17 @@ export class PublicAccountComponent implements OnInit {
   }
 
   getList(){
-
+    this.isLoading = true;
+    this.service.getAccountList(this.pageInfo).then((res) => {
+      this.pageInfo.pageNum=res.data.pageNum;  //当前页
+      this.pageInfo.pageSize=res.data.pageSize; //每页记录数
+      this.pageInfo.total=res.data.total; //记录总数
+      this.accountList = res.data.list;
+      this.isLoading = false;
+    }).catch(err => {
+      this.isLoading = false;
+      this.showError(err.msg || '数据获取失败');
+    });
   }
 
 //编辑

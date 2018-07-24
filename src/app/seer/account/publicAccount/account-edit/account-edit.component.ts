@@ -1,10 +1,9 @@
-import {Component, OnInit,OnChanges,Input, ViewChild,TemplateRef,ElementRef} from '@angular/core';
+import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {SeerDialogService, SeerMessageService,BASE_URL} from '../../../../theme/services';
 import {AccountService} from "../../account.service";
 import {Location} from "@angular/common";
-import {FileUploader, ParsedResponseHeaders, FileItem} from "ng2-file-upload";
-import * as _ from 'lodash';
+import {SeerMessageService} from "../../../../theme/services";
+
 
 @Component({
   templateUrl: './account-edit.component.html',
@@ -14,17 +13,13 @@ export class AccountEditComponent implements OnInit{
   public account: any = {};
   public _editType: string = 'add';
   public forbidSaveBtn: boolean = true;
-
-
+  public toOthersInfo: any = {};
   constructor(private _accountService: AccountService,
-              private _messageService: SeerMessageService,
-              private _dialogService: SeerDialogService,
               private _activatedRoute: ActivatedRoute,
               private _router: Router,
+              private _messageService: SeerMessageService,
               private element: ElementRef,
               private _location: Location) {
-    //表单验证
-
   }
   ngOnInit() {
     this._activatedRoute.url.mergeMap(url => {
@@ -36,45 +31,70 @@ export class AccountEditComponent implements OnInit{
 
         } else if (this._editType === 'add') {
           this.forbidSaveBtn = false;
-
         }
       });
-
   }
+  //保存
+  handleSaveBtnClick(){
+    if (this.forbidSaveBtn) return;
+    this.forbidSaveBtn=true;
+    this.account.url='account';
 
+    this._accountService.getInfo(this.account).then((data:any) => {
+      this.toOthersInfo=data.data;
+      this.element.nativeElement.querySelector('#form_temp').action=this.toOthersInfo.url;
+      this.element.nativeElement.querySelector('#form_temp')['char_set'].value=this.toOthersInfo.char_set;
+      this.element.nativeElement.querySelector('#form_temp')['partner_id'].value=this.toOthersInfo.partner_id;
+      this.element.nativeElement.querySelector('#form_temp')['version_no'].value=this.toOthersInfo.version_no;
+      this.element.nativeElement.querySelector('#form_temp')['biz_type'].value=this.toOthersInfo.biz_type;
+      this.element.nativeElement.querySelector('#form_temp')['sign_type'].value=this.toOthersInfo.sign_type;
+      this.element.nativeElement.querySelector('#form_temp')['MerBillNo'].value=this.toOthersInfo.MerBillNo;
+      this.element.nativeElement.querySelector('#form_temp')['TxnTyp'].value=this.toOthersInfo.TxnTyp;
+      this.element.nativeElement.querySelector('#form_temp')['AccountTyp'].value=this.toOthersInfo.AccountTyp;
+      this.element.nativeElement.querySelector('#form_temp')['AccountNo'].value=this.toOthersInfo.AccountNo;
+      this.element.nativeElement.querySelector('#form_temp')['AccountName'].value=this.toOthersInfo.AccountName;
+      this.element.nativeElement.querySelector('#form_temp')['AccountBk'].value=this.toOthersInfo.AccountBk;
+      this.element.nativeElement.querySelector('#form_temp')['PageReturnUrl'].value=this.toOthersInfo.PageReturnUrl;
+      this.element.nativeElement.querySelector('#form_temp')['BgRetUrl'].value=this.toOthersInfo.BgRetUrl;
+      this.element.nativeElement.querySelector('#form_temp')['mac'].value=this.toOthersInfo.mac;
+      this.element.nativeElement.querySelector('#form_temp').submit();
 
-
+    }).catch(err => {
+      this.forbidSaveBtn = false;
+      this.showError(err.msg || '获取数据错误');
+    });
+  }
   //返回
   handleBackBtnClick() {
     this._location.back();
   }
-  handleSaveBtnClick() {
-    console.log(11111)
-    this.element.nativeElement.querySelector('#addAccount').submit()
-    // if (this.forbidSaveBtn) return;
 
 
-    // if (this._editType === 'edit') {
-    //   this.forbidSaveBtn=true;
-
-    // } else if (this._editType === 'add') {
-
-    //   this.forbidSaveBtn=true;
-    //   console.log('提交表单');
-
-    // } else {
-    //   return;
-    // }
 
 
-  }
-  showSuccess(message: string) {
-    return this._messageService.open({
-      message,
-      icon: 'fa fa-check',
-      autoHideDuration: 3000,
-    })
-  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   showError(message: string) {
     return this._messageService.open({
       message,
@@ -82,5 +102,4 @@ export class AccountEditComponent implements OnInit{
       autoHideDuration: 3000,
     })
   }
-
 }

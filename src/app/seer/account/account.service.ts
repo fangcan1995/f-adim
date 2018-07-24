@@ -9,15 +9,12 @@ export class AccountService extends BaseService<ResModel>{
     super(_httpInterceptorService);
   }
 
-  //获取待办业务列表
-  getTodoTasks(params?:any): Promise<ResModel> {
-    return this._httpInterceptorService.request('GET', `http://172.16.1.228:9080` + `/workbench/todoPage`, params).toPromise();
+  // 1 获取账户列表
+  getAccountList(params?):Promise<ResModel> {
+    return this._httpInterceptorService.request('GET', `${BASE_URL}/advertisings`,params).toPromise();
   }
-
-  //获取已办业务列表
-  getDoneTasks(params?:any): Promise<ResModel> {
-    //return this._httpInterceptorService.request('GET', BASE_URL + `/workbench/done`, false).toPromise();
-    return this._httpInterceptorService.request('GET', BASE_URL + `/workbench/donePage`, params).toPromise();
+  getInfo(params){
+    return this._httpInterceptorService.request('GET', `http://59.110.15.234:9080/payment/bohai/companyAccount`,params).toPromise();
   }
 
 }
