@@ -3,10 +3,7 @@
   <seer-table
     [data]="accountList"
     [titles]="titles"
-    [pageNum]="pageInfo.pageNum"
-    [pageSize]="pageInfo.pageSize"
-    [total]="pageInfo.total"
-    [paginationRules]="0"
+    [paginationRules]="1"
     [showSeq]="true"
     [hideExport]="true"
     [hidePrint]="true"
@@ -14,6 +11,7 @@
     [hideColumns]="true"
     [hideCheckbox]="true"
     [hideActions]="true"
+    [hidePagination]="true"
     (notify)="onChange($event)"
     (changePage)="handlePageChange($event)"
   ></seer-table>

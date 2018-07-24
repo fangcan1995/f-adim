@@ -14,17 +14,17 @@ export class PublicAccountComponent implements OnInit {
   hasGlobalFilter = false;
   isLoading:boolean = true;
   accountList={};
-  pageInfo = {
+  /*pageInfo = {
     "pageNum": 1,
     "pageSize": 10,
     "total": "",
     "sortBy":"-effectTime",
-  };
+  };*/
   titles = [
-    {key: 'accountNo', label: '对公账号'},
-    {key: 'accountName', label: '对公账户户名'},
-    {key: 'AccountBk', label: '清算行号'},
-
+    {key: 'plaCustId', label: '账户存管平台客户号',textAlign:'center'},
+    {key: 'chargeAccount', label: '线下充值户',textAlign:'center'},
+    {key: 'accountName', label: '线下充值户名',textAlign:'center'},
+    {key: 'chargeAmt', label: '单笔认证金额',textAlign:'center'},
   ];
   constructor(private service: AccountService,
               private _router: Router,
@@ -38,11 +38,13 @@ export class PublicAccountComponent implements OnInit {
 
   getList(){
     this.isLoading = true;
-    this.service.getAccountList(this.pageInfo).then((res) => {
-      this.pageInfo.pageNum=res.data.pageNum;  //当前页
+    this.service.getAccountList().then((res) => {
+      /*this.pageInfo.pageNum=res.data.pageNum;  //当前页
       this.pageInfo.pageSize=res.data.pageSize; //每页记录数
-      this.pageInfo.total=res.data.total; //记录总数
-      this.accountList = res.data.list;
+      this.pageInfo.total=res.data.total; //记录总数*/
+      console.log('---------------')
+      console.log(res)
+      this.accountList = res.data;
       this.isLoading = false;
     }).catch(err => {
       this.isLoading = false;
