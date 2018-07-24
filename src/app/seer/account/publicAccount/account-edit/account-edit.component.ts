@@ -1,4 +1,4 @@
-import {Component, OnInit,OnChanges,Input, ViewChild,TemplateRef} from '@angular/core';
+import {Component, OnInit,OnChanges,Input, ViewChild,TemplateRef,ElementRef} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {SeerDialogService, SeerMessageService,BASE_URL} from '../../../../theme/services';
 import {AccountService} from "../../account.service";
@@ -21,6 +21,7 @@ export class AccountEditComponent implements OnInit{
               private _dialogService: SeerDialogService,
               private _activatedRoute: ActivatedRoute,
               private _router: Router,
+              private element: ElementRef,
               private _location: Location) {
     //表单验证
 
@@ -48,20 +49,22 @@ export class AccountEditComponent implements OnInit{
     this._location.back();
   }
   handleSaveBtnClick() {
-    if (this.forbidSaveBtn) return;
+    console.log(11111)
+    this.element.nativeElement.querySelector('#addAccount').submit()
+    // if (this.forbidSaveBtn) return;
 
 
-    if (this._editType === 'edit') {
-      this.forbidSaveBtn=true;
+    // if (this._editType === 'edit') {
+    //   this.forbidSaveBtn=true;
 
-    } else if (this._editType === 'add') {
+    // } else if (this._editType === 'add') {
 
-      this.forbidSaveBtn=true;
-      console.log('提交表单');
+    //   this.forbidSaveBtn=true;
+    //   console.log('提交表单');
 
-    } else {
-      return;
-    }
+    // } else {
+    //   return;
+    // }
 
 
   }
